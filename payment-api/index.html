@@ -263,10 +263,38 @@
               </ul>
           </li>
           <li>
-            <a href="#paymentprocessing" class="toc-h1 toc-link" data-title="PaymentProcessing">PaymentProcessing</a>
+            <a href="#card-holder-account" class="toc-h1 toc-link" data-title="Card Holder Account">Card Holder Account</a>
               <ul class="toc-list-h2">
                   <li>
+                    <a href="#updates-the-contact-details-for-a-card-holder-account" class="toc-h2 toc-link" data-title="Updates the contact details for a card holder account">Updates the contact details for a card holder account</a>
+                  </li>
+                  <li>
+                    <a href="#registers-a-card-for-a-card-holder-account-for-future-use" class="toc-h2 toc-link" data-title="Registers a card for a card holder account for future use">Registers a card for a card holder account for future use</a>
+                  </li>
+                  <li>
+                    <a href="#charge-api" class="toc-h2 toc-link" data-title="Charge API">Charge API</a>
+                  </li>
+              </ul>
+          </li>
+          <li>
+            <a href="#operational" class="toc-h1 toc-link" data-title="Operational">Operational</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#ping-request" class="toc-h2 toc-link" data-title="Ping Request">Ping Request</a>
+                  </li>
+              </ul>
+          </li>
+          <li>
+            <a href="#payment-processing" class="toc-h1 toc-link" data-title="Payment Processing">Payment Processing</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#authorisation-api" class="toc-h2 toc-link" data-title="Authorisation API">Authorisation API</a>
+                  </li>
+                  <li>
                     <a href="#capture-api" class="toc-h2 toc-link" data-title="Capture API">Capture API</a>
+                  </li>
+                  <li>
+                    <a href="#retrieval-api" class="toc-h2 toc-link" data-title="Retrieval API">Retrieval API</a>
                   </li>
                   <li>
                     <a href="#void-api" class="toc-h2 toc-link" data-title="Void API">Void API</a>
@@ -286,7 +314,52 @@
                     <a href="#airlinesegment" class="toc-h2 toc-link" data-title="AirlineSegment">AirlineSegment</a>
                   </li>
                   <li>
+                    <a href="#authreferences" class="toc-h2 toc-link" data-title="AuthReferences">AuthReferences</a>
+                  </li>
+                  <li>
+                    <a href="#authrequest" class="toc-h2 toc-link" data-title="AuthRequest">AuthRequest</a>
+                  </li>
+                  <li>
+                    <a href="#authresponse" class="toc-h2 toc-link" data-title="AuthResponse">AuthResponse</a>
+                  </li>
+                  <li>
+                    <a href="#authenrequired" class="toc-h2 toc-link" data-title="AuthenRequired">AuthenRequired</a>
+                  </li>
+                  <li>
                     <a href="#capturerequest" class="toc-h2 toc-link" data-title="CaptureRequest">CaptureRequest</a>
+                  </li>
+                  <li>
+                    <a href="#card" class="toc-h2 toc-link" data-title="Card">Card</a>
+                  </li>
+                  <li>
+                    <a href="#cardholderaccount" class="toc-h2 toc-link" data-title="CardHolderAccount">CardHolderAccount</a>
+                  </li>
+                  <li>
+                    <a href="#chargerequest" class="toc-h2 toc-link" data-title="ChargeRequest">ChargeRequest</a>
+                  </li>
+                  <li>
+                    <a href="#contactdetails" class="toc-h2 toc-link" data-title="ContactDetails">ContactDetails</a>
+                  </li>
+                  <li>
+                    <a href="#externalmpi" class="toc-h2 toc-link" data-title="ExternalMPI">ExternalMPI</a>
+                  </li>
+                  <li>
+                    <a href="#listmerchantsresponse" class="toc-h2 toc-link" data-title="ListMerchantsResponse">ListMerchantsResponse</a>
+                  </li>
+                  <li>
+                    <a href="#merchant" class="toc-h2 toc-link" data-title="Merchant">Merchant</a>
+                  </li>
+                  <li>
+                    <a href="#ping" class="toc-h2 toc-link" data-title="Ping">Ping</a>
+                  </li>
+                  <li>
+                    <a href="#registercard" class="toc-h2 toc-link" data-title="RegisterCard">RegisterCard</a>
+                  </li>
+                  <li>
+                    <a href="#requestchallenged" class="toc-h2 toc-link" data-title="RequestChallenged">RequestChallenged</a>
+                  </li>
+                  <li>
+                    <a href="#retrieverequest" class="toc-h2 toc-link" data-title="RetrieveRequest">RetrieveRequest</a>
                   </li>
                   <li>
                     <a href="#voidrequest" class="toc-h2 toc-link" data-title="VoidRequest">VoidRequest</a>
@@ -319,7 +392,7 @@
       </ul>
         <ul class="toc-footer">
             <li><a href='mailto:support@citypay.com'>Any Integration Questions?</a></li>
-            <li>V6.0.0.BETA 2020-03-31</li>
+            <li>V6.0.0.BETA 2020-05-11</li>
         </ul>
     </div>
     <div class="page-wrapper">
@@ -328,7 +401,7 @@
         <img src="images/citypay-logo-23676e0b.svg" class="cplogo" alt="Citypay logo" />
         <h1 id='citypay-payment-api'>CityPay Payment API</h1>
 <p>Version: 6.0.0.BETA
-Last Updated: 2020-03-31</p>
+Last Updated: 2020-05-11</p>
 
 <p>This CityPay API is a HTTP RESTful payment API used for direct server to server transactional processing. It
 provides a number of payment mechanisms including: Internet, MOTO, Continuous Authority transaction processing,
@@ -404,7 +477,381 @@ security vulnerabilities.</li>
 <aside class="notice">
 If you do not have an API key please quote your Client ID and Merchant ID to <a href="https://citypay.com/customer-centre/technical-support.html">CityPay Support</a> to obtain one.
 </aside>
-<h1 id='paymentprocessing'>PaymentProcessing</h1><h2 id='capture-api'>Capture API</h2>
+<h1 id='card-holder-account'>Card Holder Account</h1><h2 id='updates-the-contact-details-for-a-card-holder-account'>Updates the contact details for a card holder account</h2>
+<p><code>HTTP POST /account/{accountid}/contact</code></p>
+
+<p>Allows for the ability to change the contact details for an account.</p>
+<h3 id='model-contactdetails'>Model ContactDetails</h3>
+<table><thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>address1</code></td>
+<td>string</td>
+<td>false</td>
+<td>The first line of the address for the card holder.<br/>maxLength: 20</td>
+</tr>
+<tr>
+<td><code>address2</code></td>
+<td>string</td>
+<td>false</td>
+<td>The second line of the address for the card holder.<br/>maxLength: 20</td>
+</tr>
+<tr>
+<td><code>address3</code></td>
+<td>string</td>
+<td>false</td>
+<td>The third line of the address for the card holder.<br/>maxLength: 20</td>
+</tr>
+<tr>
+<td><code>area</code></td>
+<td>string</td>
+<td>false</td>
+<td>The area such as city, department, parish for the card holder.<br/>maxLength: 20</td>
+</tr>
+<tr>
+<td><code>company</code></td>
+<td>string</td>
+<td>false</td>
+<td>The company name for the card holder if the contact is a corporate contact.</td>
+</tr>
+<tr>
+<td><code>country</code></td>
+<td>string</td>
+<td>false</td>
+<td>The country code in ISO 3166 format. The country value may be used for fraud analysis and for<br/>  acceptance of the transaction.<br/><br/>maxLength: 2</td>
+</tr>
+<tr>
+<td><code>email</code></td>
+<td>string</td>
+<td>false</td>
+<td>An email address for the card holder which may be used for correspondence.</td>
+</tr>
+<tr>
+<td><code>firstname</code></td>
+<td>string</td>
+<td>false</td>
+<td>The first name  of the card holder.</td>
+</tr>
+<tr>
+<td><code>lastname</code></td>
+<td>string</td>
+<td>false</td>
+<td>The last name or surname of the card holder.</td>
+</tr>
+<tr>
+<td><code>mobile_no</code></td>
+<td>string</td>
+<td>false</td>
+<td>A mobile number for the card holder the mobile number is often required by delivery companies to ensure they are able to be in contact when required.</td>
+</tr>
+<tr>
+<td><code>postcode</code></td>
+<td>string</td>
+<td>false</td>
+<td>The postcode or zip code of the address which may be used for fraud analysis.<br/>maxLength: 10</td>
+</tr>
+<tr>
+<td><code>telephone_no</code></td>
+<td>string</td>
+<td>false</td>
+<td>A telephone number for the card holder.</td>
+</tr>
+<tr>
+<td><code>title</code></td>
+<td>string</td>
+<td>false</td>
+<td>A title for the card holder such as Mr, Mrs, Ms, M. Mme. etc.</td>
+</tr>
+</tbody></table>
+<h2 id='registers-a-card-for-a-card-holder-account-for-future-use'>Registers a card for a card holder account for future use</h2>
+<p><code>HTTP POST /account/{accountid}/register</code></p>
+
+<p>Allows for a card to be registered for the account. The card will be added for future 
+processing and will be available as a tokenised value for future processing.</p>
+
+<p>The card will be validated for</p>
+
+<ol>
+<li>Being a valid card number (luhn check)</li>
+<li>Having a valid expiry date</li>
+<li>Being a valid bin value.</li>
+</ol>
+<h3 id='model-registercard'>Model RegisterCard</h3>
+<table><thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>account_id</code></td>
+<td>string</td>
+<td>false</td>
+<td>The account to register the card against.<br/>minLength: 5<br/>maxLength: 50</td>
+</tr>
+<tr>
+<td><code>cardnumber</code></td>
+<td>string</td>
+<td>false</td>
+<td>The primary number of the card.<br/>minLength: 12<br/>maxLength: 22</td>
+</tr>
+<tr>
+<td><code>defaultCard</code></td>
+<td>boolean</td>
+<td>false</td>
+<td>Determines whether the card should be the new default card.</td>
+</tr>
+<tr>
+<td><code>expmonth</code></td>
+<td>integer <em>int32</em></td>
+<td>false</td>
+<td>The expiry month of the card.<br/>minimum: 1<br/>maximum: 12</td>
+</tr>
+<tr>
+<td><code>expyear</code></td>
+<td>integer <em>int32</em></td>
+<td>false</td>
+<td>The expiry year of the card.<br/>minimum: 2000<br/>maximum: 2100</td>
+</tr>
+</tbody></table>
+<h2 id='charge-api'>Charge API</h2>
+<p><code>HTTP POST /charge</code></p>
+
+<p>A charge process obtains an authorisation using a tokenised value which represents a stored card 
+on a card holder account. 
+A card must previously be registered by calling <code>/account-register-card</code> with the card details 
+or retrieved using <code>/account-retrieve</code></p>
+
+<p>Tokens are generated whenever a previously registered list of cards are retrieved. Each token has, by design a 
+relatively short time to live of 30 minutes. This is both to safe guard the merchant and card holder from 
+replay attacks. Tokens are also restricted to your account, preventing malicious actors from stealing details
+for use elsewhere.  </p>
+
+<p>If a token is reused after it has expired it will be rejected and a new token will be required.</p>
+
+<p>Tokenisation can be used for</p>
+
+<ul>
+<li>repeat authorisations on a previously stored card</li>
+<li>easy authorisations just requiring CSC values to be entered</li>
+<li>can be used for credential on file style payments</li>
+<li>can require full 3-D Secure authentication to retain the liability shift</li>
+<li>wallet style usage.</li>
+</ul>
+<h3 id='model-chargerequest'>Model ChargeRequest</h3>
+<table><thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>amount</code></td>
+<td>integer <em>int32</em></td>
+<td>true</td>
+<td>The amount to authorise in the lowest unit of currency with a variable length to a maximum of 12 digits.<br/>No decimal points are to be included and no divisional characters such as 1,024.<br/>The amount should be the total amount required for the transaction.<br/>For example with GBP £1,021.95 the amount value is 102195.<br/><br/>minLength: 1<br/>maxLength: 12</td>
+</tr>
+<tr>
+<td><code>csc</code></td>
+<td>string</td>
+<td>false</td>
+<td>The Card Security Code (CSC) (also known as CV2/CVV2) is normally found on the back of the card<br/>(American Express has it on the front). The value helps to identify posession of the card as it is not<br/>available within the chip or magnetic swipe.<br/><br/>When forwarding the CSC, please ensure the value is a string as some values start with 0 and this will be stripped<br/>out by any integer parsing.<br/><br/>The CSC number aids fraud prevention in Mail Order and Internet payments.<br/><br/> Business rules are available on your account to identify whether to accept<br/>or decline transactions based on mismatched results of the CSC.<br/><br/>The Payment Card Industry (PCI) requires that at no stage of a transaction should the CSC be stored.<br/>This applies to all entities handling card data.<br/>It should also not be used in any hashing process.<br/>CityPay do not store the value and have no method of retrieving the value once the transaction has been processed.<br/>For this reason, duplicate checking is unable to determine the CSC in its duplication check algorithm.<br/><br/>minLength: 3<br/>maxLength: 4</td>
+</tr>
+<tr>
+<td><code>identifier</code></td>
+<td>string</td>
+<td>true</td>
+<td>The identifier of the transaction to process. The value should be a valid reference and may be used to perform<br/> post processing actions and to aid in reconciliation of transactions.<br/><br/>The value should be a valid printable string with ASCII character ranges from 32 to 127.<br/><br/>The identifier is recommended to be distinct for each transaction such as a <a href="https://en.wikipedia.org/wiki/Universally_unique_identifier">random unique identifier</a><br/>this will aid in ensuring each transaction is identifiable.<br/><br/>When transactions are processed they are also checked for duplicate requests. Changing the identifier on a subsequent<br/>request will ensure that a transaction is considered as different.<br/><br/>minLength: 4<br/>maxLength: 50</td>
+</tr>
+<tr>
+<td><code>merchantid</code></td>
+<td>integer <em>int32</em></td>
+<td>true</td>
+<td>Identifies the merchant account to perform processing for.</td>
+</tr>
+<tr>
+<td><code>sdk</code></td>
+<td>string</td>
+<td>false</td>
+<td>An optional reference value for the calling client such as a version number i.e.</td>
+</tr>
+<tr>
+<td><code>token</code></td>
+<td>string <em>base58</em></td>
+<td>true</td>
+<td>A tokenised form of a card that belongs to a card holder&#39;s account and that<br/>has been previously registered. The token is time based and will only be active for<br/>a short duration. The value is therefore designed not to be stored remotely for future<br/> use.<br/><br/>Tokens will start with ct and are resiliently tamper proof using HMacSHA-256.<br/>No sensitive card data is stored internally within the token.<br/><br/>Each card will contain a different token and the value may be different on any retrieval call.<br/><br/>The value can be presented for payment as a selection value to an end user in a web application.</td>
+</tr>
+<tr>
+<td><code>trans_info</code></td>
+<td>string</td>
+<td>false</td>
+<td>Further information that can be added to the transaction will display in reporting. Can be used for flexible values such as operator id.<br/>maxLength: 50</td>
+</tr>
+<tr>
+<td><code>trans_type</code></td>
+<td>string</td>
+<td>false</td>
+<td>The type of transaction being submitted. Normally this value is not required and your account manager may request that you set this field.<br/>minLength: 1<br/>maxLength: 1</td>
+</tr>
+</tbody></table>
+<h1 id='operational'>Operational</h1><h2 id='ping-request'>Ping Request</h2>
+<p><code>HTTP POST /ping</code></p>
+
+<p>A ping request which performs a connection and authentication test to the CityPay API server. The request
+will return a standard Acknowledgement with a response code <code>044</code> to signify a successful
+ping.</p>
+
+<p>The ping call is useful to confirm that you will be able to access 
+the API from behind any firewalls and that the permission
+model is granting access from your source.</p>
+<h3 id='model-ping'>Model Ping</h3>
+<table><thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>identifier</code></td>
+<td>string</td>
+<td>false</td>
+<td>An identifier of the ping request which will be returned in the response.<br/>minLength: 4<br/>maxLength: 50</td>
+</tr>
+</tbody></table>
+<h1 id='payment-processing'>Payment Processing</h1><h2 id='authorisation-api'>Authorisation API</h2>
+<p><code>HTTP POST /authorise</code></p>
+
+<p>An authorisation process performs a standard transaction authorisation based on the provided parameters of its request.
+The CityPay gateway will route your transaction via an Acquiring bank for subsequent authorisation to the appropriate card 
+schemes such as Visa or MasterCard.</p>
+
+<p>The authorisation API should be used for server environments to process transactions on demand and in realtime. </p>
+
+<p>The authorisation API can be used for multiple types of transactions including E-commerce, mail order, telephone order,
+customer present (keyed), continuous authority, pre-authorisation and others. CityPay will configure your account for 
+the appropriate coding and this will perform transparently by the gateway. </p>
+
+<p>Data properties that are required, may depend on the environment you are conducting payment for. Our API aims to be
+ flexible enough to cater for these structures. Our integration team will aid you in providing the necessary data to 
+ transact. </p>
+<h3 id='e-commerce-workflows'>E-commerce workflows</h3>
+<p>For E-commerce transactions requiring 3DSv1 and 3DSv2 transactions, the API contains a fully accredited in built mechanism
+to handle authentication.</p>
+
+<p>The gateway has been accredited extensively with both Acquirers and Card Schemes and simplifies the nature of these calls
+into a simple structure for authentication, preventing integrators from performing lengthy and a costly accreditation with
+Visa and MasterCard.</p>
+
+<p>3D-secure has been around for a number of years and aims to shift the liability of a transaction away from a merchant back
+to the card holder. A <em>liability shift</em> determines whether a card holder can charge back a transaction as unknown. Effectively
+the process asks for a card holder to authenticate the transaction prior to authorisation producing a Cardholder 
+verification value (CAVV) as evidence of authorisation.</p>
+<h4 id='3dsv1'>3DSv1</h4><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w"> 
+  </span><span class="s2">"AuthenticationRequired"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="s2">"acsurl"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://bank.com/3DS/ACS"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"pareq"</span><span class="p">:</span><span class="w"> </span><span class="s2">"SXQgd2FzIHRoZSBiZXN0IG9mIHRpbWVzLCBpdCB3YXMgdGhlIHdvcnN00..."</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"md"</span><span class="p">:</span><span class="w"> </span><span class="s2">"WQgZXZlcnl0aGluZyBiZW"</span><span class="w">
+  </span><span class="p">}</span><span class="w">               
+</span><span class="p">}</span><span class="w">
+</span></code></pre><pre class="highlight xml tab-xml"><code><span class="nt">&lt;AuthenticationRequired&gt;</span>
+ <span class="nt">&lt;acsurl&gt;</span>https://bank.com/3DS/ACS<span class="nt">&lt;/acsurl&gt;</span>
+ <span class="nt">&lt;pareq&gt;</span>SXQgd2FzIHRoZSBiZXN0IG9mIHRpbWVzLCBpdCB3YXMgdGhlIHdvcnN00...<span class="nt">&lt;/pareq&gt;</span>
+ <span class="nt">&lt;md&gt;</span>WQgZXZlcnl0aGluZyBiZW<span class="nt">&lt;/md&gt;</span>
+<span class="nt">&lt;/AuthenticationRequired&gt;</span>
+</code></pre>
+<p>For E-commerce transactions requiring 3DSv1, the API contains a built in MPI which will be called to check whether the 
+card is participating in 3DSv1 with Verified by Visa or MasterCard SecureCode. Should the card be enrolled, a payer 
+request (PAReq) value will be created and forwarded back as <a href="#authenticationrequired">authentication required</a> response. </p>
+
+<p>Your system will need to process this authentication 
+requirement to forward the end user&#39;s browser to an authentication server (ACS) to gain the user&#39;s authentication. The
+ACS will then perform a HTTP post back to your online site which should be forwarded back to this API for subsequent
+authorisation. </p>
+
+<p>Please note that 3DSv1 is being phased out due to changes to strong customer authentication mechanisms. 3DSv2 addresses
+this and will solidify the authorisation and confirmation process.</p>
+<h4 id='3dsv2'>3DSv2</h4><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w"> 
+  </span><span class="s2">"RequestChallenged"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="s2">"acsurl"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://bank.com/3DS/ACS"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"creq"</span><span class="p">:</span><span class="w"> </span><span class="s2">"SXQgd2FzIHRoZSBiZXN0IG9mIHRpbWVzLCBpdCB3YXMgdGhlIHdvcnN00..."</span><span class="w">
+  </span><span class="p">}</span><span class="w">               
+</span><span class="p">}</span><span class="w">
+</span></code></pre><pre class="highlight xml tab-xml"><code><span class="nt">&lt;RequestChallenged&gt;</span>
+ <span class="nt">&lt;acsurl&gt;</span>https://bank.com/3DS/ACS<span class="nt">&lt;/acsurl&gt;</span>
+ <span class="nt">&lt;creq&gt;</span>SXQgd2FzIHRoZSBiZXN0IG9mIHRpbWVzLCBpdCB3YXMgdGhlIHdvcnN00...<span class="nt">&lt;/creq&gt;</span>
+<span class="nt">&lt;/RequestChallenged&gt;</span>
+</code></pre>
+<p>All merchants in the EEC will require to migrate their E-commerce transactions to a secure customer authentication 
+model (SCA) throughout 2020. This has been adopted by the payments industry as a progressive move alongside the European 
+Unions payments directive.</p>
+
+<p>CityPay support 3DSv2 for Verified by Visa, MasterCard Identity Check and American Express SafeKey 2.0 and will be rolling
+out acquirers on the new platform from Q2 2020. The new enhancement to 3DSv2 will allow for CityPay to seamlessly authenticate
+transactions in a &quot;frictionless&quot; flowed method which will authenticate low risk transactions with minimal impact to a 
+standard authorisation flow. Our API simply performs this on behalf of the merchant and cardholder.</p>
+
+<p>Should a transaction however be &quot;challenged&quot; the API will return a <a href="#requestchallenged">request challenge</a> which will 
+require your integration to forward the cardholder&#39;s browser to the given <a href="#acsurl">ACS url</a> by posting the <a href="#creq">creq</a>
+value. Once complete, the ACS will have already been in touch with our servers by sending us a result of the authentication.
+Our servers however will be awaiting confirmation that the authorisation should continue and on receipt of a <a href="#cres">cres</a>
+value, the flow will perform a full authorisation. </p>
+
+<p>Please note that the CRes returned to us is purely a mechanism of acknowledging that transactions should be committed for
+authorisation. The ACS by this point will have sent us the verification value (CAVV) to perform a liability shift. The CRes
+value will be validated for receipt of this value and subsequently may return back response codes illustrating this.</p>
+<h3 id='model-authrequest'>Model AuthRequest</h3>
+<table><thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>airline_data</code></td>
+<td>object</td>
+<td>false</td>
+<td><a href="#airlineadvice">AirlineAdvice</a> Additional advice for airline integration that can be applied on an authorisation request.</td>
+</tr>
+</tbody></table>
+
+<p>As tickets are normally not allocated until successful payment it is normal for a transaction to be pre-authorised
+ and the airline advice supplied on a capture request instead. Should the data already exist and an auth and
+ capture is preferred. This data may be supplied.</p>
+
+<p><code>amount</code> | integer <em>int32</em> | true | The amount to authorise in the lowest unit of currency with a variable length to a maximum of 12 digits.<br/>No decimal points are to be included and no divisional characters such as 1,024.<br/>The amount should be the total amount required for the transaction.<br/>For example with GBP £1,021.95 the amount value is 102195.<br/><br/>minLength: 1<br/>maxLength: 12 |
+<code>bill_to</code> | object | false | <a href="#contactdetails">ContactDetails</a> Billing details of the card holder making the payment.
+These details may be used for AVS fraud analysis, 3DS and for future referencing of the transaction.</p>
+
+<p>For AVS to work correctly, the billing details should be the registered address of the card holder
+as it appears on the statement with their card issuer. The numeric details will be passed through
+for analysis and may result in a decline if incorrectly provided.</p>
+
+<p><code>cardnumber</code> | string  | true | The card number (PAN) with a variable length to a maximum of 21 digits in numerical form.<br/>Any non numeric characters will be stripped out of the card number, this includes whitespace or separators internal of the<br/>provided value.<br/><br/>The card number must be treated as sensitive data. We only provide an obfuscated value in logging and reporting.<br/> The plaintext value is encrypted in our database using AES 256 GMC bit encryption for settlement or refund purposes.<br/><br/>When providing the card number to our gateway through the authorisation API you will be handling the card data on<br/>your application. This will require further PCI controls to be in place and this value must never be stored.<br/><br/>minLength: 12<br/>maxLength: 22 |
+<code>csc</code> | string  | false | The Card Security Code (CSC) (also known as CV2/CVV2) is normally found on the back of the card<br/>(American Express has it on the front). The value helps to identify posession of the card as it is not<br/>available within the chip or magnetic swipe.<br/><br/>When forwarding the CSC, please ensure the value is a string as some values start with 0 and this will be stripped<br/>out by any integer parsing.<br/><br/>The CSC number aids fraud prevention in Mail Order and Internet payments.<br/><br/> Business rules are available on your account to identify whether to accept<br/>or decline transactions based on mismatched results of the CSC.<br/><br/>The Payment Card Industry (PCI) requires that at no stage of a transaction should the CSC be stored.<br/>This applies to all entities handling card data.<br/>It should also not be used in any hashing process.<br/>CityPay do not store the value and have no method of retrieving the value once the transaction has been processed.<br/>For this reason, duplicate checking is unable to determine the CSC in its duplication check algorithm.<br/><br/>minLength: 3<br/>maxLength: 4 |
+<code>expmonth</code> | integer <em>int32</em> | true | The month of expiry of the card. The month value should be a numerical value between 1 and 12.<br/><br/>minimum: 1<br/>maximum: 12 |
+<code>expyear</code> | integer <em>int32</em> | false | The year of expiry of the card.<br/><br/>minimum: 2000<br/>maximum: 2100 |
+<code>external_mpi</code> | object | false | <a href="#externalmpi">ExternalMPI</a> If an external 3DSv1 MPI is used for authentication, values provided can be supplied in this element. |
+<code>identifier</code> | string  | true | The identifier of the transaction to process. The value should be a valid reference and may be used to perform<br/> post processing actions and to aid in reconciliation of transactions.<br/><br/>The value should be a valid printable string with ASCII character ranges from 32 to 127.<br/><br/>The identifier is recommended to be distinct for each transaction such as a <a href="https://en.wikipedia.org/wiki/Universally_unique_identifier">random unique identifier</a><br/>this will aid in ensuring each transaction is identifiable.<br/><br/>When transactions are processed they are also checked for duplicate requests. Changing the identifier on a subsequent<br/>request will ensure that a transaction is considered as different.<br/><br/>minLength: 4<br/>maxLength: 50 |
+<code>merchantid</code> | integer <em>int32</em> | true | Identifies the merchant account to perform processing for. |
+<code>sdk</code> | string  | false | An optional reference value for the calling client such as a version number i.e. |
+<code>ship_to</code> | object | false | <a href="#contactdetails">ContactDetails</a> Shipping details of the card holder making the payment. These details may be used for 3DS and for future referencing of the transaction. |
+<code>trans_info</code> | string  | false | Further information that can be added to the transaction will display in reporting. Can be used for flexible values such as operator id.<br/>maxLength: 50 |
+<code>trans_type</code> | string  | false | The type of transaction being submitted. Normally this value is not required and your account manager may request that you set this field.<br/>minLength: 1<br/>maxLength: 1 |</p>
+<h2 id='capture-api'>Capture API</h2>
 <blockquote>
 <p>Basic capture call for a merchant with a given identifier</p>
 </blockquote>
@@ -415,10 +862,8 @@ If you do not have an API key please quote your Client ID and Merchant ID to <a 
   </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre><pre class="highlight xml tab-xml"><code><span class="nt">&lt;CaptureRequest&gt;</span>
-   <span class="nt">&lt;CaptureRequest&gt;</span>
-      <span class="nt">&lt;merchantid&gt;</span>123456<span class="nt">&lt;/merchantid&gt;</span>
-      <span class="nt">&lt;identifier&gt;</span>318f2bc5-d9e0-4ddf-9df1-1ea9e4890ca9<span class="nt">&lt;/identifier&gt;</span>
-   <span class="nt">&lt;/CaptureRequest&gt;</span>
+   <span class="nt">&lt;merchantid&gt;</span>123456<span class="nt">&lt;/merchantid&gt;</span>
+   <span class="nt">&lt;identifier&gt;</span>318f2bc5-d9e0-4ddf-9df1-1ea9e4890ca9<span class="nt">&lt;/identifier&gt;</span>
 <span class="nt">&lt;/CaptureRequest&gt;</span>
 </code></pre>
 <blockquote>
@@ -432,11 +877,9 @@ If you do not have an API key please quote your Client ID and Merchant ID to <a 
   </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre><pre class="highlight xml tab-xml"><code><span class="nt">&lt;CaptureRequest&gt;</span>
-   <span class="nt">&lt;CaptureRequest&gt;</span>
-      <span class="nt">&lt;merchantid&gt;</span>123456<span class="nt">&lt;/merchantid&gt;</span>
-      <span class="nt">&lt;transno&gt;</span>11275<span class="nt">&lt;/transno&gt;</span>
-      <span class="nt">&lt;amount&gt;</span>6795<span class="nt">&lt;/amount&gt;</span>
-   <span class="nt">&lt;/CaptureRequest&gt;</span>
+   <span class="nt">&lt;merchantid&gt;</span>123456<span class="nt">&lt;/merchantid&gt;</span>
+   <span class="nt">&lt;transno&gt;</span>11275<span class="nt">&lt;/transno&gt;</span>
+   <span class="nt">&lt;amount&gt;</span>6795<span class="nt">&lt;/amount&gt;</span>
 <span class="nt">&lt;/CaptureRequest&gt;</span>
 </code></pre>
 <blockquote>
@@ -460,21 +903,19 @@ If you do not have an API key please quote your Client ID and Merchant ID to <a 
   </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre><pre class="highlight xml tab-xml"><code><span class="nt">&lt;CaptureRequest&gt;</span>
-   <span class="nt">&lt;CaptureRequest&gt;</span>
-      <span class="nt">&lt;merchantid&gt;</span>123456<span class="nt">&lt;/merchantid&gt;</span>
-      <span class="nt">&lt;identifier&gt;</span>318f2bc5-d9e0-4ddf-9df1-1ea9e4890ca9<span class="nt">&lt;/identifier&gt;</span>
-      <span class="nt">&lt;airline-data&gt;</span>
-         <span class="nt">&lt;carrier-name&gt;</span>Acme Air<span class="nt">&lt;/carrier-name&gt;</span>
-         <span class="nt">&lt;transaction-type&gt;</span>TKT<span class="nt">&lt;/transaction-type&gt;</span>
-         <span class="nt">&lt;ticketno&gt;</span>114477822<span class="nt">&lt;/ticketno&gt;</span>
-         <span class="nt">&lt;segment1&gt;</span>
-            <span class="nt">&lt;flight-number&gt;</span>724<span class="nt">&lt;/flight-number&gt;</span>
-            <span class="nt">&lt;carrier-code&gt;</span>ZZ<span class="nt">&lt;/carrier-code&gt;</span>
-            <span class="nt">&lt;arrival-location-code&gt;</span>LGW<span class="nt">&lt;/arrival-location-code&gt;</span>
-            <span class="nt">&lt;departure-date&gt;</span>2020-01-23<span class="nt">&lt;/departure-date&gt;</span>
-         <span class="nt">&lt;/segment1&gt;</span>
-      <span class="nt">&lt;/airline-data&gt;</span>
-   <span class="nt">&lt;/CaptureRequest&gt;</span>
+   <span class="nt">&lt;merchantid&gt;</span>123456<span class="nt">&lt;/merchantid&gt;</span>
+   <span class="nt">&lt;identifier&gt;</span>318f2bc5-d9e0-4ddf-9df1-1ea9e4890ca9<span class="nt">&lt;/identifier&gt;</span>
+   <span class="nt">&lt;airline-data&gt;</span>
+      <span class="nt">&lt;carrier-name&gt;</span>Acme Air<span class="nt">&lt;/carrier-name&gt;</span>
+      <span class="nt">&lt;transaction-type&gt;</span>TKT<span class="nt">&lt;/transaction-type&gt;</span>
+      <span class="nt">&lt;ticketno&gt;</span>114477822<span class="nt">&lt;/ticketno&gt;</span>
+      <span class="nt">&lt;segment1&gt;</span>
+         <span class="nt">&lt;flight-number&gt;</span>724<span class="nt">&lt;/flight-number&gt;</span>
+         <span class="nt">&lt;carrier-code&gt;</span>ZZ<span class="nt">&lt;/carrier-code&gt;</span>
+         <span class="nt">&lt;arrival-location-code&gt;</span>LGW<span class="nt">&lt;/arrival-location-code&gt;</span>
+         <span class="nt">&lt;departure-date&gt;</span>2020-01-23<span class="nt">&lt;/departure-date&gt;</span>
+      <span class="nt">&lt;/segment1&gt;</span>
+   <span class="nt">&lt;/airline-data&gt;</span>
 <span class="nt">&lt;/CaptureRequest&gt;</span>
 </code></pre>
 <p><code>HTTP POST /capture</code></p>
@@ -506,10 +947,10 @@ be available for the settlement and completed at the end of the day.</p>
 </tr>
 </thead><tbody>
 <tr>
-<td><code>airline-data</code></td>
+<td><code>airline_data</code></td>
 <td>object</td>
 <td>false</td>
-<td><a href="#airlineadvice">AirlineAdvice</a></td>
+<td><a href="#airlineadvice">AirlineAdvice</a> Additional advice to be applied for the capture request.</td>
 </tr>
 <tr>
 <td><code>amount</code></td>
@@ -530,10 +971,71 @@ be available for the settlement and completed at the end of the day.</p>
 <td>Identifies the merchant account to perform the capture for.</td>
 </tr>
 <tr>
+<td><code>sdk</code></td>
+<td>string</td>
+<td>false</td>
+<td>An optional reference value for the calling client such as a version number i.e.</td>
+</tr>
+<tr>
 <td><code>transno</code></td>
 <td>integer <em>int32</em></td>
 <td>false</td>
 <td>The transaction number of the transaction to look up and capture. If an empty value is supplied then an identifier value must be supplied.</td>
+</tr>
+</tbody></table>
+<h2 id='retrieval-api'>Retrieval API</h2>
+<blockquote>
+<p>Basic retrieval call for a merchant with a given identifier</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="s2">"RetrievalRequest"</span><span class="p">:{</span><span class="w">
+    </span><span class="s2">"merchantid"</span><span class="p">:</span><span class="mi">123456</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"identifier"</span><span class="p">:</span><span class="s2">"318f2bc5-d9e0-4ddf-9df1-1ea9e4890ca9"</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre><pre class="highlight xml tab-xml"><code><span class="nt">&lt;RetrievalRequest&gt;</span>
+   <span class="nt">&lt;merchantid&gt;</span>123456<span class="nt">&lt;/merchantid&gt;</span>
+   <span class="nt">&lt;identifier&gt;</span>318f2bc5-d9e0-4ddf-9df1-1ea9e4890ca9<span class="nt">&lt;/identifier&gt;</span>
+<span class="nt">&lt;/RetrievalRequest&gt;</span>
+</code></pre>
+<p><code>HTTP POST /retrieve</code></p>
+
+<p>A retrieval request which allows an integration to obtain the result of a transaction processed
+in the last 90 days. The request allows for retrieval based on the identifier or transaction 
+number. </p>
+
+<p>The process may return multiple results in particular where a transaction was processed multiple
+times against the same identifier. This can happen if errors were first received. The API therefore
+returns up to the first 5 transactions in the latest date time order.</p>
+
+<p>It is not intended for this operation to be a replacement for reporting and only allows for base transaction
+information to be returned.</p>
+<h3 id='model-retrieverequest'>Model RetrieveRequest</h3>
+<table><thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>identifier</code></td>
+<td>string</td>
+<td>false</td>
+<td>The identifier of the transaction to retrieve. Optional if a transaction number is provided.<br/>minLength: 4<br/>maxLength: 50</td>
+</tr>
+<tr>
+<td><code>merchantid</code></td>
+<td>integer <em>int32</em></td>
+<td>true</td>
+<td>The merchant account to retrieve data for.</td>
+</tr>
+<tr>
+<td><code>transno</code></td>
+<td>integer <em>int32</em></td>
+<td>false</td>
+<td>The transaction number of a transaction to retrieve. Optional if an identifier is supplied.</td>
 </tr>
 </tbody></table>
 <h2 id='void-api'>Void API</h2>
@@ -547,10 +1049,8 @@ be available for the settlement and completed at the end of the day.</p>
   </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre><pre class="highlight xml tab-xml"><code><span class="nt">&lt;VoidRequest&gt;</span>
-   <span class="nt">&lt;VoidRequest&gt;</span>
-      <span class="nt">&lt;merchantid&gt;</span>123456<span class="nt">&lt;/merchantid&gt;</span>
-      <span class="nt">&lt;identifier&gt;</span>318f2bc5-d9e0-4ddf-9df1-1ea9e4890ca9<span class="nt">&lt;/identifier&gt;</span>
-   <span class="nt">&lt;/VoidRequest&gt;</span>
+   <span class="nt">&lt;merchantid&gt;</span>123456<span class="nt">&lt;/merchantid&gt;</span>
+   <span class="nt">&lt;identifier&gt;</span>318f2bc5-d9e0-4ddf-9df1-1ea9e4890ca9<span class="nt">&lt;/identifier&gt;</span>
 <span class="nt">&lt;/VoidRequest&gt;</span>
 </code></pre>
 <blockquote>
@@ -559,16 +1059,12 @@ be available for the settlement and completed at the end of the day.</p>
 <pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
   </span><span class="s2">"VoidRequest"</span><span class="p">:{</span><span class="w">
     </span><span class="s2">"merchantid"</span><span class="p">:</span><span class="mi">123456</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"transno"</span><span class="p">:</span><span class="mi">11275</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"amount"</span><span class="p">:</span><span class="mi">6795</span><span class="w">
+    </span><span class="s2">"transno"</span><span class="p">:</span><span class="mi">11275</span><span class="w">
   </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre><pre class="highlight xml tab-xml"><code><span class="nt">&lt;VoidRequest&gt;</span>
-   <span class="nt">&lt;VoidRequest&gt;</span>
-      <span class="nt">&lt;merchantid&gt;</span>123456<span class="nt">&lt;/merchantid&gt;</span>
-      <span class="nt">&lt;transno&gt;</span>11275<span class="nt">&lt;/transno&gt;</span>
-      <span class="nt">&lt;amount&gt;</span>6795<span class="nt">&lt;/amount&gt;</span>
-   <span class="nt">&lt;/VoidRequest&gt;</span>
+   <span class="nt">&lt;merchantid&gt;</span>123456<span class="nt">&lt;/merchantid&gt;</span>
+   <span class="nt">&lt;transno&gt;</span>11275<span class="nt">&lt;/transno&gt;</span>
 <span class="nt">&lt;/VoidRequest&gt;</span>
 </code></pre>
 <p><code>HTTP POST /void</code></p>
@@ -603,6 +1099,12 @@ outlining the result of the transaction.</p>
 <td>Identifies the merchant account to perform the void for.</td>
 </tr>
 <tr>
+<td><code>sdk</code></td>
+<td>string</td>
+<td>false</td>
+<td>An optional reference value for the calling client such as a version number i.e.</td>
+</tr>
+<tr>
 <td><code>transno</code></td>
 <td>integer <em>int32</em></td>
 <td>false</td>
@@ -612,11 +1114,13 @@ outlining the result of the transaction.</p>
 <h1 id='api-model'>API Model</h1><h2 id='acknowledgement'>Acknowledgement</h2><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
    </span><span class="s2">"code"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0"</span><span class="p">,</span><span class="w">
    </span><span class="s2">"context"</span><span class="p">:</span><span class="w"> </span><span class="s2">"aspiu352908ns47n343598bads"</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"identifier"</span><span class="p">:</span><span class="w"> </span><span class="s2">"95b857a1-5955-4b86-963c-5a6dbfc4fb95"</span><span class="p">,</span><span class="w">
    </span><span class="s2">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Approved 044332"</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre><pre class="highlight xml tab-xml"><code><span class="nt">&lt;Acknowledgement&gt;</span>
  <span class="nt">&lt;code&gt;</span>0<span class="nt">&lt;/code&gt;</span> 
  <span class="nt">&lt;context&gt;</span>aspiu352908ns47n343598bads<span class="nt">&lt;/context&gt;</span> 
+ <span class="nt">&lt;identifier&gt;</span>95b857a1-5955-4b86-963c-5a6dbfc4fb95<span class="nt">&lt;/identifier&gt;</span> 
  <span class="nt">&lt;message&gt;</span>Approved 044332<span class="nt">&lt;/message&gt;</span> 
 <span class="nt">&lt;/Acknowledgement&gt;</span>
 </code></pre>
@@ -641,6 +1145,12 @@ outlining the result of the transaction.</p>
 <td>A context id of the process used for referencing transactions through support.</td>
 </tr>
 <tr>
+<td><code>identifier</code></td>
+<td>string</td>
+<td>false</td>
+<td>An identifier if presented in the original request.<br/>minLength: 4<br/>maxLength: 50</td>
+</tr>
+<tr>
 <td><code>message</code></td>
 <td>string</td>
 <td>false</td>
@@ -648,40 +1158,40 @@ outlining the result of the transaction.</p>
 </tr>
 </tbody></table>
 <h2 id='airlineadvice'>AirlineAdvice</h2><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-   </span><span class="s2">"carrier-name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"EXample Air"</span><span class="p">,</span><span class="w">
-   </span><span class="s2">"conjunction-ticket-indicator"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
-   </span><span class="s2">"eticket-indicator"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
-   </span><span class="s2">"no-air-segments"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
-   </span><span class="s2">"number-in-party"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
-   </span><span class="s2">"original-ticket-no"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
-   </span><span class="s2">"passenger-name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"NE Person"</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"carrier_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"EG Air"</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"conjunction_ticket_indicator"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"eticket_indicator"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"no_air_segments"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"number_in_party"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"original_ticket_no"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"passenger_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"NE Person"</span><span class="p">,</span><span class="w">
    </span><span class="s2">"segment1"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="err">...</span><span class="w"> </span><span class="p">},</span><span class="w">
    </span><span class="s2">"segment2"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="err">...</span><span class="w"> </span><span class="p">},</span><span class="w">
    </span><span class="s2">"segment3"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="err">...</span><span class="w"> </span><span class="p">},</span><span class="w">
    </span><span class="s2">"segment4"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="err">...</span><span class="w"> </span><span class="p">},</span><span class="w">
-   </span><span class="s2">"ticket-issue-city"</span><span class="p">:</span><span class="w"> </span><span class="s2">"London"</span><span class="p">,</span><span class="w">
-   </span><span class="s2">"ticket-issue-date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2020-08-01"</span><span class="p">,</span><span class="w">
-   </span><span class="s2">"ticket-issue-name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Issue Name"</span><span class="p">,</span><span class="w">
-   </span><span class="s2">"ticketno"</span><span class="p">:</span><span class="w"> </span><span class="s2">"A112233"</span><span class="p">,</span><span class="w">
-   </span><span class="s2">"transaction-type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"TKT"</span><span class="w">
+   </span><span class="s2">"ticket_issue_city"</span><span class="p">:</span><span class="w"> </span><span class="s2">"London"</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"ticket_issue_date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2020-08-01"</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"ticket_issue_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Issue Name"</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"ticket_no"</span><span class="p">:</span><span class="w"> </span><span class="s2">"A112233"</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"transaction_type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"TKT"</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre><pre class="highlight xml tab-xml"><code><span class="nt">&lt;AirlineAdvice&gt;</span>
- <span class="nt">&lt;carrier-name&gt;</span>EXample Air<span class="nt">&lt;/carrier-name&gt;</span> 
- <span class="nt">&lt;conjunction-ticket-indicator&gt;</span>false<span class="nt">&lt;/conjunction-ticket-indicator&gt;</span> 
- <span class="nt">&lt;eticket-indicator&gt;</span>true<span class="nt">&lt;/eticket-indicator&gt;</span> 
- <span class="nt">&lt;no-air-segments&gt;</span>2<span class="nt">&lt;/no-air-segments&gt;</span> 
- <span class="nt">&lt;number-in-party&gt;</span>2<span class="nt">&lt;/number-in-party&gt;</span> 
- <span class="nt">&lt;original-ticket-no&gt;&lt;/original-ticket-no&gt;</span> 
- <span class="nt">&lt;passenger-name&gt;</span>NE Person<span class="nt">&lt;/passenger-name&gt;</span> 
+ <span class="nt">&lt;carrier_name&gt;</span>EG Air<span class="nt">&lt;/carrier_name&gt;</span> 
+ <span class="nt">&lt;conjunction_ticket_indicator&gt;</span>false<span class="nt">&lt;/conjunction_ticket_indicator&gt;</span> 
+ <span class="nt">&lt;eticket_indicator&gt;</span>true<span class="nt">&lt;/eticket_indicator&gt;</span> 
+ <span class="nt">&lt;no_air_segments&gt;</span>2<span class="nt">&lt;/no_air_segments&gt;</span> 
+ <span class="nt">&lt;number_in_party&gt;</span>2<span class="nt">&lt;/number_in_party&gt;</span> 
+ <span class="nt">&lt;original_ticket_no&gt;&lt;/original_ticket_no&gt;</span> 
+ <span class="nt">&lt;passenger_name&gt;</span>NE Person<span class="nt">&lt;/passenger_name&gt;</span> 
  <span class="nt">&lt;segment1&gt;</span><span class="err">&lt;</span>&gt;...<span class="err">&lt;</span>/&gt;<span class="nt">&lt;/segment1&gt;</span> 
  <span class="nt">&lt;segment2&gt;</span><span class="err">&lt;</span>&gt;...<span class="err">&lt;</span>/&gt;<span class="nt">&lt;/segment2&gt;</span> 
  <span class="nt">&lt;segment3&gt;</span><span class="err">&lt;</span>&gt;...<span class="err">&lt;</span>/&gt;<span class="nt">&lt;/segment3&gt;</span> 
  <span class="nt">&lt;segment4&gt;</span><span class="err">&lt;</span>&gt;...<span class="err">&lt;</span>/&gt;<span class="nt">&lt;/segment4&gt;</span> 
- <span class="nt">&lt;ticket-issue-city&gt;</span>London<span class="nt">&lt;/ticket-issue-city&gt;</span> 
- <span class="nt">&lt;ticket-issue-date&gt;</span>2020-08-01<span class="nt">&lt;/ticket-issue-date&gt;</span> 
- <span class="nt">&lt;ticket-issue-name&gt;</span>Issue Name<span class="nt">&lt;/ticket-issue-name&gt;</span> 
- <span class="nt">&lt;ticketno&gt;</span>A112233<span class="nt">&lt;/ticketno&gt;</span> 
- <span class="nt">&lt;transaction-type&gt;</span>TKT<span class="nt">&lt;/transaction-type&gt;</span> 
+ <span class="nt">&lt;ticket_issue_city&gt;</span>London<span class="nt">&lt;/ticket_issue_city&gt;</span> 
+ <span class="nt">&lt;ticket_issue_date&gt;</span>2020-08-01<span class="nt">&lt;/ticket_issue_date&gt;</span> 
+ <span class="nt">&lt;ticket_issue_name&gt;</span>Issue Name<span class="nt">&lt;/ticket_issue_name&gt;</span> 
+ <span class="nt">&lt;ticket_no&gt;</span>A112233<span class="nt">&lt;/ticket_no&gt;</span> 
+ <span class="nt">&lt;transaction_type&gt;</span>TKT<span class="nt">&lt;/transaction_type&gt;</span> 
 <span class="nt">&lt;/AirlineAdvice&gt;</span>
 </code></pre>
 <table><thead>
@@ -693,43 +1203,43 @@ outlining the result of the transaction.</p>
 </tr>
 </thead><tbody>
 <tr>
-<td><code>carrier-name</code></td>
+<td><code>carrier_name</code></td>
 <td>string</td>
 <td>true</td>
 <td>The name of the airline carrier that generated the tickets for airline travel.<br/>maxLength: 25</td>
 </tr>
 <tr>
-<td><code>conjunction-ticket-indicator</code></td>
+<td><code>conjunction_ticket_indicator</code></td>
 <td>boolean</td>
 <td>false</td>
 <td>true if a conjunction ticket (with additional coupons) was issued for an itinerary<br/>with more than four segments. Defaults to false.</td>
 </tr>
 <tr>
-<td><code>eticket-indicator</code></td>
+<td><code>eticket_indicator</code></td>
 <td>boolean</td>
 <td>false</td>
 <td>The Electronic Ticket Indicator, a code that indicates if an electronic ticket was issued.  Defaults to true.</td>
 </tr>
 <tr>
-<td><code>no-air-segments</code></td>
+<td><code>no_air_segments</code></td>
 <td>integer <em>int32</em></td>
 <td>false</td>
 <td>A value that indicates the number of air travel segments included on this ticket.<br/>Valid entries include the numerals “0” through “4”. Required only if the transaction type is TKT or EXC.<br/><br/>minimum: 0<br/>maximum: 4</td>
 </tr>
 <tr>
-<td><code>number-in-party</code></td>
+<td><code>number_in_party</code></td>
 <td>integer <em>int32</em></td>
 <td>true</td>
 <td>The number of people in the party.</td>
 </tr>
 <tr>
-<td><code>original-ticket-no</code></td>
+<td><code>original_ticket_no</code></td>
 <td>string</td>
 <td>false</td>
 <td>Required if transaction type is EXC.<br/>maxLength: 14</td>
 </tr>
 <tr>
-<td><code>passenger-name</code></td>
+<td><code>passenger_name</code></td>
 <td>string</td>
 <td>false</td>
 <td>The name of the passenger when the traveller is not the card member that purchased the ticket. Required only if the transaction type is TKT or EXC.<br/>maxLength: 25</td>
@@ -738,76 +1248,76 @@ outlining the result of the transaction.</p>
 <td><code>segment1</code></td>
 <td>object</td>
 <td>true</td>
-<td><a href="#airlinesegment">AirlineSegment</a></td>
+<td><a href="#airlinesegment">AirlineSegment</a> Segment 1 of airline data defining the outward leg.</td>
 </tr>
 <tr>
 <td><code>segment2</code></td>
 <td>object</td>
 <td>false</td>
-<td><a href="#airlinesegment">AirlineSegment</a></td>
+<td><a href="#airlinesegment">AirlineSegment</a> Segment 2 of airline data. If a return flight or stop-over the segment will be populated.</td>
 </tr>
 <tr>
 <td><code>segment3</code></td>
 <td>object</td>
 <td>false</td>
-<td><a href="#airlinesegment">AirlineSegment</a></td>
+<td><a href="#airlinesegment">AirlineSegment</a> Segment 3 of airline data if defined.</td>
 </tr>
 <tr>
 <td><code>segment4</code></td>
 <td>object</td>
 <td>false</td>
-<td><a href="#airlinesegment">AirlineSegment</a></td>
+<td><a href="#airlinesegment">AirlineSegment</a> Segment 4 of airline data if defined.</td>
 </tr>
 <tr>
-<td><code>ticket-issue-city</code></td>
+<td><code>ticket_issue_city</code></td>
 <td>string</td>
 <td>true</td>
 <td>The name of the city town or village where the transaction took place.<br/>maxLength: 18</td>
 </tr>
 <tr>
-<td><code>ticket-issue-date</code></td>
+<td><code>ticket_issue_date</code></td>
 <td>string <em>date</em></td>
 <td>true</td>
 <td>The date the ticket was issued in ISO Date format (yyyy-MM-dd).<br/>maxLength: 10</td>
 </tr>
 <tr>
-<td><code>ticket-issue-name</code></td>
+<td><code>ticket_issue_name</code></td>
 <td>string</td>
 <td>true</td>
 <td>The name of the agency generating the ticket.<br/>maxLength: 26</td>
 </tr>
 <tr>
-<td><code>ticketno</code></td>
+<td><code>ticket_no</code></td>
 <td>string</td>
 <td>true</td>
 <td>This must be a valid ticket number, i.e. numeric (the first 3 digits must represent the valid IATA plate carrier code).<br/>The final check digit should be validated prior to submission. On credit charges, this field should contain the<br/>number of the original ticket, and not of a replacement.<br/><br/>maxLength: 14</td>
 </tr>
 <tr>
-<td><code>transaction-type</code></td>
+<td><code>transaction_type</code></td>
 <td>string</td>
 <td>true</td>
 <td>This field contains the Transaction Type code assigned to this transaction. Valid codes include:<br/><br/> - <code>TKT</code> = Ticket Purchase<br/> - <code>REF</code> = Refund<br/> - <code>EXC</code> = Exchange Ticket<br/> - <code>MSC</code> = Miscellaneous (non-Ticket Purchase- and non-Exchange Ticket-related transactions only).<br/><br/>minLength: 3<br/>maxLength: 3</td>
 </tr>
 </tbody></table>
 <h2 id='airlinesegment'>AirlineSegment</h2><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-   </span><span class="s2">"arrival-location-code"</span><span class="p">:</span><span class="w"> </span><span class="s2">"SOU"</span><span class="p">,</span><span class="w">
-   </span><span class="s2">"carrier-code"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ZZ"</span><span class="p">,</span><span class="w">
-   </span><span class="s2">"class-service-code"</span><span class="p">:</span><span class="w"> </span><span class="s2">"CC"</span><span class="p">,</span><span class="w">
-   </span><span class="s2">"departure-date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2020-08-01"</span><span class="p">,</span><span class="w">
-   </span><span class="s2">"departure-location-code"</span><span class="p">:</span><span class="w"> </span><span class="s2">"JER"</span><span class="p">,</span><span class="w">
-   </span><span class="s2">"flight-number"</span><span class="p">:</span><span class="w"> </span><span class="s2">"772"</span><span class="p">,</span><span class="w">
-   </span><span class="s2">"segment-fare"</span><span class="p">:</span><span class="w"> </span><span class="mi">7500</span><span class="p">,</span><span class="w">
-   </span><span class="s2">"stop-over-indicator"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1"</span><span class="w">
+   </span><span class="s2">"arrival_location_code"</span><span class="p">:</span><span class="w"> </span><span class="s2">"SOU"</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"carrier_code"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ZZ"</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"class_service_code"</span><span class="p">:</span><span class="w"> </span><span class="s2">"CC"</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"departure_date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2020-08-01"</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"departure_location_code"</span><span class="p">:</span><span class="w"> </span><span class="s2">"JER"</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"flight_number"</span><span class="p">:</span><span class="w"> </span><span class="s2">"772"</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"segment_fare"</span><span class="p">:</span><span class="w"> </span><span class="mi">7500</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"stop_over_indicator"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1"</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre><pre class="highlight xml tab-xml"><code><span class="nt">&lt;AirlineSegment&gt;</span>
- <span class="nt">&lt;arrival-location-code&gt;</span>SOU<span class="nt">&lt;/arrival-location-code&gt;</span> 
- <span class="nt">&lt;carrier-code&gt;</span>ZZ<span class="nt">&lt;/carrier-code&gt;</span> 
- <span class="nt">&lt;class-service-code&gt;</span>CC<span class="nt">&lt;/class-service-code&gt;</span> 
- <span class="nt">&lt;departure-date&gt;</span>2020-08-01<span class="nt">&lt;/departure-date&gt;</span> 
- <span class="nt">&lt;departure-location-code&gt;</span>JER<span class="nt">&lt;/departure-location-code&gt;</span> 
- <span class="nt">&lt;flight-number&gt;</span>772<span class="nt">&lt;/flight-number&gt;</span> 
- <span class="nt">&lt;segment-fare&gt;</span>7500<span class="nt">&lt;/segment-fare&gt;</span> 
- <span class="nt">&lt;stop-over-indicator&gt;</span>1<span class="nt">&lt;/stop-over-indicator&gt;</span> 
+ <span class="nt">&lt;arrival_location_code&gt;</span>SOU<span class="nt">&lt;/arrival_location_code&gt;</span> 
+ <span class="nt">&lt;carrier_code&gt;</span>ZZ<span class="nt">&lt;/carrier_code&gt;</span> 
+ <span class="nt">&lt;class_service_code&gt;</span>CC<span class="nt">&lt;/class_service_code&gt;</span> 
+ <span class="nt">&lt;departure_date&gt;</span>2020-08-01<span class="nt">&lt;/departure_date&gt;</span> 
+ <span class="nt">&lt;departure_location_code&gt;</span>JER<span class="nt">&lt;/departure_location_code&gt;</span> 
+ <span class="nt">&lt;flight_number&gt;</span>772<span class="nt">&lt;/flight_number&gt;</span> 
+ <span class="nt">&lt;segment_fare&gt;</span>7500<span class="nt">&lt;/segment_fare&gt;</span> 
+ <span class="nt">&lt;stop_over_indicator&gt;</span>1<span class="nt">&lt;/stop_over_indicator&gt;</span> 
 <span class="nt">&lt;/AirlineSegment&gt;</span>
 </code></pre>
 <table><thead>
@@ -819,66 +1329,452 @@ outlining the result of the transaction.</p>
 </tr>
 </thead><tbody>
 <tr>
-<td><code>arrival-location-code</code></td>
+<td><code>arrival_location_code</code></td>
 <td>string</td>
 <td>true</td>
 <td>A standard airline routing code (airport code or location identifier) applicable to the<br/>arrival portion of this segment.<br/><br/>maxLength: 3</td>
 </tr>
 <tr>
-<td><code>carrier-code</code></td>
+<td><code>carrier_code</code></td>
 <td>string</td>
 <td>true</td>
 <td>This field contains the two character airline designator code (air carrier code or airline code) that<br/>corresponds to the airline carrier applicable for up to four flight segments of this trip itinerary.<br/><br/>maxLength: 2</td>
 </tr>
 <tr>
-<td><code>class-service-code</code></td>
+<td><code>class_service_code</code></td>
 <td>string</td>
 <td>true</td>
 <td>This field contains a code that corresponds to the fare class (A, B, C, D, Premium, Discounted, etc.)<br/>within the overall class of service (e.g., First Class, Business, Economy) applicable to this travel segment,<br/>as specified in the IATA Standard Code allocation table.<br/><br/>maxLength: 2</td>
 </tr>
 <tr>
-<td><code>departure-date</code></td>
+<td><code>departure_date</code></td>
 <td>string <em>date</em></td>
 <td>true</td>
 <td>The Departure Date for the travel segment in ISO Date Format (yyyy-MM-dd).</td>
 </tr>
 <tr>
-<td><code>departure-location-code</code></td>
+<td><code>departure_location_code</code></td>
 <td>string</td>
 <td>false</td>
 <td>A standard airline routing code (airport code or location identifier) applicable to the<br/>departure portion of this segment.<br/><br/>maxLength: 3</td>
 </tr>
 <tr>
-<td><code>flight-number</code></td>
+<td><code>flight_number</code></td>
 <td>string</td>
 <td>true</td>
 <td>This field contains the carrier-assigned Flight Number for this travel segment.<br/>maxLength: 4</td>
 </tr>
 <tr>
-<td><code>segment-fare</code></td>
+<td><code>segment_fare</code></td>
 <td>integer <em>int32</em></td>
 <td>false</td>
 <td>This field contains the total Fare for this travel segment.</td>
 </tr>
 <tr>
-<td><code>stop-over-indicator</code></td>
+<td><code>stop_over_indicator</code></td>
 <td>string</td>
 <td>false</td>
 <td>O = Stopover allowed, X = Stopover not allowed.<br/>maxLength: 1</td>
 </tr>
 </tbody></table>
+<h2 id='authreferences'>AuthReferences</h2><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+   </span><span class="s2">"auths"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre><pre class="highlight xml tab-xml"><code><span class="nt">&lt;AuthReferences&gt;</span>
+ <span class="nt">&lt;auths&gt;&lt;/auths&gt;</span> 
+<span class="nt">&lt;/AuthReferences&gt;</span>
+</code></pre>
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>auths</code></td>
+<td>string</td>
+<td>false</td>
+<td>Authorisations which match the request.</td>
+</tr>
+</tbody></table>
+<h2 id='authrequest'>AuthRequest</h2><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+   </span><span class="s2">"airline_data"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="err">...</span><span class="w"> </span><span class="p">},</span><span class="w">
+   </span><span class="s2">"amount"</span><span class="p">:</span><span class="w"> </span><span class="mi">3600</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"bill_to"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="err">...</span><span class="w"> </span><span class="p">},</span><span class="w">
+   </span><span class="s2">"cardnumber"</span><span class="p">:</span><span class="w"> </span><span class="s2">"4000 0000 0000 0002"</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"csc"</span><span class="p">:</span><span class="w"> </span><span class="s2">"10"</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"expmonth"</span><span class="p">:</span><span class="w"> </span><span class="mi">9</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"expyear"</span><span class="p">:</span><span class="w"> </span><span class="mi">2023</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"external_mpi"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="err">...</span><span class="w"> </span><span class="p">},</span><span class="w">
+   </span><span class="s2">"identifier"</span><span class="p">:</span><span class="w"> </span><span class="s2">"95b857a1-5955-4b86-963c-5a6dbfc4fb95"</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"merchantid"</span><span class="p">:</span><span class="w"> </span><span class="mi">11223344</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"sdk"</span><span class="p">:</span><span class="w"> </span><span class="s2">"MyClient 1.3.0"</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"ship_to"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="err">...</span><span class="w"> </span><span class="p">},</span><span class="w">
+   </span><span class="s2">"trans_info"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"trans_type"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre><pre class="highlight xml tab-xml"><code><span class="nt">&lt;AuthRequest&gt;</span>
+ <span class="nt">&lt;airline_data&gt;</span><span class="err">&lt;</span>&gt;...<span class="err">&lt;</span>/&gt;<span class="nt">&lt;/airline_data&gt;</span> 
+ <span class="nt">&lt;amount&gt;</span>3600<span class="nt">&lt;/amount&gt;</span> 
+ <span class="nt">&lt;bill_to&gt;</span><span class="err">&lt;</span>&gt;...<span class="err">&lt;</span>/&gt;<span class="nt">&lt;/bill_to&gt;</span> 
+ <span class="nt">&lt;cardnumber&gt;</span>4000 0000 0000 0002<span class="nt">&lt;/cardnumber&gt;</span> 
+ <span class="nt">&lt;csc&gt;</span>10<span class="nt">&lt;/csc&gt;</span> 
+ <span class="nt">&lt;expmonth&gt;</span>9<span class="nt">&lt;/expmonth&gt;</span> 
+ <span class="nt">&lt;expyear&gt;</span>2023<span class="nt">&lt;/expyear&gt;</span> 
+ <span class="nt">&lt;external_mpi&gt;</span><span class="err">&lt;</span>&gt;...<span class="err">&lt;</span>/&gt;<span class="nt">&lt;/external_mpi&gt;</span> 
+ <span class="nt">&lt;identifier&gt;</span>95b857a1-5955-4b86-963c-5a6dbfc4fb95<span class="nt">&lt;/identifier&gt;</span> 
+ <span class="nt">&lt;merchantid&gt;</span>11223344<span class="nt">&lt;/merchantid&gt;</span> 
+ <span class="nt">&lt;sdk&gt;</span>MyClient 1.3.0<span class="nt">&lt;/sdk&gt;</span> 
+ <span class="nt">&lt;ship_to&gt;</span><span class="err">&lt;</span>&gt;...<span class="err">&lt;</span>/&gt;<span class="nt">&lt;/ship_to&gt;</span> 
+ <span class="nt">&lt;trans_info&gt;&lt;/trans_info&gt;</span> 
+ <span class="nt">&lt;trans_type&gt;&lt;/trans_type&gt;</span> 
+<span class="nt">&lt;/AuthRequest&gt;</span>
+</code></pre>
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>amount</code></td>
+<td>integer <em>int32</em></td>
+<td>true</td>
+<td>The amount to authorise in the lowest unit of currency with a variable length to a maximum of 12 digits.<br/>No decimal points are to be included and no divisional characters such as 1,024.<br/>The amount should be the total amount required for the transaction.<br/>For example with GBP £1,021.95 the amount value is 102195.<br/><br/>minLength: 1<br/>maxLength: 12</td>
+</tr>
+<tr>
+<td><code>bill_to</code></td>
+<td>object</td>
+<td>false</td>
+<td><a href="#contactdetails">ContactDetails</a> Billing details of the card holder making the payment.</td>
+</tr>
+</tbody></table>
+
+<p>These details may be used for AVS fraud analysis, 3DS and for future referencing of the transaction.</p>
+
+<p>For AVS to work correctly, the billing details should be the registered address of the card holder
+as it appears on the statement with their card issuer. The numeric details will be passed through
+for analysis and may result in a decline if incorrectly provided.</p>
+
+<p><code>cardnumber</code> | string  | true | The card number (PAN) with a variable length to a maximum of 21 digits in numerical form.<br/>Any non numeric characters will be stripped out of the card number, this includes whitespace or separators internal of the<br/>provided value.<br/><br/>The card number must be treated as sensitive data. We only provide an obfuscated value in logging and reporting.<br/> The plaintext value is encrypted in our database using AES 256 GMC bit encryption for settlement or refund purposes.<br/><br/>When providing the card number to our gateway through the authorisation API you will be handling the card data on<br/>your application. This will require further PCI controls to be in place and this value must never be stored.<br/><br/>minLength: 12<br/>maxLength: 22 |
+<code>csc</code> | string  | false | The Card Security Code (CSC) (also known as CV2/CVV2) is normally found on the back of the card<br/>(American Express has it on the front). The value helps to identify posession of the card as it is not<br/>available within the chip or magnetic swipe.<br/><br/>When forwarding the CSC, please ensure the value is a string as some values start with 0 and this will be stripped<br/>out by any integer parsing.<br/><br/>The CSC number aids fraud prevention in Mail Order and Internet payments.<br/><br/> Business rules are available on your account to identify whether to accept<br/>or decline transactions based on mismatched results of the CSC.<br/><br/>The Payment Card Industry (PCI) requires that at no stage of a transaction should the CSC be stored.<br/>This applies to all entities handling card data.<br/>It should also not be used in any hashing process.<br/>CityPay do not store the value and have no method of retrieving the value once the transaction has been processed.<br/>For this reason, duplicate checking is unable to determine the CSC in its duplication check algorithm.<br/><br/>minLength: 3<br/>maxLength: 4 |
+<code>expmonth</code> | integer <em>int32</em> | true | The month of expiry of the card. The month value should be a numerical value between 1 and 12.<br/><br/>minimum: 1<br/>maximum: 12 |
+<code>expyear</code> | integer <em>int32</em> | false | The year of expiry of the card.<br/><br/>minimum: 2000<br/>maximum: 2100 |
+<code>external_mpi</code> | object | false | <a href="#externalmpi">ExternalMPI</a> If an external 3DSv1 MPI is used for authentication, values provided can be supplied in this element. |
+<code>identifier</code> | string  | true | The identifier of the transaction to process. The value should be a valid reference and may be used to perform<br/> post processing actions and to aid in reconciliation of transactions.<br/><br/>The value should be a valid printable string with ASCII character ranges from 32 to 127.<br/><br/>The identifier is recommended to be distinct for each transaction such as a <a href="https://en.wikipedia.org/wiki/Universally_unique_identifier">random unique identifier</a><br/>this will aid in ensuring each transaction is identifiable.<br/><br/>When transactions are processed they are also checked for duplicate requests. Changing the identifier on a subsequent<br/>request will ensure that a transaction is considered as different.<br/><br/>minLength: 4<br/>maxLength: 50 |
+<code>merchantid</code> | integer <em>int32</em> | true | Identifies the merchant account to perform processing for. |
+<code>sdk</code> | string  | false | An optional reference value for the calling client such as a version number i.e. |
+<code>ship_to</code> | object | false | <a href="#contactdetails">ContactDetails</a> Shipping details of the card holder making the payment. These details may be used for 3DS and for future referencing of the transaction. |
+<code>trans_info</code> | string  | false | Further information that can be added to the transaction will display in reporting. Can be used for flexible values such as operator id.<br/>maxLength: 50 |
+<code>trans_type</code> | string  | false | The type of transaction being submitted. Normally this value is not required and your account manager may request that you set this field.<br/>minLength: 1<br/>maxLength: 1 |</p>
+
+<table><thead>
+<tr>
+<th>Extension</th>
+<th>Field</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>Airline</td>
+<td><code>airline_data</code></td>
+<td>object</td>
+<td>false</td>
+<td><a href="#airlineadvice">AirlineAdvice</a> Additional advice for airline integration that can be applied on an authorisation request.</td>
+</tr>
+</tbody></table>
+
+<p>As tickets are normally not allocated until successful payment it is normal for a transaction to be pre-authorised
+ and the airline advice supplied on a capture request instead. Should the data already exist and an auth and
+ capture is preferred. This data may be supplied.</p>
+<h2 id='authresponse'>AuthResponse</h2><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+   </span><span class="s2">"amount"</span><span class="p">:</span><span class="w"> </span><span class="mi">3600</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"atrn"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"atsd"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"authcode"</span><span class="p">:</span><span class="w"> </span><span class="s2">"001245A"</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"authen_result"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"authorised"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"avs_result"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"bin_commercial"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"bin_debit"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"bin_description"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"cavv"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"context"</span><span class="p">:</span><span class="w"> </span><span class="s2">"aspiu352908ns47n343598bads"</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"csc_result"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"GBP"</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"datetime"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2020-01-02"</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"eci"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"identifier"</span><span class="p">:</span><span class="w"> </span><span class="s2">"95b857a1-5955-4b86-963c-5a6dbfc4fb95"</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"live"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"maskedpan"</span><span class="p">:</span><span class="w"> </span><span class="s2">"4***********0002"</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"merchantid"</span><span class="p">:</span><span class="w"> </span><span class="mi">11223344</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"result"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"result_code"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0"</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"result_message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Accepted Transaction"</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"scheme"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Visa"</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"sha256"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"trans_status"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"transno"</span><span class="p">:</span><span class="w"> </span><span class="mi">78416</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre><pre class="highlight xml tab-xml"><code><span class="nt">&lt;AuthResponse&gt;</span>
+ <span class="nt">&lt;amount&gt;</span>3600<span class="nt">&lt;/amount&gt;</span> 
+ <span class="nt">&lt;atrn&gt;&lt;/atrn&gt;</span> 
+ <span class="nt">&lt;atsd&gt;&lt;/atsd&gt;</span> 
+ <span class="nt">&lt;authcode&gt;</span>001245A<span class="nt">&lt;/authcode&gt;</span> 
+ <span class="nt">&lt;authen_result&gt;&lt;/authen_result&gt;</span> 
+ <span class="nt">&lt;authorised&gt;</span>true<span class="nt">&lt;/authorised&gt;</span> 
+ <span class="nt">&lt;avs_result&gt;&lt;/avs_result&gt;</span> 
+ <span class="nt">&lt;bin_commercial&gt;&lt;/bin_commercial&gt;</span> 
+ <span class="nt">&lt;bin_debit&gt;&lt;/bin_debit&gt;</span> 
+ <span class="nt">&lt;bin_description&gt;&lt;/bin_description&gt;</span> 
+ <span class="nt">&lt;cavv&gt;&lt;/cavv&gt;</span> 
+ <span class="nt">&lt;context&gt;</span>aspiu352908ns47n343598bads<span class="nt">&lt;/context&gt;</span> 
+ <span class="nt">&lt;csc_result&gt;&lt;/csc_result&gt;</span> 
+ <span class="nt">&lt;currency&gt;</span>GBP<span class="nt">&lt;/currency&gt;</span> 
+ <span class="nt">&lt;datetime&gt;</span>2020-01-02<span class="nt">&lt;/datetime&gt;</span> 
+ <span class="nt">&lt;eci&gt;&lt;/eci&gt;</span> 
+ <span class="nt">&lt;identifier&gt;</span>95b857a1-5955-4b86-963c-5a6dbfc4fb95<span class="nt">&lt;/identifier&gt;</span> 
+ <span class="nt">&lt;live&gt;</span>true<span class="nt">&lt;/live&gt;</span> 
+ <span class="nt">&lt;maskedpan&gt;</span>4***********0002<span class="nt">&lt;/maskedpan&gt;</span> 
+ <span class="nt">&lt;merchantid&gt;</span>11223344<span class="nt">&lt;/merchantid&gt;</span> 
+ <span class="nt">&lt;result&gt;</span>1<span class="nt">&lt;/result&gt;</span> 
+ <span class="nt">&lt;result_code&gt;</span>0<span class="nt">&lt;/result_code&gt;</span> 
+ <span class="nt">&lt;result_message&gt;</span>Accepted Transaction<span class="nt">&lt;/result_message&gt;</span> 
+ <span class="nt">&lt;scheme&gt;</span>Visa<span class="nt">&lt;/scheme&gt;</span> 
+ <span class="nt">&lt;sha256&gt;&lt;/sha256&gt;</span> 
+ <span class="nt">&lt;trans_status&gt;&lt;/trans_status&gt;</span> 
+ <span class="nt">&lt;transno&gt;</span>78416<span class="nt">&lt;/transno&gt;</span> 
+<span class="nt">&lt;/AuthResponse&gt;</span>
+</code></pre>
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>amount</code></td>
+<td>integer <em>int32</em></td>
+<td>false</td>
+<td>The amount of the transaction processed.<br/>minLength: 1<br/>maxLength: 12</td>
+</tr>
+<tr>
+<td><code>atrn</code></td>
+<td>string</td>
+<td>false</td>
+<td>A reference number provided by the acquirer for a transaction it can be used to cross reference transactions<br/>with an Acquirers reporting panel.</td>
+</tr>
+<tr>
+<td><code>atsd</code></td>
+<td>string</td>
+<td>false</td>
+<td>Additional Transaction Security Data used for ecommerce transactions to decipher security capabilities and attempts against a transaction.</td>
+</tr>
+<tr>
+<td><code>authcode</code></td>
+<td>string</td>
+<td>false</td>
+<td>The authorisation code as returned by the card issuer or acquiring bank when a transaction has successfully<br/>  been authorised. Authorisation codes contain alphanumeric values. Whilst the code confirms authorisation it<br/>  should not be used to determine whether a transaction was successfully processed. For instance an auth code<br/>  may be returned when a transaction has been subsequently declined due to a CSC mismatch.</td>
+</tr>
+<tr>
+<td><code>authen_result</code></td>
+<td>string</td>
+<td>false</td>
+<td>The result of any authentication using 3d_secure authorisation against ecommerce transactions. Values are<br/> Value</td>
+</tr>
+<tr>
+<td><code>authorised</code></td>
+<td>boolean</td>
+<td>false</td>
+<td>A boolean definition that indicates that the transaction was authorised. It will return false if the transaction<br/> was declined, rejected or cancelled due to CSC matching failures.<br/>Attention should be referenced to the AuthResult and Response code for accurate determination of the result.</td>
+</tr>
+<tr>
+<td><code>avs_result</code></td>
+<td>string</td>
+<td>false</td>
+<td>The AVS result codes determine the result of checking the AVS values within the<br/>Address Verification fraud system. If a transaction is declined due to the AVS code not matching,<br/>this value can help determine the reason for the decline.<br/><br/> Code</td>
+</tr>
+<tr>
+<td><code>bin_commercial</code></td>
+<td>boolean</td>
+<td>false</td>
+<td>Determines whether the bin range was found to be a commercial or business card.</td>
+</tr>
+<tr>
+<td><code>bin_debit</code></td>
+<td>boolean</td>
+<td>false</td>
+<td>Determines whether the bin range was found to be a debit card. If false the card was considered as a credit card.</td>
+</tr>
+<tr>
+<td><code>bin_description</code></td>
+<td>string</td>
+<td>false</td>
+<td>A description of the bin range found for the card.</td>
+</tr>
+<tr>
+<td><code>cavv</code></td>
+<td>string</td>
+<td>false</td>
+<td>The cardholder authentication verification value which can be returned for verification purposes of the authenticated<br/> transaction for dispute realisation.</td>
+</tr>
+<tr>
+<td><code>context</code></td>
+<td>string</td>
+<td>false</td>
+<td>The context which processed the transaction, can be used for support purposes to trace transactions.</td>
+</tr>
+<tr>
+<td><code>csc_result</code></td>
+<td>string</td>
+<td>false</td>
+<td>The CSC rseult codes determine the result of checking the provided CSC value within the<br/>Card Security Code fraud system. If a transaction is declined due to the CSC code not matching,<br/>this value can help determine the reason for the decline.<br/><br/> Code</td>
+</tr>
+<tr>
+<td><code>currency</code></td>
+<td>string</td>
+<td>false</td>
+<td>The currency the transaction was processed in. This is an <code>ISO4217</code> alpha currency value.<br/>minLength: 3<br/>maxLength: 3</td>
+</tr>
+<tr>
+<td><code>datetime</code></td>
+<td>string <em>date-time</em></td>
+<td>false</td>
+<td>The UTC date time of the transaction in ISO data time format.</td>
+</tr>
+<tr>
+<td><code>eci</code></td>
+<td>string</td>
+<td>false</td>
+<td>An Electronic Commerce Indicator (ECI) used to identify the result of authentication using 3DSecure.</td>
+</tr>
+<tr>
+<td><code>identifier</code></td>
+<td>string</td>
+<td>false</td>
+<td>The identifier provided within the request.<br/>minLength: 4<br/>maxLength: 50</td>
+</tr>
+<tr>
+<td><code>live</code></td>
+<td>boolean</td>
+<td>false</td>
+<td>Used to identify that a tranasction was processed on a live authorisation platform.</td>
+</tr>
+<tr>
+<td><code>maskedpan</code></td>
+<td>string</td>
+<td>false</td>
+<td>A masked value of the card number used for processing displaying limited values that can be used on a receipt.</td>
+</tr>
+<tr>
+<td><code>merchantid</code></td>
+<td>integer <em>int32</em></td>
+<td>false</td>
+<td>The merchant id that processed this transaction.</td>
+</tr>
+<tr>
+<td><code>result</code></td>
+<td>integer <em>int32</em></td>
+<td>false</td>
+<td>An integer result that indicates the outcome of the transaction. The Code value below maps to the result value<br/><br/> Code</td>
+</tr>
+<tr>
+<td><code>result_code</code></td>
+<td>string</td>
+<td>false</td>
+<td>The result code as defined in the Response Codes Reference for example 000 is an accepted live<br/>transaction whilst 001 is an accepted test transaction. Result codes identify the source of success and failure.<br/>Codes may start with an alpha character i.e. C001 indicating a type of error such as a card validation error.</td>
+</tr>
+<tr>
+<td><code>result_message</code></td>
+<td>string</td>
+<td>false</td>
+<td>The message regarding the result which provides further narrative to the result code.</td>
+</tr>
+<tr>
+<td><code>scheme</code></td>
+<td>string</td>
+<td>false</td>
+<td>A name of the card scheme of the transaction that processed the transaction such as Visa or MasterCard.</td>
+</tr>
+<tr>
+<td><code>sha256</code></td>
+<td>string</td>
+<td>false</td>
+<td>A SHA256 digest value of the transaction used to validate the response data<br/>The digest is calculated by concatenating<br/> * authcode<br/> * amount<br/> * response_code<br/> * merchant_id<br/> * trans_no<br/> * identifier<br/> * licence_key - which is not provided in the response.</td>
+</tr>
+<tr>
+<td><code>trans_status</code></td>
+<td>string</td>
+<td>false</td>
+<td>Used to identify the status of a transaction. The status is used to track a transaction through its life cycle.<br/><br/> Id</td>
+</tr>
+<tr>
+<td><code>transno</code></td>
+<td>integer <em>int32</em></td>
+<td>false</td>
+<td>The resulting transaction number, ordered incrementally from 1 for every merchant_id. The value will default to less than 1<br/>for transactions that do not have a transaction number issued.</td>
+</tr>
+</tbody></table>
+<h2 id='authenrequired'>AuthenRequired</h2><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+   </span><span class="s2">"acs_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://acs.cardissuer.com/3dsv1"</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"md"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"pa_req"</span><span class="p">:</span><span class="w"> </span><span class="s2">"eNrNWdnOo0qSfpXSmUuf0+w2tFy/lOyYxYDZ79h3sAEbm6cfbFfV+bu6pqe7R2qNJeQkiIwlMyK+..."</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre><pre class="highlight xml tab-xml"><code><span class="nt">&lt;AuthenRequired&gt;</span>
+ <span class="nt">&lt;acs_url&gt;</span>https://acs.cardissuer.com/3dsv1<span class="nt">&lt;/acs_url&gt;</span> 
+ <span class="nt">&lt;md&gt;&lt;/md&gt;</span> 
+ <span class="nt">&lt;pa_req&gt;</span>eNrNWdnOo0qSfpXSmUuf0+w2tFy/lOyYxYDZ79h3sAEbm6cfbFfV+bu6pqe7R2qNJeQkiIwlMyK+...<span class="nt">&lt;/pa_req&gt;</span> 
+<span class="nt">&lt;/AuthenRequired&gt;</span>
+</code></pre>
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>acs_url</code></td>
+<td>string <em>url</em></td>
+<td>false</td>
+<td>The url of the Access Control Server (ACS) to forward the user to.</td>
+</tr>
+<tr>
+<td><code>md</code></td>
+<td>string</td>
+<td>false</td>
+<td>Merchant Data (MD) which should be sent to the ACS to establish and reference<br/>the authentication session.</td>
+</tr>
+<tr>
+<td><code>pa_req</code></td>
+<td>string <em>base64</em></td>
+<td>false</td>
+<td>The Payer Authentication Request packet which should be <code>POSTed</code> to the Url of the ACS<br/>to establish the authentication session. Data should be sent untouched.</td>
+</tr>
+</tbody></table>
 <h2 id='capturerequest'>CaptureRequest</h2><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-   </span><span class="s2">"airline-data"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="err">...</span><span class="w"> </span><span class="p">},</span><span class="w">
+   </span><span class="s2">"airline_data"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="err">...</span><span class="w"> </span><span class="p">},</span><span class="w">
    </span><span class="s2">"amount"</span><span class="p">:</span><span class="w"> </span><span class="mi">3600</span><span class="p">,</span><span class="w">
    </span><span class="s2">"identifier"</span><span class="p">:</span><span class="w"> </span><span class="s2">"95b857a1-5955-4b86-963c-5a6dbfc4fb95"</span><span class="p">,</span><span class="w">
    </span><span class="s2">"merchantid"</span><span class="p">:</span><span class="w"> </span><span class="mi">11223344</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"sdk"</span><span class="p">:</span><span class="w"> </span><span class="s2">"MyClient 1.3.0"</span><span class="p">,</span><span class="w">
    </span><span class="s2">"transno"</span><span class="p">:</span><span class="w"> </span><span class="mi">78416</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre><pre class="highlight xml tab-xml"><code><span class="nt">&lt;CaptureRequest&gt;</span>
- <span class="nt">&lt;airline-data&gt;</span><span class="err">&lt;</span>&gt;...<span class="err">&lt;</span>/&gt;<span class="nt">&lt;/airline-data&gt;</span> 
+ <span class="nt">&lt;airline_data&gt;</span><span class="err">&lt;</span>&gt;...<span class="err">&lt;</span>/&gt;<span class="nt">&lt;/airline_data&gt;</span> 
  <span class="nt">&lt;amount&gt;</span>3600<span class="nt">&lt;/amount&gt;</span> 
  <span class="nt">&lt;identifier&gt;</span>95b857a1-5955-4b86-963c-5a6dbfc4fb95<span class="nt">&lt;/identifier&gt;</span> 
  <span class="nt">&lt;merchantid&gt;</span>11223344<span class="nt">&lt;/merchantid&gt;</span> 
+ <span class="nt">&lt;sdk&gt;</span>MyClient 1.3.0<span class="nt">&lt;/sdk&gt;</span> 
  <span class="nt">&lt;transno&gt;</span>78416<span class="nt">&lt;/transno&gt;</span> 
 <span class="nt">&lt;/CaptureRequest&gt;</span>
 </code></pre>
@@ -890,12 +1786,6 @@ outlining the result of the transaction.</p>
 <th>Description</th>
 </tr>
 </thead><tbody>
-<tr>
-<td><code>airline-data</code></td>
-<td>object</td>
-<td>false</td>
-<td><a href="#airlineadvice">AirlineAdvice</a></td>
-</tr>
 <tr>
 <td><code>amount</code></td>
 <td>integer <em>int32</em></td>
@@ -915,20 +1805,768 @@ outlining the result of the transaction.</p>
 <td>Identifies the merchant account to perform the capture for.</td>
 </tr>
 <tr>
+<td><code>sdk</code></td>
+<td>string</td>
+<td>false</td>
+<td>An optional reference value for the calling client such as a version number i.e.</td>
+</tr>
+<tr>
 <td><code>transno</code></td>
 <td>integer <em>int32</em></td>
 <td>false</td>
 <td>The transaction number of the transaction to look up and capture. If an empty value is supplied then an identifier value must be supplied.</td>
 </tr>
 </tbody></table>
+
+<table><thead>
+<tr>
+<th>Extension</th>
+<th>Field</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>Airline</td>
+<td><code>airline_data</code></td>
+<td>object</td>
+<td>false</td>
+<td><a href="#airlineadvice">AirlineAdvice</a> Additional advice to be applied for the capture request.</td>
+</tr>
+</tbody></table>
+<h2 id='card'>Card</h2><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+   </span><span class="s2">"bin_commercial"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"bin_corporate"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"bin_country_issued"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"bin_credit"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"bin_currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"bin_debit"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"bin_description"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"bin_eu"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"card_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"card_status"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"defaultCard"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"expmonth"</span><span class="p">:</span><span class="w"> </span><span class="mi">9</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"expyear"</span><span class="p">:</span><span class="w"> </span><span class="mi">2023</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"label"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Visa/0002"</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"label2"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Visa/0002,Exp:2304"</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"last4digits"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2"</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"scheme"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Visa"</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"token"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ctPCAPyNyCkx3Ry8wGyv8khC3ch2hUSB3Db..Qzr"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre><pre class="highlight xml tab-xml"><code><span class="nt">&lt;Card&gt;</span>
+ <span class="nt">&lt;bin_commercial&gt;&lt;/bin_commercial&gt;</span> 
+ <span class="nt">&lt;bin_corporate&gt;&lt;/bin_corporate&gt;</span> 
+ <span class="nt">&lt;bin_country_issued&gt;&lt;/bin_country_issued&gt;</span> 
+ <span class="nt">&lt;bin_credit&gt;&lt;/bin_credit&gt;</span> 
+ <span class="nt">&lt;bin_currency&gt;&lt;/bin_currency&gt;</span> 
+ <span class="nt">&lt;bin_debit&gt;&lt;/bin_debit&gt;</span> 
+ <span class="nt">&lt;bin_description&gt;&lt;/bin_description&gt;</span> 
+ <span class="nt">&lt;bin_eu&gt;&lt;/bin_eu&gt;</span> 
+ <span class="nt">&lt;card_id&gt;&lt;/card_id&gt;</span> 
+ <span class="nt">&lt;card_status&gt;&lt;/card_status&gt;</span> 
+ <span class="nt">&lt;defaultCard&gt;&lt;/defaultCard&gt;</span> 
+ <span class="nt">&lt;expmonth&gt;</span>9<span class="nt">&lt;/expmonth&gt;</span> 
+ <span class="nt">&lt;expyear&gt;</span>2023<span class="nt">&lt;/expyear&gt;</span> 
+ <span class="nt">&lt;label&gt;</span>Visa/0002<span class="nt">&lt;/label&gt;</span> 
+ <span class="nt">&lt;label2&gt;</span>Visa/0002,Exp:2304<span class="nt">&lt;/label2&gt;</span> 
+ <span class="nt">&lt;last4digits&gt;</span>2<span class="nt">&lt;/last4digits&gt;</span> 
+ <span class="nt">&lt;scheme&gt;</span>Visa<span class="nt">&lt;/scheme&gt;</span> 
+ <span class="nt">&lt;token&gt;</span>ctPCAPyNyCkx3Ry8wGyv8khC3ch2hUSB3Db..Qzr<span class="nt">&lt;/token&gt;</span> 
+<span class="nt">&lt;/Card&gt;</span>
+</code></pre>
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>bin_commercial</code></td>
+<td>boolean</td>
+<td>false</td>
+<td>Defines whether the card is a commercial card.</td>
+</tr>
+<tr>
+<td><code>bin_corporate</code></td>
+<td>boolean</td>
+<td>false</td>
+<td>Defines whether the card is a corporate business card.</td>
+</tr>
+<tr>
+<td><code>bin_country_issued</code></td>
+<td>string</td>
+<td>false</td>
+<td>The determined country where the card was issued.</td>
+</tr>
+<tr>
+<td><code>bin_credit</code></td>
+<td>boolean</td>
+<td>false</td>
+<td>Defines whether the card is a credit card.</td>
+</tr>
+<tr>
+<td><code>bin_currency</code></td>
+<td>string</td>
+<td>false</td>
+<td>The default currency determined for the card.</td>
+</tr>
+<tr>
+<td><code>bin_debit</code></td>
+<td>boolean</td>
+<td>false</td>
+<td>Defines whether the card is a debit card.</td>
+</tr>
+<tr>
+<td><code>bin_description</code></td>
+<td>string</td>
+<td>false</td>
+<td>A description of the bin on the card to identify what type of product the card is.</td>
+</tr>
+<tr>
+<td><code>bin_eu</code></td>
+<td>boolean</td>
+<td>false</td>
+<td>Defines whether the card is regulated within the EU.</td>
+</tr>
+<tr>
+<td><code>card_id</code></td>
+<td>string</td>
+<td>false</td>
+<td>The id of the card that is returned. Should be used for referencing the card when perform any changes.</td>
+</tr>
+<tr>
+<td><code>card_status</code></td>
+<td>string</td>
+<td>false</td>
+<td>The status of the card such, valid values are<br/> - ACTIVE the card is active for processing<br/> - INACTIVE the card is not active for processing<br/> - EXPIRED for cards that have passed their expiry date.</td>
+</tr>
+<tr>
+<td><code>defaultCard</code></td>
+<td>boolean</td>
+<td>false</td>
+<td>Determines if the card is the default card for the account and should be regarded as the first option to be used for processing.</td>
+</tr>
+<tr>
+<td><code>expmonth</code></td>
+<td>integer <em>int32</em></td>
+<td>false</td>
+<td>The expiry month of the card.<br/>minimum: 1<br/>maximum: 12</td>
+</tr>
+<tr>
+<td><code>expyear</code></td>
+<td>integer <em>int32</em></td>
+<td>false</td>
+<td>The expiry year of the card.<br/>minimum: 2000<br/>maximum: 2100</td>
+</tr>
+<tr>
+<td><code>label</code></td>
+<td>string</td>
+<td>false</td>
+<td>A label which identifies this card.</td>
+</tr>
+<tr>
+<td><code>label2</code></td>
+<td>string</td>
+<td>false</td>
+<td>A label which also provides the expiry date of the card.</td>
+</tr>
+<tr>
+<td><code>last4digits</code></td>
+<td>string</td>
+<td>false</td>
+<td>The last 4 digits of the card to aid in identification.</td>
+</tr>
+<tr>
+<td><code>scheme</code></td>
+<td>string</td>
+<td>false</td>
+<td>The scheme that issued the card.</td>
+</tr>
+<tr>
+<td><code>token</code></td>
+<td>string <em>base58</em></td>
+<td>false</td>
+<td>A token that can be used to process against the card.</td>
+</tr>
+</tbody></table>
+<h2 id='cardholderaccount'>CardHolderAccount</h2><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+   </span><span class="s2">"account_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"aaabbb-cccddd-eee"</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"cac_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"acc_1"</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"cards"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"contact"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="err">...</span><span class="w"> </span><span class="p">},</span><span class="w">
+   </span><span class="s2">"date_created"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2020-01-02"</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"trans_status"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre><pre class="highlight xml tab-xml"><code><span class="nt">&lt;CardHolderAccount&gt;</span>
+ <span class="nt">&lt;account_id&gt;</span>aaabbb-cccddd-eee<span class="nt">&lt;/account_id&gt;</span> 
+ <span class="nt">&lt;cac_id&gt;</span>acc_1<span class="nt">&lt;/cac_id&gt;</span> 
+ <span class="nt">&lt;cards&gt;&lt;/cards&gt;</span> 
+ <span class="nt">&lt;contact&gt;</span><span class="err">&lt;</span>&gt;...<span class="err">&lt;</span>/&gt;<span class="nt">&lt;/contact&gt;</span> 
+ <span class="nt">&lt;date_created&gt;</span>2020-01-02<span class="nt">&lt;/date_created&gt;</span> 
+ <span class="nt">&lt;trans_status&gt;&lt;/trans_status&gt;</span> 
+<span class="nt">&lt;/CardHolderAccount&gt;</span>
+</code></pre>
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>account_id</code></td>
+<td>string</td>
+<td>true</td>
+<td>The account id of the card holder account which uniquely identifies the account.<br/><br/>minLength: 5<br/>maxLength: 50</td>
+</tr>
+<tr>
+<td><code>cac_id</code></td>
+<td>string</td>
+<td>false</td>
+<td>The card holder control id which identifies the scheme that the account belongs to, ordinarily this is the same as your client id.<br/>minLength: 5<br/>maxLength: 20</td>
+</tr>
+<tr>
+<td><code>cards</code></td>
+<td>array</td>
+<td>false</td>
+<td></td>
+</tr>
+<tr>
+<td><code>contact</code></td>
+<td>object</td>
+<td>true</td>
+<td><a href="#contactdetails">ContactDetails</a> Contact details that refer to this account.</td>
+</tr>
+<tr>
+<td><code>date_created</code></td>
+<td>string <em>date-time</em></td>
+<td>false</td>
+<td>The date and time the account was created.</td>
+</tr>
+<tr>
+<td><code>trans_status</code></td>
+<td>string</td>
+<td>false</td>
+<td>Defines the status of the account for processing valid values are<br/><br/> - ACTIVE for active accounts that are able to process<br/> - DISABLED for accounts that are currently disabled for processing.</td>
+</tr>
+</tbody></table>
+<h2 id='chargerequest'>ChargeRequest</h2><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+   </span><span class="s2">"amount"</span><span class="p">:</span><span class="w"> </span><span class="mi">3600</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"csc"</span><span class="p">:</span><span class="w"> </span><span class="s2">"10"</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"identifier"</span><span class="p">:</span><span class="w"> </span><span class="s2">"95b857a1-5955-4b86-963c-5a6dbfc4fb95"</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"merchantid"</span><span class="p">:</span><span class="w"> </span><span class="mi">11223344</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"sdk"</span><span class="p">:</span><span class="w"> </span><span class="s2">"MyClient 1.3.0"</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"token"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ctPCAPyNyCkx3Ry8wGyv8khC3ch2hUSB3Db..Qzr"</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"trans_info"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"trans_type"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre><pre class="highlight xml tab-xml"><code><span class="nt">&lt;ChargeRequest&gt;</span>
+ <span class="nt">&lt;amount&gt;</span>3600<span class="nt">&lt;/amount&gt;</span> 
+ <span class="nt">&lt;csc&gt;</span>10<span class="nt">&lt;/csc&gt;</span> 
+ <span class="nt">&lt;identifier&gt;</span>95b857a1-5955-4b86-963c-5a6dbfc4fb95<span class="nt">&lt;/identifier&gt;</span> 
+ <span class="nt">&lt;merchantid&gt;</span>11223344<span class="nt">&lt;/merchantid&gt;</span> 
+ <span class="nt">&lt;sdk&gt;</span>MyClient 1.3.0<span class="nt">&lt;/sdk&gt;</span> 
+ <span class="nt">&lt;token&gt;</span>ctPCAPyNyCkx3Ry8wGyv8khC3ch2hUSB3Db..Qzr<span class="nt">&lt;/token&gt;</span> 
+ <span class="nt">&lt;trans_info&gt;&lt;/trans_info&gt;</span> 
+ <span class="nt">&lt;trans_type&gt;&lt;/trans_type&gt;</span> 
+<span class="nt">&lt;/ChargeRequest&gt;</span>
+</code></pre>
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>amount</code></td>
+<td>integer <em>int32</em></td>
+<td>true</td>
+<td>The amount to authorise in the lowest unit of currency with a variable length to a maximum of 12 digits.<br/>No decimal points are to be included and no divisional characters such as 1,024.<br/>The amount should be the total amount required for the transaction.<br/>For example with GBP £1,021.95 the amount value is 102195.<br/><br/>minLength: 1<br/>maxLength: 12</td>
+</tr>
+<tr>
+<td><code>csc</code></td>
+<td>string</td>
+<td>false</td>
+<td>The Card Security Code (CSC) (also known as CV2/CVV2) is normally found on the back of the card<br/>(American Express has it on the front). The value helps to identify posession of the card as it is not<br/>available within the chip or magnetic swipe.<br/><br/>When forwarding the CSC, please ensure the value is a string as some values start with 0 and this will be stripped<br/>out by any integer parsing.<br/><br/>The CSC number aids fraud prevention in Mail Order and Internet payments.<br/><br/> Business rules are available on your account to identify whether to accept<br/>or decline transactions based on mismatched results of the CSC.<br/><br/>The Payment Card Industry (PCI) requires that at no stage of a transaction should the CSC be stored.<br/>This applies to all entities handling card data.<br/>It should also not be used in any hashing process.<br/>CityPay do not store the value and have no method of retrieving the value once the transaction has been processed.<br/>For this reason, duplicate checking is unable to determine the CSC in its duplication check algorithm.<br/><br/>minLength: 3<br/>maxLength: 4</td>
+</tr>
+<tr>
+<td><code>identifier</code></td>
+<td>string</td>
+<td>true</td>
+<td>The identifier of the transaction to process. The value should be a valid reference and may be used to perform<br/> post processing actions and to aid in reconciliation of transactions.<br/><br/>The value should be a valid printable string with ASCII character ranges from 32 to 127.<br/><br/>The identifier is recommended to be distinct for each transaction such as a <a href="https://en.wikipedia.org/wiki/Universally_unique_identifier">random unique identifier</a><br/>this will aid in ensuring each transaction is identifiable.<br/><br/>When transactions are processed they are also checked for duplicate requests. Changing the identifier on a subsequent<br/>request will ensure that a transaction is considered as different.<br/><br/>minLength: 4<br/>maxLength: 50</td>
+</tr>
+<tr>
+<td><code>merchantid</code></td>
+<td>integer <em>int32</em></td>
+<td>true</td>
+<td>Identifies the merchant account to perform processing for.</td>
+</tr>
+<tr>
+<td><code>sdk</code></td>
+<td>string</td>
+<td>false</td>
+<td>An optional reference value for the calling client such as a version number i.e.</td>
+</tr>
+<tr>
+<td><code>token</code></td>
+<td>string <em>base58</em></td>
+<td>true</td>
+<td>A tokenised form of a card that belongs to a card holder&#39;s account and that<br/>has been previously registered. The token is time based and will only be active for<br/>a short duration. The value is therefore designed not to be stored remotely for future<br/> use.<br/><br/>Tokens will start with ct and are resiliently tamper proof using HMacSHA-256.<br/>No sensitive card data is stored internally within the token.<br/><br/>Each card will contain a different token and the value may be different on any retrieval call.<br/><br/>The value can be presented for payment as a selection value to an end user in a web application.</td>
+</tr>
+<tr>
+<td><code>trans_info</code></td>
+<td>string</td>
+<td>false</td>
+<td>Further information that can be added to the transaction will display in reporting. Can be used for flexible values such as operator id.<br/>maxLength: 50</td>
+</tr>
+<tr>
+<td><code>trans_type</code></td>
+<td>string</td>
+<td>false</td>
+<td>The type of transaction being submitted. Normally this value is not required and your account manager may request that you set this field.<br/>minLength: 1<br/>maxLength: 1</td>
+</tr>
+</tbody></table>
+<h2 id='contactdetails'>ContactDetails</h2><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+   </span><span class="s2">"address1"</span><span class="p">:</span><span class="w"> </span><span class="s2">"79 Parliamant St"</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"address2"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Westminster"</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"address3"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"area"</span><span class="p">:</span><span class="w"> </span><span class="s2">"London"</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"company"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Acme Ltd"</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"country"</span><span class="p">:</span><span class="w"> </span><span class="s2">"GB"</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"email"</span><span class="p">:</span><span class="w"> </span><span class="s2">"card.holder@citypay.com"</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"firstname"</span><span class="p">:</span><span class="w"> </span><span class="s2">"John"</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"lastname"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Smith"</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"mobile_no"</span><span class="p">:</span><span class="w"> </span><span class="s2">"447790123456"</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"postcode"</span><span class="p">:</span><span class="w"> </span><span class="s2">"L1 789"</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"telephone_no"</span><span class="p">:</span><span class="w"> </span><span class="s2">"442030123456"</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"title"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Mr"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre><pre class="highlight xml tab-xml"><code><span class="nt">&lt;ContactDetails&gt;</span>
+ <span class="nt">&lt;address1&gt;</span>79 Parliamant St<span class="nt">&lt;/address1&gt;</span> 
+ <span class="nt">&lt;address2&gt;</span>Westminster<span class="nt">&lt;/address2&gt;</span> 
+ <span class="nt">&lt;address3&gt;&lt;/address3&gt;</span> 
+ <span class="nt">&lt;area&gt;</span>London<span class="nt">&lt;/area&gt;</span> 
+ <span class="nt">&lt;company&gt;</span>Acme Ltd<span class="nt">&lt;/company&gt;</span> 
+ <span class="nt">&lt;country&gt;</span>GB<span class="nt">&lt;/country&gt;</span> 
+ <span class="nt">&lt;email&gt;</span>card.holder@citypay.com<span class="nt">&lt;/email&gt;</span> 
+ <span class="nt">&lt;firstname&gt;</span>John<span class="nt">&lt;/firstname&gt;</span> 
+ <span class="nt">&lt;lastname&gt;</span>Smith<span class="nt">&lt;/lastname&gt;</span> 
+ <span class="nt">&lt;mobile_no&gt;</span>447790123456<span class="nt">&lt;/mobile_no&gt;</span> 
+ <span class="nt">&lt;postcode&gt;</span>L1 789<span class="nt">&lt;/postcode&gt;</span> 
+ <span class="nt">&lt;telephone_no&gt;</span>442030123456<span class="nt">&lt;/telephone_no&gt;</span> 
+ <span class="nt">&lt;title&gt;</span>Mr<span class="nt">&lt;/title&gt;</span> 
+<span class="nt">&lt;/ContactDetails&gt;</span>
+</code></pre>
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>address1</code></td>
+<td>string</td>
+<td>false</td>
+<td>The first line of the address for the card holder.<br/>maxLength: 20</td>
+</tr>
+<tr>
+<td><code>address2</code></td>
+<td>string</td>
+<td>false</td>
+<td>The second line of the address for the card holder.<br/>maxLength: 20</td>
+</tr>
+<tr>
+<td><code>address3</code></td>
+<td>string</td>
+<td>false</td>
+<td>The third line of the address for the card holder.<br/>maxLength: 20</td>
+</tr>
+<tr>
+<td><code>area</code></td>
+<td>string</td>
+<td>false</td>
+<td>The area such as city, department, parish for the card holder.<br/>maxLength: 20</td>
+</tr>
+<tr>
+<td><code>company</code></td>
+<td>string</td>
+<td>false</td>
+<td>The company name for the card holder if the contact is a corporate contact.</td>
+</tr>
+<tr>
+<td><code>country</code></td>
+<td>string</td>
+<td>false</td>
+<td>The country code in ISO 3166 format. The country value may be used for fraud analysis and for<br/>  acceptance of the transaction.<br/><br/>maxLength: 2</td>
+</tr>
+<tr>
+<td><code>email</code></td>
+<td>string</td>
+<td>false</td>
+<td>An email address for the card holder which may be used for correspondence.</td>
+</tr>
+<tr>
+<td><code>firstname</code></td>
+<td>string</td>
+<td>false</td>
+<td>The first name  of the card holder.</td>
+</tr>
+<tr>
+<td><code>lastname</code></td>
+<td>string</td>
+<td>false</td>
+<td>The last name or surname of the card holder.</td>
+</tr>
+<tr>
+<td><code>mobile_no</code></td>
+<td>string</td>
+<td>false</td>
+<td>A mobile number for the card holder the mobile number is often required by delivery companies to ensure they are able to be in contact when required.</td>
+</tr>
+<tr>
+<td><code>postcode</code></td>
+<td>string</td>
+<td>false</td>
+<td>The postcode or zip code of the address which may be used for fraud analysis.<br/>maxLength: 10</td>
+</tr>
+<tr>
+<td><code>telephone_no</code></td>
+<td>string</td>
+<td>false</td>
+<td>A telephone number for the card holder.</td>
+</tr>
+<tr>
+<td><code>title</code></td>
+<td>string</td>
+<td>false</td>
+<td>A title for the card holder such as Mr, Mrs, Ms, M. Mme. etc.</td>
+</tr>
+</tbody></table>
+<h2 id='externalmpi'>ExternalMPI</h2><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+   </span><span class="s2">"authen_result"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"cavv"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"eci"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"enrolled"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"xid"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre><pre class="highlight xml tab-xml"><code><span class="nt">&lt;ExternalMPI&gt;</span>
+ <span class="nt">&lt;authen_result&gt;&lt;/authen_result&gt;</span> 
+ <span class="nt">&lt;cavv&gt;&lt;/cavv&gt;</span> 
+ <span class="nt">&lt;eci&gt;&lt;/eci&gt;</span> 
+ <span class="nt">&lt;enrolled&gt;&lt;/enrolled&gt;</span> 
+ <span class="nt">&lt;xid&gt;&lt;/xid&gt;</span> 
+<span class="nt">&lt;/ExternalMPI&gt;</span>
+</code></pre>
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>authen_result</code></td>
+<td>string</td>
+<td>false</td>
+<td>The authentication result available from the MPI.<br/>maxLength: 1</td>
+</tr>
+<tr>
+<td><code>cavv</code></td>
+<td>string</td>
+<td>false</td>
+<td>A value determining the cardholder verification value supplied by the card scheme.<br/>maxLength: 20</td>
+</tr>
+<tr>
+<td><code>eci</code></td>
+<td>integer <em>int32</em></td>
+<td>false</td>
+<td>The obtained e-commerce indicator from the MPI.<br/>maxLength: 1</td>
+</tr>
+<tr>
+<td><code>enrolled</code></td>
+<td>string</td>
+<td>false</td>
+<td>A value determining whether the card holder was enrolled.<br/>maxLength: 1</td>
+</tr>
+<tr>
+<td><code>xid</code></td>
+<td>string</td>
+<td>false</td>
+<td>The XID used for processing with the MPI.<br/>maxLength: 20</td>
+</tr>
+</tbody></table>
+<h2 id='listmerchantsresponse'>ListMerchantsResponse</h2><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+   </span><span class="s2">"clientid"</span><span class="p">:</span><span class="w"> </span><span class="s2">"PC12345"</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"merchants"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre><pre class="highlight xml tab-xml"><code><span class="nt">&lt;ListMerchantsResponse&gt;</span>
+ <span class="nt">&lt;clientid&gt;</span>PC12345<span class="nt">&lt;/clientid&gt;</span> 
+ <span class="nt">&lt;merchants&gt;&lt;/merchants&gt;</span> 
+ <span class="nt">&lt;name&gt;&lt;/name&gt;</span> 
+<span class="nt">&lt;/ListMerchantsResponse&gt;</span>
+</code></pre>
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>clientid</code></td>
+<td>string</td>
+<td>false</td>
+<td>The client id requested.<br/>minLength: 3<br/>maxLength: 10</td>
+</tr>
+<tr>
+<td><code>merchants</code></td>
+<td>array</td>
+<td>false</td>
+<td></td>
+</tr>
+<tr>
+<td><code>name</code></td>
+<td>string</td>
+<td>false</td>
+<td>The client name that was requested.</td>
+</tr>
+</tbody></table>
+<h2 id='merchant'>Merchant</h2><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+   </span><span class="s2">"currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"merchantid"</span><span class="p">:</span><span class="w"> </span><span class="mi">11223344</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre><pre class="highlight xml tab-xml"><code><span class="nt">&lt;Merchant&gt;</span>
+ <span class="nt">&lt;currency&gt;&lt;/currency&gt;</span> 
+ <span class="nt">&lt;merchantid&gt;</span>11223344<span class="nt">&lt;/merchantid&gt;</span> 
+ <span class="nt">&lt;name&gt;&lt;/name&gt;</span> 
+ <span class="nt">&lt;status&gt;&lt;/status&gt;</span> 
+<span class="nt">&lt;/Merchant&gt;</span>
+</code></pre>
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>currency</code></td>
+<td>string</td>
+<td>false</td>
+<td>The currency of the merchant.</td>
+</tr>
+<tr>
+<td><code>merchantid</code></td>
+<td>integer <em>int32</em></td>
+<td>false</td>
+<td>The merchant id which uniquely identifies the merchant account.</td>
+</tr>
+<tr>
+<td><code>name</code></td>
+<td>string</td>
+<td>false</td>
+<td>The name of the merchant.</td>
+</tr>
+<tr>
+<td><code>status</code></td>
+<td>string</td>
+<td>false</td>
+<td>The status of the account.</td>
+</tr>
+</tbody></table>
+<h2 id='ping'>Ping</h2><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+   </span><span class="s2">"identifier"</span><span class="p">:</span><span class="w"> </span><span class="s2">"95b857a1-5955-4b86-963c-5a6dbfc4fb95"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre><pre class="highlight xml tab-xml"><code><span class="nt">&lt;Ping&gt;</span>
+ <span class="nt">&lt;identifier&gt;</span>95b857a1-5955-4b86-963c-5a6dbfc4fb95<span class="nt">&lt;/identifier&gt;</span> 
+<span class="nt">&lt;/Ping&gt;</span>
+</code></pre>
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>identifier</code></td>
+<td>string</td>
+<td>false</td>
+<td>An identifier of the ping request which will be returned in the response.<br/>minLength: 4<br/>maxLength: 50</td>
+</tr>
+</tbody></table>
+<h2 id='registercard'>RegisterCard</h2><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+   </span><span class="s2">"account_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"aaabbb-cccddd-eee"</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"cardnumber"</span><span class="p">:</span><span class="w"> </span><span class="s2">"4000 0000 0000 0002"</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"defaultCard"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"expmonth"</span><span class="p">:</span><span class="w"> </span><span class="mi">9</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"expyear"</span><span class="p">:</span><span class="w"> </span><span class="mi">2023</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre><pre class="highlight xml tab-xml"><code><span class="nt">&lt;RegisterCard&gt;</span>
+ <span class="nt">&lt;account_id&gt;</span>aaabbb-cccddd-eee<span class="nt">&lt;/account_id&gt;</span> 
+ <span class="nt">&lt;cardnumber&gt;</span>4000 0000 0000 0002<span class="nt">&lt;/cardnumber&gt;</span> 
+ <span class="nt">&lt;defaultCard&gt;&lt;/defaultCard&gt;</span> 
+ <span class="nt">&lt;expmonth&gt;</span>9<span class="nt">&lt;/expmonth&gt;</span> 
+ <span class="nt">&lt;expyear&gt;</span>2023<span class="nt">&lt;/expyear&gt;</span> 
+<span class="nt">&lt;/RegisterCard&gt;</span>
+</code></pre>
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>account_id</code></td>
+<td>string</td>
+<td>false</td>
+<td>The account to register the card against.<br/>minLength: 5<br/>maxLength: 50</td>
+</tr>
+<tr>
+<td><code>cardnumber</code></td>
+<td>string</td>
+<td>false</td>
+<td>The primary number of the card.<br/>minLength: 12<br/>maxLength: 22</td>
+</tr>
+<tr>
+<td><code>defaultCard</code></td>
+<td>boolean</td>
+<td>false</td>
+<td>Determines whether the card should be the new default card.</td>
+</tr>
+<tr>
+<td><code>expmonth</code></td>
+<td>integer <em>int32</em></td>
+<td>false</td>
+<td>The expiry month of the card.<br/>minimum: 1<br/>maximum: 12</td>
+</tr>
+<tr>
+<td><code>expyear</code></td>
+<td>integer <em>int32</em></td>
+<td>false</td>
+<td>The expiry year of the card.<br/>minimum: 2000<br/>maximum: 2100</td>
+</tr>
+</tbody></table>
+<h2 id='requestchallenged'>RequestChallenged</h2><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+   </span><span class="s2">"ThreeDServerTransId"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"acs_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://acs.cardissuer.com/3dsv1"</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"creq"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"merchantid"</span><span class="p">:</span><span class="w"> </span><span class="mi">11223344</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"transno"</span><span class="p">:</span><span class="w"> </span><span class="mi">78416</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre><pre class="highlight xml tab-xml"><code><span class="nt">&lt;RequestChallenged&gt;</span>
+ <span class="nt">&lt;ThreeDServerTransId&gt;&lt;/ThreeDServerTransId&gt;</span> 
+ <span class="nt">&lt;acs_url&gt;</span>https://acs.cardissuer.com/3dsv1<span class="nt">&lt;/acs_url&gt;</span> 
+ <span class="nt">&lt;creq&gt;&lt;/creq&gt;</span> 
+ <span class="nt">&lt;merchantid&gt;</span>11223344<span class="nt">&lt;/merchantid&gt;</span> 
+ <span class="nt">&lt;transno&gt;</span>78416<span class="nt">&lt;/transno&gt;</span> 
+<span class="nt">&lt;/RequestChallenged&gt;</span>
+</code></pre>
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>ThreeDServerTransId</code></td>
+<td>string</td>
+<td>false</td>
+<td>The 3DSv2 trans id reference for the challenge process.</td>
+</tr>
+<tr>
+<td><code>acs_url</code></td>
+<td>string <em>url</em></td>
+<td>false</td>
+<td>The url of the Access Control Server (ACS) to forward the user to.</td>
+</tr>
+<tr>
+<td><code>creq</code></td>
+<td>string</td>
+<td>false</td>
+<td>The challenge request data which is encoded for usage by the ACS.</td>
+</tr>
+<tr>
+<td><code>merchantid</code></td>
+<td>integer <em>int32</em></td>
+<td>false</td>
+<td>The merchant id that processed this transaction.</td>
+</tr>
+<tr>
+<td><code>transno</code></td>
+<td>integer <em>int32</em></td>
+<td>false</td>
+<td>The transaction number for the challenge, ordered incrementally from 1 for every merchant_id.</td>
+</tr>
+</tbody></table>
+<h2 id='retrieverequest'>RetrieveRequest</h2><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+   </span><span class="s2">"identifier"</span><span class="p">:</span><span class="w"> </span><span class="s2">"95b857a1-5955-4b86-963c-5a6dbfc4fb95"</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"merchantid"</span><span class="p">:</span><span class="w"> </span><span class="mi">11223344</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"transno"</span><span class="p">:</span><span class="w"> </span><span class="mi">78416</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre><pre class="highlight xml tab-xml"><code><span class="nt">&lt;RetrieveRequest&gt;</span>
+ <span class="nt">&lt;identifier&gt;</span>95b857a1-5955-4b86-963c-5a6dbfc4fb95<span class="nt">&lt;/identifier&gt;</span> 
+ <span class="nt">&lt;merchantid&gt;</span>11223344<span class="nt">&lt;/merchantid&gt;</span> 
+ <span class="nt">&lt;transno&gt;</span>78416<span class="nt">&lt;/transno&gt;</span> 
+<span class="nt">&lt;/RetrieveRequest&gt;</span>
+</code></pre>
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>identifier</code></td>
+<td>string</td>
+<td>false</td>
+<td>The identifier of the transaction to retrieve. Optional if a transaction number is provided.<br/>minLength: 4<br/>maxLength: 50</td>
+</tr>
+<tr>
+<td><code>merchantid</code></td>
+<td>integer <em>int32</em></td>
+<td>true</td>
+<td>The merchant account to retrieve data for.</td>
+</tr>
+<tr>
+<td><code>transno</code></td>
+<td>integer <em>int32</em></td>
+<td>false</td>
+<td>The transaction number of a transaction to retrieve. Optional if an identifier is supplied.</td>
+</tr>
+</tbody></table>
 <h2 id='voidrequest'>VoidRequest</h2><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
    </span><span class="s2">"identifier"</span><span class="p">:</span><span class="w"> </span><span class="s2">"95b857a1-5955-4b86-963c-5a6dbfc4fb95"</span><span class="p">,</span><span class="w">
    </span><span class="s2">"merchantid"</span><span class="p">:</span><span class="w"> </span><span class="mi">11223344</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"sdk"</span><span class="p">:</span><span class="w"> </span><span class="s2">"MyClient 1.3.0"</span><span class="p">,</span><span class="w">
    </span><span class="s2">"transno"</span><span class="p">:</span><span class="w"> </span><span class="mi">78416</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre><pre class="highlight xml tab-xml"><code><span class="nt">&lt;VoidRequest&gt;</span>
  <span class="nt">&lt;identifier&gt;</span>95b857a1-5955-4b86-963c-5a6dbfc4fb95<span class="nt">&lt;/identifier&gt;</span> 
  <span class="nt">&lt;merchantid&gt;</span>11223344<span class="nt">&lt;/merchantid&gt;</span> 
+ <span class="nt">&lt;sdk&gt;</span>MyClient 1.3.0<span class="nt">&lt;/sdk&gt;</span> 
  <span class="nt">&lt;transno&gt;</span>78416<span class="nt">&lt;/transno&gt;</span> 
 <span class="nt">&lt;/VoidRequest&gt;</span>
 </code></pre>
@@ -951,6 +2589,12 @@ outlining the result of the transaction.</p>
 <td>integer <em>int32</em></td>
 <td>true</td>
 <td>Identifies the merchant account to perform the void for.</td>
+</tr>
+<tr>
+<td><code>sdk</code></td>
+<td>string</td>
+<td>false</td>
+<td>An optional reference value for the calling client such as a version number i.e.</td>
 </tr>
 <tr>
 <td><code>transno</code></td>
@@ -1038,6 +2682,11 @@ outlining the result of the transaction.</p>
 <td><code>041</code></td>
 <td>Transaction verification failed</td>
 <td>The transaction returned has failed to be verified</td>
+</tr>
+<tr>
+<td><code>044</code></td>
+<td>Ping OK</td>
+<td>A ping request was received and the server is replying to it</td>
 </tr>
 <tr>
 <td><code>050</code></td>
