@@ -55,7 +55,7 @@ servers:
 paths:
   /account/{accountid}/register: 
     post: 
-      summary: Registers a card for a card holder account for future use
+      summary: Account Card Registration API
       tags: 
         - Card Holder Account
       operationId: AccountCardRegisterRequest
@@ -103,7 +103,7 @@ paths:
 
   /account/{accountid}: 
     get: 
-      summary: Retrieves a card holder account
+      summary: Account Retrieval API
       tags: 
         - Card Holder Account
       operationId: AccountRetrieveRequest
@@ -138,7 +138,7 @@ paths:
         403: 
           description: Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request.
     delete: 
-      summary: Deletes a card holder account
+      summary: Account Deletion API
       tags: 
         - Card Holder Account
       operationId: AccountDeleteRequest
@@ -281,7 +281,7 @@ paths:
 
   /account/{accountid}/contact: 
     post: 
-      summary: Updates the contact details for a card holder account
+      summary: Account Contact Details API
       tags: 
         - Card Holder Account
       operationId: AccountChangeContactRequest
@@ -376,7 +376,7 @@ paths:
 
   /account/{accountid}/status: 
     post: 
-      summary: Updates the status of a card holder account
+      summary: Account Status API
       tags: 
         - Card Holder Account
       operationId: AccountStatusRequest
@@ -413,7 +413,7 @@ paths:
 
   /account/{accountid}/card/{cardId}: 
     delete: 
-      summary: Deletes a card from the account
+      summary: Account Card Deletion API
       tags: 
         - Card Holder Account
       operationId: AccountCardDeleteRequest
@@ -587,7 +587,7 @@ paths:
 
   /account/{accountid}/card/{cardId}/status/{status}: 
     post: 
-      summary: Changes the status of a card within the account
+      summary: Account Card Status API
       tags: 
         - Card Holder Account
       operationId: AccountCardStatusRequest

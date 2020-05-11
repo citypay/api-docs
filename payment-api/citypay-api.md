@@ -121,7 +121,7 @@ If you do not have an API key please quote your Client ID and Merchant ID to <a 
 
 
 
-## Updates the contact details for a card holder account
+## Account Contact Details API
 
 
 
@@ -149,7 +149,7 @@ Name | Type | Required | Description |
 
 
 
-## Registers a card for a card holder account for future use
+## Account Card Registration API
 
 
 
