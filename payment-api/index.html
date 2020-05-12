@@ -392,7 +392,7 @@
       </ul>
         <ul class="toc-footer">
             <li><a href='mailto:support@citypay.com'>Any Integration Questions?</a></li>
-            <li>V6.0.0.BETA 2020-05-11</li>
+            <li>V6.0.0.BETA 2020-05-12</li>
         </ul>
     </div>
     <div class="page-wrapper">
@@ -401,7 +401,7 @@
         <img src="images/citypay-logo-23676e0b.svg" class="cplogo" alt="Citypay logo" />
         <h1 id='citypay-payment-api'>CityPay Payment API</h1>
 <p>Version: 6.0.0.BETA
-Last Updated: 2020-05-11</p>
+Last Updated: 2020-05-12</p>
 
 <p>This CityPay API is a HTTP RESTful payment API used for direct server to server transactional processing. It
 provides a number of payment mechanisms including: Internet, MOTO, Continuous Authority transaction processing,
@@ -830,27 +830,25 @@ value will be validated for receipt of this value and subsequently may return ba
 
 <p>As tickets are normally not allocated until successful payment it is normal for a transaction to be pre-authorised
  and the airline advice supplied on a capture request instead. Should the data already exist and an auth and
- capture is preferred. This data may be supplied.</p>
-
-<p><code>amount</code> | integer <em>int32</em> | true | The amount to authorise in the lowest unit of currency with a variable length to a maximum of 12 digits.<br/>No decimal points are to be included and no divisional characters such as 1,024.<br/>The amount should be the total amount required for the transaction.<br/>For example with GBP £1,021.95 the amount value is 102195.<br/><br/>minLength: 1<br/>maxLength: 12 |
+ capture is preferred. This data may be supplied. | 
+<code>amount</code> | integer <em>int32</em> | true | The amount to authorise in the lowest unit of currency with a variable length to a maximum of 12 digits.<br/>No decimal points are to be included and no divisional characters such as 1,024.<br/>The amount should be the total amount required for the transaction.<br/>For example with GBP £1,021.95 the amount value is 102195.<br/><br/>minLength: 1<br/>maxLength: 12 | 
 <code>bill_to</code> | object | false | <a href="#contactdetails">ContactDetails</a> Billing details of the card holder making the payment.
 These details may be used for AVS fraud analysis, 3DS and for future referencing of the transaction.</p>
 
 <p>For AVS to work correctly, the billing details should be the registered address of the card holder
 as it appears on the statement with their card issuer. The numeric details will be passed through
-for analysis and may result in a decline if incorrectly provided.</p>
-
-<p><code>cardnumber</code> | string  | true | The card number (PAN) with a variable length to a maximum of 21 digits in numerical form.<br/>Any non numeric characters will be stripped out of the card number, this includes whitespace or separators internal of the<br/>provided value.<br/><br/>The card number must be treated as sensitive data. We only provide an obfuscated value in logging and reporting.<br/> The plaintext value is encrypted in our database using AES 256 GMC bit encryption for settlement or refund purposes.<br/><br/>When providing the card number to our gateway through the authorisation API you will be handling the card data on<br/>your application. This will require further PCI controls to be in place and this value must never be stored.<br/><br/>minLength: 12<br/>maxLength: 22 |
-<code>csc</code> | string  | false | The Card Security Code (CSC) (also known as CV2/CVV2) is normally found on the back of the card<br/>(American Express has it on the front). The value helps to identify posession of the card as it is not<br/>available within the chip or magnetic swipe.<br/><br/>When forwarding the CSC, please ensure the value is a string as some values start with 0 and this will be stripped<br/>out by any integer parsing.<br/><br/>The CSC number aids fraud prevention in Mail Order and Internet payments.<br/><br/> Business rules are available on your account to identify whether to accept<br/>or decline transactions based on mismatched results of the CSC.<br/><br/>The Payment Card Industry (PCI) requires that at no stage of a transaction should the CSC be stored.<br/>This applies to all entities handling card data.<br/>It should also not be used in any hashing process.<br/>CityPay do not store the value and have no method of retrieving the value once the transaction has been processed.<br/>For this reason, duplicate checking is unable to determine the CSC in its duplication check algorithm.<br/><br/>minLength: 3<br/>maxLength: 4 |
-<code>expmonth</code> | integer <em>int32</em> | true | The month of expiry of the card. The month value should be a numerical value between 1 and 12.<br/><br/>minimum: 1<br/>maximum: 12 |
-<code>expyear</code> | integer <em>int32</em> | false | The year of expiry of the card.<br/><br/>minimum: 2000<br/>maximum: 2100 |
-<code>external_mpi</code> | object | false | <a href="#externalmpi">ExternalMPI</a> If an external 3DSv1 MPI is used for authentication, values provided can be supplied in this element. |
-<code>identifier</code> | string  | true | The identifier of the transaction to process. The value should be a valid reference and may be used to perform<br/> post processing actions and to aid in reconciliation of transactions.<br/><br/>The value should be a valid printable string with ASCII character ranges from 32 to 127.<br/><br/>The identifier is recommended to be distinct for each transaction such as a <a href="https://en.wikipedia.org/wiki/Universally_unique_identifier">random unique identifier</a><br/>this will aid in ensuring each transaction is identifiable.<br/><br/>When transactions are processed they are also checked for duplicate requests. Changing the identifier on a subsequent<br/>request will ensure that a transaction is considered as different.<br/><br/>minLength: 4<br/>maxLength: 50 |
-<code>merchantid</code> | integer <em>int32</em> | true | Identifies the merchant account to perform processing for. |
-<code>sdk</code> | string  | false | An optional reference value for the calling client such as a version number i.e. |
-<code>ship_to</code> | object | false | <a href="#contactdetails">ContactDetails</a> Shipping details of the card holder making the payment. These details may be used for 3DS and for future referencing of the transaction. |
-<code>trans_info</code> | string  | false | Further information that can be added to the transaction will display in reporting. Can be used for flexible values such as operator id.<br/>maxLength: 50 |
-<code>trans_type</code> | string  | false | The type of transaction being submitted. Normally this value is not required and your account manager may request that you set this field.<br/>minLength: 1<br/>maxLength: 1 |</p>
+for analysis and may result in a decline if incorrectly provided. | 
+<code>cardnumber</code> | string  | true | The card number (PAN) with a variable length to a maximum of 21 digits in numerical form.<br/>Any non numeric characters will be stripped out of the card number, this includes whitespace or separators internal of the<br/>provided value.<br/><br/>The card number must be treated as sensitive data. We only provide an obfuscated value in logging and reporting.<br/> The plaintext value is encrypted in our database using AES 256 GMC bit encryption for settlement or refund purposes.<br/><br/>When providing the card number to our gateway through the authorisation API you will be handling the card data on<br/>your application. This will require further PCI controls to be in place and this value must never be stored.<br/><br/>minLength: 12<br/>maxLength: 22 | 
+<code>csc</code> | string  | false | The Card Security Code (CSC) (also known as CV2/CVV2) is normally found on the back of the card<br/>(American Express has it on the front). The value helps to identify posession of the card as it is not<br/>available within the chip or magnetic swipe.<br/><br/>When forwarding the CSC, please ensure the value is a string as some values start with 0 and this will be stripped<br/>out by any integer parsing.<br/><br/>The CSC number aids fraud prevention in Mail Order and Internet payments.<br/><br/> Business rules are available on your account to identify whether to accept<br/>or decline transactions based on mismatched results of the CSC.<br/><br/>The Payment Card Industry (PCI) requires that at no stage of a transaction should the CSC be stored.<br/>This applies to all entities handling card data.<br/>It should also not be used in any hashing process.<br/>CityPay do not store the value and have no method of retrieving the value once the transaction has been processed.<br/>For this reason, duplicate checking is unable to determine the CSC in its duplication check algorithm.<br/><br/>minLength: 3<br/>maxLength: 4 | 
+<code>expmonth</code> | integer <em>int32</em> | true | The month of expiry of the card. The month value should be a numerical value between 1 and 12.<br/><br/>minimum: 1<br/>maximum: 12 | 
+<code>expyear</code> | integer <em>int32</em> | false | The year of expiry of the card.<br/><br/>minimum: 2000<br/>maximum: 2100 | 
+<code>external_mpi</code> | object | false | <a href="#externalmpi">ExternalMPI</a> If an external 3DSv1 MPI is used for authentication, values provided can be supplied in this element. | 
+<code>identifier</code> | string  | true | The identifier of the transaction to process. The value should be a valid reference and may be used to perform<br/> post processing actions and to aid in reconciliation of transactions.<br/><br/>The value should be a valid printable string with ASCII character ranges from 32 to 127.<br/><br/>The identifier is recommended to be distinct for each transaction such as a <a href="https://en.wikipedia.org/wiki/Universally_unique_identifier">random unique identifier</a><br/>this will aid in ensuring each transaction is identifiable.<br/><br/>When transactions are processed they are also checked for duplicate requests. Changing the identifier on a subsequent<br/>request will ensure that a transaction is considered as different.<br/><br/>minLength: 4<br/>maxLength: 50 | 
+<code>merchantid</code> | integer <em>int32</em> | true | Identifies the merchant account to perform processing for. | 
+<code>sdk</code> | string  | false | An optional reference value for the calling client such as a version number i.e. | 
+<code>ship_to</code> | object | false | <a href="#contactdetails">ContactDetails</a> Shipping details of the card holder making the payment. These details may be used for 3DS and for future referencing of the transaction. | 
+<code>trans_info</code> | string  | false | Further information that can be added to the transaction will display in reporting. Can be used for flexible values such as operator id.<br/>maxLength: 50 | 
+<code>trans_type</code> | string  | false | The type of transaction being submitted. Normally this value is not required and your account manager may request that you set this field.<br/>minLength: 1<br/>maxLength: 1 | </p>
 <h2 id='capture-api'>Capture API</h2>
 <blockquote>
 <p>Basic capture call for a merchant with a given identifier</p>

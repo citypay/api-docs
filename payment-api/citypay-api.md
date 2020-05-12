@@ -6,7 +6,7 @@ language_tabs:
   - xml
 toc_footers:
   - <a href='mailto:support@citypay.com'>Any Integration Questions?</a>
-  - V6.0.0.BETA 2020-05-11
+  - V6.0.0.BETA 2020-05-12
 includes:
   - errorcodes
   - authresultcodes
@@ -22,7 +22,7 @@ search: true
 # CityPay Payment API
 
 Version: 6.0.0.BETA
-Last Updated: 2020-05-11
+Last Updated: 2020-05-12
 
 
 This CityPay API is a HTTP RESTful payment API used for direct server to server transactional processing. It
@@ -133,19 +133,19 @@ Allows for the ability to change the contact details for an account.
 
 Name | Type | Required | Description |
 -----|------|----------|-------------|
-`address1` | string  | false | The first line of the address for the card holder.<br/>maxLength: 20 |
-`address2` | string  | false | The second line of the address for the card holder.<br/>maxLength: 20 |
-`address3` | string  | false | The third line of the address for the card holder.<br/>maxLength: 20 |
-`area` | string  | false | The area such as city, department, parish for the card holder.<br/>maxLength: 20 |
-`company` | string  | false | The company name for the card holder if the contact is a corporate contact. |
-`country` | string  | false | The country code in ISO 3166 format. The country value may be used for fraud analysis and for<br/>  acceptance of the transaction.<br/><br/>maxLength: 2 |
-`email` | string  | false | An email address for the card holder which may be used for correspondence. |
-`firstname` | string  | false | The first name  of the card holder. |
-`lastname` | string  | false | The last name or surname of the card holder. |
-`mobile_no` | string  | false | A mobile number for the card holder the mobile number is often required by delivery companies to ensure they are able to be in contact when required. |
-`postcode` | string  | false | The postcode or zip code of the address which may be used for fraud analysis.<br/>maxLength: 10 |
-`telephone_no` | string  | false | A telephone number for the card holder. |
-`title` | string  | false | A title for the card holder such as Mr, Mrs, Ms, M. Mme. etc. |
+`address1` | string  | false | The first line of the address for the card holder.<br/>maxLength: 20 | 
+`address2` | string  | false | The second line of the address for the card holder.<br/>maxLength: 20 | 
+`address3` | string  | false | The third line of the address for the card holder.<br/>maxLength: 20 | 
+`area` | string  | false | The area such as city, department, parish for the card holder.<br/>maxLength: 20 | 
+`company` | string  | false | The company name for the card holder if the contact is a corporate contact. | 
+`country` | string  | false | The country code in ISO 3166 format. The country value may be used for fraud analysis and for<br/>  acceptance of the transaction.<br/><br/>maxLength: 2 | 
+`email` | string  | false | An email address for the card holder which may be used for correspondence. | 
+`firstname` | string  | false | The first name  of the card holder. | 
+`lastname` | string  | false | The last name or surname of the card holder. | 
+`mobile_no` | string  | false | A mobile number for the card holder the mobile number is often required by delivery companies to ensure they are able to be in contact when required. | 
+`postcode` | string  | false | The postcode or zip code of the address which may be used for fraud analysis.<br/>maxLength: 10 | 
+`telephone_no` | string  | false | A telephone number for the card holder. | 
+`title` | string  | false | A title for the card holder such as Mr, Mrs, Ms, M. Mme. etc. | 
 
 
 
@@ -169,11 +169,11 @@ The card will be validated for
 
 Name | Type | Required | Description |
 -----|------|----------|-------------|
-`account_id` | string  | false | The account to register the card against.<br/>minLength: 5<br/>maxLength: 50 |
-`cardnumber` | string  | false | The primary number of the card.<br/>minLength: 12<br/>maxLength: 22 |
-`defaultCard` | boolean  | false | Determines whether the card should be the new default card. |
-`expmonth` | integer *int32* | false | The expiry month of the card.<br/>minimum: 1<br/>maximum: 12 |
-`expyear` | integer *int32* | false | The expiry year of the card.<br/>minimum: 2000<br/>maximum: 2100 |
+`account_id` | string  | false | The account to register the card against.<br/>minLength: 5<br/>maxLength: 50 | 
+`cardnumber` | string  | false | The primary number of the card.<br/>minLength: 12<br/>maxLength: 22 | 
+`defaultCard` | boolean  | false | Determines whether the card should be the new default card. | 
+`expmonth` | integer *int32* | false | The expiry month of the card.<br/>minimum: 1<br/>maximum: 12 | 
+`expyear` | integer *int32* | false | The expiry year of the card.<br/>minimum: 2000<br/>maximum: 2100 | 
 
 
 
@@ -209,14 +209,14 @@ Tokenisation can be used for
 
 Name | Type | Required | Description |
 -----|------|----------|-------------|
-`amount` | integer *int32* | true | The amount to authorise in the lowest unit of currency with a variable length to a maximum of 12 digits.<br/>No decimal points are to be included and no divisional characters such as 1,024.<br/>The amount should be the total amount required for the transaction.<br/>For example with GBP £1,021.95 the amount value is 102195.<br/><br/>minLength: 1<br/>maxLength: 12 |
-`csc` | string  | false | The Card Security Code (CSC) (also known as CV2/CVV2) is normally found on the back of the card<br/>(American Express has it on the front). The value helps to identify posession of the card as it is not<br/>available within the chip or magnetic swipe.<br/><br/>When forwarding the CSC, please ensure the value is a string as some values start with 0 and this will be stripped<br/>out by any integer parsing.<br/><br/>The CSC number aids fraud prevention in Mail Order and Internet payments.<br/><br/> Business rules are available on your account to identify whether to accept<br/>or decline transactions based on mismatched results of the CSC.<br/><br/>The Payment Card Industry (PCI) requires that at no stage of a transaction should the CSC be stored.<br/>This applies to all entities handling card data.<br/>It should also not be used in any hashing process.<br/>CityPay do not store the value and have no method of retrieving the value once the transaction has been processed.<br/>For this reason, duplicate checking is unable to determine the CSC in its duplication check algorithm.<br/><br/>minLength: 3<br/>maxLength: 4 |
-`identifier` | string  | true | The identifier of the transaction to process. The value should be a valid reference and may be used to perform<br/> post processing actions and to aid in reconciliation of transactions.<br/><br/>The value should be a valid printable string with ASCII character ranges from 32 to 127.<br/><br/>The identifier is recommended to be distinct for each transaction such as a [random unique identifier](https://en.wikipedia.org/wiki/Universally_unique_identifier)<br/>this will aid in ensuring each transaction is identifiable.<br/><br/>When transactions are processed they are also checked for duplicate requests. Changing the identifier on a subsequent<br/>request will ensure that a transaction is considered as different.<br/><br/>minLength: 4<br/>maxLength: 50 |
-`merchantid` | integer *int32* | true | Identifies the merchant account to perform processing for. |
-`sdk` | string  | false | An optional reference value for the calling client such as a version number i.e. |
-`token` | string *base58* | true | A tokenised form of a card that belongs to a card holder's account and that<br/>has been previously registered. The token is time based and will only be active for<br/>a short duration. The value is therefore designed not to be stored remotely for future<br/> use.<br/><br/>Tokens will start with ct and are resiliently tamper proof using HMacSHA-256.<br/>No sensitive card data is stored internally within the token.<br/><br/>Each card will contain a different token and the value may be different on any retrieval call.<br/><br/>The value can be presented for payment as a selection value to an end user in a web application. |
-`trans_info` | string  | false | Further information that can be added to the transaction will display in reporting. Can be used for flexible values such as operator id.<br/>maxLength: 50 |
-`trans_type` | string  | false | The type of transaction being submitted. Normally this value is not required and your account manager may request that you set this field.<br/>minLength: 1<br/>maxLength: 1 |
+`amount` | integer *int32* | true | The amount to authorise in the lowest unit of currency with a variable length to a maximum of 12 digits.<br/>No decimal points are to be included and no divisional characters such as 1,024.<br/>The amount should be the total amount required for the transaction.<br/>For example with GBP £1,021.95 the amount value is 102195.<br/><br/>minLength: 1<br/>maxLength: 12 | 
+`csc` | string  | false | The Card Security Code (CSC) (also known as CV2/CVV2) is normally found on the back of the card<br/>(American Express has it on the front). The value helps to identify posession of the card as it is not<br/>available within the chip or magnetic swipe.<br/><br/>When forwarding the CSC, please ensure the value is a string as some values start with 0 and this will be stripped<br/>out by any integer parsing.<br/><br/>The CSC number aids fraud prevention in Mail Order and Internet payments.<br/><br/> Business rules are available on your account to identify whether to accept<br/>or decline transactions based on mismatched results of the CSC.<br/><br/>The Payment Card Industry (PCI) requires that at no stage of a transaction should the CSC be stored.<br/>This applies to all entities handling card data.<br/>It should also not be used in any hashing process.<br/>CityPay do not store the value and have no method of retrieving the value once the transaction has been processed.<br/>For this reason, duplicate checking is unable to determine the CSC in its duplication check algorithm.<br/><br/>minLength: 3<br/>maxLength: 4 | 
+`identifier` | string  | true | The identifier of the transaction to process. The value should be a valid reference and may be used to perform<br/> post processing actions and to aid in reconciliation of transactions.<br/><br/>The value should be a valid printable string with ASCII character ranges from 32 to 127.<br/><br/>The identifier is recommended to be distinct for each transaction such as a [random unique identifier](https://en.wikipedia.org/wiki/Universally_unique_identifier)<br/>this will aid in ensuring each transaction is identifiable.<br/><br/>When transactions are processed they are also checked for duplicate requests. Changing the identifier on a subsequent<br/>request will ensure that a transaction is considered as different.<br/><br/>minLength: 4<br/>maxLength: 50 | 
+`merchantid` | integer *int32* | true | Identifies the merchant account to perform processing for. | 
+`sdk` | string  | false | An optional reference value for the calling client such as a version number i.e. | 
+`token` | string *base58* | true | A tokenised form of a card that belongs to a card holder's account and that<br/>has been previously registered. The token is time based and will only be active for<br/>a short duration. The value is therefore designed not to be stored remotely for future<br/> use.<br/><br/>Tokens will start with ct and are resiliently tamper proof using HMacSHA-256.<br/>No sensitive card data is stored internally within the token.<br/><br/>Each card will contain a different token and the value may be different on any retrieval call.<br/><br/>The value can be presented for payment as a selection value to an end user in a web application. | 
+`trans_info` | string  | false | Further information that can be added to the transaction will display in reporting. Can be used for flexible values such as operator id.<br/>maxLength: 50 | 
+`trans_type` | string  | false | The type of transaction being submitted. Normally this value is not required and your account manager may request that you set this field.<br/>minLength: 1<br/>maxLength: 1 | 
 
 
 
@@ -242,7 +242,7 @@ model is granting access from your source.
 
 Name | Type | Required | Description |
 -----|------|----------|-------------|
-`identifier` | string  | false | An identifier of the ping request which will be returned in the response.<br/>minLength: 4<br/>maxLength: 50 |
+`identifier` | string  | false | An identifier of the ping request which will be returned in the response.<br/>minLength: 4<br/>maxLength: 50 | 
 
 
 
@@ -359,27 +359,25 @@ Name | Type | Required | Description |
 `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Additional advice for airline integration that can be applied on an authorisation request.
 As tickets are normally not allocated until successful payment it is normal for a transaction to be pre-authorised
  and the airline advice supplied on a capture request instead. Should the data already exist and an auth and
- capture is preferred. This data may be supplied.
-
-`amount` | integer *int32* | true | The amount to authorise in the lowest unit of currency with a variable length to a maximum of 12 digits.<br/>No decimal points are to be included and no divisional characters such as 1,024.<br/>The amount should be the total amount required for the transaction.<br/>For example with GBP £1,021.95 the amount value is 102195.<br/><br/>minLength: 1<br/>maxLength: 12 |
+ capture is preferred. This data may be supplied. | 
+`amount` | integer *int32* | true | The amount to authorise in the lowest unit of currency with a variable length to a maximum of 12 digits.<br/>No decimal points are to be included and no divisional characters such as 1,024.<br/>The amount should be the total amount required for the transaction.<br/>For example with GBP £1,021.95 the amount value is 102195.<br/><br/>minLength: 1<br/>maxLength: 12 | 
 `bill_to` | object | false | [ContactDetails](#contactdetails) Billing details of the card holder making the payment.
 These details may be used for AVS fraud analysis, 3DS and for future referencing of the transaction.
 
 For AVS to work correctly, the billing details should be the registered address of the card holder
 as it appears on the statement with their card issuer. The numeric details will be passed through
-for analysis and may result in a decline if incorrectly provided.
-
-`cardnumber` | string  | true | The card number (PAN) with a variable length to a maximum of 21 digits in numerical form.<br/>Any non numeric characters will be stripped out of the card number, this includes whitespace or separators internal of the<br/>provided value.<br/><br/>The card number must be treated as sensitive data. We only provide an obfuscated value in logging and reporting.<br/> The plaintext value is encrypted in our database using AES 256 GMC bit encryption for settlement or refund purposes.<br/><br/>When providing the card number to our gateway through the authorisation API you will be handling the card data on<br/>your application. This will require further PCI controls to be in place and this value must never be stored.<br/><br/>minLength: 12<br/>maxLength: 22 |
-`csc` | string  | false | The Card Security Code (CSC) (also known as CV2/CVV2) is normally found on the back of the card<br/>(American Express has it on the front). The value helps to identify posession of the card as it is not<br/>available within the chip or magnetic swipe.<br/><br/>When forwarding the CSC, please ensure the value is a string as some values start with 0 and this will be stripped<br/>out by any integer parsing.<br/><br/>The CSC number aids fraud prevention in Mail Order and Internet payments.<br/><br/> Business rules are available on your account to identify whether to accept<br/>or decline transactions based on mismatched results of the CSC.<br/><br/>The Payment Card Industry (PCI) requires that at no stage of a transaction should the CSC be stored.<br/>This applies to all entities handling card data.<br/>It should also not be used in any hashing process.<br/>CityPay do not store the value and have no method of retrieving the value once the transaction has been processed.<br/>For this reason, duplicate checking is unable to determine the CSC in its duplication check algorithm.<br/><br/>minLength: 3<br/>maxLength: 4 |
-`expmonth` | integer *int32* | true | The month of expiry of the card. The month value should be a numerical value between 1 and 12.<br/><br/>minimum: 1<br/>maximum: 12 |
-`expyear` | integer *int32* | false | The year of expiry of the card.<br/><br/>minimum: 2000<br/>maximum: 2100 |
-`external_mpi` | object | false | [ExternalMPI](#externalmpi) If an external 3DSv1 MPI is used for authentication, values provided can be supplied in this element. |
-`identifier` | string  | true | The identifier of the transaction to process. The value should be a valid reference and may be used to perform<br/> post processing actions and to aid in reconciliation of transactions.<br/><br/>The value should be a valid printable string with ASCII character ranges from 32 to 127.<br/><br/>The identifier is recommended to be distinct for each transaction such as a [random unique identifier](https://en.wikipedia.org/wiki/Universally_unique_identifier)<br/>this will aid in ensuring each transaction is identifiable.<br/><br/>When transactions are processed they are also checked for duplicate requests. Changing the identifier on a subsequent<br/>request will ensure that a transaction is considered as different.<br/><br/>minLength: 4<br/>maxLength: 50 |
-`merchantid` | integer *int32* | true | Identifies the merchant account to perform processing for. |
-`sdk` | string  | false | An optional reference value for the calling client such as a version number i.e. |
-`ship_to` | object | false | [ContactDetails](#contactdetails) Shipping details of the card holder making the payment. These details may be used for 3DS and for future referencing of the transaction. |
-`trans_info` | string  | false | Further information that can be added to the transaction will display in reporting. Can be used for flexible values such as operator id.<br/>maxLength: 50 |
-`trans_type` | string  | false | The type of transaction being submitted. Normally this value is not required and your account manager may request that you set this field.<br/>minLength: 1<br/>maxLength: 1 |
+for analysis and may result in a decline if incorrectly provided. | 
+`cardnumber` | string  | true | The card number (PAN) with a variable length to a maximum of 21 digits in numerical form.<br/>Any non numeric characters will be stripped out of the card number, this includes whitespace or separators internal of the<br/>provided value.<br/><br/>The card number must be treated as sensitive data. We only provide an obfuscated value in logging and reporting.<br/> The plaintext value is encrypted in our database using AES 256 GMC bit encryption for settlement or refund purposes.<br/><br/>When providing the card number to our gateway through the authorisation API you will be handling the card data on<br/>your application. This will require further PCI controls to be in place and this value must never be stored.<br/><br/>minLength: 12<br/>maxLength: 22 | 
+`csc` | string  | false | The Card Security Code (CSC) (also known as CV2/CVV2) is normally found on the back of the card<br/>(American Express has it on the front). The value helps to identify posession of the card as it is not<br/>available within the chip or magnetic swipe.<br/><br/>When forwarding the CSC, please ensure the value is a string as some values start with 0 and this will be stripped<br/>out by any integer parsing.<br/><br/>The CSC number aids fraud prevention in Mail Order and Internet payments.<br/><br/> Business rules are available on your account to identify whether to accept<br/>or decline transactions based on mismatched results of the CSC.<br/><br/>The Payment Card Industry (PCI) requires that at no stage of a transaction should the CSC be stored.<br/>This applies to all entities handling card data.<br/>It should also not be used in any hashing process.<br/>CityPay do not store the value and have no method of retrieving the value once the transaction has been processed.<br/>For this reason, duplicate checking is unable to determine the CSC in its duplication check algorithm.<br/><br/>minLength: 3<br/>maxLength: 4 | 
+`expmonth` | integer *int32* | true | The month of expiry of the card. The month value should be a numerical value between 1 and 12.<br/><br/>minimum: 1<br/>maximum: 12 | 
+`expyear` | integer *int32* | false | The year of expiry of the card.<br/><br/>minimum: 2000<br/>maximum: 2100 | 
+`external_mpi` | object | false | [ExternalMPI](#externalmpi) If an external 3DSv1 MPI is used for authentication, values provided can be supplied in this element. | 
+`identifier` | string  | true | The identifier of the transaction to process. The value should be a valid reference and may be used to perform<br/> post processing actions and to aid in reconciliation of transactions.<br/><br/>The value should be a valid printable string with ASCII character ranges from 32 to 127.<br/><br/>The identifier is recommended to be distinct for each transaction such as a [random unique identifier](https://en.wikipedia.org/wiki/Universally_unique_identifier)<br/>this will aid in ensuring each transaction is identifiable.<br/><br/>When transactions are processed they are also checked for duplicate requests. Changing the identifier on a subsequent<br/>request will ensure that a transaction is considered as different.<br/><br/>minLength: 4<br/>maxLength: 50 | 
+`merchantid` | integer *int32* | true | Identifies the merchant account to perform processing for. | 
+`sdk` | string  | false | An optional reference value for the calling client such as a version number i.e. | 
+`ship_to` | object | false | [ContactDetails](#contactdetails) Shipping details of the card holder making the payment. These details may be used for 3DS and for future referencing of the transaction. | 
+`trans_info` | string  | false | Further information that can be added to the transaction will display in reporting. Can be used for flexible values such as operator id.<br/>maxLength: 50 | 
+`trans_type` | string  | false | The type of transaction being submitted. Normally this value is not required and your account manager may request that you set this field.<br/>minLength: 1<br/>maxLength: 1 | 
 
 
 
@@ -492,12 +490,12 @@ be available for the settlement and completed at the end of the day.
 
 Name | Type | Required | Description |
 -----|------|----------|-------------|
-`airline_data` | object | false | [AirlineAdvice](#airlineadvice) Additional advice to be applied for the capture request. |
-`amount` | integer *int32* | false | The completion amount provided in the lowest unit of currency for the specific currency of the merchant,<br/>with a variable length to a maximum of 12 digits. No decimal points to be included. For example with<br/>GBP 75.45 use the value 7545. Please check that you do not supply divisional characters such as 1,024 in the<br/>request which may be caused by some number formatters.<br/>If no amount is supplied, the original processing amount is used.<br/><br/>minLength: 1<br/>maxLength: 12 |
-`identifier` | string  | false | The identifier of the transaction to capture. If an empty value is supplied then a `trans_no` value must be supplied.<br/>minLength: 4<br/>maxLength: 50 |
-`merchantid` | integer *int32* | true | Identifies the merchant account to perform the capture for. |
-`sdk` | string  | false | An optional reference value for the calling client such as a version number i.e. |
-`transno` | integer *int32* | false | The transaction number of the transaction to look up and capture. If an empty value is supplied then an identifier value must be supplied. |
+`airline_data` | object | false | [AirlineAdvice](#airlineadvice) Additional advice to be applied for the capture request. | 
+`amount` | integer *int32* | false | The completion amount provided in the lowest unit of currency for the specific currency of the merchant,<br/>with a variable length to a maximum of 12 digits. No decimal points to be included. For example with<br/>GBP 75.45 use the value 7545. Please check that you do not supply divisional characters such as 1,024 in the<br/>request which may be caused by some number formatters.<br/>If no amount is supplied, the original processing amount is used.<br/><br/>minLength: 1<br/>maxLength: 12 | 
+`identifier` | string  | false | The identifier of the transaction to capture. If an empty value is supplied then a `trans_no` value must be supplied.<br/>minLength: 4<br/>maxLength: 50 | 
+`merchantid` | integer *int32* | true | Identifies the merchant account to perform the capture for. | 
+`sdk` | string  | false | An optional reference value for the calling client such as a version number i.e. | 
+`transno` | integer *int32* | false | The transaction number of the transaction to look up and capture. If an empty value is supplied then an identifier value must be supplied. | 
 
 
 
@@ -541,9 +539,9 @@ information to be returned.
 
 Name | Type | Required | Description |
 -----|------|----------|-------------|
-`identifier` | string  | false | The identifier of the transaction to retrieve. Optional if a transaction number is provided.<br/>minLength: 4<br/>maxLength: 50 |
-`merchantid` | integer *int32* | true | The merchant account to retrieve data for. |
-`transno` | integer *int32* | false | The transaction number of a transaction to retrieve. Optional if an identifier is supplied. |
+`identifier` | string  | false | The identifier of the transaction to retrieve. Optional if a transaction number is provided.<br/>minLength: 4<br/>maxLength: 50 | 
+`merchantid` | integer *int32* | true | The merchant account to retrieve data for. | 
+`transno` | integer *int32* | false | The transaction number of a transaction to retrieve. Optional if an identifier is supplied. | 
 
 
 
@@ -604,10 +602,10 @@ outlining the result of the transaction.
 
 Name | Type | Required | Description |
 -----|------|----------|-------------|
-`identifier` | string  | false | The identifier of the transaction to void. If an empty value is supplied then a `trans_no` value must be supplied.<br/>minLength: 4<br/>maxLength: 50 |
-`merchantid` | integer *int32* | true | Identifies the merchant account to perform the void for. |
-`sdk` | string  | false | An optional reference value for the calling client such as a version number i.e. |
-`transno` | integer *int32* | false | The transaction number of the transaction to look up and void. If an empty value is supplied then an identifier value must be supplied. |
+`identifier` | string  | false | The identifier of the transaction to void. If an empty value is supplied then a `trans_no` value must be supplied.<br/>minLength: 4<br/>maxLength: 50 | 
+`merchantid` | integer *int32* | true | Identifies the merchant account to perform the void for. | 
+`sdk` | string  | false | An optional reference value for the calling client such as a version number i.e. | 
+`transno` | integer *int32* | false | The transaction number of the transaction to look up and void. If an empty value is supplied then an identifier value must be supplied. | 
 
 
 
