@@ -64,6 +64,7 @@ Completion processing. The API is also capable of tokinsed payments using Card H
 
 Please contact CityPay Support
 
+ - Our online <a href="https://jira.ops.citypay.com/servicedesk/customer/portal/14">Service Desk</a>
  - Online at <a href="https://citypay.com/customer-centre/technical-support.html">https://citypay.com/customer-centre/technical-support.html</a>
  - Email at <a href="mailto:support@citypay.com">support@citypay.com</a>
 
