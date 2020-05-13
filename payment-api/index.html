@@ -266,10 +266,25 @@
             <a href="#card-holder-account" class="toc-h1 toc-link" data-title="Card Holder Account">Card Holder Account</a>
               <ul class="toc-list-h2">
                   <li>
-                    <a href="#account-contact-details-api" class="toc-h2 toc-link" data-title="Account Contact Details API">Account Contact Details API</a>
+                    <a href="#account-retrieval-api" class="toc-h2 toc-link" data-title="Account Retrieval API">Account Retrieval API</a>
                   </li>
                   <li>
-                    <a href="#account-card-registration-api" class="toc-h2 toc-link" data-title="Account Card Registration API">Account Card Registration API</a>
+                    <a href="#account-deletion-api" class="toc-h2 toc-link" data-title="Account Deletion API">Account Deletion API</a>
+                  </li>
+                  <li>
+                    <a href="#card-deletion-api" class="toc-h2 toc-link" data-title="Card Deletion API">Card Deletion API</a>
+                  </li>
+                  <li>
+                    <a href="#card-status-api" class="toc-h2 toc-link" data-title="Card Status API">Card Status API</a>
+                  </li>
+                  <li>
+                    <a href="#contact-details-update-api" class="toc-h2 toc-link" data-title="Contact Details Update API">Contact Details Update API</a>
+                  </li>
+                  <li>
+                    <a href="#card-registration-api" class="toc-h2 toc-link" data-title="Card Registration API">Card Registration API</a>
+                  </li>
+                  <li>
+                    <a href="#account-status-api" class="toc-h2 toc-link" data-title="Account Status API">Account Status API</a>
                   </li>
                   <li>
                     <a href="#charge-api" class="toc-h2 toc-link" data-title="Charge API">Charge API</a>
@@ -279,6 +294,9 @@
           <li>
             <a href="#operational" class="toc-h1 toc-link" data-title="Operational">Operational</a>
               <ul class="toc-list-h2">
+                  <li>
+                    <a href="#list-merchants-request" class="toc-h2 toc-link" data-title="List Merchants Request">List Merchants Request</a>
+                  </li>
                   <li>
                     <a href="#ping-request" class="toc-h2 toc-link" data-title="Ping Request">Ping Request</a>
                   </li>
@@ -392,7 +410,7 @@
       </ul>
         <ul class="toc-footer">
             <li><a href='mailto:support@citypay.com'>Any Integration Questions?</a></li>
-            <li>V6.0.0.BETA 2020-05-12</li>
+            <li>V6.0.0.BETA 2020-05-13</li>
         </ul>
     </div>
     <div class="page-wrapper">
@@ -401,7 +419,7 @@
         <img src="images/citypay-logo-23676e0b.svg" class="cplogo" alt="Citypay logo" />
         <h1 id='citypay-payment-api'>CityPay Payment API</h1>
 <p>Version: 6.0.0.BETA
-Last Updated: 2020-05-12</p>
+Last Updated: 2020-05-13</p>
 
 <p>This CityPay API is a HTTP RESTful payment API used for direct server to server transactional processing. It
 provides a number of payment mechanisms including: Internet, MOTO, Continuous Authority transaction processing,
@@ -477,7 +495,58 @@ security vulnerabilities.</li>
 <aside class="notice">
 If you do not have an API key please quote your Client ID and Merchant ID to <a href="https://citypay.com/customer-centre/technical-support.html">CityPay Support</a> to obtain one.
 </aside>
-<h1 id='card-holder-account'>Card Holder Account</h1><h2 id='account-contact-details-api'>Account Contact Details API</h2>
+<h1 id='card-holder-account'>Card Holder Account</h1><h2 id='account-retrieval-api'>Account Retrieval API</h2>
+<p><code>HTTP GET /account/{accountid}</code></p>
+
+<p>Allows for the retrieval of a card holder account for the given <code>id</code>. Should duplicate accounts exist
+for the same <code>id</code>, the first account created with that <code>id</code> will be returned.</p>
+
+<p>The account can be used for tokenisation processing by listing all cards assigned to the account.
+The returned cards will include all <code>active</code>, <code>inactive</code> and <code>expired</code> cards. This can be used to 
+enable a card holder to view their wallet and make constructive choices on which card to use.</p>
+
+<p>No Request Data</p>
+<h2 id='account-deletion-api'>Account Deletion API</h2>
+<p><code>HTTP DELETE /account/{accountid}</code></p>
+
+<p>Allows for the deletion of an account. The account will marked for deletion and subsequent purging. No further
+transactions will be alowed to be processed or actioned against this account.</p>
+
+<p>No Request Data</p>
+<h2 id='card-deletion-api'>Card Deletion API</h2>
+<p><code>HTTP DELETE /account/{accountid}/card/{cardId}</code></p>
+
+<p>Deletes a card from the account. The card will be marked for deletion before a subsequent
+purge will clear the card permanently.</p>
+
+<p>No Request Data</p>
+<h2 id='card-status-api'>Card Status API</h2>
+<p><code>HTTP POST /account/{accountid}/card/{cardId}/status/{status}</code></p>
+
+<p>Updates the status of a card for processing. The following values are available</p>
+
+<table><thead>
+<tr>
+<th>Status</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>Active</td>
+<td>The card is active for processing and can be used for charging against with a valid token</td>
+</tr>
+<tr>
+<td>Inactive</td>
+<td>The card is inactive for processing and cannot be used for processing, it will require reactivation before being used to charge</td>
+</tr>
+<tr>
+<td>Expired</td>
+<td>The card has expired either due to the expiry date no longer being valid or due to a replacement card being issued</td>
+</tr>
+</tbody></table>
+
+<p>No Request Data</p>
+<h2 id='contact-details-update-api'>Contact Details Update API</h2>
 <p><code>HTTP POST /account/{accountid}/contact</code></p>
 
 <p>Allows for the ability to change the contact details for an account.</p>
@@ -569,7 +638,7 @@ If you do not have an API key please quote your Client ID and Merchant ID to <a 
 <td>A title for the card holder such as Mr, Mrs, Ms, M. Mme. etc.</td>
 </tr>
 </tbody></table>
-<h2 id='account-card-registration-api'>Account Card Registration API</h2>
+<h2 id='card-registration-api'>Card Registration API</h2>
 <p><code>HTTP POST /account/{accountid}/register</code></p>
 
 <p>Allows for a card to be registered for the account. The card will be added for future 
@@ -622,6 +691,28 @@ processing and will be available as a tokenised value for future processing.</p>
 <td>The expiry year of the card.<br/>minimum: 2000<br/>maximum: 2100</td>
 </tr>
 </tbody></table>
+<h2 id='account-status-api'>Account Status API</h2>
+<p><code>HTTP POST /account/{accountid}/status</code></p>
+
+<p>Updates the status of an account. An account can have the following statuses applied</p>
+
+<table><thead>
+<tr>
+<th>Status</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>Active</td>
+<td>The account is active for processing</td>
+</tr>
+<tr>
+<td>Disabled</td>
+<td>The account has been disabled and cannot be used for processing. The account will require reactivation to continue procesing</td>
+</tr>
+</tbody></table>
+
+<p>No Request Data</p>
 <h2 id='charge-api'>Charge API</h2>
 <p><code>HTTP POST /charge</code></p>
 
@@ -704,7 +795,13 @@ for use elsewhere.  </p>
 <td>The type of transaction being submitted. Normally this value is not required and your account manager may request that you set this field.<br/>minLength: 1<br/>maxLength: 1</td>
 </tr>
 </tbody></table>
-<h1 id='operational'>Operational</h1><h2 id='ping-request'>Ping Request</h2>
+<h1 id='operational'>Operational</h1><h2 id='list-merchants-request'>List Merchants Request</h2>
+<p><code>HTTP GET /merchants/{clientid}</code></p>
+
+<p>An operational request to list current merchants for a client.</p>
+
+<p>No Request Data</p>
+<h2 id='ping-request'>Ping Request</h2>
 <p><code>HTTP POST /ping</code></p>
 
 <p>A ping request which performs a connection and authentication test to the CityPay API server. The request

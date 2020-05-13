@@ -6,7 +6,7 @@ language_tabs:
   - xml
 toc_footers:
   - <a href='mailto:support@citypay.com'>Any Integration Questions?</a>
-  - V6.0.0.BETA 2020-05-12
+  - V6.0.0.BETA 2020-05-13
 includes:
   - errorcodes
   - authresultcodes
@@ -22,7 +22,7 @@ search: true
 # CityPay Payment API
 
 Version: 6.0.0.BETA
-Last Updated: 2020-05-12
+Last Updated: 2020-05-13
 
 
 This CityPay API is a HTTP RESTful payment API used for direct server to server transactional processing. It
@@ -117,11 +117,60 @@ If you do not have an API key please quote your Client ID and Merchant ID to <a 
 
 # Card Holder Account
 
+## Account Retrieval API
+
+`HTTP GET /account/{accountid}`
+
+Allows for the retrieval of a card holder account for the given `id`. Should duplicate accounts exist
+for the same `id`, the first account created with that `id` will be returned.
+
+The account can be used for tokenisation processing by listing all cards assigned to the account.
+The returned cards will include all `active`, `inactive` and `expired` cards. This can be used to 
+enable a card holder to view their wallet and make constructive choices on which card to use.
 
 
+No Request Data
 
 
-## Account Contact Details API
+## Account Deletion API
+
+`HTTP DELETE /account/{accountid}`
+
+Allows for the deletion of an account. The account will marked for deletion and subsequent purging. No further
+transactions will be alowed to be processed or actioned against this account.
+
+
+No Request Data
+
+
+## Card Deletion API
+
+`HTTP DELETE /account/{accountid}/card/{cardId}`
+
+Deletes a card from the account. The card will be marked for deletion before a subsequent
+purge will clear the card permanently.
+
+
+No Request Data
+
+
+## Card Status API
+
+`HTTP POST /account/{accountid}/card/{cardId}/status/{status}`
+
+Updates the status of a card for processing. The following values are available
+
+ Status | Description | 
+--------|-------------|
+ Active | The card is active for processing and can be used for charging against with a valid token |
+ Inactive | The card is inactive for processing and cannot be used for processing, it will require reactivation before being used to charge |
+ Expired | The card has expired either due to the expiry date no longer being valid or due to a replacement card being issued |
+
+
+No Request Data
+
+
+## Contact Details Update API
 
 
 
@@ -149,7 +198,7 @@ Name | Type | Required | Description |
 
 
 
-## Account Card Registration API
+## Card Registration API
 
 
 
@@ -176,6 +225,20 @@ Name | Type | Required | Description |
 `expyear` | integer *int32* | false | The expiry year of the card.<br/>minimum: 2000<br/>maximum: 2100 | 
 
 
+
+## Account Status API
+
+`HTTP POST /account/{accountid}/status`
+
+Updates the status of an account. An account can have the following statuses applied
+
+ Status | Description |
+--------|-------------|
+ Active | The account is active for processing |
+ Disabled | The account has been disabled and cannot be used for processing. The account will require reactivation to continue procesing |
+
+
+No Request Data
 
 
 ## Charge API
@@ -221,6 +284,14 @@ Name | Type | Required | Description |
 
 
 # Operational
+
+## List Merchants Request
+
+`HTTP GET /merchants/{clientid}`
+
+An operational request to list current merchants for a client.
+
+No Request Data
 
 
 ## Ping Request

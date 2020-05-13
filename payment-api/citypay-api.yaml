@@ -47,6 +47,21 @@ servers:
 - url: https://sandbox.citypay.com
   description: Testing service returning test results for all transactions
 
+tags:
+  - name: Card Holder Account
+    description: |
+      A Card holder account models a card holder and can register 1 or more cards for charging
+      against. The account offers a credential on file option to the CityPay gateway alowing for 
+      both card holder initiated and merchant initiated transaction processing.
+      
+      This can included unscheduled or scheduled transactions that can be requested through this API.
+  - name: Operational
+    description: Operations that are for operational purposes only such as checking connectivity to the API.
+  - name: Payment Processing
+    description: |
+      The Payment Processing API offers standard and enhanced payment processing for MOTO, e-commerce
+       and continuous authority transactions that include fraud and risk checking, 3D-Secure flows 
+       and payment querying.
 
 #--------------------------------------------------------------------------------
 #                                    Paths                                     
@@ -55,7 +70,7 @@ servers:
 paths:
   /account/{accountid}/register: 
     post: 
-      summary: Account Card Registration API
+      summary: Card Registration API
       tags: 
         - Card Holder Account
       operationId: AccountCardRegisterRequest
@@ -281,7 +296,7 @@ paths:
 
   /account/{accountid}/contact: 
     post: 
-      summary: Account Contact Details API
+      summary: Contact Details Update API
       tags: 
         - Card Holder Account
       operationId: AccountChangeContactRequest
@@ -413,7 +428,7 @@ paths:
 
   /account/{accountid}/card/{cardId}: 
     delete: 
-      summary: Account Card Deletion API
+      summary: Card Deletion API
       tags: 
         - Card Holder Account
       operationId: AccountCardDeleteRequest
@@ -587,7 +602,7 @@ paths:
 
   /account/{accountid}/card/{cardId}/status/{status}: 
     post: 
-      summary: Account Card Status API
+      summary: Card Status API
       tags: 
         - Card Holder Account
       operationId: AccountCardStatusRequest
