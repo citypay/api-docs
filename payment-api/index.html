@@ -457,10 +457,14 @@ security vulnerabilities.</li>
 <p>Please contact CityPay Support</p>
 
 <ul>
-<li>Our online <a href="https://jira.ops.citypay.com/servicedesk/customer/portal/14">Service Desk</a></li>
-<li>Online at <a href="https://citypay.com/customer-centre/technical-support.html">https://citypay.com/customer-centre/technical-support.html</a></li>
-<li>Email at <a href="mailto:support@citypay.com">support@citypay.com</a></li>
+<li>At our online <a href="https://jira.ops.citypay.com/servicedesk/customer/portal/14">Service Desk</a></li>
+<li>Or via our website at <a href="https://citypay.com/customer-centre/technical-support.html">https://citypay.com/customer-centre/technical-support.html</a></li>
 </ul>
+
+<p>For any transaction investigations or integration support, please provide your
+ - merchant id
+ - a context id or identifier
+ - a date and time of the request</p>
 <h1 id='authentication'>Authentication</h1>
 <blockquote>
 <p>Example authentication header as used in curl</p>
@@ -497,7 +501,7 @@ security vulnerabilities.</li>
 If you do not have an API key please quote your Client ID and Merchant ID to <a href="https://citypay.com/customer-centre/technical-support.html">CityPay Support</a> to obtain one.
 </aside>
 <h1 id='card-holder-account'>Card Holder Account</h1><h2 id='account-retrieval-api'>Account Retrieval API</h2>
-<p><code>HTTP GET /account/{accountid}</code></p>
+<p><span class="http-method-get">GET</span> <code>/account/{accountid}</code></p>
 
 <p>Allows for the retrieval of a card holder account for the given <code>id</code>. Should duplicate accounts exist
 for the same <code>id</code>, the first account created with that <code>id</code> will be returned.</p>
@@ -505,24 +509,165 @@ for the same <code>id</code>, the first account created with that <code>id</code
 <p>The account can be used for tokenisation processing by listing all cards assigned to the account.
 The returned cards will include all <code>active</code>, <code>inactive</code> and <code>expired</code> cards. This can be used to 
 enable a card holder to view their wallet and make constructive choices on which card to use.</p>
+<h3 id='path-parameters'>Path Parameters</h3>
+<table><thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>accountid</code></td>
+<td>string</td>
+<td>true</td>
+<td>The account id that refers to the customer&#39;s account no. This value will have been provided when setting up the card holder account.</td>
+</tr>
+</tbody></table>
+<h3 id='response'>Response</h3>
+<p>Responses for this operation are</p>
 
-<p>No Request Data</p>
+<table><thead>
+<tr>
+<th>StatusCode</th>
+<th>Description</th>
+<th>Model</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>200</code></td>
+<td>A card holder account that matches the account id provided in the request.</td>
+<td><code>application/json</code>, <code>text/xml</code>:  <br/> <a href="#cardholderaccount">CardHolderAccount</a></td>
+</tr>
+<tr>
+<td><code>400</code></td>
+<td>Bad Request. Should the incoming data not be validly determined.</td>
+<td></td>
+</tr>
+<tr>
+<td><code>403</code></td>
+<td>Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request.</td>
+<td></td>
+</tr>
+<tr>
+<td><code>401</code></td>
+<td>Unauthorized. No api key has been provided and is required for this operation.</td>
+<td></td>
+</tr>
+</tbody></table>
 <h2 id='account-deletion-api'>Account Deletion API</h2>
-<p><code>HTTP DELETE /account/{accountid}</code></p>
+<p><span class="http-method-delete">DELETE</span> <code>/account/{accountid}</code></p>
 
 <p>Allows for the deletion of an account. The account will marked for deletion and subsequent purging. No further
 transactions will be alowed to be processed or actioned against this account.</p>
+<h3 id='path-parameters-2'>Path Parameters</h3>
+<table><thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>accountid</code></td>
+<td>string</td>
+<td>true</td>
+<td>The account id that refers to the customer&#39;s account no. This value will have been provided when setting up the card holder account.</td>
+</tr>
+</tbody></table>
+<h3 id='response-2'>Response</h3>
+<p>Responses for this operation are</p>
 
-<p>No Request Data</p>
+<table><thead>
+<tr>
+<th>StatusCode</th>
+<th>Description</th>
+<th>Model</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>200</code></td>
+<td>An acknowledgment that the card holder account has been marked for deletion.</td>
+<td><code>application/json</code>, <code>text/xml</code>:  <br/> <a href="#acknowledgement">Acknowledgement</a></td>
+</tr>
+<tr>
+<td><code>400</code></td>
+<td>Bad Request. Should the incoming data not be validly determined.</td>
+<td></td>
+</tr>
+<tr>
+<td><code>403</code></td>
+<td>Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request.</td>
+<td></td>
+</tr>
+<tr>
+<td><code>401</code></td>
+<td>Unauthorized. No api key has been provided and is required for this operation.</td>
+<td></td>
+</tr>
+</tbody></table>
 <h2 id='card-deletion-api'>Card Deletion API</h2>
-<p><code>HTTP DELETE /account/{accountid}/card/{cardId}</code></p>
+<p><span class="http-method-delete">DELETE</span> <code>/account/{accountid}/card/{cardId}</code></p>
 
 <p>Deletes a card from the account. The card will be marked for deletion before a subsequent
 purge will clear the card permanently.</p>
+<h3 id='path-parameters-3'>Path Parameters</h3>
+<table><thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>accountid</code></td>
+<td>string</td>
+<td>true</td>
+<td>The account id that refers to the customer&#39;s account no. This value will have been provided when setting up the card holder account.</td>
+</tr>
+<tr>
+<td><code>cardId</code></td>
+<td>string</td>
+<td>true</td>
+<td>The id of the card that is presented by a call to retrieve a card holder account.</td>
+</tr>
+</tbody></table>
+<h3 id='response-3'>Response</h3>
+<p>Responses for this operation are</p>
 
-<p>No Request Data</p>
+<table><thead>
+<tr>
+<th>StatusCode</th>
+<th>Description</th>
+<th>Model</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>200</code></td>
+<td>Acknowledges the card has been requested for deletion.</td>
+<td><code>application/json</code>, <code>text/xml</code>:  <br/> <a href="#acknowledgement">Acknowledgement</a></td>
+</tr>
+<tr>
+<td><code>400</code></td>
+<td>Bad Request. Should the incoming data not be validly determined.</td>
+<td></td>
+</tr>
+<tr>
+<td><code>403</code></td>
+<td>Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request.</td>
+<td></td>
+</tr>
+<tr>
+<td><code>401</code></td>
+<td>Unauthorized. No api key has been provided and is required for this operation.</td>
+<td></td>
+</tr>
+</tbody></table>
 <h2 id='card-status-api'>Card Status API</h2>
-<p><code>HTTP POST /account/{accountid}/card/{cardId}/status/{status}</code></p>
+<p><span class="http-method-post">POST</span> <code>/account/{accountid}/card/{cardId}/status/{status}</code></p>
 
 <p>Updates the status of a card for processing. The following values are available</p>
 
@@ -545,13 +690,88 @@ purge will clear the card permanently.</p>
 <td>The card has expired either due to the expiry date no longer being valid or due to a replacement card being issued</td>
 </tr>
 </tbody></table>
+<h3 id='path-parameters-4'>Path Parameters</h3>
+<table><thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>accountid</code></td>
+<td>string</td>
+<td>true</td>
+<td>The account id that refers to the customer&#39;s account no. This value will have been provided when setting up the card holder account.</td>
+</tr>
+<tr>
+<td><code>cardId</code></td>
+<td>string</td>
+<td>true</td>
+<td>The id of the card that is presented by a call to retrieve a card holder account.</td>
+</tr>
+<tr>
+<td><code>status</code></td>
+<td>string</td>
+<td>true</td>
+<td>The status of the card to set, valid values are <code>ACTIVE</code> or <code>INACTIVE</code>.</td>
+</tr>
+</tbody></table>
+<h3 id='response-4'>Response</h3>
+<p>Responses for this operation are</p>
 
-<p>No Request Data</p>
+<table><thead>
+<tr>
+<th>StatusCode</th>
+<th>Description</th>
+<th>Model</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>200</code></td>
+<td>Acknowledges the card status has changed, returning 01 for a valid change or 00 for non valid change.</td>
+<td><code>application/json</code>, <code>text/xml</code>:  <br/> <a href="#acknowledgement">Acknowledgement</a></td>
+</tr>
+<tr>
+<td><code>400</code></td>
+<td>Bad Request. Should the incoming data not be validly determined.</td>
+<td></td>
+</tr>
+<tr>
+<td><code>403</code></td>
+<td>Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request.</td>
+<td></td>
+</tr>
+<tr>
+<td><code>401</code></td>
+<td>Unauthorized. No api key has been provided and is required for this operation.</td>
+<td></td>
+</tr>
+</tbody></table>
 <h2 id='contact-details-update-api'>Contact Details Update API</h2>
-<p><code>HTTP POST /account/{accountid}/contact</code></p>
+<p><span class="http-method-post">POST</span> <code>/account/{accountid}/contact</code></p>
 
 <p>Allows for the ability to change the contact details for an account.</p>
+<h3 id='path-parameters-5'>Path Parameters</h3>
+<table><thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>accountid</code></td>
+<td>string</td>
+<td>true</td>
+<td>The account id that refers to the customer&#39;s account no. This value will have been provided when setting up the card holder account.</td>
+</tr>
+</tbody></table>
 <h3 id='model-contactdetails'>Model ContactDetails</h3>
+<p>Request body for this operation contains the following properties</p>
+
 <table><thead>
 <tr>
 <th>Name</th>
@@ -639,8 +859,39 @@ purge will clear the card permanently.</p>
 <td>A title for the card holder such as Mr, Mrs, Ms, M. Mme. etc.</td>
 </tr>
 </tbody></table>
+<h3 id='response-5'>Response</h3>
+<p>Responses for this operation are</p>
+
+<table><thead>
+<tr>
+<th>StatusCode</th>
+<th>Description</th>
+<th>Model</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>200</code></td>
+<td>A revised account with the new details set.</td>
+<td><code>application/json</code>, <code>text/xml</code>:  <br/> <a href="#cardholderaccount">CardHolderAccount</a></td>
+</tr>
+<tr>
+<td><code>400</code></td>
+<td>Bad Request. Should the incoming data not be validly determined.</td>
+<td></td>
+</tr>
+<tr>
+<td><code>403</code></td>
+<td>Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request.</td>
+<td></td>
+</tr>
+<tr>
+<td><code>401</code></td>
+<td>Unauthorized. No api key has been provided and is required for this operation.</td>
+<td></td>
+</tr>
+</tbody></table>
 <h2 id='card-registration-api'>Card Registration API</h2>
-<p><code>HTTP POST /account/{accountid}/register</code></p>
+<p><span class="http-method-post">POST</span> <code>/account/{accountid}/register</code></p>
 
 <p>Allows for a card to be registered for the account. The card will be added for future 
 processing and will be available as a tokenised value for future processing.</p>
@@ -652,7 +903,25 @@ processing and will be available as a tokenised value for future processing.</p>
 <li>Having a valid expiry date</li>
 <li>Being a valid bin value.</li>
 </ol>
+<h3 id='path-parameters-6'>Path Parameters</h3>
+<table><thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>accountid</code></td>
+<td>string</td>
+<td>true</td>
+<td>The account id that refers to the customer&#39;s account no. This value will have been provided when setting up the card holder account.</td>
+</tr>
+</tbody></table>
 <h3 id='model-registercard'>Model RegisterCard</h3>
+<p>Request body for this operation contains the following properties</p>
+
 <table><thead>
 <tr>
 <th>Name</th>
@@ -692,8 +961,39 @@ processing and will be available as a tokenised value for future processing.</p>
 <td>The expiry year of the card.<br/>minimum: 2000<br/>maximum: 2100</td>
 </tr>
 </tbody></table>
+<h3 id='response-6'>Response</h3>
+<p>Responses for this operation are</p>
+
+<table><thead>
+<tr>
+<th>StatusCode</th>
+<th>Description</th>
+<th>Model</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>200</code></td>
+<td>A successfully registered card provides a reload of the account including the new card.</td>
+<td><code>application/json</code>, <code>text/xml</code>:  <br/> <a href="#cardholderaccount">CardHolderAccount</a></td>
+</tr>
+<tr>
+<td><code>400</code></td>
+<td>Bad Request. Should the incoming data not be validly determined.</td>
+<td></td>
+</tr>
+<tr>
+<td><code>403</code></td>
+<td>Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request.</td>
+<td></td>
+</tr>
+<tr>
+<td><code>401</code></td>
+<td>Unauthorized. No api key has been provided and is required for this operation.</td>
+<td></td>
+</tr>
+</tbody></table>
 <h2 id='account-status-api'>Account Status API</h2>
-<p><code>HTTP POST /account/{accountid}/status</code></p>
+<p><span class="http-method-post">POST</span> <code>/account/{accountid}/status</code></p>
 
 <p>Updates the status of an account. An account can have the following statuses applied</p>
 
@@ -712,10 +1012,55 @@ processing and will be available as a tokenised value for future processing.</p>
 <td>The account has been disabled and cannot be used for processing. The account will require reactivation to continue procesing</td>
 </tr>
 </tbody></table>
+<h3 id='path-parameters-7'>Path Parameters</h3>
+<table><thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>accountid</code></td>
+<td>string</td>
+<td>true</td>
+<td>The account id that refers to the customer&#39;s account no. This value will have been provided when setting up the card holder account.</td>
+</tr>
+</tbody></table>
+<h3 id='response-7'>Response</h3>
+<p>Responses for this operation are</p>
 
-<p>No Request Data</p>
+<table><thead>
+<tr>
+<th>StatusCode</th>
+<th>Description</th>
+<th>Model</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>200</code></td>
+<td>An acknowledgment that the card holder account status has been updated.</td>
+<td><code>application/json</code>, <code>text/xml</code>:  <br/> <a href="#acknowledgement">Acknowledgement</a></td>
+</tr>
+<tr>
+<td><code>400</code></td>
+<td>Bad Request. Should the incoming data not be validly determined.</td>
+<td></td>
+</tr>
+<tr>
+<td><code>403</code></td>
+<td>Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request.</td>
+<td></td>
+</tr>
+<tr>
+<td><code>401</code></td>
+<td>Unauthorized. No api key has been provided and is required for this operation.</td>
+<td></td>
+</tr>
+</tbody></table>
 <h2 id='charge-api'>Charge API</h2>
-<p><code>HTTP POST /charge</code></p>
+<p><span class="http-method-post">POST</span> <code>/charge</code></p>
 
 <p>A charge process obtains an authorisation using a tokenised value which represents a stored card 
 on a card holder account. 
@@ -739,6 +1084,8 @@ for use elsewhere.  </p>
 <li>wallet style usage.</li>
 </ul>
 <h3 id='model-chargerequest'>Model ChargeRequest</h3>
+<p>Request body for this operation contains the following properties</p>
+
 <table><thead>
 <tr>
 <th>Name</th>
@@ -796,14 +1143,90 @@ for use elsewhere.  </p>
 <td>The type of transaction being submitted. Normally this value is not required and your account manager may request that you set this field.<br/>minLength: 1<br/>maxLength: 1</td>
 </tr>
 </tbody></table>
+<h3 id='response-8'>Response</h3>
+<p>Responses for this operation are</p>
+
+<table><thead>
+<tr>
+<th>StatusCode</th>
+<th>Description</th>
+<th>Model</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>200</code></td>
+<td>A result of the charge.</td>
+<td><code>application/json</code>, <code>text/xml</code>:  <br/>  One of: <a href="#authresponse">AuthResponse</a>, <a href="#authenrequired">AuthenRequired</a>, <a href="#requestchallenged">RequestChallenged</a></td>
+</tr>
+<tr>
+<td><code>400</code></td>
+<td>Bad Request. Should the incoming data not be validly determined.</td>
+<td></td>
+</tr>
+<tr>
+<td><code>403</code></td>
+<td>Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request.</td>
+<td></td>
+</tr>
+<tr>
+<td><code>401</code></td>
+<td>Unauthorized. No api key has been provided and is required for this operation.</td>
+<td></td>
+</tr>
+</tbody></table>
 <h1 id='operational'>Operational</h1><h2 id='list-merchants-request'>List Merchants Request</h2>
-<p><code>HTTP GET /merchants/{clientid}</code></p>
+<p><span class="http-method-get">GET</span> <code>/merchants/{clientid}</code></p>
 
 <p>An operational request to list current merchants for a client.</p>
+<h3 id='path-parameters-8'>Path Parameters</h3>
+<table><thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>clientid</code></td>
+<td>string</td>
+<td>true</td>
+<td>The client id to return merchants for, specifying &quot;default&quot; will use the value in your api key.</td>
+</tr>
+</tbody></table>
+<h3 id='response-9'>Response</h3>
+<p>Responses for this operation are</p>
 
-<p>No Request Data</p>
+<table><thead>
+<tr>
+<th>StatusCode</th>
+<th>Description</th>
+<th>Model</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>200</code></td>
+<td>A list of merchants that are configured against the client id.</td>
+<td><code>application/json</code>, <code>text/xml</code>:  <br/> <a href="#listmerchantsresponse">ListMerchantsResponse</a></td>
+</tr>
+<tr>
+<td><code>400</code></td>
+<td>Bad Request. Should the incoming data not be validly determined.</td>
+<td></td>
+</tr>
+<tr>
+<td><code>403</code></td>
+<td>Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request.</td>
+<td></td>
+</tr>
+<tr>
+<td><code>401</code></td>
+<td>Unauthorized. No api key has been provided and is required for this operation.</td>
+<td></td>
+</tr>
+</tbody></table>
 <h2 id='ping-request'>Ping Request</h2>
-<p><code>HTTP POST /ping</code></p>
+<p><span class="http-method-post">POST</span> <code>/ping</code></p>
 
 <p>A ping request which performs a connection and authentication test to the CityPay API server. The request
 will return a standard Acknowledgement with a response code <code>044</code> to signify a successful
@@ -813,6 +1236,8 @@ ping.</p>
 the API from behind any firewalls and that the permission
 model is granting access from your source.</p>
 <h3 id='model-ping'>Model Ping</h3>
+<p>Request body for this operation contains the following properties</p>
+
 <table><thead>
 <tr>
 <th>Name</th>
@@ -828,8 +1253,39 @@ model is granting access from your source.</p>
 <td>An identifier of the ping request which will be returned in the response.<br/>minLength: 4<br/>maxLength: 50</td>
 </tr>
 </tbody></table>
+<h3 id='response-10'>Response</h3>
+<p>Responses for this operation are</p>
+
+<table><thead>
+<tr>
+<th>StatusCode</th>
+<th>Description</th>
+<th>Model</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>200</code></td>
+<td>A result of the ping request.</td>
+<td><code>application/json</code>, <code>text/xml</code>:  <br/> <a href="#acknowledgement">Acknowledgement</a></td>
+</tr>
+<tr>
+<td><code>400</code></td>
+<td>Bad Request. Should the incoming data not be validly determined.</td>
+<td></td>
+</tr>
+<tr>
+<td><code>403</code></td>
+<td>Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request.</td>
+<td></td>
+</tr>
+<tr>
+<td><code>401</code></td>
+<td>Unauthorized. No api key has been provided and is required for this operation.</td>
+<td></td>
+</tr>
+</tbody></table>
 <h1 id='payment-processing'>Payment Processing</h1><h2 id='authorisation-api'>Authorisation API</h2>
-<p><code>HTTP POST /authorise</code></p>
+<p><span class="http-method-post">POST</span> <code>/authorise</code></p>
 
 <p>An authorisation process performs a standard transaction authorisation based on the provided parameters of its request.
 The CityPay gateway will route your transaction via an Acquiring bank for subsequent authorisation to the appropriate card 
@@ -910,6 +1366,8 @@ value, the flow will perform a full authorisation. </p>
 authorisation. The ACS by this point will have sent us the verification value (CAVV) to perform a liability shift. The CRes
 value will be validated for receipt of this value and subsequently may return back response codes illustrating this.</p>
 <h3 id='model-authrequest'>Model AuthRequest</h3>
+<p>Request body for this operation contains the following properties</p>
+
 <table><thead>
 <tr>
 <th>Name</th>
@@ -1003,7 +1461,58 @@ value will be validated for receipt of this value and subsequently may return ba
 <td>The type of transaction being submitted. Normally this value is not required and your account manager may request that you set this field.<br/>minLength: 1<br/>maxLength: 1</td>
 </tr>
 </tbody></table>
+<h3 id='response-11'>Response</h3>
+<p>Responses for this operation are</p>
+
+<table><thead>
+<tr>
+<th>StatusCode</th>
+<th>Description</th>
+<th>Model</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>200</code></td>
+<td>A result of the authorisation.</td>
+<td><code>application/json</code>, <code>text/xml</code>:  <br/>  One of: <a href="#authresponse">AuthResponse</a>, <a href="#authenrequired">AuthenRequired</a>, <a href="#requestchallenged">RequestChallenged</a></td>
+</tr>
+<tr>
+<td><code>400</code></td>
+<td>Bad Request. Should the incoming data not be validly determined.</td>
+<td></td>
+</tr>
+<tr>
+<td><code>403</code></td>
+<td>Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request.</td>
+<td></td>
+</tr>
+<tr>
+<td><code>401</code></td>
+<td>Unauthorized. No api key has been provided and is required for this operation.</td>
+<td></td>
+</tr>
+</tbody></table>
 <h2 id='capture-api'>Capture API</h2>
+<p><span class="http-method-post">POST</span> <code>/capture</code></p>
+
+<p><em>The capture process only applies to transactions which have been pre-authorised only.</em> </p>
+
+<p>The capture process will ensure
+that a transaction will now settle. It is expected that a capture call will be provided within 3 days or
+a maximum of 7 days.</p>
+
+<p>A capture request is provided to confirm that you wish the transaction to be settled. This request can
+contain a final amount for the transaction which is different to the original authorisation amount. This
+may be useful in a delayed system process such as waiting for stock to be ordered, confirmed, or services
+provided before the final cost is known.</p>
+
+<p>When a transaction is completed, a new authorisation code may be created and a new confirmation
+can be sent online to the acquiring bank.</p>
+
+<p>Once the transaction has been processed. A standard <a href="#acknowledgement"><code>Acknowledgement</code></a> will be returned,
+outlining the result of the transaction. On a successful completion process, the transaction will
+be available for the settlement and completed at the end of the day.</p>
+
 <blockquote>
 <p>Basic capture call for a merchant with a given identifier</p>
 </blockquote>
@@ -1069,27 +1578,9 @@ value will be validated for receipt of this value and subsequently may return ba
       <span class="nt">&lt;/segment1&gt;</span>
    <span class="nt">&lt;/airline-data&gt;</span>
 <span class="nt">&lt;/CaptureRequest&gt;</span>
-</code></pre>
-<p><code>HTTP POST /capture</code></p>
+</code></pre><h3 id='model-capturerequest'>Model CaptureRequest</h3>
+<p>Request body for this operation contains the following properties</p>
 
-<p><em>The capture process only applies to transactions which have been pre-authorised only.</em> </p>
-
-<p>The capture process will ensure
-that a transaction will now settle. It is expected that a capture call will be provided within 3 days or
-a maximum of 7 days.</p>
-
-<p>A capture request is provided to confirm that you wish the transaction to be settled. This request can
-contain a final amount for the transaction which is different to the original authorisation amount. This
-may be useful in a delayed system process such as waiting for stock to be ordered, confirmed, or services
-provided before the final cost is known.</p>
-
-<p>When a transaction is completed, a new authorisation code may be created and a new confirmation
-can be sent online to the acquiring bank.</p>
-
-<p>Once the transaction has been processed. A standard <a href="#acknowledgement"><code>Acknowledgement</code></a> will be returned,
-outlining the result of the transaction. On a successful completion process, the transaction will
-be available for the settlement and completed at the end of the day.</p>
-<h3 id='model-capturerequest'>Model CaptureRequest</h3>
 <table><thead>
 <tr>
 <th>Name</th>
@@ -1135,7 +1626,51 @@ be available for the settlement and completed at the end of the day.</p>
 <td>The transaction number of the transaction to look up and capture. If an empty value is supplied then an identifier value must be supplied.</td>
 </tr>
 </tbody></table>
+<h3 id='response-12'>Response</h3>
+<p>Responses for this operation are</p>
+
+<table><thead>
+<tr>
+<th>StatusCode</th>
+<th>Description</th>
+<th>Model</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>200</code></td>
+<td>A result and acknowledgement of the capture request.</td>
+<td><code>application/json</code>, <code>text/xml</code>:  <br/> <a href="#acknowledgement">Acknowledgement</a></td>
+</tr>
+<tr>
+<td><code>400</code></td>
+<td>Bad Request. Should the incoming data not be validly determined.</td>
+<td></td>
+</tr>
+<tr>
+<td><code>403</code></td>
+<td>Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request.</td>
+<td></td>
+</tr>
+<tr>
+<td><code>401</code></td>
+<td>Unauthorized. No api key has been provided and is required for this operation.</td>
+<td></td>
+</tr>
+</tbody></table>
 <h2 id='retrieval-api'>Retrieval API</h2>
+<p><span class="http-method-post">POST</span> <code>/retrieve</code></p>
+
+<p>A retrieval request which allows an integration to obtain the result of a transaction processed
+in the last 90 days. The request allows for retrieval based on the identifier or transaction 
+number. </p>
+
+<p>The process may return multiple results in particular where a transaction was processed multiple
+times against the same identifier. This can happen if errors were first received. The API therefore
+returns up to the first 5 transactions in the latest date time order.</p>
+
+<p>It is not intended for this operation to be a replacement for reporting and only allows for base transaction
+information to be returned.</p>
+
 <blockquote>
 <p>Basic retrieval call for a merchant with a given identifier</p>
 </blockquote>
@@ -1149,20 +1684,9 @@ be available for the settlement and completed at the end of the day.</p>
    <span class="nt">&lt;merchantid&gt;</span>123456<span class="nt">&lt;/merchantid&gt;</span>
    <span class="nt">&lt;identifier&gt;</span>318f2bc5-d9e0-4ddf-9df1-1ea9e4890ca9<span class="nt">&lt;/identifier&gt;</span>
 <span class="nt">&lt;/RetrievalRequest&gt;</span>
-</code></pre>
-<p><code>HTTP POST /retrieve</code></p>
+</code></pre><h3 id='model-retrieverequest'>Model RetrieveRequest</h3>
+<p>Request body for this operation contains the following properties</p>
 
-<p>A retrieval request which allows an integration to obtain the result of a transaction processed
-in the last 90 days. The request allows for retrieval based on the identifier or transaction 
-number. </p>
-
-<p>The process may return multiple results in particular where a transaction was processed multiple
-times against the same identifier. This can happen if errors were first received. The API therefore
-returns up to the first 5 transactions in the latest date time order.</p>
-
-<p>It is not intended for this operation to be a replacement for reporting and only allows for base transaction
-information to be returned.</p>
-<h3 id='model-retrieverequest'>Model RetrieveRequest</h3>
 <table><thead>
 <tr>
 <th>Name</th>
@@ -1190,7 +1714,49 @@ information to be returned.</p>
 <td>The transaction number of a transaction to retrieve. Optional if an identifier is supplied.</td>
 </tr>
 </tbody></table>
+<h3 id='response-13'>Response</h3>
+<p>Responses for this operation are</p>
+
+<table><thead>
+<tr>
+<th>StatusCode</th>
+<th>Description</th>
+<th>Model</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>200</code></td>
+<td>A result of the retrieval request.</td>
+<td><code>application/json</code>, <code>text/xml</code>:  <br/> <a href="#authreferences">AuthReferences</a></td>
+</tr>
+<tr>
+<td><code>400</code></td>
+<td>Bad Request. Should the incoming data not be validly determined.</td>
+<td></td>
+</tr>
+<tr>
+<td><code>403</code></td>
+<td>Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request.</td>
+<td></td>
+</tr>
+<tr>
+<td><code>401</code></td>
+<td>Unauthorized. No api key has been provided and is required for this operation.</td>
+<td></td>
+</tr>
+</tbody></table>
 <h2 id='void-api'>Void API</h2>
+<p><span class="http-method-post">POST</span> <code>/void</code></p>
+
+<p><em>The void process generally applies to transactions which have been pre-authorised only however voids can occur 
+on the same day if performed before batching and settlement.</em> </p>
+
+<p>The void process will ensure that a transaction will now settle. It is expected that a void call will be 
+provided on the same day before batching and settlement or within 3 days or within a maximum of 7 days.</p>
+
+<p>Once the transaction has been processed as a void, an <a href="#acknowledgement"><code>Acknowledgement</code></a> will be returned,
+outlining the result of the transaction.</p>
+
 <blockquote>
 <p>Basic capture call for a merchant with a given identifier</p>
 </blockquote>
@@ -1218,18 +1784,9 @@ information to be returned.</p>
    <span class="nt">&lt;merchantid&gt;</span>123456<span class="nt">&lt;/merchantid&gt;</span>
    <span class="nt">&lt;transno&gt;</span>11275<span class="nt">&lt;/transno&gt;</span>
 <span class="nt">&lt;/VoidRequest&gt;</span>
-</code></pre>
-<p><code>HTTP POST /void</code></p>
+</code></pre><h3 id='model-voidrequest'>Model VoidRequest</h3>
+<p>Request body for this operation contains the following properties</p>
 
-<p><em>The void process generally applies to transactions which have been pre-authorised only however voids can occur 
-on the same day if performed before batching and settlement.</em> </p>
-
-<p>The void process will ensure that a transaction will now settle. It is expected that a void call will be 
-provided on the same day before batching and settlement or within 3 days or within a maximum of 7 days.</p>
-
-<p>Once the transaction has been processed as a void, an <a href="#acknowledgement"><code>Acknowledgement</code></a> will be returned,
-outlining the result of the transaction.</p>
-<h3 id='model-voidrequest'>Model VoidRequest</h3>
 <table><thead>
 <tr>
 <th>Name</th>
@@ -1261,6 +1818,37 @@ outlining the result of the transaction.</p>
 <td>integer <em>int32</em></td>
 <td>false</td>
 <td>The transaction number of the transaction to look up and void. If an empty value is supplied then an identifier value must be supplied.</td>
+</tr>
+</tbody></table>
+<h3 id='response-14'>Response</h3>
+<p>Responses for this operation are</p>
+
+<table><thead>
+<tr>
+<th>StatusCode</th>
+<th>Description</th>
+<th>Model</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>200</code></td>
+<td>A result and acknowledgement of the void request.</td>
+<td><code>application/json</code>, <code>text/xml</code>:  <br/> <a href="#acknowledgement">Acknowledgement</a></td>
+</tr>
+<tr>
+<td><code>400</code></td>
+<td>Bad Request. Should the incoming data not be validly determined.</td>
+<td></td>
+</tr>
+<tr>
+<td><code>403</code></td>
+<td>Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request.</td>
+<td></td>
+</tr>
+<tr>
+<td><code>401</code></td>
+<td>Unauthorized. No api key has been provided and is required for this operation.</td>
+<td></td>
 </tr>
 </tbody></table>
 <h1 id='api-model'>API Model</h1><h2 id='acknowledgement'>Acknowledgement</h2><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">

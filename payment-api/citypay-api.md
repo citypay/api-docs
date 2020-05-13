@@ -64,9 +64,13 @@ Completion processing. The API is also capable of tokinsed payments using Card H
 
 Please contact CityPay Support
 
- - Our online <a href="https://jira.ops.citypay.com/servicedesk/customer/portal/14">Service Desk</a>
- - Online at <a href="https://citypay.com/customer-centre/technical-support.html">https://citypay.com/customer-centre/technical-support.html</a>
- - Email at <a href="mailto:support@citypay.com">support@citypay.com</a>
+ - At our online <a href="https://jira.ops.citypay.com/servicedesk/customer/portal/14">Service Desk</a>
+ - Or via our website at <a href="https://citypay.com/customer-centre/technical-support.html">https://citypay.com/customer-centre/technical-support.html</a>
+
+For any transaction investigations or integration support, please provide your
+ - merchant id
+ - a context id or identifier
+ - a date and time of the request
 
 
 
@@ -120,7 +124,7 @@ If you do not have an API key please quote your Client ID and Merchant ID to <a 
 
 ## Account Retrieval API
 
-`HTTP GET /account/{accountid}`
+<span class="http-method-get">GET</span> `/account/{accountid}`
 
 Allows for the retrieval of a card holder account for the given `id`. Should duplicate accounts exist
 for the same `id`, the first account created with that `id` will be returned.
@@ -130,34 +134,101 @@ The returned cards will include all `active`, `inactive` and `expired` cards. Th
 enable a card holder to view their wallet and make constructive choices on which card to use.
 
 
-No Request Data
+
+### Path Parameters
+
+Name | Type | Required | Description |
+-----|------|----------|-------------|
+ `accountid` | string | true | The account id that refers to the customer's account no. This value will have been provided when setting up the card holder account. | 
+
+
+
+
+
+### Response
+
+Responses for this operation are
+
+ StatusCode | Description | Model |
+------------|-------------|-------|
+ `200` | A card holder account that matches the account id provided in the request. | `application/json`, `text/xml`:  <br/> [CardHolderAccount](#cardholderaccount) |  
+ `400` | Bad Request. Should the incoming data not be validly determined. |  |  
+ `403` | Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request. |  |  
+ `401` | Unauthorized. No api key has been provided and is required for this operation. |  |  
+
+
 
 
 ## Account Deletion API
 
-`HTTP DELETE /account/{accountid}`
+<span class="http-method-delete">DELETE</span> `/account/{accountid}`
 
 Allows for the deletion of an account. The account will marked for deletion and subsequent purging. No further
 transactions will be alowed to be processed or actioned against this account.
 
 
-No Request Data
+
+### Path Parameters
+
+Name | Type | Required | Description |
+-----|------|----------|-------------|
+ `accountid` | string | true | The account id that refers to the customer's account no. This value will have been provided when setting up the card holder account. | 
+
+
+
+
+
+### Response
+
+Responses for this operation are
+
+ StatusCode | Description | Model |
+------------|-------------|-------|
+ `200` | An acknowledgment that the card holder account has been marked for deletion. | `application/json`, `text/xml`:  <br/> [Acknowledgement](#acknowledgement) |  
+ `400` | Bad Request. Should the incoming data not be validly determined. |  |  
+ `403` | Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request. |  |  
+ `401` | Unauthorized. No api key has been provided and is required for this operation. |  |  
+
+
 
 
 ## Card Deletion API
 
-`HTTP DELETE /account/{accountid}/card/{cardId}`
+<span class="http-method-delete">DELETE</span> `/account/{accountid}/card/{cardId}`
 
 Deletes a card from the account. The card will be marked for deletion before a subsequent
 purge will clear the card permanently.
 
 
-No Request Data
+
+### Path Parameters
+
+Name | Type | Required | Description |
+-----|------|----------|-------------|
+ `accountid` | string | true | The account id that refers to the customer's account no. This value will have been provided when setting up the card holder account. | 
+ `cardId` | string | true | The id of the card that is presented by a call to retrieve a card holder account. | 
+
+
+
+
+
+### Response
+
+Responses for this operation are
+
+ StatusCode | Description | Model |
+------------|-------------|-------|
+ `200` | Acknowledges the card has been requested for deletion. | `application/json`, `text/xml`:  <br/> [Acknowledgement](#acknowledgement) |  
+ `400` | Bad Request. Should the incoming data not be validly determined. |  |  
+ `403` | Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request. |  |  
+ `401` | Unauthorized. No api key has been provided and is required for this operation. |  |  
+
+
 
 
 ## Card Status API
 
-`HTTP POST /account/{accountid}/card/{cardId}/status/{status}`
+<span class="http-method-post">POST</span> `/account/{accountid}/card/{cardId}/status/{status}`
 
 Updates the status of a card for processing. The following values are available
 
@@ -168,18 +239,55 @@ Updates the status of a card for processing. The following values are available
  Expired | The card has expired either due to the expiry date no longer being valid or due to a replacement card being issued |
 
 
-No Request Data
+
+### Path Parameters
+
+Name | Type | Required | Description |
+-----|------|----------|-------------|
+ `accountid` | string | true | The account id that refers to the customer's account no. This value will have been provided when setting up the card holder account. | 
+ `cardId` | string | true | The id of the card that is presented by a call to retrieve a card holder account. | 
+ `status` | string | true | The status of the card to set, valid values are `ACTIVE` or `INACTIVE`. | 
+
+
+
+
+
+### Response
+
+Responses for this operation are
+
+ StatusCode | Description | Model |
+------------|-------------|-------|
+ `200` | Acknowledges the card status has changed, returning 01 for a valid change or 00 for non valid change. | `application/json`, `text/xml`:  <br/> [Acknowledgement](#acknowledgement) |  
+ `400` | Bad Request. Should the incoming data not be validly determined. |  |  
+ `403` | Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request. |  |  
+ `401` | Unauthorized. No api key has been provided and is required for this operation. |  |  
+
+
 
 
 ## Contact Details Update API
 
-
-
-`HTTP POST /account/{accountid}/contact`
+<span class="http-method-post">POST</span> `/account/{accountid}/contact`
 
 Allows for the ability to change the contact details for an account.
 
+
+### Path Parameters
+
+Name | Type | Required | Description |
+-----|------|----------|-------------|
+ `accountid` | string | true | The account id that refers to the customer's account no. This value will have been provided when setting up the card holder account. | 
+
+
+
+
+
+
+
 ### Model ContactDetails
+
+Request body for this operation contains the following properties
 
 Name | Type | Required | Description |
 -----|------|----------|-------------|
@@ -199,11 +307,23 @@ Name | Type | Required | Description |
 
 
 
+### Response
+
+Responses for this operation are
+
+ StatusCode | Description | Model |
+------------|-------------|-------|
+ `200` | A revised account with the new details set. | `application/json`, `text/xml`:  <br/> [CardHolderAccount](#cardholderaccount) |  
+ `400` | Bad Request. Should the incoming data not be validly determined. |  |  
+ `403` | Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request. |  |  
+ `401` | Unauthorized. No api key has been provided and is required for this operation. |  |  
+
+
+
+
 ## Card Registration API
 
-
-
-`HTTP POST /account/{accountid}/register`
+<span class="http-method-post">POST</span> `/account/{accountid}/register`
 
 Allows for a card to be registered for the account. The card will be added for future 
 processing and will be available as a tokenised value for future processing.
@@ -215,7 +335,22 @@ The card will be validated for
 0. Being a valid bin value.
 
 
+
+### Path Parameters
+
+Name | Type | Required | Description |
+-----|------|----------|-------------|
+ `accountid` | string | true | The account id that refers to the customer's account no. This value will have been provided when setting up the card holder account. | 
+
+
+
+
+
+
+
 ### Model RegisterCard
+
+Request body for this operation contains the following properties
 
 Name | Type | Required | Description |
 -----|------|----------|-------------|
@@ -227,9 +362,23 @@ Name | Type | Required | Description |
 
 
 
+### Response
+
+Responses for this operation are
+
+ StatusCode | Description | Model |
+------------|-------------|-------|
+ `200` | A successfully registered card provides a reload of the account including the new card. | `application/json`, `text/xml`:  <br/> [CardHolderAccount](#cardholderaccount) |  
+ `400` | Bad Request. Should the incoming data not be validly determined. |  |  
+ `403` | Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request. |  |  
+ `401` | Unauthorized. No api key has been provided and is required for this operation. |  |  
+
+
+
+
 ## Account Status API
 
-`HTTP POST /account/{accountid}/status`
+<span class="http-method-post">POST</span> `/account/{accountid}/status`
 
 Updates the status of an account. An account can have the following statuses applied
 
@@ -239,14 +388,34 @@ Updates the status of an account. An account can have the following statuses app
  Disabled | The account has been disabled and cannot be used for processing. The account will require reactivation to continue procesing |
 
 
-No Request Data
+
+### Path Parameters
+
+Name | Type | Required | Description |
+-----|------|----------|-------------|
+ `accountid` | string | true | The account id that refers to the customer's account no. This value will have been provided when setting up the card holder account. | 
+
+
+
+
+
+### Response
+
+Responses for this operation are
+
+ StatusCode | Description | Model |
+------------|-------------|-------|
+ `200` | An acknowledgment that the card holder account status has been updated. | `application/json`, `text/xml`:  <br/> [Acknowledgement](#acknowledgement) |  
+ `400` | Bad Request. Should the incoming data not be validly determined. |  |  
+ `403` | Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request. |  |  
+ `401` | Unauthorized. No api key has been provided and is required for this operation. |  |  
+
+
 
 
 ## Charge API
 
-
-
-`HTTP POST /charge`
+<span class="http-method-post">POST</span> `/charge`
 
 A charge process obtains an authorisation using a tokenised value which represents a stored card 
 on a card holder account. 
@@ -269,7 +438,14 @@ Tokenisation can be used for
 - wallet style usage.
 
 
+
+
+
+
+
 ### Model ChargeRequest
+
+Request body for this operation contains the following properties
 
 Name | Type | Required | Description |
 -----|------|----------|-------------|
@@ -284,22 +460,56 @@ Name | Type | Required | Description |
 
 
 
+### Response
+
+Responses for this operation are
+
+ StatusCode | Description | Model |
+------------|-------------|-------|
+ `200` | A result of the charge. | `application/json`, `text/xml`:  <br/>  One of: [AuthResponse](#authresponse), [AuthenRequired](#authenrequired), [RequestChallenged](#requestchallenged) |  
+ `400` | Bad Request. Should the incoming data not be validly determined. |  |  
+ `403` | Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request. |  |  
+ `401` | Unauthorized. No api key has been provided and is required for this operation. |  |  
+
+
+
+
 # Operational
 
 ## List Merchants Request
 
-`HTTP GET /merchants/{clientid}`
+<span class="http-method-get">GET</span> `/merchants/{clientid}`
 
 An operational request to list current merchants for a client.
 
-No Request Data
+
+### Path Parameters
+
+Name | Type | Required | Description |
+-----|------|----------|-------------|
+ `clientid` | string | true | The client id to return merchants for, specifying "default" will use the value in your api key. | 
+
+
+
+
+
+### Response
+
+Responses for this operation are
+
+ StatusCode | Description | Model |
+------------|-------------|-------|
+ `200` | A list of merchants that are configured against the client id. | `application/json`, `text/xml`:  <br/> [ListMerchantsResponse](#listmerchantsresponse) |  
+ `400` | Bad Request. Should the incoming data not be validly determined. |  |  
+ `403` | Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request. |  |  
+ `401` | Unauthorized. No api key has been provided and is required for this operation. |  |  
+
+
 
 
 ## Ping Request
 
-
-
-`HTTP POST /ping`
+<span class="http-method-post">POST</span> `/ping`
 
 A ping request which performs a connection and authentication test to the CityPay API server. The request
 will return a standard Acknowledgement with a response code `044` to signify a successful
@@ -310,7 +520,14 @@ the API from behind any firewalls and that the permission
 model is granting access from your source.
 
 
+
+
+
+
+
 ### Model Ping
+
+Request body for this operation contains the following properties
 
 Name | Type | Required | Description |
 -----|------|----------|-------------|
@@ -318,13 +535,25 @@ Name | Type | Required | Description |
 
 
 
+### Response
+
+Responses for this operation are
+
+ StatusCode | Description | Model |
+------------|-------------|-------|
+ `200` | A result of the ping request. | `application/json`, `text/xml`:  <br/> [Acknowledgement](#acknowledgement) |  
+ `400` | Bad Request. Should the incoming data not be validly determined. |  |  
+ `403` | Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request. |  |  
+ `401` | Unauthorized. No api key has been provided and is required for this operation. |  |  
+
+
+
+
 # Payment Processing
 
 ## Authorisation API
 
-
-
-`HTTP POST /authorise`
+<span class="http-method-post">POST</span> `/authorise`
 
 An authorisation process performs a standard transaction authorisation based on the provided parameters of its request.
 The CityPay gateway will route your transaction via an Acquiring bank for subsequent authorisation to the appropriate card 
@@ -424,7 +653,14 @@ authorisation. The ACS by this point will have sent us the verification value (C
 value will be validated for receipt of this value and subsequently may return back response codes illustrating this.
 
 
+
+
+
+
+
 ### Model AuthRequest
+
+Request body for this operation contains the following properties
 
 Name | Type | Required | Description |
 -----|------|----------|-------------|
@@ -445,7 +681,45 @@ Name | Type | Required | Description |
 
 
 
+### Response
+
+Responses for this operation are
+
+ StatusCode | Description | Model |
+------------|-------------|-------|
+ `200` | A result of the authorisation. | `application/json`, `text/xml`:  <br/>  One of: [AuthResponse](#authresponse), [AuthenRequired](#authenrequired), [RequestChallenged](#requestchallenged) |  
+ `400` | Bad Request. Should the incoming data not be validly determined. |  |  
+ `403` | Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request. |  |  
+ `401` | Unauthorized. No api key has been provided and is required for this operation. |  |  
+
+
+
+
 ## Capture API
+
+<span class="http-method-post">POST</span> `/capture`
+
+_The capture process only applies to transactions which have been pre-authorised only._ 
+
+The capture process will ensure
+that a transaction will now settle. It is expected that a capture call will be provided within 3 days or
+a maximum of 7 days.
+
+A capture request is provided to confirm that you wish the transaction to be settled. This request can
+contain a final amount for the transaction which is different to the original authorisation amount. This
+may be useful in a delayed system process such as waiting for stock to be ordered, confirmed, or services
+provided before the final cost is known.
+
+When a transaction is completed, a new authorisation code may be created and a new confirmation
+can be sent online to the acquiring bank.
+
+Once the transaction has been processed. A standard [`Acknowledgement`](#acknowledgement) will be returned,
+outlining the result of the transaction. On a successful completion process, the transaction will
+be available for the settlement and completed at the end of the day.
+
+
+
+
 
 
 > Basic capture call for a merchant with a given identifier
@@ -529,28 +803,9 @@ Name | Type | Required | Description |
 ```
 
 
-`HTTP POST /capture`
-
-_The capture process only applies to transactions which have been pre-authorised only._ 
-
-The capture process will ensure
-that a transaction will now settle. It is expected that a capture call will be provided within 3 days or
-a maximum of 7 days.
-
-A capture request is provided to confirm that you wish the transaction to be settled. This request can
-contain a final amount for the transaction which is different to the original authorisation amount. This
-may be useful in a delayed system process such as waiting for stock to be ordered, confirmed, or services
-provided before the final cost is known.
-
-When a transaction is completed, a new authorisation code may be created and a new confirmation
-can be sent online to the acquiring bank.
-
-Once the transaction has been processed. A standard [`Acknowledgement`](#acknowledgement) will be returned,
-outlining the result of the transaction. On a successful completion process, the transaction will
-be available for the settlement and completed at the end of the day.
-
-
 ### Model CaptureRequest
+
+Request body for this operation contains the following properties
 
 Name | Type | Required | Description |
 -----|------|----------|-------------|
@@ -563,7 +818,38 @@ Name | Type | Required | Description |
 
 
 
+### Response
+
+Responses for this operation are
+
+ StatusCode | Description | Model |
+------------|-------------|-------|
+ `200` | A result and acknowledgement of the capture request. | `application/json`, `text/xml`:  <br/> [Acknowledgement](#acknowledgement) |  
+ `400` | Bad Request. Should the incoming data not be validly determined. |  |  
+ `403` | Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request. |  |  
+ `401` | Unauthorized. No api key has been provided and is required for this operation. |  |  
+
+
+
+
 ## Retrieval API
+
+<span class="http-method-post">POST</span> `/retrieve`
+
+A retrieval request which allows an integration to obtain the result of a transaction processed
+in the last 90 days. The request allows for retrieval based on the identifier or transaction 
+number. 
+
+The process may return multiple results in particular where a transaction was processed multiple
+times against the same identifier. This can happen if errors were first received. The API therefore
+returns up to the first 5 transactions in the latest date time order.
+
+It is not intended for this operation to be a replacement for reporting and only allows for base transaction
+information to be returned.
+
+
+
+
 
 
 > Basic retrieval call for a merchant with a given identifier
@@ -585,21 +871,9 @@ Name | Type | Required | Description |
 ```
 
 
-`HTTP POST /retrieve`
-
-A retrieval request which allows an integration to obtain the result of a transaction processed
-in the last 90 days. The request allows for retrieval based on the identifier or transaction 
-number. 
-
-The process may return multiple results in particular where a transaction was processed multiple
-times against the same identifier. This can happen if errors were first received. The API therefore
-returns up to the first 5 transactions in the latest date time order.
-
-It is not intended for this operation to be a replacement for reporting and only allows for base transaction
-information to be returned.
-
-
 ### Model RetrieveRequest
+
+Request body for this operation contains the following properties
 
 Name | Type | Required | Description |
 -----|------|----------|-------------|
@@ -609,7 +883,36 @@ Name | Type | Required | Description |
 
 
 
+### Response
+
+Responses for this operation are
+
+ StatusCode | Description | Model |
+------------|-------------|-------|
+ `200` | A result of the retrieval request. | `application/json`, `text/xml`:  <br/> [AuthReferences](#authreferences) |  
+ `400` | Bad Request. Should the incoming data not be validly determined. |  |  
+ `403` | Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request. |  |  
+ `401` | Unauthorized. No api key has been provided and is required for this operation. |  |  
+
+
+
+
 ## Void API
+
+<span class="http-method-post">POST</span> `/void`
+
+_The void process generally applies to transactions which have been pre-authorised only however voids can occur 
+on the same day if performed before batching and settlement._ 
+
+The void process will ensure that a transaction will now settle. It is expected that a void call will be 
+provided on the same day before batching and settlement or within 3 days or within a maximum of 7 days.
+
+Once the transaction has been processed as a void, an [`Acknowledgement`](#acknowledgement) will be returned,
+outlining the result of the transaction.
+
+
+
+
 
 
 > Basic capture call for a merchant with a given identifier
@@ -650,19 +953,9 @@ Name | Type | Required | Description |
 ```
 
 
-`HTTP POST /void`
-
-_The void process generally applies to transactions which have been pre-authorised only however voids can occur 
-on the same day if performed before batching and settlement._ 
-
-The void process will ensure that a transaction will now settle. It is expected that a void call will be 
-provided on the same day before batching and settlement or within 3 days or within a maximum of 7 days.
-
-Once the transaction has been processed as a void, an [`Acknowledgement`](#acknowledgement) will be returned,
-outlining the result of the transaction.
-
-
 ### Model VoidRequest
+
+Request body for this operation contains the following properties
 
 Name | Type | Required | Description |
 -----|------|----------|-------------|
@@ -670,6 +963,20 @@ Name | Type | Required | Description |
 `merchantid` | integer *int32* | true | Identifies the merchant account to perform the void for. | 
 `sdk` | string  | false | An optional reference value for the calling client such as a version number i.e. | 
 `transno` | integer *int32* | false | The transaction number of the transaction to look up and void. If an empty value is supplied then an identifier value must be supplied. | 
+
+
+
+### Response
+
+Responses for this operation are
+
+ StatusCode | Description | Model |
+------------|-------------|-------|
+ `200` | A result and acknowledgement of the void request. | `application/json`, `text/xml`:  <br/> [Acknowledgement](#acknowledgement) |  
+ `400` | Bad Request. Should the incoming data not be validly determined. |  |  
+ `403` | Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request. |  |  
+ `401` | Unauthorized. No api key has been provided and is required for this operation. |  |  
+
 
 
 
