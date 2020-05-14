@@ -106,17 +106,62 @@ curl -X POST \
 header `cp-api-key`
 
 The `cp-api-key` authentication header is required for all payment processing access.
- All calls using this key will be validated against white list IP addressing based
+ All calls using this key will be validated against white listed IP addressing
  and calls are scrutinised by the CityPay application firewall for security protection
- and attack mitigation. The key should remain secret and may allow processing against multiple
- merchant accounts that belong to your client account.
+ and attack mitigation.
 
- A header key is used to protect undue logging mechanisms from logging data packet values and
- logically seperates authentication concerns from the body of data.
+ A key has been designed to:
+ - be temporal and time based. The key rotates frequently to protect against replay attacks and to ensure a
+   computation derives your client details from the request
+ - to remain secret, the key value is youur access permission to process transactions and
+   although we have preventative measures to protect the key, undue exposure is not desirable
+ - to allow processing against multiple merchant accounts that belong to your CityPay account.
+ - to use a HTTP header value to protect undue logging mechanisms from logging data packet values and
+   logically seperates authentication concerns from the body of data.
 
 
+ A valid key is programmatically generated using
+ - your client id
+ - your client key
+
+The algorithm for generating a key is
+0. create a 256 bit `nonce` value such i.e. `ACB875AEF083DE292299BD69FCDEB5C5`
+0. create a `dt` value which is the current date and time in the format `yyyyMMddHHmm` convert to bytes from a hex representation
+0. generate a HmacSHA256 `hash` for the client licence key using a concatenation of clientid, nonce, dt
+0. create a packet value of `clientId`, `nonce`, and `hash` delimited by `\u003A`
+0. Base64 encode the packet
+
+The following example uses JavaScript and CryptoJS
+
+```javascript
+export function generateApiKey(clientId, licenceKey, nonce, dt = new Date()) {
+  if (!nonce) {
+    nonce = CryptoJS.lib.WordArray.random(128 / 8);
+  } else if (typeof nonce === 'string') {
+    nonce = Hex.parse(nonce);
+  } else {
+    throw new Error("Unsupported nonce type");
+  }
+  const msg = Utf8.parse(clientId)
+  .concat(nonce)
+  .concat(CryptoJS.lib.WordArray.create(dtToBuffer(dt)));
+  const hash = HmacSHA256(msg, Utf8.parse(licenceKey));
+  const packet = Utf8.parse(clientId + '\u003A' + nonce.toString(Hex).toUpperCase() + '\u003A').concat(hash);
+  return Base64.stringify(packet);
+}
+```
+
+Examples for unit testing:
+
+```JavaScript
+  let exampleNonce = "ACB875AEF083DE292299BD69FCDEB5C5";
+  let exampleDate = new Date(2020, 0, 1, 9, 23, 0, 0);
+  let apiKey = generateApiKey("Dummy", "7G79TG62BAJTK669", exampleNonce, exampleDate);
+  expect(apiKey).toBe('RHVtbXk6QUNCODc1QUVGMDgzREUyOTIyOTlCRDY5RkNERUI1QzU6tleiG2iztdBCGz64E3/HUhfKIdGWr3VnEtu2IkcmFjA=');
+```
+      
 <aside class="notice">
-If you do not have an API key please quote your Client ID and Merchant ID to <a href="https://citypay.com/customer-centre/technical-support.html">CityPay Support</a> to obtain one.
+We have example code in varying languages, please consult with your account and integration point of contact for details.
 </aside>
 
 

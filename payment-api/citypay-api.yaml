@@ -1901,13 +1901,18 @@ components:
       type: apiKey
       description: |
         The `cp-api-key` authentication header is required for all payment processing access.
-         All calls using this key will be validated against white list IP addressing based
+         All calls using this key will be validated against white listed IP addressing
          and calls are scrutinised by the CityPay application firewall for security protection
-         and attack mitigation. The key should remain secret and may allow processing against multiple
-         merchant accounts that belong to your client account.
+         and attack mitigation.
 
-         A header key is used to protect undue logging mechanisms from logging data packet values and
-         logically seperates authentication concerns from the body of data.
+         A key has been designed to:
+         - be temporal and time based. The key rotates frequently to protect against replay attacks and to ensure a
+           computation derives your client details from the request
+         - to remain secret, the key value is youur access permission to process transactions and
+           although we have preventative measures to protect the key, undue exposure is not desirable
+         - to allow processing against multiple merchant accounts that belong to your CityPay account.
+         - to use a HTTP header value to protect undue logging mechanisms from logging data packet values and
+           logically seperates authentication concerns from the body of data.
       in: header
 
 security:
