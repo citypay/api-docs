@@ -334,6 +334,39 @@ paths:
         403: 
           description: Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request.
 
+  /account/create: 
+    post: 
+      summary: Account Create API
+      tags: 
+        - Card Holder Account
+      operationId: AccountCreate
+      description: Creates a new card holder account and initialises the account ready for adding cards.
+      requestBody: 
+        required: true
+        content: 
+          application/json: 
+            schema: 
+              $ref: '#/components/schemas/AccountCreate'
+          text/xml: 
+            schema: 
+              $ref: '#/components/schemas/AccountCreate'
+      responses: 
+        200: 
+          description: Provides an initialised account.
+          content: 
+            application/json: 
+              schema: 
+                $ref: '#/components/schemas/CardHolderAccount'
+            text/xml: 
+              schema: 
+                $ref: '#/components/schemas/CardHolderAccount'
+        400: 
+          description: Bad Request. Should the incoming data not be validly determined.
+        401: 
+          description: Unauthorized. No api key has been provided and is required for this operation.
+        403: 
+          description: Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request.
+
   /void: 
     post: 
       summary: Void API
@@ -1559,6 +1592,22 @@ components:
         name: 
           type: string
           description: The client name that was requested.
+    AccountCreate: 
+      type: object
+      properties: 
+        account_id: 
+          type: string
+          minLength: 5
+          maxLength: 50
+          example: aaabbb-cccddd-eee
+          description: |
+            A card holder account id used for uniquely identifying the account. This value will be used for future
+            referencing of the account oand to link your system to this API. This value is immutable and
+            never changes.
+        contact: 
+          $ref: '#/components/schemas/ContactDetails'
+          x-description: |
+            Contact details for a card holder account.
     ContactDetails: 
       type: object
       properties: 

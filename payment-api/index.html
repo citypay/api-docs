@@ -266,6 +266,9 @@
             <a href="#card-holder-account" class="toc-h1 toc-link" data-title="Card Holder Account">Card Holder Account</a>
               <ul class="toc-list-h2">
                   <li>
+                    <a href="#account-create-api" class="toc-h2 toc-link" data-title="Account Create API">Account Create API</a>
+                  </li>
+                  <li>
                     <a href="#account-retrieval-api" class="toc-h2 toc-link" data-title="Account Retrieval API">Account Retrieval API</a>
                   </li>
                   <li>
@@ -322,6 +325,9 @@
           <li>
             <a href="#api-model" class="toc-h1 toc-link" data-title="API Model">API Model</a>
               <ul class="toc-list-h2">
+                  <li>
+                    <a href="#accountcreate" class="toc-h2 toc-link" data-title="AccountCreate">AccountCreate</a>
+                  </li>
                   <li>
                     <a href="#acknowledgement" class="toc-h2 toc-link" data-title="Acknowledgement">Acknowledgement</a>
                   </li>
@@ -410,7 +416,7 @@
       </ul>
         <ul class="toc-footer">
             <li><a href='mailto:support@citypay.com'>Any Integration Questions?</a></li>
-            <li>V6.0.0.BETA 2020-05-13</li>
+            <li>V6.0.0.BETA 2020-05-14</li>
         </ul>
     </div>
     <div class="page-wrapper">
@@ -419,7 +425,7 @@
         <img src="images/citypay-logo-23676e0b.svg" class="cplogo" alt="Citypay logo" />
         <h1 id='citypay-payment-api'>CityPay Payment API</h1>
 <p>Version: 6.0.0.BETA
-Last Updated: 2020-05-13</p>
+Last Updated: 2020-05-14</p>
 
 <p>This CityPay API is a HTTP RESTful payment API used for direct server to server transactional processing. It
 provides a number of payment mechanisms including: Internet, MOTO, Continuous Authority transaction processing,
@@ -500,7 +506,66 @@ security vulnerabilities.</li>
 <aside class="notice">
 If you do not have an API key please quote your Client ID and Merchant ID to <a href="https://citypay.com/customer-centre/technical-support.html">CityPay Support</a> to obtain one.
 </aside>
-<h1 id='card-holder-account'>Card Holder Account</h1><h2 id='account-retrieval-api'>Account Retrieval API</h2>
+<h1 id='card-holder-account'>Card Holder Account</h1><h2 id='account-create-api'>Account Create API</h2>
+<p><span class="http-method-post">POST</span> <code>/account/create</code></p>
+
+<p>Creates a new card holder account and initialises the account ready for adding cards.</p>
+<h3 id='model-accountcreate'>Model AccountCreate</h3>
+<p>Request body for this operation contains the following properties</p>
+
+<table><thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>account_id</code></td>
+<td>string</td>
+<td>false</td>
+<td>A card holder account id used for uniquely identifying the account. This value will be used for future<br/>referencing of the account oand to link your system to this API. This value is immutable and<br/>never changes.<br/><br/>minLength: 5<br/>maxLength: 50</td>
+</tr>
+<tr>
+<td><code>contact</code></td>
+<td>object</td>
+<td>false</td>
+<td><a href="#contactdetails">ContactDetails</a> Contact details for a card holder account.</td>
+</tr>
+</tbody></table>
+<h3 id='response'>Response</h3>
+<p>Responses for this operation are</p>
+
+<table><thead>
+<tr>
+<th>StatusCode</th>
+<th>Description</th>
+<th>Model</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>200</code></td>
+<td>Provides an initialised account.</td>
+<td><code>application/json</code>, <code>text/xml</code>:  <br/> <a href="#cardholderaccount">CardHolderAccount</a></td>
+</tr>
+<tr>
+<td><code>400</code></td>
+<td>Bad Request. Should the incoming data not be validly determined.</td>
+<td></td>
+</tr>
+<tr>
+<td><code>403</code></td>
+<td>Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request.</td>
+<td></td>
+</tr>
+<tr>
+<td><code>401</code></td>
+<td>Unauthorized. No api key has been provided and is required for this operation.</td>
+<td></td>
+</tr>
+</tbody></table>
+<h2 id='account-retrieval-api'>Account Retrieval API</h2>
 <p><span class="http-method-get">GET</span> <code>/account/{accountid}</code></p>
 
 <p>Allows for the retrieval of a card holder account for the given <code>id</code>. Should duplicate accounts exist
@@ -525,7 +590,7 @@ enable a card holder to view their wallet and make constructive choices on which
 <td>The account id that refers to the customer&#39;s account no. This value will have been provided when setting up the card holder account.</td>
 </tr>
 </tbody></table>
-<h3 id='response'>Response</h3>
+<h3 id='response-2'>Response</h3>
 <p>Responses for this operation are</p>
 
 <table><thead>
@@ -577,7 +642,7 @@ transactions will be alowed to be processed or actioned against this account.</p
 <td>The account id that refers to the customer&#39;s account no. This value will have been provided when setting up the card holder account.</td>
 </tr>
 </tbody></table>
-<h3 id='response-2'>Response</h3>
+<h3 id='response-3'>Response</h3>
 <p>Responses for this operation are</p>
 
 <table><thead>
@@ -635,7 +700,7 @@ purge will clear the card permanently.</p>
 <td>The id of the card that is presented by a call to retrieve a card holder account.</td>
 </tr>
 </tbody></table>
-<h3 id='response-3'>Response</h3>
+<h3 id='response-4'>Response</h3>
 <p>Responses for this operation are</p>
 
 <table><thead>
@@ -718,7 +783,7 @@ purge will clear the card permanently.</p>
 <td>The status of the card to set, valid values are <code>ACTIVE</code> or <code>INACTIVE</code>.</td>
 </tr>
 </tbody></table>
-<h3 id='response-4'>Response</h3>
+<h3 id='response-5'>Response</h3>
 <p>Responses for this operation are</p>
 
 <table><thead>
@@ -859,7 +924,7 @@ purge will clear the card permanently.</p>
 <td>A title for the card holder such as Mr, Mrs, Ms, M. Mme. etc.</td>
 </tr>
 </tbody></table>
-<h3 id='response-5'>Response</h3>
+<h3 id='response-6'>Response</h3>
 <p>Responses for this operation are</p>
 
 <table><thead>
@@ -961,7 +1026,7 @@ processing and will be available as a tokenised value for future processing.</p>
 <td>The expiry year of the card.<br/>minimum: 2000<br/>maximum: 2100</td>
 </tr>
 </tbody></table>
-<h3 id='response-6'>Response</h3>
+<h3 id='response-7'>Response</h3>
 <p>Responses for this operation are</p>
 
 <table><thead>
@@ -1028,7 +1093,7 @@ processing and will be available as a tokenised value for future processing.</p>
 <td>The account id that refers to the customer&#39;s account no. This value will have been provided when setting up the card holder account.</td>
 </tr>
 </tbody></table>
-<h3 id='response-7'>Response</h3>
+<h3 id='response-8'>Response</h3>
 <p>Responses for this operation are</p>
 
 <table><thead>
@@ -1143,7 +1208,7 @@ for use elsewhere.  </p>
 <td>The type of transaction being submitted. Normally this value is not required and your account manager may request that you set this field.<br/>minLength: 1<br/>maxLength: 1</td>
 </tr>
 </tbody></table>
-<h3 id='response-8'>Response</h3>
+<h3 id='response-9'>Response</h3>
 <p>Responses for this operation are</p>
 
 <table><thead>
@@ -1194,7 +1259,7 @@ for use elsewhere.  </p>
 <td>The client id to return merchants for, specifying &quot;default&quot; will use the value in your api key.</td>
 </tr>
 </tbody></table>
-<h3 id='response-9'>Response</h3>
+<h3 id='response-10'>Response</h3>
 <p>Responses for this operation are</p>
 
 <table><thead>
@@ -1253,7 +1318,7 @@ model is granting access from your source.</p>
 <td>An identifier of the ping request which will be returned in the response.<br/>minLength: 4<br/>maxLength: 50</td>
 </tr>
 </tbody></table>
-<h3 id='response-10'>Response</h3>
+<h3 id='response-11'>Response</h3>
 <p>Responses for this operation are</p>
 
 <table><thead>
@@ -1377,12 +1442,6 @@ value will be validated for receipt of this value and subsequently may return ba
 </tr>
 </thead><tbody>
 <tr>
-<td><code>airline_data</code></td>
-<td>object</td>
-<td>false</td>
-<td><a href="#airlineadvice">AirlineAdvice</a> Additional advice for airline integration that can be applied on an authorisation request.<br/><br/>As tickets are normally not allocated until successful payment it is normal for a transaction to be pre-authorised<br/><br/> and the airline advice supplied on a capture request instead. Should the data already exist and an auth and<br/><br/> capture is preferred. This data may be supplied.</td>
-</tr>
-<tr>
 <td><code>amount</code></td>
 <td>integer <em>int32</em></td>
 <td>true</td>
@@ -1417,12 +1476,6 @@ value will be validated for receipt of this value and subsequently may return ba
 <td>integer <em>int32</em></td>
 <td>false</td>
 <td>The year of expiry of the card.<br/><br/>minimum: 2000<br/>maximum: 2100</td>
-</tr>
-<tr>
-<td><code>external_mpi</code></td>
-<td>object</td>
-<td>false</td>
-<td><a href="#externalmpi">ExternalMPI</a> If an external 3DSv1 MPI is used for authentication, values provided can be supplied in this element.</td>
 </tr>
 <tr>
 <td><code>identifier</code></td>
@@ -1461,7 +1514,39 @@ value will be validated for receipt of this value and subsequently may return ba
 <td>The type of transaction being submitted. Normally this value is not required and your account manager may request that you set this field.<br/>minLength: 1<br/>maxLength: 1</td>
 </tr>
 </tbody></table>
-<h3 id='response-11'>Response</h3>
+<h3 id='business-extension-3dsv1-mpi'>Business Extension: 3DSv1 MPI</h3>
+<p>Supports the 3dsv1 mpi business extension by adding the following parameters to the request.</p>
+
+<table><thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>external_mpi</code></td>
+<td>object</td>
+<td><a href="#externalmpi">ExternalMPI</a> If an external 3DSv1 MPI is used for authentication, values provided can be supplied in this element.</td>
+</tr>
+</tbody></table>
+<h3 id='business-extension-airline'>Business Extension: Airline</h3>
+<p>Supports the airline business extension by adding the following parameters to the request.</p>
+
+<table><thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>airline_data</code></td>
+<td>object</td>
+<td><a href="#airlineadvice">AirlineAdvice</a> Additional advice for airline integration that can be applied on an authorisation request.<br/><br/>As tickets are normally not allocated until successful payment it is normal for a transaction to be pre-authorised<br/><br/> and the airline advice supplied on a capture request instead. Should the data already exist and an auth and<br/><br/> capture is preferred. This data may be supplied.</td>
+</tr>
+</tbody></table>
+<h3 id='response-12'>Response</h3>
 <p>Responses for this operation are</p>
 
 <table><thead>
@@ -1590,12 +1675,6 @@ be available for the settlement and completed at the end of the day.</p>
 </tr>
 </thead><tbody>
 <tr>
-<td><code>airline_data</code></td>
-<td>object</td>
-<td>false</td>
-<td><a href="#airlineadvice">AirlineAdvice</a> Additional advice to be applied for the capture request.</td>
-</tr>
-<tr>
 <td><code>amount</code></td>
 <td>integer <em>int32</em></td>
 <td>false</td>
@@ -1626,7 +1705,23 @@ be available for the settlement and completed at the end of the day.</p>
 <td>The transaction number of the transaction to look up and capture. If an empty value is supplied then an identifier value must be supplied.</td>
 </tr>
 </tbody></table>
-<h3 id='response-12'>Response</h3>
+<h3 id='business-extension-airline-2'>Business Extension: Airline</h3>
+<p>Supports the airline business extension by adding the following parameters to the request.</p>
+
+<table><thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>airline_data</code></td>
+<td>object</td>
+<td><a href="#airlineadvice">AirlineAdvice</a> Additional advice to be applied for the capture request.</td>
+</tr>
+</tbody></table>
+<h3 id='response-13'>Response</h3>
 <p>Responses for this operation are</p>
 
 <table><thead>
@@ -1714,7 +1809,7 @@ information to be returned.</p>
 <td>The transaction number of a transaction to retrieve. Optional if an identifier is supplied.</td>
 </tr>
 </tbody></table>
-<h3 id='response-13'>Response</h3>
+<h3 id='response-14'>Response</h3>
 <p>Responses for this operation are</p>
 
 <table><thead>
@@ -1820,7 +1915,7 @@ outlining the result of the transaction.</p>
 <td>The transaction number of the transaction to look up and void. If an empty value is supplied then an identifier value must be supplied.</td>
 </tr>
 </tbody></table>
-<h3 id='response-14'>Response</h3>
+<h3 id='response-15'>Response</h3>
 <p>Responses for this operation are</p>
 
 <table><thead>
@@ -1851,7 +1946,37 @@ outlining the result of the transaction.</p>
 <td></td>
 </tr>
 </tbody></table>
-<h1 id='api-model'>API Model</h1><h2 id='acknowledgement'>Acknowledgement</h2><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+<h1 id='api-model'>API Model</h1><h2 id='accountcreate'>AccountCreate</h2><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+   </span><span class="s2">"account_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"aaabbb-cccddd-eee"</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"contact"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="err">...</span><span class="w"> </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre><pre class="highlight xml tab-xml"><code><span class="nt">&lt;AccountCreate&gt;</span>
+ <span class="nt">&lt;account_id&gt;</span>aaabbb-cccddd-eee<span class="nt">&lt;/account_id&gt;</span> 
+ <span class="nt">&lt;contact&gt;</span><span class="err">&lt;</span>&gt;...<span class="err">&lt;</span>/&gt;<span class="nt">&lt;/contact&gt;</span> 
+<span class="nt">&lt;/AccountCreate&gt;</span>
+</code></pre>
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>account_id</code></td>
+<td>string</td>
+<td>false</td>
+<td>A card holder account id used for uniquely identifying the account. This value will be used for future<br/>referencing of the account oand to link your system to this API. This value is immutable and<br/>never changes.<br/><br/>minLength: 5<br/>maxLength: 50</td>
+</tr>
+<tr>
+<td><code>contact</code></td>
+<td>object</td>
+<td>false</td>
+<td><a href="#contactdetails">ContactDetails</a> Contact details for a card holder account.</td>
+</tr>
+</tbody></table>
+<h2 id='acknowledgement'>Acknowledgement</h2><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
    </span><span class="s2">"code"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0"</span><span class="p">,</span><span class="w">
    </span><span class="s2">"context"</span><span class="p">:</span><span class="w"> </span><span class="s2">"aspiu352908ns47n343598bads"</span><span class="p">,</span><span class="w">
    </span><span class="s2">"identifier"</span><span class="p">:</span><span class="w"> </span><span class="s2">"95b857a1-5955-4b86-963c-5a6dbfc4fb95"</span><span class="p">,</span><span class="w">
