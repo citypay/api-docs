@@ -121,17 +121,19 @@ The `cp-api-key` authentication header is required for all payment processing ac
 
 
  A valid key is programmatically generated using
- - your client id
- - your client key
+
+* your client id
+* your client key
 
 The algorithm for generating a key is
-0. create a 256 bit `nonce` value such i.e. `ACB875AEF083DE292299BD69FCDEB5C5`
-0. create a `dt` value which is the current date and time in the format `yyyyMMddHHmm` convert to bytes from a hex representation
-0. generate a HmacSHA256 `hash` for the client licence key using a concatenation of clientid, nonce, dt
-0. create a packet value of `clientId`, `nonce`, and `hash` delimited by `\u003A`
-0. Base64 encode the packet
 
-The following example uses JavaScript and CryptoJS
+1. create a 256 bit `nonce` value such i.e. `ACB875AEF083DE292299BD69FCDEB5C5`
+2. create a `dt` value which is the current date and time in the format `yyyyMMddHHmm` convert to bytes from a hex representation
+3. generate a HmacSHA256 `hash` for the client licence key using a concatenation of clientid, nonce, dt
+4. create a packet value of `clientId`, `nonce`, and `hash` delimited by `\u003A`
+5. Base64 encode the packet
+
+> The following example uses JavaScript and CryptoJS
 
 ```javascript
 export function generateApiKey(clientId, licenceKey, nonce, dt = new Date()) {
@@ -151,7 +153,7 @@ export function generateApiKey(clientId, licenceKey, nonce, dt = new Date()) {
 }
 ```
 
-Examples for unit testing:
+> Example values for unit testing:
 
 ```JavaScript
   let exampleNonce = "ACB875AEF083DE292299BD69FCDEB5C5";
