@@ -1221,6 +1221,24 @@ for use elsewhere.  </p>
 <td>The amount to authorise in the lowest unit of currency with a variable length to a maximum of 12 digits.<br/>No decimal points are to be included and no divisional characters such as 1,024.<br/>The amount should be the total amount required for the transaction.<br/>For example with GBP £1,021.95 the amount value is 102195.<br/><br/>minLength: 1<br/>maxLength: 12</td>
 </tr>
 <tr>
+<td><code>identifier</code></td>
+<td>string</td>
+<td>true</td>
+<td>The identifier of the transaction to process. The value should be a valid reference and may be used to perform<br/> post processing actions and to aid in reconciliation of transactions.<br/><br/>The value should be a valid printable string with ASCII character ranges from 32 to 127.<br/><br/>The identifier is recommended to be distinct for each transaction such as a <a href="https://en.wikipedia.org/wiki/Universally_unique_identifier">random unique identifier</a><br/>this will aid in ensuring each transaction is identifiable.<br/><br/>When transactions are processed they are also checked for duplicate requests. Changing the identifier on a subsequent<br/>request will ensure that a transaction is considered as different.<br/><br/>minLength: 4<br/>maxLength: 50</td>
+</tr>
+<tr>
+<td><code>merchantid</code></td>
+<td>integer <em>int32</em></td>
+<td>true</td>
+<td>Identifies the merchant account to perform processing for.</td>
+</tr>
+<tr>
+<td><code>token</code></td>
+<td>string <em>base58</em></td>
+<td>true</td>
+<td>A tokenised form of a card that belongs to a card holder&#39;s account and that<br/>has been previously registered. The token is time based and will only be active for<br/>a short duration. The value is therefore designed not to be stored remotely for future<br/> use.<br/><br/>Tokens will start with ct and are resiliently tamper proof using HMacSHA-256.<br/>No sensitive card data is stored internally within the token.<br/><br/>Each card will contain a different token and the value may be different on any retrieval call.<br/><br/>The value can be presented for payment as a selection value to an end user in a web application.</td>
+</tr>
+<tr>
 <td><code>avs_postcode_policy</code></td>
 <td>string</td>
 <td>false</td>
@@ -1251,34 +1269,16 @@ for use elsewhere.  </p>
 <td>A policy value which determines whether a duplication policy is enforced or bypassed. A duplication check has a window<br/>of time set against your account within which it can action. If a previous transaction with matching values occurred within<br/>the window, any subsequent transaction will result in a T001 result.<br/><br/>Values are<br/> <code>0</code> for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.<br/> <code>1</code> for an enforced policy. Transactions that are enforced will be checked for duplication within the duplication window.<br/> <code>2</code> to bypass. Transactions that are bypassed will not be checked for duplication within the duplication window.<br/> <code>3</code> to ignore. Transactions that are ignored will have the same affect as bypass.</td>
 </tr>
 <tr>
-<td><code>identifier</code></td>
-<td>string</td>
-<td>true</td>
-<td>The identifier of the transaction to process. The value should be a valid reference and may be used to perform<br/> post processing actions and to aid in reconciliation of transactions.<br/><br/>The value should be a valid printable string with ASCII character ranges from 32 to 127.<br/><br/>The identifier is recommended to be distinct for each transaction such as a <a href="https://en.wikipedia.org/wiki/Universally_unique_identifier">random unique identifier</a><br/>this will aid in ensuring each transaction is identifiable.<br/><br/>When transactions are processed they are also checked for duplicate requests. Changing the identifier on a subsequent<br/>request will ensure that a transaction is considered as different.<br/><br/>minLength: 4<br/>maxLength: 50</td>
-</tr>
-<tr>
 <td><code>match_avsa</code></td>
 <td>string</td>
 <td>false</td>
 <td>A policy value which determines whether an AVS address policy is enforced, bypassed or ignored.<br/><br/><br/>Values are<br/> <code>0</code> for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.<br/> <code>1</code> for an enforced policy. Transactions that are enforced will be rejected if the AVS address numeric value does not match.<br/> <code>2</code> to bypass. Transactions that are bypassed will be allowed through even if the address did not match.<br/> <code>3</code> to ignore. Transactions that are ignored will bypass the result and not send address numeric details for authorisation.</td>
 </tr>
 <tr>
-<td><code>merchantid</code></td>
-<td>integer <em>int32</em></td>
-<td>true</td>
-<td>Identifies the merchant account to perform processing for.</td>
-</tr>
-<tr>
 <td><code>sdk</code></td>
 <td>string</td>
 <td>false</td>
 <td>An optional reference value for the calling client such as a version number i.e.</td>
-</tr>
-<tr>
-<td><code>token</code></td>
-<td>string <em>base58</em></td>
-<td>true</td>
-<td>A tokenised form of a card that belongs to a card holder&#39;s account and that<br/>has been previously registered. The token is time based and will only be active for<br/>a short duration. The value is therefore designed not to be stored remotely for future<br/> use.<br/><br/>Tokens will start with ct and are resiliently tamper proof using HMacSHA-256.<br/>No sensitive card data is stored internally within the token.<br/><br/>Each card will contain a different token and the value may be different on any retrieval call.<br/><br/>The value can be presented for payment as a selection value to an end user in a web application.</td>
 </tr>
 <tr>
 <td><code>trans_info</code></td>
@@ -1533,6 +1533,30 @@ value will be validated for receipt of this value and subsequently may return ba
 <td>The amount to authorise in the lowest unit of currency with a variable length to a maximum of 12 digits.<br/>No decimal points are to be included and no divisional characters such as 1,024.<br/>The amount should be the total amount required for the transaction.<br/>For example with GBP £1,021.95 the amount value is 102195.<br/><br/>minLength: 1<br/>maxLength: 12</td>
 </tr>
 <tr>
+<td><code>cardnumber</code></td>
+<td>string</td>
+<td>true</td>
+<td>The card number (PAN) with a variable length to a maximum of 21 digits in numerical form.<br/>Any non numeric characters will be stripped out of the card number, this includes whitespace or separators internal of the<br/>provided value.<br/><br/>The card number must be treated as sensitive data. We only provide an obfuscated value in logging and reporting.<br/> The plaintext value is encrypted in our database using AES 256 GMC bit encryption for settlement or refund purposes.<br/><br/>When providing the card number to our gateway through the authorisation API you will be handling the card data on<br/>your application. This will require further PCI controls to be in place and this value must never be stored.<br/><br/>minLength: 12<br/>maxLength: 22</td>
+</tr>
+<tr>
+<td><code>expmonth</code></td>
+<td>integer <em>int32</em></td>
+<td>true</td>
+<td>The month of expiry of the card. The month value should be a numerical value between 1 and 12.<br/><br/>minimum: 1<br/>maximum: 12</td>
+</tr>
+<tr>
+<td><code>identifier</code></td>
+<td>string</td>
+<td>true</td>
+<td>The identifier of the transaction to process. The value should be a valid reference and may be used to perform<br/> post processing actions and to aid in reconciliation of transactions.<br/><br/>The value should be a valid printable string with ASCII character ranges from 32 to 127.<br/><br/>The identifier is recommended to be distinct for each transaction such as a <a href="https://en.wikipedia.org/wiki/Universally_unique_identifier">random unique identifier</a><br/>this will aid in ensuring each transaction is identifiable.<br/><br/>When transactions are processed they are also checked for duplicate requests. Changing the identifier on a subsequent<br/>request will ensure that a transaction is considered as different.<br/><br/>minLength: 4<br/>maxLength: 50</td>
+</tr>
+<tr>
+<td><code>merchantid</code></td>
+<td>integer <em>int32</em></td>
+<td>true</td>
+<td>Identifies the merchant account to perform processing for.</td>
+</tr>
+<tr>
 <td><code>avs_postcode_policy</code></td>
 <td>string</td>
 <td>false</td>
@@ -1543,12 +1567,6 @@ value will be validated for receipt of this value and subsequently may return ba
 <td>object</td>
 <td>false</td>
 <td><a href="#contactdetails">ContactDetails</a> Billing details of the card holder making the payment.<br/><br/>These details may be used for AVS fraud analysis, 3DS and for future referencing of the transaction.<br/><br/><br/><br/>For AVS to work correctly, the billing details should be the registered address of the card holder<br/><br/>as it appears on the statement with their card issuer. The numeric details will be passed through<br/><br/>for analysis and may result in a decline if incorrectly provided.</td>
-</tr>
-<tr>
-<td><code>cardnumber</code></td>
-<td>string</td>
-<td>true</td>
-<td>The card number (PAN) with a variable length to a maximum of 21 digits in numerical form.<br/>Any non numeric characters will be stripped out of the card number, this includes whitespace or separators internal of the<br/>provided value.<br/><br/>The card number must be treated as sensitive data. We only provide an obfuscated value in logging and reporting.<br/> The plaintext value is encrypted in our database using AES 256 GMC bit encryption for settlement or refund purposes.<br/><br/>When providing the card number to our gateway through the authorisation API you will be handling the card data on<br/>your application. This will require further PCI controls to be in place and this value must never be stored.<br/><br/>minLength: 12<br/>maxLength: 22</td>
 </tr>
 <tr>
 <td><code>csc</code></td>
@@ -1575,34 +1593,16 @@ value will be validated for receipt of this value and subsequently may return ba
 <td>A policy value which determines whether a duplication policy is enforced or bypassed. A duplication check has a window<br/>of time set against your account within which it can action. If a previous transaction with matching values occurred within<br/>the window, any subsequent transaction will result in a T001 result.<br/><br/>Values are<br/> <code>0</code> for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.<br/> <code>1</code> for an enforced policy. Transactions that are enforced will be checked for duplication within the duplication window.<br/> <code>2</code> to bypass. Transactions that are bypassed will not be checked for duplication within the duplication window.<br/> <code>3</code> to ignore. Transactions that are ignored will have the same affect as bypass.</td>
 </tr>
 <tr>
-<td><code>expmonth</code></td>
-<td>integer <em>int32</em></td>
-<td>true</td>
-<td>The month of expiry of the card. The month value should be a numerical value between 1 and 12.<br/><br/>minimum: 1<br/>maximum: 12</td>
-</tr>
-<tr>
 <td><code>expyear</code></td>
 <td>integer <em>int32</em></td>
 <td>false</td>
 <td>The year of expiry of the card.<br/><br/>minimum: 2000<br/>maximum: 2100</td>
 </tr>
 <tr>
-<td><code>identifier</code></td>
-<td>string</td>
-<td>true</td>
-<td>The identifier of the transaction to process. The value should be a valid reference and may be used to perform<br/> post processing actions and to aid in reconciliation of transactions.<br/><br/>The value should be a valid printable string with ASCII character ranges from 32 to 127.<br/><br/>The identifier is recommended to be distinct for each transaction such as a <a href="https://en.wikipedia.org/wiki/Universally_unique_identifier">random unique identifier</a><br/>this will aid in ensuring each transaction is identifiable.<br/><br/>When transactions are processed they are also checked for duplicate requests. Changing the identifier on a subsequent<br/>request will ensure that a transaction is considered as different.<br/><br/>minLength: 4<br/>maxLength: 50</td>
-</tr>
-<tr>
 <td><code>match_avsa</code></td>
 <td>string</td>
 <td>false</td>
 <td>A policy value which determines whether an AVS address policy is enforced, bypassed or ignored.<br/><br/><br/>Values are<br/> <code>0</code> for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.<br/> <code>1</code> for an enforced policy. Transactions that are enforced will be rejected if the AVS address numeric value does not match.<br/> <code>2</code> to bypass. Transactions that are bypassed will be allowed through even if the address did not match.<br/> <code>3</code> to ignore. Transactions that are ignored will bypass the result and not send address numeric details for authorisation.</td>
-</tr>
-<tr>
-<td><code>merchantid</code></td>
-<td>integer <em>int32</em></td>
-<td>true</td>
-<td>Identifies the merchant account to perform processing for.</td>
 </tr>
 <tr>
 <td><code>sdk</code></td>
@@ -1806,6 +1806,12 @@ be available for the settlement and completed at the end of the day.</p>
 </tr>
 </thead><tbody>
 <tr>
+<td><code>merchantid</code></td>
+<td>integer <em>int32</em></td>
+<td>true</td>
+<td>Identifies the merchant account to perform the capture for.</td>
+</tr>
+<tr>
 <td><code>amount</code></td>
 <td>integer <em>int32</em></td>
 <td>false</td>
@@ -1816,12 +1822,6 @@ be available for the settlement and completed at the end of the day.</p>
 <td>string</td>
 <td>false</td>
 <td>The identifier of the transaction to capture. If an empty value is supplied then a <code>trans_no</code> value must be supplied.<br/>minLength: 4<br/>maxLength: 50</td>
-</tr>
-<tr>
-<td><code>merchantid</code></td>
-<td>integer <em>int32</em></td>
-<td>true</td>
-<td>Identifies the merchant account to perform the capture for.</td>
 </tr>
 <tr>
 <td><code>sdk</code></td>
@@ -1922,16 +1922,16 @@ information to be returned.</p>
 </tr>
 </thead><tbody>
 <tr>
-<td><code>identifier</code></td>
-<td>string</td>
-<td>false</td>
-<td>The identifier of the transaction to retrieve. Optional if a transaction number is provided.<br/>minLength: 4<br/>maxLength: 50</td>
-</tr>
-<tr>
 <td><code>merchantid</code></td>
 <td>integer <em>int32</em></td>
 <td>true</td>
 <td>The merchant account to retrieve data for.</td>
+</tr>
+<tr>
+<td><code>identifier</code></td>
+<td>string</td>
+<td>false</td>
+<td>The identifier of the transaction to retrieve. Optional if a transaction number is provided.<br/>minLength: 4<br/>maxLength: 50</td>
 </tr>
 <tr>
 <td><code>transno</code></td>
@@ -2022,16 +2022,16 @@ outlining the result of the transaction.</p>
 </tr>
 </thead><tbody>
 <tr>
-<td><code>identifier</code></td>
-<td>string</td>
-<td>false</td>
-<td>The identifier of the transaction to void. If an empty value is supplied then a <code>trans_no</code> value must be supplied.<br/>minLength: 4<br/>maxLength: 50</td>
-</tr>
-<tr>
 <td><code>merchantid</code></td>
 <td>integer <em>int32</em></td>
 <td>true</td>
 <td>Identifies the merchant account to perform the void for.</td>
+</tr>
+<tr>
+<td><code>identifier</code></td>
+<td>string</td>
+<td>false</td>
+<td>The identifier of the transaction to void. If an empty value is supplied then a <code>trans_no</code> value must be supplied.<br/>minLength: 4<br/>maxLength: 50</td>
 </tr>
 <tr>
 <td><code>sdk</code></td>
