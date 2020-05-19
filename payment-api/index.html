@@ -266,31 +266,31 @@
             <a href="#card-holder-account" class="toc-h1 toc-link" data-title="Card Holder Account">Card Holder Account</a>
               <ul class="toc-list-h2">
                   <li>
-                    <a href="#account-create-api" class="toc-h2 toc-link" data-title="Account Create API">Account Create API</a>
+                    <a href="#account-create" class="toc-h2 toc-link" data-title="Account Create">Account Create</a>
                   </li>
                   <li>
-                    <a href="#account-retrieval-api" class="toc-h2 toc-link" data-title="Account Retrieval API">Account Retrieval API</a>
+                    <a href="#account-retrieval" class="toc-h2 toc-link" data-title="Account Retrieval">Account Retrieval</a>
                   </li>
                   <li>
-                    <a href="#account-deletion-api" class="toc-h2 toc-link" data-title="Account Deletion API">Account Deletion API</a>
+                    <a href="#account-deletion" class="toc-h2 toc-link" data-title="Account Deletion">Account Deletion</a>
                   </li>
                   <li>
-                    <a href="#card-deletion-api" class="toc-h2 toc-link" data-title="Card Deletion API">Card Deletion API</a>
+                    <a href="#card-deletion" class="toc-h2 toc-link" data-title="Card Deletion">Card Deletion</a>
                   </li>
                   <li>
-                    <a href="#card-status-api" class="toc-h2 toc-link" data-title="Card Status API">Card Status API</a>
+                    <a href="#card-status" class="toc-h2 toc-link" data-title="Card Status">Card Status</a>
                   </li>
                   <li>
-                    <a href="#contact-details-update-api" class="toc-h2 toc-link" data-title="Contact Details Update API">Contact Details Update API</a>
+                    <a href="#contact-details-update" class="toc-h2 toc-link" data-title="Contact Details Update">Contact Details Update</a>
                   </li>
                   <li>
-                    <a href="#card-registration-api" class="toc-h2 toc-link" data-title="Card Registration API">Card Registration API</a>
+                    <a href="#card-registration" class="toc-h2 toc-link" data-title="Card Registration">Card Registration</a>
                   </li>
                   <li>
-                    <a href="#account-status-api" class="toc-h2 toc-link" data-title="Account Status API">Account Status API</a>
+                    <a href="#account-status" class="toc-h2 toc-link" data-title="Account Status">Account Status</a>
                   </li>
                   <li>
-                    <a href="#charge-api" class="toc-h2 toc-link" data-title="Charge API">Charge API</a>
+                    <a href="#charge" class="toc-h2 toc-link" data-title="Charge">Charge</a>
                   </li>
               </ul>
           </li>
@@ -309,16 +309,16 @@
             <a href="#payment-processing" class="toc-h1 toc-link" data-title="Payment Processing">Payment Processing</a>
               <ul class="toc-list-h2">
                   <li>
-                    <a href="#authorisation-api" class="toc-h2 toc-link" data-title="Authorisation API">Authorisation API</a>
+                    <a href="#authorisation" class="toc-h2 toc-link" data-title="Authorisation">Authorisation</a>
                   </li>
                   <li>
-                    <a href="#capture-api" class="toc-h2 toc-link" data-title="Capture API">Capture API</a>
+                    <a href="#capture" class="toc-h2 toc-link" data-title="Capture">Capture</a>
                   </li>
                   <li>
-                    <a href="#retrieval-api" class="toc-h2 toc-link" data-title="Retrieval API">Retrieval API</a>
+                    <a href="#retrieval" class="toc-h2 toc-link" data-title="Retrieval">Retrieval</a>
                   </li>
                   <li>
-                    <a href="#void-api" class="toc-h2 toc-link" data-title="Void API">Void API</a>
+                    <a href="#void" class="toc-h2 toc-link" data-title="Void">Void</a>
                   </li>
               </ul>
           </li>
@@ -365,10 +365,16 @@
                     <a href="#contactdetails" class="toc-h2 toc-link" data-title="ContactDetails">ContactDetails</a>
                   </li>
                   <li>
+                    <a href="#decision" class="toc-h2 toc-link" data-title="Decision">Decision</a>
+                  </li>
+                  <li>
                     <a href="#externalmpi" class="toc-h2 toc-link" data-title="ExternalMPI">ExternalMPI</a>
                   </li>
                   <li>
                     <a href="#listmerchantsresponse" class="toc-h2 toc-link" data-title="ListMerchantsResponse">ListMerchantsResponse</a>
+                  </li>
+                  <li>
+                    <a href="#mcc6012" class="toc-h2 toc-link" data-title="MCC6012">MCC6012</a>
                   </li>
                   <li>
                     <a href="#merchant" class="toc-h2 toc-link" data-title="Merchant">Merchant</a>
@@ -416,7 +422,7 @@
       </ul>
         <ul class="toc-footer">
             <li><a href='mailto:support@citypay.com'>Any Integration Questions?</a></li>
-            <li>V6.0.0.BETA 2020-05-14</li>
+            <li>V6.0.0.BETA 2020-05-19</li>
         </ul>
     </div>
     <div class="page-wrapper">
@@ -425,7 +431,7 @@
         <img src="images/citypay-logo-23676e0b.svg" class="cplogo" alt="Citypay logo" />
         <h1 id='citypay-payment-api'>CityPay Payment API</h1>
 <p>Version: 6.0.0.BETA
-Last Updated: 2020-05-14</p>
+Last Updated: 2020-05-19</p>
 
 <p>This CityPay API is a HTTP RESTful payment API used for direct server to server transactional processing. It
 provides a number of payment mechanisms including: Internet, MOTO, Continuous Authority transaction processing,
@@ -490,7 +496,7 @@ security vulnerabilities.</li>
  https://api.citypay.com/resource
 
 </code></pre><h3 id='api-key'>API Key</h3>
-<p><strong>CityPay API Authentication</strong></p>
+<p><strong>cp-api-key</strong></p>
 
 <p>header <code>cp-api-key</code></p>
 
@@ -555,7 +561,7 @@ security vulnerabilities.</li>
 <aside class="notice">
 We have example code in varying languages, please consult with your account and integration point of contact for details.
 </aside>
-<h1 id='card-holder-account'>Card Holder Account</h1><h2 id='account-create-api'>Account Create API</h2>
+<h1 id='card-holder-account'>Card Holder Account</h1><h2 id='account-create'>Account Create</h2>
 <p><span class="http-method-post">POST</span> <code>/account/create</code></p>
 
 <p>Creates a new card holder account and initialises the account ready for adding cards.</p>
@@ -614,7 +620,7 @@ We have example code in varying languages, please consult with your account and 
 <td></td>
 </tr>
 </tbody></table>
-<h2 id='account-retrieval-api'>Account Retrieval API</h2>
+<h2 id='account-retrieval'>Account Retrieval</h2>
 <p><span class="http-method-get">GET</span> <code>/account/{accountid}</code></p>
 
 <p>Allows for the retrieval of a card holder account for the given <code>id</code>. Should duplicate accounts exist
@@ -670,7 +676,7 @@ enable a card holder to view their wallet and make constructive choices on which
 <td></td>
 </tr>
 </tbody></table>
-<h2 id='account-deletion-api'>Account Deletion API</h2>
+<h2 id='account-deletion'>Account Deletion</h2>
 <p><span class="http-method-delete">DELETE</span> <code>/account/{accountid}</code></p>
 
 <p>Allows for the deletion of an account. The account will marked for deletion and subsequent purging. No further
@@ -722,7 +728,7 @@ transactions will be alowed to be processed or actioned against this account.</p
 <td></td>
 </tr>
 </tbody></table>
-<h2 id='card-deletion-api'>Card Deletion API</h2>
+<h2 id='card-deletion'>Card Deletion</h2>
 <p><span class="http-method-delete">DELETE</span> <code>/account/{accountid}/card/{cardId}</code></p>
 
 <p>Deletes a card from the account. The card will be marked for deletion before a subsequent
@@ -780,7 +786,7 @@ purge will clear the card permanently.</p>
 <td></td>
 </tr>
 </tbody></table>
-<h2 id='card-status-api'>Card Status API</h2>
+<h2 id='card-status'>Card Status</h2>
 <p><span class="http-method-post">POST</span> <code>/account/{accountid}/card/{cardId}/status/{status}</code></p>
 
 <p>Updates the status of a card for processing. The following values are available</p>
@@ -863,7 +869,7 @@ purge will clear the card permanently.</p>
 <td></td>
 </tr>
 </tbody></table>
-<h2 id='contact-details-update-api'>Contact Details Update API</h2>
+<h2 id='contact-details-update'>Contact Details Update</h2>
 <p><span class="http-method-post">POST</span> <code>/account/{accountid}/contact</code></p>
 
 <p>Allows for the ability to change the contact details for an account.</p>
@@ -1004,7 +1010,7 @@ purge will clear the card permanently.</p>
 <td></td>
 </tr>
 </tbody></table>
-<h2 id='card-registration-api'>Card Registration API</h2>
+<h2 id='card-registration'>Card Registration</h2>
 <p><span class="http-method-post">POST</span> <code>/account/{accountid}/register</code></p>
 
 <p>Allows for a card to be registered for the account. The card will be added for future 
@@ -1106,7 +1112,7 @@ processing and will be available as a tokenised value for future processing.</p>
 <td></td>
 </tr>
 </tbody></table>
-<h2 id='account-status-api'>Account Status API</h2>
+<h2 id='account-status'>Account Status</h2>
 <p><span class="http-method-post">POST</span> <code>/account/{accountid}/status</code></p>
 
 <p>Updates the status of an account. An account can have the following statuses applied</p>
@@ -1173,7 +1179,7 @@ processing and will be available as a tokenised value for future processing.</p>
 <td></td>
 </tr>
 </tbody></table>
-<h2 id='charge-api'>Charge API</h2>
+<h2 id='charge'>Charge</h2>
 <p><span class="http-method-post">POST</span> <code>/charge</code></p>
 
 <p>A charge process obtains an authorisation using a tokenised value which represents a stored card 
@@ -1215,16 +1221,46 @@ for use elsewhere.  </p>
 <td>The amount to authorise in the lowest unit of currency with a variable length to a maximum of 12 digits.<br/>No decimal points are to be included and no divisional characters such as 1,024.<br/>The amount should be the total amount required for the transaction.<br/>For example with GBP £1,021.95 the amount value is 102195.<br/><br/>minLength: 1<br/>maxLength: 12</td>
 </tr>
 <tr>
+<td><code>avs_postcode_policy</code></td>
+<td>string</td>
+<td>false</td>
+<td>A policy value which determines whether an AVS postcode policy is enforced or bypassed.<br/><br/>Values are<br/> <code>0</code> for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.<br/> <code>1</code> for an enforced policy. Transactions that are enforced will be rejected if the AVS postcode numeric value does not match.<br/> <code>2</code> to bypass. Transactions that are bypassed will be allowed through even if the postcode did not match.<br/> <code>3</code> to ignore. Transactions that are ignored will bypass the result and not send postcode details for authorisation.</td>
+</tr>
+<tr>
 <td><code>csc</code></td>
 <td>string</td>
 <td>false</td>
 <td>The Card Security Code (CSC) (also known as CV2/CVV2) is normally found on the back of the card<br/>(American Express has it on the front). The value helps to identify posession of the card as it is not<br/>available within the chip or magnetic swipe.<br/><br/>When forwarding the CSC, please ensure the value is a string as some values start with 0 and this will be stripped<br/>out by any integer parsing.<br/><br/>The CSC number aids fraud prevention in Mail Order and Internet payments.<br/><br/> Business rules are available on your account to identify whether to accept<br/>or decline transactions based on mismatched results of the CSC.<br/><br/>The Payment Card Industry (PCI) requires that at no stage of a transaction should the CSC be stored.<br/>This applies to all entities handling card data.<br/>It should also not be used in any hashing process.<br/>CityPay do not store the value and have no method of retrieving the value once the transaction has been processed.<br/>For this reason, duplicate checking is unable to determine the CSC in its duplication check algorithm.<br/><br/>minLength: 3<br/>maxLength: 4</td>
 </tr>
 <tr>
+<td><code>csc_policy</code></td>
+<td>string</td>
+<td>false</td>
+<td>A policy value which determines whether a CSC policy is enforced or bypassed.<br/><br/>Values are<br/> <code>0</code> for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.<br/> <code>1</code> for an enforced policy. Transactions that are enforced will be rejected if the CSC value does not match.<br/> <code>2</code> to bypass. Transactions that are bypassed will be allowed through even if the CSC did not match.<br/> <code>3</code> to ignore. Transactions that are ignored will bypass the result and not send the CSC details for authorisation.</td>
+</tr>
+<tr>
+<td><code>currency</code></td>
+<td>string</td>
+<td>false</td>
+<td>The processing currency for the transaction. Will default to the merchant account currency.<br/>minLength: 3<br/>maxLength: 3</td>
+</tr>
+<tr>
+<td><code>duplicate_policy</code></td>
+<td>string</td>
+<td>false</td>
+<td>A policy value which determines whether a duplication policy is enforced or bypassed. A duplication check has a window<br/>of time set against your account within which it can action. If a previous transaction with matching values occurred within<br/>the window, any subsequent transaction will result in a T001 result.<br/><br/>Values are<br/> <code>0</code> for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.<br/> <code>1</code> for an enforced policy. Transactions that are enforced will be checked for duplication within the duplication window.<br/> <code>2</code> to bypass. Transactions that are bypassed will not be checked for duplication within the duplication window.<br/> <code>3</code> to ignore. Transactions that are ignored will have the same affect as bypass.</td>
+</tr>
+<tr>
 <td><code>identifier</code></td>
 <td>string</td>
 <td>true</td>
 <td>The identifier of the transaction to process. The value should be a valid reference and may be used to perform<br/> post processing actions and to aid in reconciliation of transactions.<br/><br/>The value should be a valid printable string with ASCII character ranges from 32 to 127.<br/><br/>The identifier is recommended to be distinct for each transaction such as a <a href="https://en.wikipedia.org/wiki/Universally_unique_identifier">random unique identifier</a><br/>this will aid in ensuring each transaction is identifiable.<br/><br/>When transactions are processed they are also checked for duplicate requests. Changing the identifier on a subsequent<br/>request will ensure that a transaction is considered as different.<br/><br/>minLength: 4<br/>maxLength: 50</td>
+</tr>
+<tr>
+<td><code>match_avsa</code></td>
+<td>string</td>
+<td>false</td>
+<td>A policy value which determines whether an AVS address policy is enforced, bypassed or ignored.<br/><br/><br/>Values are<br/> <code>0</code> for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.<br/> <code>1</code> for an enforced policy. Transactions that are enforced will be rejected if the AVS address numeric value does not match.<br/> <code>2</code> to bypass. Transactions that are bypassed will be allowed through even if the address did not match.<br/> <code>3</code> to ignore. Transactions that are ignored will bypass the result and not send address numeric details for authorisation.</td>
 </tr>
 <tr>
 <td><code>merchantid</code></td>
@@ -1269,8 +1305,8 @@ for use elsewhere.  </p>
 </thead><tbody>
 <tr>
 <td><code>200</code></td>
-<td>A result of the charge.</td>
-<td><code>application/json</code>, <code>text/xml</code>:  <br/>  One of: <a href="#authresponse">AuthResponse</a>, <a href="#authenrequired">AuthenRequired</a>, <a href="#requestchallenged">RequestChallenged</a></td>
+<td>A decision met by the result of the charge.</td>
+<td><code>application/json</code>, <code>text/xml</code>:  <br/> <a href="#decision">Decision</a></td>
 </tr>
 <tr>
 <td><code>400</code></td>
@@ -1398,7 +1434,7 @@ model is granting access from your source.</p>
 <td></td>
 </tr>
 </tbody></table>
-<h1 id='payment-processing'>Payment Processing</h1><h2 id='authorisation-api'>Authorisation API</h2>
+<h1 id='payment-processing'>Payment Processing</h1><h2 id='authorisation'>Authorisation</h2>
 <p><span class="http-method-post">POST</span> <code>/authorise</code></p>
 
 <p>An authorisation process performs a standard transaction authorisation based on the provided parameters of its request.
@@ -1497,6 +1533,12 @@ value will be validated for receipt of this value and subsequently may return ba
 <td>The amount to authorise in the lowest unit of currency with a variable length to a maximum of 12 digits.<br/>No decimal points are to be included and no divisional characters such as 1,024.<br/>The amount should be the total amount required for the transaction.<br/>For example with GBP £1,021.95 the amount value is 102195.<br/><br/>minLength: 1<br/>maxLength: 12</td>
 </tr>
 <tr>
+<td><code>avs_postcode_policy</code></td>
+<td>string</td>
+<td>false</td>
+<td>A policy value which determines whether an AVS postcode policy is enforced or bypassed.<br/><br/>Values are<br/> <code>0</code> for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.<br/> <code>1</code> for an enforced policy. Transactions that are enforced will be rejected if the AVS postcode numeric value does not match.<br/> <code>2</code> to bypass. Transactions that are bypassed will be allowed through even if the postcode did not match.<br/> <code>3</code> to ignore. Transactions that are ignored will bypass the result and not send postcode details for authorisation.</td>
+</tr>
+<tr>
 <td><code>bill_to</code></td>
 <td>object</td>
 <td>false</td>
@@ -1515,6 +1557,24 @@ value will be validated for receipt of this value and subsequently may return ba
 <td>The Card Security Code (CSC) (also known as CV2/CVV2) is normally found on the back of the card<br/>(American Express has it on the front). The value helps to identify posession of the card as it is not<br/>available within the chip or magnetic swipe.<br/><br/>When forwarding the CSC, please ensure the value is a string as some values start with 0 and this will be stripped<br/>out by any integer parsing.<br/><br/>The CSC number aids fraud prevention in Mail Order and Internet payments.<br/><br/> Business rules are available on your account to identify whether to accept<br/>or decline transactions based on mismatched results of the CSC.<br/><br/>The Payment Card Industry (PCI) requires that at no stage of a transaction should the CSC be stored.<br/>This applies to all entities handling card data.<br/>It should also not be used in any hashing process.<br/>CityPay do not store the value and have no method of retrieving the value once the transaction has been processed.<br/>For this reason, duplicate checking is unable to determine the CSC in its duplication check algorithm.<br/><br/>minLength: 3<br/>maxLength: 4</td>
 </tr>
 <tr>
+<td><code>csc_policy</code></td>
+<td>string</td>
+<td>false</td>
+<td>A policy value which determines whether a CSC policy is enforced or bypassed.<br/><br/>Values are<br/> <code>0</code> for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.<br/> <code>1</code> for an enforced policy. Transactions that are enforced will be rejected if the CSC value does not match.<br/> <code>2</code> to bypass. Transactions that are bypassed will be allowed through even if the CSC did not match.<br/> <code>3</code> to ignore. Transactions that are ignored will bypass the result and not send the CSC details for authorisation.</td>
+</tr>
+<tr>
+<td><code>currency</code></td>
+<td>string</td>
+<td>false</td>
+<td>The processing currency for the transaction. Will default to the merchant account currency.<br/>minLength: 3<br/>maxLength: 3</td>
+</tr>
+<tr>
+<td><code>duplicate_policy</code></td>
+<td>string</td>
+<td>false</td>
+<td>A policy value which determines whether a duplication policy is enforced or bypassed. A duplication check has a window<br/>of time set against your account within which it can action. If a previous transaction with matching values occurred within<br/>the window, any subsequent transaction will result in a T001 result.<br/><br/>Values are<br/> <code>0</code> for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.<br/> <code>1</code> for an enforced policy. Transactions that are enforced will be checked for duplication within the duplication window.<br/> <code>2</code> to bypass. Transactions that are bypassed will not be checked for duplication within the duplication window.<br/> <code>3</code> to ignore. Transactions that are ignored will have the same affect as bypass.</td>
+</tr>
+<tr>
 <td><code>expmonth</code></td>
 <td>integer <em>int32</em></td>
 <td>true</td>
@@ -1531,6 +1591,12 @@ value will be validated for receipt of this value and subsequently may return ba
 <td>string</td>
 <td>true</td>
 <td>The identifier of the transaction to process. The value should be a valid reference and may be used to perform<br/> post processing actions and to aid in reconciliation of transactions.<br/><br/>The value should be a valid printable string with ASCII character ranges from 32 to 127.<br/><br/>The identifier is recommended to be distinct for each transaction such as a <a href="https://en.wikipedia.org/wiki/Universally_unique_identifier">random unique identifier</a><br/>this will aid in ensuring each transaction is identifiable.<br/><br/>When transactions are processed they are also checked for duplicate requests. Changing the identifier on a subsequent<br/>request will ensure that a transaction is considered as different.<br/><br/>minLength: 4<br/>maxLength: 50</td>
+</tr>
+<tr>
+<td><code>match_avsa</code></td>
+<td>string</td>
+<td>false</td>
+<td>A policy value which determines whether an AVS address policy is enforced, bypassed or ignored.<br/><br/><br/>Values are<br/> <code>0</code> for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.<br/> <code>1</code> for an enforced policy. Transactions that are enforced will be rejected if the AVS address numeric value does not match.<br/> <code>2</code> to bypass. Transactions that are bypassed will be allowed through even if the address did not match.<br/> <code>3</code> to ignore. Transactions that are ignored will bypass the result and not send address numeric details for authorisation.</td>
 </tr>
 <tr>
 <td><code>merchantid</code></td>
@@ -1561,6 +1627,22 @@ value will be validated for receipt of this value and subsequently may return ba
 <td>string</td>
 <td>false</td>
 <td>The type of transaction being submitted. Normally this value is not required and your account manager may request that you set this field.<br/>minLength: 1<br/>maxLength: 1</td>
+</tr>
+</tbody></table>
+<h3 id='business-extension-mcc6012'>Business Extension: MCC6012</h3>
+<p>Supports the mcc6012 business extension by adding the following parameters to the request.</p>
+
+<table><thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>mcc6012</code></td>
+<td>object</td>
+<td><a href="#mcc6012">MCC6012</a> If the merchant is MCC coded as 6012, additional values are required for authorisation.</td>
 </tr>
 </tbody></table>
 <h3 id='business-extension-3dsv1-mpi'>Business Extension: 3DSv1 MPI</h3>
@@ -1607,8 +1689,8 @@ value will be validated for receipt of this value and subsequently may return ba
 </thead><tbody>
 <tr>
 <td><code>200</code></td>
-<td>A result of the authorisation.</td>
-<td><code>application/json</code>, <code>text/xml</code>:  <br/>  One of: <a href="#authresponse">AuthResponse</a>, <a href="#authenrequired">AuthenRequired</a>, <a href="#requestchallenged">RequestChallenged</a></td>
+<td>A decision made by the result of processing.</td>
+<td><code>application/json</code>, <code>text/xml</code>:  <br/> <a href="#decision">Decision</a></td>
 </tr>
 <tr>
 <td><code>400</code></td>
@@ -1626,7 +1708,7 @@ value will be validated for receipt of this value and subsequently may return ba
 <td></td>
 </tr>
 </tbody></table>
-<h2 id='capture-api'>Capture API</h2>
+<h2 id='capture'>Capture</h2>
 <p><span class="http-method-post">POST</span> <code>/capture</code></p>
 
 <p><em>The capture process only applies to transactions which have been pre-authorised only.</em> </p>
@@ -1801,7 +1883,7 @@ be available for the settlement and completed at the end of the day.</p>
 <td></td>
 </tr>
 </tbody></table>
-<h2 id='retrieval-api'>Retrieval API</h2>
+<h2 id='retrieval'>Retrieval</h2>
 <p><span class="http-method-post">POST</span> <code>/retrieve</code></p>
 
 <p>A retrieval request which allows an integration to obtain the result of a transaction processed
@@ -1889,7 +1971,7 @@ information to be returned.</p>
 <td></td>
 </tr>
 </tbody></table>
-<h2 id='void-api'>Void API</h2>
+<h2 id='void'>Void</h2>
 <p><span class="http-method-post">POST</span> <code>/void</code></p>
 
 <p><em>The void process generally applies to transactions which have been pre-authorised only however voids can occur 
@@ -2316,13 +2398,19 @@ outlining the result of the transaction.</p>
 <h2 id='authrequest'>AuthRequest</h2><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
    </span><span class="s2">"airline_data"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="err">...</span><span class="w"> </span><span class="p">},</span><span class="w">
    </span><span class="s2">"amount"</span><span class="p">:</span><span class="w"> </span><span class="mi">3600</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"avs_postcode_policy"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
    </span><span class="s2">"bill_to"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="err">...</span><span class="w"> </span><span class="p">},</span><span class="w">
    </span><span class="s2">"cardnumber"</span><span class="p">:</span><span class="w"> </span><span class="s2">"4000 0000 0000 0002"</span><span class="p">,</span><span class="w">
    </span><span class="s2">"csc"</span><span class="p">:</span><span class="w"> </span><span class="s2">"10"</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"csc_policy"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"GBP"</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"duplicate_policy"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
    </span><span class="s2">"expmonth"</span><span class="p">:</span><span class="w"> </span><span class="mi">9</span><span class="p">,</span><span class="w">
    </span><span class="s2">"expyear"</span><span class="p">:</span><span class="w"> </span><span class="mi">2023</span><span class="p">,</span><span class="w">
    </span><span class="s2">"external_mpi"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="err">...</span><span class="w"> </span><span class="p">},</span><span class="w">
    </span><span class="s2">"identifier"</span><span class="p">:</span><span class="w"> </span><span class="s2">"95b857a1-5955-4b86-963c-5a6dbfc4fb95"</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"match_avsa"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"mcc6012"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="err">...</span><span class="w"> </span><span class="p">},</span><span class="w">
    </span><span class="s2">"merchantid"</span><span class="p">:</span><span class="w"> </span><span class="mi">11223344</span><span class="p">,</span><span class="w">
    </span><span class="s2">"sdk"</span><span class="p">:</span><span class="w"> </span><span class="s2">"MyClient 1.3.0"</span><span class="p">,</span><span class="w">
    </span><span class="s2">"ship_to"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="err">...</span><span class="w"> </span><span class="p">},</span><span class="w">
@@ -2332,13 +2420,19 @@ outlining the result of the transaction.</p>
 </span></code></pre><pre class="highlight xml tab-xml"><code><span class="nt">&lt;AuthRequest&gt;</span>
  <span class="nt">&lt;airline_data&gt;</span><span class="err">&lt;</span>&gt;...<span class="err">&lt;</span>/&gt;<span class="nt">&lt;/airline_data&gt;</span> 
  <span class="nt">&lt;amount&gt;</span>3600<span class="nt">&lt;/amount&gt;</span> 
+ <span class="nt">&lt;avs_postcode_policy&gt;&lt;/avs_postcode_policy&gt;</span> 
  <span class="nt">&lt;bill_to&gt;</span><span class="err">&lt;</span>&gt;...<span class="err">&lt;</span>/&gt;<span class="nt">&lt;/bill_to&gt;</span> 
  <span class="nt">&lt;cardnumber&gt;</span>4000 0000 0000 0002<span class="nt">&lt;/cardnumber&gt;</span> 
  <span class="nt">&lt;csc&gt;</span>10<span class="nt">&lt;/csc&gt;</span> 
+ <span class="nt">&lt;csc_policy&gt;&lt;/csc_policy&gt;</span> 
+ <span class="nt">&lt;currency&gt;</span>GBP<span class="nt">&lt;/currency&gt;</span> 
+ <span class="nt">&lt;duplicate_policy&gt;&lt;/duplicate_policy&gt;</span> 
  <span class="nt">&lt;expmonth&gt;</span>9<span class="nt">&lt;/expmonth&gt;</span> 
  <span class="nt">&lt;expyear&gt;</span>2023<span class="nt">&lt;/expyear&gt;</span> 
  <span class="nt">&lt;external_mpi&gt;</span><span class="err">&lt;</span>&gt;...<span class="err">&lt;</span>/&gt;<span class="nt">&lt;/external_mpi&gt;</span> 
  <span class="nt">&lt;identifier&gt;</span>95b857a1-5955-4b86-963c-5a6dbfc4fb95<span class="nt">&lt;/identifier&gt;</span> 
+ <span class="nt">&lt;match_avsa&gt;&lt;/match_avsa&gt;</span> 
+ <span class="nt">&lt;mcc6012&gt;</span><span class="err">&lt;</span>&gt;...<span class="err">&lt;</span>/&gt;<span class="nt">&lt;/mcc6012&gt;</span> 
  <span class="nt">&lt;merchantid&gt;</span>11223344<span class="nt">&lt;/merchantid&gt;</span> 
  <span class="nt">&lt;sdk&gt;</span>MyClient 1.3.0<span class="nt">&lt;/sdk&gt;</span> 
  <span class="nt">&lt;ship_to&gt;</span><span class="err">&lt;</span>&gt;...<span class="err">&lt;</span>/&gt;<span class="nt">&lt;/ship_to&gt;</span> 
@@ -2361,6 +2455,12 @@ outlining the result of the transaction.</p>
 <td>The amount to authorise in the lowest unit of currency with a variable length to a maximum of 12 digits.<br/>No decimal points are to be included and no divisional characters such as 1,024.<br/>The amount should be the total amount required for the transaction.<br/>For example with GBP £1,021.95 the amount value is 102195.<br/><br/>minLength: 1<br/>maxLength: 12</td>
 </tr>
 <tr>
+<td><code>avs_postcode_policy</code></td>
+<td>string</td>
+<td>false</td>
+<td>A policy value which determines whether an AVS postcode policy is enforced or bypassed.<br/><br/>Values are<br/> <code>0</code> for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.<br/> <code>1</code> for an enforced policy. Transactions that are enforced will be rejected if the AVS postcode numeric value does not match.<br/> <code>2</code> to bypass. Transactions that are bypassed will be allowed through even if the postcode did not match.<br/> <code>3</code> to ignore. Transactions that are ignored will bypass the result and not send postcode details for authorisation.</td>
+</tr>
+<tr>
 <td><code>bill_to</code></td>
 <td>object</td>
 <td>false</td>
@@ -2376,10 +2476,15 @@ for analysis and may result in a decline if incorrectly provided.</p>
 
 <p><code>cardnumber</code> | string  | true | The card number (PAN) with a variable length to a maximum of 21 digits in numerical form.<br/>Any non numeric characters will be stripped out of the card number, this includes whitespace or separators internal of the<br/>provided value.<br/><br/>The card number must be treated as sensitive data. We only provide an obfuscated value in logging and reporting.<br/> The plaintext value is encrypted in our database using AES 256 GMC bit encryption for settlement or refund purposes.<br/><br/>When providing the card number to our gateway through the authorisation API you will be handling the card data on<br/>your application. This will require further PCI controls to be in place and this value must never be stored.<br/><br/>minLength: 12<br/>maxLength: 22 |
 <code>csc</code> | string  | false | The Card Security Code (CSC) (also known as CV2/CVV2) is normally found on the back of the card<br/>(American Express has it on the front). The value helps to identify posession of the card as it is not<br/>available within the chip or magnetic swipe.<br/><br/>When forwarding the CSC, please ensure the value is a string as some values start with 0 and this will be stripped<br/>out by any integer parsing.<br/><br/>The CSC number aids fraud prevention in Mail Order and Internet payments.<br/><br/> Business rules are available on your account to identify whether to accept<br/>or decline transactions based on mismatched results of the CSC.<br/><br/>The Payment Card Industry (PCI) requires that at no stage of a transaction should the CSC be stored.<br/>This applies to all entities handling card data.<br/>It should also not be used in any hashing process.<br/>CityPay do not store the value and have no method of retrieving the value once the transaction has been processed.<br/>For this reason, duplicate checking is unable to determine the CSC in its duplication check algorithm.<br/><br/>minLength: 3<br/>maxLength: 4 |
+<code>csc_policy</code> | string  | false | A policy value which determines whether a CSC policy is enforced or bypassed.<br/><br/>Values are<br/> <code>0</code> for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.<br/> <code>1</code> for an enforced policy. Transactions that are enforced will be rejected if the CSC value does not match.<br/> <code>2</code> to bypass. Transactions that are bypassed will be allowed through even if the CSC did not match.<br/> <code>3</code> to ignore. Transactions that are ignored will bypass the result and not send the CSC details for authorisation. |
+<code>currency</code> | string  | false | The processing currency for the transaction. Will default to the merchant account currency.<br/>minLength: 3<br/>maxLength: 3 |
+<code>duplicate_policy</code> | string  | false | A policy value which determines whether a duplication policy is enforced or bypassed. A duplication check has a window<br/>of time set against your account within which it can action. If a previous transaction with matching values occurred within<br/>the window, any subsequent transaction will result in a T001 result.<br/><br/>Values are<br/> <code>0</code> for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.<br/> <code>1</code> for an enforced policy. Transactions that are enforced will be checked for duplication within the duplication window.<br/> <code>2</code> to bypass. Transactions that are bypassed will not be checked for duplication within the duplication window.<br/> <code>3</code> to ignore. Transactions that are ignored will have the same affect as bypass. |
 <code>expmonth</code> | integer <em>int32</em> | true | The month of expiry of the card. The month value should be a numerical value between 1 and 12.<br/><br/>minimum: 1<br/>maximum: 12 |
 <code>expyear</code> | integer <em>int32</em> | false | The year of expiry of the card.<br/><br/>minimum: 2000<br/>maximum: 2100 |
 <code>external_mpi</code> | object | false | <a href="#externalmpi">ExternalMPI</a> If an external 3DSv1 MPI is used for authentication, values provided can be supplied in this element. |
 <code>identifier</code> | string  | true | The identifier of the transaction to process. The value should be a valid reference and may be used to perform<br/> post processing actions and to aid in reconciliation of transactions.<br/><br/>The value should be a valid printable string with ASCII character ranges from 32 to 127.<br/><br/>The identifier is recommended to be distinct for each transaction such as a <a href="https://en.wikipedia.org/wiki/Universally_unique_identifier">random unique identifier</a><br/>this will aid in ensuring each transaction is identifiable.<br/><br/>When transactions are processed they are also checked for duplicate requests. Changing the identifier on a subsequent<br/>request will ensure that a transaction is considered as different.<br/><br/>minLength: 4<br/>maxLength: 50 |
+<code>match_avsa</code> | string  | false | A policy value which determines whether an AVS address policy is enforced, bypassed or ignored.<br/><br/><br/>Values are<br/> <code>0</code> for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.<br/> <code>1</code> for an enforced policy. Transactions that are enforced will be rejected if the AVS address numeric value does not match.<br/> <code>2</code> to bypass. Transactions that are bypassed will be allowed through even if the address did not match.<br/> <code>3</code> to ignore. Transactions that are ignored will bypass the result and not send address numeric details for authorisation. |
+<code>mcc6012</code> | object | false | <a href="#mcc6012">MCC6012</a> If the merchant is MCC coded as 6012, additional values are required for authorisation. |
 <code>merchantid</code> | integer <em>int32</em> | true | Identifies the merchant account to perform processing for. |
 <code>sdk</code> | string  | false | An optional reference value for the calling client such as a version number i.e. |
 <code>ship_to</code> | object | false | <a href="#contactdetails">ContactDetails</a> Shipping details of the card holder making the payment. These details may be used for 3DS and for future referencing of the transaction. |
@@ -2971,8 +3076,13 @@ for analysis and may result in a decline if incorrectly provided.</p>
 </tbody></table>
 <h2 id='chargerequest'>ChargeRequest</h2><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
    </span><span class="s2">"amount"</span><span class="p">:</span><span class="w"> </span><span class="mi">3600</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"avs_postcode_policy"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
    </span><span class="s2">"csc"</span><span class="p">:</span><span class="w"> </span><span class="s2">"10"</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"csc_policy"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"GBP"</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"duplicate_policy"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
    </span><span class="s2">"identifier"</span><span class="p">:</span><span class="w"> </span><span class="s2">"95b857a1-5955-4b86-963c-5a6dbfc4fb95"</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"match_avsa"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
    </span><span class="s2">"merchantid"</span><span class="p">:</span><span class="w"> </span><span class="mi">11223344</span><span class="p">,</span><span class="w">
    </span><span class="s2">"sdk"</span><span class="p">:</span><span class="w"> </span><span class="s2">"MyClient 1.3.0"</span><span class="p">,</span><span class="w">
    </span><span class="s2">"token"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ctPCAPyNyCkx3Ry8wGyv8khC3ch2hUSB3Db..Qzr"</span><span class="p">,</span><span class="w">
@@ -2981,8 +3091,13 @@ for analysis and may result in a decline if incorrectly provided.</p>
 </span><span class="p">}</span><span class="w">
 </span></code></pre><pre class="highlight xml tab-xml"><code><span class="nt">&lt;ChargeRequest&gt;</span>
  <span class="nt">&lt;amount&gt;</span>3600<span class="nt">&lt;/amount&gt;</span> 
+ <span class="nt">&lt;avs_postcode_policy&gt;&lt;/avs_postcode_policy&gt;</span> 
  <span class="nt">&lt;csc&gt;</span>10<span class="nt">&lt;/csc&gt;</span> 
+ <span class="nt">&lt;csc_policy&gt;&lt;/csc_policy&gt;</span> 
+ <span class="nt">&lt;currency&gt;</span>GBP<span class="nt">&lt;/currency&gt;</span> 
+ <span class="nt">&lt;duplicate_policy&gt;&lt;/duplicate_policy&gt;</span> 
  <span class="nt">&lt;identifier&gt;</span>95b857a1-5955-4b86-963c-5a6dbfc4fb95<span class="nt">&lt;/identifier&gt;</span> 
+ <span class="nt">&lt;match_avsa&gt;&lt;/match_avsa&gt;</span> 
  <span class="nt">&lt;merchantid&gt;</span>11223344<span class="nt">&lt;/merchantid&gt;</span> 
  <span class="nt">&lt;sdk&gt;</span>MyClient 1.3.0<span class="nt">&lt;/sdk&gt;</span> 
  <span class="nt">&lt;token&gt;</span>ctPCAPyNyCkx3Ry8wGyv8khC3ch2hUSB3Db..Qzr<span class="nt">&lt;/token&gt;</span> 
@@ -3005,16 +3120,46 @@ for analysis and may result in a decline if incorrectly provided.</p>
 <td>The amount to authorise in the lowest unit of currency with a variable length to a maximum of 12 digits.<br/>No decimal points are to be included and no divisional characters such as 1,024.<br/>The amount should be the total amount required for the transaction.<br/>For example with GBP £1,021.95 the amount value is 102195.<br/><br/>minLength: 1<br/>maxLength: 12</td>
 </tr>
 <tr>
+<td><code>avs_postcode_policy</code></td>
+<td>string</td>
+<td>false</td>
+<td>A policy value which determines whether an AVS postcode policy is enforced or bypassed.<br/><br/>Values are<br/> <code>0</code> for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.<br/> <code>1</code> for an enforced policy. Transactions that are enforced will be rejected if the AVS postcode numeric value does not match.<br/> <code>2</code> to bypass. Transactions that are bypassed will be allowed through even if the postcode did not match.<br/> <code>3</code> to ignore. Transactions that are ignored will bypass the result and not send postcode details for authorisation.</td>
+</tr>
+<tr>
 <td><code>csc</code></td>
 <td>string</td>
 <td>false</td>
 <td>The Card Security Code (CSC) (also known as CV2/CVV2) is normally found on the back of the card<br/>(American Express has it on the front). The value helps to identify posession of the card as it is not<br/>available within the chip or magnetic swipe.<br/><br/>When forwarding the CSC, please ensure the value is a string as some values start with 0 and this will be stripped<br/>out by any integer parsing.<br/><br/>The CSC number aids fraud prevention in Mail Order and Internet payments.<br/><br/> Business rules are available on your account to identify whether to accept<br/>or decline transactions based on mismatched results of the CSC.<br/><br/>The Payment Card Industry (PCI) requires that at no stage of a transaction should the CSC be stored.<br/>This applies to all entities handling card data.<br/>It should also not be used in any hashing process.<br/>CityPay do not store the value and have no method of retrieving the value once the transaction has been processed.<br/>For this reason, duplicate checking is unable to determine the CSC in its duplication check algorithm.<br/><br/>minLength: 3<br/>maxLength: 4</td>
 </tr>
 <tr>
+<td><code>csc_policy</code></td>
+<td>string</td>
+<td>false</td>
+<td>A policy value which determines whether a CSC policy is enforced or bypassed.<br/><br/>Values are<br/> <code>0</code> for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.<br/> <code>1</code> for an enforced policy. Transactions that are enforced will be rejected if the CSC value does not match.<br/> <code>2</code> to bypass. Transactions that are bypassed will be allowed through even if the CSC did not match.<br/> <code>3</code> to ignore. Transactions that are ignored will bypass the result and not send the CSC details for authorisation.</td>
+</tr>
+<tr>
+<td><code>currency</code></td>
+<td>string</td>
+<td>false</td>
+<td>The processing currency for the transaction. Will default to the merchant account currency.<br/>minLength: 3<br/>maxLength: 3</td>
+</tr>
+<tr>
+<td><code>duplicate_policy</code></td>
+<td>string</td>
+<td>false</td>
+<td>A policy value which determines whether a duplication policy is enforced or bypassed. A duplication check has a window<br/>of time set against your account within which it can action. If a previous transaction with matching values occurred within<br/>the window, any subsequent transaction will result in a T001 result.<br/><br/>Values are<br/> <code>0</code> for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.<br/> <code>1</code> for an enforced policy. Transactions that are enforced will be checked for duplication within the duplication window.<br/> <code>2</code> to bypass. Transactions that are bypassed will not be checked for duplication within the duplication window.<br/> <code>3</code> to ignore. Transactions that are ignored will have the same affect as bypass.</td>
+</tr>
+<tr>
 <td><code>identifier</code></td>
 <td>string</td>
 <td>true</td>
 <td>The identifier of the transaction to process. The value should be a valid reference and may be used to perform<br/> post processing actions and to aid in reconciliation of transactions.<br/><br/>The value should be a valid printable string with ASCII character ranges from 32 to 127.<br/><br/>The identifier is recommended to be distinct for each transaction such as a <a href="https://en.wikipedia.org/wiki/Universally_unique_identifier">random unique identifier</a><br/>this will aid in ensuring each transaction is identifiable.<br/><br/>When transactions are processed they are also checked for duplicate requests. Changing the identifier on a subsequent<br/>request will ensure that a transaction is considered as different.<br/><br/>minLength: 4<br/>maxLength: 50</td>
+</tr>
+<tr>
+<td><code>match_avsa</code></td>
+<td>string</td>
+<td>false</td>
+<td>A policy value which determines whether an AVS address policy is enforced, bypassed or ignored.<br/><br/><br/>Values are<br/> <code>0</code> for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.<br/> <code>1</code> for an enforced policy. Transactions that are enforced will be rejected if the AVS address numeric value does not match.<br/> <code>2</code> to bypass. Transactions that are bypassed will be allowed through even if the address did not match.<br/> <code>3</code> to ignore. Transactions that are ignored will bypass the result and not send address numeric details for authorisation.</td>
 </tr>
 <tr>
 <td><code>merchantid</code></td>
@@ -3165,6 +3310,36 @@ for analysis and may result in a decline if incorrectly provided.</p>
 <td>A title for the card holder such as Mr, Mrs, Ms, M. Mme. etc.</td>
 </tr>
 </tbody></table>
+<h2 id='decision'>Decision</h2><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+   </span><span class="s2">"authentication"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="err">...</span><span class="w"> </span><span class="p">},</span><span class="w">
+   </span><span class="s2">"challenge"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="err">...</span><span class="w"> </span><span class="p">},</span><span class="w">
+   </span><span class="s2">"result"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="err">...</span><span class="w"> </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre><pre class="highlight xml tab-xml"><code><span class="nt">&lt;Decision&gt;</span>
+ <span class="nt">&lt;authentication&gt;</span><span class="err">&lt;</span>&gt;...<span class="err">&lt;</span>/&gt;<span class="nt">&lt;/authentication&gt;</span> 
+ <span class="nt">&lt;challenge&gt;</span><span class="err">&lt;</span>&gt;...<span class="err">&lt;</span>/&gt;<span class="nt">&lt;/challenge&gt;</span> 
+ <span class="nt">&lt;result&gt;</span><span class="err">&lt;</span>&gt;...<span class="err">&lt;</span>/&gt;<span class="nt">&lt;/result&gt;</span> 
+<span class="nt">&lt;/Decision&gt;</span>
+</code></pre>
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>authentication</code></td>
+<td>object</td>
+<td>false</td>
+<td><a href="#authenrequired">AuthenRequired</a> The request resulted in the transaction participating in 3DSv1 and is required to be authenticated via the ACS.</td>
+</tr>
+</tbody></table>
+
+<p><code>challenge</code> | object | false | <a href="#requestchallenged">RequestChallenged</a> The request resulted in the transaction participating in 3DSv2 and has been challenged for authentication by the ACS.</p>
+
+<p><code>result</code> | object | false | <a href="#authresponse">AuthResponse</a> A result has been obtained for this transaction either through authorisation or validation.</p>
 <h2 id='externalmpi'>ExternalMPI</h2><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
    </span><span class="s2">"authen_result"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
    </span><span class="s2">"cavv"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
@@ -3255,6 +3430,52 @@ for analysis and may result in a decline if incorrectly provided.</p>
 <td>string</td>
 <td>false</td>
 <td>The client name that was requested.</td>
+</tr>
+</tbody></table>
+<h2 id='mcc6012'>MCC6012</h2><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+   </span><span class="s2">"recipient_account"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"recipient_dob"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"recipient_lastname"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"recipient_postcode"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre><pre class="highlight xml tab-xml"><code><span class="nt">&lt;MCC6012&gt;</span>
+ <span class="nt">&lt;recipient_account&gt;&lt;/recipient_account&gt;</span> 
+ <span class="nt">&lt;recipient_dob&gt;&lt;/recipient_dob&gt;</span> 
+ <span class="nt">&lt;recipient_lastname&gt;&lt;/recipient_lastname&gt;</span> 
+ <span class="nt">&lt;recipient_postcode&gt;&lt;/recipient_postcode&gt;</span> 
+<span class="nt">&lt;/MCC6012&gt;</span>
+</code></pre>
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>recipient_account</code></td>
+<td>string</td>
+<td>false</td>
+<td>The account number of the recipient.</td>
+</tr>
+<tr>
+<td><code>recipient_dob</code></td>
+<td>string</td>
+<td>false</td>
+<td>The date of birth of the recipient.</td>
+</tr>
+<tr>
+<td><code>recipient_lastname</code></td>
+<td>string</td>
+<td>false</td>
+<td>The lastname of ther recepient.</td>
+</tr>
+<tr>
+<td><code>recipient_postcode</code></td>
+<td>string</td>
+<td>false</td>
+<td>The postcode of the recipient.</td>
 </tr>
 </tbody></table>
 <h2 id='merchant'>Merchant</h2><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
@@ -4461,6 +4682,11 @@ for analysis and may result in a decline if incorrectly provided.</p>
 <td><code>S008</code></td>
 <td>Invalid Licence Key</td>
 <td>The given licence key is invalid.</td>
+</tr>
+<tr>
+<td><code>S009</code></td>
+<td>Risk Generation Threshold Limit Reached.</td>
+<td>Risk has determined that the request cannot be completed due to too many attempts during the period.</td>
 </tr>
 <tr>
 <td><code>T001</code></td>

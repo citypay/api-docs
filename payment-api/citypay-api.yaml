@@ -70,7 +70,7 @@ tags:
 paths:
   /account/{accountid}/register: 
     post: 
-      summary: Card Registration API
+      summary: Card Registration
       tags: 
         - Card Holder Account
       operationId: AccountCardRegisterRequest
@@ -118,7 +118,7 @@ paths:
 
   /account/{accountid}: 
     get: 
-      summary: Account Retrieval API
+      summary: Account Retrieval
       tags: 
         - Card Holder Account
       operationId: AccountRetrieveRequest
@@ -153,7 +153,7 @@ paths:
         403: 
           description: Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request.
     delete: 
-      summary: Account Deletion API
+      summary: Account Deletion
       tags: 
         - Card Holder Account
       operationId: AccountDeleteRequest
@@ -226,7 +226,7 @@ paths:
 
   /capture: 
     post: 
-      summary: Capture API
+      summary: Capture
       tags: 
         - Payment Processing
       operationId: CaptureRequest
@@ -296,7 +296,7 @@ paths:
 
   /account/{accountid}/contact: 
     post: 
-      summary: Contact Details Update API
+      summary: Contact Details Update
       tags: 
         - Card Holder Account
       operationId: AccountChangeContactRequest
@@ -336,7 +336,7 @@ paths:
 
   /account/create: 
     post: 
-      summary: Account Create API
+      summary: Account Create
       tags: 
         - Card Holder Account
       operationId: AccountCreate
@@ -369,7 +369,7 @@ paths:
 
   /void: 
     post: 
-      summary: Void API
+      summary: Void
       tags: 
         - Payment Processing
       operationId: VoidRequest
@@ -424,7 +424,7 @@ paths:
 
   /account/{accountid}/status: 
     post: 
-      summary: Account Status API
+      summary: Account Status
       tags: 
         - Card Holder Account
       operationId: AccountStatusRequest
@@ -461,7 +461,7 @@ paths:
 
   /account/{accountid}/card/{cardId}: 
     delete: 
-      summary: Card Deletion API
+      summary: Card Deletion
       tags: 
         - Card Holder Account
       operationId: AccountCardDeleteRequest
@@ -500,7 +500,7 @@ paths:
 
   /authorise: 
     post: 
-      summary: Authorisation API
+      summary: Authorisation
       tags: 
         - Payment Processing
       operationId: AuthorisationRequest
@@ -612,20 +612,14 @@ paths:
               $ref: '#/components/schemas/AuthRequest'
       responses: 
         200: 
-          description: A result of the authorisation.
+          description: A decision made by the result of processing.
           content: 
             application/json: 
               schema: 
-                oneOf: 
-                  - $ref: '#/components/schemas/AuthResponse'
-                  - $ref: '#/components/schemas/AuthenRequired'
-                  - $ref: '#/components/schemas/RequestChallenged'
+                $ref: '#/components/schemas/Decision'
             text/xml: 
               schema: 
-                oneOf: 
-                  - $ref: '#/components/schemas/AuthResponse'
-                  - $ref: '#/components/schemas/AuthenRequired'
-                  - $ref: '#/components/schemas/RequestChallenged'
+                $ref: '#/components/schemas/Decision'
         400: 
           description: Bad Request. Should the incoming data not be validly determined.
         401: 
@@ -635,7 +629,7 @@ paths:
 
   /account/{accountid}/card/{cardId}/status/{status}: 
     post: 
-      summary: Card Status API
+      summary: Card Status
       tags: 
         - Card Holder Account
       operationId: AccountCardStatusRequest
@@ -685,7 +679,7 @@ paths:
 
   /retrieve: 
     post: 
-      summary: Retrieval API
+      summary: Retrieval
       tags: 
         - Payment Processing
       operationId: RetrievalRequest
@@ -736,7 +730,7 @@ paths:
 
   /charge: 
     post: 
-      summary: Charge API
+      summary: Charge
       tags: 
         - Card Holder Account
       operationId: ChargeRequest
@@ -771,20 +765,14 @@ paths:
               $ref: '#/components/schemas/ChargeRequest'
       responses: 
         200: 
-          description: A result of the charge.
+          description: A decision met by the result of the charge.
           content: 
             application/json: 
               schema: 
-                oneOf: 
-                  - $ref: '#/components/schemas/AuthResponse'
-                  - $ref: '#/components/schemas/AuthenRequired'
-                  - $ref: '#/components/schemas/RequestChallenged'
+                $ref: '#/components/schemas/Decision'
             text/xml: 
               schema: 
-                oneOf: 
-                  - $ref: '#/components/schemas/AuthResponse'
-                  - $ref: '#/components/schemas/AuthenRequired'
-                  - $ref: '#/components/schemas/RequestChallenged'
+                $ref: '#/components/schemas/Decision'
         400: 
           description: Bad Request. Should the incoming data not be validly determined.
         401: 
@@ -1117,6 +1105,16 @@ components:
             No decimal points are to be included and no divisional characters such as 1,024.
             The amount should be the total amount required for the transaction.
             For example with GBP £1,021.95 the amount value is 102195.
+        avs_postcode_policy: 
+          type: string
+          description: |
+            A policy value which determines whether an AVS postcode policy is enforced or bypassed.
+            
+            Values are
+             `0` for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.
+             `1` for an enforced policy. Transactions that are enforced will be rejected if the AVS postcode numeric value does not match.
+             `2` to bypass. Transactions that are bypassed will be allowed through even if the postcode did not match.
+             `3` to ignore. Transactions that are ignored will bypass the result and not send postcode details for authorisation.
         csc: 
           type: string
           minLength: 3
@@ -1140,6 +1138,34 @@ components:
             It should also not be used in any hashing process.
             CityPay do not store the value and have no method of retrieving the value once the transaction has been processed.
             For this reason, duplicate checking is unable to determine the CSC in its duplication check algorithm.
+        csc_policy: 
+          type: string
+          description: |
+            A policy value which determines whether a CSC policy is enforced or bypassed.
+            
+            Values are
+             `0` for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.
+             `1` for an enforced policy. Transactions that are enforced will be rejected if the CSC value does not match.
+             `2` to bypass. Transactions that are bypassed will be allowed through even if the CSC did not match.
+             `3` to ignore. Transactions that are ignored will bypass the result and not send the CSC details for authorisation.
+        currency: 
+          type: string
+          minLength: 3
+          maxLength: 3
+          example: GBP
+          description: The processing currency for the transaction. Will default to the merchant account currency.
+        duplicate_policy: 
+          type: string
+          description: |
+            A policy value which determines whether a duplication policy is enforced or bypassed. A duplication check has a window
+            of time set against your account within which it can action. If a previous transaction with matching values occurred within
+            the window, any subsequent transaction will result in a T001 result.
+            
+            Values are
+             `0` for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.
+             `1` for an enforced policy. Transactions that are enforced will be checked for duplication within the duplication window.
+             `2` to bypass. Transactions that are bypassed will not be checked for duplication within the duplication window.
+             `3` to ignore. Transactions that are ignored will have the same affect as bypass.
         identifier: 
           type: string
           minLength: 4
@@ -1156,6 +1182,17 @@ components:
             
             When transactions are processed they are also checked for duplicate requests. Changing the identifier on a subsequent
             request will ensure that a transaction is considered as different.
+        match_avsa: 
+          type: string
+          description: |
+            A policy value which determines whether an AVS address policy is enforced, bypassed or ignored.
+            
+            
+            Values are
+             `0` for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.
+             `1` for an enforced policy. Transactions that are enforced will be rejected if the AVS address numeric value does not match.
+             `2` to bypass. Transactions that are bypassed will be allowed through even if the address did not match.
+             `3` to ignore. Transactions that are ignored will bypass the result and not send address numeric details for authorisation.
         merchantid: 
           type: integer
           format: int32
@@ -1396,6 +1433,21 @@ components:
           maxLength: 1
           example: 1
           description: O = Stopover allowed, X = Stopover not allowed.
+    MCC6012: 
+      type: object
+      properties: 
+        recipient_account: 
+          type: string
+          description: The account number of the recipient.
+        recipient_dob: 
+          type: string
+          description: The date of birth of the recipient.
+        recipient_lastname: 
+          type: string
+          description: The lastname of ther recepient.
+        recipient_postcode: 
+          type: string
+          description: The postcode of the recipient.
     RetrieveRequest: 
       type: object
       required: 
@@ -1444,6 +1496,21 @@ components:
           description: |
             The Payer Authentication Request packet which should be `POSTed` to the Url of the ACS
             to establish the authentication session. Data should be sent untouched.
+    Decision: 
+      type: object
+      properties: 
+        authentication: 
+          $ref: '#/components/schemas/AuthenRequired'
+          x-description: |
+            The request resulted in the transaction participating in 3DSv1 and is required to be authenticated via the ACS.
+        challenge: 
+          $ref: '#/components/schemas/RequestChallenged'
+          x-description: |
+            The request resulted in the transaction participating in 3DSv2 and has been challenged for authentication by the ACS.
+        result: 
+          $ref: '#/components/schemas/AuthResponse'
+          x-description: |
+            A result has been obtained for this transaction either through authorisation or validation.
     AuthRequest: 
       type: object
       required: 
@@ -1472,6 +1539,16 @@ components:
             No decimal points are to be included and no divisional characters such as 1,024.
             The amount should be the total amount required for the transaction.
             For example with GBP £1,021.95 the amount value is 102195.
+        avs_postcode_policy: 
+          type: string
+          description: |
+            A policy value which determines whether an AVS postcode policy is enforced or bypassed.
+            
+            Values are
+             `0` for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.
+             `1` for an enforced policy. Transactions that are enforced will be rejected if the AVS postcode numeric value does not match.
+             `2` to bypass. Transactions that are bypassed will be allowed through even if the postcode did not match.
+             `3` to ignore. Transactions that are ignored will bypass the result and not send postcode details for authorisation.
         bill_to: 
           $ref: '#/components/schemas/ContactDetails'
           x-description: |
@@ -1519,6 +1596,34 @@ components:
             It should also not be used in any hashing process.
             CityPay do not store the value and have no method of retrieving the value once the transaction has been processed.
             For this reason, duplicate checking is unable to determine the CSC in its duplication check algorithm.
+        csc_policy: 
+          type: string
+          description: |
+            A policy value which determines whether a CSC policy is enforced or bypassed.
+            
+            Values are
+             `0` for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.
+             `1` for an enforced policy. Transactions that are enforced will be rejected if the CSC value does not match.
+             `2` to bypass. Transactions that are bypassed will be allowed through even if the CSC did not match.
+             `3` to ignore. Transactions that are ignored will bypass the result and not send the CSC details for authorisation.
+        currency: 
+          type: string
+          minLength: 3
+          maxLength: 3
+          example: GBP
+          description: The processing currency for the transaction. Will default to the merchant account currency.
+        duplicate_policy: 
+          type: string
+          description: |
+            A policy value which determines whether a duplication policy is enforced or bypassed. A duplication check has a window
+            of time set against your account within which it can action. If a previous transaction with matching values occurred within
+            the window, any subsequent transaction will result in a T001 result.
+            
+            Values are
+             `0` for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.
+             `1` for an enforced policy. Transactions that are enforced will be checked for duplication within the duplication window.
+             `2` to bypass. Transactions that are bypassed will not be checked for duplication within the duplication window.
+             `3` to ignore. Transactions that are ignored will have the same affect as bypass.
         expmonth: 
           type: integer
           format: int32
@@ -1555,6 +1660,21 @@ components:
             
             When transactions are processed they are also checked for duplicate requests. Changing the identifier on a subsequent
             request will ensure that a transaction is considered as different.
+        match_avsa: 
+          type: string
+          description: |
+            A policy value which determines whether an AVS address policy is enforced, bypassed or ignored.
+            
+            
+            Values are
+             `0` for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.
+             `1` for an enforced policy. Transactions that are enforced will be rejected if the AVS address numeric value does not match.
+             `2` to bypass. Transactions that are bypassed will be allowed through even if the address did not match.
+             `3` to ignore. Transactions that are ignored will bypass the result and not send address numeric details for authorisation.
+        mcc6012: 
+          $ref: '#/components/schemas/MCC6012'
+          x-business-extension: MCC6012
+          x-description: If the merchant is MCC coded as 6012, additional values are required for authorisation.
         merchantid: 
           type: integer
           format: int32
@@ -1897,7 +2017,7 @@ components:
 
   securitySchemes:
     cp-api-key:
-      name: CityPay API Authentication
+      name: cp-api-key
       type: apiKey
       description: |
         The `cp-api-key` authentication header is required for all payment processing access.
