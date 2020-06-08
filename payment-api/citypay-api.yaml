@@ -95,16 +95,10 @@ paths:
         content: 
           application/json: 
             schema: 
-              type: object
-              properties: 
-                RegisterCard: 
-                  $ref: '#/components/schemas/RegisterCard'
+              $ref: '#/components/schemas/RegisterCard'
           text/xml: 
             schema: 
-              type: object
-              properties: 
-                RegisterCard: 
-                  $ref: '#/components/schemas/RegisterCard'
+              $ref: '#/components/schemas/RegisterCard'
       responses: 
         200: 
           description: A successfully registered card provides a reload of the account including the new card.
@@ -209,16 +203,10 @@ paths:
         content: 
           application/json: 
             schema: 
-              type: object
-              properties: 
-                Ping: 
-                  $ref: '#/components/schemas/Ping'
+              $ref: '#/components/schemas/Ping'
           text/xml: 
             schema: 
-              type: object
-              properties: 
-                Ping: 
-                  $ref: '#/components/schemas/Ping'
+              $ref: '#/components/schemas/Ping'
       responses: 
         200: 
           description: A result of the ping request.
@@ -265,10 +253,7 @@ paths:
         content: 
           application/json: 
             schema: 
-              type: object
-              properties: 
-                CaptureRequest: 
-                  $ref: '#/components/schemas/CaptureRequest'
+              $ref: '#/components/schemas/CaptureRequest'
             examples: 
               example1: 
                 summary: Basic capture call for a merchant with a given identifier
@@ -281,10 +266,7 @@ paths:
                 externalValue: 'CaptureRequest-example2.json'
           text/xml: 
             schema: 
-              type: object
-              properties: 
-                CaptureRequest: 
-                  $ref: '#/components/schemas/CaptureRequest'
+              $ref: '#/components/schemas/CaptureRequest'
             examples: 
               example1: 
                 summary: Basic capture call for a merchant with a given identifier
@@ -331,16 +313,10 @@ paths:
         content: 
           application/json: 
             schema: 
-              type: object
-              properties: 
-                ContactDetails: 
-                  $ref: '#/components/schemas/ContactDetails'
+              $ref: '#/components/schemas/ContactDetails'
           text/xml: 
             schema: 
-              type: object
-              properties: 
-                ContactDetails: 
-                  $ref: '#/components/schemas/ContactDetails'
+              $ref: '#/components/schemas/ContactDetails'
       responses: 
         200: 
           description: A revised account with the new details set.
@@ -370,16 +346,10 @@ paths:
         content: 
           application/json: 
             schema: 
-              type: object
-              properties: 
-                AccountCreate: 
-                  $ref: '#/components/schemas/AccountCreate'
+              $ref: '#/components/schemas/AccountCreate'
           text/xml: 
             schema: 
-              type: object
-              properties: 
-                AccountCreate: 
-                  $ref: '#/components/schemas/AccountCreate'
+              $ref: '#/components/schemas/AccountCreate'
       responses: 
         200: 
           description: Provides an initialised account.
@@ -417,10 +387,7 @@ paths:
         content: 
           application/json: 
             schema: 
-              type: object
-              properties: 
-                VoidRequest: 
-                  $ref: '#/components/schemas/VoidRequest'
+              $ref: '#/components/schemas/VoidRequest'
             examples: 
               example1: 
                 summary: Basic capture call for a merchant with a given identifier
@@ -430,10 +397,7 @@ paths:
                 externalValue: 'VoidRequest-example2.json'
           text/xml: 
             schema: 
-              type: object
-              properties: 
-                VoidRequest: 
-                  $ref: '#/components/schemas/VoidRequest'
+              $ref: '#/components/schemas/VoidRequest'
             examples: 
               example1: 
                 summary: Basic capture call for a merchant with a given identifier
@@ -553,20 +517,14 @@ paths:
         content: 
           application/json: 
             schema: 
-              type: object
-              properties: 
-                CResAuthRequest: 
-                  $ref: '#/components/schemas/CResAuthRequest'
+              $ref: '#/components/schemas/CResAuthRequest'
             examples: 
               example1: 
                 summary: PaRes example request
                 externalValue: 'CResRequest-example1.json'
           text/xml: 
             schema: 
-              type: object
-              properties: 
-                CResAuthRequest: 
-                  $ref: '#/components/schemas/CResAuthRequest'
+              $ref: '#/components/schemas/CResAuthRequest'
             examples: 
               example1: 
                 summary: PaRes example request
@@ -757,20 +715,14 @@ paths:
         content: 
           application/json: 
             schema: 
-              type: object
-              properties: 
-                AuthRequest: 
-                  $ref: '#/components/schemas/AuthRequest'
+              $ref: '#/components/schemas/AuthRequest'
             examples: 
               example1: 
                 summary: Basic capture call for a merchant with a given identifier
                 externalValue: 'AuthorisationRequest-example1.json'
           text/xml: 
             schema: 
-              type: object
-              properties: 
-                AuthRequest: 
-                  $ref: '#/components/schemas/AuthRequest'
+              $ref: '#/components/schemas/AuthRequest'
             examples: 
               example1: 
                 summary: Basic capture call for a merchant with a given identifier
@@ -864,20 +816,14 @@ paths:
         content: 
           application/json: 
             schema: 
-              type: object
-              properties: 
-                RetrieveRequest: 
-                  $ref: '#/components/schemas/RetrieveRequest'
+              $ref: '#/components/schemas/RetrieveRequest'
             examples: 
               example1: 
                 summary: Basic retrieval call for a merchant with a given identifier
                 externalValue: 'RetrievalRequest-example1.json'
           text/xml: 
             schema: 
-              type: object
-              properties: 
-                RetrieveRequest: 
-                  $ref: '#/components/schemas/RetrieveRequest'
+              $ref: '#/components/schemas/RetrieveRequest'
             examples: 
               example1: 
                 summary: Basic retrieval call for a merchant with a given identifier
@@ -930,16 +876,10 @@ paths:
         content: 
           application/json: 
             schema: 
-              type: object
-              properties: 
-                ChargeRequest: 
-                  $ref: '#/components/schemas/ChargeRequest'
+              $ref: '#/components/schemas/ChargeRequest'
           text/xml: 
             schema: 
-              type: object
-              properties: 
-                ChargeRequest: 
-                  $ref: '#/components/schemas/ChargeRequest'
+              $ref: '#/components/schemas/ChargeRequest'
       responses: 
         200: 
           description: A decision met by the result of the charge.
@@ -1007,20 +947,14 @@ paths:
         content: 
           application/json: 
             schema: 
-              type: object
-              properties: 
-                PaResAuthRequest: 
-                  $ref: '#/components/schemas/PaResAuthRequest'
+              $ref: '#/components/schemas/PaResAuthRequest'
             examples: 
               example1: 
                 summary: PaRes example request
                 externalValue: 'PaResRequest-example1.json'
           text/xml: 
             schema: 
-              type: object
-              properties: 
-                PaResAuthRequest: 
-                  $ref: '#/components/schemas/PaResAuthRequest'
+              $ref: '#/components/schemas/PaResAuthRequest'
             examples: 
               example1: 
                 summary: PaRes example request
