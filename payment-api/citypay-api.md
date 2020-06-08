@@ -811,6 +811,64 @@ We are currently working on an integration test suite for 3DSv2 which will mock 
 
 
 
+> Basic capture call for a merchant with a given identifier
+
+```json
+{
+  "AuthRequest":{
+    "amount":"<integer>",
+    "cardnumber":"<string>",
+    "expmonth":"<integer>",
+    "identifier":"<string>",
+    "merchantid":"<integer>",
+    "bill_to":{
+      "address1":"<string>",
+      "address2":"<string>",
+      "address3":"<string>",
+      "area":"<string>",
+      "company":"<string>",
+      "country":"<string>",
+      "email":"<string>",
+      "firstname":"<string>",
+      "lastname":"<string>",
+      "mobile_no":"<string>",
+      "postcode":"<string>",
+      "telephone_no":"<string>",
+      "title":"<string>"
+    },
+    "expyear":"<integer>",
+    "merchant_termurl":"<string>"
+  }
+}
+```
+
+```xml
+<AuthRequest>
+   <amount>&lt;integer&gt;</amount>
+   <cardnumber>&lt;string&gt;</cardnumber>
+   <expmonth>&lt;integer&gt;</expmonth>
+   <identifier>&lt;string&gt;</identifier>
+   <merchantid>&lt;integer&gt;</merchantid>
+   <bill_to>
+      <address1>&lt;string&gt;</address1>
+      <address2>&lt;string&gt;</address2>
+      <address3>&lt;string&gt;</address3>
+      <area>&lt;string&gt;</area>
+      <company>&lt;string&gt;</company>
+      <country>&lt;string&gt;</country>
+      <email>&lt;string&gt;</email>
+      <firstname>&lt;string&gt;</firstname>
+      <lastname>&lt;string&gt;</lastname>
+      <mobile_no>&lt;string&gt;</mobile_no>
+      <postcode>&lt;string&gt;</postcode>
+      <telephone_no>&lt;string&gt;</telephone_no>
+      <title>&lt;string&gt;</title>
+   </bill_to>
+   <expyear>&lt;integer&gt;</expyear>
+   <merchant_termurl>&lt;string&gt;</merchant_termurl>
+</AuthRequest>
+```
+
 
 ### Model AuthRequest
 
@@ -1046,6 +1104,22 @@ on its own without a previous [request challenge](#requestchallenged) being obta
 
 
 
+> PaRes example request
+
+```json
+{
+  "CResAuthRequest":{
+    "cres":"<base64>"
+  }
+}
+```
+
+```xml
+<CResAuthRequest>
+   <cres>&lt;base64&gt;</cres>
+</CResAuthRequest>
+```
+
 
 ### Model CResAuthRequest
 
@@ -1088,6 +1162,24 @@ on its own without a previous [authentication required](#authenticationrequired)
 
 
 
+
+> PaRes example request
+
+```json
+{
+  "PaResAuthRequest":{
+    "md":"<string>",
+    "pares":"<base64>"
+  }
+}
+```
+
+```xml
+<PaResAuthRequest>
+   <md>&lt;string&gt;</md>
+   <pares>&lt;base64&gt;</pares>
+</PaResAuthRequest>
+```
 
 
 ### Model PaResAuthRequest
@@ -1140,7 +1232,7 @@ information to be returned.
 
 ```json
 {
-  "RetrievalRequest":{
+  "RetrieveRequest":{
     "merchantid":123456,
     "identifier":"318f2bc5-d9e0-4ddf-9df1-1ea9e4890ca9"
   }
@@ -1148,10 +1240,10 @@ information to be returned.
 ```
 
 ```xml
-<RetrievalRequest>
+<RetrieveRequest>
    <merchantid>123456</merchantid>
    <identifier>318f2bc5-d9e0-4ddf-9df1-1ea9e4890ca9</identifier>
-</RetrievalRequest>
+</RetrieveRequest>
 ```
 
 

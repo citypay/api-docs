@@ -557,12 +557,20 @@ paths:
               properties: 
                 CResAuthRequest: 
                   $ref: '#/components/schemas/CResAuthRequest'
+            examples: 
+              example1: 
+                summary: PaRes example request
+                externalValue: 'CResRequest-example1.json'
           text/xml: 
             schema: 
               type: object
               properties: 
                 CResAuthRequest: 
                   $ref: '#/components/schemas/CResAuthRequest'
+            examples: 
+              example1: 
+                summary: PaRes example request
+                externalValue: 'CResRequest-example1.xml'
       responses: 
         200: 
           description: A result of processing the 3DSv2 authorisation data.
@@ -753,12 +761,20 @@ paths:
               properties: 
                 AuthRequest: 
                   $ref: '#/components/schemas/AuthRequest'
+            examples: 
+              example1: 
+                summary: Basic capture call for a merchant with a given identifier
+                externalValue: 'AuthorisationRequest-example1.json'
           text/xml: 
             schema: 
               type: object
               properties: 
                 AuthRequest: 
                   $ref: '#/components/schemas/AuthRequest'
+            examples: 
+              example1: 
+                summary: Basic capture call for a merchant with a given identifier
+                externalValue: 'AuthorisationRequest-example1.xml'
       responses: 
         200: 
           description: A decision made by the result of processing.
@@ -995,12 +1011,20 @@ paths:
               properties: 
                 PaResAuthRequest: 
                   $ref: '#/components/schemas/PaResAuthRequest'
+            examples: 
+              example1: 
+                summary: PaRes example request
+                externalValue: 'PaResRequest-example1.json'
           text/xml: 
             schema: 
               type: object
               properties: 
                 PaResAuthRequest: 
                   $ref: '#/components/schemas/PaResAuthRequest'
+            examples: 
+              example1: 
+                summary: PaRes example request
+                externalValue: 'PaResRequest-example1.xml'
       responses: 
         200: 
           description: A result of processing the 3DSv1 authorisation data.

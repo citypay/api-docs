@@ -1585,7 +1585,61 @@ value will be validated for receipt of the CAVV and subsequently may return back
 <span class="nt">&lt;/html&gt;</span>
 </code></pre>
 <p>We are currently working on an integration test suite for 3DSv2 which will mock the ACS challenge process.</p>
-<h3 id='model-authrequest'>Model AuthRequest</h3>
+
+<blockquote>
+<p>Basic capture call for a merchant with a given identifier</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="s2">"AuthRequest"</span><span class="p">:{</span><span class="w">
+    </span><span class="s2">"amount"</span><span class="p">:</span><span class="s2">"&lt;integer&gt;"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"cardnumber"</span><span class="p">:</span><span class="s2">"&lt;string&gt;"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"expmonth"</span><span class="p">:</span><span class="s2">"&lt;integer&gt;"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"identifier"</span><span class="p">:</span><span class="s2">"&lt;string&gt;"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"merchantid"</span><span class="p">:</span><span class="s2">"&lt;integer&gt;"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"bill_to"</span><span class="p">:{</span><span class="w">
+      </span><span class="s2">"address1"</span><span class="p">:</span><span class="s2">"&lt;string&gt;"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"address2"</span><span class="p">:</span><span class="s2">"&lt;string&gt;"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"address3"</span><span class="p">:</span><span class="s2">"&lt;string&gt;"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"area"</span><span class="p">:</span><span class="s2">"&lt;string&gt;"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"company"</span><span class="p">:</span><span class="s2">"&lt;string&gt;"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"country"</span><span class="p">:</span><span class="s2">"&lt;string&gt;"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"email"</span><span class="p">:</span><span class="s2">"&lt;string&gt;"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"firstname"</span><span class="p">:</span><span class="s2">"&lt;string&gt;"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"lastname"</span><span class="p">:</span><span class="s2">"&lt;string&gt;"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"mobile_no"</span><span class="p">:</span><span class="s2">"&lt;string&gt;"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"postcode"</span><span class="p">:</span><span class="s2">"&lt;string&gt;"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"telephone_no"</span><span class="p">:</span><span class="s2">"&lt;string&gt;"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"title"</span><span class="p">:</span><span class="s2">"&lt;string&gt;"</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="s2">"expyear"</span><span class="p">:</span><span class="s2">"&lt;integer&gt;"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"merchant_termurl"</span><span class="p">:</span><span class="s2">"&lt;string&gt;"</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre><pre class="highlight xml tab-xml"><code><span class="nt">&lt;AuthRequest&gt;</span>
+   <span class="nt">&lt;amount&gt;</span><span class="ni">&amp;lt;</span>integer<span class="ni">&amp;gt;</span><span class="nt">&lt;/amount&gt;</span>
+   <span class="nt">&lt;cardnumber&gt;</span><span class="ni">&amp;lt;</span>string<span class="ni">&amp;gt;</span><span class="nt">&lt;/cardnumber&gt;</span>
+   <span class="nt">&lt;expmonth&gt;</span><span class="ni">&amp;lt;</span>integer<span class="ni">&amp;gt;</span><span class="nt">&lt;/expmonth&gt;</span>
+   <span class="nt">&lt;identifier&gt;</span><span class="ni">&amp;lt;</span>string<span class="ni">&amp;gt;</span><span class="nt">&lt;/identifier&gt;</span>
+   <span class="nt">&lt;merchantid&gt;</span><span class="ni">&amp;lt;</span>integer<span class="ni">&amp;gt;</span><span class="nt">&lt;/merchantid&gt;</span>
+   <span class="nt">&lt;bill_to&gt;</span>
+      <span class="nt">&lt;address1&gt;</span><span class="ni">&amp;lt;</span>string<span class="ni">&amp;gt;</span><span class="nt">&lt;/address1&gt;</span>
+      <span class="nt">&lt;address2&gt;</span><span class="ni">&amp;lt;</span>string<span class="ni">&amp;gt;</span><span class="nt">&lt;/address2&gt;</span>
+      <span class="nt">&lt;address3&gt;</span><span class="ni">&amp;lt;</span>string<span class="ni">&amp;gt;</span><span class="nt">&lt;/address3&gt;</span>
+      <span class="nt">&lt;area&gt;</span><span class="ni">&amp;lt;</span>string<span class="ni">&amp;gt;</span><span class="nt">&lt;/area&gt;</span>
+      <span class="nt">&lt;company&gt;</span><span class="ni">&amp;lt;</span>string<span class="ni">&amp;gt;</span><span class="nt">&lt;/company&gt;</span>
+      <span class="nt">&lt;country&gt;</span><span class="ni">&amp;lt;</span>string<span class="ni">&amp;gt;</span><span class="nt">&lt;/country&gt;</span>
+      <span class="nt">&lt;email&gt;</span><span class="ni">&amp;lt;</span>string<span class="ni">&amp;gt;</span><span class="nt">&lt;/email&gt;</span>
+      <span class="nt">&lt;firstname&gt;</span><span class="ni">&amp;lt;</span>string<span class="ni">&amp;gt;</span><span class="nt">&lt;/firstname&gt;</span>
+      <span class="nt">&lt;lastname&gt;</span><span class="ni">&amp;lt;</span>string<span class="ni">&amp;gt;</span><span class="nt">&lt;/lastname&gt;</span>
+      <span class="nt">&lt;mobile_no&gt;</span><span class="ni">&amp;lt;</span>string<span class="ni">&amp;gt;</span><span class="nt">&lt;/mobile_no&gt;</span>
+      <span class="nt">&lt;postcode&gt;</span><span class="ni">&amp;lt;</span>string<span class="ni">&amp;gt;</span><span class="nt">&lt;/postcode&gt;</span>
+      <span class="nt">&lt;telephone_no&gt;</span><span class="ni">&amp;lt;</span>string<span class="ni">&amp;gt;</span><span class="nt">&lt;/telephone_no&gt;</span>
+      <span class="nt">&lt;title&gt;</span><span class="ni">&amp;lt;</span>string<span class="ni">&amp;gt;</span><span class="nt">&lt;/title&gt;</span>
+   <span class="nt">&lt;/bill_to&gt;</span>
+   <span class="nt">&lt;expyear&gt;</span><span class="ni">&amp;lt;</span>integer<span class="ni">&amp;gt;</span><span class="nt">&lt;/expyear&gt;</span>
+   <span class="nt">&lt;merchant_termurl&gt;</span><span class="ni">&amp;lt;</span>string<span class="ni">&amp;gt;</span><span class="nt">&lt;/merchant_termurl&gt;</span>
+<span class="nt">&lt;/AuthRequest&gt;</span>
+</code></pre><h3 id='model-authrequest'>Model AuthRequest</h3>
 <p>Request body for this operation contains the following properties</p>
 
 <table><thead>
@@ -1969,7 +2023,19 @@ know out of band via an <code>RReq</code> call by the ACS to notify us if the li
 
 <p>Any call to the CRes operation will require a previous authorisation request and cannot be called 
 on its own without a previous <a href="#requestchallenged">request challenge</a> being obtained.</p>
-<h3 id='model-cresauthrequest'>Model CResAuthRequest</h3>
+
+<blockquote>
+<p>PaRes example request</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="s2">"CResAuthRequest"</span><span class="p">:{</span><span class="w">
+    </span><span class="s2">"cres"</span><span class="p">:</span><span class="s2">"&lt;base64&gt;"</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre><pre class="highlight xml tab-xml"><code><span class="nt">&lt;CResAuthRequest&gt;</span>
+   <span class="nt">&lt;cres&gt;</span><span class="ni">&amp;lt;</span>base64<span class="ni">&amp;gt;</span><span class="nt">&lt;/cres&gt;</span>
+<span class="nt">&lt;/CResAuthRequest&gt;</span>
+</code></pre><h3 id='model-cresauthrequest'>Model CResAuthRequest</h3>
 <p>Request body for this operation contains the following properties</p>
 
 <table><thead>
@@ -2028,7 +2094,21 @@ signature is checked, our systems will proceed to authorisation processing.  </p
 
 <p>Any call to the PaRes operation will require a previous authorisation request and cannot be called 
 on its own without a previous <a href="#authenticationrequired">authentication required</a>  being obtained.</p>
-<h3 id='model-paresauthrequest'>Model PaResAuthRequest</h3>
+
+<blockquote>
+<p>PaRes example request</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="s2">"PaResAuthRequest"</span><span class="p">:{</span><span class="w">
+    </span><span class="s2">"md"</span><span class="p">:</span><span class="s2">"&lt;string&gt;"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"pares"</span><span class="p">:</span><span class="s2">"&lt;base64&gt;"</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre><pre class="highlight xml tab-xml"><code><span class="nt">&lt;PaResAuthRequest&gt;</span>
+   <span class="nt">&lt;md&gt;</span><span class="ni">&amp;lt;</span>string<span class="ni">&amp;gt;</span><span class="nt">&lt;/md&gt;</span>
+   <span class="nt">&lt;pares&gt;</span><span class="ni">&amp;lt;</span>base64<span class="ni">&amp;gt;</span><span class="nt">&lt;/pares&gt;</span>
+<span class="nt">&lt;/PaResAuthRequest&gt;</span>
+</code></pre><h3 id='model-paresauthrequest'>Model PaResAuthRequest</h3>
 <p>Request body for this operation contains the following properties</p>
 
 <table><thead>
@@ -2101,15 +2181,15 @@ information to be returned.</p>
 <p>Basic retrieval call for a merchant with a given identifier</p>
 </blockquote>
 <pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-  </span><span class="s2">"RetrievalRequest"</span><span class="p">:{</span><span class="w">
+  </span><span class="s2">"RetrieveRequest"</span><span class="p">:{</span><span class="w">
     </span><span class="s2">"merchantid"</span><span class="p">:</span><span class="mi">123456</span><span class="p">,</span><span class="w">
     </span><span class="s2">"identifier"</span><span class="p">:</span><span class="s2">"318f2bc5-d9e0-4ddf-9df1-1ea9e4890ca9"</span><span class="w">
   </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre><pre class="highlight xml tab-xml"><code><span class="nt">&lt;RetrievalRequest&gt;</span>
+</span></code></pre><pre class="highlight xml tab-xml"><code><span class="nt">&lt;RetrieveRequest&gt;</span>
    <span class="nt">&lt;merchantid&gt;</span>123456<span class="nt">&lt;/merchantid&gt;</span>
    <span class="nt">&lt;identifier&gt;</span>318f2bc5-d9e0-4ddf-9df1-1ea9e4890ca9<span class="nt">&lt;/identifier&gt;</span>
-<span class="nt">&lt;/RetrievalRequest&gt;</span>
+<span class="nt">&lt;/RetrieveRequest&gt;</span>
 </code></pre><h3 id='model-retrieverequest'>Model RetrieveRequest</h3>
 <p>Request body for this operation contains the following properties</p>
 
