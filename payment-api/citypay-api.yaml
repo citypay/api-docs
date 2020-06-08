@@ -42,9 +42,9 @@ info:
 
 # during dev, should point to your local machine
 servers:
-- url: https://api.citypay.com
+- url: https://api.citypay.com/v6
   description: Production processing endpoint
-- url: https://sandbox.citypay.com
+- url: https://sandbox.citypay.com/v6
   description: Testing service returning test results for all transactions
 
 tags:
@@ -95,10 +95,16 @@ paths:
         content: 
           application/json: 
             schema: 
-              $ref: '#/components/schemas/RegisterCard'
+              type: object
+              properties: 
+                RegisterCard: 
+                  $ref: '#/components/schemas/RegisterCard'
           text/xml: 
             schema: 
-              $ref: '#/components/schemas/RegisterCard'
+              type: object
+              properties: 
+                RegisterCard: 
+                  $ref: '#/components/schemas/RegisterCard'
       responses: 
         200: 
           description: A successfully registered card provides a reload of the account including the new card.
@@ -203,10 +209,16 @@ paths:
         content: 
           application/json: 
             schema: 
-              $ref: '#/components/schemas/Ping'
+              type: object
+              properties: 
+                Ping: 
+                  $ref: '#/components/schemas/Ping'
           text/xml: 
             schema: 
-              $ref: '#/components/schemas/Ping'
+              type: object
+              properties: 
+                Ping: 
+                  $ref: '#/components/schemas/Ping'
       responses: 
         200: 
           description: A result of the ping request.
@@ -253,7 +265,10 @@ paths:
         content: 
           application/json: 
             schema: 
-              $ref: '#/components/schemas/CaptureRequest'
+              type: object
+              properties: 
+                CaptureRequest: 
+                  $ref: '#/components/schemas/CaptureRequest'
             examples: 
               example1: 
                 summary: Basic capture call for a merchant with a given identifier
@@ -266,7 +281,10 @@ paths:
                 externalValue: 'CaptureRequest-example2.json'
           text/xml: 
             schema: 
-              $ref: '#/components/schemas/CaptureRequest'
+              type: object
+              properties: 
+                CaptureRequest: 
+                  $ref: '#/components/schemas/CaptureRequest'
             examples: 
               example1: 
                 summary: Basic capture call for a merchant with a given identifier
@@ -313,10 +331,16 @@ paths:
         content: 
           application/json: 
             schema: 
-              $ref: '#/components/schemas/ContactDetails'
+              type: object
+              properties: 
+                ContactDetails: 
+                  $ref: '#/components/schemas/ContactDetails'
           text/xml: 
             schema: 
-              $ref: '#/components/schemas/ContactDetails'
+              type: object
+              properties: 
+                ContactDetails: 
+                  $ref: '#/components/schemas/ContactDetails'
       responses: 
         200: 
           description: A revised account with the new details set.
@@ -346,10 +370,16 @@ paths:
         content: 
           application/json: 
             schema: 
-              $ref: '#/components/schemas/AccountCreate'
+              type: object
+              properties: 
+                AccountCreate: 
+                  $ref: '#/components/schemas/AccountCreate'
           text/xml: 
             schema: 
-              $ref: '#/components/schemas/AccountCreate'
+              type: object
+              properties: 
+                AccountCreate: 
+                  $ref: '#/components/schemas/AccountCreate'
       responses: 
         200: 
           description: Provides an initialised account.
@@ -387,7 +417,10 @@ paths:
         content: 
           application/json: 
             schema: 
-              $ref: '#/components/schemas/VoidRequest'
+              type: object
+              properties: 
+                VoidRequest: 
+                  $ref: '#/components/schemas/VoidRequest'
             examples: 
               example1: 
                 summary: Basic capture call for a merchant with a given identifier
@@ -397,7 +430,10 @@ paths:
                 externalValue: 'VoidRequest-example2.json'
           text/xml: 
             schema: 
-              $ref: '#/components/schemas/VoidRequest'
+              type: object
+              properties: 
+                VoidRequest: 
+                  $ref: '#/components/schemas/VoidRequest'
             examples: 
               example1: 
                 summary: Basic capture call for a merchant with a given identifier
@@ -498,6 +534,52 @@ paths:
         403: 
           description: Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request.
 
+  /cres: 
+    post: 
+      summary: CRes
+      tags: 
+        - Payment Processing
+      operationId: CResRequest
+      description: |
+        The CRes request performs authorisation processing once a challenge request has been completed
+        with an Authentication Server (ACS). This challenge response contains confirmation that will
+        allow the API systems to return an authorisation response based on the result. Our systems will 
+        know out of band via an `RReq` call by the ACS to notify us if the liability shift has been issued.
+        
+        Any call to the CRes operation will require a previous authorisation request and cannot be called 
+        on its own without a previous [request challenge](#requestchallenged) being obtained.
+      requestBody: 
+        required: true
+        content: 
+          application/json: 
+            schema: 
+              type: object
+              properties: 
+                CResAuthRequest: 
+                  $ref: '#/components/schemas/CResAuthRequest'
+          text/xml: 
+            schema: 
+              type: object
+              properties: 
+                CResAuthRequest: 
+                  $ref: '#/components/schemas/CResAuthRequest'
+      responses: 
+        200: 
+          description: A result of processing the 3DSv2 authorisation data.
+          content: 
+            application/json: 
+              schema: 
+                $ref: '#/components/schemas/AuthResponse'
+            text/xml: 
+              schema: 
+                $ref: '#/components/schemas/AuthResponse'
+        400: 
+          description: Bad Request. Should the incoming data not be validly determined.
+        401: 
+          description: Unauthorized. No api key has been provided and is required for this operation.
+        403: 
+          description: Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request.
+
   /authorise: 
     post: 
       summary: Authorisation
@@ -518,6 +600,7 @@ paths:
         Data properties that are required, may depend on the environment you are conducting payment for. Our API aims to be
          flexible enough to cater for these structures. Our integration team will aid you in providing the necessary data to 
          transact. 
+         
          
         ### E-commerce workflows
          
@@ -554,16 +637,50 @@ paths:
         ```
         
         For E-commerce transactions requiring 3DSv1, the API contains a built in MPI which will be called to check whether the 
-        card is participating in 3DSv1 with Verified by Visa or MasterCard SecureCode. Should the card be enrolled, a payer 
-        request (PAReq) value will be created and forwarded back as [authentication required](#authenticationrequired) response. 
+        card is participating in 3DSv1 with Verified by Visa or MasterCard SecureCode. We only support Amex SafeKey with 3DSv2. Should the card be enrolled, a payer 
+        request (PAReq) value will be created and returned back as an [authentication required](#authenticationrequired) response object. 
         
-        Your system will need to process this authentication 
-        requirement to forward the end user's browser to an authentication server (ACS) to gain the user's authentication. The
-        ACS will then perform a HTTP post back to your online site which should be forwarded back to this API for subsequent
-        authorisation. 
+        Your system will need to process this authentication packet and forward the user's browser to an authentication server (ACS) 
+        to gain the user's authentication. Once complete, the ACS will produce a HTTP `POST` call back to the URL supplied in 
+         the authentication request as `merchant_termurl`. This URL should behave as a controller and handle the post data from the
+          ACS and on a forked server to server HTTP request, forward this data to the [pares authentication url](#pares) for 
+          subsequent authorisation processing. You may prefer to provide a processing page whilst this is being processed.
+          Processing with our systems should be relatively quick and be between 500ms - 3000ms however it is desirable to let
+          the user see that something is happening rather than a pending browser.
+          
+          The main reason for ensuring that this controller is two fold:
+          
+          1. We are never in control of the user's browser in a server API call
+          2. The controller is actioned on your site to ensure that any post actions from authorisation can be executed in real time
+          
+        To forward the user to the ACS, we recommend a simple auto submit HTML form.
+        
+        ```html
+        <html lang="en">
+        	<head>
+                <title>Forward to ACS</title>
+        		<script type="text/javascript">
+                function onLoadEvent() { 
+                    document.acs.submit(); 
+                }
+                </script>
+                <noscript>You will require JavaScript to be enabled to complete this transaction</noscript>
+            </head>
+            <body onload="onLoadEvent();">
+                <form name="acs" action="{{ACSURL from Response}}" method="POST">
+                    <input type="hidden" name="PaReq" value="{{PaReq Packet from Response}}" />
+                    <input type="hidden" name="TermUrl" value="{{Your Controller}}" />
+                    <input type="hidden" name="MD" value="{{MD From Response}}" />
+                </form>
+            </body>
+        </html>
+        ```
         
         Please note that 3DSv1 is being phased out due to changes to strong customer authentication mechanisms. 3DSv2 addresses
         this and will solidify the authorisation and confirmation process.
+        
+        We provide a Test ACS for full 3DSv1 integration testing that simulates an ACS. 
+        
         
         #### 3DSv2
         
@@ -584,32 +701,64 @@ paths:
         ```
         
         All merchants in the EEC will require to migrate their E-commerce transactions to a secure customer authentication 
-        model (SCA) throughout 2020. This has been adopted by the payments industry as a progressive move alongside the European 
-        Unions payments directive.
+        model (SCA) throughout 2020. This has been adopted by the payment's industry as a progressive move alongside the European 
+        Unions payments service directive.
         
         CityPay support 3DSv2 for Verified by Visa, MasterCard Identity Check and American Express SafeKey 2.0 and will be rolling
         out acquirers on the new platform from Q2 2020. The new enhancement to 3DSv2 will allow for CityPay to seamlessly authenticate
         transactions in a "frictionless" flowed method which will authenticate low risk transactions with minimal impact to a 
-        standard authorisation flow. Our API simply performs this on behalf of the merchant and cardholder.
+        standard authorisation flow. Our API simply performs this on behalf of the merchant and cardholder. For these transactions
+        you will not be required to change anything.
         
-        Should a transaction however be "challenged" the API will return a [request challenge](#requestchallenged) which will 
+        However, should a transaction be "challenged" the API will return a [request challenge](#requestchallenged) which will 
         require your integration to forward the cardholder's browser to the given [ACS url](#acsurl) by posting the [creq](#creq)
-        value. Once complete, the ACS will have already been in touch with our servers by sending us a result of the authentication.
-        Our servers however will be awaiting confirmation that the authorisation should continue and on receipt of a [cres](#cres)
-        value, the flow will perform a full authorisation. 
+        value. Once complete, the ACS will have already been in touch with our servers by sending us a result of the authentication
+        known as `RReq`.
+        
+        Our servers however will await confirmation that the authorisation should continue and on receipt of a [cres](#cres)
+        value, the flow will perform full authorisation processing. 
         
         Please note that the CRes returned to us is purely a mechanism of acknowledging that transactions should be committed for
         authorisation. The ACS by this point will have sent us the verification value (CAVV) to perform a liability shift. The CRes
-        value will be validated for receipt of this value and subsequently may return back response codes illustrating this.
+        value will be validated for receipt of the CAVV and subsequently may return back response codes illustrating this. 
+        
+        To forward the user to the ACS, we recommend a simple auto submit HTML form.
+        
+        ```html
+        <html lang="en">
+        	<head>
+                <title>Forward to ACS</title>
+        		<script type="text/javascript">
+                function onLoadEvent() { 
+                    document.acs.submit(); 
+                }
+                </script>
+                <noscript>You will require JavaScript to be enabled to complete this transaction</noscript>
+            </head>
+            <body onload="onLoadEvent();">
+                <form name="acs" action="{{ACSURL from Response}}" method="POST">
+                    <input type="hidden" name="creq" value="{{CReq Packet from Response}}" />
+                </form>
+            </body>
+        </html>
+        ```
+        
+        We are currently working on an integration test suite for 3DSv2 which will mock the ACS challenge process.
       requestBody: 
         required: true
         content: 
           application/json: 
             schema: 
-              $ref: '#/components/schemas/AuthRequest'
+              type: object
+              properties: 
+                AuthRequest: 
+                  $ref: '#/components/schemas/AuthRequest'
           text/xml: 
             schema: 
-              $ref: '#/components/schemas/AuthRequest'
+              type: object
+              properties: 
+                AuthRequest: 
+                  $ref: '#/components/schemas/AuthRequest'
       responses: 
         200: 
           description: A decision made by the result of processing.
@@ -699,14 +848,20 @@ paths:
         content: 
           application/json: 
             schema: 
-              $ref: '#/components/schemas/RetrieveRequest'
+              type: object
+              properties: 
+                RetrieveRequest: 
+                  $ref: '#/components/schemas/RetrieveRequest'
             examples: 
               example1: 
                 summary: Basic retrieval call for a merchant with a given identifier
                 externalValue: 'RetrievalRequest-example1.json'
           text/xml: 
             schema: 
-              $ref: '#/components/schemas/RetrieveRequest'
+              type: object
+              properties: 
+                RetrieveRequest: 
+                  $ref: '#/components/schemas/RetrieveRequest'
             examples: 
               example1: 
                 summary: Basic retrieval call for a merchant with a given identifier
@@ -759,10 +914,16 @@ paths:
         content: 
           application/json: 
             schema: 
-              $ref: '#/components/schemas/ChargeRequest'
+              type: object
+              properties: 
+                ChargeRequest: 
+                  $ref: '#/components/schemas/ChargeRequest'
           text/xml: 
             schema: 
-              $ref: '#/components/schemas/ChargeRequest'
+              type: object
+              properties: 
+                ChargeRequest: 
+                  $ref: '#/components/schemas/ChargeRequest'
       responses: 
         200: 
           description: A decision met by the result of the charge.
@@ -804,6 +965,52 @@ paths:
             text/xml: 
               schema: 
                 $ref: '#/components/schemas/ListMerchantsResponse'
+        400: 
+          description: Bad Request. Should the incoming data not be validly determined.
+        401: 
+          description: Unauthorized. No api key has been provided and is required for this operation.
+        403: 
+          description: Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request.
+
+  /pares: 
+    post: 
+      summary: PaRes
+      tags: 
+        - Payment Processing
+      operationId: PaResRequest
+      description: |
+        The Payer Authentication Response (PaRes) is an operation after the result of authentication 
+         being performed. The request uses an encoded packet of authentication data to 
+        notify us of the completion of the liability shift. Once this value has been unpacked and its
+        signature is checked, our systems will proceed to authorisation processing.  
+        
+        Any call to the PaRes operation will require a previous authorisation request and cannot be called 
+        on its own without a previous [authentication required](#authenticationrequired)  being obtained.
+      requestBody: 
+        required: true
+        content: 
+          application/json: 
+            schema: 
+              type: object
+              properties: 
+                PaResAuthRequest: 
+                  $ref: '#/components/schemas/PaResAuthRequest'
+          text/xml: 
+            schema: 
+              type: object
+              properties: 
+                PaResAuthRequest: 
+                  $ref: '#/components/schemas/PaResAuthRequest'
+      responses: 
+        200: 
+          description: A result of processing the 3DSv1 authorisation data.
+          content: 
+            application/json: 
+              schema: 
+                $ref: '#/components/schemas/AuthResponse'
+            text/xml: 
+              schema: 
+                $ref: '#/components/schemas/AuthResponse'
         400: 
           description: Bad Request. Should the incoming data not be validly determined.
         401: 
@@ -1253,6 +1460,71 @@ components:
           example: 78416
           description: |
             The transaction number for the challenge, ordered incrementally from 1 for every merchant_id.
+    AuthReference: 
+      type: object
+      properties: 
+        amount: 
+          type: integer
+          format: int32
+          minLength: 1
+          maxLength: 12
+          example: 3600
+          description: The amount of the transaction in decimal currency format.
+        amount_value: 
+          type: string
+          description: The amount of the transaction in integer/request format.
+        atrn: 
+          type: string
+          description: A reference number provided by the acquiring services.
+        authcode: 
+          type: string
+          example: 001245A
+          description: The authorisation code of the transaction returned by the acquirer or card issuer.
+        batchno: 
+          type: string
+          description: A batch number which the transaction has been end of day batched towards.
+        currency: 
+          type: string
+          minLength: 3
+          maxLength: 3
+          example: GBP
+          description: The currency of the transaction in ISO 4217 code format.
+        datetime: 
+          type: string
+          format: date-time
+          example: 2020-01-02T18:32:28Z
+          description: The date and time of the transaction.
+        identifier: 
+          type: string
+          minLength: 4
+          maxLength: 50
+          example: 95b857a1-5955-4b86-963c-5a6dbfc4fb95
+          description: The identifier of the transaction used to process the transaction.
+        maskedpan: 
+          type: string
+          example: 4***********0002
+          description: A masking of the card number which was used to process the tranasction.
+        merchantid: 
+          type: integer
+          format: int32
+          example: 11223344
+          description: The merchant id of the transaction result.
+        result: 
+          type: string
+          description: The result of the transaction.
+        trans_status: 
+          type: string
+          description: The current status of the transaction through it's lifecycle.
+        trans_type: 
+          type: string
+          minLength: 1
+          maxLength: 1
+          description: The type of transaction that was processed.
+        transno: 
+          type: integer
+          format: int32
+          example: 78416
+          description: The transaction number of the transaction.
     Card: 
       type: object
       properties: 
@@ -1433,6 +1705,16 @@ components:
           maxLength: 1
           example: 1
           description: O = Stopover allowed, X = Stopover not allowed.
+    CResAuthRequest: 
+      type: object
+      properties: 
+        cres: 
+          type: string
+          format: base64
+          example: x90+vZ/7Ll05Vid/jPfQn8adw+4D/vRDUGT19kndW97Hfirbv66ycfSp8jNlvy7PkHbx44NEt3vo...
+          description: |
+            The challenge response data forwarded by the ACS in 3D-Secure V2 processing. Data
+            should be forwarded to CityPay unchanged for subsequent authorisation and processing.
     MCC6012: 
       type: object
       properties: 
@@ -1473,8 +1755,9 @@ components:
       type: object
       properties: 
         auths: 
-          type: string
-          description: Authorisations which match the request.
+          type: array
+          items:
+            $ref: '#/components/schemas/AuthReference'
     AuthenRequired: 
       type: object
       properties: 
@@ -1489,7 +1772,7 @@ components:
           description: |
             Merchant Data (MD) which should be sent to the ACS to establish and reference
             the authentication session.
-        pa_req: 
+        pareq: 
           type: string
           format: base64
           example: eNrNWdnOo0qSfpXSmUuf0+w2tFy/lOyYxYDZ79h3sAEbm6cfbFfV+bu6pqe7R2qNJeQkiIwlMyK+...
@@ -1675,6 +1958,11 @@ components:
           $ref: '#/components/schemas/MCC6012'
           x-business-extension: MCC6012
           x-description: If the merchant is MCC coded as 6012, additional values are required for authorisation.
+        merchant_termurl: 
+          type: string
+          description: |
+            A controller URL for 3D-Secure processing that any response from an authentication request or challenge request should be sent to.
+            The controller should forward on the response from the URL back via this API for subsequent processing. Required if 3D-Secure is required.
         merchantid: 
           type: integer
           format: int32
@@ -1699,6 +1987,9 @@ components:
     ListMerchantsResponse: 
       type: object
       properties: 
+        client_name: 
+          type: string
+          description: The client name that was requested.
         clientid: 
           type: string
           minLength: 3
@@ -1709,9 +2000,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Merchant'
-        name: 
-          type: string
-          description: The client name that was requested.
     AccountCreate: 
       type: object
       properties: 
@@ -1816,6 +2104,25 @@ components:
           format: int32
           example: 78416
           description: The transaction number of the transaction to look up and void. If an empty value is supplied then an identifier value must be supplied.
+    PaResAuthRequest: 
+      type: object
+      required: 
+        - md
+      properties: 
+        md: 
+          type: string
+          description: |
+            The Merchant Data (MD) which is a unique ID to reference the authentication session.
+            This value will be created by CityPay when required. When responding from the ACS,
+            this value will be returned by the ACS.
+        pares: 
+          type: string
+          format: base64
+          example: v66ycfSp8jNlvy7PkHbx44NEt3vox90+vZ/7Ll05Vid/jPfQn8adw+4D/vRDUGT19kndW97Hfirb...
+          description: |
+            The Payer Authentication Response packet which is returned by the ACS containing the
+             response of the authentication session including verification values. The response
+             is a base64 encoded packet and should be forwarded to CityPay untouched.
     AirlineAdvice: 
       type: object
       required: 
@@ -2001,6 +2308,7 @@ components:
       properties: 
         currency: 
           type: string
+          example: GBP
           description: The currency of the merchant.
         merchantid: 
           type: integer
@@ -2009,10 +2317,16 @@ components:
           description: The merchant id which uniquely identifies the merchant account.
         name: 
           type: string
+          example: Merchant 1
           description: The name of the merchant.
         status: 
           type: string
+          example: A
           description: The status of the account.
+        status_label: 
+          type: string
+          example: Active
+          description: The status label of the account.
   
 
   securitySchemes:
