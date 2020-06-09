@@ -435,6 +435,12 @@
                   <li>
                     <a href="#timeout-handling" class="toc-h2 toc-link" data-title="Timeout Handling">Timeout Handling</a>
                   </li>
+                  <li>
+                    <a href="#testing-best-practices" class="toc-h2 toc-link" data-title="Testing Best Practices">Testing Best Practices</a>
+                  </li>
+                  <li>
+                    <a href="#avs-checking" class="toc-h2 toc-link" data-title="AVS Checking">AVS Checking</a>
+                  </li>
               </ul>
           </li>
       </ul>
@@ -5681,6 +5687,206 @@ set your time out settings to a relatively long period such as 120 seconds.</p>
 
 <p>Whilst we do not say that a transaction will take this long, it ensures that your connected socket wil not drop the
 connection before a response is returned. Should your socket close before the transaction is completed and timeout settings on our side are not yet activated, a transaction may still process and settle without your systems obtaining a response.</p>
+<h2 id='testing-best-practices'>Testing Best Practices</h2>
+<p>CityPay offer a test facility for client testing and integration development on this API all testing should 
+be geared within the sandbox service. This service models an acquirer and produces test transactions for 
+testing of post authorisation processes.</p>
+
+<p>Test transactions are available for reporting purposes for up to 3 months.</p>
+
+<p>Our test gateway includes:</p>
+
+<ul>
+<li>Test Authorisation processing</li>
+<li>Test Refund processing</li>
+<li>Test ThreeDSecure v1 ACS for integrating the full authentication process in to your application</li>
+<li>Test Pre-auth processes such as authorisation, completion/capture and cancellation/voids</li>
+<li>Test Charge processing</li>
+</ul>
+
+<p>We are currently working on a ThreeDSecure v2 test integration system.</p>
+<h3 id='authorisation-codes-on-the-test-gateway'>Authorisation Codes on the Test Gateway</h3>
+<p>Authorisation codes are static to allow the integrator to easily identify an actual 
+authorisation code and a test code. The returned authorisation codes by the test gateway are:</p>
+
+<table><thead>
+<tr>
+<th>AuthCode</th>
+<th>Behaviour</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>A12345</td>
+<td>Sale transaction</td>
+</tr>
+<tr>
+<td>B12345</td>
+<td>PreAuth sale transaction</td>
+</tr>
+<tr>
+<td>C12345</td>
+<td>Completion/Capture call</td>
+</tr>
+<tr>
+<td>R12345</td>
+<td>Refund transaction</td>
+</tr>
+<tr>
+<td>V12345</td>
+<td>Void transaction</td>
+</tr>
+</tbody></table>
+<h3 id='modelling-behaviour'>Modelling behaviour</h3>
+<p>To model different behaviours, we have enabled both an amount mapping and a csc mapping  process which will return
+ different responses based on these values, values are:</p>
+
+<table><thead>
+<tr>
+<th>Amount</th>
+<th>CSC Values</th>
+<th>Behaviour</th>
+<th>Response</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>3333</td>
+<td>333</td>
+<td>Returns a declined transaction</td>
+<td><code>090</code></td>
+</tr>
+<tr>
+<td>3344</td>
+<td>344</td>
+<td>Returns an AVS Address Failure, regardless of configuration for AVS and the address value supplied</td>
+<td><code>095</code></td>
+</tr>
+<tr>
+<td>3355</td>
+<td>355</td>
+<td>Returns an AVS Postcode Failure, regardless of configuration for AVS and the address value supplied</td>
+<td><code>096</code></td>
+</tr>
+<tr>
+<td>3366</td>
+<td>366</td>
+<td>Returns a Card Security Failure, regardless of configuration for CSC and the value supplied</td>
+<td><code>094</code></td>
+</tr>
+<tr>
+<td>3377</td>
+<td>377</td>
+<td>Returns a Fraud decline</td>
+<td><code>091</code></td>
+</tr>
+<tr>
+<td>4444</td>
+<td>444</td>
+<td>Returns a Referral</td>
+<td><code>089</code></td>
+</tr>
+<tr>
+<td>6666</td>
+<td>666</td>
+<td>Returns a communication error</td>
+<td><code>F006</code></td>
+</tr>
+<tr>
+<td>5544</td>
+<td>544</td>
+<td>Returns an AVS Address Failure only if AVS is configured or enforced via the API. A value of 99 will reject the address any other value is accepted</td>
+<td><code>095</code></td>
+</tr>
+<tr>
+<td>5555</td>
+<td>555</td>
+<td>Returns an AVS Postcode Failure only if AVS is configured or enforced via the API. A value of 99 will reject the postcode, any other value is accepted</td>
+<td><code>096</code></td>
+</tr>
+<tr>
+<td>5566</td>
+<td>566</td>
+<td>Returns a Card Security Failure only if CSC matching is configured or enforced via the API. A value of 999 will reject the CSC, any other value is accepted</td>
+<td><code>094</code></td>
+</tr>
+</tbody></table>
+
+<p>For American Express cards requiring 4 digit CSC values, the last 3 digits of the CSC will be considered i.e. <code>0333</code>, <code>1333</code> 
+would result in the same behaviour.</p>
+<h3 id='test-card-numbers'>Test Card Numbers</h3>
+<p>The following test card numbers could be used for transaction testing</p>
+
+<table><thead>
+<tr>
+<th>Card Number</th>
+<th>Scheme</th>
+<th>Type</th>
+<th>CSC Length</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>3743 871880 19714</code></td>
+<td><i class="fa fa-cc-amex" aria-hidden="true"></i> Amex</td>
+<td>Credit</td>
+<td>4</td>
+</tr>
+<tr>
+<td><code>3014 445396 5469</code></td>
+<td><i class="fa fa-cc-diners-club" aria-hidden="true"></i> Diners</td>
+<td>Credit</td>
+<td>3</td>
+</tr>
+<tr>
+<td><code>3528 0000 0000 0007</code></td>
+<td><i class="fa fa-cc-jcb" aria-hidden="true"></i> JCB</td>
+<td>3</td>
+<td></td>
+</tr>
+<tr>
+<td><code>4000 0000 0000 0002</code></td>
+<td><i class="fa fa-cc-visa" aria-hidden="true"></i> Visa</td>
+<td>Credit</td>
+<td>3</td>
+</tr>
+<tr>
+<td><code>4659 0100 0000 0005</code></td>
+<td><i class="fa fa-cc-visa" aria-hidden="true"></i> Visa</td>
+<td>Debit</td>
+<td>3</td>
+</tr>
+<tr>
+<td><code>5100 0000 0000 0008</code></td>
+<td><i class="fa fa-cc-mastercard" aria-hidden="true"></i> MasterCard</td>
+<td>Credit</td>
+<td>3</td>
+</tr>
+<tr>
+<td><code>5573 4700 0000 0001</code></td>
+<td><i class="fa fa-cc-mastercard" aria-hidden="true"></i> MasterCard</td>
+<td>Debit</td>
+<td>3</td>
+</tr>
+<tr>
+<td><code>6333 1100 0000 0002</code></td>
+<td><i class="fa fa-cc-mastercard" aria-hidden="true"></i> Maestro</td>
+<td>Debit</td>
+<td>3</td>
+</tr>
+<tr>
+<td><code>4508 7500 0000 0009</code></td>
+<td><i class="fa fa-cc-visa" aria-hidden="true"></i> Visa Electron</td>
+<td>3</td>
+<td></td>
+</tr>
+<tr>
+<td><code>4857 7900 0000 0002</code></td>
+<td><i class="fa fa-cc-visa" aria-hidden="true"></i> Visa Business</td>
+<td>3</td>
+<td></td>
+</tr>
+</tbody></table>
+<h2 id='avs-checking'>AVS Checking</h2>
+<p>AVS checks the numeric values of the address and postcode via the card issuer and card schemes. Our 
+test gateway will only validate whether values are supplied where required. </p>
 
       </div>
       <div class="dark-box">
