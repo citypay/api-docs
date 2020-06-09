@@ -220,6 +220,7 @@
     <link href="stylesheets/screen-26602575.css" rel="stylesheet" media="screen" />
     <link href="stylesheets/print-3202d392.css" rel="stylesheet" media="print" />
       <script src="javascripts/all-c5541673.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
   </head>
 
   <body class="index" data-languages="[&quot;json&quot;,&quot;xml&quot;]">
@@ -5743,7 +5744,7 @@ authorisation code and a test code. The returned authorisation codes by the test
 <table><thead>
 <tr>
 <th>Amount</th>
-<th>CSC Values</th>
+<th>CSC</th>
 <th>Behaviour</th>
 <th>Response</th>
 </tr>
@@ -5838,8 +5839,8 @@ would result in the same behaviour.</p>
 <tr>
 <td><code>3528 0000 0000 0007</code></td>
 <td><i class="fa fa-cc-jcb" aria-hidden="true"></i> JCB</td>
+<td>Credit</td>
 <td>3</td>
-<td></td>
 </tr>
 <tr>
 <td><code>4000 0000 0000 0002</code></td>
@@ -5874,14 +5875,14 @@ would result in the same behaviour.</p>
 <tr>
 <td><code>4508 7500 0000 0009</code></td>
 <td><i class="fa fa-cc-visa" aria-hidden="true"></i> Visa Electron</td>
+<td>Debit</td>
 <td>3</td>
-<td></td>
 </tr>
 <tr>
 <td><code>4857 7900 0000 0002</code></td>
 <td><i class="fa fa-cc-visa" aria-hidden="true"></i> Visa Business</td>
+<td>Debit</td>
 <td>3</td>
-<td></td>
 </tr>
 </tbody></table>
 <h2 id='avs-checking'>AVS Checking</h2>
