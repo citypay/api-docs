@@ -6,7 +6,7 @@ language_tabs:
   - xml
 toc_footers:
   - <a href='mailto:support@citypay.com'>Any Integration Questions?</a>
-  - V6.0.0.BETA 2020-06-08
+  - V6.0.0.BETA 2020-06-09
 includes:
   - errorcodes
   - authresultcodes
@@ -14,6 +14,7 @@ includes:
   - csccodes
   - ciphers
   - timeout_handling
+  - testing_best_practice
 search: true
 
 ---
@@ -22,7 +23,7 @@ search: true
 # CityPay Payment API
 
 Version: 6.0.0.BETA
-Last Updated: 2020-06-08
+Last Updated: 2020-06-09
 
 
 This CityPay API is a HTTP RESTful payment API used for direct server to server transactional processing. It
@@ -889,9 +890,9 @@ Required | Name | Type | Description |
  Optional | `duplicate_policy` | string  | A policy value which determines whether a duplication policy is enforced or bypassed. A duplication check has a window<br/>of time set against your account within which it can action. If a previous transaction with matching values occurred within<br/>the window, any subsequent transaction will result in a T001 result.<br/><br/>Values are<br/> `0` for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.<br/> `1` for an enforced policy. Transactions that are enforced will be checked for duplication within the duplication window.<br/> `2` to bypass. Transactions that are bypassed will not be checked for duplication within the duplication window.<br/> `3` to ignore. Transactions that are ignored will have the same affect as bypass. | 
  Optional | `expyear` | integer *int32* | The year of expiry of the card.<br/><br/>minimum: 2000<br/>maximum: 2100 | 
  Optional | `match_avsa` | string  | A policy value which determines whether an AVS address policy is enforced, bypassed or ignored.<br/><br/><br/>Values are<br/> `0` for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.<br/> `1` for an enforced policy. Transactions that are enforced will be rejected if the AVS address numeric value does not match.<br/> `2` to bypass. Transactions that are bypassed will be allowed through even if the address did not match.<br/> `3` to ignore. Transactions that are ignored will bypass the result and not send address numeric details for authorisation. | 
- Optional | `merchant_termurl` | string  | A controller URL for 3D-Secure processing that any response from an authentication request or challenge request should be sent to.<br/>The controller should forward on the response from the URL back via this API for subsequent processing. Required if 3D-Secure is required. | 
  Optional | `sdk` | string  | An optional reference value for the calling client such as a version number i.e. | 
  Optional | `ship_to` | object | [ContactDetails](#contactdetails) Shipping details of the card holder making the payment. These details may be used for 3DS and for future referencing of the transaction. | 
+ Optional | `threedsecure` | object | [ThreeDSecure](#threedsecure) ThreeDSecure element, providing values to enable full 3DS processing flows. | 
  Optional | `trans_info` | string  | Further information that can be added to the transaction will display in reporting. Can be used for flexible values such as operator id.<br/>maxLength: 50 | 
  Optional | `trans_type` | string  | The type of transaction being submitted. Normally this value is not required and your account manager may request that you set this field.<br/>minLength: 1<br/>maxLength: 1 | 
 
@@ -1632,10 +1633,10 @@ Responses for this operation are
    "identifier": "95b857a1-5955-4b86-963c-5a6dbfc4fb95",
    "match_avsa": "",
    "mcc6012": { ... },
-   "merchant_termurl": "",
    "merchantid": 11223344,
    "sdk": "MyClient 1.3.0",
    "ship_to": { ... },
+   "threedsecure": { ... },
    "trans_info": "",
    "trans_type": ""
 }
@@ -1658,10 +1659,10 @@ Responses for this operation are
  <identifier>95b857a1-5955-4b86-963c-5a6dbfc4fb95</identifier> 
  <match_avsa></match_avsa> 
  <mcc6012><>...</></mcc6012> 
- <merchant_termurl></merchant_termurl> 
  <merchantid>11223344</merchantid> 
  <sdk>MyClient 1.3.0</sdk> 
  <ship_to><>...</></ship_to> 
+ <threedsecure><>...</></threedsecure> 
  <trans_info></trans_info> 
  <trans_type></trans_type> 
 </AuthRequest>
@@ -1689,10 +1690,11 @@ for analysis and may result in a decline if incorrectly provided.
 `identifier` | string  | true | The identifier of the transaction to process. The value should be a valid reference and may be used to perform<br/> post processing actions and to aid in reconciliation of transactions.<br/><br/>The value should be a valid printable string with ASCII character ranges from 32 to 127.<br/><br/>The identifier is recommended to be distinct for each transaction such as a [random unique identifier](https://en.wikipedia.org/wiki/Universally_unique_identifier)<br/>this will aid in ensuring each transaction is identifiable.<br/><br/>When transactions are processed they are also checked for duplicate requests. Changing the identifier on a subsequent<br/>request will ensure that a transaction is considered as different.<br/><br/>minLength: 4<br/>maxLength: 50 |
 `match_avsa` | string  | false | A policy value which determines whether an AVS address policy is enforced, bypassed or ignored.<br/><br/><br/>Values are<br/> `0` for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.<br/> `1` for an enforced policy. Transactions that are enforced will be rejected if the AVS address numeric value does not match.<br/> `2` to bypass. Transactions that are bypassed will be allowed through even if the address did not match.<br/> `3` to ignore. Transactions that are ignored will bypass the result and not send address numeric details for authorisation. |
 `mcc6012` | object | false | [MCC6012](#mcc6012) If the merchant is MCC coded as 6012, additional values are required for authorisation. |
-`merchant_termurl` | string  | false | A controller URL for 3D-Secure processing that any response from an authentication request or challenge request should be sent to.<br/>The controller should forward on the response from the URL back via this API for subsequent processing. Required if 3D-Secure is required. |
 `merchantid` | integer *int32* | true | Identifies the merchant account to perform processing for. |
 `sdk` | string  | false | An optional reference value for the calling client such as a version number i.e. |
 `ship_to` | object | false | [ContactDetails](#contactdetails) Shipping details of the card holder making the payment. These details may be used for 3DS and for future referencing of the transaction. |
+`threedsecure` | object | false | [ThreeDSecure](#threedsecure) ThreeDSecure element, providing values to enable full 3DS processing flows.
+
 `trans_info` | string  | false | Further information that can be added to the transaction will display in reporting. Can be used for flexible values such as operator id.<br/>maxLength: 50 |
 `trans_type` | string  | false | The type of transaction being submitted. Normally this value is not required and your account manager may request that you set this field.<br/>minLength: 1<br/>maxLength: 1 |
 
@@ -2422,6 +2424,40 @@ Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Addi
 `identifier` | string  | false | The identifier of the transaction to retrieve. Optional if a transaction number is provided.<br/>minLength: 4<br/>maxLength: 50 |
 `merchantid` | integer *int32* | true | The merchant account to retrieve data for. |
 `transno` | integer *int32* | false | The transaction number of a transaction to retrieve. Optional if an identifier is supplied. |
+
+
+
+
+
+## ThreeDSecure
+
+```json
+{
+   "accept_headers": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9",
+   "downgrade1": false,
+   "merchant_termurl": "",
+   "tds_policy": "",
+   "user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.149 Safari/537.36"
+}
+```
+
+```xml
+<ThreeDSecure>
+ <accept_headers>text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9</accept_headers> 
+ <downgrade1></downgrade1> 
+ <merchant_termurl></merchant_termurl> 
+ <tds_policy></tds_policy> 
+ <user_agent>Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.149 Safari/537.36</user_agent> 
+</ThreeDSecure>
+```
+
+ Field | Type | Required | Description |
+-------|------|----------|-------------|
+`accept_headers` | string  | false | The content of the HTTP accept header as sent to the merchant from the cardholder's user agent.<br/>This value will be validated by the ACS when the card holder authenticates themselves to verify that<br/>no intermediary is performing this action. Required for 3DSv1. |
+`downgrade1` | boolean  | false | Where a merchant is configured for 3DSv2, setting this option will attempt to downgrade the transaction to<br/> 3DSv1. |
+`merchant_termurl` | string  | false | A controller URL for 3D-Secure processing that any response from an authentication request or<br/>challenge request should be sent to.<br/><br/>The controller should forward on the response from the URL back via this API for subsequent processing.<br/>Required if 3DSv1 or 3DSv2 is required. |
+`tds_policy` | string  | false | A policy value which determines whether ThreeDSecure is enforced or bypassed. Note that this will only work for<br/>e-commerce transactions and accounts that have 3DSecure enabled and fully registered with Visa, MasterCard or<br/>American Express. It is useful when transactions may be wanted to bypass processing rules.<br/><br/>Note that this may affect the liability shift of transactions and may occur a higher fee with the acquiring bank.<br/><br/>Values are<br/> `0` for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.<br/> `1` for an enforced policy. Transactions will be enabled for 3DS processing<br/> `2` to bypass. Transactions that are bypassed will switch off 3DS processing. |
+`user_agent` | string  | false | The content of the HTTP user-agent header as sent to the merchant from the cardholder's user agent.<br/>This value will be validated by the ACS when the card holder authenticates themselves to verify that<br/>no intermediary is performing this action. Required for 3DSv1. |
 
 
 
