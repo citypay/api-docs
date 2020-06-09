@@ -1916,11 +1916,6 @@ components:
           $ref: '#/components/schemas/MCC6012'
           x-business-extension: MCC6012
           x-description: If the merchant is MCC coded as 6012, additional values are required for authorisation.
-        merchant_termurl: 
-          type: string
-          description: |
-            A controller URL for 3D-Secure processing that any response from an authentication request or challenge request should be sent to.
-            The controller should forward on the response from the URL back via this API for subsequent processing. Required if 3D-Secure is required.
         merchantid: 
           type: integer
           format: int32
@@ -1933,6 +1928,10 @@ components:
         ship_to: 
           $ref: '#/components/schemas/ContactDetails'
           x-description: Shipping details of the card holder making the payment. These details may be used for 3DS and for future referencing of the transaction.
+        threedsecure: 
+          $ref: '#/components/schemas/ThreeDSecure'
+          x-description: |
+            ThreeDSecure element, providing values to enable full 3DS processing flows.
         trans_info: 
           type: string
           maxLength: 50
@@ -2062,6 +2061,49 @@ components:
           format: int32
           example: 78416
           description: The transaction number of the transaction to look up and void. If an empty value is supplied then an identifier value must be supplied.
+    ThreeDSecure: 
+      type: object
+      properties: 
+        accept_headers: 
+          type: string
+          example: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9
+          description: |
+            The content of the HTTP accept header as sent to the merchant from the cardholder's user agent.
+            This value will be validated by the ACS when the card holder authenticates themselves to verify that
+            no intermediary is performing this action. Required for 3DSv1.
+        downgrade1: 
+          type: boolean
+          description: |
+            Where a merchant is configured for 3DSv2, setting this option will attempt to downgrade the transaction to
+             3DSv1.
+        merchant_termurl: 
+          type: string
+          description: |
+            A controller URL for 3D-Secure processing that any response from an authentication request or
+            challenge request should be sent to.
+            
+            The controller should forward on the response from the URL back via this API for subsequent processing.
+            Required if 3DSv1 or 3DSv2 is required.
+        tds_policy: 
+          type: string
+          description: |
+            A policy value which determines whether ThreeDSecure is enforced or bypassed. Note that this will only work for
+            e-commerce transactions and accounts that have 3DSecure enabled and fully registered with Visa, MasterCard or
+            American Express. It is useful when transactions may be wanted to bypass processing rules.
+            
+            Note that this may affect the liability shift of transactions and may occur a higher fee with the acquiring bank.
+            
+            Values are
+             `0` for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.
+             `1` for an enforced policy. Transactions will be enabled for 3DS processing
+             `2` to bypass. Transactions that are bypassed will switch off 3DS processing.
+        user_agent: 
+          type: string
+          example: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.149 Safari/537.36
+          description: |
+            The content of the HTTP user-agent header as sent to the merchant from the cardholder's user agent.
+            This value will be validated by the ACS when the card holder authenticates themselves to verify that
+            no intermediary is performing this action. Required for 3DSv1.
     PaResAuthRequest: 
       type: object
       required: 

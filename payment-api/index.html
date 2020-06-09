@@ -407,6 +407,9 @@
                     <a href="#retrieverequest" class="toc-h2 toc-link" data-title="RetrieveRequest">RetrieveRequest</a>
                   </li>
                   <li>
+                    <a href="#threedsecure" class="toc-h2 toc-link" data-title="ThreeDSecure">ThreeDSecure</a>
+                  </li>
+                  <li>
                     <a href="#voidrequest" class="toc-h2 toc-link" data-title="VoidRequest">VoidRequest</a>
                   </li>
               </ul>
@@ -437,7 +440,7 @@
       </ul>
         <ul class="toc-footer">
             <li><a href='mailto:support@citypay.com'>Any Integration Questions?</a></li>
-            <li>V6.0.0.BETA 2020-06-08</li>
+            <li>V6.0.0.BETA 2020-06-09</li>
         </ul>
     </div>
     <div class="page-wrapper">
@@ -446,7 +449,7 @@
         <img src="images/citypay-logo-23676e0b.svg" class="cplogo" alt="Citypay logo" />
         <h1 id='citypay-payment-api'>CityPay Payment API</h1>
 <p>Version: 6.0.0.BETA
-Last Updated: 2020-06-08</p>
+Last Updated: 2020-06-09</p>
 
 <p>This CityPay API is a HTTP RESTful payment API used for direct server to server transactional processing. It
 provides a number of payment mechanisms including: Internet, MOTO, Continuous Authority transaction processing,
@@ -1730,12 +1733,6 @@ value will be validated for receipt of the CAVV and subsequently may return back
 </tr>
 <tr>
 <td>Optional</td>
-<td><code>merchant_termurl</code></td>
-<td>string</td>
-<td>A controller URL for 3D-Secure processing that any response from an authentication request or challenge request should be sent to.<br/>The controller should forward on the response from the URL back via this API for subsequent processing. Required if 3D-Secure is required.</td>
-</tr>
-<tr>
-<td>Optional</td>
 <td><code>sdk</code></td>
 <td>string</td>
 <td>An optional reference value for the calling client such as a version number i.e.</td>
@@ -1745,6 +1742,12 @@ value will be validated for receipt of the CAVV and subsequently may return back
 <td><code>ship_to</code></td>
 <td>object</td>
 <td><a href="#contactdetails">ContactDetails</a> Shipping details of the card holder making the payment. These details may be used for 3DS and for future referencing of the transaction.</td>
+</tr>
+<tr>
+<td>Optional</td>
+<td><code>threedsecure</code></td>
+<td>object</td>
+<td><a href="#threedsecure">ThreeDSecure</a> ThreeDSecure element, providing values to enable full 3DS processing flows.</td>
 </tr>
 <tr>
 <td>Optional</td>
@@ -2817,10 +2820,10 @@ outlining the result of the transaction.</p>
    </span><span class="s2">"identifier"</span><span class="p">:</span><span class="w"> </span><span class="s2">"95b857a1-5955-4b86-963c-5a6dbfc4fb95"</span><span class="p">,</span><span class="w">
    </span><span class="s2">"match_avsa"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
    </span><span class="s2">"mcc6012"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="err">...</span><span class="w"> </span><span class="p">},</span><span class="w">
-   </span><span class="s2">"merchant_termurl"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
    </span><span class="s2">"merchantid"</span><span class="p">:</span><span class="w"> </span><span class="mi">11223344</span><span class="p">,</span><span class="w">
    </span><span class="s2">"sdk"</span><span class="p">:</span><span class="w"> </span><span class="s2">"MyClient 1.3.0"</span><span class="p">,</span><span class="w">
    </span><span class="s2">"ship_to"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="err">...</span><span class="w"> </span><span class="p">},</span><span class="w">
+   </span><span class="s2">"threedsecure"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="err">...</span><span class="w"> </span><span class="p">},</span><span class="w">
    </span><span class="s2">"trans_info"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
    </span><span class="s2">"trans_type"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="w">
 </span><span class="p">}</span><span class="w">
@@ -2840,10 +2843,10 @@ outlining the result of the transaction.</p>
  <span class="nt">&lt;identifier&gt;</span>95b857a1-5955-4b86-963c-5a6dbfc4fb95<span class="nt">&lt;/identifier&gt;</span> 
  <span class="nt">&lt;match_avsa&gt;&lt;/match_avsa&gt;</span> 
  <span class="nt">&lt;mcc6012&gt;</span><span class="err">&lt;</span>&gt;...<span class="err">&lt;</span>/&gt;<span class="nt">&lt;/mcc6012&gt;</span> 
- <span class="nt">&lt;merchant_termurl&gt;&lt;/merchant_termurl&gt;</span> 
  <span class="nt">&lt;merchantid&gt;</span>11223344<span class="nt">&lt;/merchantid&gt;</span> 
  <span class="nt">&lt;sdk&gt;</span>MyClient 1.3.0<span class="nt">&lt;/sdk&gt;</span> 
  <span class="nt">&lt;ship_to&gt;</span><span class="err">&lt;</span>&gt;...<span class="err">&lt;</span>/&gt;<span class="nt">&lt;/ship_to&gt;</span> 
+ <span class="nt">&lt;threedsecure&gt;</span><span class="err">&lt;</span>&gt;...<span class="err">&lt;</span>/&gt;<span class="nt">&lt;/threedsecure&gt;</span> 
  <span class="nt">&lt;trans_info&gt;&lt;/trans_info&gt;</span> 
  <span class="nt">&lt;trans_type&gt;&lt;/trans_type&gt;</span> 
 <span class="nt">&lt;/AuthRequest&gt;</span>
@@ -2893,11 +2896,12 @@ for analysis and may result in a decline if incorrectly provided.</p>
 <code>identifier</code> | string  | true | The identifier of the transaction to process. The value should be a valid reference and may be used to perform<br/> post processing actions and to aid in reconciliation of transactions.<br/><br/>The value should be a valid printable string with ASCII character ranges from 32 to 127.<br/><br/>The identifier is recommended to be distinct for each transaction such as a <a href="https://en.wikipedia.org/wiki/Universally_unique_identifier">random unique identifier</a><br/>this will aid in ensuring each transaction is identifiable.<br/><br/>When transactions are processed they are also checked for duplicate requests. Changing the identifier on a subsequent<br/>request will ensure that a transaction is considered as different.<br/><br/>minLength: 4<br/>maxLength: 50 |
 <code>match_avsa</code> | string  | false | A policy value which determines whether an AVS address policy is enforced, bypassed or ignored.<br/><br/><br/>Values are<br/> <code>0</code> for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.<br/> <code>1</code> for an enforced policy. Transactions that are enforced will be rejected if the AVS address numeric value does not match.<br/> <code>2</code> to bypass. Transactions that are bypassed will be allowed through even if the address did not match.<br/> <code>3</code> to ignore. Transactions that are ignored will bypass the result and not send address numeric details for authorisation. |
 <code>mcc6012</code> | object | false | <a href="#mcc6012">MCC6012</a> If the merchant is MCC coded as 6012, additional values are required for authorisation. |
-<code>merchant_termurl</code> | string  | false | A controller URL for 3D-Secure processing that any response from an authentication request or challenge request should be sent to.<br/>The controller should forward on the response from the URL back via this API for subsequent processing. Required if 3D-Secure is required. |
 <code>merchantid</code> | integer <em>int32</em> | true | Identifies the merchant account to perform processing for. |
 <code>sdk</code> | string  | false | An optional reference value for the calling client such as a version number i.e. |
 <code>ship_to</code> | object | false | <a href="#contactdetails">ContactDetails</a> Shipping details of the card holder making the payment. These details may be used for 3DS and for future referencing of the transaction. |
-<code>trans_info</code> | string  | false | Further information that can be added to the transaction will display in reporting. Can be used for flexible values such as operator id.<br/>maxLength: 50 |
+<code>threedsecure</code> | object | false | <a href="#threedsecure">ThreeDSecure</a> ThreeDSecure element, providing values to enable full 3DS processing flows.</p>
+
+<p><code>trans_info</code> | string  | false | Further information that can be added to the transaction will display in reporting. Can be used for flexible values such as operator id.<br/>maxLength: 50 |
 <code>trans_type</code> | string  | false | The type of transaction being submitted. Normally this value is not required and your account manager may request that you set this field.<br/>minLength: 1<br/>maxLength: 1 |</p>
 
 <table><thead>
@@ -4159,6 +4163,60 @@ for analysis and may result in a decline if incorrectly provided.</p>
 <td>integer <em>int32</em></td>
 <td>false</td>
 <td>The transaction number of a transaction to retrieve. Optional if an identifier is supplied.</td>
+</tr>
+</tbody></table>
+<h2 id='threedsecure'>ThreeDSecure</h2><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+   </span><span class="s2">"accept_headers"</span><span class="p">:</span><span class="w"> </span><span class="s2">"text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9"</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"downgrade1"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"merchant_termurl"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"tds_policy"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"user_agent"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.149 Safari/537.36"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre><pre class="highlight xml tab-xml"><code><span class="nt">&lt;ThreeDSecure&gt;</span>
+ <span class="nt">&lt;accept_headers&gt;</span>text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9<span class="nt">&lt;/accept_headers&gt;</span> 
+ <span class="nt">&lt;downgrade1&gt;&lt;/downgrade1&gt;</span> 
+ <span class="nt">&lt;merchant_termurl&gt;&lt;/merchant_termurl&gt;</span> 
+ <span class="nt">&lt;tds_policy&gt;&lt;/tds_policy&gt;</span> 
+ <span class="nt">&lt;user_agent&gt;</span>Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.149 Safari/537.36<span class="nt">&lt;/user_agent&gt;</span> 
+<span class="nt">&lt;/ThreeDSecure&gt;</span>
+</code></pre>
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>accept_headers</code></td>
+<td>string</td>
+<td>false</td>
+<td>The content of the HTTP accept header as sent to the merchant from the cardholder&#39;s user agent.<br/>This value will be validated by the ACS when the card holder authenticates themselves to verify that<br/>no intermediary is performing this action. Required for 3DSv1.</td>
+</tr>
+<tr>
+<td><code>downgrade1</code></td>
+<td>boolean</td>
+<td>false</td>
+<td>Where a merchant is configured for 3DSv2, setting this option will attempt to downgrade the transaction to<br/> 3DSv1.</td>
+</tr>
+<tr>
+<td><code>merchant_termurl</code></td>
+<td>string</td>
+<td>false</td>
+<td>A controller URL for 3D-Secure processing that any response from an authentication request or<br/>challenge request should be sent to.<br/><br/>The controller should forward on the response from the URL back via this API for subsequent processing.<br/>Required if 3DSv1 or 3DSv2 is required.</td>
+</tr>
+<tr>
+<td><code>tds_policy</code></td>
+<td>string</td>
+<td>false</td>
+<td>A policy value which determines whether ThreeDSecure is enforced or bypassed. Note that this will only work for<br/>e-commerce transactions and accounts that have 3DSecure enabled and fully registered with Visa, MasterCard or<br/>American Express. It is useful when transactions may be wanted to bypass processing rules.<br/><br/>Note that this may affect the liability shift of transactions and may occur a higher fee with the acquiring bank.<br/><br/>Values are<br/> <code>0</code> for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.<br/> <code>1</code> for an enforced policy. Transactions will be enabled for 3DS processing<br/> <code>2</code> to bypass. Transactions that are bypassed will switch off 3DS processing.</td>
+</tr>
+<tr>
+<td><code>user_agent</code></td>
+<td>string</td>
+<td>false</td>
+<td>The content of the HTTP user-agent header as sent to the merchant from the cardholder&#39;s user agent.<br/>This value will be validated by the ACS when the card holder authenticates themselves to verify that<br/>no intermediary is performing this action. Required for 3DSv1.</td>
 </tr>
 </tbody></table>
 <h2 id='voidrequest'>VoidRequest</h2><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
