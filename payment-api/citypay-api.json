@@ -1,0 +1,2196 @@
+{
+  "openapi" : "3.0.0",
+  "info" : {
+    "version" : "6.0.0.BETA",
+    "title" : "CityPay Payment API",
+    "description" : "\nThis CityPay API is a HTTP RESTful payment API used for direct server to server transactional processing. It\nprovides a number of payment mechanisms including: Internet, MOTO, Continuous Authority transaction processing,\n3-D Secure decision handling using RFA Secure, Authorisation, Refunding, Pre-Authorisation, Cancellation/Voids and\nCompletion processing. The API is also capable of tokinsed payments using Card Holder Accounts.\n\n## Compliance and Security\n<aside class=\"notice\">\n  Before we begin a reminder that your application will need to adhere to PCI-DSS standards to operate safely\n  and to meet requirements set out by Visa and MasterCard and the PCI Security Standards Council including:\n</aside>\n\n* Data must be collected using TLS version 1.2 using [strong cryptography](#enabled-tls-ciphers). We will not accept calls to our API at\n  lower grade encryption levels. We regularly scan our TLS endpoints for vulnerabilities and perform TLS assessments\n  as part of our compliance program.\n* The application must not store sensitive card holder data (CHD) such as the card security code (CSC) or\n  primary access number (PAN)\n* The application must not display the full card number on receipts, it is recommended to mask the PAN\n  and show the last 4 digits. The API will return this for you for ease of receipt creation\n* If you are developing a website, you will be required to perform regular scans on the network where you host the\n  application to meet your compliance obligations\n* You will be required to be PCI Compliant and the application must adhere to the security standard. Further information\n  is available from [https://www.pcisecuritystandards.org/](https://www.pcisecuritystandards.org/)\n* The API verifies that the request is for a valid account and originates from a trusted source using the remote IP\n  address. Our application firewalls analyse data that may be an attempt to break a large number of security common\n  security vulnerabilities.\n",
+    "contact" : {
+      "name" : "CityPay Support",
+      "url" : "https://citypay.com/customer-centre/technical-support.html",
+      "email" : "support@citypay.com"
+    }
+  },
+  "servers" : [ {
+    "url" : "https://api.citypay.com/v6",
+    "description" : "Production processing endpoint"
+  }, {
+    "url" : "https://sandbox.citypay.com/v6",
+    "description" : "Testing service returning test results for all transactions"
+  } ],
+  "tags" : [ {
+    "name" : "Card Holder Account",
+    "description" : "A Card holder account models a card holder and can register 1 or more cards for charging\nagainst. The account offers a credential on file option to the CityPay gateway alowing for \nboth card holder initiated and merchant initiated transaction processing.\n\nThis can included unscheduled or scheduled transactions that can be requested through this API.\n"
+  }, {
+    "name" : "Operational",
+    "description" : "Operations that are for operational purposes only such as checking connectivity to the API."
+  }, {
+    "name" : "Payment Processing",
+    "description" : "The Payment Processing API offers standard and enhanced payment processing for MOTO, e-commerce\n and continuous authority transactions that include fraud and risk checking, 3D-Secure flows \n and payment querying.\n"
+  } ],
+  "paths" : {
+    "/account/{accountid}/register" : {
+      "post" : {
+        "summary" : "Card Registration",
+        "tags" : [ "Card Holder Account" ],
+        "operationId" : "AccountCardRegisterRequest",
+        "parameters" : [ {
+          "name" : "accountid",
+          "in" : "path",
+          "required" : true,
+          "description" : "The account id that refers to the customer's account no. This value will have been provided when setting up the card holder account.",
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "description" : "Allows for a card to be registered for the account. The card will be added for future \nprocessing and will be available as a tokenised value for future processing.\n\nThe card will be validated for\n\n0. Being a valid card number (luhn check)\n0. Having a valid expiry date\n0. Being a valid bin value.\n",
+        "requestBody" : {
+          "required" : true,
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/RegisterCard"
+              }
+            },
+            "text/xml" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/RegisterCard"
+              }
+            }
+          }
+        },
+        "responses" : {
+          "200" : {
+            "description" : "A successfully registered card provides a reload of the account including the new card.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/CardHolderAccount"
+                }
+              },
+              "text/xml" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/CardHolderAccount"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Bad Request. Should the incoming data not be validly determined."
+          },
+          "401" : {
+            "description" : "Unauthorized. No api key has been provided and is required for this operation."
+          },
+          "403" : {
+            "description" : "Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request."
+          }
+        }
+      }
+    },
+    "/account/{accountid}" : {
+      "get" : {
+        "summary" : "Account Retrieval",
+        "tags" : [ "Card Holder Account" ],
+        "operationId" : "AccountRetrieveRequest",
+        "parameters" : [ {
+          "name" : "accountid",
+          "in" : "path",
+          "required" : true,
+          "description" : "The account id that refers to the customer's account no. This value will have been provided when setting up the card holder account.",
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "description" : "Allows for the retrieval of a card holder account for the given `id`. Should duplicate accounts exist\nfor the same `id`, the first account created with that `id` will be returned.\n\nThe account can be used for tokenisation processing by listing all cards assigned to the account.\nThe returned cards will include all `active`, `inactive` and `expired` cards. This can be used to \nenable a card holder to view their wallet and make constructive choices on which card to use.\n",
+        "responses" : {
+          "200" : {
+            "description" : "A card holder account that matches the account id provided in the request.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/CardHolderAccount"
+                }
+              },
+              "text/xml" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/CardHolderAccount"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Bad Request. Should the incoming data not be validly determined."
+          },
+          "401" : {
+            "description" : "Unauthorized. No api key has been provided and is required for this operation."
+          },
+          "403" : {
+            "description" : "Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request."
+          }
+        }
+      },
+      "delete" : {
+        "summary" : "Account Deletion",
+        "tags" : [ "Card Holder Account" ],
+        "operationId" : "AccountDeleteRequest",
+        "parameters" : [ {
+          "name" : "accountid",
+          "in" : "path",
+          "required" : true,
+          "description" : "The account id that refers to the customer's account no. This value will have been provided when setting up the card holder account.",
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "description" : "Allows for the deletion of an account. The account will marked for deletion and subsequent purging. No further\ntransactions will be alowed to be processed or actioned against this account.\n",
+        "responses" : {
+          "200" : {
+            "description" : "An acknowledgment that the card holder account has been marked for deletion.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Acknowledgement"
+                }
+              },
+              "text/xml" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Acknowledgement"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Bad Request. Should the incoming data not be validly determined."
+          },
+          "401" : {
+            "description" : "Unauthorized. No api key has been provided and is required for this operation."
+          },
+          "403" : {
+            "description" : "Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request."
+          }
+        }
+      }
+    },
+    "/ping" : {
+      "post" : {
+        "summary" : "Ping Request",
+        "tags" : [ "Operational" ],
+        "operationId" : "PingRequest",
+        "description" : "A ping request which performs a connection and authentication test to the CityPay API server. The request\nwill return a standard Acknowledgement with a response code `044` to signify a successful\nping.\n\nThe ping call is useful to confirm that you will be able to access \nthe API from behind any firewalls and that the permission\nmodel is granting access from your source.\n",
+        "requestBody" : {
+          "required" : true,
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/Ping"
+              }
+            },
+            "text/xml" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/Ping"
+              }
+            }
+          }
+        },
+        "responses" : {
+          "200" : {
+            "description" : "A result of the ping request.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Acknowledgement"
+                }
+              },
+              "text/xml" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Acknowledgement"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Bad Request. Should the incoming data not be validly determined."
+          },
+          "401" : {
+            "description" : "Unauthorized. No api key has been provided and is required for this operation."
+          },
+          "403" : {
+            "description" : "Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request."
+          }
+        }
+      }
+    },
+    "/capture" : {
+      "post" : {
+        "summary" : "Capture",
+        "tags" : [ "Payment Processing" ],
+        "operationId" : "CaptureRequest",
+        "description" : "_The capture process only applies to transactions which have been pre-authorised only._ \n\nThe capture process will ensure\nthat a transaction will now settle. It is expected that a capture call will be provided within 3 days or\na maximum of 7 days.\n\nA capture request is provided to confirm that you wish the transaction to be settled. This request can\ncontain a final amount for the transaction which is different to the original authorisation amount. This\nmay be useful in a delayed system process such as waiting for stock to be ordered, confirmed, or services\nprovided before the final cost is known.\n\nWhen a transaction is completed, a new authorisation code may be created and a new confirmation\ncan be sent online to the acquiring bank.\n\nOnce the transaction has been processed. A standard [`Acknowledgement`](#acknowledgement) will be returned,\noutlining the result of the transaction. On a successful completion process, the transaction will\nbe available for the settlement and completed at the end of the day.\n",
+        "requestBody" : {
+          "required" : true,
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/CaptureRequest"
+              },
+              "examples" : {
+                "example1" : {
+                  "summary" : "Basic capture call for a merchant with a given identifier",
+                  "externalValue" : "CaptureRequest-example1.json"
+                },
+                "example3" : {
+                  "summary" : "Capture call for a merchant with identifier and airline data once a ticket has been issued",
+                  "externalValue" : "CaptureRequest-example3.json"
+                },
+                "example2" : {
+                  "summary" : "Basic capture call for a merchant with a transno and final amount",
+                  "externalValue" : "CaptureRequest-example2.json"
+                }
+              }
+            },
+            "text/xml" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/CaptureRequest"
+              },
+              "examples" : {
+                "example1" : {
+                  "summary" : "Basic capture call for a merchant with a given identifier",
+                  "externalValue" : "CaptureRequest-example1.xml"
+                },
+                "example3" : {
+                  "summary" : "Capture call for a merchant with identifier and airline data once a ticket has been issued",
+                  "externalValue" : "CaptureRequest-example3.xml"
+                },
+                "example2" : {
+                  "summary" : "Basic capture call for a merchant with a transno and final amount",
+                  "externalValue" : "CaptureRequest-example2.xml"
+                }
+              }
+            }
+          }
+        },
+        "responses" : {
+          "200" : {
+            "description" : "A result and acknowledgement of the capture request.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Acknowledgement"
+                }
+              },
+              "text/xml" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Acknowledgement"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Bad Request. Should the incoming data not be validly determined."
+          },
+          "401" : {
+            "description" : "Unauthorized. No api key has been provided and is required for this operation."
+          },
+          "403" : {
+            "description" : "Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request."
+          }
+        }
+      }
+    },
+    "/account/{accountid}/contact" : {
+      "post" : {
+        "summary" : "Contact Details Update",
+        "tags" : [ "Card Holder Account" ],
+        "operationId" : "AccountChangeContactRequest",
+        "parameters" : [ {
+          "name" : "accountid",
+          "in" : "path",
+          "required" : true,
+          "description" : "The account id that refers to the customer's account no. This value will have been provided when setting up the card holder account.",
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "description" : "Allows for the ability to change the contact details for an account.",
+        "requestBody" : {
+          "required" : true,
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/ContactDetails"
+              }
+            },
+            "text/xml" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/ContactDetails"
+              }
+            }
+          }
+        },
+        "responses" : {
+          "200" : {
+            "description" : "A revised account with the new details set.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/CardHolderAccount"
+                }
+              },
+              "text/xml" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/CardHolderAccount"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Bad Request. Should the incoming data not be validly determined."
+          },
+          "401" : {
+            "description" : "Unauthorized. No api key has been provided and is required for this operation."
+          },
+          "403" : {
+            "description" : "Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request."
+          }
+        }
+      }
+    },
+    "/account/create" : {
+      "post" : {
+        "summary" : "Account Create",
+        "tags" : [ "Card Holder Account" ],
+        "operationId" : "AccountCreate",
+        "description" : "Creates a new card holder account and initialises the account ready for adding cards.",
+        "requestBody" : {
+          "required" : true,
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/AccountCreate"
+              }
+            },
+            "text/xml" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/AccountCreate"
+              }
+            }
+          }
+        },
+        "responses" : {
+          "200" : {
+            "description" : "Provides an initialised account.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/CardHolderAccount"
+                }
+              },
+              "text/xml" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/CardHolderAccount"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Bad Request. Should the incoming data not be validly determined."
+          },
+          "401" : {
+            "description" : "Unauthorized. No api key has been provided and is required for this operation."
+          },
+          "403" : {
+            "description" : "Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request."
+          }
+        }
+      }
+    },
+    "/void" : {
+      "post" : {
+        "summary" : "Void",
+        "tags" : [ "Payment Processing" ],
+        "operationId" : "VoidRequest",
+        "description" : "_The void process generally applies to transactions which have been pre-authorised only however voids can occur \non the same day if performed before batching and settlement._ \n\nThe void process will ensure that a transaction will now settle. It is expected that a void call will be \nprovided on the same day before batching and settlement or within 3 days or within a maximum of 7 days.\n\nOnce the transaction has been processed as a void, an [`Acknowledgement`](#acknowledgement) will be returned,\noutlining the result of the transaction.\n",
+        "requestBody" : {
+          "required" : true,
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/VoidRequest"
+              },
+              "examples" : {
+                "example1" : {
+                  "summary" : "Basic capture call for a merchant with a given identifier",
+                  "externalValue" : "VoidRequest-example1.json"
+                },
+                "example2" : {
+                  "summary" : "Basic capture call for a merchant with a transno and final amount",
+                  "externalValue" : "VoidRequest-example2.json"
+                }
+              }
+            },
+            "text/xml" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/VoidRequest"
+              },
+              "examples" : {
+                "example1" : {
+                  "summary" : "Basic capture call for a merchant with a given identifier",
+                  "externalValue" : "VoidRequest-example1.xml"
+                },
+                "example2" : {
+                  "summary" : "Basic capture call for a merchant with a transno and final amount",
+                  "externalValue" : "VoidRequest-example2.xml"
+                }
+              }
+            }
+          }
+        },
+        "responses" : {
+          "200" : {
+            "description" : "A result and acknowledgement of the void request.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Acknowledgement"
+                }
+              },
+              "text/xml" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Acknowledgement"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Bad Request. Should the incoming data not be validly determined."
+          },
+          "401" : {
+            "description" : "Unauthorized. No api key has been provided and is required for this operation."
+          },
+          "403" : {
+            "description" : "Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request."
+          }
+        }
+      }
+    },
+    "/account/{accountid}/status" : {
+      "post" : {
+        "summary" : "Account Status",
+        "tags" : [ "Card Holder Account" ],
+        "operationId" : "AccountStatusRequest",
+        "parameters" : [ {
+          "name" : "accountid",
+          "in" : "path",
+          "required" : true,
+          "description" : "The account id that refers to the customer's account no. This value will have been provided when setting up the card holder account.",
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "description" : "Updates the status of an account. An account can have the following statuses applied\n\n| Status | Description |\n|--------|-------------|\n| Active | The account is active for processing |\n| Disabled | The account has been disabled and cannot be used for processing. The account will require reactivation to continue procesing |\n",
+        "responses" : {
+          "200" : {
+            "description" : "An acknowledgment that the card holder account status has been updated.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Acknowledgement"
+                }
+              },
+              "text/xml" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Acknowledgement"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Bad Request. Should the incoming data not be validly determined."
+          },
+          "401" : {
+            "description" : "Unauthorized. No api key has been provided and is required for this operation."
+          },
+          "403" : {
+            "description" : "Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request."
+          }
+        }
+      }
+    },
+    "/account/{accountid}/card/{cardId}" : {
+      "delete" : {
+        "summary" : "Card Deletion",
+        "tags" : [ "Card Holder Account" ],
+        "operationId" : "AccountCardDeleteRequest",
+        "parameters" : [ {
+          "name" : "accountid",
+          "in" : "path",
+          "required" : true,
+          "description" : "The account id that refers to the customer's account no. This value will have been provided when setting up the card holder account.",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "cardId",
+          "in" : "path",
+          "required" : true,
+          "description" : "The id of the card that is presented by a call to retrieve a card holder account.",
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "description" : "Deletes a card from the account. The card will be marked for deletion before a subsequent\npurge will clear the card permanently.\n",
+        "responses" : {
+          "200" : {
+            "description" : "Acknowledges the card has been requested for deletion.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Acknowledgement"
+                }
+              },
+              "text/xml" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Acknowledgement"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Bad Request. Should the incoming data not be validly determined."
+          },
+          "401" : {
+            "description" : "Unauthorized. No api key has been provided and is required for this operation."
+          },
+          "403" : {
+            "description" : "Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request."
+          }
+        }
+      }
+    },
+    "/cres" : {
+      "post" : {
+        "summary" : "CRes",
+        "tags" : [ "Payment Processing" ],
+        "operationId" : "CResRequest",
+        "description" : "The CRes request performs authorisation processing once a challenge request has been completed\nwith an Authentication Server (ACS). This challenge response contains confirmation that will\nallow the API systems to return an authorisation response based on the result. Our systems will \nknow out of band via an `RReq` call by the ACS to notify us if the liability shift has been issued.\n\nAny call to the CRes operation will require a previous authorisation request and cannot be called \non its own without a previous [request challenge](#requestchallenged) being obtained.\n",
+        "requestBody" : {
+          "required" : true,
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/CResAuthRequest"
+              },
+              "examples" : {
+                "example1" : {
+                  "summary" : "PaRes example request",
+                  "externalValue" : "CResRequest-example1.json"
+                }
+              }
+            },
+            "text/xml" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/CResAuthRequest"
+              },
+              "examples" : {
+                "example1" : {
+                  "summary" : "PaRes example request",
+                  "externalValue" : "CResRequest-example1.xml"
+                }
+              }
+            }
+          }
+        },
+        "responses" : {
+          "200" : {
+            "description" : "A result of processing the 3DSv2 authorisation data.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/AuthResponse"
+                }
+              },
+              "text/xml" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/AuthResponse"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Bad Request. Should the incoming data not be validly determined."
+          },
+          "401" : {
+            "description" : "Unauthorized. No api key has been provided and is required for this operation."
+          },
+          "403" : {
+            "description" : "Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request."
+          }
+        }
+      }
+    },
+    "/authorise" : {
+      "post" : {
+        "summary" : "Authorisation",
+        "tags" : [ "Payment Processing" ],
+        "operationId" : "AuthorisationRequest",
+        "description" : "An authorisation process performs a standard transaction authorisation based on the provided parameters of its request.\nThe CityPay gateway will route your transaction via an Acquiring bank for subsequent authorisation to the appropriate card \nschemes such as Visa or MasterCard.\n\nThe authorisation API should be used for server environments to process transactions on demand and in realtime. \n\nThe authorisation API can be used for multiple types of transactions including E-commerce, mail order, telephone order,\ncustomer present (keyed), continuous authority, pre-authorisation and others. CityPay will configure your account for \nthe appropriate coding and this will perform transparently by the gateway. \n\nData properties that are required, may depend on the environment you are conducting payment for. Our API aims to be\n flexible enough to cater for these structures. Our integration team will aid you in providing the necessary data to \n transact. \n \n \n### E-commerce workflows\n \nFor E-commerce transactions requiring 3DSv1 and 3DSv2 transactions, the API contains a fully accredited in built mechanism\nto handle authentication.\n\nThe gateway has been accredited extensively with both Acquirers and Card Schemes and simplifies the nature of these calls\ninto a simple structure for authentication, preventing integrators from performing lengthy and a costly accreditation with\nVisa and MasterCard.\n\n3D-secure has been around for a number of years and aims to shift the liability of a transaction away from a merchant back\nto the card holder. A *liability shift* determines whether a card holder can charge back a transaction as unknown. Effectively\nthe process asks for a card holder to authenticate the transaction prior to authorisation producing a Cardholder \nverification value (CAVV) as evidence of authorisation.\n \n#### 3DSv1\n\n```json\n{ \n  \"AuthenticationRequired\": {\n    \"acsurl\": \"https://bank.com/3DS/ACS\",\n    \"pareq\": \"SXQgd2FzIHRoZSBiZXN0IG9mIHRpbWVzLCBpdCB3YXMgdGhlIHdvcnN00...\",\n    \"md\": \"WQgZXZlcnl0aGluZyBiZW\"\n  }               \n}\n```\n\n```xml\n<AuthenticationRequired>\n <acsurl>https://bank.com/3DS/ACS</acsurl>\n <pareq>SXQgd2FzIHRoZSBiZXN0IG9mIHRpbWVzLCBpdCB3YXMgdGhlIHdvcnN00...</pareq>\n <md>WQgZXZlcnl0aGluZyBiZW</md>\n</AuthenticationRequired>\n```\n\nFor E-commerce transactions requiring 3DSv1, the API contains a built in MPI which will be called to check whether the \ncard is participating in 3DSv1 with Verified by Visa or MasterCard SecureCode. We only support Amex SafeKey with 3DSv2. Should the card be enrolled, a payer \nrequest (PAReq) value will be created and returned back as an [authentication required](#authenticationrequired) response object. \n\nYour system will need to process this authentication packet and forward the user's browser to an authentication server (ACS) \nto gain the user's authentication. Once complete, the ACS will produce a HTTP `POST` call back to the URL supplied in \n the authentication request as `merchant_termurl`. This URL should behave as a controller and handle the post data from the\n  ACS and on a forked server to server HTTP request, forward this data to the [pares authentication url](#pares) for \n  subsequent authorisation processing. You may prefer to provide a processing page whilst this is being processed.\n  Processing with our systems should be relatively quick and be between 500ms - 3000ms however it is desirable to let\n  the user see that something is happening rather than a pending browser.\n  \n  The main reason for ensuring that this controller is two fold:\n  \n  1. We are never in control of the user's browser in a server API call\n  2. The controller is actioned on your site to ensure that any post actions from authorisation can be executed in real time\n  \nTo forward the user to the ACS, we recommend a simple auto submit HTML form.\n\n```html\n<html lang=\"en\">\n\t<head>\n        <title>Forward to ACS</title>\n\t\t<script type=\"text/javascript\">\n        function onLoadEvent() { \n            document.acs.submit(); \n        }\n        </script>\n        <noscript>You will require JavaScript to be enabled to complete this transaction</noscript>\n    </head>\n    <body onload=\"onLoadEvent();\">\n        <form name=\"acs\" action=\"{{ACSURL from Response}}\" method=\"POST\">\n            <input type=\"hidden\" name=\"PaReq\" value=\"{{PaReq Packet from Response}}\" />\n            <input type=\"hidden\" name=\"TermUrl\" value=\"{{Your Controller}}\" />\n            <input type=\"hidden\" name=\"MD\" value=\"{{MD From Response}}\" />\n        </form>\n    </body>\n</html>\n```\n\nPlease note that 3DSv1 is being phased out due to changes to strong customer authentication mechanisms. 3DSv2 addresses\nthis and will solidify the authorisation and confirmation process.\n\nWe provide a Test ACS for full 3DSv1 integration testing that simulates an ACS. \n\n\n#### 3DSv2\n\n```json\n{ \n  \"RequestChallenged\": {\n    \"acsurl\": \"https://bank.com/3DS/ACS\",\n    \"creq\": \"SXQgd2FzIHRoZSBiZXN0IG9mIHRpbWVzLCBpdCB3YXMgdGhlIHdvcnN00...\"\n  }               \n}\n```\n\n```xml\n<RequestChallenged>\n <acsurl>https://bank.com/3DS/ACS</acsurl>\n <creq>SXQgd2FzIHRoZSBiZXN0IG9mIHRpbWVzLCBpdCB3YXMgdGhlIHdvcnN00...</creq>\n</RequestChallenged>\n```\n\nAll merchants in the EEC will require to migrate their E-commerce transactions to a secure customer authentication \nmodel (SCA) throughout 2020. This has been adopted by the payment's industry as a progressive move alongside the European \nUnions payments service directive.\n\nCityPay support 3DSv2 for Verified by Visa, MasterCard Identity Check and American Express SafeKey 2.0 and will be rolling\nout acquirers on the new platform from Q2 2020. The new enhancement to 3DSv2 will allow for CityPay to seamlessly authenticate\ntransactions in a \"frictionless\" flowed method which will authenticate low risk transactions with minimal impact to a \nstandard authorisation flow. Our API simply performs this on behalf of the merchant and cardholder. For these transactions\nyou will not be required to change anything.\n\nHowever, should a transaction be \"challenged\" the API will return a [request challenge](#requestchallenged) which will \nrequire your integration to forward the cardholder's browser to the given [ACS url](#acsurl) by posting the [creq](#creq)\nvalue. Once complete, the ACS will have already been in touch with our servers by sending us a result of the authentication\nknown as `RReq`.\n\nOur servers however will await confirmation that the authorisation should continue and on receipt of a [cres](#cres)\nvalue, the flow will perform full authorisation processing. \n\nPlease note that the CRes returned to us is purely a mechanism of acknowledging that transactions should be committed for\nauthorisation. The ACS by this point will have sent us the verification value (CAVV) to perform a liability shift. The CRes\nvalue will be validated for receipt of the CAVV and subsequently may return back response codes illustrating this. \n\nTo forward the user to the ACS, we recommend a simple auto submit HTML form.\n\n```html\n<html lang=\"en\">\n\t<head>\n        <title>Forward to ACS</title>\n\t\t<script type=\"text/javascript\">\n        function onLoadEvent() { \n            document.acs.submit(); \n        }\n        </script>\n        <noscript>You will require JavaScript to be enabled to complete this transaction</noscript>\n    </head>\n    <body onload=\"onLoadEvent();\">\n        <form name=\"acs\" action=\"{{ACSURL from Response}}\" method=\"POST\">\n            <input type=\"hidden\" name=\"creq\" value=\"{{CReq Packet from Response}}\" />\n        </form>\n    </body>\n</html>\n```\n\nWe are currently working on an integration test suite for 3DSv2 which will mock the ACS challenge process.\n",
+        "requestBody" : {
+          "required" : true,
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/AuthRequest"
+              },
+              "examples" : {
+                "example1" : {
+                  "summary" : "Basic capture call for a merchant with a given identifier",
+                  "externalValue" : "AuthorisationRequest-example1.json"
+                }
+              }
+            },
+            "text/xml" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/AuthRequest"
+              },
+              "examples" : {
+                "example1" : {
+                  "summary" : "Basic capture call for a merchant with a given identifier",
+                  "externalValue" : "AuthorisationRequest-example1.xml"
+                }
+              }
+            }
+          }
+        },
+        "responses" : {
+          "200" : {
+            "description" : "A decision made by the result of processing.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Decision"
+                }
+              },
+              "text/xml" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Decision"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Bad Request. Should the incoming data not be validly determined."
+          },
+          "401" : {
+            "description" : "Unauthorized. No api key has been provided and is required for this operation."
+          },
+          "403" : {
+            "description" : "Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request."
+          }
+        }
+      }
+    },
+    "/account/{accountid}/card/{cardId}/status/{status}" : {
+      "post" : {
+        "summary" : "Card Status",
+        "tags" : [ "Card Holder Account" ],
+        "operationId" : "AccountCardStatusRequest",
+        "parameters" : [ {
+          "name" : "accountid",
+          "in" : "path",
+          "required" : true,
+          "description" : "The account id that refers to the customer's account no. This value will have been provided when setting up the card holder account.",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "cardId",
+          "in" : "path",
+          "required" : true,
+          "description" : "The id of the card that is presented by a call to retrieve a card holder account.",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "status",
+          "in" : "path",
+          "required" : true,
+          "description" : "The status of the card to set, valid values are `ACTIVE` or `INACTIVE`.",
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "description" : "Updates the status of a card for processing. The following values are available\n\n| Status | Description | \n|--------|-------------|\n| Active | The card is active for processing and can be used for charging against with a valid token |\n| Inactive | The card is inactive for processing and cannot be used for processing, it will require reactivation before being used to charge |\n| Expired | The card has expired either due to the expiry date no longer being valid or due to a replacement card being issued |\n",
+        "responses" : {
+          "200" : {
+            "description" : "Acknowledges the card status has changed, returning 01 for a valid change or 00 for non valid change.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Acknowledgement"
+                }
+              },
+              "text/xml" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Acknowledgement"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Bad Request. Should the incoming data not be validly determined."
+          },
+          "401" : {
+            "description" : "Unauthorized. No api key has been provided and is required for this operation."
+          },
+          "403" : {
+            "description" : "Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request."
+          }
+        }
+      }
+    },
+    "/retrieve" : {
+      "post" : {
+        "summary" : "Retrieval",
+        "tags" : [ "Payment Processing" ],
+        "operationId" : "RetrievalRequest",
+        "description" : "A retrieval request which allows an integration to obtain the result of a transaction processed\nin the last 90 days. The request allows for retrieval based on the identifier or transaction \nnumber. \n\nThe process may return multiple results in particular where a transaction was processed multiple\ntimes against the same identifier. This can happen if errors were first received. The API therefore\nreturns up to the first 5 transactions in the latest date time order.\n\nIt is not intended for this operation to be a replacement for reporting and only allows for base transaction\ninformation to be returned.\n",
+        "requestBody" : {
+          "required" : true,
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/RetrieveRequest"
+              },
+              "examples" : {
+                "example1" : {
+                  "summary" : "Basic retrieval call for a merchant with a given identifier",
+                  "externalValue" : "RetrievalRequest-example1.json"
+                }
+              }
+            },
+            "text/xml" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/RetrieveRequest"
+              },
+              "examples" : {
+                "example1" : {
+                  "summary" : "Basic retrieval call for a merchant with a given identifier",
+                  "externalValue" : "RetrievalRequest-example1.xml"
+                }
+              }
+            }
+          }
+        },
+        "responses" : {
+          "200" : {
+            "description" : "A result of the retrieval request.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/AuthReferences"
+                }
+              },
+              "text/xml" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/AuthReferences"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Bad Request. Should the incoming data not be validly determined."
+          },
+          "401" : {
+            "description" : "Unauthorized. No api key has been provided and is required for this operation."
+          },
+          "403" : {
+            "description" : "Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request."
+          }
+        }
+      }
+    },
+    "/charge" : {
+      "post" : {
+        "summary" : "Charge",
+        "tags" : [ "Card Holder Account" ],
+        "operationId" : "ChargeRequest",
+        "description" : "A charge process obtains an authorisation using a tokenised value which represents a stored card \non a card holder account. \nA card must previously be registered by calling `/account-register-card` with the card details \nor retrieved using `/account-retrieve`\n\nTokens are generated whenever a previously registered list of cards are retrieved. Each token has, by design a \nrelatively short time to live of 30 minutes. This is both to safe guard the merchant and card holder from \nreplay attacks. Tokens are also restricted to your account, preventing malicious actors from stealing details\nfor use elsewhere.  \n\nIf a token is reused after it has expired it will be rejected and a new token will be required.\n \nTokenisation can be used for\n \n- repeat authorisations on a previously stored card\n- easy authorisations just requiring CSC values to be entered\n- can be used for credential on file style payments\n- can require full 3-D Secure authentication to retain the liability shift\n- wallet style usage.\n",
+        "requestBody" : {
+          "required" : true,
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/ChargeRequest"
+              }
+            },
+            "text/xml" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/ChargeRequest"
+              }
+            }
+          }
+        },
+        "responses" : {
+          "200" : {
+            "description" : "A decision met by the result of the charge.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Decision"
+                }
+              },
+              "text/xml" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Decision"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Bad Request. Should the incoming data not be validly determined."
+          },
+          "401" : {
+            "description" : "Unauthorized. No api key has been provided and is required for this operation."
+          },
+          "403" : {
+            "description" : "Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request."
+          }
+        }
+      }
+    },
+    "/merchants/{clientid}" : {
+      "get" : {
+        "summary" : "List Merchants Request",
+        "tags" : [ "Operational" ],
+        "operationId" : "ListMerchantsRequest",
+        "parameters" : [ {
+          "name" : "clientid",
+          "in" : "path",
+          "required" : true,
+          "description" : "The client id to return merchants for, specifying \"default\" will use the value in your api key.",
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "description" : "An operational request to list current merchants for a client.",
+        "responses" : {
+          "200" : {
+            "description" : "A list of merchants that are configured against the client id.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ListMerchantsResponse"
+                }
+              },
+              "text/xml" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ListMerchantsResponse"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Bad Request. Should the incoming data not be validly determined."
+          },
+          "401" : {
+            "description" : "Unauthorized. No api key has been provided and is required for this operation."
+          },
+          "403" : {
+            "description" : "Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request."
+          }
+        }
+      }
+    },
+    "/pares" : {
+      "post" : {
+        "summary" : "PaRes",
+        "tags" : [ "Payment Processing" ],
+        "operationId" : "PaResRequest",
+        "description" : "The Payer Authentication Response (PaRes) is an operation after the result of authentication \n being performed. The request uses an encoded packet of authentication data to \nnotify us of the completion of the liability shift. Once this value has been unpacked and its\nsignature is checked, our systems will proceed to authorisation processing.  \n\nAny call to the PaRes operation will require a previous authorisation request and cannot be called \non its own without a previous [authentication required](#authenticationrequired)  being obtained.\n",
+        "requestBody" : {
+          "required" : true,
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/PaResAuthRequest"
+              },
+              "examples" : {
+                "example1" : {
+                  "summary" : "PaRes example request",
+                  "externalValue" : "PaResRequest-example1.json"
+                }
+              }
+            },
+            "text/xml" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/PaResAuthRequest"
+              },
+              "examples" : {
+                "example1" : {
+                  "summary" : "PaRes example request",
+                  "externalValue" : "PaResRequest-example1.xml"
+                }
+              }
+            }
+          }
+        },
+        "responses" : {
+          "200" : {
+            "description" : "A result of processing the 3DSv1 authorisation data.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/AuthResponse"
+                }
+              },
+              "text/xml" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/AuthResponse"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Bad Request. Should the incoming data not be validly determined."
+          },
+          "401" : {
+            "description" : "Unauthorized. No api key has been provided and is required for this operation."
+          },
+          "403" : {
+            "description" : "Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request."
+          }
+        }
+      }
+    }
+  },
+  "components" : {
+    "schemas" : {
+      "CardHolderAccount" : {
+        "type" : "object",
+        "required" : [ "account_id", "contact" ],
+        "properties" : {
+          "account_id" : {
+            "type" : "string",
+            "minLength" : 5,
+            "maxLength" : 50,
+            "example" : "aaabbb-cccddd-eee",
+            "description" : "The account id of the card holder account which uniquely identifies the account.\n"
+          },
+          "cac_id" : {
+            "type" : "string",
+            "minLength" : 5,
+            "maxLength" : 20,
+            "example" : "acc_1",
+            "description" : "The card holder control id which identifies the scheme that the account belongs to, ordinarily this is the same as your client id."
+          },
+          "cards" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/Card"
+            }
+          },
+          "contact" : {
+            "$ref" : "#/components/schemas/ContactDetails",
+            "x-description" : "Contact details that refer to this account."
+          },
+          "date_created" : {
+            "type" : "string",
+            "format" : "date-time",
+            "example" : "2020-01-02T18:32:28Z",
+            "description" : "The date and time the account was created."
+          },
+          "trans_status" : {
+            "type" : "string",
+            "description" : "Defines the status of the account for processing valid values are\n\n - ACTIVE for active accounts that are able to process\n - DISABLED for accounts that are currently disabled for processing.\n"
+          }
+        }
+      },
+      "AuthResponse" : {
+        "type" : "object",
+        "properties" : {
+          "amount" : {
+            "type" : "integer",
+            "format" : "int32",
+            "minLength" : 1,
+            "maxLength" : 12,
+            "example" : 3600,
+            "description" : "The amount of the transaction processed."
+          },
+          "atrn" : {
+            "type" : "string",
+            "description" : "A reference number provided by the acquirer for a transaction it can be used to cross reference transactions\nwith an Acquirers reporting panel.\n"
+          },
+          "atsd" : {
+            "type" : "string",
+            "description" : "Additional Transaction Security Data used for ecommerce transactions to decipher security capabilities and attempts against a transaction."
+          },
+          "authcode" : {
+            "type" : "string",
+            "example" : "001245A",
+            "description" : "The authorisation code as returned by the card issuer or acquiring bank when a transaction has successfully\n  been authorised. Authorisation codes contain alphanumeric values. Whilst the code confirms authorisation it\n  should not be used to determine whether a transaction was successfully processed. For instance an auth code\n  may be returned when a transaction has been subsequently declined due to a CSC mismatch.\n"
+          },
+          "authen_result" : {
+            "type" : "string",
+            "description" : "The result of any authentication using 3d_secure authorisation against ecommerce transactions. Values are\n| Value | Description |\n|-------|-------------|\n| Y | Authentication Successful. The Cardholder's password was successfully validated. |\n| N | Authentication Failed. Customer failed or cancelled authentication, transaction denied. |\n| A | Attempts Processing Performed Authentication could not be completed but a proof of authentication attempt (CAVV) was generated |\n| U | Authentication Could Not Be Performed Authentication could not be completed, due to technical or other problem |\n"
+          },
+          "authorised" : {
+            "type" : "boolean",
+            "example" : true,
+            "description" : "A boolean definition that indicates that the transaction was authorised. It will return false if the transaction\n was declined, rejected or cancelled due to CSC matching failures.\nAttention should be referenced to the AuthResult and Response code for accurate determination of the result.\n"
+          },
+          "avs_result" : {
+            "type" : "string",
+            "minLength" : 1,
+            "maxLength" : 1,
+            "description" : "The AVS result codes determine the result of checking the AVS values within the\nAddress Verification fraud system. If a transaction is declined due to the AVS code not matching,\nthis value can help determine the reason for the decline.\n\n | Code | Description |\n |------|------------|\n | Y | Address and 5 digit post code match |\n | M | Street address and Postal codes match for international transaction |\n | U | No AVS data available from issuer auth system |\n | A | Addres matches, post code does not |\n | I | Address information verified for international transaction |\n | Z | 5 digit post code matches, Address does not |\n | W | 9 digit post code matches, Address does not |\n | X | Postcode and address match |\n | B | Postal code not verified due to incompatible formats |\n | P | Postal codes match. Street address not verified due to to incompatible formats |\n | E | AVS Error |\n | C | Street address and Postal code not verified due to incompatible formats |\n | D | Street address and postal codes match |\n |   | No information |\n | N | Neither postcode nor address match |\n | R | Retry, System unavailble or Timed Out |\n | S | AVS Service not supported by issuer or processor |\n | G | Issuer does not participate in AVS |\n"
+          },
+          "bin_commercial" : {
+            "type" : "boolean",
+            "description" : "Determines whether the bin range was found to be a commercial or business card."
+          },
+          "bin_debit" : {
+            "type" : "boolean",
+            "description" : "Determines whether the bin range was found to be a debit card. If false the card was considered as a credit card."
+          },
+          "bin_description" : {
+            "type" : "string",
+            "description" : "A description of the bin range found for the card."
+          },
+          "cavv" : {
+            "type" : "string",
+            "description" : "The cardholder authentication verification value which can be returned for verification purposes of the authenticated\n transaction for dispute realisation.\n"
+          },
+          "context" : {
+            "type" : "string",
+            "example" : "aspiu352908ns47n343598bads",
+            "description" : "The context which processed the transaction, can be used for support purposes to trace transactions."
+          },
+          "csc_result" : {
+            "type" : "string",
+            "minLength" : 1,
+            "maxLength" : 1,
+            "description" : "The CSC rseult codes determine the result of checking the provided CSC value within the\nCard Security Code fraud system. If a transaction is declined due to the CSC code not matching,\nthis value can help determine the reason for the decline.\n\n | Code | Description |\n |------|------------|\n |   | No information |\n | M | Card verification data matches |\n | N | Card verification data was checked but did not match |\n | P | Card verification was not processed |\n | S | The card verification data should be on the card but the merchant indicates that it is not |\n | U | The card issuer is not certified |\n"
+          },
+          "currency" : {
+            "type" : "string",
+            "minLength" : 3,
+            "maxLength" : 3,
+            "example" : "GBP",
+            "description" : "The currency the transaction was processed in. This is an `ISO4217` alpha currency value."
+          },
+          "datetime" : {
+            "type" : "string",
+            "format" : "date-time",
+            "example" : "2020-01-02T18:32:28Z",
+            "description" : "The UTC date time of the transaction in ISO data time format.\n"
+          },
+          "eci" : {
+            "type" : "string",
+            "description" : "An Electronic Commerce Indicator (ECI) used to identify the result of authentication using 3DSecure.\n"
+          },
+          "identifier" : {
+            "type" : "string",
+            "minLength" : 4,
+            "maxLength" : 50,
+            "example" : "95b857a1-5955-4b86-963c-5a6dbfc4fb95",
+            "description" : "The identifier provided within the request."
+          },
+          "live" : {
+            "type" : "boolean",
+            "example" : true,
+            "description" : "Used to identify that a tranasction was processed on a live authorisation platform."
+          },
+          "maskedpan" : {
+            "type" : "string",
+            "example" : "4***********0002",
+            "description" : "A masked value of the card number used for processing displaying limited values that can be used on a receipt.\n"
+          },
+          "merchantid" : {
+            "type" : "integer",
+            "format" : "int32",
+            "example" : 11223344,
+            "description" : "The merchant id that processed this transaction."
+          },
+          "result" : {
+            "type" : "integer",
+            "format" : "int32",
+            "example" : 1,
+            "description" : "An integer result that indicates the outcome of the transaction. The Code value below maps to the result value\n\n | Code | Abbrev | Description |\n |------|-------|-------------|\n | 0 | Declined | Declined |\n | 1 | Accepted | Accepted |\n | 2 | Rejected | Rejected |\n | 3 | Not Attempted | Not Attempted |\n | 4 | Referred | Referred |\n | 5 | PinRetry | Perform PIN Retry |\n | 6 | ForSigVer | Force Signature Verification |\n | 7 | Hold | Hold |\n | 8 | SecErr | Security Error |\n | 9 | CallAcq | Call Acquirer |\n | 10 | DNH | Do Not Honour |\n | 11 | RtnCrd | Retain Card |\n | 12 | ExprdCrd | Expired Card |\n | 13 | InvldCrd | Invalid Card No |\n | 14 | PinExcd | Pin Tries Exceeded |\n | 15 | PinInvld | Pin Invalid |\n | 16 | AuthReq | Authentication Required |\n | 17 | AuthenFail | Authentication Failed |\n | 18 | Verified | Card Verified |\n | 19 | Cancelled | Cancelled |\n | 20 | Un | Unknown |\n"
+          },
+          "result_code" : {
+            "type" : "string",
+            "example" : 0,
+            "description" : "The result code as defined in the Response Codes Reference for example 000 is an accepted live\ntransaction whilst 001 is an accepted test transaction. Result codes identify the source of success and failure.\nCodes may start with an alpha character i.e. C001 indicating a type of error such as a card validation error.\n"
+          },
+          "result_message" : {
+            "type" : "string",
+            "example" : "Accepted Transaction",
+            "description" : "The message regarding the result which provides further narrative to the result code.\n"
+          },
+          "scheme" : {
+            "type" : "string",
+            "example" : "Visa",
+            "description" : "A name of the card scheme of the transaction that processed the transaction such as Visa or MasterCard.\n"
+          },
+          "sha256" : {
+            "type" : "string",
+            "example" : null,
+            "description" : "A SHA256 digest value of the transaction used to validate the response data\nThe digest is calculated by concatenating\n * authcode\n * amount\n * response_code\n * merchant_id\n * trans_no\n * identifier\n * licence_key - which is not provided in the response.\n"
+          },
+          "trans_status" : {
+            "type" : "string",
+            "description" : "Used to identify the status of a transaction. The status is used to track a transaction through its life cycle.\n\n| Id | Description |\n|----|-------------|\n| O | Transaction is open for settlement |\n| A | Transaction is assigned for settlement and can no longer be voided |\n| S | Transaction has been settled   |\n| D | Transaction has been declined |\n| R | Transaction has been rejected |\n| P | Transaction has been authorised only and awaiting a capture. Used in pre-auth situations |\n| C | Transaction has been cancelled |\n| E | Transaction has expired |\n| I | Transaction has been initialised but no action was able to be carried out |\n| H | Transaction is awaiting authorisation |\n| . | Transaction is on hold |\n| V | Transaction has been verified |\n"
+          },
+          "transno" : {
+            "type" : "integer",
+            "format" : "int32",
+            "example" : 78416,
+            "description" : "The resulting transaction number, ordered incrementally from 1 for every merchant_id. The value will default to less than 1\nfor transactions that do not have a transaction number issued.\n"
+          }
+        }
+      },
+      "ChargeRequest" : {
+        "type" : "object",
+        "required" : [ "amount", "identifier", "merchantid", "token" ],
+        "properties" : {
+          "amount" : {
+            "type" : "integer",
+            "format" : "int32",
+            "minLength" : 1,
+            "maxLength" : 12,
+            "example" : 3600,
+            "description" : "The amount to authorise in the lowest unit of currency with a variable length to a maximum of 12 digits.\nNo decimal points are to be included and no divisional characters such as 1,024.\nThe amount should be the total amount required for the transaction.\nFor example with GBP £1,021.95 the amount value is 102195.\n"
+          },
+          "avs_postcode_policy" : {
+            "type" : "string",
+            "description" : "A policy value which determines whether an AVS postcode policy is enforced or bypassed.\n\nValues are\n `0` for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.\n `1` for an enforced policy. Transactions that are enforced will be rejected if the AVS postcode numeric value does not match.\n `2` to bypass. Transactions that are bypassed will be allowed through even if the postcode did not match.\n `3` to ignore. Transactions that are ignored will bypass the result and not send postcode details for authorisation.\n"
+          },
+          "csc" : {
+            "type" : "string",
+            "minLength" : 3,
+            "maxLength" : 4,
+            "example" : 12,
+            "description" : "The Card Security Code (CSC) (also known as CV2/CVV2) is normally found on the back of the card\n(American Express has it on the front). The value helps to identify posession of the card as it is not\navailable within the chip or magnetic swipe.\n\nWhen forwarding the CSC, please ensure the value is a string as some values start with 0 and this will be stripped\nout by any integer parsing.\n\nThe CSC number aids fraud prevention in Mail Order and Internet payments.\n\n Business rules are available on your account to identify whether to accept\nor decline transactions based on mismatched results of the CSC.\n\nThe Payment Card Industry (PCI) requires that at no stage of a transaction should the CSC be stored.\nThis applies to all entities handling card data.\nIt should also not be used in any hashing process.\nCityPay do not store the value and have no method of retrieving the value once the transaction has been processed.\nFor this reason, duplicate checking is unable to determine the CSC in its duplication check algorithm.\n"
+          },
+          "csc_policy" : {
+            "type" : "string",
+            "description" : "A policy value which determines whether a CSC policy is enforced or bypassed.\n\nValues are\n `0` for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.\n `1` for an enforced policy. Transactions that are enforced will be rejected if the CSC value does not match.\n `2` to bypass. Transactions that are bypassed will be allowed through even if the CSC did not match.\n `3` to ignore. Transactions that are ignored will bypass the result and not send the CSC details for authorisation.\n"
+          },
+          "currency" : {
+            "type" : "string",
+            "minLength" : 3,
+            "maxLength" : 3,
+            "example" : "GBP",
+            "description" : "The processing currency for the transaction. Will default to the merchant account currency."
+          },
+          "duplicate_policy" : {
+            "type" : "string",
+            "description" : "A policy value which determines whether a duplication policy is enforced or bypassed. A duplication check has a window\nof time set against your account within which it can action. If a previous transaction with matching values occurred within\nthe window, any subsequent transaction will result in a T001 result.\n\nValues are\n `0` for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.\n `1` for an enforced policy. Transactions that are enforced will be checked for duplication within the duplication window.\n `2` to bypass. Transactions that are bypassed will not be checked for duplication within the duplication window.\n `3` to ignore. Transactions that are ignored will have the same affect as bypass.\n"
+          },
+          "identifier" : {
+            "type" : "string",
+            "minLength" : 4,
+            "maxLength" : 50,
+            "example" : "95b857a1-5955-4b86-963c-5a6dbfc4fb95",
+            "description" : "The identifier of the transaction to process. The value should be a valid reference and may be used to perform\n post processing actions and to aid in reconciliation of transactions.\n\nThe value should be a valid printable string with ASCII character ranges from 32 to 127.\n\nThe identifier is recommended to be distinct for each transaction such as a [random unique identifier](https://en.wikipedia.org/wiki/Universally_unique_identifier)\nthis will aid in ensuring each transaction is identifiable.\n\nWhen transactions are processed they are also checked for duplicate requests. Changing the identifier on a subsequent\nrequest will ensure that a transaction is considered as different.\n"
+          },
+          "match_avsa" : {
+            "type" : "string",
+            "description" : "A policy value which determines whether an AVS address policy is enforced, bypassed or ignored.\n\n\nValues are\n `0` for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.\n `1` for an enforced policy. Transactions that are enforced will be rejected if the AVS address numeric value does not match.\n `2` to bypass. Transactions that are bypassed will be allowed through even if the address did not match.\n `3` to ignore. Transactions that are ignored will bypass the result and not send address numeric details for authorisation.\n"
+          },
+          "merchantid" : {
+            "type" : "integer",
+            "format" : "int32",
+            "example" : 11223344,
+            "description" : "Identifies the merchant account to perform processing for."
+          },
+          "sdk" : {
+            "type" : "string",
+            "example" : "MyClient 1.3.0",
+            "description" : "An optional reference value for the calling client such as a version number i.e."
+          },
+          "token" : {
+            "type" : "string",
+            "format" : "base58",
+            "example" : "ctPCAPyNyCkx3Ry8wGyv8khC3ch2hUSB3Db..Qzr",
+            "description" : "A tokenised form of a card that belongs to a card holder's account and that\nhas been previously registered. The token is time based and will only be active for\na short duration. The value is therefore designed not to be stored remotely for future\n use.\n\nTokens will start with ct and are resiliently tamper proof using HMacSHA-256.\nNo sensitive card data is stored internally within the token.\n\nEach card will contain a different token and the value may be different on any retrieval call.\n\nThe value can be presented for payment as a selection value to an end user in a web application.\n"
+          },
+          "trans_info" : {
+            "type" : "string",
+            "maxLength" : 50,
+            "description" : "Further information that can be added to the transaction will display in reporting. Can be used for flexible values such as operator id."
+          },
+          "trans_type" : {
+            "type" : "string",
+            "minLength" : 1,
+            "maxLength" : 1,
+            "description" : "The type of transaction being submitted. Normally this value is not required and your account manager may request that you set this field."
+          }
+        }
+      },
+      "RequestChallenged" : {
+        "type" : "object",
+        "properties" : {
+          "acs_url" : {
+            "type" : "string",
+            "format" : "url",
+            "example" : "https://acs.cardissuer.com/3dsv1",
+            "description" : "The url of the Access Control Server (ACS) to forward the user to.\n"
+          },
+          "creq" : {
+            "type" : "string",
+            "description" : "The challenge request data which is encoded for usage by the ACS."
+          },
+          "merchantid" : {
+            "type" : "integer",
+            "format" : "int32",
+            "example" : 11223344,
+            "description" : "The merchant id that processed this transaction."
+          },
+          "ThreeDServerTransId" : {
+            "type" : "string",
+            "description" : "The 3DSv2 trans id reference for the challenge process."
+          },
+          "transno" : {
+            "type" : "integer",
+            "format" : "int32",
+            "example" : 78416,
+            "description" : "The transaction number for the challenge, ordered incrementally from 1 for every merchant_id.\n"
+          }
+        }
+      },
+      "AuthReference" : {
+        "type" : "object",
+        "properties" : {
+          "amount" : {
+            "type" : "integer",
+            "format" : "int32",
+            "minLength" : 1,
+            "maxLength" : 12,
+            "example" : 3600,
+            "description" : "The amount of the transaction in decimal currency format."
+          },
+          "amount_value" : {
+            "type" : "string",
+            "description" : "The amount of the transaction in integer/request format."
+          },
+          "atrn" : {
+            "type" : "string",
+            "description" : "A reference number provided by the acquiring services."
+          },
+          "authcode" : {
+            "type" : "string",
+            "example" : "001245A",
+            "description" : "The authorisation code of the transaction returned by the acquirer or card issuer."
+          },
+          "batchno" : {
+            "type" : "string",
+            "description" : "A batch number which the transaction has been end of day batched towards."
+          },
+          "currency" : {
+            "type" : "string",
+            "minLength" : 3,
+            "maxLength" : 3,
+            "example" : "GBP",
+            "description" : "The currency of the transaction in ISO 4217 code format."
+          },
+          "datetime" : {
+            "type" : "string",
+            "format" : "date-time",
+            "example" : "2020-01-02T18:32:28Z",
+            "description" : "The date and time of the transaction."
+          },
+          "identifier" : {
+            "type" : "string",
+            "minLength" : 4,
+            "maxLength" : 50,
+            "example" : "95b857a1-5955-4b86-963c-5a6dbfc4fb95",
+            "description" : "The identifier of the transaction used to process the transaction."
+          },
+          "maskedpan" : {
+            "type" : "string",
+            "example" : "4***********0002",
+            "description" : "A masking of the card number which was used to process the tranasction."
+          },
+          "merchantid" : {
+            "type" : "integer",
+            "format" : "int32",
+            "example" : 11223344,
+            "description" : "The merchant id of the transaction result."
+          },
+          "result" : {
+            "type" : "string",
+            "description" : "The result of the transaction."
+          },
+          "trans_status" : {
+            "type" : "string",
+            "description" : "The current status of the transaction through it's lifecycle."
+          },
+          "trans_type" : {
+            "type" : "string",
+            "minLength" : 1,
+            "maxLength" : 1,
+            "description" : "The type of transaction that was processed."
+          },
+          "transno" : {
+            "type" : "integer",
+            "format" : "int32",
+            "example" : 78416,
+            "description" : "The transaction number of the transaction."
+          }
+        }
+      },
+      "Card" : {
+        "type" : "object",
+        "properties" : {
+          "bin_commercial" : {
+            "type" : "boolean",
+            "description" : "Defines whether the card is a commercial card."
+          },
+          "bin_corporate" : {
+            "type" : "boolean",
+            "description" : "Defines whether the card is a corporate business card."
+          },
+          "bin_country_issued" : {
+            "type" : "string",
+            "description" : "The determined country where the card was issued."
+          },
+          "bin_credit" : {
+            "type" : "boolean",
+            "description" : "Defines whether the card is a credit card."
+          },
+          "bin_currency" : {
+            "type" : "string",
+            "description" : "The default currency determined for the card."
+          },
+          "bin_debit" : {
+            "type" : "boolean",
+            "description" : "Defines whether the card is a debit card."
+          },
+          "bin_description" : {
+            "type" : "string",
+            "description" : "A description of the bin on the card to identify what type of product the card is."
+          },
+          "bin_eu" : {
+            "type" : "boolean",
+            "description" : "Defines whether the card is regulated within the EU."
+          },
+          "card_id" : {
+            "type" : "string",
+            "description" : "The id of the card that is returned. Should be used for referencing the card when perform any changes."
+          },
+          "card_status" : {
+            "type" : "string",
+            "description" : "The status of the card such, valid values are\n - ACTIVE the card is active for processing\n - INACTIVE the card is not active for processing\n - EXPIRED for cards that have passed their expiry date.\n"
+          },
+          "defaultCard" : {
+            "type" : "boolean",
+            "description" : "Determines if the card is the default card for the account and should be regarded as the first option to be used for processing."
+          },
+          "expmonth" : {
+            "type" : "integer",
+            "format" : "int32",
+            "example" : 9,
+            "minimum" : 1,
+            "maximum" : 12,
+            "description" : "The expiry month of the card."
+          },
+          "expyear" : {
+            "type" : "integer",
+            "format" : "int32",
+            "example" : 2023,
+            "minimum" : 2000,
+            "maximum" : 2100,
+            "description" : "The expiry year of the card."
+          },
+          "label" : {
+            "type" : "string",
+            "example" : "Visa/0002",
+            "description" : "A label which identifies this card."
+          },
+          "label2" : {
+            "type" : "string",
+            "example" : "Visa/0002,Exp:2304",
+            "description" : "A label which also provides the expiry date of the card."
+          },
+          "last4digits" : {
+            "type" : "string",
+            "example" : 2,
+            "description" : "The last 4 digits of the card to aid in identification."
+          },
+          "scheme" : {
+            "type" : "string",
+            "example" : "Visa",
+            "description" : "The scheme that issued the card."
+          },
+          "token" : {
+            "type" : "string",
+            "format" : "base58",
+            "example" : "ctPCAPyNyCkx3Ry8wGyv8khC3ch2hUSB3Db..Qzr",
+            "description" : "A token that can be used to process against the card."
+          }
+        }
+      },
+      "ExternalMPI" : {
+        "type" : "object",
+        "properties" : {
+          "authen_result" : {
+            "type" : "string",
+            "maxLength" : 1,
+            "description" : "The authentication result available from the MPI."
+          },
+          "cavv" : {
+            "type" : "string",
+            "maxLength" : 20,
+            "description" : "A value determining the cardholder verification value supplied by the card scheme."
+          },
+          "eci" : {
+            "type" : "integer",
+            "format" : "int32",
+            "maxLength" : 1,
+            "description" : "The obtained e-commerce indicator from the MPI."
+          },
+          "enrolled" : {
+            "type" : "string",
+            "maxLength" : 1,
+            "description" : "A value determining whether the card holder was enrolled."
+          },
+          "xid" : {
+            "type" : "string",
+            "maxLength" : 20,
+            "description" : "The XID used for processing with the MPI."
+          }
+        }
+      },
+      "Acknowledgement" : {
+        "type" : "object",
+        "properties" : {
+          "code" : {
+            "type" : "string",
+            "minLength" : 3,
+            "maxLength" : 4,
+            "example" : 0,
+            "description" : "A response code providing a result of the process."
+          },
+          "context" : {
+            "type" : "string",
+            "example" : "aspiu352908ns47n343598bads",
+            "description" : "A context id of the process used for referencing transactions through support."
+          },
+          "identifier" : {
+            "type" : "string",
+            "minLength" : 4,
+            "maxLength" : 50,
+            "example" : "95b857a1-5955-4b86-963c-5a6dbfc4fb95",
+            "description" : "An identifier if presented in the original request."
+          },
+          "message" : {
+            "type" : "string",
+            "example" : "Approved 044332",
+            "description" : "A response message providing a description of the result of the process."
+          }
+        }
+      },
+      "AirlineSegment" : {
+        "type" : "object",
+        "required" : [ "arrival_location_code", "carrier_code", "class_service_code", "departure_date", "flight_number" ],
+        "properties" : {
+          "arrival_location_code" : {
+            "type" : "string",
+            "maxLength" : 3,
+            "example" : "SOU",
+            "description" : "A standard airline routing code (airport code or location identifier) applicable to the\narrival portion of this segment.\n"
+          },
+          "carrier_code" : {
+            "type" : "string",
+            "maxLength" : 2,
+            "example" : "ZZ",
+            "description" : "This field contains the two character airline designator code (air carrier code or airline code) that\ncorresponds to the airline carrier applicable for up to four flight segments of this trip itinerary.\n"
+          },
+          "class_service_code" : {
+            "type" : "string",
+            "maxLength" : 2,
+            "example" : "CC",
+            "description" : "This field contains a code that corresponds to the fare class (A, B, C, D, Premium, Discounted, etc.)\nwithin the overall class of service (e.g., First Class, Business, Economy) applicable to this travel segment,\nas specified in the IATA Standard Code allocation table.\n"
+          },
+          "departure_date" : {
+            "type" : "string",
+            "format" : "date",
+            "example" : "2020-08-01",
+            "description" : "The Departure Date for the travel segment in ISO Date Format (yyyy-MM-dd)."
+          },
+          "departure_location_code" : {
+            "type" : "string",
+            "maxLength" : 3,
+            "example" : "JER",
+            "description" : "A standard airline routing code (airport code or location identifier) applicable to the\ndeparture portion of this segment.\n"
+          },
+          "flight_number" : {
+            "type" : "string",
+            "maxLength" : 4,
+            "example" : 772,
+            "description" : "This field contains the carrier-assigned Flight Number for this travel segment."
+          },
+          "segment_fare" : {
+            "type" : "integer",
+            "format" : "int32",
+            "example" : 7500,
+            "description" : "This field contains the total Fare for this travel segment."
+          },
+          "stop_over_indicator" : {
+            "type" : "string",
+            "maxLength" : 1,
+            "example" : 1,
+            "description" : "O = Stopover allowed, X = Stopover not allowed."
+          }
+        }
+      },
+      "CResAuthRequest" : {
+        "type" : "object",
+        "properties" : {
+          "cres" : {
+            "type" : "string",
+            "format" : "base64",
+            "example" : "x90+vZ/7Ll05Vid/jPfQn8adw+4D/vRDUGT19kndW97Hfirbv66ycfSp8jNlvy7PkHbx44NEt3vo...",
+            "description" : "The challenge response data forwarded by the ACS in 3D-Secure V2 processing. Data\nshould be forwarded to CityPay unchanged for subsequent authorisation and processing.\n"
+          }
+        }
+      },
+      "MCC6012" : {
+        "type" : "object",
+        "properties" : {
+          "recipient_account" : {
+            "type" : "string",
+            "description" : "The account number of the recipient."
+          },
+          "recipient_dob" : {
+            "type" : "string",
+            "description" : "The date of birth of the recipient."
+          },
+          "recipient_lastname" : {
+            "type" : "string",
+            "description" : "The lastname of ther recepient."
+          },
+          "recipient_postcode" : {
+            "type" : "string",
+            "description" : "The postcode of the recipient."
+          }
+        }
+      },
+      "RetrieveRequest" : {
+        "type" : "object",
+        "required" : [ "merchantid" ],
+        "properties" : {
+          "identifier" : {
+            "type" : "string",
+            "minLength" : 4,
+            "maxLength" : 50,
+            "example" : "95b857a1-5955-4b86-963c-5a6dbfc4fb95",
+            "description" : "The identifier of the transaction to retrieve. Optional if a transaction number is provided."
+          },
+          "merchantid" : {
+            "type" : "integer",
+            "format" : "int32",
+            "example" : 11223344,
+            "description" : "The merchant account to retrieve data for."
+          },
+          "transno" : {
+            "type" : "integer",
+            "format" : "int32",
+            "example" : 78416,
+            "description" : "The transaction number of a transaction to retrieve. Optional if an identifier is supplied."
+          }
+        }
+      },
+      "AuthReferences" : {
+        "type" : "object",
+        "properties" : {
+          "auths" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/AuthReference"
+            }
+          }
+        }
+      },
+      "AuthenRequired" : {
+        "type" : "object",
+        "properties" : {
+          "acs_url" : {
+            "type" : "string",
+            "format" : "url",
+            "example" : "https://acs.cardissuer.com/3dsv1",
+            "description" : "The url of the Access Control Server (ACS) to forward the user to.\n"
+          },
+          "md" : {
+            "type" : "string",
+            "description" : "Merchant Data (MD) which should be sent to the ACS to establish and reference\nthe authentication session.\n"
+          },
+          "pareq" : {
+            "type" : "string",
+            "format" : "base64",
+            "example" : "eNrNWdnOo0qSfpXSmUuf0+w2tFy/lOyYxYDZ79h3sAEbm6cfbFfV+bu6pqe7R2qNJeQkiIwlMyK+...",
+            "description" : "The Payer Authentication Request packet which should be `POSTed` to the Url of the ACS\nto establish the authentication session. Data should be sent untouched.\n"
+          }
+        }
+      },
+      "Decision" : {
+        "type" : "object",
+        "properties" : {
+          "authentication" : {
+            "$ref" : "#/components/schemas/AuthenRequired",
+            "x-description" : "The request resulted in the transaction participating in 3DSv1 and is required to be authenticated via the ACS.\n"
+          },
+          "challenge" : {
+            "$ref" : "#/components/schemas/RequestChallenged",
+            "x-description" : "The request resulted in the transaction participating in 3DSv2 and has been challenged for authentication by the ACS.\n"
+          },
+          "result" : {
+            "$ref" : "#/components/schemas/AuthResponse",
+            "x-description" : "A result has been obtained for this transaction either through authorisation or validation.\n"
+          }
+        }
+      },
+      "AuthRequest" : {
+        "type" : "object",
+        "required" : [ "amount", "cardnumber", "expmonth", "identifier", "merchantid" ],
+        "properties" : {
+          "airline_data" : {
+            "$ref" : "#/components/schemas/AirlineAdvice",
+            "x-business-extension" : "Airline",
+            "x-description" : "Additional advice for airline integration that can be applied on an authorisation request.\nAs tickets are normally not allocated until successful payment it is normal for a transaction to be pre-authorised\n and the airline advice supplied on a capture request instead. Should the data already exist and an auth and\n capture is preferred. This data may be supplied.\n"
+          },
+          "amount" : {
+            "type" : "integer",
+            "format" : "int32",
+            "minLength" : 1,
+            "maxLength" : 12,
+            "example" : 3600,
+            "description" : "The amount to authorise in the lowest unit of currency with a variable length to a maximum of 12 digits.\nNo decimal points are to be included and no divisional characters such as 1,024.\nThe amount should be the total amount required for the transaction.\nFor example with GBP £1,021.95 the amount value is 102195.\n"
+          },
+          "avs_postcode_policy" : {
+            "type" : "string",
+            "description" : "A policy value which determines whether an AVS postcode policy is enforced or bypassed.\n\nValues are\n `0` for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.\n `1` for an enforced policy. Transactions that are enforced will be rejected if the AVS postcode numeric value does not match.\n `2` to bypass. Transactions that are bypassed will be allowed through even if the postcode did not match.\n `3` to ignore. Transactions that are ignored will bypass the result and not send postcode details for authorisation.\n"
+          },
+          "bill_to" : {
+            "$ref" : "#/components/schemas/ContactDetails",
+            "x-description" : "Billing details of the card holder making the payment.\nThese details may be used for AVS fraud analysis, 3DS and for future referencing of the transaction.\n\nFor AVS to work correctly, the billing details should be the registered address of the card holder\nas it appears on the statement with their card issuer. The numeric details will be passed through\nfor analysis and may result in a decline if incorrectly provided.\n"
+          },
+          "cardnumber" : {
+            "type" : "string",
+            "minLength" : 12,
+            "maxLength" : 22,
+            "example" : "4000 0000 0000 0002",
+            "description" : "The card number (PAN) with a variable length to a maximum of 21 digits in numerical form.\nAny non numeric characters will be stripped out of the card number, this includes whitespace or separators internal of the\nprovided value.\n\nThe card number must be treated as sensitive data. We only provide an obfuscated value in logging and reporting.\n The plaintext value is encrypted in our database using AES 256 GMC bit encryption for settlement or refund purposes.\n\nWhen providing the card number to our gateway through the authorisation API you will be handling the card data on\nyour application. This will require further PCI controls to be in place and this value must never be stored.\n"
+          },
+          "csc" : {
+            "type" : "string",
+            "minLength" : 3,
+            "maxLength" : 4,
+            "example" : 12,
+            "description" : "The Card Security Code (CSC) (also known as CV2/CVV2) is normally found on the back of the card\n(American Express has it on the front). The value helps to identify posession of the card as it is not\navailable within the chip or magnetic swipe.\n\nWhen forwarding the CSC, please ensure the value is a string as some values start with 0 and this will be stripped\nout by any integer parsing.\n\nThe CSC number aids fraud prevention in Mail Order and Internet payments.\n\n Business rules are available on your account to identify whether to accept\nor decline transactions based on mismatched results of the CSC.\n\nThe Payment Card Industry (PCI) requires that at no stage of a transaction should the CSC be stored.\nThis applies to all entities handling card data.\nIt should also not be used in any hashing process.\nCityPay do not store the value and have no method of retrieving the value once the transaction has been processed.\nFor this reason, duplicate checking is unable to determine the CSC in its duplication check algorithm.\n"
+          },
+          "csc_policy" : {
+            "type" : "string",
+            "description" : "A policy value which determines whether a CSC policy is enforced or bypassed.\n\nValues are\n `0` for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.\n `1` for an enforced policy. Transactions that are enforced will be rejected if the CSC value does not match.\n `2` to bypass. Transactions that are bypassed will be allowed through even if the CSC did not match.\n `3` to ignore. Transactions that are ignored will bypass the result and not send the CSC details for authorisation.\n"
+          },
+          "currency" : {
+            "type" : "string",
+            "minLength" : 3,
+            "maxLength" : 3,
+            "example" : "GBP",
+            "description" : "The processing currency for the transaction. Will default to the merchant account currency."
+          },
+          "duplicate_policy" : {
+            "type" : "string",
+            "description" : "A policy value which determines whether a duplication policy is enforced or bypassed. A duplication check has a window\nof time set against your account within which it can action. If a previous transaction with matching values occurred within\nthe window, any subsequent transaction will result in a T001 result.\n\nValues are\n `0` for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.\n `1` for an enforced policy. Transactions that are enforced will be checked for duplication within the duplication window.\n `2` to bypass. Transactions that are bypassed will not be checked for duplication within the duplication window.\n `3` to ignore. Transactions that are ignored will have the same affect as bypass.\n"
+          },
+          "expmonth" : {
+            "type" : "integer",
+            "format" : "int32",
+            "example" : 9,
+            "minimum" : 1,
+            "maximum" : 12,
+            "description" : "The month of expiry of the card. The month value should be a numerical value between 1 and 12.\n"
+          },
+          "expyear" : {
+            "type" : "integer",
+            "format" : "int32",
+            "example" : 2023,
+            "minimum" : 2000,
+            "maximum" : 2100,
+            "description" : "The year of expiry of the card.\n"
+          },
+          "external_mpi" : {
+            "$ref" : "#/components/schemas/ExternalMPI",
+            "x-business-extension" : "3DSv1 MPI",
+            "x-description" : "If an external 3DSv1 MPI is used for authentication, values provided can be supplied in this element."
+          },
+          "identifier" : {
+            "type" : "string",
+            "minLength" : 4,
+            "maxLength" : 50,
+            "example" : "95b857a1-5955-4b86-963c-5a6dbfc4fb95",
+            "description" : "The identifier of the transaction to process. The value should be a valid reference and may be used to perform\n post processing actions and to aid in reconciliation of transactions.\n\nThe value should be a valid printable string with ASCII character ranges from 32 to 127.\n\nThe identifier is recommended to be distinct for each transaction such as a [random unique identifier](https://en.wikipedia.org/wiki/Universally_unique_identifier)\nthis will aid in ensuring each transaction is identifiable.\n\nWhen transactions are processed they are also checked for duplicate requests. Changing the identifier on a subsequent\nrequest will ensure that a transaction is considered as different.\n"
+          },
+          "match_avsa" : {
+            "type" : "string",
+            "description" : "A policy value which determines whether an AVS address policy is enforced, bypassed or ignored.\n\n\nValues are\n `0` for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.\n `1` for an enforced policy. Transactions that are enforced will be rejected if the AVS address numeric value does not match.\n `2` to bypass. Transactions that are bypassed will be allowed through even if the address did not match.\n `3` to ignore. Transactions that are ignored will bypass the result and not send address numeric details for authorisation.\n"
+          },
+          "mcc6012" : {
+            "$ref" : "#/components/schemas/MCC6012",
+            "x-business-extension" : "MCC6012",
+            "x-description" : "If the merchant is MCC coded as 6012, additional values are required for authorisation."
+          },
+          "merchantid" : {
+            "type" : "integer",
+            "format" : "int32",
+            "example" : 11223344,
+            "description" : "Identifies the merchant account to perform processing for."
+          },
+          "sdk" : {
+            "type" : "string",
+            "example" : "MyClient 1.3.0",
+            "description" : "An optional reference value for the calling client such as a version number i.e."
+          },
+          "ship_to" : {
+            "$ref" : "#/components/schemas/ContactDetails",
+            "x-description" : "Shipping details of the card holder making the payment. These details may be used for 3DS and for future referencing of the transaction."
+          },
+          "threedsecure" : {
+            "$ref" : "#/components/schemas/ThreeDSecure",
+            "x-description" : "ThreeDSecure element, providing values to enable full 3DS processing flows.\n"
+          },
+          "trans_info" : {
+            "type" : "string",
+            "maxLength" : 50,
+            "description" : "Further information that can be added to the transaction will display in reporting. Can be used for flexible values such as operator id."
+          },
+          "trans_type" : {
+            "type" : "string",
+            "minLength" : 1,
+            "maxLength" : 1,
+            "description" : "The type of transaction being submitted. Normally this value is not required and your account manager may request that you set this field."
+          }
+        }
+      },
+      "ListMerchantsResponse" : {
+        "type" : "object",
+        "properties" : {
+          "client_name" : {
+            "type" : "string",
+            "description" : "The client name that was requested."
+          },
+          "clientid" : {
+            "type" : "string",
+            "minLength" : 3,
+            "maxLength" : 10,
+            "example" : "PC12345",
+            "description" : "The client id requested."
+          },
+          "merchants" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/Merchant"
+            }
+          }
+        }
+      },
+      "AccountCreate" : {
+        "type" : "object",
+        "properties" : {
+          "account_id" : {
+            "type" : "string",
+            "minLength" : 5,
+            "maxLength" : 50,
+            "example" : "aaabbb-cccddd-eee",
+            "description" : "A card holder account id used for uniquely identifying the account. This value will be used for future\nreferencing of the account oand to link your system to this API. This value is immutable and\nnever changes.\n"
+          },
+          "contact" : {
+            "$ref" : "#/components/schemas/ContactDetails",
+            "x-description" : "Contact details for a card holder account.\n"
+          }
+        }
+      },
+      "ContactDetails" : {
+        "type" : "object",
+        "properties" : {
+          "address1" : {
+            "type" : "string",
+            "maxLength" : 20,
+            "example" : "79 Parliamant St",
+            "description" : "The first line of the address for the card holder."
+          },
+          "address2" : {
+            "type" : "string",
+            "maxLength" : 20,
+            "example" : "Westminster",
+            "description" : "The second line of the address for the card holder."
+          },
+          "address3" : {
+            "type" : "string",
+            "maxLength" : 20,
+            "example" : null,
+            "description" : "The third line of the address for the card holder."
+          },
+          "area" : {
+            "type" : "string",
+            "maxLength" : 20,
+            "example" : "London",
+            "description" : "The area such as city, department, parish for the card holder."
+          },
+          "company" : {
+            "type" : "string",
+            "example" : "Acme Ltd",
+            "description" : "The company name for the card holder if the contact is a corporate contact."
+          },
+          "country" : {
+            "type" : "string",
+            "maxLength" : 2,
+            "example" : "GB",
+            "description" : "The country code in ISO 3166 format. The country value may be used for fraud analysis and for\n  acceptance of the transaction.\n"
+          },
+          "email" : {
+            "type" : "string",
+            "example" : "card.holder@citypay.com",
+            "description" : "An email address for the card holder which may be used for correspondence."
+          },
+          "firstname" : {
+            "type" : "string",
+            "example" : "John",
+            "description" : "The first name  of the card holder."
+          },
+          "lastname" : {
+            "type" : "string",
+            "example" : "Smith",
+            "description" : "The last name or surname of the card holder."
+          },
+          "mobile_no" : {
+            "type" : "string",
+            "example" : "+447790123456",
+            "description" : "A mobile number for the card holder the mobile number is often required by delivery companies to ensure they are able to be in contact when required."
+          },
+          "postcode" : {
+            "type" : "string",
+            "maxLength" : 10,
+            "example" : "L1 789",
+            "description" : "The postcode or zip code of the address which may be used for fraud analysis."
+          },
+          "telephone_no" : {
+            "type" : "string",
+            "example" : "+442030123456",
+            "description" : "A telephone number for the card holder."
+          },
+          "title" : {
+            "type" : "string",
+            "example" : "Mr",
+            "description" : "A title for the card holder such as Mr, Mrs, Ms, M. Mme. etc."
+          }
+        }
+      },
+      "VoidRequest" : {
+        "type" : "object",
+        "required" : [ "merchantid" ],
+        "properties" : {
+          "identifier" : {
+            "type" : "string",
+            "minLength" : 4,
+            "maxLength" : 50,
+            "example" : "95b857a1-5955-4b86-963c-5a6dbfc4fb95",
+            "description" : "The identifier of the transaction to void. If an empty value is supplied then a `trans_no` value must be supplied."
+          },
+          "merchantid" : {
+            "type" : "integer",
+            "format" : "int32",
+            "example" : 11223344,
+            "description" : "Identifies the merchant account to perform the void for."
+          },
+          "sdk" : {
+            "type" : "string",
+            "example" : "MyClient 1.3.0",
+            "description" : "An optional reference value for the calling client such as a version number i.e."
+          },
+          "transno" : {
+            "type" : "integer",
+            "format" : "int32",
+            "example" : 78416,
+            "description" : "The transaction number of the transaction to look up and void. If an empty value is supplied then an identifier value must be supplied."
+          }
+        }
+      },
+      "ThreeDSecure" : {
+        "type" : "object",
+        "properties" : {
+          "accept_headers" : {
+            "type" : "string",
+            "example" : "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9",
+            "description" : "The content of the HTTP accept header as sent to the merchant from the cardholder's user agent.\nThis value will be validated by the ACS when the card holder authenticates themselves to verify that\nno intermediary is performing this action. Required for 3DSv1.\n"
+          },
+          "downgrade1" : {
+            "type" : "boolean",
+            "description" : "Where a merchant is configured for 3DSv2, setting this option will attempt to downgrade the transaction to\n 3DSv1.\n"
+          },
+          "merchant_termurl" : {
+            "type" : "string",
+            "description" : "A controller URL for 3D-Secure processing that any response from an authentication request or\nchallenge request should be sent to.\n\nThe controller should forward on the response from the URL back via this API for subsequent processing.\nRequired if 3DSv1 or 3DSv2 is required.\n"
+          },
+          "tds_policy" : {
+            "type" : "string",
+            "description" : "A policy value which determines whether ThreeDSecure is enforced or bypassed. Note that this will only work for\ne-commerce transactions and accounts that have 3DSecure enabled and fully registered with Visa, MasterCard or\nAmerican Express. It is useful when transactions may be wanted to bypass processing rules.\n\nNote that this may affect the liability shift of transactions and may occur a higher fee with the acquiring bank.\n\nValues are\n `0` for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.\n `1` for an enforced policy. Transactions will be enabled for 3DS processing\n `2` to bypass. Transactions that are bypassed will switch off 3DS processing.\n"
+          },
+          "user_agent" : {
+            "type" : "string",
+            "example" : "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.149 Safari/537.36",
+            "description" : "The content of the HTTP user-agent header as sent to the merchant from the cardholder's user agent.\nThis value will be validated by the ACS when the card holder authenticates themselves to verify that\nno intermediary is performing this action. Required for 3DSv1.\n"
+          }
+        }
+      },
+      "PaResAuthRequest" : {
+        "type" : "object",
+        "required" : [ "md" ],
+        "properties" : {
+          "md" : {
+            "type" : "string",
+            "description" : "The Merchant Data (MD) which is a unique ID to reference the authentication session.\nThis value will be created by CityPay when required. When responding from the ACS,\nthis value will be returned by the ACS.\n"
+          },
+          "pares" : {
+            "type" : "string",
+            "format" : "base64",
+            "example" : "v66ycfSp8jNlvy7PkHbx44NEt3vox90+vZ/7Ll05Vid/jPfQn8adw+4D/vRDUGT19kndW97Hfirb...",
+            "description" : "The Payer Authentication Response packet which is returned by the ACS containing the\n response of the authentication session including verification values. The response\n is a base64 encoded packet and should be forwarded to CityPay untouched.\n"
+          }
+        }
+      },
+      "AirlineAdvice" : {
+        "type" : "object",
+        "required" : [ "carrier_name", "number_in_party", "segment1", "ticket_issue_city", "ticket_issue_date", "ticket_issue_name", "ticket_no", "transaction_type" ],
+        "properties" : {
+          "carrier_name" : {
+            "type" : "string",
+            "maxLength" : 25,
+            "example" : "EG Air",
+            "description" : "The name of the airline carrier that generated the tickets for airline travel."
+          },
+          "conjunction_ticket_indicator" : {
+            "type" : "boolean",
+            "example" : false,
+            "description" : "true if a conjunction ticket (with additional coupons) was issued for an itinerary\nwith more than four segments. Defaults to false.\n"
+          },
+          "eticket_indicator" : {
+            "type" : "boolean",
+            "example" : true,
+            "description" : "The Electronic Ticket Indicator, a code that indicates if an electronic ticket was issued.  Defaults to true."
+          },
+          "no_air_segments" : {
+            "type" : "integer",
+            "format" : "int32",
+            "example" : 2,
+            "minimum" : 0,
+            "maximum" : 4,
+            "description" : "A value that indicates the number of air travel segments included on this ticket.\nValid entries include the numerals “0” through “4”. Required only if the transaction type is TKT or EXC.\n"
+          },
+          "number_in_party" : {
+            "type" : "integer",
+            "format" : "int32",
+            "example" : 2,
+            "description" : "The number of people in the party."
+          },
+          "original_ticket_no" : {
+            "type" : "string",
+            "maxLength" : 14,
+            "description" : "Required if transaction type is EXC."
+          },
+          "passenger_name" : {
+            "type" : "string",
+            "maxLength" : 25,
+            "example" : "NE Person",
+            "description" : "The name of the passenger when the traveller is not the card member that purchased the ticket. Required only if the transaction type is TKT or EXC."
+          },
+          "segment1" : {
+            "$ref" : "#/components/schemas/AirlineSegment",
+            "x-description" : "Segment 1 of airline data defining the outward leg."
+          },
+          "segment2" : {
+            "$ref" : "#/components/schemas/AirlineSegment",
+            "x-description" : "Segment 2 of airline data. If a return flight or stop-over the segment will be populated."
+          },
+          "segment3" : {
+            "$ref" : "#/components/schemas/AirlineSegment",
+            "x-description" : "Segment 3 of airline data if defined."
+          },
+          "segment4" : {
+            "$ref" : "#/components/schemas/AirlineSegment",
+            "x-description" : "Segment 4 of airline data if defined."
+          },
+          "ticket_issue_city" : {
+            "type" : "string",
+            "maxLength" : 18,
+            "example" : "London",
+            "description" : "The name of the city town or village where the transaction took place."
+          },
+          "ticket_issue_date" : {
+            "type" : "string",
+            "format" : "date",
+            "maxLength" : 10,
+            "example" : "2020-08-01",
+            "description" : "The date the ticket was issued in ISO Date format (yyyy-MM-dd)."
+          },
+          "ticket_issue_name" : {
+            "type" : "string",
+            "maxLength" : 26,
+            "example" : "Issue Name",
+            "description" : "The name of the agency generating the ticket."
+          },
+          "ticket_no" : {
+            "type" : "string",
+            "maxLength" : 14,
+            "example" : "A112233",
+            "description" : "This must be a valid ticket number, i.e. numeric (the first 3 digits must represent the valid IATA plate carrier code).\nThe final check digit should be validated prior to submission. On credit charges, this field should contain the\nnumber of the original ticket, and not of a replacement.\n"
+          },
+          "transaction_type" : {
+            "type" : "string",
+            "minLength" : 3,
+            "maxLength" : 3,
+            "example" : "TKT",
+            "description" : "This field contains the Transaction Type code assigned to this transaction. Valid codes include:\n\n - `TKT` = Ticket Purchase\n - `REF` = Refund\n - `EXC` = Exchange Ticket\n - `MSC` = Miscellaneous (non-Ticket Purchase- and non-Exchange Ticket-related transactions only).\n"
+          }
+        }
+      },
+      "RegisterCard" : {
+        "type" : "object",
+        "properties" : {
+          "account_id" : {
+            "type" : "string",
+            "minLength" : 5,
+            "maxLength" : 50,
+            "example" : "aaabbb-cccddd-eee",
+            "description" : "The account to register the card against."
+          },
+          "cardnumber" : {
+            "type" : "string",
+            "minLength" : 12,
+            "maxLength" : 22,
+            "example" : "4000 0000 0000 0002",
+            "description" : "The primary number of the card."
+          },
+          "defaultCard" : {
+            "type" : "boolean",
+            "description" : "Determines whether the card should be the new default card."
+          },
+          "expmonth" : {
+            "type" : "integer",
+            "format" : "int32",
+            "example" : 9,
+            "minimum" : 1,
+            "maximum" : 12,
+            "description" : "The expiry month of the card."
+          },
+          "expyear" : {
+            "type" : "integer",
+            "format" : "int32",
+            "example" : 2023,
+            "minimum" : 2000,
+            "maximum" : 2100,
+            "description" : "The expiry year of the card."
+          }
+        }
+      },
+      "Ping" : {
+        "type" : "object",
+        "properties" : {
+          "identifier" : {
+            "type" : "string",
+            "minLength" : 4,
+            "maxLength" : 50,
+            "example" : "95b857a1-5955-4b86-963c-5a6dbfc4fb95",
+            "description" : "An identifier of the ping request which will be returned in the response."
+          }
+        }
+      },
+      "CaptureRequest" : {
+        "type" : "object",
+        "required" : [ "merchantid" ],
+        "properties" : {
+          "airline_data" : {
+            "$ref" : "#/components/schemas/AirlineAdvice",
+            "x-business-extension" : "Airline",
+            "x-description" : "Additional advice to be applied for the capture request."
+          },
+          "amount" : {
+            "type" : "integer",
+            "format" : "int32",
+            "minLength" : 1,
+            "maxLength" : 12,
+            "example" : 3600,
+            "description" : "The completion amount provided in the lowest unit of currency for the specific currency of the merchant,\nwith a variable length to a maximum of 12 digits. No decimal points to be included. For example with\nGBP 75.45 use the value 7545. Please check that you do not supply divisional characters such as 1,024 in the\nrequest which may be caused by some number formatters.\nIf no amount is supplied, the original processing amount is used.\n"
+          },
+          "identifier" : {
+            "type" : "string",
+            "minLength" : 4,
+            "maxLength" : 50,
+            "example" : "95b857a1-5955-4b86-963c-5a6dbfc4fb95",
+            "description" : "The identifier of the transaction to capture. If an empty value is supplied then a `trans_no` value must be supplied."
+          },
+          "merchantid" : {
+            "type" : "integer",
+            "format" : "int32",
+            "example" : 11223344,
+            "description" : "Identifies the merchant account to perform the capture for."
+          },
+          "sdk" : {
+            "type" : "string",
+            "example" : "MyClient 1.3.0",
+            "description" : "An optional reference value for the calling client such as a version number i.e."
+          },
+          "transno" : {
+            "type" : "integer",
+            "format" : "int32",
+            "example" : 78416,
+            "description" : "The transaction number of the transaction to look up and capture. If an empty value is supplied then an identifier value must be supplied."
+          }
+        }
+      },
+      "Merchant" : {
+        "type" : "object",
+        "properties" : {
+          "currency" : {
+            "type" : "string",
+            "example" : "GBP",
+            "description" : "The currency of the merchant."
+          },
+          "merchantid" : {
+            "type" : "integer",
+            "format" : "int32",
+            "example" : 11223344,
+            "description" : "The merchant id which uniquely identifies the merchant account."
+          },
+          "name" : {
+            "type" : "string",
+            "example" : "Merchant 1",
+            "description" : "The name of the merchant."
+          },
+          "status" : {
+            "type" : "string",
+            "example" : "A",
+            "description" : "The status of the account."
+          },
+          "status_label" : {
+            "type" : "string",
+            "example" : "Active",
+            "description" : "The status label of the account."
+          }
+        }
+      }
+    },
+    "securitySchemes" : {
+      "cp-api-key" : {
+        "name" : "cp-api-key",
+        "type" : "apiKey",
+        "description" : "The `cp-api-key` authentication header is required for all payment processing access.\n All calls using this key will be validated against white listed IP addressing\n and calls are scrutinised by the CityPay application firewall for security protection\n and attack mitigation.\n\n A key has been designed to:\n - be temporal and time based. The key rotates frequently to protect against replay attacks and to ensure a\n   computation derives your client details from the request\n - to remain secret, the key value is youur access permission to process transactions and\n   although we have preventative measures to protect the key, undue exposure is not desirable\n - to allow processing against multiple merchant accounts that belong to your CityPay account.\n - to use a HTTP header value to protect undue logging mechanisms from logging data packet values and\n   logically seperates authentication concerns from the body of data.\n",
+        "in" : "header"
+      }
+    }
+  },
+  "security" : [ {
+    "cp-api-key" : [ ]
+  } ]
+}
