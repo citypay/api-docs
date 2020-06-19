@@ -1799,6 +1799,10 @@ components:
             For AVS to work correctly, the billing details should be the registered address of the card holder
             as it appears on the statement with their card issuer. The numeric details will be passed through
             for analysis and may result in a decline if incorrectly provided.
+        card_holder_name: 
+          type: string
+          description: |
+            The card holder name as appears on the card such as MR N E BODY. Required for some acquirers.
         cardnumber: 
           type: string
           minLength: 12

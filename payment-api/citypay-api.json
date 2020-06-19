@@ -1675,6 +1675,10 @@
             "$ref" : "#/components/schemas/ContactDetails",
             "x-description" : "Billing details of the card holder making the payment.\nThese details may be used for AVS fraud analysis, 3DS and for future referencing of the transaction.\n\nFor AVS to work correctly, the billing details should be the registered address of the card holder\nas it appears on the statement with their card issuer. The numeric details will be passed through\nfor analysis and may result in a decline if incorrectly provided.\n"
           },
+          "card_holder_name" : {
+            "type" : "string",
+            "description" : "The card holder name as appears on the card such as MR N E BODY. Required for some acquirers.\n"
+          },
           "cardnumber" : {
             "type" : "string",
             "minLength" : 12,
