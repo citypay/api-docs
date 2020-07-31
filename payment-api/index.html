@@ -336,6 +336,9 @@
                     <a href="#accountcreate" class="toc-h2 toc-link" data-title="AccountCreate">AccountCreate</a>
                   </li>
                   <li>
+                    <a href="#accountstatus" class="toc-h2 toc-link" data-title="AccountStatus">AccountStatus</a>
+                  </li>
+                  <li>
                     <a href="#acknowledgement" class="toc-h2 toc-link" data-title="Acknowledgement">Acknowledgement</a>
                   </li>
                   <li>
@@ -372,6 +375,9 @@
                     <a href="#cardholderaccount" class="toc-h2 toc-link" data-title="CardHolderAccount">CardHolderAccount</a>
                   </li>
                   <li>
+                    <a href="#cardstatus" class="toc-h2 toc-link" data-title="CardStatus">CardStatus</a>
+                  </li>
+                  <li>
                     <a href="#chargerequest" class="toc-h2 toc-link" data-title="ChargeRequest">ChargeRequest</a>
                   </li>
                   <li>
@@ -379,6 +385,9 @@
                   </li>
                   <li>
                     <a href="#decision" class="toc-h2 toc-link" data-title="Decision">Decision</a>
+                  </li>
+                  <li>
+                    <a href="#error" class="toc-h2 toc-link" data-title="Error">Error</a>
                   </li>
                   <li>
                     <a href="#externalmpi" class="toc-h2 toc-link" data-title="ExternalMPI">ExternalMPI</a>
@@ -447,7 +456,7 @@
       </ul>
         <ul class="toc-footer">
             <li><a href='mailto:support@citypay.com'>Any Integration Questions?</a></li>
-            <li>V6.0.0.BETA 2020-06-09</li>
+            <li>V6.0.0 2020-07-31</li>
         </ul>
     </div>
     <div class="page-wrapper">
@@ -455,8 +464,8 @@
       <div class="content">
         <img src="images/citypay-logo-23676e0b.svg" class="cplogo" alt="Citypay logo" />
         <h1 id='citypay-payment-api'>CityPay Payment API</h1>
-<p>Version: 6.0.0.BETA
-Last Updated: 2020-06-09</p>
+<p>Version: 6.0.0
+Last Updated: 2020-07-31</p>
 
 <p>This CityPay API is a HTTP RESTful payment API used for direct server to server transactional processing. It
 provides a number of payment mechanisms including: Internet, MOTO, Continuous Authority transaction processing,
@@ -602,7 +611,7 @@ We have example code in varying languages, please consult with your account and 
 </tr>
 </thead><tbody>
 <tr>
-<td>Optional</td>
+<td>Required</td>
 <td><code>account_id</code></td>
 <td>string</td>
 <td>A card holder account id used for uniquely identifying the account. This value will be used for future<br/>referencing of the account oand to link your system to this API. This value is immutable and<br/>never changes.<br/><br/>minLength: 5<br/>maxLength: 50</td>
@@ -625,16 +634,6 @@ We have example code in varying languages, please consult with your account and 
 </tr>
 </thead><tbody>
 <tr>
-<td><code>200</code></td>
-<td>Provides an initialised account.</td>
-<td><code>application/json</code>, <code>text/xml</code>:  <br/> <a href="#cardholderaccount">CardHolderAccount</a></td>
-</tr>
-<tr>
-<td><code>400</code></td>
-<td>Bad Request. Should the incoming data not be validly determined.</td>
-<td></td>
-</tr>
-<tr>
 <td><code>403</code></td>
 <td>Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request.</td>
 <td></td>
@@ -643,6 +642,21 @@ We have example code in varying languages, please consult with your account and 
 <td><code>401</code></td>
 <td>Unauthorized. No api key has been provided and is required for this operation.</td>
 <td></td>
+</tr>
+<tr>
+<td><code>422</code></td>
+<td>Unprocessable Entity. Should a failure occur that prevents processing of the API call.</td>
+<td><code>application/json</code>, <code>text/xml</code>:  <br/> <a href="#error">Error</a></td>
+</tr>
+<tr>
+<td><code>400</code></td>
+<td>Bad Request. Should the incoming data not be validly determined.</td>
+<td></td>
+</tr>
+<tr>
+<td><code>200</code></td>
+<td>Provides an initialised account.</td>
+<td><code>application/json</code>, <code>text/xml</code>:  <br/> <a href="#cardholderaccount">CardHolderAccount</a></td>
 </tr>
 </tbody></table>
 <h2 id='account-retrieval'>Account Retrieval</h2>
@@ -681,16 +695,6 @@ enable a card holder to view their wallet and make constructive choices on which
 </tr>
 </thead><tbody>
 <tr>
-<td><code>200</code></td>
-<td>A card holder account that matches the account id provided in the request.</td>
-<td><code>application/json</code>, <code>text/xml</code>:  <br/> <a href="#cardholderaccount">CardHolderAccount</a></td>
-</tr>
-<tr>
-<td><code>400</code></td>
-<td>Bad Request. Should the incoming data not be validly determined.</td>
-<td></td>
-</tr>
-<tr>
 <td><code>403</code></td>
 <td>Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request.</td>
 <td></td>
@@ -699,6 +703,21 @@ enable a card holder to view their wallet and make constructive choices on which
 <td><code>401</code></td>
 <td>Unauthorized. No api key has been provided and is required for this operation.</td>
 <td></td>
+</tr>
+<tr>
+<td><code>422</code></td>
+<td>Unprocessable Entity. Should a failure occur that prevents processing of the API call.</td>
+<td><code>application/json</code>, <code>text/xml</code>:  <br/> <a href="#error">Error</a></td>
+</tr>
+<tr>
+<td><code>400</code></td>
+<td>Bad Request. Should the incoming data not be validly determined.</td>
+<td></td>
+</tr>
+<tr>
+<td><code>200</code></td>
+<td>A card holder account that matches the account id provided in the request.</td>
+<td><code>application/json</code>, <code>text/xml</code>:  <br/> <a href="#cardholderaccount">CardHolderAccount</a></td>
 </tr>
 </tbody></table>
 <h2 id='account-deletion'>Account Deletion</h2>
@@ -733,16 +752,6 @@ transactions will be alowed to be processed or actioned against this account.</p
 </tr>
 </thead><tbody>
 <tr>
-<td><code>200</code></td>
-<td>An acknowledgment that the card holder account has been marked for deletion.</td>
-<td><code>application/json</code>, <code>text/xml</code>:  <br/> <a href="#acknowledgement">Acknowledgement</a></td>
-</tr>
-<tr>
-<td><code>400</code></td>
-<td>Bad Request. Should the incoming data not be validly determined.</td>
-<td></td>
-</tr>
-<tr>
 <td><code>403</code></td>
 <td>Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request.</td>
 <td></td>
@@ -751,6 +760,21 @@ transactions will be alowed to be processed or actioned against this account.</p
 <td><code>401</code></td>
 <td>Unauthorized. No api key has been provided and is required for this operation.</td>
 <td></td>
+</tr>
+<tr>
+<td><code>422</code></td>
+<td>Unprocessable Entity. Should a failure occur that prevents processing of the API call.</td>
+<td><code>application/json</code>, <code>text/xml</code>:  <br/> <a href="#error">Error</a></td>
+</tr>
+<tr>
+<td><code>400</code></td>
+<td>Bad Request. Should the incoming data not be validly determined.</td>
+<td></td>
+</tr>
+<tr>
+<td><code>200</code></td>
+<td>An acknowledgment that the card holder account has been marked for deletion.</td>
+<td><code>application/json</code>, <code>text/xml</code>:  <br/> <a href="#acknowledgement">Acknowledgement</a></td>
 </tr>
 </tbody></table>
 <h2 id='card-deletion'>Card Deletion</h2>
@@ -791,16 +815,6 @@ purge will clear the card permanently.</p>
 </tr>
 </thead><tbody>
 <tr>
-<td><code>200</code></td>
-<td>Acknowledges the card has been requested for deletion.</td>
-<td><code>application/json</code>, <code>text/xml</code>:  <br/> <a href="#acknowledgement">Acknowledgement</a></td>
-</tr>
-<tr>
-<td><code>400</code></td>
-<td>Bad Request. Should the incoming data not be validly determined.</td>
-<td></td>
-</tr>
-<tr>
 <td><code>403</code></td>
 <td>Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request.</td>
 <td></td>
@@ -810,9 +824,24 @@ purge will clear the card permanently.</p>
 <td>Unauthorized. No api key has been provided and is required for this operation.</td>
 <td></td>
 </tr>
+<tr>
+<td><code>422</code></td>
+<td>Unprocessable Entity. Should a failure occur that prevents processing of the API call.</td>
+<td><code>application/json</code>, <code>text/xml</code>:  <br/> <a href="#error">Error</a></td>
+</tr>
+<tr>
+<td><code>400</code></td>
+<td>Bad Request. Should the incoming data not be validly determined.</td>
+<td></td>
+</tr>
+<tr>
+<td><code>200</code></td>
+<td>Acknowledges the card has been requested for deletion.</td>
+<td><code>application/json</code>, <code>text/xml</code>:  <br/> <a href="#acknowledgement">Acknowledgement</a></td>
+</tr>
 </tbody></table>
 <h2 id='card-status'>Card Status</h2>
-<p><span class="http-method-post">POST</span> <code>/account/{accountid}/card/{cardId}/status/{status}</code></p>
+<p><span class="http-method-post">POST</span> <code>/account/{accountid}/card/{cardId}/status</code></p>
 
 <p>Updates the status of a card for processing. The following values are available</p>
 
@@ -856,11 +885,29 @@ purge will clear the card permanently.</p>
 <td>true</td>
 <td>The id of the card that is presented by a call to retrieve a card holder account.</td>
 </tr>
+</tbody></table>
+<h3 id='model-cardstatus'>Model CardStatus</h3>
+<p>Request body for this operation contains the following properties</p>
+
+<table><thead>
 <tr>
-<td><code>status</code></td>
+<th>Required</th>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>Optional</td>
+<td><code>card_status</code></td>
 <td>string</td>
-<td>true</td>
-<td>The status of the card to set, valid values are <code>ACTIVE</code> or <code>INACTIVE</code>.</td>
+<td>The status of the card to set, valid values are ACTIVE or INACTIVE.</td>
+</tr>
+<tr>
+<td>Optional</td>
+<td><code>default</code></td>
+<td>boolean</td>
+<td>Defines if the card is set as the default.</td>
 </tr>
 </tbody></table>
 <h3 id='response-5'>Response</h3>
@@ -874,16 +921,6 @@ purge will clear the card permanently.</p>
 </tr>
 </thead><tbody>
 <tr>
-<td><code>200</code></td>
-<td>Acknowledges the card status has changed, returning 01 for a valid change or 00 for non valid change.</td>
-<td><code>application/json</code>, <code>text/xml</code>:  <br/> <a href="#acknowledgement">Acknowledgement</a></td>
-</tr>
-<tr>
-<td><code>400</code></td>
-<td>Bad Request. Should the incoming data not be validly determined.</td>
-<td></td>
-</tr>
-<tr>
 <td><code>403</code></td>
 <td>Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request.</td>
 <td></td>
@@ -892,6 +929,21 @@ purge will clear the card permanently.</p>
 <td><code>401</code></td>
 <td>Unauthorized. No api key has been provided and is required for this operation.</td>
 <td></td>
+</tr>
+<tr>
+<td><code>422</code></td>
+<td>Unprocessable Entity. Should a failure occur that prevents processing of the API call.</td>
+<td><code>application/json</code>, <code>text/xml</code>:  <br/> <a href="#error">Error</a></td>
+</tr>
+<tr>
+<td><code>400</code></td>
+<td>Bad Request. Should the incoming data not be validly determined.</td>
+<td></td>
+</tr>
+<tr>
+<td><code>200</code></td>
+<td>Acknowledges the card status has changed, returning 01 for a valid change or 00 for non valid change.</td>
+<td><code>application/json</code>, <code>text/xml</code>:  <br/> <a href="#acknowledgement">Acknowledgement</a></td>
 </tr>
 </tbody></table>
 <h2 id='contact-details-update'>Contact Details Update</h2>
@@ -929,13 +981,13 @@ purge will clear the card permanently.</p>
 <td>Optional</td>
 <td><code>address1</code></td>
 <td>string</td>
-<td>The first line of the address for the card holder.<br/>maxLength: 20</td>
+<td>The first line of the address for the card holder.<br/>maxLength: 40</td>
 </tr>
 <tr>
 <td>Optional</td>
 <td><code>address2</code></td>
 <td>string</td>
-<td>The second line of the address for the card holder.<br/>maxLength: 20</td>
+<td>The second line of the address for the card holder.<br/>maxLength: 30</td>
 </tr>
 <tr>
 <td>Optional</td>
@@ -959,7 +1011,7 @@ purge will clear the card permanently.</p>
 <td>Optional</td>
 <td><code>country</code></td>
 <td>string</td>
-<td>The country code in ISO 3166 format. The country value may be used for fraud analysis and for<br/>  acceptance of the transaction.<br/><br/>maxLength: 2</td>
+<td>The country code in ISO 3166 format. The country value may be used for fraud analysis and for<br/>  acceptance of the transaction.<br/><br/>minLength: 2<br/>maxLength: 2</td>
 </tr>
 <tr>
 <td>Optional</td>
@@ -983,7 +1035,7 @@ purge will clear the card permanently.</p>
 <td>Optional</td>
 <td><code>mobile_no</code></td>
 <td>string</td>
-<td>A mobile number for the card holder the mobile number is often required by delivery companies to ensure they are able to be in contact when required.</td>
+<td>A mobile number for the card holder the mobile number is often required by delivery companies to ensure they are able to be in contact when required.<br/>maxLength: 20</td>
 </tr>
 <tr>
 <td>Optional</td>
@@ -995,7 +1047,7 @@ purge will clear the card permanently.</p>
 <td>Optional</td>
 <td><code>telephone_no</code></td>
 <td>string</td>
-<td>A telephone number for the card holder.</td>
+<td>A telephone number for the card holder.<br/>maxLength: 20</td>
 </tr>
 <tr>
 <td>Optional</td>
@@ -1015,16 +1067,6 @@ purge will clear the card permanently.</p>
 </tr>
 </thead><tbody>
 <tr>
-<td><code>200</code></td>
-<td>A revised account with the new details set.</td>
-<td><code>application/json</code>, <code>text/xml</code>:  <br/> <a href="#cardholderaccount">CardHolderAccount</a></td>
-</tr>
-<tr>
-<td><code>400</code></td>
-<td>Bad Request. Should the incoming data not be validly determined.</td>
-<td></td>
-</tr>
-<tr>
 <td><code>403</code></td>
 <td>Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request.</td>
 <td></td>
@@ -1033,6 +1075,21 @@ purge will clear the card permanently.</p>
 <td><code>401</code></td>
 <td>Unauthorized. No api key has been provided and is required for this operation.</td>
 <td></td>
+</tr>
+<tr>
+<td><code>422</code></td>
+<td>Unprocessable Entity. Should a failure occur that prevents processing of the API call.</td>
+<td><code>application/json</code>, <code>text/xml</code>:  <br/> <a href="#error">Error</a></td>
+</tr>
+<tr>
+<td><code>400</code></td>
+<td>Bad Request. Should the incoming data not be validly determined.</td>
+<td></td>
+</tr>
+<tr>
+<td><code>200</code></td>
+<td>A revised account with the new details set.</td>
+<td><code>application/json</code>, <code>text/xml</code>:  <br/> <a href="#cardholderaccount">CardHolderAccount</a></td>
 </tr>
 </tbody></table>
 <h2 id='card-registration'>Card Registration</h2>
@@ -1076,34 +1133,28 @@ processing and will be available as a tokenised value for future processing.</p>
 </tr>
 </thead><tbody>
 <tr>
-<td>Optional</td>
-<td><code>account_id</code></td>
-<td>string</td>
-<td>The account to register the card against.<br/>minLength: 5<br/>maxLength: 50</td>
-</tr>
-<tr>
-<td>Optional</td>
+<td>Required</td>
 <td><code>cardnumber</code></td>
 <td>string</td>
 <td>The primary number of the card.<br/>minLength: 12<br/>maxLength: 22</td>
 </tr>
 <tr>
-<td>Optional</td>
-<td><code>defaultCard</code></td>
-<td>boolean</td>
-<td>Determines whether the card should be the new default card.</td>
-</tr>
-<tr>
-<td>Optional</td>
+<td>Required</td>
 <td><code>expmonth</code></td>
 <td>integer <em>int32</em></td>
 <td>The expiry month of the card.<br/>minimum: 1<br/>maximum: 12</td>
 </tr>
 <tr>
-<td>Optional</td>
+<td>Required</td>
 <td><code>expyear</code></td>
 <td>integer <em>int32</em></td>
 <td>The expiry year of the card.<br/>minimum: 2000<br/>maximum: 2100</td>
+</tr>
+<tr>
+<td>Optional</td>
+<td><code>default</code></td>
+<td>boolean</td>
+<td>Determines whether the card should be the new default card.</td>
 </tr>
 </tbody></table>
 <h3 id='response-7'>Response</h3>
@@ -1117,16 +1168,6 @@ processing and will be available as a tokenised value for future processing.</p>
 </tr>
 </thead><tbody>
 <tr>
-<td><code>200</code></td>
-<td>A successfully registered card provides a reload of the account including the new card.</td>
-<td><code>application/json</code>, <code>text/xml</code>:  <br/> <a href="#cardholderaccount">CardHolderAccount</a></td>
-</tr>
-<tr>
-<td><code>400</code></td>
-<td>Bad Request. Should the incoming data not be validly determined.</td>
-<td></td>
-</tr>
-<tr>
 <td><code>403</code></td>
 <td>Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request.</td>
 <td></td>
@@ -1135,6 +1176,21 @@ processing and will be available as a tokenised value for future processing.</p>
 <td><code>401</code></td>
 <td>Unauthorized. No api key has been provided and is required for this operation.</td>
 <td></td>
+</tr>
+<tr>
+<td><code>422</code></td>
+<td>Unprocessable Entity. Should a failure occur that prevents processing of the API call.</td>
+<td><code>application/json</code>, <code>text/xml</code>:  <br/> <a href="#error">Error</a></td>
+</tr>
+<tr>
+<td><code>400</code></td>
+<td>Bad Request. Should the incoming data not be validly determined.</td>
+<td></td>
+</tr>
+<tr>
+<td><code>200</code></td>
+<td>A successfully registered card provides a reload of the account including the new card.</td>
+<td><code>application/json</code>, <code>text/xml</code>:  <br/> <a href="#cardholderaccount">CardHolderAccount</a></td>
 </tr>
 </tbody></table>
 <h2 id='account-status'>Account Status</h2>
@@ -1173,6 +1229,24 @@ processing and will be available as a tokenised value for future processing.</p>
 <td>The account id that refers to the customer&#39;s account no. This value will have been provided when setting up the card holder account.</td>
 </tr>
 </tbody></table>
+<h3 id='model-accountstatus'>Model AccountStatus</h3>
+<p>Request body for this operation contains the following properties</p>
+
+<table><thead>
+<tr>
+<th>Required</th>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>Optional</td>
+<td><code>status</code></td>
+<td>string</td>
+<td>The status of the account to set, valid values are ACTIVE or DISABLED.</td>
+</tr>
+</tbody></table>
 <h3 id='response-8'>Response</h3>
 <p>Responses for this operation are</p>
 
@@ -1184,16 +1258,6 @@ processing and will be available as a tokenised value for future processing.</p>
 </tr>
 </thead><tbody>
 <tr>
-<td><code>200</code></td>
-<td>An acknowledgment that the card holder account status has been updated.</td>
-<td><code>application/json</code>, <code>text/xml</code>:  <br/> <a href="#acknowledgement">Acknowledgement</a></td>
-</tr>
-<tr>
-<td><code>400</code></td>
-<td>Bad Request. Should the incoming data not be validly determined.</td>
-<td></td>
-</tr>
-<tr>
 <td><code>403</code></td>
 <td>Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request.</td>
 <td></td>
@@ -1202,6 +1266,21 @@ processing and will be available as a tokenised value for future processing.</p>
 <td><code>401</code></td>
 <td>Unauthorized. No api key has been provided and is required for this operation.</td>
 <td></td>
+</tr>
+<tr>
+<td><code>422</code></td>
+<td>Unprocessable Entity. Should a failure occur that prevents processing of the API call.</td>
+<td><code>application/json</code>, <code>text/xml</code>:  <br/> <a href="#error">Error</a></td>
+</tr>
+<tr>
+<td><code>400</code></td>
+<td>Bad Request. Should the incoming data not be validly determined.</td>
+<td></td>
+</tr>
+<tr>
+<td><code>200</code></td>
+<td>An acknowledgment that the card holder account status has been updated.</td>
+<td><code>application/json</code>, <code>text/xml</code>:  <br/> <a href="#acknowledgement">Acknowledgement</a></td>
 </tr>
 </tbody></table>
 <h2 id='charge'>Charge</h2>
@@ -1315,7 +1394,7 @@ for use elsewhere.  </p>
 <td>Optional</td>
 <td><code>trans_type</code></td>
 <td>string</td>
-<td>The type of transaction being submitted. Normally this value is not required and your account manager may request that you set this field.<br/>minLength: 1<br/>maxLength: 1</td>
+<td>The type of transaction being submitted. Normally this value is not required and your account manager may request that you set this field.<br/>maxLength: 1</td>
 </tr>
 </tbody></table>
 <h3 id='response-9'>Response</h3>
@@ -1329,16 +1408,6 @@ for use elsewhere.  </p>
 </tr>
 </thead><tbody>
 <tr>
-<td><code>200</code></td>
-<td>A decision met by the result of the charge.</td>
-<td><code>application/json</code>, <code>text/xml</code>:  <br/> <a href="#decision">Decision</a></td>
-</tr>
-<tr>
-<td><code>400</code></td>
-<td>Bad Request. Should the incoming data not be validly determined.</td>
-<td></td>
-</tr>
-<tr>
 <td><code>403</code></td>
 <td>Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request.</td>
 <td></td>
@@ -1348,11 +1417,30 @@ for use elsewhere.  </p>
 <td>Unauthorized. No api key has been provided and is required for this operation.</td>
 <td></td>
 </tr>
+<tr>
+<td><code>422</code></td>
+<td>Unprocessable Entity. Should a failure occur that prevents processing of the API call.</td>
+<td><code>application/json</code>, <code>text/xml</code>:  <br/> <a href="#error">Error</a></td>
+</tr>
+<tr>
+<td><code>400</code></td>
+<td>Bad Request. Should the incoming data not be validly determined.</td>
+<td></td>
+</tr>
+<tr>
+<td><code>200</code></td>
+<td>A decision met by the result of the charge.</td>
+<td><code>application/json</code>, <code>text/xml</code>:  <br/> <a href="#decision">Decision</a></td>
+</tr>
 </tbody></table>
 <h1 id='operational'>Operational</h1><h2 id='list-merchants-request'>List Merchants Request</h2>
 <p><span class="http-method-get">GET</span> <code>/merchants/{clientid}</code></p>
 
 <p>An operational request to list current merchants for a client.</p>
+<h3 id='sorting'>Sorting</h3>
+<p>Sorting can be performed by include a query parameter i.e. <code>/merchants/?sort=merchantid</code></p>
+
+<p>Fields that can be sorted are <code>merchantid</code> or <code>name</code>.</p>
 <h3 id='path-parameters-8'>Path Parameters</h3>
 <table><thead>
 <tr>
@@ -1380,16 +1468,6 @@ for use elsewhere.  </p>
 </tr>
 </thead><tbody>
 <tr>
-<td><code>200</code></td>
-<td>A list of merchants that are configured against the client id.</td>
-<td><code>application/json</code>, <code>text/xml</code>:  <br/> <a href="#listmerchantsresponse">ListMerchantsResponse</a></td>
-</tr>
-<tr>
-<td><code>400</code></td>
-<td>Bad Request. Should the incoming data not be validly determined.</td>
-<td></td>
-</tr>
-<tr>
 <td><code>403</code></td>
 <td>Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request.</td>
 <td></td>
@@ -1398,6 +1476,21 @@ for use elsewhere.  </p>
 <td><code>401</code></td>
 <td>Unauthorized. No api key has been provided and is required for this operation.</td>
 <td></td>
+</tr>
+<tr>
+<td><code>422</code></td>
+<td>Unprocessable Entity. Should a failure occur that prevents processing of the API call.</td>
+<td><code>application/json</code>, <code>text/xml</code>:  <br/> <a href="#error">Error</a></td>
+</tr>
+<tr>
+<td><code>400</code></td>
+<td>Bad Request. Should the incoming data not be validly determined.</td>
+<td></td>
+</tr>
+<tr>
+<td><code>200</code></td>
+<td>A list of merchants that are configured against the client id.</td>
+<td><code>application/json</code>, <code>text/xml</code>:  <br/> <a href="#listmerchantsresponse">ListMerchantsResponse</a></td>
 </tr>
 </tbody></table>
 <h2 id='ping-request'>Ping Request</h2>
@@ -1439,16 +1532,6 @@ model is granting access from your source.</p>
 </tr>
 </thead><tbody>
 <tr>
-<td><code>200</code></td>
-<td>A result of the ping request.</td>
-<td><code>application/json</code>, <code>text/xml</code>:  <br/> <a href="#acknowledgement">Acknowledgement</a></td>
-</tr>
-<tr>
-<td><code>400</code></td>
-<td>Bad Request. Should the incoming data not be validly determined.</td>
-<td></td>
-</tr>
-<tr>
 <td><code>403</code></td>
 <td>Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request.</td>
 <td></td>
@@ -1457,6 +1540,21 @@ model is granting access from your source.</p>
 <td><code>401</code></td>
 <td>Unauthorized. No api key has been provided and is required for this operation.</td>
 <td></td>
+</tr>
+<tr>
+<td><code>422</code></td>
+<td>Unprocessable Entity. Should a failure occur that prevents processing of the API call.</td>
+<td><code>application/json</code>, <code>text/xml</code>:  <br/> <a href="#error">Error</a></td>
+</tr>
+<tr>
+<td><code>400</code></td>
+<td>Bad Request. Should the incoming data not be validly determined.</td>
+<td></td>
+</tr>
+<tr>
+<td><code>200</code></td>
+<td>A result of the ping request.</td>
+<td><code>application/json</code>, <code>text/xml</code>:  <br/> <a href="#acknowledgement">Acknowledgement</a></td>
 </tr>
 </tbody></table>
 <h1 id='payment-processing'>Payment Processing</h1><h2 id='authorisation'>Authorisation</h2>
@@ -1680,6 +1778,12 @@ value will be validated for receipt of the CAVV and subsequently may return back
 </tr>
 <tr>
 <td>Required</td>
+<td><code>expyear</code></td>
+<td>integer <em>int32</em></td>
+<td>The year of expiry of the card.<br/><br/>minimum: 2000<br/>maximum: 2100</td>
+</tr>
+<tr>
+<td>Required</td>
 <td><code>identifier</code></td>
 <td>string</td>
 <td>The identifier of the transaction to process. The value should be a valid reference and may be used to perform<br/> post processing actions and to aid in reconciliation of transactions.<br/><br/>The value should be a valid printable string with ASCII character ranges from 32 to 127.<br/><br/>The identifier is recommended to be distinct for each transaction such as a <a href="https://en.wikipedia.org/wiki/Universally_unique_identifier">random unique identifier</a><br/>this will aid in ensuring each transaction is identifiable.<br/><br/>When transactions are processed they are also checked for duplicate requests. Changing the identifier on a subsequent<br/>request will ensure that a transaction is considered as different.<br/><br/>minLength: 4<br/>maxLength: 50</td>
@@ -1704,6 +1808,12 @@ value will be validated for receipt of the CAVV and subsequently may return back
 </tr>
 <tr>
 <td>Optional</td>
+<td><code>card_holder_name</code></td>
+<td>string</td>
+<td>The card holder name as appears on the card such as MR N E BODY. Required for some acquirers.</td>
+</tr>
+<tr>
+<td>Optional</td>
 <td><code>csc</code></td>
 <td>string</td>
 <td>The Card Security Code (CSC) (also known as CV2/CVV2) is normally found on the back of the card<br/>(American Express has it on the front). The value helps to identify posession of the card as it is not<br/>available within the chip or magnetic swipe.<br/><br/>When forwarding the CSC, please ensure the value is a string as some values start with 0 and this will be stripped<br/>out by any integer parsing.<br/><br/>The CSC number aids fraud prevention in Mail Order and Internet payments.<br/><br/> Business rules are available on your account to identify whether to accept<br/>or decline transactions based on mismatched results of the CSC.<br/><br/>The Payment Card Industry (PCI) requires that at no stage of a transaction should the CSC be stored.<br/>This applies to all entities handling card data.<br/>It should also not be used in any hashing process.<br/>CityPay do not store the value and have no method of retrieving the value once the transaction has been processed.<br/>For this reason, duplicate checking is unable to determine the CSC in its duplication check algorithm.<br/><br/>minLength: 3<br/>maxLength: 4</td>
@@ -1725,12 +1835,6 @@ value will be validated for receipt of the CAVV and subsequently may return back
 <td><code>duplicate_policy</code></td>
 <td>string</td>
 <td>A policy value which determines whether a duplication policy is enforced or bypassed. A duplication check has a window<br/>of time set against your account within which it can action. If a previous transaction with matching values occurred within<br/>the window, any subsequent transaction will result in a T001 result.<br/><br/>Values are<br/> <code>0</code> for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.<br/> <code>1</code> for an enforced policy. Transactions that are enforced will be checked for duplication within the duplication window.<br/> <code>2</code> to bypass. Transactions that are bypassed will not be checked for duplication within the duplication window.<br/> <code>3</code> to ignore. Transactions that are ignored will have the same affect as bypass.</td>
-</tr>
-<tr>
-<td>Optional</td>
-<td><code>expyear</code></td>
-<td>integer <em>int32</em></td>
-<td>The year of expiry of the card.<br/><br/>minimum: 2000<br/>maximum: 2100</td>
 </tr>
 <tr>
 <td>Optional</td>
@@ -1766,7 +1870,7 @@ value will be validated for receipt of the CAVV and subsequently may return back
 <td>Optional</td>
 <td><code>trans_type</code></td>
 <td>string</td>
-<td>The type of transaction being submitted. Normally this value is not required and your account manager may request that you set this field.<br/>minLength: 1<br/>maxLength: 1</td>
+<td>The type of transaction being submitted. Normally this value is not required and your account manager may request that you set this field.<br/>maxLength: 1</td>
 </tr>
 </tbody></table>
 <h3 id='business-extension-mcc6012'>Business Extension: MCC6012</h3>
@@ -1828,16 +1932,6 @@ value will be validated for receipt of the CAVV and subsequently may return back
 </tr>
 </thead><tbody>
 <tr>
-<td><code>200</code></td>
-<td>A decision made by the result of processing.</td>
-<td><code>application/json</code>, <code>text/xml</code>:  <br/> <a href="#decision">Decision</a></td>
-</tr>
-<tr>
-<td><code>400</code></td>
-<td>Bad Request. Should the incoming data not be validly determined.</td>
-<td></td>
-</tr>
-<tr>
 <td><code>403</code></td>
 <td>Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request.</td>
 <td></td>
@@ -1846,6 +1940,21 @@ value will be validated for receipt of the CAVV and subsequently may return back
 <td><code>401</code></td>
 <td>Unauthorized. No api key has been provided and is required for this operation.</td>
 <td></td>
+</tr>
+<tr>
+<td><code>422</code></td>
+<td>Unprocessable Entity. Should a failure occur that prevents processing of the API call.</td>
+<td><code>application/json</code>, <code>text/xml</code>:  <br/> <a href="#error">Error</a></td>
+</tr>
+<tr>
+<td><code>400</code></td>
+<td>Bad Request. Should the incoming data not be validly determined.</td>
+<td></td>
+</tr>
+<tr>
+<td><code>200</code></td>
+<td>A decision made by the result of processing.</td>
+<td><code>application/json</code>, <code>text/xml</code>:  <br/> <a href="#decision">Decision</a></td>
 </tr>
 </tbody></table>
 <h2 id='capture'>Capture</h2>
@@ -2003,16 +2112,6 @@ be available for the settlement and completed at the end of the day.</p>
 </tr>
 </thead><tbody>
 <tr>
-<td><code>200</code></td>
-<td>A result and acknowledgement of the capture request.</td>
-<td><code>application/json</code>, <code>text/xml</code>:  <br/> <a href="#acknowledgement">Acknowledgement</a></td>
-</tr>
-<tr>
-<td><code>400</code></td>
-<td>Bad Request. Should the incoming data not be validly determined.</td>
-<td></td>
-</tr>
-<tr>
 <td><code>403</code></td>
 <td>Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request.</td>
 <td></td>
@@ -2021,6 +2120,21 @@ be available for the settlement and completed at the end of the day.</p>
 <td><code>401</code></td>
 <td>Unauthorized. No api key has been provided and is required for this operation.</td>
 <td></td>
+</tr>
+<tr>
+<td><code>422</code></td>
+<td>Unprocessable Entity. Should a failure occur that prevents processing of the API call.</td>
+<td><code>application/json</code>, <code>text/xml</code>:  <br/> <a href="#error">Error</a></td>
+</tr>
+<tr>
+<td><code>400</code></td>
+<td>Bad Request. Should the incoming data not be validly determined.</td>
+<td></td>
+</tr>
+<tr>
+<td><code>200</code></td>
+<td>A result and acknowledgement of the capture request.</td>
+<td><code>application/json</code>, <code>text/xml</code>:  <br/> <a href="#acknowledgement">Acknowledgement</a></td>
 </tr>
 </tbody></table>
 <h2 id='cres'>CRes</h2>
@@ -2074,16 +2188,6 @@ on its own without a previous <a href="#requestchallenged">request challenge</a>
 </tr>
 </thead><tbody>
 <tr>
-<td><code>200</code></td>
-<td>A result of processing the 3DSv2 authorisation data.</td>
-<td><code>application/json</code>, <code>text/xml</code>:  <br/> <a href="#authresponse">AuthResponse</a></td>
-</tr>
-<tr>
-<td><code>400</code></td>
-<td>Bad Request. Should the incoming data not be validly determined.</td>
-<td></td>
-</tr>
-<tr>
 <td><code>403</code></td>
 <td>Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request.</td>
 <td></td>
@@ -2092,6 +2196,21 @@ on its own without a previous <a href="#requestchallenged">request challenge</a>
 <td><code>401</code></td>
 <td>Unauthorized. No api key has been provided and is required for this operation.</td>
 <td></td>
+</tr>
+<tr>
+<td><code>422</code></td>
+<td>Unprocessable Entity. Should a failure occur that prevents processing of the API call.</td>
+<td><code>application/json</code>, <code>text/xml</code>:  <br/> <a href="#error">Error</a></td>
+</tr>
+<tr>
+<td><code>400</code></td>
+<td>Bad Request. Should the incoming data not be validly determined.</td>
+<td></td>
+</tr>
+<tr>
+<td><code>200</code></td>
+<td>A result of processing the 3DSv2 authorisation data.</td>
+<td><code>application/json</code>, <code>text/xml</code>:  <br/> <a href="#authresponse">AuthResponse</a></td>
 </tr>
 </tbody></table>
 <h2 id='pares'>PaRes</h2>
@@ -2136,7 +2255,7 @@ on its own without a previous <a href="#authenticationrequired">authentication r
 <td>The Merchant Data (MD) which is a unique ID to reference the authentication session.<br/>This value will be created by CityPay when required. When responding from the ACS,<br/>this value will be returned by the ACS.</td>
 </tr>
 <tr>
-<td>Optional</td>
+<td>Required</td>
 <td><code>pares</code></td>
 <td>string <em>base64</em></td>
 <td>The Payer Authentication Response packet which is returned by the ACS containing the<br/> response of the authentication session including verification values. The response<br/> is a base64 encoded packet and should be forwarded to CityPay untouched.</td>
@@ -2153,16 +2272,6 @@ on its own without a previous <a href="#authenticationrequired">authentication r
 </tr>
 </thead><tbody>
 <tr>
-<td><code>200</code></td>
-<td>A result of processing the 3DSv1 authorisation data.</td>
-<td><code>application/json</code>, <code>text/xml</code>:  <br/> <a href="#authresponse">AuthResponse</a></td>
-</tr>
-<tr>
-<td><code>400</code></td>
-<td>Bad Request. Should the incoming data not be validly determined.</td>
-<td></td>
-</tr>
-<tr>
 <td><code>403</code></td>
 <td>Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request.</td>
 <td></td>
@@ -2171,6 +2280,21 @@ on its own without a previous <a href="#authenticationrequired">authentication r
 <td><code>401</code></td>
 <td>Unauthorized. No api key has been provided and is required for this operation.</td>
 <td></td>
+</tr>
+<tr>
+<td><code>422</code></td>
+<td>Unprocessable Entity. Should a failure occur that prevents processing of the API call.</td>
+<td><code>application/json</code>, <code>text/xml</code>:  <br/> <a href="#error">Error</a></td>
+</tr>
+<tr>
+<td><code>400</code></td>
+<td>Bad Request. Should the incoming data not be validly determined.</td>
+<td></td>
+</tr>
+<tr>
+<td><code>200</code></td>
+<td>A result of processing the 3DSv1 authorisation data.</td>
+<td><code>application/json</code>, <code>text/xml</code>:  <br/> <a href="#authresponse">AuthResponse</a></td>
 </tr>
 </tbody></table>
 <h2 id='retrieval'>Retrieval</h2>
@@ -2241,16 +2365,6 @@ information to be returned.</p>
 </tr>
 </thead><tbody>
 <tr>
-<td><code>200</code></td>
-<td>A result of the retrieval request.</td>
-<td><code>application/json</code>, <code>text/xml</code>:  <br/> <a href="#authreferences">AuthReferences</a></td>
-</tr>
-<tr>
-<td><code>400</code></td>
-<td>Bad Request. Should the incoming data not be validly determined.</td>
-<td></td>
-</tr>
-<tr>
 <td><code>403</code></td>
 <td>Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request.</td>
 <td></td>
@@ -2259,6 +2373,21 @@ information to be returned.</p>
 <td><code>401</code></td>
 <td>Unauthorized. No api key has been provided and is required for this operation.</td>
 <td></td>
+</tr>
+<tr>
+<td><code>422</code></td>
+<td>Unprocessable Entity. Should a failure occur that prevents processing of the API call.</td>
+<td><code>application/json</code>, <code>text/xml</code>:  <br/> <a href="#error">Error</a></td>
+</tr>
+<tr>
+<td><code>400</code></td>
+<td>Bad Request. Should the incoming data not be validly determined.</td>
+<td></td>
+</tr>
+<tr>
+<td><code>200</code></td>
+<td>A result of the retrieval request.</td>
+<td><code>application/json</code>, <code>text/xml</code>:  <br/> <a href="#authreferences">AuthReferences</a></td>
 </tr>
 </tbody></table>
 <h2 id='void'>Void</h2>
@@ -2347,16 +2476,6 @@ outlining the result of the transaction.</p>
 </tr>
 </thead><tbody>
 <tr>
-<td><code>200</code></td>
-<td>A result and acknowledgement of the void request.</td>
-<td><code>application/json</code>, <code>text/xml</code>:  <br/> <a href="#acknowledgement">Acknowledgement</a></td>
-</tr>
-<tr>
-<td><code>400</code></td>
-<td>Bad Request. Should the incoming data not be validly determined.</td>
-<td></td>
-</tr>
-<tr>
 <td><code>403</code></td>
 <td>Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request.</td>
 <td></td>
@@ -2365,6 +2484,21 @@ outlining the result of the transaction.</p>
 <td><code>401</code></td>
 <td>Unauthorized. No api key has been provided and is required for this operation.</td>
 <td></td>
+</tr>
+<tr>
+<td><code>422</code></td>
+<td>Unprocessable Entity. Should a failure occur that prevents processing of the API call.</td>
+<td><code>application/json</code>, <code>text/xml</code>:  <br/> <a href="#error">Error</a></td>
+</tr>
+<tr>
+<td><code>400</code></td>
+<td>Bad Request. Should the incoming data not be validly determined.</td>
+<td></td>
+</tr>
+<tr>
+<td><code>200</code></td>
+<td>A result and acknowledgement of the void request.</td>
+<td><code>application/json</code>, <code>text/xml</code>:  <br/> <a href="#acknowledgement">Acknowledgement</a></td>
 </tr>
 </tbody></table>
 <h1 id='api-model'>API Model</h1><h2 id='accountcreate'>AccountCreate</h2><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
@@ -2387,7 +2521,7 @@ outlining the result of the transaction.</p>
 <tr>
 <td><code>account_id</code></td>
 <td>string</td>
-<td>false</td>
+<td>true</td>
 <td>A card holder account id used for uniquely identifying the account. This value will be used for future<br/>referencing of the account oand to link your system to this API. This value is immutable and<br/>never changes.<br/><br/>minLength: 5<br/>maxLength: 50</td>
 </tr>
 <tr>
@@ -2395,6 +2529,28 @@ outlining the result of the transaction.</p>
 <td>object</td>
 <td>false</td>
 <td><a href="#contactdetails">ContactDetails</a> Contact details for a card holder account.</td>
+</tr>
+</tbody></table>
+<h2 id='accountstatus'>AccountStatus</h2><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+   </span><span class="s2">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre><pre class="highlight xml tab-xml"><code><span class="nt">&lt;AccountStatus&gt;</span>
+ <span class="nt">&lt;status&gt;&lt;/status&gt;</span> 
+<span class="nt">&lt;/AccountStatus&gt;</span>
+</code></pre>
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>status</code></td>
+<td>string</td>
+<td>false</td>
+<td>The status of the account to set, valid values are ACTIVE or DISABLED.</td>
 </tr>
 </tbody></table>
 <h2 id='acknowledgement'>Acknowledgement</h2><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
@@ -2780,7 +2936,7 @@ outlining the result of the transaction.</p>
 <td><code>trans_type</code></td>
 <td>string</td>
 <td>false</td>
-<td>The type of transaction that was processed.<br/>minLength: 1<br/>maxLength: 1</td>
+<td>The type of transaction that was processed.<br/>maxLength: 1</td>
 </tr>
 <tr>
 <td><code>transno</code></td>
@@ -2816,6 +2972,7 @@ outlining the result of the transaction.</p>
    </span><span class="s2">"amount"</span><span class="p">:</span><span class="w"> </span><span class="mi">3600</span><span class="p">,</span><span class="w">
    </span><span class="s2">"avs_postcode_policy"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
    </span><span class="s2">"bill_to"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="err">...</span><span class="w"> </span><span class="p">},</span><span class="w">
+   </span><span class="s2">"card_holder_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
    </span><span class="s2">"cardnumber"</span><span class="p">:</span><span class="w"> </span><span class="s2">"4000 0000 0000 0002"</span><span class="p">,</span><span class="w">
    </span><span class="s2">"csc"</span><span class="p">:</span><span class="w"> </span><span class="s2">"10"</span><span class="p">,</span><span class="w">
    </span><span class="s2">"csc_policy"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
@@ -2839,6 +2996,7 @@ outlining the result of the transaction.</p>
  <span class="nt">&lt;amount&gt;</span>3600<span class="nt">&lt;/amount&gt;</span> 
  <span class="nt">&lt;avs_postcode_policy&gt;&lt;/avs_postcode_policy&gt;</span> 
  <span class="nt">&lt;bill_to&gt;</span><span class="err">&lt;</span>&gt;...<span class="err">&lt;</span>/&gt;<span class="nt">&lt;/bill_to&gt;</span> 
+ <span class="nt">&lt;card_holder_name&gt;&lt;/card_holder_name&gt;</span> 
  <span class="nt">&lt;cardnumber&gt;</span>4000 0000 0000 0002<span class="nt">&lt;/cardnumber&gt;</span> 
  <span class="nt">&lt;csc&gt;</span>10<span class="nt">&lt;/csc&gt;</span> 
  <span class="nt">&lt;csc_policy&gt;&lt;/csc_policy&gt;</span> 
@@ -2892,13 +3050,14 @@ outlining the result of the transaction.</p>
 as it appears on the statement with their card issuer. The numeric details will be passed through
 for analysis and may result in a decline if incorrectly provided.</p>
 
-<p><code>cardnumber</code> | string  | true | The card number (PAN) with a variable length to a maximum of 21 digits in numerical form.<br/>Any non numeric characters will be stripped out of the card number, this includes whitespace or separators internal of the<br/>provided value.<br/><br/>The card number must be treated as sensitive data. We only provide an obfuscated value in logging and reporting.<br/> The plaintext value is encrypted in our database using AES 256 GMC bit encryption for settlement or refund purposes.<br/><br/>When providing the card number to our gateway through the authorisation API you will be handling the card data on<br/>your application. This will require further PCI controls to be in place and this value must never be stored.<br/><br/>minLength: 12<br/>maxLength: 22 |
+<p><code>card_holder_name</code> | string  | false | The card holder name as appears on the card such as MR N E BODY. Required for some acquirers. |
+<code>cardnumber</code> | string  | true | The card number (PAN) with a variable length to a maximum of 21 digits in numerical form.<br/>Any non numeric characters will be stripped out of the card number, this includes whitespace or separators internal of the<br/>provided value.<br/><br/>The card number must be treated as sensitive data. We only provide an obfuscated value in logging and reporting.<br/> The plaintext value is encrypted in our database using AES 256 GMC bit encryption for settlement or refund purposes.<br/><br/>When providing the card number to our gateway through the authorisation API you will be handling the card data on<br/>your application. This will require further PCI controls to be in place and this value must never be stored.<br/><br/>minLength: 12<br/>maxLength: 22 |
 <code>csc</code> | string  | false | The Card Security Code (CSC) (also known as CV2/CVV2) is normally found on the back of the card<br/>(American Express has it on the front). The value helps to identify posession of the card as it is not<br/>available within the chip or magnetic swipe.<br/><br/>When forwarding the CSC, please ensure the value is a string as some values start with 0 and this will be stripped<br/>out by any integer parsing.<br/><br/>The CSC number aids fraud prevention in Mail Order and Internet payments.<br/><br/> Business rules are available on your account to identify whether to accept<br/>or decline transactions based on mismatched results of the CSC.<br/><br/>The Payment Card Industry (PCI) requires that at no stage of a transaction should the CSC be stored.<br/>This applies to all entities handling card data.<br/>It should also not be used in any hashing process.<br/>CityPay do not store the value and have no method of retrieving the value once the transaction has been processed.<br/>For this reason, duplicate checking is unable to determine the CSC in its duplication check algorithm.<br/><br/>minLength: 3<br/>maxLength: 4 |
 <code>csc_policy</code> | string  | false | A policy value which determines whether a CSC policy is enforced or bypassed.<br/><br/>Values are<br/> <code>0</code> for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.<br/> <code>1</code> for an enforced policy. Transactions that are enforced will be rejected if the CSC value does not match.<br/> <code>2</code> to bypass. Transactions that are bypassed will be allowed through even if the CSC did not match.<br/> <code>3</code> to ignore. Transactions that are ignored will bypass the result and not send the CSC details for authorisation. |
 <code>currency</code> | string  | false | The processing currency for the transaction. Will default to the merchant account currency.<br/>minLength: 3<br/>maxLength: 3 |
 <code>duplicate_policy</code> | string  | false | A policy value which determines whether a duplication policy is enforced or bypassed. A duplication check has a window<br/>of time set against your account within which it can action. If a previous transaction with matching values occurred within<br/>the window, any subsequent transaction will result in a T001 result.<br/><br/>Values are<br/> <code>0</code> for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.<br/> <code>1</code> for an enforced policy. Transactions that are enforced will be checked for duplication within the duplication window.<br/> <code>2</code> to bypass. Transactions that are bypassed will not be checked for duplication within the duplication window.<br/> <code>3</code> to ignore. Transactions that are ignored will have the same affect as bypass. |
 <code>expmonth</code> | integer <em>int32</em> | true | The month of expiry of the card. The month value should be a numerical value between 1 and 12.<br/><br/>minimum: 1<br/>maximum: 12 |
-<code>expyear</code> | integer <em>int32</em> | false | The year of expiry of the card.<br/><br/>minimum: 2000<br/>maximum: 2100 |
+<code>expyear</code> | integer <em>int32</em> | true | The year of expiry of the card.<br/><br/>minimum: 2000<br/>maximum: 2100 |
 <code>external_mpi</code> | object | false | <a href="#externalmpi">ExternalMPI</a> If an external 3DSv1 MPI is used for authentication, values provided can be supplied in this element. |
 <code>identifier</code> | string  | true | The identifier of the transaction to process. The value should be a valid reference and may be used to perform<br/> post processing actions and to aid in reconciliation of transactions.<br/><br/>The value should be a valid printable string with ASCII character ranges from 32 to 127.<br/><br/>The identifier is recommended to be distinct for each transaction such as a <a href="https://en.wikipedia.org/wiki/Universally_unique_identifier">random unique identifier</a><br/>this will aid in ensuring each transaction is identifiable.<br/><br/>When transactions are processed they are also checked for duplicate requests. Changing the identifier on a subsequent<br/>request will ensure that a transaction is considered as different.<br/><br/>minLength: 4<br/>maxLength: 50 |
 <code>match_avsa</code> | string  | false | A policy value which determines whether an AVS address policy is enforced, bypassed or ignored.<br/><br/><br/>Values are<br/> <code>0</code> for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.<br/> <code>1</code> for an enforced policy. Transactions that are enforced will be rejected if the AVS address numeric value does not match.<br/> <code>2</code> to bypass. Transactions that are bypassed will be allowed through even if the address did not match.<br/> <code>3</code> to ignore. Transactions that are ignored will bypass the result and not send address numeric details for authorisation. |
@@ -2909,7 +3068,7 @@ for analysis and may result in a decline if incorrectly provided.</p>
 <code>threedsecure</code> | object | false | <a href="#threedsecure">ThreeDSecure</a> ThreeDSecure element, providing values to enable full 3DS processing flows.</p>
 
 <p><code>trans_info</code> | string  | false | Further information that can be added to the transaction will display in reporting. Can be used for flexible values such as operator id.<br/>maxLength: 50 |
-<code>trans_type</code> | string  | false | The type of transaction being submitted. Normally this value is not required and your account manager may request that you set this field.<br/>minLength: 1<br/>maxLength: 1 |</p>
+<code>trans_type</code> | string  | false | The type of transaction being submitted. Normally this value is not required and your account manager may request that you set this field.<br/>maxLength: 1 |</p>
 
 <table><thead>
 <tr>
@@ -3307,7 +3466,7 @@ for analysis and may result in a decline if incorrectly provided.</p>
    </span><span class="s2">"bin_eu"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
    </span><span class="s2">"card_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
    </span><span class="s2">"card_status"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
-   </span><span class="s2">"defaultCard"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"default"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
    </span><span class="s2">"expmonth"</span><span class="p">:</span><span class="w"> </span><span class="mi">9</span><span class="p">,</span><span class="w">
    </span><span class="s2">"expyear"</span><span class="p">:</span><span class="w"> </span><span class="mi">2023</span><span class="p">,</span><span class="w">
    </span><span class="s2">"label"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Visa/0002"</span><span class="p">,</span><span class="w">
@@ -3327,7 +3486,7 @@ for analysis and may result in a decline if incorrectly provided.</p>
  <span class="nt">&lt;bin_eu&gt;&lt;/bin_eu&gt;</span> 
  <span class="nt">&lt;card_id&gt;&lt;/card_id&gt;</span> 
  <span class="nt">&lt;card_status&gt;&lt;/card_status&gt;</span> 
- <span class="nt">&lt;defaultCard&gt;&lt;/defaultCard&gt;</span> 
+ <span class="nt">&lt;default&gt;&lt;/default&gt;</span> 
  <span class="nt">&lt;expmonth&gt;</span>9<span class="nt">&lt;/expmonth&gt;</span> 
  <span class="nt">&lt;expyear&gt;</span>2023<span class="nt">&lt;/expyear&gt;</span> 
  <span class="nt">&lt;label&gt;</span>Visa/0002<span class="nt">&lt;/label&gt;</span> 
@@ -3406,7 +3565,7 @@ for analysis and may result in a decline if incorrectly provided.</p>
 <td>The status of the card such, valid values are<br/> - ACTIVE the card is active for processing<br/> - INACTIVE the card is not active for processing<br/> - EXPIRED for cards that have passed their expiry date.</td>
 </tr>
 <tr>
-<td><code>defaultCard</code></td>
+<td><code>default</code></td>
 <td>boolean</td>
 <td>false</td>
 <td>Determines if the card is the default card for the account and should be regarded as the first option to be used for processing.</td>
@@ -3456,19 +3615,23 @@ for analysis and may result in a decline if incorrectly provided.</p>
 </tbody></table>
 <h2 id='cardholderaccount'>CardHolderAccount</h2><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
    </span><span class="s2">"account_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"aaabbb-cccddd-eee"</span><span class="p">,</span><span class="w">
-   </span><span class="s2">"cac_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"acc_1"</span><span class="p">,</span><span class="w">
    </span><span class="s2">"cards"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
    </span><span class="s2">"contact"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="err">...</span><span class="w"> </span><span class="p">},</span><span class="w">
    </span><span class="s2">"date_created"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2020-01-02"</span><span class="p">,</span><span class="w">
-   </span><span class="s2">"trans_status"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="w">
+   </span><span class="s2">"default_card_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"default_card_index"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"unique_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre><pre class="highlight xml tab-xml"><code><span class="nt">&lt;CardHolderAccount&gt;</span>
  <span class="nt">&lt;account_id&gt;</span>aaabbb-cccddd-eee<span class="nt">&lt;/account_id&gt;</span> 
- <span class="nt">&lt;cac_id&gt;</span>acc_1<span class="nt">&lt;/cac_id&gt;</span> 
  <span class="nt">&lt;cards&gt;&lt;/cards&gt;</span> 
  <span class="nt">&lt;contact&gt;</span><span class="err">&lt;</span>&gt;...<span class="err">&lt;</span>/&gt;<span class="nt">&lt;/contact&gt;</span> 
  <span class="nt">&lt;date_created&gt;</span>2020-01-02<span class="nt">&lt;/date_created&gt;</span> 
- <span class="nt">&lt;trans_status&gt;&lt;/trans_status&gt;</span> 
+ <span class="nt">&lt;default_card_id&gt;&lt;/default_card_id&gt;</span> 
+ <span class="nt">&lt;default_card_index&gt;&lt;/default_card_index&gt;</span> 
+ <span class="nt">&lt;status&gt;&lt;/status&gt;</span> 
+ <span class="nt">&lt;unique_id&gt;&lt;/unique_id&gt;</span> 
 <span class="nt">&lt;/CardHolderAccount&gt;</span>
 </code></pre>
 <table><thead>
@@ -3483,13 +3646,7 @@ for analysis and may result in a decline if incorrectly provided.</p>
 <td><code>account_id</code></td>
 <td>string</td>
 <td>true</td>
-<td>The account id of the card holder account which uniquely identifies the account.<br/><br/>minLength: 5<br/>maxLength: 50</td>
-</tr>
-<tr>
-<td><code>cac_id</code></td>
-<td>string</td>
-<td>false</td>
-<td>The card holder control id which identifies the scheme that the account belongs to, ordinarily this is the same as your client id.<br/>minLength: 5<br/>maxLength: 20</td>
+<td>The account id of the card holder account provided by the merchant which uniquely identifies the account.<br/><br/>minLength: 5<br/>maxLength: 50</td>
 </tr>
 <tr>
 <td><code>cards</code></td>
@@ -3510,10 +3667,58 @@ for analysis and may result in a decline if incorrectly provided.</p>
 <td>The date and time the account was created.</td>
 </tr>
 <tr>
-<td><code>trans_status</code></td>
+<td><code>default_card_id</code></td>
+<td>string</td>
+<td>false</td>
+<td>The id of the default card.</td>
+</tr>
+<tr>
+<td><code>default_card_index</code></td>
+<td>string</td>
+<td>false</td>
+<td>The index in the array of the default card.</td>
+</tr>
+<tr>
+<td><code>status</code></td>
 <td>string</td>
 <td>false</td>
 <td>Defines the status of the account for processing valid values are<br/><br/> - ACTIVE for active accounts that are able to process<br/> - DISABLED for accounts that are currently disabled for processing.</td>
+</tr>
+<tr>
+<td><code>unique_id</code></td>
+<td>string</td>
+<td>false</td>
+<td>A unique id of the card holder account which uniquely identifies the stored account. This value is not searchable.</td>
+</tr>
+</tbody></table>
+<h2 id='cardstatus'>CardStatus</h2><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+   </span><span class="s2">"card_status"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"default"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre><pre class="highlight xml tab-xml"><code><span class="nt">&lt;CardStatus&gt;</span>
+ <span class="nt">&lt;card_status&gt;&lt;/card_status&gt;</span> 
+ <span class="nt">&lt;default&gt;&lt;/default&gt;</span> 
+<span class="nt">&lt;/CardStatus&gt;</span>
+</code></pre>
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>card_status</code></td>
+<td>string</td>
+<td>false</td>
+<td>The status of the card to set, valid values are ACTIVE or INACTIVE.</td>
+</tr>
+<tr>
+<td><code>default</code></td>
+<td>boolean</td>
+<td>false</td>
+<td>Defines if the card is set as the default.</td>
 </tr>
 </tbody></table>
 <h2 id='chargerequest'>ChargeRequest</h2><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
@@ -3631,11 +3836,11 @@ for analysis and may result in a decline if incorrectly provided.</p>
 <td><code>trans_type</code></td>
 <td>string</td>
 <td>false</td>
-<td>The type of transaction being submitted. Normally this value is not required and your account manager may request that you set this field.<br/>minLength: 1<br/>maxLength: 1</td>
+<td>The type of transaction being submitted. Normally this value is not required and your account manager may request that you set this field.<br/>maxLength: 1</td>
 </tr>
 </tbody></table>
 <h2 id='contactdetails'>ContactDetails</h2><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-   </span><span class="s2">"address1"</span><span class="p">:</span><span class="w"> </span><span class="s2">"79 Parliamant St"</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"address1"</span><span class="p">:</span><span class="w"> </span><span class="s2">"79 Parliament St"</span><span class="p">,</span><span class="w">
    </span><span class="s2">"address2"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Westminster"</span><span class="p">,</span><span class="w">
    </span><span class="s2">"address3"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
    </span><span class="s2">"area"</span><span class="p">:</span><span class="w"> </span><span class="s2">"London"</span><span class="p">,</span><span class="w">
@@ -3650,7 +3855,7 @@ for analysis and may result in a decline if incorrectly provided.</p>
    </span><span class="s2">"title"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Mr"</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre><pre class="highlight xml tab-xml"><code><span class="nt">&lt;ContactDetails&gt;</span>
- <span class="nt">&lt;address1&gt;</span>79 Parliamant St<span class="nt">&lt;/address1&gt;</span> 
+ <span class="nt">&lt;address1&gt;</span>79 Parliament St<span class="nt">&lt;/address1&gt;</span> 
  <span class="nt">&lt;address2&gt;</span>Westminster<span class="nt">&lt;/address2&gt;</span> 
  <span class="nt">&lt;address3&gt;&lt;/address3&gt;</span> 
  <span class="nt">&lt;area&gt;</span>London<span class="nt">&lt;/area&gt;</span> 
@@ -3677,13 +3882,13 @@ for analysis and may result in a decline if incorrectly provided.</p>
 <td><code>address1</code></td>
 <td>string</td>
 <td>false</td>
-<td>The first line of the address for the card holder.<br/>maxLength: 20</td>
+<td>The first line of the address for the card holder.<br/>maxLength: 40</td>
 </tr>
 <tr>
 <td><code>address2</code></td>
 <td>string</td>
 <td>false</td>
-<td>The second line of the address for the card holder.<br/>maxLength: 20</td>
+<td>The second line of the address for the card holder.<br/>maxLength: 30</td>
 </tr>
 <tr>
 <td><code>address3</code></td>
@@ -3707,7 +3912,7 @@ for analysis and may result in a decline if incorrectly provided.</p>
 <td><code>country</code></td>
 <td>string</td>
 <td>false</td>
-<td>The country code in ISO 3166 format. The country value may be used for fraud analysis and for<br/>  acceptance of the transaction.<br/><br/>maxLength: 2</td>
+<td>The country code in ISO 3166 format. The country value may be used for fraud analysis and for<br/>  acceptance of the transaction.<br/><br/>minLength: 2<br/>maxLength: 2</td>
 </tr>
 <tr>
 <td><code>email</code></td>
@@ -3731,7 +3936,7 @@ for analysis and may result in a decline if incorrectly provided.</p>
 <td><code>mobile_no</code></td>
 <td>string</td>
 <td>false</td>
-<td>A mobile number for the card holder the mobile number is often required by delivery companies to ensure they are able to be in contact when required.</td>
+<td>A mobile number for the card holder the mobile number is often required by delivery companies to ensure they are able to be in contact when required.<br/>maxLength: 20</td>
 </tr>
 <tr>
 <td><code>postcode</code></td>
@@ -3743,7 +3948,7 @@ for analysis and may result in a decline if incorrectly provided.</p>
 <td><code>telephone_no</code></td>
 <td>string</td>
 <td>false</td>
-<td>A telephone number for the card holder.</td>
+<td>A telephone number for the card holder.<br/>maxLength: 20</td>
 </tr>
 <tr>
 <td><code>title</code></td>
@@ -3782,6 +3987,52 @@ for analysis and may result in a decline if incorrectly provided.</p>
 <p><code>challenge</code> | object | false | <a href="#requestchallenged">RequestChallenged</a> The request resulted in the transaction participating in 3DSv2 and has been challenged for authentication by the ACS.</p>
 
 <p><code>result</code> | object | false | <a href="#authresponse">AuthResponse</a> A result has been obtained for this transaction either through authorisation or validation.</p>
+<h2 id='error'>Error</h2><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+   </span><span class="s2">"code"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0"</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"context"</span><span class="p">:</span><span class="w"> </span><span class="s2">"aspiu352908ns47n343598bads"</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"identifier"</span><span class="p">:</span><span class="w"> </span><span class="s2">"95b857a1-5955-4b86-963c-5a6dbfc4fb95"</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Approved 044332"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre><pre class="highlight xml tab-xml"><code><span class="nt">&lt;Error&gt;</span>
+ <span class="nt">&lt;code&gt;</span>0<span class="nt">&lt;/code&gt;</span> 
+ <span class="nt">&lt;context&gt;</span>aspiu352908ns47n343598bads<span class="nt">&lt;/context&gt;</span> 
+ <span class="nt">&lt;identifier&gt;</span>95b857a1-5955-4b86-963c-5a6dbfc4fb95<span class="nt">&lt;/identifier&gt;</span> 
+ <span class="nt">&lt;message&gt;</span>Approved 044332<span class="nt">&lt;/message&gt;</span> 
+<span class="nt">&lt;/Error&gt;</span>
+</code></pre>
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>code</code></td>
+<td>string</td>
+<td>false</td>
+<td>A response code providing a result of the process.<br/>minLength: 3<br/>maxLength: 4</td>
+</tr>
+<tr>
+<td><code>context</code></td>
+<td>string</td>
+<td>false</td>
+<td>A context id of the process used for referencing transactions through support.</td>
+</tr>
+<tr>
+<td><code>identifier</code></td>
+<td>string</td>
+<td>false</td>
+<td>An identifier if presented in the original request.<br/>minLength: 4<br/>maxLength: 50</td>
+</tr>
+<tr>
+<td><code>message</code></td>
+<td>string</td>
+<td>false</td>
+<td>A response message providing a description of the result of the process.</td>
+</tr>
+</tbody></table>
 <h2 id='externalmpi'>ExternalMPI</h2><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
    </span><span class="s2">"authen_result"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
    </span><span class="s2">"cavv"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
@@ -4000,7 +4251,7 @@ for analysis and may result in a decline if incorrectly provided.</p>
 <tr>
 <td><code>pares</code></td>
 <td>string <em>base64</em></td>
-<td>false</td>
+<td>true</td>
 <td>The Payer Authentication Response packet which is returned by the ACS containing the<br/> response of the authentication session including verification values. The response<br/> is a base64 encoded packet and should be forwarded to CityPay untouched.</td>
 </tr>
 </tbody></table>
@@ -4027,16 +4278,14 @@ for analysis and may result in a decline if incorrectly provided.</p>
 </tr>
 </tbody></table>
 <h2 id='registercard'>RegisterCard</h2><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-   </span><span class="s2">"account_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"aaabbb-cccddd-eee"</span><span class="p">,</span><span class="w">
    </span><span class="s2">"cardnumber"</span><span class="p">:</span><span class="w"> </span><span class="s2">"4000 0000 0000 0002"</span><span class="p">,</span><span class="w">
-   </span><span class="s2">"defaultCard"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"default"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
    </span><span class="s2">"expmonth"</span><span class="p">:</span><span class="w"> </span><span class="mi">9</span><span class="p">,</span><span class="w">
    </span><span class="s2">"expyear"</span><span class="p">:</span><span class="w"> </span><span class="mi">2023</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre><pre class="highlight xml tab-xml"><code><span class="nt">&lt;RegisterCard&gt;</span>
- <span class="nt">&lt;account_id&gt;</span>aaabbb-cccddd-eee<span class="nt">&lt;/account_id&gt;</span> 
  <span class="nt">&lt;cardnumber&gt;</span>4000 0000 0000 0002<span class="nt">&lt;/cardnumber&gt;</span> 
- <span class="nt">&lt;defaultCard&gt;&lt;/defaultCard&gt;</span> 
+ <span class="nt">&lt;default&gt;&lt;/default&gt;</span> 
  <span class="nt">&lt;expmonth&gt;</span>9<span class="nt">&lt;/expmonth&gt;</span> 
  <span class="nt">&lt;expyear&gt;</span>2023<span class="nt">&lt;/expyear&gt;</span> 
 <span class="nt">&lt;/RegisterCard&gt;</span>
@@ -4050,19 +4299,13 @@ for analysis and may result in a decline if incorrectly provided.</p>
 </tr>
 </thead><tbody>
 <tr>
-<td><code>account_id</code></td>
-<td>string</td>
-<td>false</td>
-<td>The account to register the card against.<br/>minLength: 5<br/>maxLength: 50</td>
-</tr>
-<tr>
 <td><code>cardnumber</code></td>
 <td>string</td>
-<td>false</td>
+<td>true</td>
 <td>The primary number of the card.<br/>minLength: 12<br/>maxLength: 22</td>
 </tr>
 <tr>
-<td><code>defaultCard</code></td>
+<td><code>default</code></td>
 <td>boolean</td>
 <td>false</td>
 <td>Determines whether the card should be the new default card.</td>
@@ -4070,13 +4313,13 @@ for analysis and may result in a decline if incorrectly provided.</p>
 <tr>
 <td><code>expmonth</code></td>
 <td>integer <em>int32</em></td>
-<td>false</td>
+<td>true</td>
 <td>The expiry month of the card.<br/>minimum: 1<br/>maximum: 12</td>
 </tr>
 <tr>
 <td><code>expyear</code></td>
 <td>integer <em>int32</em></td>
-<td>false</td>
+<td>true</td>
 <td>The expiry year of the card.<br/>minimum: 2000<br/>maximum: 2100</td>
 </tr>
 </tbody></table>
@@ -4800,7 +5043,7 @@ for analysis and may result in a decline if incorrectly provided.</p>
 <tr>
 <td><code>D040</code></td>
 <td>Acquirer Dataset is not found for transaction</td>
-<td>No acquirer dataset is configured to handle this tranaction</td>
+<td>No acquirer dataset is configured to handle this transaction</td>
 </tr>
 <tr>
 <td><code>D041</code></td>
@@ -4836,6 +5079,21 @@ for analysis and may result in a decline if incorrectly provided.</p>
 <td><code>D047</code></td>
 <td>3DSecure Directory Server Comms Failure</td>
 <td>A communication failure was realised while contacting the 3dsecure directory server</td>
+</tr>
+<tr>
+<td><code>D048</code></td>
+<td>Account Id is Invalid</td>
+<td>The account id supplied is not in the required format. Account ids must contain URL sensitive characters only such as [a-zA-Z0-9-_.~]</td>
+</tr>
+<tr>
+<td><code>D049</code></td>
+<td>Account Already Exists</td>
+<td>The account id provided, already exists and does not allow for accounts with the same id</td>
+</tr>
+<tr>
+<td><code>D050</code></td>
+<td>Test Error</td>
+<td>An error used for testing purposes</td>
 </tr>
 <tr>
 <td><code>F001</code></td>
@@ -5123,6 +5381,21 @@ for analysis and may result in a decline if incorrectly provided.</p>
 <td>The card holder account has not yet been verified. Please verify before using the account.</td>
 </tr>
 <tr>
+<td><code>P051</code></td>
+<td>Token has expired</td>
+<td>The payment token has expired and can no longer be used</td>
+</tr>
+<tr>
+<td><code>P052</code></td>
+<td>Token is not valid</td>
+<td>The token is not valid and cannot be decoded</td>
+</tr>
+<tr>
+<td><code>P053</code></td>
+<td>Token card not found</td>
+<td>The token has been understood but no active card has been found that can be used for this token</td>
+</tr>
+<tr>
 <td><code>R001</code></td>
 <td>Could not identify the original transaction</td>
 <td></td>
@@ -5285,7 +5558,7 @@ for analysis and may result in a decline if incorrectly provided.</p>
 <tr>
 <td><code>T013</code></td>
 <td>Transaction was not authorised</td>
-<td>A post authoriation action has found that the original transaction was not authorised and therefore the action cannot be completed</td>
+<td>A post authorisation action has found that the original transaction was not authorised and therefore the action cannot be completed</td>
 </tr>
 <tr>
 <td><code>W001</code></td>

@@ -1,7 +1,7 @@
 {
   "openapi" : "3.0.0",
   "info" : {
-    "version" : "6.0.0.BETA",
+    "version" : "6.0.0",
     "title" : "CityPay Payment API",
     "description" : "\nThis CityPay API is a HTTP RESTful payment API used for direct server to server transactional processing. It\nprovides a number of payment mechanisms including: Internet, MOTO, Continuous Authority transaction processing,\n3-D Secure decision handling using RFA Secure, Authorisation, Refunding, Pre-Authorisation, Cancellation/Voids and\nCompletion processing. The API is also capable of tokinsed payments using Card Holder Accounts.\n\n## Compliance and Security\n<aside class=\"notice\">\n  Before we begin a reminder that your application will need to adhere to PCI-DSS standards to operate safely\n  and to meet requirements set out by Visa and MasterCard and the PCI Security Standards Council including:\n</aside>\n\n* Data must be collected using TLS version 1.2 using [strong cryptography](#enabled-tls-ciphers). We will not accept calls to our API at\n  lower grade encryption levels. We regularly scan our TLS endpoints for vulnerabilities and perform TLS assessments\n  as part of our compliance program.\n* The application must not store sensitive card holder data (CHD) such as the card security code (CSC) or\n  primary access number (PAN)\n* The application must not display the full card number on receipts, it is recommended to mask the PAN\n  and show the last 4 digits. The API will return this for you for ease of receipt creation\n* If you are developing a website, you will be required to perform regular scans on the network where you host the\n  application to meet your compliance obligations\n* You will be required to be PCI Compliant and the application must adhere to the security standard. Further information\n  is available from [https://www.pcisecuritystandards.org/](https://www.pcisecuritystandards.org/)\n* The API verifies that the request is for a valid account and originates from a trusted source using the remote IP\n  address. Our application firewalls analyse data that may be an attempt to break a large number of security common\n  security vulnerabilities.\n",
     "contact" : {
@@ -59,6 +59,30 @@
           }
         },
         "responses" : {
+          "403" : {
+            "description" : "Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request."
+          },
+          "401" : {
+            "description" : "Unauthorized. No api key has been provided and is required for this operation."
+          },
+          "422" : {
+            "description" : "Unprocessable Entity. Should a failure occur that prevents processing of the API call.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Error"
+                }
+              },
+              "text/xml" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Bad Request. Should the incoming data not be validly determined."
+          },
           "200" : {
             "description" : "A successfully registered card provides a reload of the account including the new card.",
             "content" : {
@@ -73,15 +97,6 @@
                 }
               }
             }
-          },
-          "400" : {
-            "description" : "Bad Request. Should the incoming data not be validly determined."
-          },
-          "401" : {
-            "description" : "Unauthorized. No api key has been provided and is required for this operation."
-          },
-          "403" : {
-            "description" : "Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request."
           }
         }
       }
@@ -102,6 +117,30 @@
         } ],
         "description" : "Allows for the retrieval of a card holder account for the given `id`. Should duplicate accounts exist\nfor the same `id`, the first account created with that `id` will be returned.\n\nThe account can be used for tokenisation processing by listing all cards assigned to the account.\nThe returned cards will include all `active`, `inactive` and `expired` cards. This can be used to \nenable a card holder to view their wallet and make constructive choices on which card to use.\n",
         "responses" : {
+          "403" : {
+            "description" : "Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request."
+          },
+          "401" : {
+            "description" : "Unauthorized. No api key has been provided and is required for this operation."
+          },
+          "422" : {
+            "description" : "Unprocessable Entity. Should a failure occur that prevents processing of the API call.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Error"
+                }
+              },
+              "text/xml" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Bad Request. Should the incoming data not be validly determined."
+          },
           "200" : {
             "description" : "A card holder account that matches the account id provided in the request.",
             "content" : {
@@ -116,15 +155,6 @@
                 }
               }
             }
-          },
-          "400" : {
-            "description" : "Bad Request. Should the incoming data not be validly determined."
-          },
-          "401" : {
-            "description" : "Unauthorized. No api key has been provided and is required for this operation."
-          },
-          "403" : {
-            "description" : "Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request."
           }
         }
       },
@@ -143,6 +173,30 @@
         } ],
         "description" : "Allows for the deletion of an account. The account will marked for deletion and subsequent purging. No further\ntransactions will be alowed to be processed or actioned against this account.\n",
         "responses" : {
+          "403" : {
+            "description" : "Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request."
+          },
+          "401" : {
+            "description" : "Unauthorized. No api key has been provided and is required for this operation."
+          },
+          "422" : {
+            "description" : "Unprocessable Entity. Should a failure occur that prevents processing of the API call.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Error"
+                }
+              },
+              "text/xml" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Bad Request. Should the incoming data not be validly determined."
+          },
           "200" : {
             "description" : "An acknowledgment that the card holder account has been marked for deletion.",
             "content" : {
@@ -157,15 +211,6 @@
                 }
               }
             }
-          },
-          "400" : {
-            "description" : "Bad Request. Should the incoming data not be validly determined."
-          },
-          "401" : {
-            "description" : "Unauthorized. No api key has been provided and is required for this operation."
-          },
-          "403" : {
-            "description" : "Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request."
           }
         }
       }
@@ -192,6 +237,30 @@
           }
         },
         "responses" : {
+          "403" : {
+            "description" : "Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request."
+          },
+          "401" : {
+            "description" : "Unauthorized. No api key has been provided and is required for this operation."
+          },
+          "422" : {
+            "description" : "Unprocessable Entity. Should a failure occur that prevents processing of the API call.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Error"
+                }
+              },
+              "text/xml" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Bad Request. Should the incoming data not be validly determined."
+          },
           "200" : {
             "description" : "A result of the ping request.",
             "content" : {
@@ -206,15 +275,6 @@
                 }
               }
             }
-          },
-          "400" : {
-            "description" : "Bad Request. Should the incoming data not be validly determined."
-          },
-          "401" : {
-            "description" : "Unauthorized. No api key has been provided and is required for this operation."
-          },
-          "403" : {
-            "description" : "Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request."
           }
         }
       }
@@ -269,6 +329,30 @@
           }
         },
         "responses" : {
+          "403" : {
+            "description" : "Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request."
+          },
+          "401" : {
+            "description" : "Unauthorized. No api key has been provided and is required for this operation."
+          },
+          "422" : {
+            "description" : "Unprocessable Entity. Should a failure occur that prevents processing of the API call.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Error"
+                }
+              },
+              "text/xml" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Bad Request. Should the incoming data not be validly determined."
+          },
           "200" : {
             "description" : "A result and acknowledgement of the capture request.",
             "content" : {
@@ -283,15 +367,6 @@
                 }
               }
             }
-          },
-          "400" : {
-            "description" : "Bad Request. Should the incoming data not be validly determined."
-          },
-          "401" : {
-            "description" : "Unauthorized. No api key has been provided and is required for this operation."
-          },
-          "403" : {
-            "description" : "Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request."
           }
         }
       }
@@ -327,6 +402,30 @@
           }
         },
         "responses" : {
+          "403" : {
+            "description" : "Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request."
+          },
+          "401" : {
+            "description" : "Unauthorized. No api key has been provided and is required for this operation."
+          },
+          "422" : {
+            "description" : "Unprocessable Entity. Should a failure occur that prevents processing of the API call.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Error"
+                }
+              },
+              "text/xml" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Bad Request. Should the incoming data not be validly determined."
+          },
           "200" : {
             "description" : "A revised account with the new details set.",
             "content" : {
@@ -341,15 +440,87 @@
                 }
               }
             }
-          },
-          "400" : {
-            "description" : "Bad Request. Should the incoming data not be validly determined."
+          }
+        }
+      }
+    },
+    "/account/{accountid}/card/{cardId}/status" : {
+      "post" : {
+        "summary" : "Card Status",
+        "tags" : [ "Card Holder Account" ],
+        "operationId" : "AccountCardStatusRequest",
+        "parameters" : [ {
+          "name" : "accountid",
+          "in" : "path",
+          "required" : true,
+          "description" : "The account id that refers to the customer's account no. This value will have been provided when setting up the card holder account.",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "cardId",
+          "in" : "path",
+          "required" : true,
+          "description" : "The id of the card that is presented by a call to retrieve a card holder account.",
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "description" : "Updates the status of a card for processing. The following values are available\n\n| Status | Description | \n|--------|-------------|\n| Active | The card is active for processing and can be used for charging against with a valid token |\n| Inactive | The card is inactive for processing and cannot be used for processing, it will require reactivation before being used to charge |\n| Expired | The card has expired either due to the expiry date no longer being valid or due to a replacement card being issued |\n",
+        "requestBody" : {
+          "required" : true,
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/CardStatus"
+              }
+            },
+            "text/xml" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/CardStatus"
+              }
+            }
+          }
+        },
+        "responses" : {
+          "403" : {
+            "description" : "Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request."
           },
           "401" : {
             "description" : "Unauthorized. No api key has been provided and is required for this operation."
           },
-          "403" : {
-            "description" : "Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request."
+          "422" : {
+            "description" : "Unprocessable Entity. Should a failure occur that prevents processing of the API call.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Error"
+                }
+              },
+              "text/xml" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Bad Request. Should the incoming data not be validly determined."
+          },
+          "200" : {
+            "description" : "Acknowledges the card status has changed, returning 01 for a valid change or 00 for non valid change.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Acknowledgement"
+                }
+              },
+              "text/xml" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Acknowledgement"
+                }
+              }
+            }
           }
         }
       }
@@ -376,6 +547,30 @@
           }
         },
         "responses" : {
+          "403" : {
+            "description" : "Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request."
+          },
+          "401" : {
+            "description" : "Unauthorized. No api key has been provided and is required for this operation."
+          },
+          "422" : {
+            "description" : "Unprocessable Entity. Should a failure occur that prevents processing of the API call.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Error"
+                }
+              },
+              "text/xml" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Bad Request. Should the incoming data not be validly determined."
+          },
           "200" : {
             "description" : "Provides an initialised account.",
             "content" : {
@@ -390,15 +585,6 @@
                 }
               }
             }
-          },
-          "400" : {
-            "description" : "Bad Request. Should the incoming data not be validly determined."
-          },
-          "401" : {
-            "description" : "Unauthorized. No api key has been provided and is required for this operation."
-          },
-          "403" : {
-            "description" : "Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request."
           }
         }
       }
@@ -445,6 +631,30 @@
           }
         },
         "responses" : {
+          "403" : {
+            "description" : "Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request."
+          },
+          "401" : {
+            "description" : "Unauthorized. No api key has been provided and is required for this operation."
+          },
+          "422" : {
+            "description" : "Unprocessable Entity. Should a failure occur that prevents processing of the API call.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Error"
+                }
+              },
+              "text/xml" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Bad Request. Should the incoming data not be validly determined."
+          },
           "200" : {
             "description" : "A result and acknowledgement of the void request.",
             "content" : {
@@ -459,15 +669,6 @@
                 }
               }
             }
-          },
-          "400" : {
-            "description" : "Bad Request. Should the incoming data not be validly determined."
-          },
-          "401" : {
-            "description" : "Unauthorized. No api key has been provided and is required for this operation."
-          },
-          "403" : {
-            "description" : "Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request."
           }
         }
       }
@@ -487,7 +688,46 @@
           }
         } ],
         "description" : "Updates the status of an account. An account can have the following statuses applied\n\n| Status | Description |\n|--------|-------------|\n| Active | The account is active for processing |\n| Disabled | The account has been disabled and cannot be used for processing. The account will require reactivation to continue procesing |\n",
+        "requestBody" : {
+          "required" : true,
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/AccountStatus"
+              }
+            },
+            "text/xml" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/AccountStatus"
+              }
+            }
+          }
+        },
         "responses" : {
+          "403" : {
+            "description" : "Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request."
+          },
+          "401" : {
+            "description" : "Unauthorized. No api key has been provided and is required for this operation."
+          },
+          "422" : {
+            "description" : "Unprocessable Entity. Should a failure occur that prevents processing of the API call.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Error"
+                }
+              },
+              "text/xml" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Bad Request. Should the incoming data not be validly determined."
+          },
           "200" : {
             "description" : "An acknowledgment that the card holder account status has been updated.",
             "content" : {
@@ -502,15 +742,6 @@
                 }
               }
             }
-          },
-          "400" : {
-            "description" : "Bad Request. Should the incoming data not be validly determined."
-          },
-          "401" : {
-            "description" : "Unauthorized. No api key has been provided and is required for this operation."
-          },
-          "403" : {
-            "description" : "Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request."
           }
         }
       }
@@ -539,6 +770,30 @@
         } ],
         "description" : "Deletes a card from the account. The card will be marked for deletion before a subsequent\npurge will clear the card permanently.\n",
         "responses" : {
+          "403" : {
+            "description" : "Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request."
+          },
+          "401" : {
+            "description" : "Unauthorized. No api key has been provided and is required for this operation."
+          },
+          "422" : {
+            "description" : "Unprocessable Entity. Should a failure occur that prevents processing of the API call.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Error"
+                }
+              },
+              "text/xml" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Bad Request. Should the incoming data not be validly determined."
+          },
           "200" : {
             "description" : "Acknowledges the card has been requested for deletion.",
             "content" : {
@@ -553,15 +808,6 @@
                 }
               }
             }
-          },
-          "400" : {
-            "description" : "Bad Request. Should the incoming data not be validly determined."
-          },
-          "401" : {
-            "description" : "Unauthorized. No api key has been provided and is required for this operation."
-          },
-          "403" : {
-            "description" : "Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request."
           }
         }
       }
@@ -600,6 +846,30 @@
           }
         },
         "responses" : {
+          "403" : {
+            "description" : "Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request."
+          },
+          "401" : {
+            "description" : "Unauthorized. No api key has been provided and is required for this operation."
+          },
+          "422" : {
+            "description" : "Unprocessable Entity. Should a failure occur that prevents processing of the API call.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Error"
+                }
+              },
+              "text/xml" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Bad Request. Should the incoming data not be validly determined."
+          },
           "200" : {
             "description" : "A result of processing the 3DSv2 authorisation data.",
             "content" : {
@@ -614,15 +884,6 @@
                 }
               }
             }
-          },
-          "400" : {
-            "description" : "Bad Request. Should the incoming data not be validly determined."
-          },
-          "401" : {
-            "description" : "Unauthorized. No api key has been provided and is required for this operation."
-          },
-          "403" : {
-            "description" : "Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request."
           }
         }
       }
@@ -661,6 +922,30 @@
           }
         },
         "responses" : {
+          "403" : {
+            "description" : "Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request."
+          },
+          "401" : {
+            "description" : "Unauthorized. No api key has been provided and is required for this operation."
+          },
+          "422" : {
+            "description" : "Unprocessable Entity. Should a failure occur that prevents processing of the API call.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Error"
+                }
+              },
+              "text/xml" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Bad Request. Should the incoming data not be validly determined."
+          },
           "200" : {
             "description" : "A decision made by the result of processing.",
             "content" : {
@@ -675,74 +960,6 @@
                 }
               }
             }
-          },
-          "400" : {
-            "description" : "Bad Request. Should the incoming data not be validly determined."
-          },
-          "401" : {
-            "description" : "Unauthorized. No api key has been provided and is required for this operation."
-          },
-          "403" : {
-            "description" : "Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request."
-          }
-        }
-      }
-    },
-    "/account/{accountid}/card/{cardId}/status/{status}" : {
-      "post" : {
-        "summary" : "Card Status",
-        "tags" : [ "Card Holder Account" ],
-        "operationId" : "AccountCardStatusRequest",
-        "parameters" : [ {
-          "name" : "accountid",
-          "in" : "path",
-          "required" : true,
-          "description" : "The account id that refers to the customer's account no. This value will have been provided when setting up the card holder account.",
-          "schema" : {
-            "type" : "string"
-          }
-        }, {
-          "name" : "cardId",
-          "in" : "path",
-          "required" : true,
-          "description" : "The id of the card that is presented by a call to retrieve a card holder account.",
-          "schema" : {
-            "type" : "string"
-          }
-        }, {
-          "name" : "status",
-          "in" : "path",
-          "required" : true,
-          "description" : "The status of the card to set, valid values are `ACTIVE` or `INACTIVE`.",
-          "schema" : {
-            "type" : "string"
-          }
-        } ],
-        "description" : "Updates the status of a card for processing. The following values are available\n\n| Status | Description | \n|--------|-------------|\n| Active | The card is active for processing and can be used for charging against with a valid token |\n| Inactive | The card is inactive for processing and cannot be used for processing, it will require reactivation before being used to charge |\n| Expired | The card has expired either due to the expiry date no longer being valid or due to a replacement card being issued |\n",
-        "responses" : {
-          "200" : {
-            "description" : "Acknowledges the card status has changed, returning 01 for a valid change or 00 for non valid change.",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/Acknowledgement"
-                }
-              },
-              "text/xml" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/Acknowledgement"
-                }
-              }
-            }
-          },
-          "400" : {
-            "description" : "Bad Request. Should the incoming data not be validly determined."
-          },
-          "401" : {
-            "description" : "Unauthorized. No api key has been provided and is required for this operation."
-          },
-          "403" : {
-            "description" : "Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request."
           }
         }
       }
@@ -781,6 +998,30 @@
           }
         },
         "responses" : {
+          "403" : {
+            "description" : "Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request."
+          },
+          "401" : {
+            "description" : "Unauthorized. No api key has been provided and is required for this operation."
+          },
+          "422" : {
+            "description" : "Unprocessable Entity. Should a failure occur that prevents processing of the API call.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Error"
+                }
+              },
+              "text/xml" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Bad Request. Should the incoming data not be validly determined."
+          },
           "200" : {
             "description" : "A result of the retrieval request.",
             "content" : {
@@ -795,15 +1036,6 @@
                 }
               }
             }
-          },
-          "400" : {
-            "description" : "Bad Request. Should the incoming data not be validly determined."
-          },
-          "401" : {
-            "description" : "Unauthorized. No api key has been provided and is required for this operation."
-          },
-          "403" : {
-            "description" : "Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request."
           }
         }
       }
@@ -830,6 +1062,30 @@
           }
         },
         "responses" : {
+          "403" : {
+            "description" : "Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request."
+          },
+          "401" : {
+            "description" : "Unauthorized. No api key has been provided and is required for this operation."
+          },
+          "422" : {
+            "description" : "Unprocessable Entity. Should a failure occur that prevents processing of the API call.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Error"
+                }
+              },
+              "text/xml" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Bad Request. Should the incoming data not be validly determined."
+          },
           "200" : {
             "description" : "A decision met by the result of the charge.",
             "content" : {
@@ -844,15 +1100,6 @@
                 }
               }
             }
-          },
-          "400" : {
-            "description" : "Bad Request. Should the incoming data not be validly determined."
-          },
-          "401" : {
-            "description" : "Unauthorized. No api key has been provided and is required for this operation."
-          },
-          "403" : {
-            "description" : "Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request."
           }
         }
       }
@@ -871,8 +1118,32 @@
             "type" : "string"
           }
         } ],
-        "description" : "An operational request to list current merchants for a client.",
+        "description" : "An operational request to list current merchants for a client.\n\n### Sorting\n\nSorting can be performed by include a query parameter i.e. `/merchants/?sort=merchantid`\n\nFields that can be sorted are `merchantid` or `name`.\n",
         "responses" : {
+          "403" : {
+            "description" : "Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request."
+          },
+          "401" : {
+            "description" : "Unauthorized. No api key has been provided and is required for this operation."
+          },
+          "422" : {
+            "description" : "Unprocessable Entity. Should a failure occur that prevents processing of the API call.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Error"
+                }
+              },
+              "text/xml" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Bad Request. Should the incoming data not be validly determined."
+          },
           "200" : {
             "description" : "A list of merchants that are configured against the client id.",
             "content" : {
@@ -887,15 +1158,6 @@
                 }
               }
             }
-          },
-          "400" : {
-            "description" : "Bad Request. Should the incoming data not be validly determined."
-          },
-          "401" : {
-            "description" : "Unauthorized. No api key has been provided and is required for this operation."
-          },
-          "403" : {
-            "description" : "Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request."
           }
         }
       }
@@ -934,6 +1196,30 @@
           }
         },
         "responses" : {
+          "403" : {
+            "description" : "Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request."
+          },
+          "401" : {
+            "description" : "Unauthorized. No api key has been provided and is required for this operation."
+          },
+          "422" : {
+            "description" : "Unprocessable Entity. Should a failure occur that prevents processing of the API call.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Error"
+                }
+              },
+              "text/xml" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Bad Request. Should the incoming data not be validly determined."
+          },
           "200" : {
             "description" : "A result of processing the 3DSv1 authorisation data.",
             "content" : {
@@ -948,15 +1234,6 @@
                 }
               }
             }
-          },
-          "400" : {
-            "description" : "Bad Request. Should the incoming data not be validly determined."
-          },
-          "401" : {
-            "description" : "Unauthorized. No api key has been provided and is required for this operation."
-          },
-          "403" : {
-            "description" : "Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request."
           }
         }
       }
@@ -973,14 +1250,7 @@
             "minLength" : 5,
             "maxLength" : 50,
             "example" : "aaabbb-cccddd-eee",
-            "description" : "The account id of the card holder account which uniquely identifies the account.\n"
-          },
-          "cac_id" : {
-            "type" : "string",
-            "minLength" : 5,
-            "maxLength" : 20,
-            "example" : "acc_1",
-            "description" : "The card holder control id which identifies the scheme that the account belongs to, ordinarily this is the same as your client id."
+            "description" : "The account id of the card holder account provided by the merchant which uniquely identifies the account.\n"
           },
           "cards" : {
             "type" : "array",
@@ -998,9 +1268,21 @@
             "example" : "2020-01-02T18:32:28Z",
             "description" : "The date and time the account was created."
           },
-          "trans_status" : {
+          "default_card_id" : {
+            "type" : "string",
+            "description" : "The id of the default card."
+          },
+          "default_card_index" : {
+            "type" : "string",
+            "description" : "The index in the array of the default card."
+          },
+          "status" : {
             "type" : "string",
             "description" : "Defines the status of the account for processing valid values are\n\n - ACTIVE for active accounts that are able to process\n - DISABLED for accounts that are currently disabled for processing.\n"
+          },
+          "unique_id" : {
+            "type" : "string",
+            "description" : "A unique id of the card holder account which uniquely identifies the stored account. This value is not searchable."
           }
         }
       },
@@ -1221,7 +1503,6 @@
           },
           "trans_type" : {
             "type" : "string",
-            "minLength" : 1,
             "maxLength" : 1,
             "description" : "The type of transaction being submitted. Normally this value is not required and your account manager may request that you set this field."
           }
@@ -1327,7 +1608,6 @@
           },
           "trans_type" : {
             "type" : "string",
-            "minLength" : 1,
             "maxLength" : 1,
             "description" : "The type of transaction that was processed."
           },
@@ -1382,7 +1662,7 @@
             "type" : "string",
             "description" : "The status of the card such, valid values are\n - ACTIVE the card is active for processing\n - INACTIVE the card is not active for processing\n - EXPIRED for cards that have passed their expiry date.\n"
           },
-          "defaultCard" : {
+          "default" : {
             "type" : "boolean",
             "description" : "Determines if the card is the default card for the account and should be regarded as the first option to be used for processing."
           },
@@ -1544,6 +1824,35 @@
           }
         }
       },
+      "Error" : {
+        "type" : "object",
+        "properties" : {
+          "code" : {
+            "type" : "string",
+            "minLength" : 3,
+            "maxLength" : 4,
+            "example" : 0,
+            "description" : "A response code providing a result of the process."
+          },
+          "context" : {
+            "type" : "string",
+            "example" : "aspiu352908ns47n343598bads",
+            "description" : "A context id of the process used for referencing transactions through support."
+          },
+          "identifier" : {
+            "type" : "string",
+            "minLength" : 4,
+            "maxLength" : 50,
+            "example" : "95b857a1-5955-4b86-963c-5a6dbfc4fb95",
+            "description" : "An identifier if presented in the original request."
+          },
+          "message" : {
+            "type" : "string",
+            "example" : "Approved 044332",
+            "description" : "A response message providing a description of the result of the process."
+          }
+        }
+      },
       "CResAuthRequest" : {
         "type" : "object",
         "properties" : {
@@ -1652,7 +1961,7 @@
       },
       "AuthRequest" : {
         "type" : "object",
-        "required" : [ "amount", "cardnumber", "expmonth", "identifier", "merchantid" ],
+        "required" : [ "amount", "cardnumber", "expmonth", "expyear", "identifier", "merchantid" ],
         "properties" : {
           "airline_data" : {
             "$ref" : "#/components/schemas/AirlineAdvice",
@@ -1674,6 +1983,10 @@
           "bill_to" : {
             "$ref" : "#/components/schemas/ContactDetails",
             "x-description" : "Billing details of the card holder making the payment.\nThese details may be used for AVS fraud analysis, 3DS and for future referencing of the transaction.\n\nFor AVS to work correctly, the billing details should be the registered address of the card holder\nas it appears on the statement with their card issuer. The numeric details will be passed through\nfor analysis and may result in a decline if incorrectly provided.\n"
+          },
+          "card_holder_name" : {
+            "type" : "string",
+            "description" : "The card holder name as appears on the card such as MR N E BODY. Required for some acquirers.\n"
           },
           "cardnumber" : {
             "type" : "string",
@@ -1767,7 +2080,6 @@
           },
           "trans_type" : {
             "type" : "string",
-            "minLength" : 1,
             "maxLength" : 1,
             "description" : "The type of transaction being submitted. Normally this value is not required and your account manager may request that you set this field."
           }
@@ -1797,6 +2109,7 @@
       },
       "AccountCreate" : {
         "type" : "object",
+        "required" : [ "account_id" ],
         "properties" : {
           "account_id" : {
             "type" : "string",
@@ -1811,18 +2124,31 @@
           }
         }
       },
+      "CardStatus" : {
+        "type" : "object",
+        "properties" : {
+          "card_status" : {
+            "type" : "string",
+            "description" : "The status of the card to set, valid values are ACTIVE or INACTIVE."
+          },
+          "default" : {
+            "type" : "boolean",
+            "description" : "Defines if the card is set as the default."
+          }
+        }
+      },
       "ContactDetails" : {
         "type" : "object",
         "properties" : {
           "address1" : {
             "type" : "string",
-            "maxLength" : 20,
-            "example" : "79 Parliamant St",
+            "maxLength" : 40,
+            "example" : "79 Parliament St",
             "description" : "The first line of the address for the card holder."
           },
           "address2" : {
             "type" : "string",
-            "maxLength" : 20,
+            "maxLength" : 30,
             "example" : "Westminster",
             "description" : "The second line of the address for the card holder."
           },
@@ -1845,6 +2171,7 @@
           },
           "country" : {
             "type" : "string",
+            "minLength" : 2,
             "maxLength" : 2,
             "example" : "GB",
             "description" : "The country code in ISO 3166 format. The country value may be used for fraud analysis and for\n  acceptance of the transaction.\n"
@@ -1866,6 +2193,7 @@
           },
           "mobile_no" : {
             "type" : "string",
+            "maxLength" : 20,
             "example" : "+447790123456",
             "description" : "A mobile number for the card holder the mobile number is often required by delivery companies to ensure they are able to be in contact when required."
           },
@@ -1877,6 +2205,7 @@
           },
           "telephone_no" : {
             "type" : "string",
+            "maxLength" : 20,
             "example" : "+442030123456",
             "description" : "A telephone number for the card holder."
           },
@@ -1917,6 +2246,15 @@
           }
         }
       },
+      "AccountStatus" : {
+        "type" : "object",
+        "properties" : {
+          "status" : {
+            "type" : "string",
+            "description" : "The status of the account to set, valid values are ACTIVE or DISABLED."
+          }
+        }
+      },
       "ThreeDSecure" : {
         "type" : "object",
         "properties" : {
@@ -1946,7 +2284,7 @@
       },
       "PaResAuthRequest" : {
         "type" : "object",
-        "required" : [ "md" ],
+        "required" : [ "md", "pares" ],
         "properties" : {
           "md" : {
             "type" : "string",
@@ -2057,14 +2395,8 @@
       },
       "RegisterCard" : {
         "type" : "object",
+        "required" : [ "cardnumber", "expmonth", "expyear" ],
         "properties" : {
-          "account_id" : {
-            "type" : "string",
-            "minLength" : 5,
-            "maxLength" : 50,
-            "example" : "aaabbb-cccddd-eee",
-            "description" : "The account to register the card against."
-          },
           "cardnumber" : {
             "type" : "string",
             "minLength" : 12,
@@ -2072,7 +2404,7 @@
             "example" : "4000 0000 0000 0002",
             "description" : "The primary number of the card."
           },
-          "defaultCard" : {
+          "default" : {
             "type" : "boolean",
             "description" : "Determines whether the card should be the new default card."
           },
