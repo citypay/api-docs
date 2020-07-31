@@ -1,12 +1,12 @@
 ---
 title: CityPay Payment API
-version: 6.0.0.BETA
+version: 6.0.0
 language_tabs:
   - json
   - xml
 toc_footers:
   - <a href='mailto:support@citypay.com'>Any Integration Questions?</a>
-  - V6.0.0.BETA 2020-06-19
+  - V6.0.0 2020-07-31
 includes:
   - errorcodes
   - authresultcodes
@@ -22,8 +22,8 @@ search: true
 
 # CityPay Payment API
 
-Version: 6.0.0.BETA
-Last Updated: 2020-06-19
+Version: 6.0.0
+Last Updated: 2020-07-31
 
 
 This CityPay API is a HTTP RESTful payment API used for direct server to server transactional processing. It
@@ -187,7 +187,7 @@ Request body for this operation contains the following properties
 
 Required | Name | Type | Description |
 ---------|------|------|-------------|
- Optional | `account_id` | string  | A card holder account id used for uniquely identifying the account. This value will be used for future<br/>referencing of the account oand to link your system to this API. This value is immutable and<br/>never changes.<br/><br/>minLength: 5<br/>maxLength: 50 | 
+ Required | `account_id` | string  | A card holder account id used for uniquely identifying the account. This value will be used for future<br/>referencing of the account oand to link your system to this API. This value is immutable and<br/>never changes.<br/><br/>minLength: 5<br/>maxLength: 50 | 
  Optional | `contact` | object | [ContactDetails](#contactdetails) Contact details for a card holder account. | 
 
 
@@ -199,10 +199,11 @@ Responses for this operation are
 
  StatusCode | Description | Model |
 ------------|-------------|-------|
- `200` | Provides an initialised account. | `application/json`, `text/xml`:  <br/> [CardHolderAccount](#cardholderaccount) |  
- `400` | Bad Request. Should the incoming data not be validly determined. |  |  
  `403` | Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request. |  |  
  `401` | Unauthorized. No api key has been provided and is required for this operation. |  |  
+ `422` | Unprocessable Entity. Should a failure occur that prevents processing of the API call. | `application/json`, `text/xml`:  <br/> [Error](#error) |  
+ `400` | Bad Request. Should the incoming data not be validly determined. |  |  
+ `200` | Provides an initialised account. | `application/json`, `text/xml`:  <br/> [CardHolderAccount](#cardholderaccount) |  
 
 
 
@@ -236,10 +237,11 @@ Responses for this operation are
 
  StatusCode | Description | Model |
 ------------|-------------|-------|
- `200` | A card holder account that matches the account id provided in the request. | `application/json`, `text/xml`:  <br/> [CardHolderAccount](#cardholderaccount) |  
- `400` | Bad Request. Should the incoming data not be validly determined. |  |  
  `403` | Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request. |  |  
  `401` | Unauthorized. No api key has been provided and is required for this operation. |  |  
+ `422` | Unprocessable Entity. Should a failure occur that prevents processing of the API call. | `application/json`, `text/xml`:  <br/> [Error](#error) |  
+ `400` | Bad Request. Should the incoming data not be validly determined. |  |  
+ `200` | A card holder account that matches the account id provided in the request. | `application/json`, `text/xml`:  <br/> [CardHolderAccount](#cardholderaccount) |  
 
 
 
@@ -269,10 +271,11 @@ Responses for this operation are
 
  StatusCode | Description | Model |
 ------------|-------------|-------|
- `200` | An acknowledgment that the card holder account has been marked for deletion. | `application/json`, `text/xml`:  <br/> [Acknowledgement](#acknowledgement) |  
- `400` | Bad Request. Should the incoming data not be validly determined. |  |  
  `403` | Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request. |  |  
  `401` | Unauthorized. No api key has been provided and is required for this operation. |  |  
+ `422` | Unprocessable Entity. Should a failure occur that prevents processing of the API call. | `application/json`, `text/xml`:  <br/> [Error](#error) |  
+ `400` | Bad Request. Should the incoming data not be validly determined. |  |  
+ `200` | An acknowledgment that the card holder account has been marked for deletion. | `application/json`, `text/xml`:  <br/> [Acknowledgement](#acknowledgement) |  
 
 
 
@@ -303,17 +306,18 @@ Responses for this operation are
 
  StatusCode | Description | Model |
 ------------|-------------|-------|
- `200` | Acknowledges the card has been requested for deletion. | `application/json`, `text/xml`:  <br/> [Acknowledgement](#acknowledgement) |  
- `400` | Bad Request. Should the incoming data not be validly determined. |  |  
  `403` | Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request. |  |  
  `401` | Unauthorized. No api key has been provided and is required for this operation. |  |  
+ `422` | Unprocessable Entity. Should a failure occur that prevents processing of the API call. | `application/json`, `text/xml`:  <br/> [Error](#error) |  
+ `400` | Bad Request. Should the incoming data not be validly determined. |  |  
+ `200` | Acknowledges the card has been requested for deletion. | `application/json`, `text/xml`:  <br/> [Acknowledgement](#acknowledgement) |  
 
 
 
 
 ## Card Status
 
-<span class="http-method-post">POST</span> `/account/{accountid}/card/{cardId}/status/{status}`
+<span class="http-method-post">POST</span> `/account/{accountid}/card/{cardId}/status`
 
 Updates the status of a card for processing. The following values are available
 
@@ -331,8 +335,21 @@ Name | Type | Required | Description |
 -----|------|----------|-------------|
  `accountid` | string | true | The account id that refers to the customer's account no. This value will have been provided when setting up the card holder account. | 
  `cardId` | string | true | The id of the card that is presented by a call to retrieve a card holder account. | 
- `status` | string | true | The status of the card to set, valid values are `ACTIVE` or `INACTIVE`. | 
 
+
+
+
+
+
+
+### Model CardStatus
+
+Request body for this operation contains the following properties
+
+Required | Name | Type | Description |
+---------|------|------|-------------|
+ Optional | `card_status` | string  | The status of the card to set, valid values are ACTIVE or INACTIVE. | 
+ Optional | `default` | boolean  | Defines if the card is set as the default. | 
 
 
 
@@ -343,10 +360,11 @@ Responses for this operation are
 
  StatusCode | Description | Model |
 ------------|-------------|-------|
- `200` | Acknowledges the card status has changed, returning 01 for a valid change or 00 for non valid change. | `application/json`, `text/xml`:  <br/> [Acknowledgement](#acknowledgement) |  
- `400` | Bad Request. Should the incoming data not be validly determined. |  |  
  `403` | Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request. |  |  
  `401` | Unauthorized. No api key has been provided and is required for this operation. |  |  
+ `422` | Unprocessable Entity. Should a failure occur that prevents processing of the API call. | `application/json`, `text/xml`:  <br/> [Error](#error) |  
+ `400` | Bad Request. Should the incoming data not be validly determined. |  |  
+ `200` | Acknowledges the card status has changed, returning 01 for a valid change or 00 for non valid change. | `application/json`, `text/xml`:  <br/> [Acknowledgement](#acknowledgement) |  
 
 
 
@@ -376,18 +394,18 @@ Request body for this operation contains the following properties
 
 Required | Name | Type | Description |
 ---------|------|------|-------------|
- Optional | `address1` | string  | The first line of the address for the card holder.<br/>maxLength: 20 | 
- Optional | `address2` | string  | The second line of the address for the card holder.<br/>maxLength: 20 | 
+ Optional | `address1` | string  | The first line of the address for the card holder.<br/>maxLength: 40 | 
+ Optional | `address2` | string  | The second line of the address for the card holder.<br/>maxLength: 30 | 
  Optional | `address3` | string  | The third line of the address for the card holder.<br/>maxLength: 20 | 
  Optional | `area` | string  | The area such as city, department, parish for the card holder.<br/>maxLength: 20 | 
  Optional | `company` | string  | The company name for the card holder if the contact is a corporate contact. | 
- Optional | `country` | string  | The country code in ISO 3166 format. The country value may be used for fraud analysis and for<br/>  acceptance of the transaction.<br/><br/>maxLength: 2 | 
+ Optional | `country` | string  | The country code in ISO 3166 format. The country value may be used for fraud analysis and for<br/>  acceptance of the transaction.<br/><br/>minLength: 2<br/>maxLength: 2 | 
  Optional | `email` | string  | An email address for the card holder which may be used for correspondence. | 
  Optional | `firstname` | string  | The first name  of the card holder. | 
  Optional | `lastname` | string  | The last name or surname of the card holder. | 
- Optional | `mobile_no` | string  | A mobile number for the card holder the mobile number is often required by delivery companies to ensure they are able to be in contact when required. | 
+ Optional | `mobile_no` | string  | A mobile number for the card holder the mobile number is often required by delivery companies to ensure they are able to be in contact when required.<br/>maxLength: 20 | 
  Optional | `postcode` | string  | The postcode or zip code of the address which may be used for fraud analysis.<br/>maxLength: 10 | 
- Optional | `telephone_no` | string  | A telephone number for the card holder. | 
+ Optional | `telephone_no` | string  | A telephone number for the card holder.<br/>maxLength: 20 | 
  Optional | `title` | string  | A title for the card holder such as Mr, Mrs, Ms, M. Mme. etc. | 
 
 
@@ -399,10 +417,11 @@ Responses for this operation are
 
  StatusCode | Description | Model |
 ------------|-------------|-------|
- `200` | A revised account with the new details set. | `application/json`, `text/xml`:  <br/> [CardHolderAccount](#cardholderaccount) |  
- `400` | Bad Request. Should the incoming data not be validly determined. |  |  
  `403` | Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request. |  |  
  `401` | Unauthorized. No api key has been provided and is required for this operation. |  |  
+ `422` | Unprocessable Entity. Should a failure occur that prevents processing of the API call. | `application/json`, `text/xml`:  <br/> [Error](#error) |  
+ `400` | Bad Request. Should the incoming data not be validly determined. |  |  
+ `200` | A revised account with the new details set. | `application/json`, `text/xml`:  <br/> [CardHolderAccount](#cardholderaccount) |  
 
 
 
@@ -440,11 +459,10 @@ Request body for this operation contains the following properties
 
 Required | Name | Type | Description |
 ---------|------|------|-------------|
- Optional | `account_id` | string  | The account to register the card against.<br/>minLength: 5<br/>maxLength: 50 | 
- Optional | `cardnumber` | string  | The primary number of the card.<br/>minLength: 12<br/>maxLength: 22 | 
- Optional | `defaultCard` | boolean  | Determines whether the card should be the new default card. | 
- Optional | `expmonth` | integer *int32* | The expiry month of the card.<br/>minimum: 1<br/>maximum: 12 | 
- Optional | `expyear` | integer *int32* | The expiry year of the card.<br/>minimum: 2000<br/>maximum: 2100 | 
+ Required | `cardnumber` | string  | The primary number of the card.<br/>minLength: 12<br/>maxLength: 22 | 
+ Required | `expmonth` | integer *int32* | The expiry month of the card.<br/>minimum: 1<br/>maximum: 12 | 
+ Required | `expyear` | integer *int32* | The expiry year of the card.<br/>minimum: 2000<br/>maximum: 2100 | 
+ Optional | `default` | boolean  | Determines whether the card should be the new default card. | 
 
 
 
@@ -455,10 +473,11 @@ Responses for this operation are
 
  StatusCode | Description | Model |
 ------------|-------------|-------|
- `200` | A successfully registered card provides a reload of the account including the new card. | `application/json`, `text/xml`:  <br/> [CardHolderAccount](#cardholderaccount) |  
- `400` | Bad Request. Should the incoming data not be validly determined. |  |  
  `403` | Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request. |  |  
  `401` | Unauthorized. No api key has been provided and is required for this operation. |  |  
+ `422` | Unprocessable Entity. Should a failure occur that prevents processing of the API call. | `application/json`, `text/xml`:  <br/> [Error](#error) |  
+ `400` | Bad Request. Should the incoming data not be validly determined. |  |  
+ `200` | A successfully registered card provides a reload of the account including the new card. | `application/json`, `text/xml`:  <br/> [CardHolderAccount](#cardholderaccount) |  
 
 
 
@@ -486,16 +505,30 @@ Name | Type | Required | Description |
 
 
 
+
+
+### Model AccountStatus
+
+Request body for this operation contains the following properties
+
+Required | Name | Type | Description |
+---------|------|------|-------------|
+ Optional | `status` | string  | The status of the account to set, valid values are ACTIVE or DISABLED. | 
+
+
+
+
 ### Response
 
 Responses for this operation are
 
  StatusCode | Description | Model |
 ------------|-------------|-------|
- `200` | An acknowledgment that the card holder account status has been updated. | `application/json`, `text/xml`:  <br/> [Acknowledgement](#acknowledgement) |  
- `400` | Bad Request. Should the incoming data not be validly determined. |  |  
  `403` | Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request. |  |  
  `401` | Unauthorized. No api key has been provided and is required for this operation. |  |  
+ `422` | Unprocessable Entity. Should a failure occur that prevents processing of the API call. | `application/json`, `text/xml`:  <br/> [Error](#error) |  
+ `400` | Bad Request. Should the incoming data not be validly determined. |  |  
+ `200` | An acknowledgment that the card holder account status has been updated. | `application/json`, `text/xml`:  <br/> [Acknowledgement](#acknowledgement) |  
 
 
 
@@ -548,7 +581,7 @@ Required | Name | Type | Description |
  Optional | `match_avsa` | string  | A policy value which determines whether an AVS address policy is enforced, bypassed or ignored.<br/><br/><br/>Values are<br/> `0` for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.<br/> `1` for an enforced policy. Transactions that are enforced will be rejected if the AVS address numeric value does not match.<br/> `2` to bypass. Transactions that are bypassed will be allowed through even if the address did not match.<br/> `3` to ignore. Transactions that are ignored will bypass the result and not send address numeric details for authorisation. | 
  Optional | `sdk` | string  | An optional reference value for the calling client such as a version number i.e. | 
  Optional | `trans_info` | string  | Further information that can be added to the transaction will display in reporting. Can be used for flexible values such as operator id.<br/>maxLength: 50 | 
- Optional | `trans_type` | string  | The type of transaction being submitted. Normally this value is not required and your account manager may request that you set this field.<br/>minLength: 1<br/>maxLength: 1 | 
+ Optional | `trans_type` | string  | The type of transaction being submitted. Normally this value is not required and your account manager may request that you set this field.<br/>maxLength: 1 | 
 
 
 
@@ -559,10 +592,11 @@ Responses for this operation are
 
  StatusCode | Description | Model |
 ------------|-------------|-------|
- `200` | A decision met by the result of the charge. | `application/json`, `text/xml`:  <br/> [Decision](#decision) |  
- `400` | Bad Request. Should the incoming data not be validly determined. |  |  
  `403` | Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request. |  |  
  `401` | Unauthorized. No api key has been provided and is required for this operation. |  |  
+ `422` | Unprocessable Entity. Should a failure occur that prevents processing of the API call. | `application/json`, `text/xml`:  <br/> [Error](#error) |  
+ `400` | Bad Request. Should the incoming data not be validly determined. |  |  
+ `200` | A decision met by the result of the charge. | `application/json`, `text/xml`:  <br/> [Decision](#decision) |  
 
 
 
@@ -574,6 +608,13 @@ Responses for this operation are
 <span class="http-method-get">GET</span> `/merchants/{clientid}`
 
 An operational request to list current merchants for a client.
+
+### Sorting
+
+Sorting can be performed by include a query parameter i.e. `/merchants/?sort=merchantid`
+
+Fields that can be sorted are `merchantid` or `name`.
+
 
 
 ### Path Parameters
@@ -592,10 +633,11 @@ Responses for this operation are
 
  StatusCode | Description | Model |
 ------------|-------------|-------|
- `200` | A list of merchants that are configured against the client id. | `application/json`, `text/xml`:  <br/> [ListMerchantsResponse](#listmerchantsresponse) |  
- `400` | Bad Request. Should the incoming data not be validly determined. |  |  
  `403` | Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request. |  |  
  `401` | Unauthorized. No api key has been provided and is required for this operation. |  |  
+ `422` | Unprocessable Entity. Should a failure occur that prevents processing of the API call. | `application/json`, `text/xml`:  <br/> [Error](#error) |  
+ `400` | Bad Request. Should the incoming data not be validly determined. |  |  
+ `200` | A list of merchants that are configured against the client id. | `application/json`, `text/xml`:  <br/> [ListMerchantsResponse](#listmerchantsresponse) |  
 
 
 
@@ -635,10 +677,11 @@ Responses for this operation are
 
  StatusCode | Description | Model |
 ------------|-------------|-------|
- `200` | A result of the ping request. | `application/json`, `text/xml`:  <br/> [Acknowledgement](#acknowledgement) |  
- `400` | Bad Request. Should the incoming data not be validly determined. |  |  
  `403` | Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request. |  |  
  `401` | Unauthorized. No api key has been provided and is required for this operation. |  |  
+ `422` | Unprocessable Entity. Should a failure occur that prevents processing of the API call. | `application/json`, `text/xml`:  <br/> [Error](#error) |  
+ `400` | Bad Request. Should the incoming data not be validly determined. |  |  
+ `200` | A result of the ping request. | `application/json`, `text/xml`:  <br/> [Acknowledgement](#acknowledgement) |  
 
 
 
@@ -880,6 +923,7 @@ Required | Name | Type | Description |
  Required | `amount` | integer *int32* | The amount to authorise in the lowest unit of currency with a variable length to a maximum of 12 digits.<br/>No decimal points are to be included and no divisional characters such as 1,024.<br/>The amount should be the total amount required for the transaction.<br/>For example with GBP £1,021.95 the amount value is 102195.<br/><br/>minLength: 1<br/>maxLength: 12 | 
  Required | `cardnumber` | string  | The card number (PAN) with a variable length to a maximum of 21 digits in numerical form.<br/>Any non numeric characters will be stripped out of the card number, this includes whitespace or separators internal of the<br/>provided value.<br/><br/>The card number must be treated as sensitive data. We only provide an obfuscated value in logging and reporting.<br/> The plaintext value is encrypted in our database using AES 256 GMC bit encryption for settlement or refund purposes.<br/><br/>When providing the card number to our gateway through the authorisation API you will be handling the card data on<br/>your application. This will require further PCI controls to be in place and this value must never be stored.<br/><br/>minLength: 12<br/>maxLength: 22 | 
  Required | `expmonth` | integer *int32* | The month of expiry of the card. The month value should be a numerical value between 1 and 12.<br/><br/>minimum: 1<br/>maximum: 12 | 
+ Required | `expyear` | integer *int32* | The year of expiry of the card.<br/><br/>minimum: 2000<br/>maximum: 2100 | 
  Required | `identifier` | string  | The identifier of the transaction to process. The value should be a valid reference and may be used to perform<br/> post processing actions and to aid in reconciliation of transactions.<br/><br/>The value should be a valid printable string with ASCII character ranges from 32 to 127.<br/><br/>The identifier is recommended to be distinct for each transaction such as a [random unique identifier](https://en.wikipedia.org/wiki/Universally_unique_identifier)<br/>this will aid in ensuring each transaction is identifiable.<br/><br/>When transactions are processed they are also checked for duplicate requests. Changing the identifier on a subsequent<br/>request will ensure that a transaction is considered as different.<br/><br/>minLength: 4<br/>maxLength: 50 | 
  Required | `merchantid` | integer *int32* | Identifies the merchant account to perform processing for. | 
  Optional | `avs_postcode_policy` | string  | A policy value which determines whether an AVS postcode policy is enforced or bypassed.<br/><br/>Values are<br/> `0` for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.<br/> `1` for an enforced policy. Transactions that are enforced will be rejected if the AVS postcode numeric value does not match.<br/> `2` to bypass. Transactions that are bypassed will be allowed through even if the postcode did not match.<br/> `3` to ignore. Transactions that are ignored will bypass the result and not send postcode details for authorisation. | 
@@ -889,13 +933,12 @@ Required | Name | Type | Description |
  Optional | `csc_policy` | string  | A policy value which determines whether a CSC policy is enforced or bypassed.<br/><br/>Values are<br/> `0` for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.<br/> `1` for an enforced policy. Transactions that are enforced will be rejected if the CSC value does not match.<br/> `2` to bypass. Transactions that are bypassed will be allowed through even if the CSC did not match.<br/> `3` to ignore. Transactions that are ignored will bypass the result and not send the CSC details for authorisation. | 
  Optional | `currency` | string  | The processing currency for the transaction. Will default to the merchant account currency.<br/>minLength: 3<br/>maxLength: 3 | 
  Optional | `duplicate_policy` | string  | A policy value which determines whether a duplication policy is enforced or bypassed. A duplication check has a window<br/>of time set against your account within which it can action. If a previous transaction with matching values occurred within<br/>the window, any subsequent transaction will result in a T001 result.<br/><br/>Values are<br/> `0` for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.<br/> `1` for an enforced policy. Transactions that are enforced will be checked for duplication within the duplication window.<br/> `2` to bypass. Transactions that are bypassed will not be checked for duplication within the duplication window.<br/> `3` to ignore. Transactions that are ignored will have the same affect as bypass. | 
- Optional | `expyear` | integer *int32* | The year of expiry of the card.<br/><br/>minimum: 2000<br/>maximum: 2100 | 
  Optional | `match_avsa` | string  | A policy value which determines whether an AVS address policy is enforced, bypassed or ignored.<br/><br/><br/>Values are<br/> `0` for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.<br/> `1` for an enforced policy. Transactions that are enforced will be rejected if the AVS address numeric value does not match.<br/> `2` to bypass. Transactions that are bypassed will be allowed through even if the address did not match.<br/> `3` to ignore. Transactions that are ignored will bypass the result and not send address numeric details for authorisation. | 
  Optional | `sdk` | string  | An optional reference value for the calling client such as a version number i.e. | 
  Optional | `ship_to` | object | [ContactDetails](#contactdetails) Shipping details of the card holder making the payment. These details may be used for 3DS and for future referencing of the transaction. | 
  Optional | `threedsecure` | object | [ThreeDSecure](#threedsecure) ThreeDSecure element, providing values to enable full 3DS processing flows. | 
  Optional | `trans_info` | string  | Further information that can be added to the transaction will display in reporting. Can be used for flexible values such as operator id.<br/>maxLength: 50 | 
- Optional | `trans_type` | string  | The type of transaction being submitted. Normally this value is not required and your account manager may request that you set this field.<br/>minLength: 1<br/>maxLength: 1 | 
+ Optional | `trans_type` | string  | The type of transaction being submitted. Normally this value is not required and your account manager may request that you set this field.<br/>maxLength: 1 | 
 
 
 ### Business Extension: MCC6012
@@ -935,10 +978,11 @@ Responses for this operation are
 
  StatusCode | Description | Model |
 ------------|-------------|-------|
- `200` | A decision made by the result of processing. | `application/json`, `text/xml`:  <br/> [Decision](#decision) |  
- `400` | Bad Request. Should the incoming data not be validly determined. |  |  
  `403` | Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request. |  |  
  `401` | Unauthorized. No api key has been provided and is required for this operation. |  |  
+ `422` | Unprocessable Entity. Should a failure occur that prevents processing of the API call. | `application/json`, `text/xml`:  <br/> [Error](#error) |  
+ `400` | Bad Request. Should the incoming data not be validly determined. |  |  
+ `200` | A decision made by the result of processing. | `application/json`, `text/xml`:  <br/> [Decision](#decision) |  
 
 
 
@@ -1081,10 +1125,11 @@ Responses for this operation are
 
  StatusCode | Description | Model |
 ------------|-------------|-------|
- `200` | A result and acknowledgement of the capture request. | `application/json`, `text/xml`:  <br/> [Acknowledgement](#acknowledgement) |  
- `400` | Bad Request. Should the incoming data not be validly determined. |  |  
  `403` | Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request. |  |  
  `401` | Unauthorized. No api key has been provided and is required for this operation. |  |  
+ `422` | Unprocessable Entity. Should a failure occur that prevents processing of the API call. | `application/json`, `text/xml`:  <br/> [Error](#error) |  
+ `400` | Bad Request. Should the incoming data not be validly determined. |  |  
+ `200` | A result and acknowledgement of the capture request. | `application/json`, `text/xml`:  <br/> [Acknowledgement](#acknowledgement) |  
 
 
 
@@ -1140,10 +1185,11 @@ Responses for this operation are
 
  StatusCode | Description | Model |
 ------------|-------------|-------|
- `200` | A result of processing the 3DSv2 authorisation data. | `application/json`, `text/xml`:  <br/> [AuthResponse](#authresponse) |  
- `400` | Bad Request. Should the incoming data not be validly determined. |  |  
  `403` | Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request. |  |  
  `401` | Unauthorized. No api key has been provided and is required for this operation. |  |  
+ `422` | Unprocessable Entity. Should a failure occur that prevents processing of the API call. | `application/json`, `text/xml`:  <br/> [Error](#error) |  
+ `400` | Bad Request. Should the incoming data not be validly determined. |  |  
+ `200` | A result of processing the 3DSv2 authorisation data. | `application/json`, `text/xml`:  <br/> [AuthResponse](#authresponse) |  
 
 
 
@@ -1191,7 +1237,7 @@ Request body for this operation contains the following properties
 Required | Name | Type | Description |
 ---------|------|------|-------------|
  Required | `md` | string  | The Merchant Data (MD) which is a unique ID to reference the authentication session.<br/>This value will be created by CityPay when required. When responding from the ACS,<br/>this value will be returned by the ACS. | 
- Optional | `pares` | string *base64* | The Payer Authentication Response packet which is returned by the ACS containing the<br/> response of the authentication session including verification values. The response<br/> is a base64 encoded packet and should be forwarded to CityPay untouched. | 
+ Required | `pares` | string *base64* | The Payer Authentication Response packet which is returned by the ACS containing the<br/> response of the authentication session including verification values. The response<br/> is a base64 encoded packet and should be forwarded to CityPay untouched. | 
 
 
 
@@ -1202,10 +1248,11 @@ Responses for this operation are
 
  StatusCode | Description | Model |
 ------------|-------------|-------|
- `200` | A result of processing the 3DSv1 authorisation data. | `application/json`, `text/xml`:  <br/> [AuthResponse](#authresponse) |  
- `400` | Bad Request. Should the incoming data not be validly determined. |  |  
  `403` | Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request. |  |  
  `401` | Unauthorized. No api key has been provided and is required for this operation. |  |  
+ `422` | Unprocessable Entity. Should a failure occur that prevents processing of the API call. | `application/json`, `text/xml`:  <br/> [Error](#error) |  
+ `400` | Bad Request. Should the incoming data not be validly determined. |  |  
+ `200` | A result of processing the 3DSv1 authorisation data. | `application/json`, `text/xml`:  <br/> [AuthResponse](#authresponse) |  
 
 
 
@@ -1268,10 +1315,11 @@ Responses for this operation are
 
  StatusCode | Description | Model |
 ------------|-------------|-------|
- `200` | A result of the retrieval request. | `application/json`, `text/xml`:  <br/> [AuthReferences](#authreferences) |  
- `400` | Bad Request. Should the incoming data not be validly determined. |  |  
  `403` | Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request. |  |  
  `401` | Unauthorized. No api key has been provided and is required for this operation. |  |  
+ `422` | Unprocessable Entity. Should a failure occur that prevents processing of the API call. | `application/json`, `text/xml`:  <br/> [Error](#error) |  
+ `400` | Bad Request. Should the incoming data not be validly determined. |  |  
+ `200` | A result of the retrieval request. | `application/json`, `text/xml`:  <br/> [AuthReferences](#authreferences) |  
 
 
 
@@ -1352,10 +1400,11 @@ Responses for this operation are
 
  StatusCode | Description | Model |
 ------------|-------------|-------|
- `200` | A result and acknowledgement of the void request. | `application/json`, `text/xml`:  <br/> [Acknowledgement](#acknowledgement) |  
- `400` | Bad Request. Should the incoming data not be validly determined. |  |  
  `403` | Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request. |  |  
  `401` | Unauthorized. No api key has been provided and is required for this operation. |  |  
+ `422` | Unprocessable Entity. Should a failure occur that prevents processing of the API call. | `application/json`, `text/xml`:  <br/> [Error](#error) |  
+ `400` | Bad Request. Should the incoming data not be validly determined. |  |  
+ `200` | A result and acknowledgement of the void request. | `application/json`, `text/xml`:  <br/> [Acknowledgement](#acknowledgement) |  
 
 
 
@@ -1383,9 +1432,31 @@ Responses for this operation are
 
  Field | Type | Required | Description |
 -------|------|----------|-------------|
-`account_id` | string  | false | A card holder account id used for uniquely identifying the account. This value will be used for future<br/>referencing of the account oand to link your system to this API. This value is immutable and<br/>never changes.<br/><br/>minLength: 5<br/>maxLength: 50 |
+`account_id` | string  | true | A card holder account id used for uniquely identifying the account. This value will be used for future<br/>referencing of the account oand to link your system to this API. This value is immutable and<br/>never changes.<br/><br/>minLength: 5<br/>maxLength: 50 |
 `contact` | object | false | [ContactDetails](#contactdetails) Contact details for a card holder account.
 
+
+
+
+
+
+## AccountStatus
+
+```json
+{
+   "status": ""
+}
+```
+
+```xml
+<AccountStatus>
+ <status></status> 
+</AccountStatus>
+```
+
+ Field | Type | Required | Description |
+-------|------|----------|-------------|
+`status` | string  | false | The status of the account to set, valid values are ACTIVE or DISABLED. |
 
 
 
@@ -1586,7 +1657,7 @@ Responses for this operation are
 `merchantid` | integer *int32* | false | The merchant id of the transaction result. |
 `result` | string  | false | The result of the transaction. |
 `trans_status` | string  | false | The current status of the transaction through it's lifecycle. |
-`trans_type` | string  | false | The type of transaction that was processed.<br/>minLength: 1<br/>maxLength: 1 |
+`trans_type` | string  | false | The type of transaction that was processed.<br/>maxLength: 1 |
 `transno` | integer *int32* | false | The transaction number of the transaction. |
 
 
@@ -1689,7 +1760,7 @@ for analysis and may result in a decline if incorrectly provided.
 `currency` | string  | false | The processing currency for the transaction. Will default to the merchant account currency.<br/>minLength: 3<br/>maxLength: 3 |
 `duplicate_policy` | string  | false | A policy value which determines whether a duplication policy is enforced or bypassed. A duplication check has a window<br/>of time set against your account within which it can action. If a previous transaction with matching values occurred within<br/>the window, any subsequent transaction will result in a T001 result.<br/><br/>Values are<br/> `0` for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.<br/> `1` for an enforced policy. Transactions that are enforced will be checked for duplication within the duplication window.<br/> `2` to bypass. Transactions that are bypassed will not be checked for duplication within the duplication window.<br/> `3` to ignore. Transactions that are ignored will have the same affect as bypass. |
 `expmonth` | integer *int32* | true | The month of expiry of the card. The month value should be a numerical value between 1 and 12.<br/><br/>minimum: 1<br/>maximum: 12 |
-`expyear` | integer *int32* | false | The year of expiry of the card.<br/><br/>minimum: 2000<br/>maximum: 2100 |
+`expyear` | integer *int32* | true | The year of expiry of the card.<br/><br/>minimum: 2000<br/>maximum: 2100 |
 `external_mpi` | object | false | [ExternalMPI](#externalmpi) If an external 3DSv1 MPI is used for authentication, values provided can be supplied in this element. |
 `identifier` | string  | true | The identifier of the transaction to process. The value should be a valid reference and may be used to perform<br/> post processing actions and to aid in reconciliation of transactions.<br/><br/>The value should be a valid printable string with ASCII character ranges from 32 to 127.<br/><br/>The identifier is recommended to be distinct for each transaction such as a [random unique identifier](https://en.wikipedia.org/wiki/Universally_unique_identifier)<br/>this will aid in ensuring each transaction is identifiable.<br/><br/>When transactions are processed they are also checked for duplicate requests. Changing the identifier on a subsequent<br/>request will ensure that a transaction is considered as different.<br/><br/>minLength: 4<br/>maxLength: 50 |
 `match_avsa` | string  | false | A policy value which determines whether an AVS address policy is enforced, bypassed or ignored.<br/><br/><br/>Values are<br/> `0` for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.<br/> `1` for an enforced policy. Transactions that are enforced will be rejected if the AVS address numeric value does not match.<br/> `2` to bypass. Transactions that are bypassed will be allowed through even if the address did not match.<br/> `3` to ignore. Transactions that are ignored will bypass the result and not send address numeric details for authorisation. |
@@ -1700,7 +1771,7 @@ for analysis and may result in a decline if incorrectly provided.
 `threedsecure` | object | false | [ThreeDSecure](#threedsecure) ThreeDSecure element, providing values to enable full 3DS processing flows.
 
 `trans_info` | string  | false | Further information that can be added to the transaction will display in reporting. Can be used for flexible values such as operator id.<br/>maxLength: 50 |
-`trans_type` | string  | false | The type of transaction being submitted. Normally this value is not required and your account manager may request that you set this field.<br/>minLength: 1<br/>maxLength: 1 |
+`trans_type` | string  | false | The type of transaction being submitted. Normally this value is not required and your account manager may request that you set this field.<br/>maxLength: 1 |
 
 
 
@@ -1920,7 +1991,7 @@ Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Addi
    "bin_eu": false,
    "card_id": "",
    "card_status": "",
-   "defaultCard": false,
+   "default": false,
    "expmonth": 9,
    "expyear": 2023,
    "label": "Visa/0002",
@@ -1943,7 +2014,7 @@ Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Addi
  <bin_eu></bin_eu> 
  <card_id></card_id> 
  <card_status></card_status> 
- <defaultCard></defaultCard> 
+ <default></default> 
  <expmonth>9</expmonth> 
  <expyear>2023</expyear> 
  <label>Visa/0002</label> 
@@ -1966,7 +2037,7 @@ Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Addi
 `bin_eu` | boolean  | false | Defines whether the card is regulated within the EU. |
 `card_id` | string  | false | The id of the card that is returned. Should be used for referencing the card when perform any changes. |
 `card_status` | string  | false | The status of the card such, valid values are<br/> - ACTIVE the card is active for processing<br/> - INACTIVE the card is not active for processing<br/> - EXPIRED for cards that have passed their expiry date. |
-`defaultCard` | boolean  | false | Determines if the card is the default card for the account and should be regarded as the first option to be used for processing. |
+`default` | boolean  | false | Determines if the card is the default card for the account and should be regarded as the first option to be used for processing. |
 `expmonth` | integer *int32* | false | The expiry month of the card.<br/>minimum: 1<br/>maximum: 12 |
 `expyear` | integer *int32* | false | The expiry year of the card.<br/>minimum: 2000<br/>maximum: 2100 |
 `label` | string  | false | A label which identifies this card. |
@@ -1984,33 +2055,64 @@ Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Addi
 ```json
 {
    "account_id": "aaabbb-cccddd-eee",
-   "cac_id": "acc_1",
    "cards": "",
    "contact": { ... },
    "date_created": "2020-01-02",
-   "trans_status": ""
+   "default_card_id": "",
+   "default_card_index": "",
+   "status": "",
+   "unique_id": ""
 }
 ```
 
 ```xml
 <CardHolderAccount>
  <account_id>aaabbb-cccddd-eee</account_id> 
- <cac_id>acc_1</cac_id> 
  <cards></cards> 
  <contact><>...</></contact> 
  <date_created>2020-01-02</date_created> 
- <trans_status></trans_status> 
+ <default_card_id></default_card_id> 
+ <default_card_index></default_card_index> 
+ <status></status> 
+ <unique_id></unique_id> 
 </CardHolderAccount>
 ```
 
  Field | Type | Required | Description |
 -------|------|----------|-------------|
-`account_id` | string  | true | The account id of the card holder account which uniquely identifies the account.<br/><br/>minLength: 5<br/>maxLength: 50 |
-`cac_id` | string  | false | The card holder control id which identifies the scheme that the account belongs to, ordinarily this is the same as your client id.<br/>minLength: 5<br/>maxLength: 20 |
+`account_id` | string  | true | The account id of the card holder account provided by the merchant which uniquely identifies the account.<br/><br/>minLength: 5<br/>maxLength: 50 |
 `cards` | array  | false |  |
 `contact` | object | true | [ContactDetails](#contactdetails) Contact details that refer to this account. |
 `date_created` | string *date-time* | false | The date and time the account was created. |
-`trans_status` | string  | false | Defines the status of the account for processing valid values are<br/><br/> - ACTIVE for active accounts that are able to process<br/> - DISABLED for accounts that are currently disabled for processing. |
+`default_card_id` | string  | false | The id of the default card. |
+`default_card_index` | string  | false | The index in the array of the default card. |
+`status` | string  | false | Defines the status of the account for processing valid values are<br/><br/> - ACTIVE for active accounts that are able to process<br/> - DISABLED for accounts that are currently disabled for processing. |
+`unique_id` | string  | false | A unique id of the card holder account which uniquely identifies the stored account. This value is not searchable. |
+
+
+
+
+
+## CardStatus
+
+```json
+{
+   "card_status": "",
+   "default": false
+}
+```
+
+```xml
+<CardStatus>
+ <card_status></card_status> 
+ <default></default> 
+</CardStatus>
+```
+
+ Field | Type | Required | Description |
+-------|------|----------|-------------|
+`card_status` | string  | false | The status of the card to set, valid values are ACTIVE or INACTIVE. |
+`default` | boolean  | false | Defines if the card is set as the default. |
 
 
 
@@ -2068,7 +2170,7 @@ Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Addi
 `sdk` | string  | false | An optional reference value for the calling client such as a version number i.e. |
 `token` | string *base58* | true | A tokenised form of a card that belongs to a card holder's account and that<br/>has been previously registered. The token is time based and will only be active for<br/>a short duration. The value is therefore designed not to be stored remotely for future<br/> use.<br/><br/>Tokens will start with ct and are resiliently tamper proof using HMacSHA-256.<br/>No sensitive card data is stored internally within the token.<br/><br/>Each card will contain a different token and the value may be different on any retrieval call.<br/><br/>The value can be presented for payment as a selection value to an end user in a web application. |
 `trans_info` | string  | false | Further information that can be added to the transaction will display in reporting. Can be used for flexible values such as operator id.<br/>maxLength: 50 |
-`trans_type` | string  | false | The type of transaction being submitted. Normally this value is not required and your account manager may request that you set this field.<br/>minLength: 1<br/>maxLength: 1 |
+`trans_type` | string  | false | The type of transaction being submitted. Normally this value is not required and your account manager may request that you set this field.<br/>maxLength: 1 |
 
 
 
@@ -2078,7 +2180,7 @@ Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Addi
 
 ```json
 {
-   "address1": "79 Parliamant St",
+   "address1": "79 Parliament St",
    "address2": "Westminster",
    "address3": "",
    "area": "London",
@@ -2096,7 +2198,7 @@ Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Addi
 
 ```xml
 <ContactDetails>
- <address1>79 Parliamant St</address1> 
+ <address1>79 Parliament St</address1> 
  <address2>Westminster</address2> 
  <address3></address3> 
  <area>London</area> 
@@ -2114,18 +2216,18 @@ Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Addi
 
  Field | Type | Required | Description |
 -------|------|----------|-------------|
-`address1` | string  | false | The first line of the address for the card holder.<br/>maxLength: 20 |
-`address2` | string  | false | The second line of the address for the card holder.<br/>maxLength: 20 |
+`address1` | string  | false | The first line of the address for the card holder.<br/>maxLength: 40 |
+`address2` | string  | false | The second line of the address for the card holder.<br/>maxLength: 30 |
 `address3` | string  | false | The third line of the address for the card holder.<br/>maxLength: 20 |
 `area` | string  | false | The area such as city, department, parish for the card holder.<br/>maxLength: 20 |
 `company` | string  | false | The company name for the card holder if the contact is a corporate contact. |
-`country` | string  | false | The country code in ISO 3166 format. The country value may be used for fraud analysis and for<br/>  acceptance of the transaction.<br/><br/>maxLength: 2 |
+`country` | string  | false | The country code in ISO 3166 format. The country value may be used for fraud analysis and for<br/>  acceptance of the transaction.<br/><br/>minLength: 2<br/>maxLength: 2 |
 `email` | string  | false | An email address for the card holder which may be used for correspondence. |
 `firstname` | string  | false | The first name  of the card holder. |
 `lastname` | string  | false | The last name or surname of the card holder. |
-`mobile_no` | string  | false | A mobile number for the card holder the mobile number is often required by delivery companies to ensure they are able to be in contact when required. |
+`mobile_no` | string  | false | A mobile number for the card holder the mobile number is often required by delivery companies to ensure they are able to be in contact when required.<br/>maxLength: 20 |
 `postcode` | string  | false | The postcode or zip code of the address which may be used for fraud analysis.<br/>maxLength: 10 |
-`telephone_no` | string  | false | A telephone number for the card holder. |
+`telephone_no` | string  | false | A telephone number for the card holder.<br/>maxLength: 20 |
 `title` | string  | false | A title for the card holder such as Mr, Mrs, Ms, M. Mme. etc. |
 
 
@@ -2158,6 +2260,37 @@ Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Addi
 
 `result` | object | false | [AuthResponse](#authresponse) A result has been obtained for this transaction either through authorisation or validation.
 
+
+
+
+
+
+## Error
+
+```json
+{
+   "code": "0",
+   "context": "aspiu352908ns47n343598bads",
+   "identifier": "95b857a1-5955-4b86-963c-5a6dbfc4fb95",
+   "message": "Approved 044332"
+}
+```
+
+```xml
+<Error>
+ <code>0</code> 
+ <context>aspiu352908ns47n343598bads</context> 
+ <identifier>95b857a1-5955-4b86-963c-5a6dbfc4fb95</identifier> 
+ <message>Approved 044332</message> 
+</Error>
+```
+
+ Field | Type | Required | Description |
+-------|------|----------|-------------|
+`code` | string  | false | A response code providing a result of the process.<br/>minLength: 3<br/>maxLength: 4 |
+`context` | string  | false | A context id of the process used for referencing transactions through support. |
+`identifier` | string  | false | An identifier if presented in the original request.<br/>minLength: 4<br/>maxLength: 50 |
+`message` | string  | false | A response message providing a description of the result of the process. |
 
 
 
@@ -2309,7 +2442,7 @@ Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Addi
  Field | Type | Required | Description |
 -------|------|----------|-------------|
 `md` | string  | true | The Merchant Data (MD) which is a unique ID to reference the authentication session.<br/>This value will be created by CityPay when required. When responding from the ACS,<br/>this value will be returned by the ACS. |
-`pares` | string *base64* | false | The Payer Authentication Response packet which is returned by the ACS containing the<br/> response of the authentication session including verification values. The response<br/> is a base64 encoded packet and should be forwarded to CityPay untouched. |
+`pares` | string *base64* | true | The Payer Authentication Response packet which is returned by the ACS containing the<br/> response of the authentication session including verification values. The response<br/> is a base64 encoded packet and should be forwarded to CityPay untouched. |
 
 
 
@@ -2341,9 +2474,8 @@ Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Addi
 
 ```json
 {
-   "account_id": "aaabbb-cccddd-eee",
    "cardnumber": "4000 0000 0000 0002",
-   "defaultCard": false,
+   "default": false,
    "expmonth": 9,
    "expyear": 2023
 }
@@ -2351,9 +2483,8 @@ Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Addi
 
 ```xml
 <RegisterCard>
- <account_id>aaabbb-cccddd-eee</account_id> 
  <cardnumber>4000 0000 0000 0002</cardnumber> 
- <defaultCard></defaultCard> 
+ <default></default> 
  <expmonth>9</expmonth> 
  <expyear>2023</expyear> 
 </RegisterCard>
@@ -2361,11 +2492,10 @@ Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Addi
 
  Field | Type | Required | Description |
 -------|------|----------|-------------|
-`account_id` | string  | false | The account to register the card against.<br/>minLength: 5<br/>maxLength: 50 |
-`cardnumber` | string  | false | The primary number of the card.<br/>minLength: 12<br/>maxLength: 22 |
-`defaultCard` | boolean  | false | Determines whether the card should be the new default card. |
-`expmonth` | integer *int32* | false | The expiry month of the card.<br/>minimum: 1<br/>maximum: 12 |
-`expyear` | integer *int32* | false | The expiry year of the card.<br/>minimum: 2000<br/>maximum: 2100 |
+`cardnumber` | string  | true | The primary number of the card.<br/>minLength: 12<br/>maxLength: 22 |
+`default` | boolean  | false | Determines whether the card should be the new default card. |
+`expmonth` | integer *int32* | true | The expiry month of the card.<br/>minimum: 1<br/>maximum: 12 |
+`expyear` | integer *int32* | true | The expiry year of the card.<br/>minimum: 2000<br/>maximum: 2100 |
 
 
 
