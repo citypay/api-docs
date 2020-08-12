@@ -1,12 +1,12 @@
 ---
 title: CityPay Payment API
-version: embedded-config
+version: 6.0.4
 language_tabs:
   - json
   - xml
 toc_footers:
   - <a href='mailto:support@citypay.com'>Any Integration Questions?</a>
-  - Vembedded-config 2020-08-12
+  - V6.0.4 2020-08-12
 includes:
   - errorcodes
   - authresultcodes
@@ -22,7 +22,7 @@ search: true
 
 # CityPay Payment API
 
-Version: embedded-config
+Version: 6.0.4
 Last Updated: 2020-08-12
 
 
