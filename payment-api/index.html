@@ -456,7 +456,7 @@
       </ul>
         <ul class="toc-footer">
             <li><a href='mailto:support@citypay.com'>Any Integration Questions?</a></li>
-            <li>V6.0.0 2020-07-31</li>
+            <li>V6.0.4 2020-08-12</li>
         </ul>
     </div>
     <div class="page-wrapper">
@@ -464,8 +464,8 @@
       <div class="content">
         <img src="images/citypay-logo-23676e0b.svg" class="cplogo" alt="Citypay logo" />
         <h1 id='citypay-payment-api'>CityPay Payment API</h1>
-<p>Version: 6.0.0
-Last Updated: 2020-07-31</p>
+<p>Version: 6.0.4
+Last Updated: 2020-08-12</p>
 
 <p>This CityPay API is a HTTP RESTful payment API used for direct server to server transactional processing. It
 provides a number of payment mechanisms including: Internet, MOTO, Continuous Authority transaction processing,
@@ -3958,14 +3958,14 @@ for analysis and may result in a decline if incorrectly provided.</p>
 </tr>
 </tbody></table>
 <h2 id='decision'>Decision</h2><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-   </span><span class="s2">"authentication"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="err">...</span><span class="w"> </span><span class="p">},</span><span class="w">
-   </span><span class="s2">"challenge"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="err">...</span><span class="w"> </span><span class="p">},</span><span class="w">
-   </span><span class="s2">"result"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="err">...</span><span class="w"> </span><span class="p">}</span><span class="w">
+   </span><span class="s2">"AuthResponse"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="err">...</span><span class="w"> </span><span class="p">},</span><span class="w">
+   </span><span class="s2">"AuthenRequired"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="err">...</span><span class="w"> </span><span class="p">},</span><span class="w">
+   </span><span class="s2">"RequestChallenged"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="err">...</span><span class="w"> </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre><pre class="highlight xml tab-xml"><code><span class="nt">&lt;Decision&gt;</span>
- <span class="nt">&lt;authentication&gt;</span><span class="err">&lt;</span>&gt;...<span class="err">&lt;</span>/&gt;<span class="nt">&lt;/authentication&gt;</span> 
- <span class="nt">&lt;challenge&gt;</span><span class="err">&lt;</span>&gt;...<span class="err">&lt;</span>/&gt;<span class="nt">&lt;/challenge&gt;</span> 
- <span class="nt">&lt;result&gt;</span><span class="err">&lt;</span>&gt;...<span class="err">&lt;</span>/&gt;<span class="nt">&lt;/result&gt;</span> 
+ <span class="nt">&lt;AuthResponse&gt;</span><span class="err">&lt;</span>&gt;...<span class="err">&lt;</span>/&gt;<span class="nt">&lt;/AuthResponse&gt;</span> 
+ <span class="nt">&lt;AuthenRequired&gt;</span><span class="err">&lt;</span>&gt;...<span class="err">&lt;</span>/&gt;<span class="nt">&lt;/AuthenRequired&gt;</span> 
+ <span class="nt">&lt;RequestChallenged&gt;</span><span class="err">&lt;</span>&gt;...<span class="err">&lt;</span>/&gt;<span class="nt">&lt;/RequestChallenged&gt;</span> 
 <span class="nt">&lt;/Decision&gt;</span>
 </code></pre>
 <table><thead>
@@ -3977,16 +3977,16 @@ for analysis and may result in a decline if incorrectly provided.</p>
 </tr>
 </thead><tbody>
 <tr>
-<td><code>authentication</code></td>
+<td><code>AuthResponse</code></td>
 <td>object</td>
 <td>false</td>
-<td><a href="#authenrequired">AuthenRequired</a> The request resulted in the transaction participating in 3DSv1 and is required to be authenticated via the ACS.</td>
+<td><a href="#authresponse">AuthResponse</a> A result has been obtained for this transaction either through authorisation or validation.</td>
 </tr>
 </tbody></table>
 
-<p><code>challenge</code> | object | false | <a href="#requestchallenged">RequestChallenged</a> The request resulted in the transaction participating in 3DSv2 and has been challenged for authentication by the ACS.</p>
+<p><code>AuthenRequired</code> | object | false | <a href="#authenrequired">AuthenRequired</a> The request resulted in the transaction participating in 3DSv1 and is required to be authenticated via the ACS.</p>
 
-<p><code>result</code> | object | false | <a href="#authresponse">AuthResponse</a> A result has been obtained for this transaction either through authorisation or validation.</p>
+<p><code>RequestChallenged</code> | object | false | <a href="#requestchallenged">RequestChallenged</a> The request resulted in the transaction participating in 3DSv2 and has been challenged for authentication by the ACS.</p>
 <h2 id='error'>Error</h2><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
    </span><span class="s2">"code"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0"</span><span class="p">,</span><span class="w">
    </span><span class="s2">"context"</span><span class="p">:</span><span class="w"> </span><span class="s2">"aspiu352908ns47n343598bads"</span><span class="p">,</span><span class="w">

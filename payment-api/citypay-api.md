@@ -1,12 +1,12 @@
 ---
 title: CityPay Payment API
-version: 6.0.0
+version: 6.0.4
 language_tabs:
   - json
   - xml
 toc_footers:
   - <a href='mailto:support@citypay.com'>Any Integration Questions?</a>
-  - V6.0.0 2020-07-31
+  - V6.0.4 2020-08-12
 includes:
   - errorcodes
   - authresultcodes
@@ -22,8 +22,8 @@ search: true
 
 # CityPay Payment API
 
-Version: 6.0.0
-Last Updated: 2020-07-31
+Version: 6.0.4
+Last Updated: 2020-08-12
 
 
 This CityPay API is a HTTP RESTful payment API used for direct server to server transactional processing. It
@@ -2238,27 +2238,27 @@ Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Addi
 
 ```json
 {
-   "authentication": { ... },
-   "challenge": { ... },
-   "result": { ... }
+   "AuthResponse": { ... },
+   "AuthenRequired": { ... },
+   "RequestChallenged": { ... }
 }
 ```
 
 ```xml
 <Decision>
- <authentication><>...</></authentication> 
- <challenge><>...</></challenge> 
- <result><>...</></result> 
+ <AuthResponse><>...</></AuthResponse> 
+ <AuthenRequired><>...</></AuthenRequired> 
+ <RequestChallenged><>...</></RequestChallenged> 
 </Decision>
 ```
 
  Field | Type | Required | Description |
 -------|------|----------|-------------|
-`authentication` | object | false | [AuthenRequired](#authenrequired) The request resulted in the transaction participating in 3DSv1 and is required to be authenticated via the ACS.
+`AuthResponse` | object | false | [AuthResponse](#authresponse) A result has been obtained for this transaction either through authorisation or validation.
 
-`challenge` | object | false | [RequestChallenged](#requestchallenged) The request resulted in the transaction participating in 3DSv2 and has been challenged for authentication by the ACS.
+`AuthenRequired` | object | false | [AuthenRequired](#authenrequired) The request resulted in the transaction participating in 3DSv1 and is required to be authenticated via the ACS.
 
-`result` | object | false | [AuthResponse](#authresponse) A result has been obtained for this transaction either through authorisation or validation.
+`RequestChallenged` | object | false | [RequestChallenged](#requestchallenged) The request resulted in the transaction participating in 3DSv2 and has been challenged for authentication by the ACS.
 
 
 

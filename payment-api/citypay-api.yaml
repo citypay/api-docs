@@ -4,7 +4,7 @@ openapi: 3.0.0
 #                              API Information                                 #
 ################################################################################
 info:
-  version: 6.0.0
+  version: 6.0.4
   title: CityPay Payment API
   description: |
 
@@ -1936,18 +1936,18 @@ components:
     Decision: 
       type: object
       properties: 
-        authentication: 
+        AuthenRequired: 
           $ref: '#/components/schemas/AuthenRequired'
           x-description: |
             The request resulted in the transaction participating in 3DSv1 and is required to be authenticated via the ACS.
-        challenge: 
-          $ref: '#/components/schemas/RequestChallenged'
-          x-description: |
-            The request resulted in the transaction participating in 3DSv2 and has been challenged for authentication by the ACS.
-        result: 
+        AuthResponse: 
           $ref: '#/components/schemas/AuthResponse'
           x-description: |
             A result has been obtained for this transaction either through authorisation or validation.
+        RequestChallenged: 
+          $ref: '#/components/schemas/RequestChallenged'
+          x-description: |
+            The request resulted in the transaction participating in 3DSv2 and has been challenged for authentication by the ACS.
     AuthRequest: 
       type: object
       required: 
