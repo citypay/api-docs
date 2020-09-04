@@ -1,12 +1,12 @@
 ---
 title: CityPay Payment API
-version: 6.0.4
+version: 6.0.x-dev
 language_tabs:
   - json
   - xml
 toc_footers:
   - <a href='mailto:support@citypay.com'>Any Integration Questions?</a>
-  - V6.0.4 2020-08-12
+  - V6.0.x-dev 2020-09-04
 includes:
   - errorcodes
   - authresultcodes
@@ -22,8 +22,8 @@ search: true
 
 # CityPay Payment API
 
-Version: 6.0.4
-Last Updated: 2020-08-12
+Version: 6.0.x-dev
+Last Updated: 2020-09-04
 
 
 This CityPay API is a HTTP RESTful payment API used for direct server to server transactional processing. It
@@ -310,7 +310,7 @@ Responses for this operation are
  `401` | Unauthorized. No api key has been provided and is required for this operation. |  |  
  `422` | Unprocessable Entity. Should a failure occur that prevents processing of the API call. | `application/json`, `text/xml`:  <br/> [Error](#error) |  
  `400` | Bad Request. Should the incoming data not be validly determined. |  |  
- `200` | Acknowledges the card has been requested for deletion. | `application/json`, `text/xml`:  <br/> [Acknowledgement](#acknowledgement) |  
+ `200` | Acknowledges the card has been requested for deletion. A response code of `001` is returned if the account is available for deletion or an error code is returned. | `application/json`, `text/xml`:  <br/> [Acknowledgement](#acknowledgement) |  
 
 
 
@@ -364,7 +364,8 @@ Responses for this operation are
  `401` | Unauthorized. No api key has been provided and is required for this operation. |  |  
  `422` | Unprocessable Entity. Should a failure occur that prevents processing of the API call. | `application/json`, `text/xml`:  <br/> [Error](#error) |  
  `400` | Bad Request. Should the incoming data not be validly determined. |  |  
- `200` | Acknowledges the card status has changed, returning 01 for a valid change or 00 for non valid change. | `application/json`, `text/xml`:  <br/> [Acknowledgement](#acknowledgement) |  
+ `200` | Acknowledges the card status has changed, returning a response code of `001` for a valid change or `000` for a non valid change.
+ `application/json`, `text/xml`:  <br/> [Acknowledgement](#acknowledgement) |  
 
 
 
@@ -394,10 +395,10 @@ Request body for this operation contains the following properties
 
 Required | Name | Type | Description |
 ---------|------|------|-------------|
- Optional | `address1` | string  | The first line of the address for the card holder.<br/>maxLength: 40 | 
- Optional | `address2` | string  | The second line of the address for the card holder.<br/>maxLength: 30 | 
- Optional | `address3` | string  | The third line of the address for the card holder.<br/>maxLength: 20 | 
- Optional | `area` | string  | The area such as city, department, parish for the card holder.<br/>maxLength: 20 | 
+ Optional | `address1` | string  | The first line of the address for the card holder.<br/>maxLength: 50 | 
+ Optional | `address2` | string  | The second line of the address for the card holder.<br/>maxLength: 50 | 
+ Optional | `address3` | string  | The third line of the address for the card holder.<br/>maxLength: 50 | 
+ Optional | `area` | string  | The area such as city, department, parish for the card holder.<br/>maxLength: 50 | 
  Optional | `company` | string  | The company name for the card holder if the contact is a corporate contact. | 
  Optional | `country` | string  | The country code in ISO 3166 format. The country value may be used for fraud analysis and for<br/>  acceptance of the transaction.<br/><br/>minLength: 2<br/>maxLength: 2 | 
  Optional | `email` | string  | An email address for the card holder which may be used for correspondence. | 
@@ -528,7 +529,10 @@ Responses for this operation are
  `401` | Unauthorized. No api key has been provided and is required for this operation. |  |  
  `422` | Unprocessable Entity. Should a failure occur that prevents processing of the API call. | `application/json`, `text/xml`:  <br/> [Error](#error) |  
  `400` | Bad Request. Should the incoming data not be validly determined. |  |  
- `200` | An acknowledgment that the card holder account status has been updated. | `application/json`, `text/xml`:  <br/> [Acknowledgement](#acknowledgement) |  
+ `200` | An acknowledgment that the card holder account status has been updated.
+A response code of `001` is returned if the request was accepted or no change required.
+A response code of `000` is returned if the request contains invalid data.
+ `application/json`, `text/xml`:  <br/> [Acknowledgement](#acknowledgement) |  
 
 
 
@@ -1606,8 +1610,8 @@ Responses for this operation are
 
 ```json
 {
-   "amount": 3600,
-   "amount_value": "",
+   "amount": "20.0",
+   "amount_value": 3600,
    "atrn": "",
    "authcode": "001245A",
    "batchno": "",
@@ -1625,8 +1629,8 @@ Responses for this operation are
 
 ```xml
 <AuthReference>
- <amount>3600</amount> 
- <amount_value></amount_value> 
+ <amount>20.0</amount> 
+ <amount_value>3600</amount_value> 
  <atrn></atrn> 
  <authcode>001245A</authcode> 
  <batchno></batchno> 
@@ -1644,8 +1648,8 @@ Responses for this operation are
 
 | Field | Type | Required | Description |
 |-------|------|----------|-------------|
-| `amount` | integer *int32* | false | The amount of the transaction in decimal currency format.<br/>minLength: 1<br/>maxLength: 12 | 
-| `amount_value` | string  | false | The amount of the transaction in integer/request format. | 
+| `amount` | string  | false | The amount of the transaction in decimal currency format.<br/>maxLength: 12 | 
+| `amount_value` | integer *int32* | false | The amount of the transaction in integer/request format.<br/>minLength: 1<br/>maxLength: 12 | 
 | `atrn` | string  | false | A reference number provided by the acquiring services. | 
 | `authcode` | string  | false | The authorisation code of the transaction returned by the acquirer or card issuer. | 
 | `batchno` | string  | false | A batch number which the transaction has been end of day batched towards. | 
@@ -2213,10 +2217,10 @@ Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Addi
 
 | Field | Type | Required | Description |
 |-------|------|----------|-------------|
-| `address1` | string  | false | The first line of the address for the card holder.<br/>maxLength: 40 | 
-| `address2` | string  | false | The second line of the address for the card holder.<br/>maxLength: 30 | 
-| `address3` | string  | false | The third line of the address for the card holder.<br/>maxLength: 20 | 
-| `area` | string  | false | The area such as city, department, parish for the card holder.<br/>maxLength: 20 | 
+| `address1` | string  | false | The first line of the address for the card holder.<br/>maxLength: 50 | 
+| `address2` | string  | false | The second line of the address for the card holder.<br/>maxLength: 50 | 
+| `address3` | string  | false | The third line of the address for the card holder.<br/>maxLength: 50 | 
+| `area` | string  | false | The area such as city, department, parish for the card holder.<br/>maxLength: 50 | 
 | `company` | string  | false | The company name for the card holder if the contact is a corporate contact. | 
 | `country` | string  | false | The country code in ISO 3166 format. The country value may be used for fraud analysis and for<br/>  acceptance of the transaction.<br/><br/>minLength: 2<br/>maxLength: 2 | 
 | `email` | string  | false | An email address for the card holder which may be used for correspondence. | 

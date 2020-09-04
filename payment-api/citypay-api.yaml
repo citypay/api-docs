@@ -4,7 +4,7 @@ openapi: 3.0.0
 #                              API Information                                 #
 ################################################################################
 info:
-  version: 6.0.4
+  version: 6.0.x-dev
   title: CityPay Payment API
   description: |
 
@@ -441,7 +441,8 @@ paths:
         400: 
           description: Bad Request. Should the incoming data not be validly determined.
         200: 
-          description: Acknowledges the card status has changed, returning 01 for a valid change or 00 for non valid change.
+          description: |
+            Acknowledges the card status has changed, returning a response code of `001` for a valid change or `000` for a non valid change.
           content: 
             application/json: 
               schema: 
@@ -602,7 +603,10 @@ paths:
         400: 
           description: Bad Request. Should the incoming data not be validly determined.
         200: 
-          description: An acknowledgment that the card holder account status has been updated.
+          description: |
+            An acknowledgment that the card holder account status has been updated.
+            A response code of `001` is returned if the request was accepted or no change required.
+            A response code of `000` is returned if the request contains invalid data.
           content: 
             application/json: 
               schema: 
@@ -650,7 +654,7 @@ paths:
         400: 
           description: Bad Request. Should the incoming data not be validly determined.
         200: 
-          description: Acknowledges the card has been requested for deletion.
+          description: Acknowledges the card has been requested for deletion. A response code of `001` is returned if the account is available for deletion or an error code is returned.
           content: 
             application/json: 
               schema: 
@@ -1596,14 +1600,16 @@ components:
       type: object
       properties: 
         amount: 
+          type: string
+          maxLength: 12
+          example: 20.00
+          description: The amount of the transaction in decimal currency format.
+        amount_value: 
           type: integer
           format: int32
           minLength: 1
           maxLength: 12
           example: 3600
-          description: The amount of the transaction in decimal currency format.
-        amount_value: 
-          type: string
           description: The amount of the transaction in integer/request format.
         atrn: 
           type: string
@@ -2189,22 +2195,22 @@ components:
       properties: 
         address1: 
           type: string
-          maxLength: 40
+          maxLength: 50
           example: 79 Parliament St
           description: The first line of the address for the card holder.
         address2: 
           type: string
-          maxLength: 30
+          maxLength: 50
           example: Westminster
           description: The second line of the address for the card holder.
         address3: 
           type: string
-          maxLength: 20
+          maxLength: 50
           example: 
           description: The third line of the address for the card holder.
         area: 
           type: string
-          maxLength: 20
+          maxLength: 50
           example: London
           description: The area such as city, department, parish for the card holder.
         company: 
