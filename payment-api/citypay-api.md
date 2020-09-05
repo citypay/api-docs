@@ -2060,7 +2060,7 @@ Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Addi
    "contact": { ... },
    "date_created": "2020-01-02",
    "default_card_id": "",
-   "default_card_index": "",
+   "default_card_index": 0,
    "status": "",
    "unique_id": ""
 }
@@ -2086,7 +2086,7 @@ Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Addi
 | `contact` | object | true | [ContactDetails](#contactdetails) Contact details that refer to this account. | 
 | `date_created` | string *date-time* | false | The date and time the account was created. | 
 | `default_card_id` | string  | false | The id of the default card. | 
-| `default_card_index` | string  | false | The index in the array of the default card. | 
+| `default_card_index` | integer *int32* | false | The index in the array of the default card. | 
 | `status` | string  | false | Defines the status of the account for processing valid values are<br/><br/> - ACTIVE for active accounts that are able to process<br/> - DISABLED for accounts that are currently disabled for processing. | 
 | `unique_id` | string  | false | A unique id of the card holder account which uniquely identifies the stored account. This value is not searchable. | 
 
