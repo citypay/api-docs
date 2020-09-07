@@ -6,11 +6,11 @@
     <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <title>CityPay Payment API</title>
-    <link href="images/favicon.ico" rel="icon" type="image/ico" />
+    <link href="images/favicon-c177ed8f.ico" rel="icon" type="image/ico" />
     <style>
       .highlight table td { padding: 5px; }
 .highlight table pre { margin: 0; }
-.highlight .c, .highlight .cd {
+.highlight .c, .highlight .ch, .highlight .cd, .highlight .cpf {
   color: #5e5d83;
   font-style: italic;
 }
@@ -153,7 +153,7 @@
 .highlight .ss {
   color: #d7d787;
 }
-.highlight .s {
+.highlight .s, .highlight .sa, .highlight .dl {
   color: #d7d787;
 }
 .highlight .na {
@@ -171,7 +171,7 @@
   color: #a6e22e;
   font-weight: bold;
 }
-.highlight .nf {
+.highlight .nf, .highlight .fm {
   color: #a6e22e;
   font-weight: bold;
 }
@@ -199,7 +199,7 @@
 .highlight .vi {
   color: #f8f8f2;
 }
-.highlight .nv {
+.highlight .nv, .highlight .vm {
   color: #f8f8f2;
 }
 .highlight .w {
@@ -217,9 +217,9 @@
   background-color: #1b1d1e;
 }
     </style>
-    <link href="stylesheets/screen-26602575.css" rel="stylesheet" media="screen" />
-    <link href="stylesheets/print-3202d392.css" rel="stylesheet" media="print" />
-      <script src="javascripts/all-c5541673.js"></script>
+    <link href="stylesheets/screen-f56f3b69.css" rel="stylesheet" media="screen" />
+    <link href="stylesheets/print-f67105af.css" rel="stylesheet" media="print" />
+      <script src="javascripts/all-e9bde216.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
   </head>
 
@@ -227,11 +227,11 @@
     <a href="#" id="nav-button">
       <span>
         NAV
-        <img src="images/navbar-cad8cdcb.png" alt="Navbar" />
+        <img src="images/navbar-cad8cdcb.png" alt="" />
       </span>
     </a>
     <div class="toc-wrapper">
-      <img src="images/logo-1cfc75b2.svg" class="logo" alt="Logo" />
+      <img src="images/logo-1cfc75b2.svg" class="logo" alt="" />
         <div class="lang-selector">
               <a href="#" data-language-name="json">json</a>
               <a href="#" data-language-name="xml">xml</a>
@@ -456,16 +456,16 @@
       </ul>
         <ul class="toc-footer">
             <li><a href='mailto:support@citypay.com'>Any Integration Questions?</a></li>
-            <li>V6.0.4 2020-08-12</li>
+            <li>V6.0.7 2020-09-07</li>
         </ul>
     </div>
     <div class="page-wrapper">
       <div class="dark-box"></div>
       <div class="content">
-        <img src="images/citypay-logo-23676e0b.svg" class="cplogo" alt="Citypay logo" />
+        <img src="images/citypay-logo-23676e0b.svg" class="cplogo" alt="" />
         <h1 id='citypay-payment-api'>CityPay Payment API</h1>
-<p>Version: 6.0.4
-Last Updated: 2020-08-12</p>
+<p>Version: 6.0.7
+Last Updated: 2020-09-07</p>
 
 <p>This CityPay API is a HTTP RESTful payment API used for direct server to server transactional processing. It
 provides a number of payment mechanisms including: Internet, MOTO, Continuous Authority transaction processing,
@@ -515,21 +515,21 @@ security vulnerabilities.</li>
 <blockquote>
 <p>Example authentication header as used in curl</p>
 </blockquote>
-<pre class="highlight json tab-json"><code><span class="err">curl</span><span class="w"> </span><span class="err">-X</span><span class="w"> </span><span class="err">POST</span><span class="w"> </span><span class="err">\</span><span class="w">
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="err">curl</span><span class="w"> </span><span class="err">-X</span><span class="w"> </span><span class="err">POST</span><span class="w"> </span><span class="err">\</span><span class="w">
  </span><span class="err">-H</span><span class="w"> </span><span class="s2">"cp-api-key: UY26xWxKe3ZwK5RnF3FnVdTgWCtCenY2"</span><span class="w"> </span><span class="err">\</span><span class="w">
  </span><span class="err">-H</span><span class="w"> </span><span class="s2">"Accept: application/json"</span><span class="w"> </span><span class="err">\</span><span class="w">
  </span><span class="err">-H</span><span class="w"> </span><span class="s2">"Content-Type: application/json"</span><span class="w"> </span><span class="err">\</span><span class="w">
  </span><span class="err">--data</span><span class="w"> </span><span class="s2">"{ </span><span class="se">\"</span><span class="s2">merchantid</span><span class="se">\"</span><span class="s2">: 12345 ... }"</span><span class="w">
- </span><span class="err">https</span><span class="p">:</span><span class="err">//api.citypay.com/resource</span><span class="w">
+ </span><span class="err">https://api.citypay.com/resource</span><span class="w">
 
-</span></code></pre><pre class="highlight xml tab-xml"><code>curl -X POST \
+</span></code></pre></div><div class="highlight"><pre class="highlight xml tab-xml"><code>curl -X POST \
  -H "cp-api-key: UY26xWxKe3ZwK5RnF3FnVdTgWCtCenY2" \
  -H "Accept: text/xml" \
  -H "Content-Type: text/xml" \
  --data "{ ..<span class="nt">&lt;merchantid&gt;</span>12345<span class="nt">&lt;/merchantid&gt;</span> }"
  https://api.citypay.com/resource
 
-</code></pre><h3 id='api-key'>API Key</h3>
+</code></pre></div><h3 id='api-key'>API Key</h3>
 <p><strong>cp-api-key</strong></p>
 
 <p>header <code>cp-api-key</code></p>
@@ -568,30 +568,30 @@ security vulnerabilities.</li>
 <blockquote>
 <p>The following example uses JavaScript and CryptoJS</p>
 </blockquote>
-<pre class="highlight javascript tab-javascript"><code><span class="kr">export</span> <span class="kd">function</span> <span class="nx">generateApiKey</span><span class="p">(</span><span class="nx">clientId</span><span class="p">,</span> <span class="nx">licenceKey</span><span class="p">,</span> <span class="nx">nonce</span><span class="p">,</span> <span class="nx">dt</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Date</span><span class="p">())</span> <span class="p">{</span>
+<div class="highlight"><pre class="highlight javascript tab-javascript"><code><span class="k">export</span> <span class="kd">function</span> <span class="nx">generateApiKey</span><span class="p">(</span><span class="nx">clientId</span><span class="p">,</span> <span class="nx">licenceKey</span><span class="p">,</span> <span class="nx">nonce</span><span class="p">,</span> <span class="nx">dt</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Date</span><span class="p">())</span> <span class="p">{</span>
   <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">nonce</span><span class="p">)</span> <span class="p">{</span>
     <span class="nx">nonce</span> <span class="o">=</span> <span class="nx">CryptoJS</span><span class="p">.</span><span class="nx">lib</span><span class="p">.</span><span class="nx">WordArray</span><span class="p">.</span><span class="nx">random</span><span class="p">(</span><span class="mi">128</span> <span class="o">/</span> <span class="mi">8</span><span class="p">);</span>
-  <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="k">typeof</span> <span class="nx">nonce</span> <span class="o">===</span> <span class="s1">'string'</span><span class="p">)</span> <span class="p">{</span>
+  <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="k">typeof</span> <span class="nx">nonce</span> <span class="o">===</span> <span class="dl">'</span><span class="s1">string</span><span class="dl">'</span><span class="p">)</span> <span class="p">{</span>
     <span class="nx">nonce</span> <span class="o">=</span> <span class="nx">Hex</span><span class="p">.</span><span class="nx">parse</span><span class="p">(</span><span class="nx">nonce</span><span class="p">);</span>
   <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-    <span class="k">throw</span> <span class="k">new</span> <span class="nb">Error</span><span class="p">(</span><span class="s2">"Unsupported nonce type"</span><span class="p">);</span>
+    <span class="k">throw</span> <span class="k">new</span> <span class="nb">Error</span><span class="p">(</span><span class="dl">"</span><span class="s2">Unsupported nonce type</span><span class="dl">"</span><span class="p">);</span>
   <span class="p">}</span>
-  <span class="kr">const</span> <span class="nx">msg</span> <span class="o">=</span> <span class="nx">Utf8</span><span class="p">.</span><span class="nx">parse</span><span class="p">(</span><span class="nx">clientId</span><span class="p">)</span>
+  <span class="kd">const</span> <span class="nx">msg</span> <span class="o">=</span> <span class="nx">Utf8</span><span class="p">.</span><span class="nx">parse</span><span class="p">(</span><span class="nx">clientId</span><span class="p">)</span>
   <span class="p">.</span><span class="nx">concat</span><span class="p">(</span><span class="nx">nonce</span><span class="p">)</span>
   <span class="p">.</span><span class="nx">concat</span><span class="p">(</span><span class="nx">CryptoJS</span><span class="p">.</span><span class="nx">lib</span><span class="p">.</span><span class="nx">WordArray</span><span class="p">.</span><span class="nx">create</span><span class="p">(</span><span class="nx">dtToBuffer</span><span class="p">(</span><span class="nx">dt</span><span class="p">)));</span>
-  <span class="kr">const</span> <span class="nx">hash</span> <span class="o">=</span> <span class="nx">HmacSHA256</span><span class="p">(</span><span class="nx">msg</span><span class="p">,</span> <span class="nx">Utf8</span><span class="p">.</span><span class="nx">parse</span><span class="p">(</span><span class="nx">licenceKey</span><span class="p">));</span>
-  <span class="kr">const</span> <span class="nx">packet</span> <span class="o">=</span> <span class="nx">Utf8</span><span class="p">.</span><span class="nx">parse</span><span class="p">(</span><span class="nx">clientId</span> <span class="o">+</span> <span class="s1">'\u003A'</span> <span class="o">+</span> <span class="nx">nonce</span><span class="p">.</span><span class="nx">toString</span><span class="p">(</span><span class="nx">Hex</span><span class="p">).</span><span class="nx">toUpperCase</span><span class="p">()</span> <span class="o">+</span> <span class="s1">'\u003A'</span><span class="p">).</span><span class="nx">concat</span><span class="p">(</span><span class="nx">hash</span><span class="p">);</span>
+  <span class="kd">const</span> <span class="nx">hash</span> <span class="o">=</span> <span class="nx">HmacSHA256</span><span class="p">(</span><span class="nx">msg</span><span class="p">,</span> <span class="nx">Utf8</span><span class="p">.</span><span class="nx">parse</span><span class="p">(</span><span class="nx">licenceKey</span><span class="p">));</span>
+  <span class="kd">const</span> <span class="nx">packet</span> <span class="o">=</span> <span class="nx">Utf8</span><span class="p">.</span><span class="nx">parse</span><span class="p">(</span><span class="nx">clientId</span> <span class="o">+</span> <span class="dl">'</span><span class="se">\</span><span class="s1">u003A</span><span class="dl">'</span> <span class="o">+</span> <span class="nx">nonce</span><span class="p">.</span><span class="nx">toString</span><span class="p">(</span><span class="nx">Hex</span><span class="p">).</span><span class="nx">toUpperCase</span><span class="p">()</span> <span class="o">+</span> <span class="dl">'</span><span class="se">\</span><span class="s1">u003A</span><span class="dl">'</span><span class="p">).</span><span class="nx">concat</span><span class="p">(</span><span class="nx">hash</span><span class="p">);</span>
   <span class="k">return</span> <span class="nx">Base64</span><span class="p">.</span><span class="nx">stringify</span><span class="p">(</span><span class="nx">packet</span><span class="p">);</span>
 <span class="p">}</span>
-</code></pre>
+</code></pre></div>
 <blockquote>
 <p>Example values for unit testing:</p>
 </blockquote>
-<pre class="highlight plaintext"><code>  let exampleNonce = "ACB875AEF083DE292299BD69FCDEB5C5";
+<div class="highlight"><pre class="highlight plaintext"><code>  let exampleNonce = "ACB875AEF083DE292299BD69FCDEB5C5";
   let exampleDate = new Date(2020, 0, 1, 9, 23, 0, 0);
   let apiKey = generateApiKey("Dummy", "7G79TG62BAJTK669", exampleNonce, exampleDate);
   expect(apiKey).toBe('RHVtbXk6QUNCODc1QUVGMDgzREUyOTIyOTlCRDY5RkNERUI1QzU6tleiG2iztdBCGz64E3/HUhfKIdGWr3VnEtu2IkcmFjA=');
-</code></pre>
+</code></pre></div>
 <aside class="notice">
 We have example code in varying languages, please consult with your account and integration point of contact for details.
 </aside>
@@ -836,7 +836,7 @@ purge will clear the card permanently.</p>
 </tr>
 <tr>
 <td><code>200</code></td>
-<td>Acknowledges the card has been requested for deletion.</td>
+<td>Acknowledges the card has been requested for deletion. A response code of <code>001</code> is returned if the account is available for deletion or an error code is returned.</td>
 <td><code>application/json</code>, <code>text/xml</code>:  <br/> <a href="#acknowledgement">Acknowledgement</a></td>
 </tr>
 </tbody></table>
@@ -942,8 +942,13 @@ purge will clear the card permanently.</p>
 </tr>
 <tr>
 <td><code>200</code></td>
-<td>Acknowledges the card status has changed, returning 01 for a valid change or 00 for non valid change.</td>
+<td>Acknowledges the card status has changed, returning a response code of <code>001</code> for a valid change or <code>000</code> for a non valid change.</td>
+<td></td>
+</tr>
+<tr>
 <td><code>application/json</code>, <code>text/xml</code>:  <br/> <a href="#acknowledgement">Acknowledgement</a></td>
+<td></td>
+<td></td>
 </tr>
 </tbody></table>
 <h2 id='contact-details-update'>Contact Details Update</h2>
@@ -981,25 +986,25 @@ purge will clear the card permanently.</p>
 <td>Optional</td>
 <td><code>address1</code></td>
 <td>string</td>
-<td>The first line of the address for the card holder.<br/>maxLength: 40</td>
+<td>The first line of the address for the card holder.<br/>maxLength: 50</td>
 </tr>
 <tr>
 <td>Optional</td>
 <td><code>address2</code></td>
 <td>string</td>
-<td>The second line of the address for the card holder.<br/>maxLength: 30</td>
+<td>The second line of the address for the card holder.<br/>maxLength: 50</td>
 </tr>
 <tr>
 <td>Optional</td>
 <td><code>address3</code></td>
 <td>string</td>
-<td>The third line of the address for the card holder.<br/>maxLength: 20</td>
+<td>The third line of the address for the card holder.<br/>maxLength: 50</td>
 </tr>
 <tr>
 <td>Optional</td>
 <td><code>area</code></td>
 <td>string</td>
-<td>The area such as city, department, parish for the card holder.<br/>maxLength: 20</td>
+<td>The area such as city, department, parish for the card holder.<br/>maxLength: 50</td>
 </tr>
 <tr>
 <td>Optional</td>
@@ -1280,9 +1285,13 @@ processing and will be available as a tokenised value for future processing.</p>
 <tr>
 <td><code>200</code></td>
 <td>An acknowledgment that the card holder account status has been updated.</td>
-<td><code>application/json</code>, <code>text/xml</code>:  <br/> <a href="#acknowledgement">Acknowledgement</a></td>
+<td></td>
 </tr>
 </tbody></table>
+
+<p>A response code of <code>001</code> is returned if the request was accepted or no change required.
+A response code of <code>000</code> is returned if the request contains invalid data.
+ <code>application/json</code>, <code>text/xml</code>:  <br/> <a href="#acknowledgement">Acknowledgement</a> |  </p>
 <h2 id='charge'>Charge</h2>
 <p><span class="http-method-post">POST</span> <code>/charge</code></p>
 
@@ -1585,19 +1594,19 @@ Visa and MasterCard.</p>
 to the card holder. A <em>liability shift</em> determines whether a card holder can charge back a transaction as unknown. Effectively
 the process asks for a card holder to authenticate the transaction prior to authorisation producing a Cardholder 
 verification value (CAVV) as evidence of authorisation.</p>
-<h4 id='3dsv1'>3DSv1</h4><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w"> 
-  </span><span class="s2">"AuthenticationRequired"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-    </span><span class="s2">"acsurl"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://bank.com/3DS/ACS"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"pareq"</span><span class="p">:</span><span class="w"> </span><span class="s2">"SXQgd2FzIHRoZSBiZXN0IG9mIHRpbWVzLCBpdCB3YXMgdGhlIHdvcnN00..."</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"md"</span><span class="p">:</span><span class="w"> </span><span class="s2">"WQgZXZlcnl0aGluZyBiZW"</span><span class="w">
+<h4 id='3dsv1'>3DSv1</h4><div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w"> 
+  </span><span class="nl">"AuthenticationRequired"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"acsurl"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://bank.com/3DS/ACS"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"pareq"</span><span class="p">:</span><span class="w"> </span><span class="s2">"SXQgd2FzIHRoZSBiZXN0IG9mIHRpbWVzLCBpdCB3YXMgdGhlIHdvcnN00..."</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"md"</span><span class="p">:</span><span class="w"> </span><span class="s2">"WQgZXZlcnl0aGluZyBiZW"</span><span class="w">
   </span><span class="p">}</span><span class="w">               
 </span><span class="p">}</span><span class="w">
-</span></code></pre><pre class="highlight xml tab-xml"><code><span class="nt">&lt;AuthenticationRequired&gt;</span>
+</span></code></pre></div><div class="highlight"><pre class="highlight xml tab-xml"><code><span class="nt">&lt;AuthenticationRequired&gt;</span>
  <span class="nt">&lt;acsurl&gt;</span>https://bank.com/3DS/ACS<span class="nt">&lt;/acsurl&gt;</span>
  <span class="nt">&lt;pareq&gt;</span>SXQgd2FzIHRoZSBiZXN0IG9mIHRpbWVzLCBpdCB3YXMgdGhlIHdvcnN00...<span class="nt">&lt;/pareq&gt;</span>
  <span class="nt">&lt;md&gt;</span>WQgZXZlcnl0aGluZyBiZW<span class="nt">&lt;/md&gt;</span>
 <span class="nt">&lt;/AuthenticationRequired&gt;</span>
-</code></pre>
+</code></pre></div>
 <p>For E-commerce transactions requiring 3DSv1, the API contains a built in MPI which will be called to check whether the 
 card is participating in 3DSv1 with Verified by Visa or MasterCard SecureCode. We only support Amex SafeKey with 3DSv2. Should the card be enrolled, a payer 
 request (PAReq) value will be created and returned back as an <a href="#authenticationrequired">authentication required</a> response object. </p>
@@ -1618,7 +1627,7 @@ to gain the user&#39;s authentication. Once complete, the ACS will produce a HTT
 </ol>
 
 <p>To forward the user to the ACS, we recommend a simple auto submit HTML form.</p>
-<pre class="highlight html tab-html"><code><span class="nt">&lt;html</span> <span class="na">lang=</span><span class="s">"en"</span><span class="nt">&gt;</span>
+<div class="highlight"><pre class="highlight html tab-html"><code><span class="nt">&lt;html</span> <span class="na">lang=</span><span class="s">"en"</span><span class="nt">&gt;</span>
     <span class="nt">&lt;head&gt;</span>
         <span class="nt">&lt;title&gt;</span>Forward to ACS<span class="nt">&lt;/title&gt;</span>
         <span class="nt">&lt;script </span><span class="na">type=</span><span class="s">"text/javascript"</span><span class="nt">&gt;</span>
@@ -1636,22 +1645,22 @@ to gain the user&#39;s authentication. Once complete, the ACS will produce a HTT
         <span class="nt">&lt;/form&gt;</span>
     <span class="nt">&lt;/body&gt;</span>
 <span class="nt">&lt;/html&gt;</span>
-</code></pre>
+</code></pre></div>
 <p>Please note that 3DSv1 is being phased out due to changes to strong customer authentication mechanisms. 3DSv2 addresses
 this and will solidify the authorisation and confirmation process.</p>
 
 <p>We provide a Test ACS for full 3DSv1 integration testing that simulates an ACS. </p>
-<h4 id='3dsv2'>3DSv2</h4><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w"> 
-  </span><span class="s2">"RequestChallenged"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-    </span><span class="s2">"acsurl"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://bank.com/3DS/ACS"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"creq"</span><span class="p">:</span><span class="w"> </span><span class="s2">"SXQgd2FzIHRoZSBiZXN0IG9mIHRpbWVzLCBpdCB3YXMgdGhlIHdvcnN00..."</span><span class="w">
+<h4 id='3dsv2'>3DSv2</h4><div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w"> 
+  </span><span class="nl">"RequestChallenged"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"acsurl"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://bank.com/3DS/ACS"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"creq"</span><span class="p">:</span><span class="w"> </span><span class="s2">"SXQgd2FzIHRoZSBiZXN0IG9mIHRpbWVzLCBpdCB3YXMgdGhlIHdvcnN00..."</span><span class="w">
   </span><span class="p">}</span><span class="w">               
 </span><span class="p">}</span><span class="w">
-</span></code></pre><pre class="highlight xml tab-xml"><code><span class="nt">&lt;RequestChallenged&gt;</span>
+</span></code></pre></div><div class="highlight"><pre class="highlight xml tab-xml"><code><span class="nt">&lt;RequestChallenged&gt;</span>
  <span class="nt">&lt;acsurl&gt;</span>https://bank.com/3DS/ACS<span class="nt">&lt;/acsurl&gt;</span>
  <span class="nt">&lt;creq&gt;</span>SXQgd2FzIHRoZSBiZXN0IG9mIHRpbWVzLCBpdCB3YXMgdGhlIHdvcnN00...<span class="nt">&lt;/creq&gt;</span>
 <span class="nt">&lt;/RequestChallenged&gt;</span>
-</code></pre>
+</code></pre></div>
 <p>All merchants in the EEC will require to migrate their E-commerce transactions to a secure customer authentication 
 model (SCA) throughout 2020. This has been adopted by the payment&#39;s industry as a progressive move alongside the European 
 Unions payments service directive.</p>
@@ -1675,7 +1684,7 @@ authorisation. The ACS by this point will have sent us the verification value (C
 value will be validated for receipt of the CAVV and subsequently may return back response codes illustrating this. </p>
 
 <p>To forward the user to the ACS, we recommend a simple auto submit HTML form.</p>
-<pre class="highlight html tab-html"><code><span class="nt">&lt;html</span> <span class="na">lang=</span><span class="s">"en"</span><span class="nt">&gt;</span>
+<div class="highlight"><pre class="highlight html tab-html"><code><span class="nt">&lt;html</span> <span class="na">lang=</span><span class="s">"en"</span><span class="nt">&gt;</span>
     <span class="nt">&lt;head&gt;</span>
         <span class="nt">&lt;title&gt;</span>Forward to ACS<span class="nt">&lt;/title&gt;</span>
         <span class="nt">&lt;script </span><span class="na">type=</span><span class="s">"text/javascript"</span><span class="nt">&gt;</span>
@@ -1691,39 +1700,39 @@ value will be validated for receipt of the CAVV and subsequently may return back
         <span class="nt">&lt;/form&gt;</span>
     <span class="nt">&lt;/body&gt;</span>
 <span class="nt">&lt;/html&gt;</span>
-</code></pre>
+</code></pre></div>
 <p>We are currently working on an integration test suite for 3DSv2 which will mock the ACS challenge process.</p>
 
 <blockquote>
 <p>Basic capture call for a merchant with a given identifier</p>
 </blockquote>
-<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-  </span><span class="s2">"AuthRequest"</span><span class="p">:{</span><span class="w">
-    </span><span class="s2">"amount"</span><span class="p">:</span><span class="s2">"&lt;integer&gt;"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"cardnumber"</span><span class="p">:</span><span class="s2">"&lt;string&gt;"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"expmonth"</span><span class="p">:</span><span class="s2">"&lt;integer&gt;"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"identifier"</span><span class="p">:</span><span class="s2">"&lt;string&gt;"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"merchantid"</span><span class="p">:</span><span class="s2">"&lt;integer&gt;"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"bill_to"</span><span class="p">:{</span><span class="w">
-      </span><span class="s2">"address1"</span><span class="p">:</span><span class="s2">"&lt;string&gt;"</span><span class="p">,</span><span class="w">
-      </span><span class="s2">"address2"</span><span class="p">:</span><span class="s2">"&lt;string&gt;"</span><span class="p">,</span><span class="w">
-      </span><span class="s2">"address3"</span><span class="p">:</span><span class="s2">"&lt;string&gt;"</span><span class="p">,</span><span class="w">
-      </span><span class="s2">"area"</span><span class="p">:</span><span class="s2">"&lt;string&gt;"</span><span class="p">,</span><span class="w">
-      </span><span class="s2">"company"</span><span class="p">:</span><span class="s2">"&lt;string&gt;"</span><span class="p">,</span><span class="w">
-      </span><span class="s2">"country"</span><span class="p">:</span><span class="s2">"&lt;string&gt;"</span><span class="p">,</span><span class="w">
-      </span><span class="s2">"email"</span><span class="p">:</span><span class="s2">"&lt;string&gt;"</span><span class="p">,</span><span class="w">
-      </span><span class="s2">"firstname"</span><span class="p">:</span><span class="s2">"&lt;string&gt;"</span><span class="p">,</span><span class="w">
-      </span><span class="s2">"lastname"</span><span class="p">:</span><span class="s2">"&lt;string&gt;"</span><span class="p">,</span><span class="w">
-      </span><span class="s2">"mobile_no"</span><span class="p">:</span><span class="s2">"&lt;string&gt;"</span><span class="p">,</span><span class="w">
-      </span><span class="s2">"postcode"</span><span class="p">:</span><span class="s2">"&lt;string&gt;"</span><span class="p">,</span><span class="w">
-      </span><span class="s2">"telephone_no"</span><span class="p">:</span><span class="s2">"&lt;string&gt;"</span><span class="p">,</span><span class="w">
-      </span><span class="s2">"title"</span><span class="p">:</span><span class="s2">"&lt;string&gt;"</span><span class="w">
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"AuthRequest"</span><span class="p">:{</span><span class="w">
+    </span><span class="nl">"amount"</span><span class="p">:</span><span class="s2">"&lt;integer&gt;"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"cardnumber"</span><span class="p">:</span><span class="s2">"&lt;string&gt;"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"expmonth"</span><span class="p">:</span><span class="s2">"&lt;integer&gt;"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"identifier"</span><span class="p">:</span><span class="s2">"&lt;string&gt;"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"merchantid"</span><span class="p">:</span><span class="s2">"&lt;integer&gt;"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"bill_to"</span><span class="p">:{</span><span class="w">
+      </span><span class="nl">"address1"</span><span class="p">:</span><span class="s2">"&lt;string&gt;"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"address2"</span><span class="p">:</span><span class="s2">"&lt;string&gt;"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"address3"</span><span class="p">:</span><span class="s2">"&lt;string&gt;"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"area"</span><span class="p">:</span><span class="s2">"&lt;string&gt;"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"company"</span><span class="p">:</span><span class="s2">"&lt;string&gt;"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"country"</span><span class="p">:</span><span class="s2">"&lt;string&gt;"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"email"</span><span class="p">:</span><span class="s2">"&lt;string&gt;"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"firstname"</span><span class="p">:</span><span class="s2">"&lt;string&gt;"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"lastname"</span><span class="p">:</span><span class="s2">"&lt;string&gt;"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"mobile_no"</span><span class="p">:</span><span class="s2">"&lt;string&gt;"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"postcode"</span><span class="p">:</span><span class="s2">"&lt;string&gt;"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"telephone_no"</span><span class="p">:</span><span class="s2">"&lt;string&gt;"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"title"</span><span class="p">:</span><span class="s2">"&lt;string&gt;"</span><span class="w">
     </span><span class="p">},</span><span class="w">
-    </span><span class="s2">"expyear"</span><span class="p">:</span><span class="s2">"&lt;integer&gt;"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"merchant_termurl"</span><span class="p">:</span><span class="s2">"&lt;string&gt;"</span><span class="w">
+    </span><span class="nl">"expyear"</span><span class="p">:</span><span class="s2">"&lt;integer&gt;"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"merchant_termurl"</span><span class="p">:</span><span class="s2">"&lt;string&gt;"</span><span class="w">
   </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre><pre class="highlight xml tab-xml"><code><span class="nt">&lt;AuthRequest&gt;</span>
+</span></code></pre></div><div class="highlight"><pre class="highlight xml tab-xml"><code><span class="nt">&lt;AuthRequest&gt;</span>
    <span class="nt">&lt;amount&gt;</span><span class="ni">&amp;lt;</span>integer<span class="ni">&amp;gt;</span><span class="nt">&lt;/amount&gt;</span>
    <span class="nt">&lt;cardnumber&gt;</span><span class="ni">&amp;lt;</span>string<span class="ni">&amp;gt;</span><span class="nt">&lt;/cardnumber&gt;</span>
    <span class="nt">&lt;expmonth&gt;</span><span class="ni">&amp;lt;</span>integer<span class="ni">&amp;gt;</span><span class="nt">&lt;/expmonth&gt;</span>
@@ -1747,7 +1756,7 @@ value will be validated for receipt of the CAVV and subsequently may return back
    <span class="nt">&lt;expyear&gt;</span><span class="ni">&amp;lt;</span>integer<span class="ni">&amp;gt;</span><span class="nt">&lt;/expyear&gt;</span>
    <span class="nt">&lt;merchant_termurl&gt;</span><span class="ni">&amp;lt;</span>string<span class="ni">&amp;gt;</span><span class="nt">&lt;/merchant_termurl&gt;</span>
 <span class="nt">&lt;/AuthRequest&gt;</span>
-</code></pre><h3 id='model-authrequest'>Model AuthRequest</h3>
+</code></pre></div><h3 id='model-authrequest'>Model AuthRequest</h3>
 <p>Request body for this operation contains the following properties</p>
 
 <table><thead>
@@ -1981,54 +1990,54 @@ be available for the settlement and completed at the end of the day.</p>
 <blockquote>
 <p>Basic capture call for a merchant with a given identifier</p>
 </blockquote>
-<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-  </span><span class="s2">"CaptureRequest"</span><span class="p">:{</span><span class="w">
-    </span><span class="s2">"merchantid"</span><span class="p">:</span><span class="mi">123456</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"identifier"</span><span class="p">:</span><span class="s2">"318f2bc5-d9e0-4ddf-9df1-1ea9e4890ca9"</span><span class="w">
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"CaptureRequest"</span><span class="p">:{</span><span class="w">
+    </span><span class="nl">"merchantid"</span><span class="p">:</span><span class="mi">123456</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"identifier"</span><span class="p">:</span><span class="s2">"318f2bc5-d9e0-4ddf-9df1-1ea9e4890ca9"</span><span class="w">
   </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre><pre class="highlight xml tab-xml"><code><span class="nt">&lt;CaptureRequest&gt;</span>
+</span></code></pre></div><div class="highlight"><pre class="highlight xml tab-xml"><code><span class="nt">&lt;CaptureRequest&gt;</span>
    <span class="nt">&lt;merchantid&gt;</span>123456<span class="nt">&lt;/merchantid&gt;</span>
    <span class="nt">&lt;identifier&gt;</span>318f2bc5-d9e0-4ddf-9df1-1ea9e4890ca9<span class="nt">&lt;/identifier&gt;</span>
 <span class="nt">&lt;/CaptureRequest&gt;</span>
-</code></pre>
+</code></pre></div>
 <blockquote>
 <p>Basic capture call for a merchant with a transno and final amount</p>
 </blockquote>
-<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-  </span><span class="s2">"CaptureRequest"</span><span class="p">:{</span><span class="w">
-    </span><span class="s2">"merchantid"</span><span class="p">:</span><span class="mi">123456</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"transno"</span><span class="p">:</span><span class="mi">11275</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"amount"</span><span class="p">:</span><span class="mi">6795</span><span class="w">
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"CaptureRequest"</span><span class="p">:{</span><span class="w">
+    </span><span class="nl">"merchantid"</span><span class="p">:</span><span class="mi">123456</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"transno"</span><span class="p">:</span><span class="mi">11275</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"amount"</span><span class="p">:</span><span class="mi">6795</span><span class="w">
   </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre><pre class="highlight xml tab-xml"><code><span class="nt">&lt;CaptureRequest&gt;</span>
+</span></code></pre></div><div class="highlight"><pre class="highlight xml tab-xml"><code><span class="nt">&lt;CaptureRequest&gt;</span>
    <span class="nt">&lt;merchantid&gt;</span>123456<span class="nt">&lt;/merchantid&gt;</span>
    <span class="nt">&lt;transno&gt;</span>11275<span class="nt">&lt;/transno&gt;</span>
    <span class="nt">&lt;amount&gt;</span>6795<span class="nt">&lt;/amount&gt;</span>
 <span class="nt">&lt;/CaptureRequest&gt;</span>
-</code></pre>
+</code></pre></div>
 <blockquote>
 <p>Capture call for a merchant with identifier and airline data once a ticket has been issued</p>
 </blockquote>
-<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-  </span><span class="s2">"CaptureRequest"</span><span class="p">:{</span><span class="w">
-    </span><span class="s2">"merchantid"</span><span class="p">:</span><span class="mi">123456</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"identifier"</span><span class="p">:</span><span class="s2">"318f2bc5-d9e0-4ddf-9df1-1ea9e4890ca9"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"airline-data"</span><span class="p">:{</span><span class="w">
-      </span><span class="s2">"carrier-name"</span><span class="p">:</span><span class="s2">"Acme Air"</span><span class="p">,</span><span class="w">
-      </span><span class="s2">"transaction-type"</span><span class="p">:</span><span class="s2">"TKT"</span><span class="p">,</span><span class="w">
-      </span><span class="s2">"ticketno"</span><span class="p">:</span><span class="s2">"114477822"</span><span class="p">,</span><span class="w">
-      </span><span class="s2">"segment1"</span><span class="p">:{</span><span class="w">
-        </span><span class="s2">"flight-number"</span><span class="p">:</span><span class="s2">"724"</span><span class="p">,</span><span class="w">
-        </span><span class="s2">"carrier-code"</span><span class="p">:</span><span class="s2">"ZZ"</span><span class="p">,</span><span class="w">
-        </span><span class="s2">"arrival-location-code"</span><span class="p">:</span><span class="s2">"LGW"</span><span class="p">,</span><span class="w">
-        </span><span class="s2">"departure-date"</span><span class="p">:</span><span class="s2">"2020-01-23"</span><span class="w">
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"CaptureRequest"</span><span class="p">:{</span><span class="w">
+    </span><span class="nl">"merchantid"</span><span class="p">:</span><span class="mi">123456</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"identifier"</span><span class="p">:</span><span class="s2">"318f2bc5-d9e0-4ddf-9df1-1ea9e4890ca9"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"airline-data"</span><span class="p">:{</span><span class="w">
+      </span><span class="nl">"carrier-name"</span><span class="p">:</span><span class="s2">"Acme Air"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"transaction-type"</span><span class="p">:</span><span class="s2">"TKT"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"ticketno"</span><span class="p">:</span><span class="s2">"114477822"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"segment1"</span><span class="p">:{</span><span class="w">
+        </span><span class="nl">"flight-number"</span><span class="p">:</span><span class="s2">"724"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"carrier-code"</span><span class="p">:</span><span class="s2">"ZZ"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"arrival-location-code"</span><span class="p">:</span><span class="s2">"LGW"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"departure-date"</span><span class="p">:</span><span class="s2">"2020-01-23"</span><span class="w">
       </span><span class="p">}</span><span class="w">
     </span><span class="p">}</span><span class="w">
   </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre><pre class="highlight xml tab-xml"><code><span class="nt">&lt;CaptureRequest&gt;</span>
+</span></code></pre></div><div class="highlight"><pre class="highlight xml tab-xml"><code><span class="nt">&lt;CaptureRequest&gt;</span>
    <span class="nt">&lt;merchantid&gt;</span>123456<span class="nt">&lt;/merchantid&gt;</span>
    <span class="nt">&lt;identifier&gt;</span>318f2bc5-d9e0-4ddf-9df1-1ea9e4890ca9<span class="nt">&lt;/identifier&gt;</span>
    <span class="nt">&lt;airline-data&gt;</span>
@@ -2043,7 +2052,7 @@ be available for the settlement and completed at the end of the day.</p>
       <span class="nt">&lt;/segment1&gt;</span>
    <span class="nt">&lt;/airline-data&gt;</span>
 <span class="nt">&lt;/CaptureRequest&gt;</span>
-</code></pre><h3 id='model-capturerequest'>Model CaptureRequest</h3>
+</code></pre></div><h3 id='model-capturerequest'>Model CaptureRequest</h3>
 <p>Request body for this operation contains the following properties</p>
 
 <table><thead>
@@ -2151,15 +2160,15 @@ on its own without a previous <a href="#requestchallenged">request challenge</a>
 <blockquote>
 <p>PaRes example request</p>
 </blockquote>
-<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-  </span><span class="s2">"CResAuthRequest"</span><span class="p">:{</span><span class="w">
-    </span><span class="s2">"cres"</span><span class="p">:</span><span class="s2">"&lt;base64&gt;"</span><span class="w">
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"CResAuthRequest"</span><span class="p">:{</span><span class="w">
+    </span><span class="nl">"cres"</span><span class="p">:</span><span class="s2">"&lt;base64&gt;"</span><span class="w">
   </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre><pre class="highlight xml tab-xml"><code><span class="nt">&lt;CResAuthRequest&gt;</span>
+</span></code></pre></div><div class="highlight"><pre class="highlight xml tab-xml"><code><span class="nt">&lt;CResAuthRequest&gt;</span>
    <span class="nt">&lt;cres&gt;</span><span class="ni">&amp;lt;</span>base64<span class="ni">&amp;gt;</span><span class="nt">&lt;/cres&gt;</span>
 <span class="nt">&lt;/CResAuthRequest&gt;</span>
-</code></pre><h3 id='model-cresauthrequest'>Model CResAuthRequest</h3>
+</code></pre></div><h3 id='model-cresauthrequest'>Model CResAuthRequest</h3>
 <p>Request body for this operation contains the following properties</p>
 
 <table><thead>
@@ -2227,17 +2236,17 @@ on its own without a previous <a href="#authenticationrequired">authentication r
 <blockquote>
 <p>PaRes example request</p>
 </blockquote>
-<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-  </span><span class="s2">"PaResAuthRequest"</span><span class="p">:{</span><span class="w">
-    </span><span class="s2">"md"</span><span class="p">:</span><span class="s2">"&lt;string&gt;"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"pares"</span><span class="p">:</span><span class="s2">"&lt;base64&gt;"</span><span class="w">
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"PaResAuthRequest"</span><span class="p">:{</span><span class="w">
+    </span><span class="nl">"md"</span><span class="p">:</span><span class="s2">"&lt;string&gt;"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"pares"</span><span class="p">:</span><span class="s2">"&lt;base64&gt;"</span><span class="w">
   </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre><pre class="highlight xml tab-xml"><code><span class="nt">&lt;PaResAuthRequest&gt;</span>
+</span></code></pre></div><div class="highlight"><pre class="highlight xml tab-xml"><code><span class="nt">&lt;PaResAuthRequest&gt;</span>
    <span class="nt">&lt;md&gt;</span><span class="ni">&amp;lt;</span>string<span class="ni">&amp;gt;</span><span class="nt">&lt;/md&gt;</span>
    <span class="nt">&lt;pares&gt;</span><span class="ni">&amp;lt;</span>base64<span class="ni">&amp;gt;</span><span class="nt">&lt;/pares&gt;</span>
 <span class="nt">&lt;/PaResAuthRequest&gt;</span>
-</code></pre><h3 id='model-paresauthrequest'>Model PaResAuthRequest</h3>
+</code></pre></div><h3 id='model-paresauthrequest'>Model PaResAuthRequest</h3>
 <p>Request body for this operation contains the following properties</p>
 
 <table><thead>
@@ -2314,17 +2323,17 @@ information to be returned.</p>
 <blockquote>
 <p>Basic retrieval call for a merchant with a given identifier</p>
 </blockquote>
-<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-  </span><span class="s2">"RetrieveRequest"</span><span class="p">:{</span><span class="w">
-    </span><span class="s2">"merchantid"</span><span class="p">:</span><span class="mi">123456</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"identifier"</span><span class="p">:</span><span class="s2">"318f2bc5-d9e0-4ddf-9df1-1ea9e4890ca9"</span><span class="w">
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"RetrieveRequest"</span><span class="p">:{</span><span class="w">
+    </span><span class="nl">"merchantid"</span><span class="p">:</span><span class="mi">123456</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"identifier"</span><span class="p">:</span><span class="s2">"318f2bc5-d9e0-4ddf-9df1-1ea9e4890ca9"</span><span class="w">
   </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre><pre class="highlight xml tab-xml"><code><span class="nt">&lt;RetrieveRequest&gt;</span>
+</span></code></pre></div><div class="highlight"><pre class="highlight xml tab-xml"><code><span class="nt">&lt;RetrieveRequest&gt;</span>
    <span class="nt">&lt;merchantid&gt;</span>123456<span class="nt">&lt;/merchantid&gt;</span>
    <span class="nt">&lt;identifier&gt;</span>318f2bc5-d9e0-4ddf-9df1-1ea9e4890ca9<span class="nt">&lt;/identifier&gt;</span>
 <span class="nt">&lt;/RetrieveRequest&gt;</span>
-</code></pre><h3 id='model-retrieverequest'>Model RetrieveRequest</h3>
+</code></pre></div><h3 id='model-retrieverequest'>Model RetrieveRequest</h3>
 <p>Request body for this operation contains the following properties</p>
 
 <table><thead>
@@ -2405,31 +2414,31 @@ outlining the result of the transaction.</p>
 <blockquote>
 <p>Basic capture call for a merchant with a given identifier</p>
 </blockquote>
-<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-  </span><span class="s2">"VoidRequest"</span><span class="p">:{</span><span class="w">
-    </span><span class="s2">"merchantid"</span><span class="p">:</span><span class="mi">123456</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"identifier"</span><span class="p">:</span><span class="s2">"318f2bc5-d9e0-4ddf-9df1-1ea9e4890ca9"</span><span class="w">
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"VoidRequest"</span><span class="p">:{</span><span class="w">
+    </span><span class="nl">"merchantid"</span><span class="p">:</span><span class="mi">123456</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"identifier"</span><span class="p">:</span><span class="s2">"318f2bc5-d9e0-4ddf-9df1-1ea9e4890ca9"</span><span class="w">
   </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre><pre class="highlight xml tab-xml"><code><span class="nt">&lt;VoidRequest&gt;</span>
+</span></code></pre></div><div class="highlight"><pre class="highlight xml tab-xml"><code><span class="nt">&lt;VoidRequest&gt;</span>
    <span class="nt">&lt;merchantid&gt;</span>123456<span class="nt">&lt;/merchantid&gt;</span>
    <span class="nt">&lt;identifier&gt;</span>318f2bc5-d9e0-4ddf-9df1-1ea9e4890ca9<span class="nt">&lt;/identifier&gt;</span>
 <span class="nt">&lt;/VoidRequest&gt;</span>
-</code></pre>
+</code></pre></div>
 <blockquote>
 <p>Basic capture call for a merchant with a transno and final amount</p>
 </blockquote>
-<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-  </span><span class="s2">"VoidRequest"</span><span class="p">:{</span><span class="w">
-    </span><span class="s2">"merchantid"</span><span class="p">:</span><span class="mi">123456</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"transno"</span><span class="p">:</span><span class="mi">11275</span><span class="w">
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"VoidRequest"</span><span class="p">:{</span><span class="w">
+    </span><span class="nl">"merchantid"</span><span class="p">:</span><span class="mi">123456</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"transno"</span><span class="p">:</span><span class="mi">11275</span><span class="w">
   </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre><pre class="highlight xml tab-xml"><code><span class="nt">&lt;VoidRequest&gt;</span>
+</span></code></pre></div><div class="highlight"><pre class="highlight xml tab-xml"><code><span class="nt">&lt;VoidRequest&gt;</span>
    <span class="nt">&lt;merchantid&gt;</span>123456<span class="nt">&lt;/merchantid&gt;</span>
    <span class="nt">&lt;transno&gt;</span>11275<span class="nt">&lt;/transno&gt;</span>
 <span class="nt">&lt;/VoidRequest&gt;</span>
-</code></pre><h3 id='model-voidrequest'>Model VoidRequest</h3>
+</code></pre></div><h3 id='model-voidrequest'>Model VoidRequest</h3>
 <p>Request body for this operation contains the following properties</p>
 
 <table><thead>
@@ -2501,15 +2510,15 @@ outlining the result of the transaction.</p>
 <td><code>application/json</code>, <code>text/xml</code>:  <br/> <a href="#acknowledgement">Acknowledgement</a></td>
 </tr>
 </tbody></table>
-<h1 id='api-model'>API Model</h1><h2 id='accountcreate'>AccountCreate</h2><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-   </span><span class="s2">"account_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"aaabbb-cccddd-eee"</span><span class="p">,</span><span class="w">
-   </span><span class="s2">"contact"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="err">...</span><span class="w"> </span><span class="p">}</span><span class="w">
+<h1 id='api-model'>API Model</h1><h2 id='accountcreate'>AccountCreate</h2><div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+   </span><span class="nl">"account_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"aaabbb-cccddd-eee"</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"contact"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="err">...</span><span class="w"> </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre><pre class="highlight xml tab-xml"><code><span class="nt">&lt;AccountCreate&gt;</span>
+</span></code></pre></div><div class="highlight"><pre class="highlight xml tab-xml"><code><span class="nt">&lt;AccountCreate&gt;</span>
  <span class="nt">&lt;account_id&gt;</span>aaabbb-cccddd-eee<span class="nt">&lt;/account_id&gt;</span> 
  <span class="nt">&lt;contact&gt;</span><span class="err">&lt;</span>&gt;...<span class="err">&lt;</span>/&gt;<span class="nt">&lt;/contact&gt;</span> 
 <span class="nt">&lt;/AccountCreate&gt;</span>
-</code></pre>
+</code></pre></div>
 <table><thead>
 <tr>
 <th>Field</th>
@@ -2531,13 +2540,13 @@ outlining the result of the transaction.</p>
 <td><a href="#contactdetails">ContactDetails</a> Contact details for a card holder account.</td>
 </tr>
 </tbody></table>
-<h2 id='accountstatus'>AccountStatus</h2><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-   </span><span class="s2">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="w">
+<h2 id='accountstatus'>AccountStatus</h2><div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+   </span><span class="nl">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre><pre class="highlight xml tab-xml"><code><span class="nt">&lt;AccountStatus&gt;</span>
+</span></code></pre></div><div class="highlight"><pre class="highlight xml tab-xml"><code><span class="nt">&lt;AccountStatus&gt;</span>
  <span class="nt">&lt;status&gt;&lt;/status&gt;</span> 
 <span class="nt">&lt;/AccountStatus&gt;</span>
-</code></pre>
+</code></pre></div>
 <table><thead>
 <tr>
 <th>Field</th>
@@ -2553,19 +2562,19 @@ outlining the result of the transaction.</p>
 <td>The status of the account to set, valid values are ACTIVE or DISABLED.</td>
 </tr>
 </tbody></table>
-<h2 id='acknowledgement'>Acknowledgement</h2><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-   </span><span class="s2">"code"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0"</span><span class="p">,</span><span class="w">
-   </span><span class="s2">"context"</span><span class="p">:</span><span class="w"> </span><span class="s2">"aspiu352908ns47n343598bads"</span><span class="p">,</span><span class="w">
-   </span><span class="s2">"identifier"</span><span class="p">:</span><span class="w"> </span><span class="s2">"95b857a1-5955-4b86-963c-5a6dbfc4fb95"</span><span class="p">,</span><span class="w">
-   </span><span class="s2">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Approved 044332"</span><span class="w">
+<h2 id='acknowledgement'>Acknowledgement</h2><div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+   </span><span class="nl">"code"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0"</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"context"</span><span class="p">:</span><span class="w"> </span><span class="s2">"aspiu352908ns47n343598bads"</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"identifier"</span><span class="p">:</span><span class="w"> </span><span class="s2">"95b857a1-5955-4b86-963c-5a6dbfc4fb95"</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Approved 044332"</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre><pre class="highlight xml tab-xml"><code><span class="nt">&lt;Acknowledgement&gt;</span>
+</span></code></pre></div><div class="highlight"><pre class="highlight xml tab-xml"><code><span class="nt">&lt;Acknowledgement&gt;</span>
  <span class="nt">&lt;code&gt;</span>0<span class="nt">&lt;/code&gt;</span> 
  <span class="nt">&lt;context&gt;</span>aspiu352908ns47n343598bads<span class="nt">&lt;/context&gt;</span> 
  <span class="nt">&lt;identifier&gt;</span>95b857a1-5955-4b86-963c-5a6dbfc4fb95<span class="nt">&lt;/identifier&gt;</span> 
  <span class="nt">&lt;message&gt;</span>Approved 044332<span class="nt">&lt;/message&gt;</span> 
 <span class="nt">&lt;/Acknowledgement&gt;</span>
-</code></pre>
+</code></pre></div>
 <table><thead>
 <tr>
 <th>Field</th>
@@ -2599,25 +2608,25 @@ outlining the result of the transaction.</p>
 <td>A response message providing a description of the result of the process.</td>
 </tr>
 </tbody></table>
-<h2 id='airlineadvice'>AirlineAdvice</h2><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-   </span><span class="s2">"carrier_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"EG Air"</span><span class="p">,</span><span class="w">
-   </span><span class="s2">"conjunction_ticket_indicator"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
-   </span><span class="s2">"eticket_indicator"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
-   </span><span class="s2">"no_air_segments"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
-   </span><span class="s2">"number_in_party"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
-   </span><span class="s2">"original_ticket_no"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
-   </span><span class="s2">"passenger_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"NE Person"</span><span class="p">,</span><span class="w">
-   </span><span class="s2">"segment1"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="err">...</span><span class="w"> </span><span class="p">},</span><span class="w">
-   </span><span class="s2">"segment2"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="err">...</span><span class="w"> </span><span class="p">},</span><span class="w">
-   </span><span class="s2">"segment3"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="err">...</span><span class="w"> </span><span class="p">},</span><span class="w">
-   </span><span class="s2">"segment4"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="err">...</span><span class="w"> </span><span class="p">},</span><span class="w">
-   </span><span class="s2">"ticket_issue_city"</span><span class="p">:</span><span class="w"> </span><span class="s2">"London"</span><span class="p">,</span><span class="w">
-   </span><span class="s2">"ticket_issue_date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2020-08-01"</span><span class="p">,</span><span class="w">
-   </span><span class="s2">"ticket_issue_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Issue Name"</span><span class="p">,</span><span class="w">
-   </span><span class="s2">"ticket_no"</span><span class="p">:</span><span class="w"> </span><span class="s2">"A112233"</span><span class="p">,</span><span class="w">
-   </span><span class="s2">"transaction_type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"TKT"</span><span class="w">
+<h2 id='airlineadvice'>AirlineAdvice</h2><div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+   </span><span class="nl">"carrier_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"EG Air"</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"conjunction_ticket_indicator"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"eticket_indicator"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"no_air_segments"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"number_in_party"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"original_ticket_no"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"passenger_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"NE Person"</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"segment1"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="err">...</span><span class="w"> </span><span class="p">},</span><span class="w">
+   </span><span class="nl">"segment2"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="err">...</span><span class="w"> </span><span class="p">},</span><span class="w">
+   </span><span class="nl">"segment3"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="err">...</span><span class="w"> </span><span class="p">},</span><span class="w">
+   </span><span class="nl">"segment4"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="err">...</span><span class="w"> </span><span class="p">},</span><span class="w">
+   </span><span class="nl">"ticket_issue_city"</span><span class="p">:</span><span class="w"> </span><span class="s2">"London"</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"ticket_issue_date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2020-08-01"</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"ticket_issue_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Issue Name"</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"ticket_no"</span><span class="p">:</span><span class="w"> </span><span class="s2">"A112233"</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"transaction_type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"TKT"</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre><pre class="highlight xml tab-xml"><code><span class="nt">&lt;AirlineAdvice&gt;</span>
+</span></code></pre></div><div class="highlight"><pre class="highlight xml tab-xml"><code><span class="nt">&lt;AirlineAdvice&gt;</span>
  <span class="nt">&lt;carrier_name&gt;</span>EG Air<span class="nt">&lt;/carrier_name&gt;</span> 
  <span class="nt">&lt;conjunction_ticket_indicator&gt;</span>false<span class="nt">&lt;/conjunction_ticket_indicator&gt;</span> 
  <span class="nt">&lt;eticket_indicator&gt;</span>true<span class="nt">&lt;/eticket_indicator&gt;</span> 
@@ -2635,7 +2644,7 @@ outlining the result of the transaction.</p>
  <span class="nt">&lt;ticket_no&gt;</span>A112233<span class="nt">&lt;/ticket_no&gt;</span> 
  <span class="nt">&lt;transaction_type&gt;</span>TKT<span class="nt">&lt;/transaction_type&gt;</span> 
 <span class="nt">&lt;/AirlineAdvice&gt;</span>
-</code></pre>
+</code></pre></div>
 <table><thead>
 <tr>
 <th>Field</th>
@@ -2741,17 +2750,17 @@ outlining the result of the transaction.</p>
 <td>This field contains the Transaction Type code assigned to this transaction. Valid codes include:<br/><br/> - <code>TKT</code> = Ticket Purchase<br/> - <code>REF</code> = Refund<br/> - <code>EXC</code> = Exchange Ticket<br/> - <code>MSC</code> = Miscellaneous (non-Ticket Purchase- and non-Exchange Ticket-related transactions only).<br/><br/>minLength: 3<br/>maxLength: 3</td>
 </tr>
 </tbody></table>
-<h2 id='airlinesegment'>AirlineSegment</h2><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-   </span><span class="s2">"arrival_location_code"</span><span class="p">:</span><span class="w"> </span><span class="s2">"SOU"</span><span class="p">,</span><span class="w">
-   </span><span class="s2">"carrier_code"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ZZ"</span><span class="p">,</span><span class="w">
-   </span><span class="s2">"class_service_code"</span><span class="p">:</span><span class="w"> </span><span class="s2">"CC"</span><span class="p">,</span><span class="w">
-   </span><span class="s2">"departure_date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2020-08-01"</span><span class="p">,</span><span class="w">
-   </span><span class="s2">"departure_location_code"</span><span class="p">:</span><span class="w"> </span><span class="s2">"JER"</span><span class="p">,</span><span class="w">
-   </span><span class="s2">"flight_number"</span><span class="p">:</span><span class="w"> </span><span class="s2">"772"</span><span class="p">,</span><span class="w">
-   </span><span class="s2">"segment_fare"</span><span class="p">:</span><span class="w"> </span><span class="mi">7500</span><span class="p">,</span><span class="w">
-   </span><span class="s2">"stop_over_indicator"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1"</span><span class="w">
+<h2 id='airlinesegment'>AirlineSegment</h2><div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+   </span><span class="nl">"arrival_location_code"</span><span class="p">:</span><span class="w"> </span><span class="s2">"SOU"</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"carrier_code"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ZZ"</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"class_service_code"</span><span class="p">:</span><span class="w"> </span><span class="s2">"CC"</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"departure_date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2020-08-01"</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"departure_location_code"</span><span class="p">:</span><span class="w"> </span><span class="s2">"JER"</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"flight_number"</span><span class="p">:</span><span class="w"> </span><span class="s2">"772"</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"segment_fare"</span><span class="p">:</span><span class="w"> </span><span class="mi">7500</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"stop_over_indicator"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1"</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre><pre class="highlight xml tab-xml"><code><span class="nt">&lt;AirlineSegment&gt;</span>
+</span></code></pre></div><div class="highlight"><pre class="highlight xml tab-xml"><code><span class="nt">&lt;AirlineSegment&gt;</span>
  <span class="nt">&lt;arrival_location_code&gt;</span>SOU<span class="nt">&lt;/arrival_location_code&gt;</span> 
  <span class="nt">&lt;carrier_code&gt;</span>ZZ<span class="nt">&lt;/carrier_code&gt;</span> 
  <span class="nt">&lt;class_service_code&gt;</span>CC<span class="nt">&lt;/class_service_code&gt;</span> 
@@ -2761,7 +2770,7 @@ outlining the result of the transaction.</p>
  <span class="nt">&lt;segment_fare&gt;</span>7500<span class="nt">&lt;/segment_fare&gt;</span> 
  <span class="nt">&lt;stop_over_indicator&gt;</span>1<span class="nt">&lt;/stop_over_indicator&gt;</span> 
 <span class="nt">&lt;/AirlineSegment&gt;</span>
-</code></pre>
+</code></pre></div>
 <table><thead>
 <tr>
 <th>Field</th>
@@ -2819,25 +2828,25 @@ outlining the result of the transaction.</p>
 <td>O = Stopover allowed, X = Stopover not allowed.<br/>maxLength: 1</td>
 </tr>
 </tbody></table>
-<h2 id='authreference'>AuthReference</h2><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-   </span><span class="s2">"amount"</span><span class="p">:</span><span class="w"> </span><span class="mi">3600</span><span class="p">,</span><span class="w">
-   </span><span class="s2">"amount_value"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
-   </span><span class="s2">"atrn"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
-   </span><span class="s2">"authcode"</span><span class="p">:</span><span class="w"> </span><span class="s2">"001245A"</span><span class="p">,</span><span class="w">
-   </span><span class="s2">"batchno"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
-   </span><span class="s2">"currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"GBP"</span><span class="p">,</span><span class="w">
-   </span><span class="s2">"datetime"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2020-01-02"</span><span class="p">,</span><span class="w">
-   </span><span class="s2">"identifier"</span><span class="p">:</span><span class="w"> </span><span class="s2">"95b857a1-5955-4b86-963c-5a6dbfc4fb95"</span><span class="p">,</span><span class="w">
-   </span><span class="s2">"maskedpan"</span><span class="p">:</span><span class="w"> </span><span class="s2">"4***********0002"</span><span class="p">,</span><span class="w">
-   </span><span class="s2">"merchantid"</span><span class="p">:</span><span class="w"> </span><span class="mi">11223344</span><span class="p">,</span><span class="w">
-   </span><span class="s2">"result"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
-   </span><span class="s2">"trans_status"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
-   </span><span class="s2">"trans_type"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
-   </span><span class="s2">"transno"</span><span class="p">:</span><span class="w"> </span><span class="mi">78416</span><span class="w">
+<h2 id='authreference'>AuthReference</h2><div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+   </span><span class="nl">"amount"</span><span class="p">:</span><span class="w"> </span><span class="s2">"20.0"</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"amount_value"</span><span class="p">:</span><span class="w"> </span><span class="mi">3600</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"atrn"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"authcode"</span><span class="p">:</span><span class="w"> </span><span class="s2">"001245A"</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"batchno"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"GBP"</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"datetime"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2020-01-02"</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"identifier"</span><span class="p">:</span><span class="w"> </span><span class="s2">"95b857a1-5955-4b86-963c-5a6dbfc4fb95"</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"maskedpan"</span><span class="p">:</span><span class="w"> </span><span class="s2">"4***********0002"</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"merchantid"</span><span class="p">:</span><span class="w"> </span><span class="mi">11223344</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"result"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"trans_status"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"trans_type"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"transno"</span><span class="p">:</span><span class="w"> </span><span class="mi">78416</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre><pre class="highlight xml tab-xml"><code><span class="nt">&lt;AuthReference&gt;</span>
- <span class="nt">&lt;amount&gt;</span>3600<span class="nt">&lt;/amount&gt;</span> 
- <span class="nt">&lt;amount_value&gt;&lt;/amount_value&gt;</span> 
+</span></code></pre></div><div class="highlight"><pre class="highlight xml tab-xml"><code><span class="nt">&lt;AuthReference&gt;</span>
+ <span class="nt">&lt;amount&gt;</span>20.0<span class="nt">&lt;/amount&gt;</span> 
+ <span class="nt">&lt;amount_value&gt;</span>3600<span class="nt">&lt;/amount_value&gt;</span> 
  <span class="nt">&lt;atrn&gt;&lt;/atrn&gt;</span> 
  <span class="nt">&lt;authcode&gt;</span>001245A<span class="nt">&lt;/authcode&gt;</span> 
  <span class="nt">&lt;batchno&gt;&lt;/batchno&gt;</span> 
@@ -2851,7 +2860,7 @@ outlining the result of the transaction.</p>
  <span class="nt">&lt;trans_type&gt;&lt;/trans_type&gt;</span> 
  <span class="nt">&lt;transno&gt;</span>78416<span class="nt">&lt;/transno&gt;</span> 
 <span class="nt">&lt;/AuthReference&gt;</span>
-</code></pre>
+</code></pre></div>
 <table><thead>
 <tr>
 <th>Field</th>
@@ -2862,15 +2871,15 @@ outlining the result of the transaction.</p>
 </thead><tbody>
 <tr>
 <td><code>amount</code></td>
-<td>integer <em>int32</em></td>
+<td>string</td>
 <td>false</td>
-<td>The amount of the transaction in decimal currency format.<br/>minLength: 1<br/>maxLength: 12</td>
+<td>The amount of the transaction in decimal currency format.<br/>maxLength: 12</td>
 </tr>
 <tr>
 <td><code>amount_value</code></td>
-<td>string</td>
+<td>integer <em>int32</em></td>
 <td>false</td>
-<td>The amount of the transaction in integer/request format.</td>
+<td>The amount of the transaction in integer/request format.<br/>minLength: 1<br/>maxLength: 12</td>
 </tr>
 <tr>
 <td><code>atrn</code></td>
@@ -2945,13 +2954,13 @@ outlining the result of the transaction.</p>
 <td>The transaction number of the transaction.</td>
 </tr>
 </tbody></table>
-<h2 id='authreferences'>AuthReferences</h2><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-   </span><span class="s2">"auths"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="w">
+<h2 id='authreferences'>AuthReferences</h2><div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+   </span><span class="nl">"auths"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre><pre class="highlight xml tab-xml"><code><span class="nt">&lt;AuthReferences&gt;</span>
+</span></code></pre></div><div class="highlight"><pre class="highlight xml tab-xml"><code><span class="nt">&lt;AuthReferences&gt;</span>
  <span class="nt">&lt;auths&gt;&lt;/auths&gt;</span> 
 <span class="nt">&lt;/AuthReferences&gt;</span>
-</code></pre>
+</code></pre></div>
 <table><thead>
 <tr>
 <th>Field</th>
@@ -2967,31 +2976,31 @@ outlining the result of the transaction.</p>
 <td></td>
 </tr>
 </tbody></table>
-<h2 id='authrequest'>AuthRequest</h2><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-   </span><span class="s2">"airline_data"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="err">...</span><span class="w"> </span><span class="p">},</span><span class="w">
-   </span><span class="s2">"amount"</span><span class="p">:</span><span class="w"> </span><span class="mi">3600</span><span class="p">,</span><span class="w">
-   </span><span class="s2">"avs_postcode_policy"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
-   </span><span class="s2">"bill_to"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="err">...</span><span class="w"> </span><span class="p">},</span><span class="w">
-   </span><span class="s2">"card_holder_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
-   </span><span class="s2">"cardnumber"</span><span class="p">:</span><span class="w"> </span><span class="s2">"4000 0000 0000 0002"</span><span class="p">,</span><span class="w">
-   </span><span class="s2">"csc"</span><span class="p">:</span><span class="w"> </span><span class="s2">"10"</span><span class="p">,</span><span class="w">
-   </span><span class="s2">"csc_policy"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
-   </span><span class="s2">"currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"GBP"</span><span class="p">,</span><span class="w">
-   </span><span class="s2">"duplicate_policy"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
-   </span><span class="s2">"expmonth"</span><span class="p">:</span><span class="w"> </span><span class="mi">9</span><span class="p">,</span><span class="w">
-   </span><span class="s2">"expyear"</span><span class="p">:</span><span class="w"> </span><span class="mi">2023</span><span class="p">,</span><span class="w">
-   </span><span class="s2">"external_mpi"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="err">...</span><span class="w"> </span><span class="p">},</span><span class="w">
-   </span><span class="s2">"identifier"</span><span class="p">:</span><span class="w"> </span><span class="s2">"95b857a1-5955-4b86-963c-5a6dbfc4fb95"</span><span class="p">,</span><span class="w">
-   </span><span class="s2">"match_avsa"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
-   </span><span class="s2">"mcc6012"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="err">...</span><span class="w"> </span><span class="p">},</span><span class="w">
-   </span><span class="s2">"merchantid"</span><span class="p">:</span><span class="w"> </span><span class="mi">11223344</span><span class="p">,</span><span class="w">
-   </span><span class="s2">"sdk"</span><span class="p">:</span><span class="w"> </span><span class="s2">"MyClient 1.3.0"</span><span class="p">,</span><span class="w">
-   </span><span class="s2">"ship_to"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="err">...</span><span class="w"> </span><span class="p">},</span><span class="w">
-   </span><span class="s2">"threedsecure"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="err">...</span><span class="w"> </span><span class="p">},</span><span class="w">
-   </span><span class="s2">"trans_info"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
-   </span><span class="s2">"trans_type"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="w">
+<h2 id='authrequest'>AuthRequest</h2><div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+   </span><span class="nl">"airline_data"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="err">...</span><span class="w"> </span><span class="p">},</span><span class="w">
+   </span><span class="nl">"amount"</span><span class="p">:</span><span class="w"> </span><span class="mi">3600</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"avs_postcode_policy"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"bill_to"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="err">...</span><span class="w"> </span><span class="p">},</span><span class="w">
+   </span><span class="nl">"card_holder_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"cardnumber"</span><span class="p">:</span><span class="w"> </span><span class="s2">"4000 0000 0000 0002"</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"csc"</span><span class="p">:</span><span class="w"> </span><span class="s2">"10"</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"csc_policy"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"GBP"</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"duplicate_policy"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"expmonth"</span><span class="p">:</span><span class="w"> </span><span class="mi">9</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"expyear"</span><span class="p">:</span><span class="w"> </span><span class="mi">2023</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"external_mpi"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="err">...</span><span class="w"> </span><span class="p">},</span><span class="w">
+   </span><span class="nl">"identifier"</span><span class="p">:</span><span class="w"> </span><span class="s2">"95b857a1-5955-4b86-963c-5a6dbfc4fb95"</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"match_avsa"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"mcc6012"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="err">...</span><span class="w"> </span><span class="p">},</span><span class="w">
+   </span><span class="nl">"merchantid"</span><span class="p">:</span><span class="w"> </span><span class="mi">11223344</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"sdk"</span><span class="p">:</span><span class="w"> </span><span class="s2">"MyClient 1.3.0"</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"ship_to"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="err">...</span><span class="w"> </span><span class="p">},</span><span class="w">
+   </span><span class="nl">"threedsecure"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="err">...</span><span class="w"> </span><span class="p">},</span><span class="w">
+   </span><span class="nl">"trans_info"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"trans_type"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre><pre class="highlight xml tab-xml"><code><span class="nt">&lt;AuthRequest&gt;</span>
+</span></code></pre></div><div class="highlight"><pre class="highlight xml tab-xml"><code><span class="nt">&lt;AuthRequest&gt;</span>
  <span class="nt">&lt;airline_data&gt;</span><span class="err">&lt;</span>&gt;...<span class="err">&lt;</span>/&gt;<span class="nt">&lt;/airline_data&gt;</span> 
  <span class="nt">&lt;amount&gt;</span>3600<span class="nt">&lt;/amount&gt;</span> 
  <span class="nt">&lt;avs_postcode_policy&gt;&lt;/avs_postcode_policy&gt;</span> 
@@ -3015,7 +3024,7 @@ outlining the result of the transaction.</p>
  <span class="nt">&lt;trans_info&gt;&lt;/trans_info&gt;</span> 
  <span class="nt">&lt;trans_type&gt;&lt;/trans_type&gt;</span> 
 <span class="nt">&lt;/AuthRequest&gt;</span>
-</code></pre>
+</code></pre></div>
 <table><thead>
 <tr>
 <th>Field</th>
@@ -3090,36 +3099,36 @@ for analysis and may result in a decline if incorrectly provided. |
  and the airline advice supplied on a capture request instead. Should the data already exist and an auth and
  capture is preferred. This data may be supplied.
  |</p>
-<h2 id='authresponse'>AuthResponse</h2><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-   </span><span class="s2">"amount"</span><span class="p">:</span><span class="w"> </span><span class="mi">3600</span><span class="p">,</span><span class="w">
-   </span><span class="s2">"atrn"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
-   </span><span class="s2">"atsd"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
-   </span><span class="s2">"authcode"</span><span class="p">:</span><span class="w"> </span><span class="s2">"001245A"</span><span class="p">,</span><span class="w">
-   </span><span class="s2">"authen_result"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
-   </span><span class="s2">"authorised"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
-   </span><span class="s2">"avs_result"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
-   </span><span class="s2">"bin_commercial"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
-   </span><span class="s2">"bin_debit"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
-   </span><span class="s2">"bin_description"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
-   </span><span class="s2">"cavv"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
-   </span><span class="s2">"context"</span><span class="p">:</span><span class="w"> </span><span class="s2">"aspiu352908ns47n343598bads"</span><span class="p">,</span><span class="w">
-   </span><span class="s2">"csc_result"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
-   </span><span class="s2">"currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"GBP"</span><span class="p">,</span><span class="w">
-   </span><span class="s2">"datetime"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2020-01-02"</span><span class="p">,</span><span class="w">
-   </span><span class="s2">"eci"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
-   </span><span class="s2">"identifier"</span><span class="p">:</span><span class="w"> </span><span class="s2">"95b857a1-5955-4b86-963c-5a6dbfc4fb95"</span><span class="p">,</span><span class="w">
-   </span><span class="s2">"live"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
-   </span><span class="s2">"maskedpan"</span><span class="p">:</span><span class="w"> </span><span class="s2">"4***********0002"</span><span class="p">,</span><span class="w">
-   </span><span class="s2">"merchantid"</span><span class="p">:</span><span class="w"> </span><span class="mi">11223344</span><span class="p">,</span><span class="w">
-   </span><span class="s2">"result"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
-   </span><span class="s2">"result_code"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0"</span><span class="p">,</span><span class="w">
-   </span><span class="s2">"result_message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Accepted Transaction"</span><span class="p">,</span><span class="w">
-   </span><span class="s2">"scheme"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Visa"</span><span class="p">,</span><span class="w">
-   </span><span class="s2">"sha256"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
-   </span><span class="s2">"trans_status"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
-   </span><span class="s2">"transno"</span><span class="p">:</span><span class="w"> </span><span class="mi">78416</span><span class="w">
+<h2 id='authresponse'>AuthResponse</h2><div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+   </span><span class="nl">"amount"</span><span class="p">:</span><span class="w"> </span><span class="mi">3600</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"atrn"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"atsd"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"authcode"</span><span class="p">:</span><span class="w"> </span><span class="s2">"001245A"</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"authen_result"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"authorised"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"avs_result"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"bin_commercial"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"bin_debit"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"bin_description"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"cavv"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"context"</span><span class="p">:</span><span class="w"> </span><span class="s2">"aspiu352908ns47n343598bads"</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"csc_result"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"GBP"</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"datetime"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2020-01-02"</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"eci"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"identifier"</span><span class="p">:</span><span class="w"> </span><span class="s2">"95b857a1-5955-4b86-963c-5a6dbfc4fb95"</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"live"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"maskedpan"</span><span class="p">:</span><span class="w"> </span><span class="s2">"4***********0002"</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"merchantid"</span><span class="p">:</span><span class="w"> </span><span class="mi">11223344</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"result"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"result_code"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0"</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"result_message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Accepted Transaction"</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"scheme"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Visa"</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"sha256"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"trans_status"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"transno"</span><span class="p">:</span><span class="w"> </span><span class="mi">78416</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre><pre class="highlight xml tab-xml"><code><span class="nt">&lt;AuthResponse&gt;</span>
+</span></code></pre></div><div class="highlight"><pre class="highlight xml tab-xml"><code><span class="nt">&lt;AuthResponse&gt;</span>
  <span class="nt">&lt;amount&gt;</span>3600<span class="nt">&lt;/amount&gt;</span> 
  <span class="nt">&lt;atrn&gt;&lt;/atrn&gt;</span> 
  <span class="nt">&lt;atsd&gt;&lt;/atsd&gt;</span> 
@@ -3148,7 +3157,7 @@ for analysis and may result in a decline if incorrectly provided. |
  <span class="nt">&lt;trans_status&gt;&lt;/trans_status&gt;</span> 
  <span class="nt">&lt;transno&gt;</span>78416<span class="nt">&lt;/transno&gt;</span> 
 <span class="nt">&lt;/AuthResponse&gt;</span>
-</code></pre>
+</code></pre></div>
 <table><thead>
 <tr>
 <th>Field</th>
@@ -3320,17 +3329,17 @@ for analysis and may result in a decline if incorrectly provided. |
 <td>The resulting transaction number, ordered incrementally from 1 for every merchant_id. The value will default to less than 1<br/>for transactions that do not have a transaction number issued.</td>
 </tr>
 </tbody></table>
-<h2 id='authenrequired'>AuthenRequired</h2><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-   </span><span class="s2">"acs_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://acs.cardissuer.com/3dsv1"</span><span class="p">,</span><span class="w">
-   </span><span class="s2">"md"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
-   </span><span class="s2">"pareq"</span><span class="p">:</span><span class="w"> </span><span class="s2">"eNrNWdnOo0qSfpXSmUuf0+w2tFy/lOyYxYDZ79h3sAEbm6cfbFfV+bu6pqe7R2qNJeQkiIwlMyK+..."</span><span class="w">
+<h2 id='authenrequired'>AuthenRequired</h2><div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+   </span><span class="nl">"acs_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://acs.cardissuer.com/3dsv1"</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"md"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"pareq"</span><span class="p">:</span><span class="w"> </span><span class="s2">"eNrNWdnOo0qSfpXSmUuf0+w2tFy/lOyYxYDZ79h3sAEbm6cfbFfV+bu6pqe7R2qNJeQkiIwlMyK+..."</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre><pre class="highlight xml tab-xml"><code><span class="nt">&lt;AuthenRequired&gt;</span>
+</span></code></pre></div><div class="highlight"><pre class="highlight xml tab-xml"><code><span class="nt">&lt;AuthenRequired&gt;</span>
  <span class="nt">&lt;acs_url&gt;</span>https://acs.cardissuer.com/3dsv1<span class="nt">&lt;/acs_url&gt;</span> 
  <span class="nt">&lt;md&gt;&lt;/md&gt;</span> 
  <span class="nt">&lt;pareq&gt;</span>eNrNWdnOo0qSfpXSmUuf0+w2tFy/lOyYxYDZ79h3sAEbm6cfbFfV+bu6pqe7R2qNJeQkiIwlMyK+...<span class="nt">&lt;/pareq&gt;</span> 
 <span class="nt">&lt;/AuthenRequired&gt;</span>
-</code></pre>
+</code></pre></div>
 <table><thead>
 <tr>
 <th>Field</th>
@@ -3358,13 +3367,13 @@ for analysis and may result in a decline if incorrectly provided. |
 <td>The Payer Authentication Request packet which should be <code>POSTed</code> to the Url of the ACS<br/>to establish the authentication session. Data should be sent untouched.</td>
 </tr>
 </tbody></table>
-<h2 id='cresauthrequest'>CResAuthRequest</h2><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-   </span><span class="s2">"cres"</span><span class="p">:</span><span class="w"> </span><span class="s2">"x90+vZ/7Ll05Vid/jPfQn8adw+4D/vRDUGT19kndW97Hfirbv66ycfSp8jNlvy7PkHbx44NEt3vo..."</span><span class="w">
+<h2 id='cresauthrequest'>CResAuthRequest</h2><div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+   </span><span class="nl">"cres"</span><span class="p">:</span><span class="w"> </span><span class="s2">"x90+vZ/7Ll05Vid/jPfQn8adw+4D/vRDUGT19kndW97Hfirbv66ycfSp8jNlvy7PkHbx44NEt3vo..."</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre><pre class="highlight xml tab-xml"><code><span class="nt">&lt;CResAuthRequest&gt;</span>
+</span></code></pre></div><div class="highlight"><pre class="highlight xml tab-xml"><code><span class="nt">&lt;CResAuthRequest&gt;</span>
  <span class="nt">&lt;cres&gt;</span>x90+vZ/7Ll05Vid/jPfQn8adw+4D/vRDUGT19kndW97Hfirbv66ycfSp8jNlvy7PkHbx44NEt3vo...<span class="nt">&lt;/cres&gt;</span> 
 <span class="nt">&lt;/CResAuthRequest&gt;</span>
-</code></pre>
+</code></pre></div>
 <table><thead>
 <tr>
 <th>Field</th>
@@ -3380,15 +3389,15 @@ for analysis and may result in a decline if incorrectly provided. |
 <td>The challenge response data forwarded by the ACS in 3D-Secure V2 processing. Data<br/>should be forwarded to CityPay unchanged for subsequent authorisation and processing.</td>
 </tr>
 </tbody></table>
-<h2 id='capturerequest'>CaptureRequest</h2><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-   </span><span class="s2">"airline_data"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="err">...</span><span class="w"> </span><span class="p">},</span><span class="w">
-   </span><span class="s2">"amount"</span><span class="p">:</span><span class="w"> </span><span class="mi">3600</span><span class="p">,</span><span class="w">
-   </span><span class="s2">"identifier"</span><span class="p">:</span><span class="w"> </span><span class="s2">"95b857a1-5955-4b86-963c-5a6dbfc4fb95"</span><span class="p">,</span><span class="w">
-   </span><span class="s2">"merchantid"</span><span class="p">:</span><span class="w"> </span><span class="mi">11223344</span><span class="p">,</span><span class="w">
-   </span><span class="s2">"sdk"</span><span class="p">:</span><span class="w"> </span><span class="s2">"MyClient 1.3.0"</span><span class="p">,</span><span class="w">
-   </span><span class="s2">"transno"</span><span class="p">:</span><span class="w"> </span><span class="mi">78416</span><span class="w">
+<h2 id='capturerequest'>CaptureRequest</h2><div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+   </span><span class="nl">"airline_data"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="err">...</span><span class="w"> </span><span class="p">},</span><span class="w">
+   </span><span class="nl">"amount"</span><span class="p">:</span><span class="w"> </span><span class="mi">3600</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"identifier"</span><span class="p">:</span><span class="w"> </span><span class="s2">"95b857a1-5955-4b86-963c-5a6dbfc4fb95"</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"merchantid"</span><span class="p">:</span><span class="w"> </span><span class="mi">11223344</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"sdk"</span><span class="p">:</span><span class="w"> </span><span class="s2">"MyClient 1.3.0"</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"transno"</span><span class="p">:</span><span class="w"> </span><span class="mi">78416</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre><pre class="highlight xml tab-xml"><code><span class="nt">&lt;CaptureRequest&gt;</span>
+</span></code></pre></div><div class="highlight"><pre class="highlight xml tab-xml"><code><span class="nt">&lt;CaptureRequest&gt;</span>
  <span class="nt">&lt;airline_data&gt;</span><span class="err">&lt;</span>&gt;...<span class="err">&lt;</span>/&gt;<span class="nt">&lt;/airline_data&gt;</span> 
  <span class="nt">&lt;amount&gt;</span>3600<span class="nt">&lt;/amount&gt;</span> 
  <span class="nt">&lt;identifier&gt;</span>95b857a1-5955-4b86-963c-5a6dbfc4fb95<span class="nt">&lt;/identifier&gt;</span> 
@@ -3396,7 +3405,7 @@ for analysis and may result in a decline if incorrectly provided. |
  <span class="nt">&lt;sdk&gt;</span>MyClient 1.3.0<span class="nt">&lt;/sdk&gt;</span> 
  <span class="nt">&lt;transno&gt;</span>78416<span class="nt">&lt;/transno&gt;</span> 
 <span class="nt">&lt;/CaptureRequest&gt;</span>
-</code></pre>
+</code></pre></div>
 <table><thead>
 <tr>
 <th>Field</th>
@@ -3454,27 +3463,27 @@ for analysis and may result in a decline if incorrectly provided. |
 <td><a href="#airlineadvice">AirlineAdvice</a> Additional advice to be applied for the capture request.</td>
 </tr>
 </tbody></table>
-<h2 id='card'>Card</h2><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-   </span><span class="s2">"bin_commercial"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
-   </span><span class="s2">"bin_corporate"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
-   </span><span class="s2">"bin_country_issued"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
-   </span><span class="s2">"bin_credit"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
-   </span><span class="s2">"bin_currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
-   </span><span class="s2">"bin_debit"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
-   </span><span class="s2">"bin_description"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
-   </span><span class="s2">"bin_eu"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
-   </span><span class="s2">"card_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
-   </span><span class="s2">"card_status"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
-   </span><span class="s2">"default"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
-   </span><span class="s2">"expmonth"</span><span class="p">:</span><span class="w"> </span><span class="mi">9</span><span class="p">,</span><span class="w">
-   </span><span class="s2">"expyear"</span><span class="p">:</span><span class="w"> </span><span class="mi">2023</span><span class="p">,</span><span class="w">
-   </span><span class="s2">"label"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Visa/0002"</span><span class="p">,</span><span class="w">
-   </span><span class="s2">"label2"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Visa/0002,Exp:2304"</span><span class="p">,</span><span class="w">
-   </span><span class="s2">"last4digits"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2"</span><span class="p">,</span><span class="w">
-   </span><span class="s2">"scheme"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Visa"</span><span class="p">,</span><span class="w">
-   </span><span class="s2">"token"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ctPCAPyNyCkx3Ry8wGyv8khC3ch2hUSB3Db..Qzr"</span><span class="w">
+<h2 id='card'>Card</h2><div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+   </span><span class="nl">"bin_commercial"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"bin_corporate"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"bin_country_issued"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"bin_credit"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"bin_currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"bin_debit"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"bin_description"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"bin_eu"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"card_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"card_status"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"default"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"expmonth"</span><span class="p">:</span><span class="w"> </span><span class="mi">9</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"expyear"</span><span class="p">:</span><span class="w"> </span><span class="mi">2023</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"label"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Visa/0002"</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"label2"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Visa/0002,Exp:2304"</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"last4digits"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2"</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"scheme"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Visa"</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"token"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ctPCAPyNyCkx3Ry8wGyv8khC3ch2hUSB3Db..Qzr"</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre><pre class="highlight xml tab-xml"><code><span class="nt">&lt;Card&gt;</span>
+</span></code></pre></div><div class="highlight"><pre class="highlight xml tab-xml"><code><span class="nt">&lt;Card&gt;</span>
  <span class="nt">&lt;bin_commercial&gt;&lt;/bin_commercial&gt;</span> 
  <span class="nt">&lt;bin_corporate&gt;&lt;/bin_corporate&gt;</span> 
  <span class="nt">&lt;bin_country_issued&gt;&lt;/bin_country_issued&gt;</span> 
@@ -3494,7 +3503,7 @@ for analysis and may result in a decline if incorrectly provided. |
  <span class="nt">&lt;scheme&gt;</span>Visa<span class="nt">&lt;/scheme&gt;</span> 
  <span class="nt">&lt;token&gt;</span>ctPCAPyNyCkx3Ry8wGyv8khC3ch2hUSB3Db..Qzr<span class="nt">&lt;/token&gt;</span> 
 <span class="nt">&lt;/Card&gt;</span>
-</code></pre>
+</code></pre></div>
 <table><thead>
 <tr>
 <th>Field</th>
@@ -3612,17 +3621,17 @@ for analysis and may result in a decline if incorrectly provided. |
 <td>A token that can be used to process against the card.</td>
 </tr>
 </tbody></table>
-<h2 id='cardholderaccount'>CardHolderAccount</h2><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-   </span><span class="s2">"account_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"aaabbb-cccddd-eee"</span><span class="p">,</span><span class="w">
-   </span><span class="s2">"cards"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
-   </span><span class="s2">"contact"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="err">...</span><span class="w"> </span><span class="p">},</span><span class="w">
-   </span><span class="s2">"date_created"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2020-01-02"</span><span class="p">,</span><span class="w">
-   </span><span class="s2">"default_card_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
-   </span><span class="s2">"default_card_index"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
-   </span><span class="s2">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
-   </span><span class="s2">"unique_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="w">
+<h2 id='cardholderaccount'>CardHolderAccount</h2><div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+   </span><span class="nl">"account_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"aaabbb-cccddd-eee"</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"cards"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"contact"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="err">...</span><span class="w"> </span><span class="p">},</span><span class="w">
+   </span><span class="nl">"date_created"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2020-01-02"</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"default_card_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"default_card_index"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"unique_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre><pre class="highlight xml tab-xml"><code><span class="nt">&lt;CardHolderAccount&gt;</span>
+</span></code></pre></div><div class="highlight"><pre class="highlight xml tab-xml"><code><span class="nt">&lt;CardHolderAccount&gt;</span>
  <span class="nt">&lt;account_id&gt;</span>aaabbb-cccddd-eee<span class="nt">&lt;/account_id&gt;</span> 
  <span class="nt">&lt;cards&gt;&lt;/cards&gt;</span> 
  <span class="nt">&lt;contact&gt;</span><span class="err">&lt;</span>&gt;...<span class="err">&lt;</span>/&gt;<span class="nt">&lt;/contact&gt;</span> 
@@ -3632,7 +3641,7 @@ for analysis and may result in a decline if incorrectly provided. |
  <span class="nt">&lt;status&gt;&lt;/status&gt;</span> 
  <span class="nt">&lt;unique_id&gt;&lt;/unique_id&gt;</span> 
 <span class="nt">&lt;/CardHolderAccount&gt;</span>
-</code></pre>
+</code></pre></div>
 <table><thead>
 <tr>
 <th>Field</th>
@@ -3673,7 +3682,7 @@ for analysis and may result in a decline if incorrectly provided. |
 </tr>
 <tr>
 <td><code>default_card_index</code></td>
-<td>string</td>
+<td>integer <em>int32</em></td>
 <td>false</td>
 <td>The index in the array of the default card.</td>
 </tr>
@@ -3690,15 +3699,15 @@ for analysis and may result in a decline if incorrectly provided. |
 <td>A unique id of the card holder account which uniquely identifies the stored account. This value is not searchable.</td>
 </tr>
 </tbody></table>
-<h2 id='cardstatus'>CardStatus</h2><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-   </span><span class="s2">"card_status"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
-   </span><span class="s2">"default"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
+<h2 id='cardstatus'>CardStatus</h2><div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+   </span><span class="nl">"card_status"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"default"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre><pre class="highlight xml tab-xml"><code><span class="nt">&lt;CardStatus&gt;</span>
+</span></code></pre></div><div class="highlight"><pre class="highlight xml tab-xml"><code><span class="nt">&lt;CardStatus&gt;</span>
  <span class="nt">&lt;card_status&gt;&lt;/card_status&gt;</span> 
  <span class="nt">&lt;default&gt;&lt;/default&gt;</span> 
 <span class="nt">&lt;/CardStatus&gt;</span>
-</code></pre>
+</code></pre></div>
 <table><thead>
 <tr>
 <th>Field</th>
@@ -3720,22 +3729,22 @@ for analysis and may result in a decline if incorrectly provided. |
 <td>Defines if the card is set as the default.</td>
 </tr>
 </tbody></table>
-<h2 id='chargerequest'>ChargeRequest</h2><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-   </span><span class="s2">"amount"</span><span class="p">:</span><span class="w"> </span><span class="mi">3600</span><span class="p">,</span><span class="w">
-   </span><span class="s2">"avs_postcode_policy"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
-   </span><span class="s2">"csc"</span><span class="p">:</span><span class="w"> </span><span class="s2">"10"</span><span class="p">,</span><span class="w">
-   </span><span class="s2">"csc_policy"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
-   </span><span class="s2">"currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"GBP"</span><span class="p">,</span><span class="w">
-   </span><span class="s2">"duplicate_policy"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
-   </span><span class="s2">"identifier"</span><span class="p">:</span><span class="w"> </span><span class="s2">"95b857a1-5955-4b86-963c-5a6dbfc4fb95"</span><span class="p">,</span><span class="w">
-   </span><span class="s2">"match_avsa"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
-   </span><span class="s2">"merchantid"</span><span class="p">:</span><span class="w"> </span><span class="mi">11223344</span><span class="p">,</span><span class="w">
-   </span><span class="s2">"sdk"</span><span class="p">:</span><span class="w"> </span><span class="s2">"MyClient 1.3.0"</span><span class="p">,</span><span class="w">
-   </span><span class="s2">"token"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ctPCAPyNyCkx3Ry8wGyv8khC3ch2hUSB3Db..Qzr"</span><span class="p">,</span><span class="w">
-   </span><span class="s2">"trans_info"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
-   </span><span class="s2">"trans_type"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="w">
+<h2 id='chargerequest'>ChargeRequest</h2><div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+   </span><span class="nl">"amount"</span><span class="p">:</span><span class="w"> </span><span class="mi">3600</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"avs_postcode_policy"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"csc"</span><span class="p">:</span><span class="w"> </span><span class="s2">"10"</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"csc_policy"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"GBP"</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"duplicate_policy"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"identifier"</span><span class="p">:</span><span class="w"> </span><span class="s2">"95b857a1-5955-4b86-963c-5a6dbfc4fb95"</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"match_avsa"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"merchantid"</span><span class="p">:</span><span class="w"> </span><span class="mi">11223344</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"sdk"</span><span class="p">:</span><span class="w"> </span><span class="s2">"MyClient 1.3.0"</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"token"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ctPCAPyNyCkx3Ry8wGyv8khC3ch2hUSB3Db..Qzr"</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"trans_info"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"trans_type"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre><pre class="highlight xml tab-xml"><code><span class="nt">&lt;ChargeRequest&gt;</span>
+</span></code></pre></div><div class="highlight"><pre class="highlight xml tab-xml"><code><span class="nt">&lt;ChargeRequest&gt;</span>
  <span class="nt">&lt;amount&gt;</span>3600<span class="nt">&lt;/amount&gt;</span> 
  <span class="nt">&lt;avs_postcode_policy&gt;&lt;/avs_postcode_policy&gt;</span> 
  <span class="nt">&lt;csc&gt;</span>10<span class="nt">&lt;/csc&gt;</span> 
@@ -3750,7 +3759,7 @@ for analysis and may result in a decline if incorrectly provided. |
  <span class="nt">&lt;trans_info&gt;&lt;/trans_info&gt;</span> 
  <span class="nt">&lt;trans_type&gt;&lt;/trans_type&gt;</span> 
 <span class="nt">&lt;/ChargeRequest&gt;</span>
-</code></pre>
+</code></pre></div>
 <table><thead>
 <tr>
 <th>Field</th>
@@ -3838,22 +3847,22 @@ for analysis and may result in a decline if incorrectly provided. |
 <td>The type of transaction being submitted. Normally this value is not required and your account manager may request that you set this field.<br/>maxLength: 1</td>
 </tr>
 </tbody></table>
-<h2 id='contactdetails'>ContactDetails</h2><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-   </span><span class="s2">"address1"</span><span class="p">:</span><span class="w"> </span><span class="s2">"79 Parliament St"</span><span class="p">,</span><span class="w">
-   </span><span class="s2">"address2"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Westminster"</span><span class="p">,</span><span class="w">
-   </span><span class="s2">"address3"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
-   </span><span class="s2">"area"</span><span class="p">:</span><span class="w"> </span><span class="s2">"London"</span><span class="p">,</span><span class="w">
-   </span><span class="s2">"company"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Acme Ltd"</span><span class="p">,</span><span class="w">
-   </span><span class="s2">"country"</span><span class="p">:</span><span class="w"> </span><span class="s2">"GB"</span><span class="p">,</span><span class="w">
-   </span><span class="s2">"email"</span><span class="p">:</span><span class="w"> </span><span class="s2">"card.holder@citypay.com"</span><span class="p">,</span><span class="w">
-   </span><span class="s2">"firstname"</span><span class="p">:</span><span class="w"> </span><span class="s2">"John"</span><span class="p">,</span><span class="w">
-   </span><span class="s2">"lastname"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Smith"</span><span class="p">,</span><span class="w">
-   </span><span class="s2">"mobile_no"</span><span class="p">:</span><span class="w"> </span><span class="s2">"447790123456"</span><span class="p">,</span><span class="w">
-   </span><span class="s2">"postcode"</span><span class="p">:</span><span class="w"> </span><span class="s2">"L1 789"</span><span class="p">,</span><span class="w">
-   </span><span class="s2">"telephone_no"</span><span class="p">:</span><span class="w"> </span><span class="s2">"442030123456"</span><span class="p">,</span><span class="w">
-   </span><span class="s2">"title"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Mr"</span><span class="w">
+<h2 id='contactdetails'>ContactDetails</h2><div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+   </span><span class="nl">"address1"</span><span class="p">:</span><span class="w"> </span><span class="s2">"79 Parliament St"</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"address2"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Westminster"</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"address3"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"area"</span><span class="p">:</span><span class="w"> </span><span class="s2">"London"</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"company"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Acme Ltd"</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"country"</span><span class="p">:</span><span class="w"> </span><span class="s2">"GB"</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"email"</span><span class="p">:</span><span class="w"> </span><span class="s2">"card.holder@citypay.com"</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"firstname"</span><span class="p">:</span><span class="w"> </span><span class="s2">"John"</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"lastname"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Smith"</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"mobile_no"</span><span class="p">:</span><span class="w"> </span><span class="s2">"447790123456"</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"postcode"</span><span class="p">:</span><span class="w"> </span><span class="s2">"L1 789"</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"telephone_no"</span><span class="p">:</span><span class="w"> </span><span class="s2">"442030123456"</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"title"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Mr"</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre><pre class="highlight xml tab-xml"><code><span class="nt">&lt;ContactDetails&gt;</span>
+</span></code></pre></div><div class="highlight"><pre class="highlight xml tab-xml"><code><span class="nt">&lt;ContactDetails&gt;</span>
  <span class="nt">&lt;address1&gt;</span>79 Parliament St<span class="nt">&lt;/address1&gt;</span> 
  <span class="nt">&lt;address2&gt;</span>Westminster<span class="nt">&lt;/address2&gt;</span> 
  <span class="nt">&lt;address3&gt;&lt;/address3&gt;</span> 
@@ -3868,7 +3877,7 @@ for analysis and may result in a decline if incorrectly provided. |
  <span class="nt">&lt;telephone_no&gt;</span>442030123456<span class="nt">&lt;/telephone_no&gt;</span> 
  <span class="nt">&lt;title&gt;</span>Mr<span class="nt">&lt;/title&gt;</span> 
 <span class="nt">&lt;/ContactDetails&gt;</span>
-</code></pre>
+</code></pre></div>
 <table><thead>
 <tr>
 <th>Field</th>
@@ -3881,25 +3890,25 @@ for analysis and may result in a decline if incorrectly provided. |
 <td><code>address1</code></td>
 <td>string</td>
 <td>false</td>
-<td>The first line of the address for the card holder.<br/>maxLength: 40</td>
+<td>The first line of the address for the card holder.<br/>maxLength: 50</td>
 </tr>
 <tr>
 <td><code>address2</code></td>
 <td>string</td>
 <td>false</td>
-<td>The second line of the address for the card holder.<br/>maxLength: 30</td>
+<td>The second line of the address for the card holder.<br/>maxLength: 50</td>
 </tr>
 <tr>
 <td><code>address3</code></td>
 <td>string</td>
 <td>false</td>
-<td>The third line of the address for the card holder.<br/>maxLength: 20</td>
+<td>The third line of the address for the card holder.<br/>maxLength: 50</td>
 </tr>
 <tr>
 <td><code>area</code></td>
 <td>string</td>
 <td>false</td>
-<td>The area such as city, department, parish for the card holder.<br/>maxLength: 20</td>
+<td>The area such as city, department, parish for the card holder.<br/>maxLength: 50</td>
 </tr>
 <tr>
 <td><code>company</code></td>
@@ -3956,17 +3965,17 @@ for analysis and may result in a decline if incorrectly provided. |
 <td>A title for the card holder such as Mr, Mrs, Ms, M. Mme. etc.</td>
 </tr>
 </tbody></table>
-<h2 id='decision'>Decision</h2><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-   </span><span class="s2">"AuthResponse"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="err">...</span><span class="w"> </span><span class="p">},</span><span class="w">
-   </span><span class="s2">"AuthenRequired"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="err">...</span><span class="w"> </span><span class="p">},</span><span class="w">
-   </span><span class="s2">"RequestChallenged"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="err">...</span><span class="w"> </span><span class="p">}</span><span class="w">
+<h2 id='decision'>Decision</h2><div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+   </span><span class="nl">"AuthResponse"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="err">...</span><span class="w"> </span><span class="p">},</span><span class="w">
+   </span><span class="nl">"AuthenRequired"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="err">...</span><span class="w"> </span><span class="p">},</span><span class="w">
+   </span><span class="nl">"RequestChallenged"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="err">...</span><span class="w"> </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre><pre class="highlight xml tab-xml"><code><span class="nt">&lt;Decision&gt;</span>
+</span></code></pre></div><div class="highlight"><pre class="highlight xml tab-xml"><code><span class="nt">&lt;Decision&gt;</span>
  <span class="nt">&lt;AuthResponse&gt;</span><span class="err">&lt;</span>&gt;...<span class="err">&lt;</span>/&gt;<span class="nt">&lt;/AuthResponse&gt;</span> 
  <span class="nt">&lt;AuthenRequired&gt;</span><span class="err">&lt;</span>&gt;...<span class="err">&lt;</span>/&gt;<span class="nt">&lt;/AuthenRequired&gt;</span> 
  <span class="nt">&lt;RequestChallenged&gt;</span><span class="err">&lt;</span>&gt;...<span class="err">&lt;</span>/&gt;<span class="nt">&lt;/RequestChallenged&gt;</span> 
 <span class="nt">&lt;/Decision&gt;</span>
-</code></pre>
+</code></pre></div>
 <table><thead>
 <tr>
 <th>Field</th>
@@ -3994,19 +4003,19 @@ for analysis and may result in a decline if incorrectly provided. |
 <td><a href="#requestchallenged">RequestChallenged</a> The request resulted in the transaction participating in 3DSv2 and has been challenged for authentication by the ACS.</td>
 </tr>
 </tbody></table>
-<h2 id='error'>Error</h2><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-   </span><span class="s2">"code"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0"</span><span class="p">,</span><span class="w">
-   </span><span class="s2">"context"</span><span class="p">:</span><span class="w"> </span><span class="s2">"aspiu352908ns47n343598bads"</span><span class="p">,</span><span class="w">
-   </span><span class="s2">"identifier"</span><span class="p">:</span><span class="w"> </span><span class="s2">"95b857a1-5955-4b86-963c-5a6dbfc4fb95"</span><span class="p">,</span><span class="w">
-   </span><span class="s2">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Approved 044332"</span><span class="w">
+<h2 id='error'>Error</h2><div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+   </span><span class="nl">"code"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0"</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"context"</span><span class="p">:</span><span class="w"> </span><span class="s2">"aspiu352908ns47n343598bads"</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"identifier"</span><span class="p">:</span><span class="w"> </span><span class="s2">"95b857a1-5955-4b86-963c-5a6dbfc4fb95"</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Approved 044332"</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre><pre class="highlight xml tab-xml"><code><span class="nt">&lt;Error&gt;</span>
+</span></code></pre></div><div class="highlight"><pre class="highlight xml tab-xml"><code><span class="nt">&lt;Error&gt;</span>
  <span class="nt">&lt;code&gt;</span>0<span class="nt">&lt;/code&gt;</span> 
  <span class="nt">&lt;context&gt;</span>aspiu352908ns47n343598bads<span class="nt">&lt;/context&gt;</span> 
  <span class="nt">&lt;identifier&gt;</span>95b857a1-5955-4b86-963c-5a6dbfc4fb95<span class="nt">&lt;/identifier&gt;</span> 
  <span class="nt">&lt;message&gt;</span>Approved 044332<span class="nt">&lt;/message&gt;</span> 
 <span class="nt">&lt;/Error&gt;</span>
-</code></pre>
+</code></pre></div>
 <table><thead>
 <tr>
 <th>Field</th>
@@ -4040,21 +4049,21 @@ for analysis and may result in a decline if incorrectly provided. |
 <td>A response message providing a description of the result of the process.</td>
 </tr>
 </tbody></table>
-<h2 id='externalmpi'>ExternalMPI</h2><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-   </span><span class="s2">"authen_result"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
-   </span><span class="s2">"cavv"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
-   </span><span class="s2">"eci"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
-   </span><span class="s2">"enrolled"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
-   </span><span class="s2">"xid"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="w">
+<h2 id='externalmpi'>ExternalMPI</h2><div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+   </span><span class="nl">"authen_result"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"cavv"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"eci"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"enrolled"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"xid"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre><pre class="highlight xml tab-xml"><code><span class="nt">&lt;ExternalMPI&gt;</span>
+</span></code></pre></div><div class="highlight"><pre class="highlight xml tab-xml"><code><span class="nt">&lt;ExternalMPI&gt;</span>
  <span class="nt">&lt;authen_result&gt;&lt;/authen_result&gt;</span> 
  <span class="nt">&lt;cavv&gt;&lt;/cavv&gt;</span> 
  <span class="nt">&lt;eci&gt;&lt;/eci&gt;</span> 
  <span class="nt">&lt;enrolled&gt;&lt;/enrolled&gt;</span> 
  <span class="nt">&lt;xid&gt;&lt;/xid&gt;</span> 
 <span class="nt">&lt;/ExternalMPI&gt;</span>
-</code></pre>
+</code></pre></div>
 <table><thead>
 <tr>
 <th>Field</th>
@@ -4094,17 +4103,17 @@ for analysis and may result in a decline if incorrectly provided. |
 <td>The XID used for processing with the MPI.<br/>maxLength: 20</td>
 </tr>
 </tbody></table>
-<h2 id='listmerchantsresponse'>ListMerchantsResponse</h2><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-   </span><span class="s2">"client_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
-   </span><span class="s2">"clientid"</span><span class="p">:</span><span class="w"> </span><span class="s2">"PC12345"</span><span class="p">,</span><span class="w">
-   </span><span class="s2">"merchants"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="w">
+<h2 id='listmerchantsresponse'>ListMerchantsResponse</h2><div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+   </span><span class="nl">"client_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"clientid"</span><span class="p">:</span><span class="w"> </span><span class="s2">"PC12345"</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"merchants"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre><pre class="highlight xml tab-xml"><code><span class="nt">&lt;ListMerchantsResponse&gt;</span>
+</span></code></pre></div><div class="highlight"><pre class="highlight xml tab-xml"><code><span class="nt">&lt;ListMerchantsResponse&gt;</span>
  <span class="nt">&lt;client_name&gt;&lt;/client_name&gt;</span> 
  <span class="nt">&lt;clientid&gt;</span>PC12345<span class="nt">&lt;/clientid&gt;</span> 
  <span class="nt">&lt;merchants&gt;&lt;/merchants&gt;</span> 
 <span class="nt">&lt;/ListMerchantsResponse&gt;</span>
-</code></pre>
+</code></pre></div>
 <table><thead>
 <tr>
 <th>Field</th>
@@ -4132,19 +4141,19 @@ for analysis and may result in a decline if incorrectly provided. |
 <td></td>
 </tr>
 </tbody></table>
-<h2 id='mcc6012'>MCC6012</h2><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-   </span><span class="s2">"recipient_account"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
-   </span><span class="s2">"recipient_dob"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
-   </span><span class="s2">"recipient_lastname"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
-   </span><span class="s2">"recipient_postcode"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="w">
+<h2 id='mcc6012'>MCC6012</h2><div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+   </span><span class="nl">"recipient_account"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"recipient_dob"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"recipient_lastname"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"recipient_postcode"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre><pre class="highlight xml tab-xml"><code><span class="nt">&lt;MCC6012&gt;</span>
+</span></code></pre></div><div class="highlight"><pre class="highlight xml tab-xml"><code><span class="nt">&lt;MCC6012&gt;</span>
  <span class="nt">&lt;recipient_account&gt;&lt;/recipient_account&gt;</span> 
  <span class="nt">&lt;recipient_dob&gt;&lt;/recipient_dob&gt;</span> 
  <span class="nt">&lt;recipient_lastname&gt;&lt;/recipient_lastname&gt;</span> 
  <span class="nt">&lt;recipient_postcode&gt;&lt;/recipient_postcode&gt;</span> 
 <span class="nt">&lt;/MCC6012&gt;</span>
-</code></pre>
+</code></pre></div>
 <table><thead>
 <tr>
 <th>Field</th>
@@ -4178,21 +4187,21 @@ for analysis and may result in a decline if incorrectly provided. |
 <td>The postcode of the recipient.</td>
 </tr>
 </tbody></table>
-<h2 id='merchant'>Merchant</h2><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-   </span><span class="s2">"currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"GBP"</span><span class="p">,</span><span class="w">
-   </span><span class="s2">"merchantid"</span><span class="p">:</span><span class="w"> </span><span class="mi">11223344</span><span class="p">,</span><span class="w">
-   </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Merchant 1"</span><span class="p">,</span><span class="w">
-   </span><span class="s2">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"A"</span><span class="p">,</span><span class="w">
-   </span><span class="s2">"status_label"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Active"</span><span class="w">
+<h2 id='merchant'>Merchant</h2><div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+   </span><span class="nl">"currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"GBP"</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"merchantid"</span><span class="p">:</span><span class="w"> </span><span class="mi">11223344</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Merchant 1"</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"A"</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"status_label"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Active"</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre><pre class="highlight xml tab-xml"><code><span class="nt">&lt;Merchant&gt;</span>
+</span></code></pre></div><div class="highlight"><pre class="highlight xml tab-xml"><code><span class="nt">&lt;Merchant&gt;</span>
  <span class="nt">&lt;currency&gt;</span>GBP<span class="nt">&lt;/currency&gt;</span> 
  <span class="nt">&lt;merchantid&gt;</span>11223344<span class="nt">&lt;/merchantid&gt;</span> 
  <span class="nt">&lt;name&gt;</span>Merchant 1<span class="nt">&lt;/name&gt;</span> 
  <span class="nt">&lt;status&gt;</span>A<span class="nt">&lt;/status&gt;</span> 
  <span class="nt">&lt;status_label&gt;</span>Active<span class="nt">&lt;/status_label&gt;</span> 
 <span class="nt">&lt;/Merchant&gt;</span>
-</code></pre>
+</code></pre></div>
 <table><thead>
 <tr>
 <th>Field</th>
@@ -4232,15 +4241,15 @@ for analysis and may result in a decline if incorrectly provided. |
 <td>The status label of the account.</td>
 </tr>
 </tbody></table>
-<h2 id='paresauthrequest'>PaResAuthRequest</h2><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-   </span><span class="s2">"md"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
-   </span><span class="s2">"pares"</span><span class="p">:</span><span class="w"> </span><span class="s2">"v66ycfSp8jNlvy7PkHbx44NEt3vox90+vZ/7Ll05Vid/jPfQn8adw+4D/vRDUGT19kndW97Hfirb..."</span><span class="w">
+<h2 id='paresauthrequest'>PaResAuthRequest</h2><div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+   </span><span class="nl">"md"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"pares"</span><span class="p">:</span><span class="w"> </span><span class="s2">"v66ycfSp8jNlvy7PkHbx44NEt3vox90+vZ/7Ll05Vid/jPfQn8adw+4D/vRDUGT19kndW97Hfirb..."</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre><pre class="highlight xml tab-xml"><code><span class="nt">&lt;PaResAuthRequest&gt;</span>
+</span></code></pre></div><div class="highlight"><pre class="highlight xml tab-xml"><code><span class="nt">&lt;PaResAuthRequest&gt;</span>
  <span class="nt">&lt;md&gt;&lt;/md&gt;</span> 
  <span class="nt">&lt;pares&gt;</span>v66ycfSp8jNlvy7PkHbx44NEt3vox90+vZ/7Ll05Vid/jPfQn8adw+4D/vRDUGT19kndW97Hfirb...<span class="nt">&lt;/pares&gt;</span> 
 <span class="nt">&lt;/PaResAuthRequest&gt;</span>
-</code></pre>
+</code></pre></div>
 <table><thead>
 <tr>
 <th>Field</th>
@@ -4262,13 +4271,13 @@ for analysis and may result in a decline if incorrectly provided. |
 <td>The Payer Authentication Response packet which is returned by the ACS containing the<br/> response of the authentication session including verification values. The response<br/> is a base64 encoded packet and should be forwarded to CityPay untouched.</td>
 </tr>
 </tbody></table>
-<h2 id='ping'>Ping</h2><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-   </span><span class="s2">"identifier"</span><span class="p">:</span><span class="w"> </span><span class="s2">"95b857a1-5955-4b86-963c-5a6dbfc4fb95"</span><span class="w">
+<h2 id='ping'>Ping</h2><div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+   </span><span class="nl">"identifier"</span><span class="p">:</span><span class="w"> </span><span class="s2">"95b857a1-5955-4b86-963c-5a6dbfc4fb95"</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre><pre class="highlight xml tab-xml"><code><span class="nt">&lt;Ping&gt;</span>
+</span></code></pre></div><div class="highlight"><pre class="highlight xml tab-xml"><code><span class="nt">&lt;Ping&gt;</span>
  <span class="nt">&lt;identifier&gt;</span>95b857a1-5955-4b86-963c-5a6dbfc4fb95<span class="nt">&lt;/identifier&gt;</span> 
 <span class="nt">&lt;/Ping&gt;</span>
-</code></pre>
+</code></pre></div>
 <table><thead>
 <tr>
 <th>Field</th>
@@ -4284,19 +4293,19 @@ for analysis and may result in a decline if incorrectly provided. |
 <td>An identifier of the ping request which will be returned in the response.<br/>minLength: 4<br/>maxLength: 50</td>
 </tr>
 </tbody></table>
-<h2 id='registercard'>RegisterCard</h2><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-   </span><span class="s2">"cardnumber"</span><span class="p">:</span><span class="w"> </span><span class="s2">"4000 0000 0000 0002"</span><span class="p">,</span><span class="w">
-   </span><span class="s2">"default"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
-   </span><span class="s2">"expmonth"</span><span class="p">:</span><span class="w"> </span><span class="mi">9</span><span class="p">,</span><span class="w">
-   </span><span class="s2">"expyear"</span><span class="p">:</span><span class="w"> </span><span class="mi">2023</span><span class="w">
+<h2 id='registercard'>RegisterCard</h2><div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+   </span><span class="nl">"cardnumber"</span><span class="p">:</span><span class="w"> </span><span class="s2">"4000 0000 0000 0002"</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"default"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"expmonth"</span><span class="p">:</span><span class="w"> </span><span class="mi">9</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"expyear"</span><span class="p">:</span><span class="w"> </span><span class="mi">2023</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre><pre class="highlight xml tab-xml"><code><span class="nt">&lt;RegisterCard&gt;</span>
+</span></code></pre></div><div class="highlight"><pre class="highlight xml tab-xml"><code><span class="nt">&lt;RegisterCard&gt;</span>
  <span class="nt">&lt;cardnumber&gt;</span>4000 0000 0000 0002<span class="nt">&lt;/cardnumber&gt;</span> 
  <span class="nt">&lt;default&gt;&lt;/default&gt;</span> 
  <span class="nt">&lt;expmonth&gt;</span>9<span class="nt">&lt;/expmonth&gt;</span> 
  <span class="nt">&lt;expyear&gt;</span>2023<span class="nt">&lt;/expyear&gt;</span> 
 <span class="nt">&lt;/RegisterCard&gt;</span>
-</code></pre>
+</code></pre></div>
 <table><thead>
 <tr>
 <th>Field</th>
@@ -4330,21 +4339,21 @@ for analysis and may result in a decline if incorrectly provided. |
 <td>The expiry year of the card.<br/>minimum: 2000<br/>maximum: 2100</td>
 </tr>
 </tbody></table>
-<h2 id='requestchallenged'>RequestChallenged</h2><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-   </span><span class="s2">"ThreeDServerTransId"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
-   </span><span class="s2">"acs_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://acs.cardissuer.com/3dsv1"</span><span class="p">,</span><span class="w">
-   </span><span class="s2">"creq"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
-   </span><span class="s2">"merchantid"</span><span class="p">:</span><span class="w"> </span><span class="mi">11223344</span><span class="p">,</span><span class="w">
-   </span><span class="s2">"transno"</span><span class="p">:</span><span class="w"> </span><span class="mi">78416</span><span class="w">
+<h2 id='requestchallenged'>RequestChallenged</h2><div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+   </span><span class="nl">"ThreeDServerTransId"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"acs_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://acs.cardissuer.com/3dsv1"</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"creq"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"merchantid"</span><span class="p">:</span><span class="w"> </span><span class="mi">11223344</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"transno"</span><span class="p">:</span><span class="w"> </span><span class="mi">78416</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre><pre class="highlight xml tab-xml"><code><span class="nt">&lt;RequestChallenged&gt;</span>
+</span></code></pre></div><div class="highlight"><pre class="highlight xml tab-xml"><code><span class="nt">&lt;RequestChallenged&gt;</span>
  <span class="nt">&lt;ThreeDServerTransId&gt;&lt;/ThreeDServerTransId&gt;</span> 
  <span class="nt">&lt;acs_url&gt;</span>https://acs.cardissuer.com/3dsv1<span class="nt">&lt;/acs_url&gt;</span> 
  <span class="nt">&lt;creq&gt;&lt;/creq&gt;</span> 
  <span class="nt">&lt;merchantid&gt;</span>11223344<span class="nt">&lt;/merchantid&gt;</span> 
  <span class="nt">&lt;transno&gt;</span>78416<span class="nt">&lt;/transno&gt;</span> 
 <span class="nt">&lt;/RequestChallenged&gt;</span>
-</code></pre>
+</code></pre></div>
 <table><thead>
 <tr>
 <th>Field</th>
@@ -4384,17 +4393,17 @@ for analysis and may result in a decline if incorrectly provided. |
 <td>The transaction number for the challenge, ordered incrementally from 1 for every merchant_id.</td>
 </tr>
 </tbody></table>
-<h2 id='retrieverequest'>RetrieveRequest</h2><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-   </span><span class="s2">"identifier"</span><span class="p">:</span><span class="w"> </span><span class="s2">"95b857a1-5955-4b86-963c-5a6dbfc4fb95"</span><span class="p">,</span><span class="w">
-   </span><span class="s2">"merchantid"</span><span class="p">:</span><span class="w"> </span><span class="mi">11223344</span><span class="p">,</span><span class="w">
-   </span><span class="s2">"transno"</span><span class="p">:</span><span class="w"> </span><span class="mi">78416</span><span class="w">
+<h2 id='retrieverequest'>RetrieveRequest</h2><div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+   </span><span class="nl">"identifier"</span><span class="p">:</span><span class="w"> </span><span class="s2">"95b857a1-5955-4b86-963c-5a6dbfc4fb95"</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"merchantid"</span><span class="p">:</span><span class="w"> </span><span class="mi">11223344</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"transno"</span><span class="p">:</span><span class="w"> </span><span class="mi">78416</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre><pre class="highlight xml tab-xml"><code><span class="nt">&lt;RetrieveRequest&gt;</span>
+</span></code></pre></div><div class="highlight"><pre class="highlight xml tab-xml"><code><span class="nt">&lt;RetrieveRequest&gt;</span>
  <span class="nt">&lt;identifier&gt;</span>95b857a1-5955-4b86-963c-5a6dbfc4fb95<span class="nt">&lt;/identifier&gt;</span> 
  <span class="nt">&lt;merchantid&gt;</span>11223344<span class="nt">&lt;/merchantid&gt;</span> 
  <span class="nt">&lt;transno&gt;</span>78416<span class="nt">&lt;/transno&gt;</span> 
 <span class="nt">&lt;/RetrieveRequest&gt;</span>
-</code></pre>
+</code></pre></div>
 <table><thead>
 <tr>
 <th>Field</th>
@@ -4422,21 +4431,21 @@ for analysis and may result in a decline if incorrectly provided. |
 <td>The transaction number of a transaction to retrieve. Optional if an identifier is supplied.</td>
 </tr>
 </tbody></table>
-<h2 id='threedsecure'>ThreeDSecure</h2><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-   </span><span class="s2">"accept_headers"</span><span class="p">:</span><span class="w"> </span><span class="s2">"text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9"</span><span class="p">,</span><span class="w">
-   </span><span class="s2">"downgrade1"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
-   </span><span class="s2">"merchant_termurl"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
-   </span><span class="s2">"tds_policy"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
-   </span><span class="s2">"user_agent"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.149 Safari/537.36"</span><span class="w">
+<h2 id='threedsecure'>ThreeDSecure</h2><div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+   </span><span class="nl">"accept_headers"</span><span class="p">:</span><span class="w"> </span><span class="s2">"text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9"</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"downgrade1"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"merchant_termurl"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"tds_policy"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"user_agent"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.149 Safari/537.36"</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre><pre class="highlight xml tab-xml"><code><span class="nt">&lt;ThreeDSecure&gt;</span>
+</span></code></pre></div><div class="highlight"><pre class="highlight xml tab-xml"><code><span class="nt">&lt;ThreeDSecure&gt;</span>
  <span class="nt">&lt;accept_headers&gt;</span>text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9<span class="nt">&lt;/accept_headers&gt;</span> 
  <span class="nt">&lt;downgrade1&gt;&lt;/downgrade1&gt;</span> 
  <span class="nt">&lt;merchant_termurl&gt;&lt;/merchant_termurl&gt;</span> 
  <span class="nt">&lt;tds_policy&gt;&lt;/tds_policy&gt;</span> 
  <span class="nt">&lt;user_agent&gt;</span>Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.149 Safari/537.36<span class="nt">&lt;/user_agent&gt;</span> 
 <span class="nt">&lt;/ThreeDSecure&gt;</span>
-</code></pre>
+</code></pre></div>
 <table><thead>
 <tr>
 <th>Field</th>
@@ -4476,19 +4485,19 @@ for analysis and may result in a decline if incorrectly provided. |
 <td>The content of the HTTP user-agent header as sent to the merchant from the cardholder&#39;s user agent.<br/>This value will be validated by the ACS when the card holder authenticates themselves to verify that<br/>no intermediary is performing this action. Required for 3DSv1.</td>
 </tr>
 </tbody></table>
-<h2 id='voidrequest'>VoidRequest</h2><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-   </span><span class="s2">"identifier"</span><span class="p">:</span><span class="w"> </span><span class="s2">"95b857a1-5955-4b86-963c-5a6dbfc4fb95"</span><span class="p">,</span><span class="w">
-   </span><span class="s2">"merchantid"</span><span class="p">:</span><span class="w"> </span><span class="mi">11223344</span><span class="p">,</span><span class="w">
-   </span><span class="s2">"sdk"</span><span class="p">:</span><span class="w"> </span><span class="s2">"MyClient 1.3.0"</span><span class="p">,</span><span class="w">
-   </span><span class="s2">"transno"</span><span class="p">:</span><span class="w"> </span><span class="mi">78416</span><span class="w">
+<h2 id='voidrequest'>VoidRequest</h2><div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+   </span><span class="nl">"identifier"</span><span class="p">:</span><span class="w"> </span><span class="s2">"95b857a1-5955-4b86-963c-5a6dbfc4fb95"</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"merchantid"</span><span class="p">:</span><span class="w"> </span><span class="mi">11223344</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"sdk"</span><span class="p">:</span><span class="w"> </span><span class="s2">"MyClient 1.3.0"</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"transno"</span><span class="p">:</span><span class="w"> </span><span class="mi">78416</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre><pre class="highlight xml tab-xml"><code><span class="nt">&lt;VoidRequest&gt;</span>
+</span></code></pre></div><div class="highlight"><pre class="highlight xml tab-xml"><code><span class="nt">&lt;VoidRequest&gt;</span>
  <span class="nt">&lt;identifier&gt;</span>95b857a1-5955-4b86-963c-5a6dbfc4fb95<span class="nt">&lt;/identifier&gt;</span> 
  <span class="nt">&lt;merchantid&gt;</span>11223344<span class="nt">&lt;/merchantid&gt;</span> 
  <span class="nt">&lt;sdk&gt;</span>MyClient 1.3.0<span class="nt">&lt;/sdk&gt;</span> 
  <span class="nt">&lt;transno&gt;</span>78416<span class="nt">&lt;/transno&gt;</span> 
 <span class="nt">&lt;/VoidRequest&gt;</span>
-</code></pre>
+</code></pre></div>
 <table><thead>
 <tr>
 <th>Field</th>
