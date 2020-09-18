@@ -1,12 +1,12 @@
 ---
 title: CityPay Payment API
-version: 6.0.8
+version: 6.0.9
 language_tabs:
   - json
   - xml
 toc_footers:
   - <a href='mailto:support@citypay.com'>Any Integration Questions?</a>
-  - V6.0.8 2020-09-07
+  - V6.0.9 2020-09-18
 includes:
   - errorcodes
   - authresultcodes
@@ -22,8 +22,8 @@ search: true
 
 # CityPay Payment API
 
-Version: 6.0.8
-Last Updated: 2020-09-07
+Version: 6.0.9
+Last Updated: 2020-09-18
 
 
 This CityPay API is a HTTP RESTful payment API used for direct server to server transactional processing. It
@@ -574,7 +574,7 @@ Request body for this operation contains the following properties
 Required | Name | Type | Description |
 ---------|------|------|-------------|
  Required | `amount` | integer *int32* | The amount to authorise in the lowest unit of currency with a variable length to a maximum of 12 digits.<br/>No decimal points are to be included and no divisional characters such as 1,024.<br/>The amount should be the total amount required for the transaction.<br/>For example with GBP £1,021.95 the amount value is 102195.<br/><br/>minLength: 1<br/>maxLength: 12 | 
- Required | `identifier` | string  | The identifier of the transaction to process. The value should be a valid reference and may be used to perform<br/> post processing actions and to aid in reconciliation of transactions.<br/><br/>The value should be a valid printable string with ASCII character ranges from 32 to 127.<br/><br/>The identifier is recommended to be distinct for each transaction such as a [random unique identifier](https://en.wikipedia.org/wiki/Universally_unique_identifier)<br/>this will aid in ensuring each transaction is identifiable.<br/><br/>When transactions are processed they are also checked for duplicate requests. Changing the identifier on a subsequent<br/>request will ensure that a transaction is considered as different.<br/><br/>minLength: 4<br/>maxLength: 50 | 
+ Required | `identifier` | string  | The identifier of the transaction to process. The value should be a valid reference and may be used to perform<br/> post processing actions and to aid in reconciliation of transactions.<br/><br/>The value should be a valid printable string with ASCII character ranges from 0x32 to 0x127.<br/><br/>The identifier is recommended to be distinct for each transaction such as a [random unique identifier](https://en.wikipedia.org/wiki/Universally_unique_identifier)<br/>this will aid in ensuring each transaction is identifiable.<br/><br/>When transactions are processed they are also checked for duplicate requests. Changing the identifier on a subsequent<br/>request will ensure that a transaction is considered as different.<br/><br/>minLength: 4<br/>maxLength: 50 | 
  Required | `merchantid` | integer *int32* | Identifies the merchant account to perform processing for. | 
  Required | `token` | string *base58* | A tokenised form of a card that belongs to a card holder's account and that<br/>has been previously registered. The token is time based and will only be active for<br/>a short duration. The value is therefore designed not to be stored remotely for future<br/> use.<br/><br/>Tokens will start with ct and are resiliently tamper proof using HMacSHA-256.<br/>No sensitive card data is stored internally within the token.<br/><br/>Each card will contain a different token and the value may be different on any retrieval call.<br/><br/>The value can be presented for payment as a selection value to an end user in a web application. | 
  Optional | `avs_postcode_policy` | string  | A policy value which determines whether an AVS postcode policy is enforced or bypassed.<br/><br/>Values are<br/> `0` for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.<br/> `1` for an enforced policy. Transactions that are enforced will be rejected if the AVS postcode numeric value does not match.<br/> `2` to bypass. Transactions that are bypassed will be allowed through even if the postcode did not match.<br/> `3` to ignore. Transactions that are ignored will bypass the result and not send postcode details for authorisation. | 
@@ -583,7 +583,6 @@ Required | Name | Type | Description |
  Optional | `currency` | string  | The processing currency for the transaction. Will default to the merchant account currency.<br/>minLength: 3<br/>maxLength: 3 | 
  Optional | `duplicate_policy` | string  | A policy value which determines whether a duplication policy is enforced or bypassed. A duplication check has a window<br/>of time set against your account within which it can action. If a previous transaction with matching values occurred within<br/>the window, any subsequent transaction will result in a T001 result.<br/><br/>Values are<br/> `0` for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.<br/> `1` for an enforced policy. Transactions that are enforced will be checked for duplication within the duplication window.<br/> `2` to bypass. Transactions that are bypassed will not be checked for duplication within the duplication window.<br/> `3` to ignore. Transactions that are ignored will have the same affect as bypass. | 
  Optional | `match_avsa` | string  | A policy value which determines whether an AVS address policy is enforced, bypassed or ignored.<br/><br/><br/>Values are<br/> `0` for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.<br/> `1` for an enforced policy. Transactions that are enforced will be rejected if the AVS address numeric value does not match.<br/> `2` to bypass. Transactions that are bypassed will be allowed through even if the address did not match.<br/> `3` to ignore. Transactions that are ignored will bypass the result and not send address numeric details for authorisation. | 
- Optional | `sdk` | string  | An optional reference value for the calling client such as a version number i.e. | 
  Optional | `trans_info` | string  | Further information that can be added to the transaction will display in reporting. Can be used for flexible values such as operator id.<br/>maxLength: 50 | 
  Optional | `trans_type` | string  | The type of transaction being submitted. Normally this value is not required and your account manager may request that you set this field.<br/>maxLength: 1 | 
 
@@ -814,7 +813,7 @@ model (SCA) throughout 2020. This has been adopted by the payment's industry as 
 Unions payments service directive.
 
 CityPay support 3DSv2 for Verified by Visa, MasterCard Identity Check and American Express SafeKey 2.0 and will be rolling
-out acquirers on the new platform from Q2 2020. The new enhancement to 3DSv2 will allow for CityPay to seamlessly authenticate
+out acquirers on the new platform from Q4 2020. The new enhancement to 3DSv2 will allow for CityPay to seamlessly authenticate
 transactions in a "frictionless" flowed method which will authenticate low risk transactions with minimal impact to a 
 standard authorisation flow. Our API simply performs this on behalf of the merchant and cardholder. For these transactions
 you will not be required to change anything.
@@ -853,6 +852,20 @@ To forward the user to the ACS, we recommend a simple auto submit HTML form.
 ```
 
 We are currently working on an integration test suite for 3DSv2 which will mock the ACS challenge process.
+        
+### Testing 3DSv2 Integrations
+
+The API provides a mock 3dsV2 handler which performs a number of scenarios based on the value of the CSC in the request.
+
+ CSC Value | Behaviour |
+-----------|-----------|
+ 731       | Frictionless processing - Not authenticated |
+ 732       | Frictionless processing - Account verification count not be performed |        
+ 733       | Frictionless processing - Verification Rejected |        
+ 741       | Frictionless processing - Attempts Processing |        
+ 750       | Frictionless processing - Authenticated  |        
+ 761       | Triggers an error message |  
+ Any       | Challenge Request |
 
 
 
@@ -928,7 +941,7 @@ Required | Name | Type | Description |
  Required | `cardnumber` | string  | The card number (PAN) with a variable length to a maximum of 21 digits in numerical form.<br/>Any non numeric characters will be stripped out of the card number, this includes whitespace or separators internal of the<br/>provided value.<br/><br/>The card number must be treated as sensitive data. We only provide an obfuscated value in logging and reporting.<br/> The plaintext value is encrypted in our database using AES 256 GMC bit encryption for settlement or refund purposes.<br/><br/>When providing the card number to our gateway through the authorisation API you will be handling the card data on<br/>your application. This will require further PCI controls to be in place and this value must never be stored.<br/><br/>minLength: 12<br/>maxLength: 22 | 
  Required | `expmonth` | integer *int32* | The month of expiry of the card. The month value should be a numerical value between 1 and 12.<br/><br/>minimum: 1<br/>maximum: 12 | 
  Required | `expyear` | integer *int32* | The year of expiry of the card.<br/><br/>minimum: 2000<br/>maximum: 2100 | 
- Required | `identifier` | string  | The identifier of the transaction to process. The value should be a valid reference and may be used to perform<br/> post processing actions and to aid in reconciliation of transactions.<br/><br/>The value should be a valid printable string with ASCII character ranges from 32 to 127.<br/><br/>The identifier is recommended to be distinct for each transaction such as a [random unique identifier](https://en.wikipedia.org/wiki/Universally_unique_identifier)<br/>this will aid in ensuring each transaction is identifiable.<br/><br/>When transactions are processed they are also checked for duplicate requests. Changing the identifier on a subsequent<br/>request will ensure that a transaction is considered as different.<br/><br/>minLength: 4<br/>maxLength: 50 | 
+ Required | `identifier` | string  | The identifier of the transaction to process. The value should be a valid reference and may be used to perform<br/> post processing actions and to aid in reconciliation of transactions.<br/><br/>The value should be a valid printable string with ASCII character ranges from 0x32 to 0x127.<br/><br/>The identifier is recommended to be distinct for each transaction such as a [random unique identifier](https://en.wikipedia.org/wiki/Universally_unique_identifier)<br/>this will aid in ensuring each transaction is identifiable.<br/><br/>When transactions are processed they are also checked for duplicate requests. Changing the identifier on a subsequent<br/>request will ensure that a transaction is considered as different.<br/><br/>minLength: 4<br/>maxLength: 50 | 
  Required | `merchantid` | integer *int32* | Identifies the merchant account to perform processing for. | 
  Optional | `avs_postcode_policy` | string  | A policy value which determines whether an AVS postcode policy is enforced or bypassed.<br/><br/>Values are<br/> `0` for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.<br/> `1` for an enforced policy. Transactions that are enforced will be rejected if the AVS postcode numeric value does not match.<br/> `2` to bypass. Transactions that are bypassed will be allowed through even if the postcode did not match.<br/> `3` to ignore. Transactions that are ignored will bypass the result and not send postcode details for authorisation. | 
  Optional | `bill_to` | object | [ContactDetails](#contactdetails) Billing details of the card holder making the payment.<br/><br/>These details may be used for AVS fraud analysis, 3DS and for future referencing of the transaction.<br/><br/><br/><br/>For AVS to work correctly, the billing details should be the registered address of the card holder<br/><br/>as it appears on the statement with their card issuer. The numeric details will be passed through<br/><br/>for analysis and may result in a decline if incorrectly provided. | 
@@ -938,7 +951,6 @@ Required | Name | Type | Description |
  Optional | `currency` | string  | The processing currency for the transaction. Will default to the merchant account currency.<br/>minLength: 3<br/>maxLength: 3 | 
  Optional | `duplicate_policy` | string  | A policy value which determines whether a duplication policy is enforced or bypassed. A duplication check has a window<br/>of time set against your account within which it can action. If a previous transaction with matching values occurred within<br/>the window, any subsequent transaction will result in a T001 result.<br/><br/>Values are<br/> `0` for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.<br/> `1` for an enforced policy. Transactions that are enforced will be checked for duplication within the duplication window.<br/> `2` to bypass. Transactions that are bypassed will not be checked for duplication within the duplication window.<br/> `3` to ignore. Transactions that are ignored will have the same affect as bypass. | 
  Optional | `match_avsa` | string  | A policy value which determines whether an AVS address policy is enforced, bypassed or ignored.<br/><br/><br/>Values are<br/> `0` for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.<br/> `1` for an enforced policy. Transactions that are enforced will be rejected if the AVS address numeric value does not match.<br/> `2` to bypass. Transactions that are bypassed will be allowed through even if the address did not match.<br/> `3` to ignore. Transactions that are ignored will bypass the result and not send address numeric details for authorisation. | 
- Optional | `sdk` | string  | An optional reference value for the calling client such as a version number i.e. | 
  Optional | `ship_to` | object | [ContactDetails](#contactdetails) Shipping details of the card holder making the payment. These details may be used for 3DS and for future referencing of the transaction. | 
  Optional | `threedsecure` | object | [ThreeDSecure](#threedsecure) ThreeDSecure element, providing values to enable full 3DS processing flows. | 
  Optional | `trans_info` | string  | Further information that can be added to the transaction will display in reporting. Can be used for flexible values such as operator id.<br/>maxLength: 50 | 
@@ -1108,7 +1120,6 @@ Required | Name | Type | Description |
  Required | `merchantid` | integer *int32* | Identifies the merchant account to perform the capture for. | 
  Optional | `amount` | integer *int32* | The completion amount provided in the lowest unit of currency for the specific currency of the merchant,<br/>with a variable length to a maximum of 12 digits. No decimal points to be included. For example with<br/>GBP 75.45 use the value 7545. Please check that you do not supply divisional characters such as 1,024 in the<br/>request which may be caused by some number formatters.<br/>If no amount is supplied, the original processing amount is used.<br/><br/>minLength: 1<br/>maxLength: 12 | 
  Optional | `identifier` | string  | The identifier of the transaction to capture. If an empty value is supplied then a `trans_no` value must be supplied.<br/>minLength: 4<br/>maxLength: 50 | 
- Optional | `sdk` | string  | An optional reference value for the calling client such as a version number i.e. | 
  Optional | `transno` | integer *int32* | The transaction number of the transaction to look up and capture. If an empty value is supplied then an identifier value must be supplied. | 
 
 
@@ -1261,6 +1272,50 @@ Responses for this operation are
 
 
 
+## Refund
+
+<span class="http-method-post">POST</span> `/refund`
+
+A refund request which allows for the refunding of a previous transaction up 
+and to the amount of the original sale. A refund will be performed against the 
+original card used to process the transaction.
+
+
+
+
+
+
+
+### Model RefundRequest
+
+Request body for this operation contains the following properties
+
+Required | Name | Type | Description |
+---------|------|------|-------------|
+ Required | `amount` | integer *int32* | The amount to refund in the lowest unit of currency with a variable length to a maximum of 12 digits.<br/>The amount should be the total amount required to refund for the transaction up to the original processed amount.<br/>No decimal points are to be included and no divisional characters such as 1,024.<br/>For example with GBP £1,021.95 the amount value is 102195.<br/><br/>minLength: 1<br/>maxLength: 12 | 
+ Required | `identifier` | string  | The identifier of the refund to process. The value should be a valid reference and may be used to perform<br/> post processing actions and to aid in reconciliation of transactions.<br/><br/>The value should be a valid printable string with ASCII character ranges from 0x32 to 0x127.<br/><br/>The identifier is recommended to be distinct for each transaction such as a [random unique identifier](https://en.wikipedia.org/wiki/Universally_unique_identifier)<br/>this will aid in ensuring each transaction is identifiable.<br/><br/>When transactions are processed they are also checked for duplicate requests. Changing the identifier on a subsequent<br/>request will ensure that a transaction is considered as different.<br/><br/>minLength: 4<br/>maxLength: 50 | 
+ Required | `merchantid` | integer *int32* | Identifies the merchant account to perform the refund for. | 
+ Required | `refund_ref` | integer *int32* | A reference to the original transaction number that is wanting to be refunded. The original<br/> transaction must be on the same merchant id, previously authorised. | 
+ Optional | `trans_info` | string  | Further information that can be added to the transaction will display in reporting. Can be used for flexible values such as operator id.<br/>maxLength: 50 | 
+
+
+
+
+### Response
+
+Responses for this operation are
+
+ StatusCode | Description | Model |
+------------|-------------|-------|
+ `403` | Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request. |  |  
+ `401` | Unauthorized. No api key has been provided and is required for this operation. |  |  
+ `422` | Unprocessable Entity. Should a failure occur that prevents processing of the API call. | `application/json`, `text/xml`:  <br/> [Error](#error) |  
+ `400` | Bad Request. Should the incoming data not be validly determined. |  |  
+ `200` | A result of the refund of sale processing. | `application/json`, `text/xml`:  <br/> [AuthResponse](#authresponse) |  
+
+
+
+
 ## Retrieval
 
 <span class="http-method-post">POST</span> `/retrieve`
@@ -1392,7 +1447,6 @@ Required | Name | Type | Description |
 ---------|------|------|-------------|
  Required | `merchantid` | integer *int32* | Identifies the merchant account to perform the void for. | 
  Optional | `identifier` | string  | The identifier of the transaction to void. If an empty value is supplied then a `trans_no` value must be supplied.<br/>minLength: 4<br/>maxLength: 50 | 
- Optional | `sdk` | string  | An optional reference value for the calling client such as a version number i.e. | 
  Optional | `transno` | integer *int32* | The transaction number of the transaction to look up and void. If an empty value is supplied then an identifier value must be supplied. | 
 
 
@@ -1710,7 +1764,6 @@ Responses for this operation are
    "match_avsa": "",
    "mcc6012": { ... },
    "merchantid": 11223344,
-   "sdk": "MyClient 1.3.0",
    "ship_to": { ... },
    "threedsecure": { ... },
    "trans_info": "",
@@ -1737,7 +1790,6 @@ Responses for this operation are
  <match_avsa></match_avsa> 
  <mcc6012><>...</></mcc6012> 
  <merchantid>11223344</merchantid> 
- <sdk>MyClient 1.3.0</sdk> 
  <ship_to><>...</></ship_to> 
  <threedsecure><>...</></threedsecure> 
  <trans_info></trans_info> 
@@ -1764,11 +1816,10 @@ for analysis and may result in a decline if incorrectly provided. |
 | `expmonth` | integer *int32* | true | The month of expiry of the card. The month value should be a numerical value between 1 and 12.<br/><br/>minimum: 1<br/>maximum: 12 | 
 | `expyear` | integer *int32* | true | The year of expiry of the card.<br/><br/>minimum: 2000<br/>maximum: 2100 | 
 | `external_mpi` | object | false | [ExternalMPI](#externalmpi) If an external 3DSv1 MPI is used for authentication, values provided can be supplied in this element. | 
-| `identifier` | string  | true | The identifier of the transaction to process. The value should be a valid reference and may be used to perform<br/> post processing actions and to aid in reconciliation of transactions.<br/><br/>The value should be a valid printable string with ASCII character ranges from 32 to 127.<br/><br/>The identifier is recommended to be distinct for each transaction such as a [random unique identifier](https://en.wikipedia.org/wiki/Universally_unique_identifier)<br/>this will aid in ensuring each transaction is identifiable.<br/><br/>When transactions are processed they are also checked for duplicate requests. Changing the identifier on a subsequent<br/>request will ensure that a transaction is considered as different.<br/><br/>minLength: 4<br/>maxLength: 50 | 
+| `identifier` | string  | true | The identifier of the transaction to process. The value should be a valid reference and may be used to perform<br/> post processing actions and to aid in reconciliation of transactions.<br/><br/>The value should be a valid printable string with ASCII character ranges from 0x32 to 0x127.<br/><br/>The identifier is recommended to be distinct for each transaction such as a [random unique identifier](https://en.wikipedia.org/wiki/Universally_unique_identifier)<br/>this will aid in ensuring each transaction is identifiable.<br/><br/>When transactions are processed they are also checked for duplicate requests. Changing the identifier on a subsequent<br/>request will ensure that a transaction is considered as different.<br/><br/>minLength: 4<br/>maxLength: 50 | 
 | `match_avsa` | string  | false | A policy value which determines whether an AVS address policy is enforced, bypassed or ignored.<br/><br/><br/>Values are<br/> `0` for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.<br/> `1` for an enforced policy. Transactions that are enforced will be rejected if the AVS address numeric value does not match.<br/> `2` to bypass. Transactions that are bypassed will be allowed through even if the address did not match.<br/> `3` to ignore. Transactions that are ignored will bypass the result and not send address numeric details for authorisation. | 
 | `mcc6012` | object | false | [MCC6012](#mcc6012) If the merchant is MCC coded as 6012, additional values are required for authorisation. | 
 | `merchantid` | integer *int32* | true | Identifies the merchant account to perform processing for. | 
-| `sdk` | string  | false | An optional reference value for the calling client such as a version number i.e. | 
 | `ship_to` | object | false | [ContactDetails](#contactdetails) Shipping details of the card holder making the payment. These details may be used for 3DS and for future referencing of the transaction. | 
 | `threedsecure` | object | false | [ThreeDSecure](#threedsecure) ThreeDSecure element, providing values to enable full 3DS processing flows. | 
 | `trans_info` | string  | false | Further information that can be added to the transaction will display in reporting. Can be used for flexible values such as operator id.<br/>maxLength: 50 | 
@@ -1945,7 +1996,6 @@ As tickets are normally not allocated until successful payment it is normal for 
    "amount": 3600,
    "identifier": "95b857a1-5955-4b86-963c-5a6dbfc4fb95",
    "merchantid": 11223344,
-   "sdk": "MyClient 1.3.0",
    "transno": 78416
 }
 ```
@@ -1956,7 +2006,6 @@ As tickets are normally not allocated until successful payment it is normal for 
  <amount>3600</amount> 
  <identifier>95b857a1-5955-4b86-963c-5a6dbfc4fb95</identifier> 
  <merchantid>11223344</merchantid> 
- <sdk>MyClient 1.3.0</sdk> 
  <transno>78416</transno> 
 </CaptureRequest>
 ```
@@ -1966,7 +2015,6 @@ As tickets are normally not allocated until successful payment it is normal for 
 | `amount` | integer *int32* | false | The completion amount provided in the lowest unit of currency for the specific currency of the merchant,<br/>with a variable length to a maximum of 12 digits. No decimal points to be included. For example with<br/>GBP 75.45 use the value 7545. Please check that you do not supply divisional characters such as 1,024 in the<br/>request which may be caused by some number formatters.<br/>If no amount is supplied, the original processing amount is used.<br/><br/>minLength: 1<br/>maxLength: 12 | 
 | `identifier` | string  | false | The identifier of the transaction to capture. If an empty value is supplied then a `trans_no` value must be supplied.<br/>minLength: 4<br/>maxLength: 50 | 
 | `merchantid` | integer *int32* | true | Identifies the merchant account to perform the capture for. | 
-| `sdk` | string  | false | An optional reference value for the calling client such as a version number i.e. | 
 | `transno` | integer *int32* | false | The transaction number of the transaction to look up and capture. If an empty value is supplied then an identifier value must be supplied. | 
 
 
@@ -2132,7 +2180,6 @@ Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Addi
    "identifier": "95b857a1-5955-4b86-963c-5a6dbfc4fb95",
    "match_avsa": "",
    "merchantid": 11223344,
-   "sdk": "MyClient 1.3.0",
    "token": "ctPCAPyNyCkx3Ry8wGyv8khC3ch2hUSB3Db..Qzr",
    "trans_info": "",
    "trans_type": ""
@@ -2150,7 +2197,6 @@ Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Addi
  <identifier>95b857a1-5955-4b86-963c-5a6dbfc4fb95</identifier> 
  <match_avsa></match_avsa> 
  <merchantid>11223344</merchantid> 
- <sdk>MyClient 1.3.0</sdk> 
  <token>ctPCAPyNyCkx3Ry8wGyv8khC3ch2hUSB3Db..Qzr</token> 
  <trans_info></trans_info> 
  <trans_type></trans_type> 
@@ -2165,10 +2211,9 @@ Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Addi
 | `csc_policy` | string  | false | A policy value which determines whether a CSC policy is enforced or bypassed.<br/><br/>Values are<br/> `0` for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.<br/> `1` for an enforced policy. Transactions that are enforced will be rejected if the CSC value does not match.<br/> `2` to bypass. Transactions that are bypassed will be allowed through even if the CSC did not match.<br/> `3` to ignore. Transactions that are ignored will bypass the result and not send the CSC details for authorisation. | 
 | `currency` | string  | false | The processing currency for the transaction. Will default to the merchant account currency.<br/>minLength: 3<br/>maxLength: 3 | 
 | `duplicate_policy` | string  | false | A policy value which determines whether a duplication policy is enforced or bypassed. A duplication check has a window<br/>of time set against your account within which it can action. If a previous transaction with matching values occurred within<br/>the window, any subsequent transaction will result in a T001 result.<br/><br/>Values are<br/> `0` for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.<br/> `1` for an enforced policy. Transactions that are enforced will be checked for duplication within the duplication window.<br/> `2` to bypass. Transactions that are bypassed will not be checked for duplication within the duplication window.<br/> `3` to ignore. Transactions that are ignored will have the same affect as bypass. | 
-| `identifier` | string  | true | The identifier of the transaction to process. The value should be a valid reference and may be used to perform<br/> post processing actions and to aid in reconciliation of transactions.<br/><br/>The value should be a valid printable string with ASCII character ranges from 32 to 127.<br/><br/>The identifier is recommended to be distinct for each transaction such as a [random unique identifier](https://en.wikipedia.org/wiki/Universally_unique_identifier)<br/>this will aid in ensuring each transaction is identifiable.<br/><br/>When transactions are processed they are also checked for duplicate requests. Changing the identifier on a subsequent<br/>request will ensure that a transaction is considered as different.<br/><br/>minLength: 4<br/>maxLength: 50 | 
+| `identifier` | string  | true | The identifier of the transaction to process. The value should be a valid reference and may be used to perform<br/> post processing actions and to aid in reconciliation of transactions.<br/><br/>The value should be a valid printable string with ASCII character ranges from 0x32 to 0x127.<br/><br/>The identifier is recommended to be distinct for each transaction such as a [random unique identifier](https://en.wikipedia.org/wiki/Universally_unique_identifier)<br/>this will aid in ensuring each transaction is identifiable.<br/><br/>When transactions are processed they are also checked for duplicate requests. Changing the identifier on a subsequent<br/>request will ensure that a transaction is considered as different.<br/><br/>minLength: 4<br/>maxLength: 50 | 
 | `match_avsa` | string  | false | A policy value which determines whether an AVS address policy is enforced, bypassed or ignored.<br/><br/><br/>Values are<br/> `0` for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.<br/> `1` for an enforced policy. Transactions that are enforced will be rejected if the AVS address numeric value does not match.<br/> `2` to bypass. Transactions that are bypassed will be allowed through even if the address did not match.<br/> `3` to ignore. Transactions that are ignored will bypass the result and not send address numeric details for authorisation. | 
 | `merchantid` | integer *int32* | true | Identifies the merchant account to perform processing for. | 
-| `sdk` | string  | false | An optional reference value for the calling client such as a version number i.e. | 
 | `token` | string *base58* | true | A tokenised form of a card that belongs to a card holder's account and that<br/>has been previously registered. The token is time based and will only be active for<br/>a short duration. The value is therefore designed not to be stored remotely for future<br/> use.<br/><br/>Tokens will start with ct and are resiliently tamper proof using HMacSHA-256.<br/>No sensitive card data is stored internally within the token.<br/><br/>Each card will contain a different token and the value may be different on any retrieval call.<br/><br/>The value can be presented for payment as a selection value to an end user in a web application. | 
 | `trans_info` | string  | false | Further information that can be added to the transaction will display in reporting. Can be used for flexible values such as operator id.<br/>maxLength: 50 | 
 | `trans_type` | string  | false | The type of transaction being submitted. Normally this value is not required and your account manager may request that you set this field.<br/>maxLength: 1 | 
@@ -2468,6 +2513,40 @@ Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Addi
 
 
 
+## RefundRequest
+
+```json
+{
+   "amount": 3600,
+   "identifier": "95b857a1-5955-4b86-963c-5a6dbfc4fb95",
+   "merchantid": 11223344,
+   "refund_ref": 8322,
+   "trans_info": ""
+}
+```
+
+```xml
+<RefundRequest>
+ <amount>3600</amount> 
+ <identifier>95b857a1-5955-4b86-963c-5a6dbfc4fb95</identifier> 
+ <merchantid>11223344</merchantid> 
+ <refund_ref>8322</refund_ref> 
+ <trans_info></trans_info> 
+</RefundRequest>
+```
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `amount` | integer *int32* | true | The amount to refund in the lowest unit of currency with a variable length to a maximum of 12 digits.<br/>The amount should be the total amount required to refund for the transaction up to the original processed amount.<br/>No decimal points are to be included and no divisional characters such as 1,024.<br/>For example with GBP £1,021.95 the amount value is 102195.<br/><br/>minLength: 1<br/>maxLength: 12 | 
+| `identifier` | string  | true | The identifier of the refund to process. The value should be a valid reference and may be used to perform<br/> post processing actions and to aid in reconciliation of transactions.<br/><br/>The value should be a valid printable string with ASCII character ranges from 0x32 to 0x127.<br/><br/>The identifier is recommended to be distinct for each transaction such as a [random unique identifier](https://en.wikipedia.org/wiki/Universally_unique_identifier)<br/>this will aid in ensuring each transaction is identifiable.<br/><br/>When transactions are processed they are also checked for duplicate requests. Changing the identifier on a subsequent<br/>request will ensure that a transaction is considered as different.<br/><br/>minLength: 4<br/>maxLength: 50 | 
+| `merchantid` | integer *int32* | true | Identifies the merchant account to perform the refund for. | 
+| `refund_ref` | integer *int32* | true | A reference to the original transaction number that is wanting to be refunded. The original<br/> transaction must be on the same merchant id, previously authorised. | 
+| `trans_info` | string  | false | Further information that can be added to the transaction will display in reporting. Can be used for flexible values such as operator id.<br/>maxLength: 50 | 
+
+
+
+
+
 ## RegisterCard
 
 ```json
@@ -2503,30 +2582,30 @@ Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Addi
 
 ```json
 {
-   "ThreeDServerTransId": "",
    "acs_url": "https://acs.cardissuer.com/3dsv1",
    "creq": "",
    "merchantid": 11223344,
+   "threedserver_trans_id": "",
    "transno": 78416
 }
 ```
 
 ```xml
 <RequestChallenged>
- <ThreeDServerTransId></ThreeDServerTransId> 
  <acs_url>https://acs.cardissuer.com/3dsv1</acs_url> 
  <creq></creq> 
  <merchantid>11223344</merchantid> 
+ <threedserver_trans_id></threedserver_trans_id> 
  <transno>78416</transno> 
 </RequestChallenged>
 ```
 
 | Field | Type | Required | Description |
 |-------|------|----------|-------------|
-| `ThreeDServerTransId` | string  | false | The 3DSv2 trans id reference for the challenge process. | 
 | `acs_url` | string *url* | false | The url of the Access Control Server (ACS) to forward the user to. | 
 | `creq` | string  | false | The challenge request data which is encoded for usage by the ACS. | 
 | `merchantid` | integer *int32* | false | The merchant id that processed this transaction. | 
+| `threedserver_trans_id` | string  | false | The 3DSv2 trans id reference for the challenge process. | 
 | `transno` | integer *int32* | false | The transaction number for the challenge, ordered incrementally from 1 for every merchant_id. | 
 
 
@@ -2601,7 +2680,6 @@ Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Addi
 {
    "identifier": "95b857a1-5955-4b86-963c-5a6dbfc4fb95",
    "merchantid": 11223344,
-   "sdk": "MyClient 1.3.0",
    "transno": 78416
 }
 ```
@@ -2610,7 +2688,6 @@ Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Addi
 <VoidRequest>
  <identifier>95b857a1-5955-4b86-963c-5a6dbfc4fb95</identifier> 
  <merchantid>11223344</merchantid> 
- <sdk>MyClient 1.3.0</sdk> 
  <transno>78416</transno> 
 </VoidRequest>
 ```
@@ -2619,10 +2696,23 @@ Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Addi
 |-------|------|----------|-------------|
 | `identifier` | string  | false | The identifier of the transaction to void. If an empty value is supplied then a `trans_no` value must be supplied.<br/>minLength: 4<br/>maxLength: 50 | 
 | `merchantid` | integer *int32* | true | Identifies the merchant account to perform the void for. | 
-| `sdk` | string  | false | An optional reference value for the calling client such as a version number i.e. | 
 | `transno` | integer *int32* | false | The transaction number of the transaction to look up and void. If an empty value is supplied then an identifier value must be supplied. | 
 
 
 
+
+
+# API Client SDKs
+
+CityPay provide the following Client SDKs which are publicly available on github.
+
+| Language | URL |
+|----------|-----|
+| DotNet | [https://github.com/citypay/citypay-api-client-dotnet](https://github.com/citypay/citypay-api-client-dotnet) | 
+| Java |   [https://github.com/citypay/citypay-api-client-java](https://github.com/citypay/citypay-api-client-java) | 
+| JS |     [https://github.com/citypay/citypay-api-client-js](https://github.com/citypay/citypay-api-client-js) |
+| PHP |    [https://github.com/citypay/citypay-api-client-php](https://github.com/citypay/citypay-api-client-php) |
+| Python | [https://github.com/citypay/citypay-api-client-python](https://github.com/citypay/citypay-api-client-python) |
+| Ruby |   [https://github.com/citypay/citypay-api-client-ruby](https://github.com/citypay/citypay-api-client-ruby) |
 
 

@@ -322,6 +322,9 @@
                     <a href="#pares" class="toc-h2 toc-link" data-title="PaRes">PaRes</a>
                   </li>
                   <li>
+                    <a href="#refund" class="toc-h2 toc-link" data-title="Refund">Refund</a>
+                  </li>
+                  <li>
                     <a href="#retrieval" class="toc-h2 toc-link" data-title="Retrieval">Retrieval</a>
                   </li>
                   <li>
@@ -408,6 +411,9 @@
                     <a href="#ping" class="toc-h2 toc-link" data-title="Ping">Ping</a>
                   </li>
                   <li>
+                    <a href="#refundrequest" class="toc-h2 toc-link" data-title="RefundRequest">RefundRequest</a>
+                  </li>
+                  <li>
                     <a href="#registercard" class="toc-h2 toc-link" data-title="RegisterCard">RegisterCard</a>
                   </li>
                   <li>
@@ -423,6 +429,9 @@
                     <a href="#voidrequest" class="toc-h2 toc-link" data-title="VoidRequest">VoidRequest</a>
                   </li>
               </ul>
+          </li>
+          <li>
+            <a href="#api-client-sdks" class="toc-h1 toc-link" data-title="API Client SDKs">API Client SDKs</a>
           </li>
           <li>
             <a href="#api-definitions" class="toc-h1 toc-link" data-title="API Definitions">API Definitions</a>
@@ -456,7 +465,7 @@
       </ul>
         <ul class="toc-footer">
             <li><a href='mailto:support@citypay.com'>Any Integration Questions?</a></li>
-            <li>V6.0.8 2020-09-07</li>
+            <li>V6.0.9 2020-09-18</li>
         </ul>
     </div>
     <div class="page-wrapper">
@@ -464,8 +473,8 @@
       <div class="content">
         <img src="images/citypay-logo-23676e0b.svg" class="cplogo" alt="" />
         <h1 id='citypay-payment-api'>CityPay Payment API</h1>
-<p>Version: 6.0.8
-Last Updated: 2020-09-07</p>
+<p>Version: 6.0.9
+Last Updated: 2020-09-18</p>
 
 <p>This CityPay API is a HTTP RESTful payment API used for direct server to server transactional processing. It
 provides a number of payment mechanisms including: Internet, MOTO, Continuous Authority transaction processing,
@@ -1337,7 +1346,7 @@ for use elsewhere.  </p>
 <td>Required</td>
 <td><code>identifier</code></td>
 <td>string</td>
-<td>The identifier of the transaction to process. The value should be a valid reference and may be used to perform<br/> post processing actions and to aid in reconciliation of transactions.<br/><br/>The value should be a valid printable string with ASCII character ranges from 32 to 127.<br/><br/>The identifier is recommended to be distinct for each transaction such as a <a href="https://en.wikipedia.org/wiki/Universally_unique_identifier">random unique identifier</a><br/>this will aid in ensuring each transaction is identifiable.<br/><br/>When transactions are processed they are also checked for duplicate requests. Changing the identifier on a subsequent<br/>request will ensure that a transaction is considered as different.<br/><br/>minLength: 4<br/>maxLength: 50</td>
+<td>The identifier of the transaction to process. The value should be a valid reference and may be used to perform<br/> post processing actions and to aid in reconciliation of transactions.<br/><br/>The value should be a valid printable string with ASCII character ranges from 0x32 to 0x127.<br/><br/>The identifier is recommended to be distinct for each transaction such as a <a href="https://en.wikipedia.org/wiki/Universally_unique_identifier">random unique identifier</a><br/>this will aid in ensuring each transaction is identifiable.<br/><br/>When transactions are processed they are also checked for duplicate requests. Changing the identifier on a subsequent<br/>request will ensure that a transaction is considered as different.<br/><br/>minLength: 4<br/>maxLength: 50</td>
 </tr>
 <tr>
 <td>Required</td>
@@ -1386,12 +1395,6 @@ for use elsewhere.  </p>
 <td><code>match_avsa</code></td>
 <td>string</td>
 <td>A policy value which determines whether an AVS address policy is enforced, bypassed or ignored.<br/><br/><br/>Values are<br/> <code>0</code> for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.<br/> <code>1</code> for an enforced policy. Transactions that are enforced will be rejected if the AVS address numeric value does not match.<br/> <code>2</code> to bypass. Transactions that are bypassed will be allowed through even if the address did not match.<br/> <code>3</code> to ignore. Transactions that are ignored will bypass the result and not send address numeric details for authorisation.</td>
-</tr>
-<tr>
-<td>Optional</td>
-<td><code>sdk</code></td>
-<td>string</td>
-<td>An optional reference value for the calling client such as a version number i.e.</td>
 </tr>
 <tr>
 <td>Optional</td>
@@ -1666,7 +1669,7 @@ model (SCA) throughout 2020. This has been adopted by the payment&#39;s industry
 Unions payments service directive.</p>
 
 <p>CityPay support 3DSv2 for Verified by Visa, MasterCard Identity Check and American Express SafeKey 2.0 and will be rolling
-out acquirers on the new platform from Q2 2020. The new enhancement to 3DSv2 will allow for CityPay to seamlessly authenticate
+out acquirers on the new platform from Q4 2020. The new enhancement to 3DSv2 will allow for CityPay to seamlessly authenticate
 transactions in a &quot;frictionless&quot; flowed method which will authenticate low risk transactions with minimal impact to a 
 standard authorisation flow. Our API simply performs this on behalf of the merchant and cardholder. For these transactions
 you will not be required to change anything.</p>
@@ -1702,6 +1705,44 @@ value will be validated for receipt of the CAVV and subsequently may return back
 <span class="nt">&lt;/html&gt;</span>
 </code></pre></div>
 <p>We are currently working on an integration test suite for 3DSv2 which will mock the ACS challenge process.</p>
+<h3 id='testing-3dsv2-integrations'>Testing 3DSv2 Integrations</h3>
+<p>The API provides a mock 3dsV2 handler which performs a number of scenarios based on the value of the CSC in the request.</p>
+
+<table><thead>
+<tr>
+<th>CSC Value</th>
+<th>Behaviour</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>731</td>
+<td>Frictionless processing - Not authenticated</td>
+</tr>
+<tr>
+<td>732</td>
+<td>Frictionless processing - Account verification count not be performed</td>
+</tr>
+<tr>
+<td>733</td>
+<td>Frictionless processing - Verification Rejected</td>
+</tr>
+<tr>
+<td>741</td>
+<td>Frictionless processing - Attempts Processing</td>
+</tr>
+<tr>
+<td>750</td>
+<td>Frictionless processing - Authenticated</td>
+</tr>
+<tr>
+<td>761</td>
+<td>Triggers an error message</td>
+</tr>
+<tr>
+<td>Any</td>
+<td>Challenge Request</td>
+</tr>
+</tbody></table>
 
 <blockquote>
 <p>Basic capture call for a merchant with a given identifier</p>
@@ -1795,7 +1836,7 @@ value will be validated for receipt of the CAVV and subsequently may return back
 <td>Required</td>
 <td><code>identifier</code></td>
 <td>string</td>
-<td>The identifier of the transaction to process. The value should be a valid reference and may be used to perform<br/> post processing actions and to aid in reconciliation of transactions.<br/><br/>The value should be a valid printable string with ASCII character ranges from 32 to 127.<br/><br/>The identifier is recommended to be distinct for each transaction such as a <a href="https://en.wikipedia.org/wiki/Universally_unique_identifier">random unique identifier</a><br/>this will aid in ensuring each transaction is identifiable.<br/><br/>When transactions are processed they are also checked for duplicate requests. Changing the identifier on a subsequent<br/>request will ensure that a transaction is considered as different.<br/><br/>minLength: 4<br/>maxLength: 50</td>
+<td>The identifier of the transaction to process. The value should be a valid reference and may be used to perform<br/> post processing actions and to aid in reconciliation of transactions.<br/><br/>The value should be a valid printable string with ASCII character ranges from 0x32 to 0x127.<br/><br/>The identifier is recommended to be distinct for each transaction such as a <a href="https://en.wikipedia.org/wiki/Universally_unique_identifier">random unique identifier</a><br/>this will aid in ensuring each transaction is identifiable.<br/><br/>When transactions are processed they are also checked for duplicate requests. Changing the identifier on a subsequent<br/>request will ensure that a transaction is considered as different.<br/><br/>minLength: 4<br/>maxLength: 50</td>
 </tr>
 <tr>
 <td>Required</td>
@@ -1850,12 +1891,6 @@ value will be validated for receipt of the CAVV and subsequently may return back
 <td><code>match_avsa</code></td>
 <td>string</td>
 <td>A policy value which determines whether an AVS address policy is enforced, bypassed or ignored.<br/><br/><br/>Values are<br/> <code>0</code> for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.<br/> <code>1</code> for an enforced policy. Transactions that are enforced will be rejected if the AVS address numeric value does not match.<br/> <code>2</code> to bypass. Transactions that are bypassed will be allowed through even if the address did not match.<br/> <code>3</code> to ignore. Transactions that are ignored will bypass the result and not send address numeric details for authorisation.</td>
-</tr>
-<tr>
-<td>Optional</td>
-<td><code>sdk</code></td>
-<td>string</td>
-<td>An optional reference value for the calling client such as a version number i.e.</td>
 </tr>
 <tr>
 <td>Optional</td>
@@ -2083,12 +2118,6 @@ be available for the settlement and completed at the end of the day.</p>
 </tr>
 <tr>
 <td>Optional</td>
-<td><code>sdk</code></td>
-<td>string</td>
-<td>An optional reference value for the calling client such as a version number i.e.</td>
-</tr>
-<tr>
-<td>Optional</td>
 <td><code>transno</code></td>
 <td>integer <em>int32</em></td>
 <td>The transaction number of the transaction to look up and capture. If an empty value is supplied then an identifier value must be supplied.</td>
@@ -2306,6 +2335,90 @@ on its own without a previous <a href="#authenticationrequired">authentication r
 <td><code>application/json</code>, <code>text/xml</code>:  <br/> <a href="#authresponse">AuthResponse</a></td>
 </tr>
 </tbody></table>
+<h2 id='refund'>Refund</h2>
+<p><span class="http-method-post">POST</span> <code>/refund</code></p>
+
+<p>A refund request which allows for the refunding of a previous transaction up 
+and to the amount of the original sale. A refund will be performed against the 
+original card used to process the transaction.</p>
+<h3 id='model-refundrequest'>Model RefundRequest</h3>
+<p>Request body for this operation contains the following properties</p>
+
+<table><thead>
+<tr>
+<th>Required</th>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>Required</td>
+<td><code>amount</code></td>
+<td>integer <em>int32</em></td>
+<td>The amount to refund in the lowest unit of currency with a variable length to a maximum of 12 digits.<br/>The amount should be the total amount required to refund for the transaction up to the original processed amount.<br/>No decimal points are to be included and no divisional characters such as 1,024.<br/>For example with GBP £1,021.95 the amount value is 102195.<br/><br/>minLength: 1<br/>maxLength: 12</td>
+</tr>
+<tr>
+<td>Required</td>
+<td><code>identifier</code></td>
+<td>string</td>
+<td>The identifier of the refund to process. The value should be a valid reference and may be used to perform<br/> post processing actions and to aid in reconciliation of transactions.<br/><br/>The value should be a valid printable string with ASCII character ranges from 0x32 to 0x127.<br/><br/>The identifier is recommended to be distinct for each transaction such as a <a href="https://en.wikipedia.org/wiki/Universally_unique_identifier">random unique identifier</a><br/>this will aid in ensuring each transaction is identifiable.<br/><br/>When transactions are processed they are also checked for duplicate requests. Changing the identifier on a subsequent<br/>request will ensure that a transaction is considered as different.<br/><br/>minLength: 4<br/>maxLength: 50</td>
+</tr>
+<tr>
+<td>Required</td>
+<td><code>merchantid</code></td>
+<td>integer <em>int32</em></td>
+<td>Identifies the merchant account to perform the refund for.</td>
+</tr>
+<tr>
+<td>Required</td>
+<td><code>refund_ref</code></td>
+<td>integer <em>int32</em></td>
+<td>A reference to the original transaction number that is wanting to be refunded. The original<br/> transaction must be on the same merchant id, previously authorised.</td>
+</tr>
+<tr>
+<td>Optional</td>
+<td><code>trans_info</code></td>
+<td>string</td>
+<td>Further information that can be added to the transaction will display in reporting. Can be used for flexible values such as operator id.<br/>maxLength: 50</td>
+</tr>
+</tbody></table>
+<h3 id='response-16'>Response</h3>
+<p>Responses for this operation are</p>
+
+<table><thead>
+<tr>
+<th>StatusCode</th>
+<th>Description</th>
+<th>Model</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>403</code></td>
+<td>Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request.</td>
+<td></td>
+</tr>
+<tr>
+<td><code>401</code></td>
+<td>Unauthorized. No api key has been provided and is required for this operation.</td>
+<td></td>
+</tr>
+<tr>
+<td><code>422</code></td>
+<td>Unprocessable Entity. Should a failure occur that prevents processing of the API call.</td>
+<td><code>application/json</code>, <code>text/xml</code>:  <br/> <a href="#error">Error</a></td>
+</tr>
+<tr>
+<td><code>400</code></td>
+<td>Bad Request. Should the incoming data not be validly determined.</td>
+<td></td>
+</tr>
+<tr>
+<td><code>200</code></td>
+<td>A result of the refund of sale processing.</td>
+<td><code>application/json</code>, <code>text/xml</code>:  <br/> <a href="#authresponse">AuthResponse</a></td>
+</tr>
+</tbody></table>
 <h2 id='retrieval'>Retrieval</h2>
 <p><span class="http-method-post">POST</span> <code>/retrieve</code></p>
 
@@ -2363,7 +2476,7 @@ information to be returned.</p>
 <td>The transaction number of a transaction to retrieve. Optional if an identifier is supplied.</td>
 </tr>
 </tbody></table>
-<h3 id='response-16'>Response</h3>
+<h3 id='response-17'>Response</h3>
 <p>Responses for this operation are</p>
 
 <table><thead>
@@ -2463,18 +2576,12 @@ outlining the result of the transaction.</p>
 </tr>
 <tr>
 <td>Optional</td>
-<td><code>sdk</code></td>
-<td>string</td>
-<td>An optional reference value for the calling client such as a version number i.e.</td>
-</tr>
-<tr>
-<td>Optional</td>
 <td><code>transno</code></td>
 <td>integer <em>int32</em></td>
 <td>The transaction number of the transaction to look up and void. If an empty value is supplied then an identifier value must be supplied.</td>
 </tr>
 </tbody></table>
-<h3 id='response-17'>Response</h3>
+<h3 id='response-18'>Response</h3>
 <p>Responses for this operation are</p>
 
 <table><thead>
@@ -2994,7 +3101,6 @@ outlining the result of the transaction.</p>
    </span><span class="nl">"match_avsa"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
    </span><span class="nl">"mcc6012"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="err">...</span><span class="w"> </span><span class="p">},</span><span class="w">
    </span><span class="nl">"merchantid"</span><span class="p">:</span><span class="w"> </span><span class="mi">11223344</span><span class="p">,</span><span class="w">
-   </span><span class="nl">"sdk"</span><span class="p">:</span><span class="w"> </span><span class="s2">"MyClient 1.3.0"</span><span class="p">,</span><span class="w">
    </span><span class="nl">"ship_to"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="err">...</span><span class="w"> </span><span class="p">},</span><span class="w">
    </span><span class="nl">"threedsecure"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="err">...</span><span class="w"> </span><span class="p">},</span><span class="w">
    </span><span class="nl">"trans_info"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
@@ -3018,7 +3124,6 @@ outlining the result of the transaction.</p>
  <span class="nt">&lt;match_avsa&gt;&lt;/match_avsa&gt;</span> 
  <span class="nt">&lt;mcc6012&gt;</span><span class="err">&lt;</span>&gt;...<span class="err">&lt;</span>/&gt;<span class="nt">&lt;/mcc6012&gt;</span> 
  <span class="nt">&lt;merchantid&gt;</span>11223344<span class="nt">&lt;/merchantid&gt;</span> 
- <span class="nt">&lt;sdk&gt;</span>MyClient 1.3.0<span class="nt">&lt;/sdk&gt;</span> 
  <span class="nt">&lt;ship_to&gt;</span><span class="err">&lt;</span>&gt;...<span class="err">&lt;</span>/&gt;<span class="nt">&lt;/ship_to&gt;</span> 
  <span class="nt">&lt;threedsecure&gt;</span><span class="err">&lt;</span>&gt;...<span class="err">&lt;</span>/&gt;<span class="nt">&lt;/threedsecure&gt;</span> 
  <span class="nt">&lt;trans_info&gt;&lt;/trans_info&gt;</span> 
@@ -3067,11 +3172,10 @@ for analysis and may result in a decline if incorrectly provided. |
 | <code>expmonth</code> | integer <em>int32</em> | true | The month of expiry of the card. The month value should be a numerical value between 1 and 12.<br/><br/>minimum: 1<br/>maximum: 12 | 
 | <code>expyear</code> | integer <em>int32</em> | true | The year of expiry of the card.<br/><br/>minimum: 2000<br/>maximum: 2100 | 
 | <code>external_mpi</code> | object | false | <a href="#externalmpi">ExternalMPI</a> If an external 3DSv1 MPI is used for authentication, values provided can be supplied in this element. | 
-| <code>identifier</code> | string  | true | The identifier of the transaction to process. The value should be a valid reference and may be used to perform<br/> post processing actions and to aid in reconciliation of transactions.<br/><br/>The value should be a valid printable string with ASCII character ranges from 32 to 127.<br/><br/>The identifier is recommended to be distinct for each transaction such as a <a href="https://en.wikipedia.org/wiki/Universally_unique_identifier">random unique identifier</a><br/>this will aid in ensuring each transaction is identifiable.<br/><br/>When transactions are processed they are also checked for duplicate requests. Changing the identifier on a subsequent<br/>request will ensure that a transaction is considered as different.<br/><br/>minLength: 4<br/>maxLength: 50 | 
+| <code>identifier</code> | string  | true | The identifier of the transaction to process. The value should be a valid reference and may be used to perform<br/> post processing actions and to aid in reconciliation of transactions.<br/><br/>The value should be a valid printable string with ASCII character ranges from 0x32 to 0x127.<br/><br/>The identifier is recommended to be distinct for each transaction such as a <a href="https://en.wikipedia.org/wiki/Universally_unique_identifier">random unique identifier</a><br/>this will aid in ensuring each transaction is identifiable.<br/><br/>When transactions are processed they are also checked for duplicate requests. Changing the identifier on a subsequent<br/>request will ensure that a transaction is considered as different.<br/><br/>minLength: 4<br/>maxLength: 50 | 
 | <code>match_avsa</code> | string  | false | A policy value which determines whether an AVS address policy is enforced, bypassed or ignored.<br/><br/><br/>Values are<br/> <code>0</code> for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.<br/> <code>1</code> for an enforced policy. Transactions that are enforced will be rejected if the AVS address numeric value does not match.<br/> <code>2</code> to bypass. Transactions that are bypassed will be allowed through even if the address did not match.<br/> <code>3</code> to ignore. Transactions that are ignored will bypass the result and not send address numeric details for authorisation. | 
 | <code>mcc6012</code> | object | false | <a href="#mcc6012">MCC6012</a> If the merchant is MCC coded as 6012, additional values are required for authorisation. | 
 | <code>merchantid</code> | integer <em>int32</em> | true | Identifies the merchant account to perform processing for. | 
-| <code>sdk</code> | string  | false | An optional reference value for the calling client such as a version number i.e. | 
 | <code>ship_to</code> | object | false | <a href="#contactdetails">ContactDetails</a> Shipping details of the card holder making the payment. These details may be used for 3DS and for future referencing of the transaction. | 
 | <code>threedsecure</code> | object | false | <a href="#threedsecure">ThreeDSecure</a> ThreeDSecure element, providing values to enable full 3DS processing flows. | 
 | <code>trans_info</code> | string  | false | Further information that can be added to the transaction will display in reporting. Can be used for flexible values such as operator id.<br/>maxLength: 50 | 
@@ -3394,7 +3498,6 @@ for analysis and may result in a decline if incorrectly provided. |
    </span><span class="nl">"amount"</span><span class="p">:</span><span class="w"> </span><span class="mi">3600</span><span class="p">,</span><span class="w">
    </span><span class="nl">"identifier"</span><span class="p">:</span><span class="w"> </span><span class="s2">"95b857a1-5955-4b86-963c-5a6dbfc4fb95"</span><span class="p">,</span><span class="w">
    </span><span class="nl">"merchantid"</span><span class="p">:</span><span class="w"> </span><span class="mi">11223344</span><span class="p">,</span><span class="w">
-   </span><span class="nl">"sdk"</span><span class="p">:</span><span class="w"> </span><span class="s2">"MyClient 1.3.0"</span><span class="p">,</span><span class="w">
    </span><span class="nl">"transno"</span><span class="p">:</span><span class="w"> </span><span class="mi">78416</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre></div><div class="highlight"><pre class="highlight xml tab-xml"><code><span class="nt">&lt;CaptureRequest&gt;</span>
@@ -3402,7 +3505,6 @@ for analysis and may result in a decline if incorrectly provided. |
  <span class="nt">&lt;amount&gt;</span>3600<span class="nt">&lt;/amount&gt;</span> 
  <span class="nt">&lt;identifier&gt;</span>95b857a1-5955-4b86-963c-5a6dbfc4fb95<span class="nt">&lt;/identifier&gt;</span> 
  <span class="nt">&lt;merchantid&gt;</span>11223344<span class="nt">&lt;/merchantid&gt;</span> 
- <span class="nt">&lt;sdk&gt;</span>MyClient 1.3.0<span class="nt">&lt;/sdk&gt;</span> 
  <span class="nt">&lt;transno&gt;</span>78416<span class="nt">&lt;/transno&gt;</span> 
 <span class="nt">&lt;/CaptureRequest&gt;</span>
 </code></pre></div>
@@ -3431,12 +3533,6 @@ for analysis and may result in a decline if incorrectly provided. |
 <td>integer <em>int32</em></td>
 <td>true</td>
 <td>Identifies the merchant account to perform the capture for.</td>
-</tr>
-<tr>
-<td><code>sdk</code></td>
-<td>string</td>
-<td>false</td>
-<td>An optional reference value for the calling client such as a version number i.e.</td>
 </tr>
 <tr>
 <td><code>transno</code></td>
@@ -3739,7 +3835,6 @@ for analysis and may result in a decline if incorrectly provided. |
    </span><span class="nl">"identifier"</span><span class="p">:</span><span class="w"> </span><span class="s2">"95b857a1-5955-4b86-963c-5a6dbfc4fb95"</span><span class="p">,</span><span class="w">
    </span><span class="nl">"match_avsa"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
    </span><span class="nl">"merchantid"</span><span class="p">:</span><span class="w"> </span><span class="mi">11223344</span><span class="p">,</span><span class="w">
-   </span><span class="nl">"sdk"</span><span class="p">:</span><span class="w"> </span><span class="s2">"MyClient 1.3.0"</span><span class="p">,</span><span class="w">
    </span><span class="nl">"token"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ctPCAPyNyCkx3Ry8wGyv8khC3ch2hUSB3Db..Qzr"</span><span class="p">,</span><span class="w">
    </span><span class="nl">"trans_info"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
    </span><span class="nl">"trans_type"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="w">
@@ -3754,7 +3849,6 @@ for analysis and may result in a decline if incorrectly provided. |
  <span class="nt">&lt;identifier&gt;</span>95b857a1-5955-4b86-963c-5a6dbfc4fb95<span class="nt">&lt;/identifier&gt;</span> 
  <span class="nt">&lt;match_avsa&gt;&lt;/match_avsa&gt;</span> 
  <span class="nt">&lt;merchantid&gt;</span>11223344<span class="nt">&lt;/merchantid&gt;</span> 
- <span class="nt">&lt;sdk&gt;</span>MyClient 1.3.0<span class="nt">&lt;/sdk&gt;</span> 
  <span class="nt">&lt;token&gt;</span>ctPCAPyNyCkx3Ry8wGyv8khC3ch2hUSB3Db..Qzr<span class="nt">&lt;/token&gt;</span> 
  <span class="nt">&lt;trans_info&gt;&lt;/trans_info&gt;</span> 
  <span class="nt">&lt;trans_type&gt;&lt;/trans_type&gt;</span> 
@@ -3808,7 +3902,7 @@ for analysis and may result in a decline if incorrectly provided. |
 <td><code>identifier</code></td>
 <td>string</td>
 <td>true</td>
-<td>The identifier of the transaction to process. The value should be a valid reference and may be used to perform<br/> post processing actions and to aid in reconciliation of transactions.<br/><br/>The value should be a valid printable string with ASCII character ranges from 32 to 127.<br/><br/>The identifier is recommended to be distinct for each transaction such as a <a href="https://en.wikipedia.org/wiki/Universally_unique_identifier">random unique identifier</a><br/>this will aid in ensuring each transaction is identifiable.<br/><br/>When transactions are processed they are also checked for duplicate requests. Changing the identifier on a subsequent<br/>request will ensure that a transaction is considered as different.<br/><br/>minLength: 4<br/>maxLength: 50</td>
+<td>The identifier of the transaction to process. The value should be a valid reference and may be used to perform<br/> post processing actions and to aid in reconciliation of transactions.<br/><br/>The value should be a valid printable string with ASCII character ranges from 0x32 to 0x127.<br/><br/>The identifier is recommended to be distinct for each transaction such as a <a href="https://en.wikipedia.org/wiki/Universally_unique_identifier">random unique identifier</a><br/>this will aid in ensuring each transaction is identifiable.<br/><br/>When transactions are processed they are also checked for duplicate requests. Changing the identifier on a subsequent<br/>request will ensure that a transaction is considered as different.<br/><br/>minLength: 4<br/>maxLength: 50</td>
 </tr>
 <tr>
 <td><code>match_avsa</code></td>
@@ -3821,12 +3915,6 @@ for analysis and may result in a decline if incorrectly provided. |
 <td>integer <em>int32</em></td>
 <td>true</td>
 <td>Identifies the merchant account to perform processing for.</td>
-</tr>
-<tr>
-<td><code>sdk</code></td>
-<td>string</td>
-<td>false</td>
-<td>An optional reference value for the calling client such as a version number i.e.</td>
 </tr>
 <tr>
 <td><code>token</code></td>
@@ -4293,6 +4381,60 @@ for analysis and may result in a decline if incorrectly provided. |
 <td>An identifier of the ping request which will be returned in the response.<br/>minLength: 4<br/>maxLength: 50</td>
 </tr>
 </tbody></table>
+<h2 id='refundrequest'>RefundRequest</h2><div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+   </span><span class="nl">"amount"</span><span class="p">:</span><span class="w"> </span><span class="mi">3600</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"identifier"</span><span class="p">:</span><span class="w"> </span><span class="s2">"95b857a1-5955-4b86-963c-5a6dbfc4fb95"</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"merchantid"</span><span class="p">:</span><span class="w"> </span><span class="mi">11223344</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"refund_ref"</span><span class="p">:</span><span class="w"> </span><span class="mi">8322</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"trans_info"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div><div class="highlight"><pre class="highlight xml tab-xml"><code><span class="nt">&lt;RefundRequest&gt;</span>
+ <span class="nt">&lt;amount&gt;</span>3600<span class="nt">&lt;/amount&gt;</span> 
+ <span class="nt">&lt;identifier&gt;</span>95b857a1-5955-4b86-963c-5a6dbfc4fb95<span class="nt">&lt;/identifier&gt;</span> 
+ <span class="nt">&lt;merchantid&gt;</span>11223344<span class="nt">&lt;/merchantid&gt;</span> 
+ <span class="nt">&lt;refund_ref&gt;</span>8322<span class="nt">&lt;/refund_ref&gt;</span> 
+ <span class="nt">&lt;trans_info&gt;&lt;/trans_info&gt;</span> 
+<span class="nt">&lt;/RefundRequest&gt;</span>
+</code></pre></div>
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>amount</code></td>
+<td>integer <em>int32</em></td>
+<td>true</td>
+<td>The amount to refund in the lowest unit of currency with a variable length to a maximum of 12 digits.<br/>The amount should be the total amount required to refund for the transaction up to the original processed amount.<br/>No decimal points are to be included and no divisional characters such as 1,024.<br/>For example with GBP £1,021.95 the amount value is 102195.<br/><br/>minLength: 1<br/>maxLength: 12</td>
+</tr>
+<tr>
+<td><code>identifier</code></td>
+<td>string</td>
+<td>true</td>
+<td>The identifier of the refund to process. The value should be a valid reference and may be used to perform<br/> post processing actions and to aid in reconciliation of transactions.<br/><br/>The value should be a valid printable string with ASCII character ranges from 0x32 to 0x127.<br/><br/>The identifier is recommended to be distinct for each transaction such as a <a href="https://en.wikipedia.org/wiki/Universally_unique_identifier">random unique identifier</a><br/>this will aid in ensuring each transaction is identifiable.<br/><br/>When transactions are processed they are also checked for duplicate requests. Changing the identifier on a subsequent<br/>request will ensure that a transaction is considered as different.<br/><br/>minLength: 4<br/>maxLength: 50</td>
+</tr>
+<tr>
+<td><code>merchantid</code></td>
+<td>integer <em>int32</em></td>
+<td>true</td>
+<td>Identifies the merchant account to perform the refund for.</td>
+</tr>
+<tr>
+<td><code>refund_ref</code></td>
+<td>integer <em>int32</em></td>
+<td>true</td>
+<td>A reference to the original transaction number that is wanting to be refunded. The original<br/> transaction must be on the same merchant id, previously authorised.</td>
+</tr>
+<tr>
+<td><code>trans_info</code></td>
+<td>string</td>
+<td>false</td>
+<td>Further information that can be added to the transaction will display in reporting. Can be used for flexible values such as operator id.<br/>maxLength: 50</td>
+</tr>
+</tbody></table>
 <h2 id='registercard'>RegisterCard</h2><div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
    </span><span class="nl">"cardnumber"</span><span class="p">:</span><span class="w"> </span><span class="s2">"4000 0000 0000 0002"</span><span class="p">,</span><span class="w">
    </span><span class="nl">"default"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
@@ -4340,17 +4482,17 @@ for analysis and may result in a decline if incorrectly provided. |
 </tr>
 </tbody></table>
 <h2 id='requestchallenged'>RequestChallenged</h2><div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-   </span><span class="nl">"ThreeDServerTransId"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
    </span><span class="nl">"acs_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://acs.cardissuer.com/3dsv1"</span><span class="p">,</span><span class="w">
    </span><span class="nl">"creq"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
    </span><span class="nl">"merchantid"</span><span class="p">:</span><span class="w"> </span><span class="mi">11223344</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"threedserver_trans_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
    </span><span class="nl">"transno"</span><span class="p">:</span><span class="w"> </span><span class="mi">78416</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre></div><div class="highlight"><pre class="highlight xml tab-xml"><code><span class="nt">&lt;RequestChallenged&gt;</span>
- <span class="nt">&lt;ThreeDServerTransId&gt;&lt;/ThreeDServerTransId&gt;</span> 
  <span class="nt">&lt;acs_url&gt;</span>https://acs.cardissuer.com/3dsv1<span class="nt">&lt;/acs_url&gt;</span> 
  <span class="nt">&lt;creq&gt;&lt;/creq&gt;</span> 
  <span class="nt">&lt;merchantid&gt;</span>11223344<span class="nt">&lt;/merchantid&gt;</span> 
+ <span class="nt">&lt;threedserver_trans_id&gt;&lt;/threedserver_trans_id&gt;</span> 
  <span class="nt">&lt;transno&gt;</span>78416<span class="nt">&lt;/transno&gt;</span> 
 <span class="nt">&lt;/RequestChallenged&gt;</span>
 </code></pre></div>
@@ -4362,12 +4504,6 @@ for analysis and may result in a decline if incorrectly provided. |
 <th>Description</th>
 </tr>
 </thead><tbody>
-<tr>
-<td><code>ThreeDServerTransId</code></td>
-<td>string</td>
-<td>false</td>
-<td>The 3DSv2 trans id reference for the challenge process.</td>
-</tr>
 <tr>
 <td><code>acs_url</code></td>
 <td>string <em>url</em></td>
@@ -4385,6 +4521,12 @@ for analysis and may result in a decline if incorrectly provided. |
 <td>integer <em>int32</em></td>
 <td>false</td>
 <td>The merchant id that processed this transaction.</td>
+</tr>
+<tr>
+<td><code>threedserver_trans_id</code></td>
+<td>string</td>
+<td>false</td>
+<td>The 3DSv2 trans id reference for the challenge process.</td>
 </tr>
 <tr>
 <td><code>transno</code></td>
@@ -4488,13 +4630,11 @@ for analysis and may result in a decline if incorrectly provided. |
 <h2 id='voidrequest'>VoidRequest</h2><div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
    </span><span class="nl">"identifier"</span><span class="p">:</span><span class="w"> </span><span class="s2">"95b857a1-5955-4b86-963c-5a6dbfc4fb95"</span><span class="p">,</span><span class="w">
    </span><span class="nl">"merchantid"</span><span class="p">:</span><span class="w"> </span><span class="mi">11223344</span><span class="p">,</span><span class="w">
-   </span><span class="nl">"sdk"</span><span class="p">:</span><span class="w"> </span><span class="s2">"MyClient 1.3.0"</span><span class="p">,</span><span class="w">
    </span><span class="nl">"transno"</span><span class="p">:</span><span class="w"> </span><span class="mi">78416</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre></div><div class="highlight"><pre class="highlight xml tab-xml"><code><span class="nt">&lt;VoidRequest&gt;</span>
  <span class="nt">&lt;identifier&gt;</span>95b857a1-5955-4b86-963c-5a6dbfc4fb95<span class="nt">&lt;/identifier&gt;</span> 
  <span class="nt">&lt;merchantid&gt;</span>11223344<span class="nt">&lt;/merchantid&gt;</span> 
- <span class="nt">&lt;sdk&gt;</span>MyClient 1.3.0<span class="nt">&lt;/sdk&gt;</span> 
  <span class="nt">&lt;transno&gt;</span>78416<span class="nt">&lt;/transno&gt;</span> 
 <span class="nt">&lt;/VoidRequest&gt;</span>
 </code></pre></div>
@@ -4519,16 +4659,44 @@ for analysis and may result in a decline if incorrectly provided. |
 <td>Identifies the merchant account to perform the void for.</td>
 </tr>
 <tr>
-<td><code>sdk</code></td>
-<td>string</td>
-<td>false</td>
-<td>An optional reference value for the calling client such as a version number i.e.</td>
-</tr>
-<tr>
 <td><code>transno</code></td>
 <td>integer <em>int32</em></td>
 <td>false</td>
 <td>The transaction number of the transaction to look up and void. If an empty value is supplied then an identifier value must be supplied.</td>
+</tr>
+</tbody></table>
+<h1 id='api-client-sdks'>API Client SDKs</h1>
+<p>CityPay provide the following Client SDKs which are publicly available on github.</p>
+
+<table><thead>
+<tr>
+<th>Language</th>
+<th>URL</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>DotNet</td>
+<td><a href="https://github.com/citypay/citypay-api-client-dotnet">https://github.com/citypay/citypay-api-client-dotnet</a></td>
+</tr>
+<tr>
+<td>Java</td>
+<td><a href="https://github.com/citypay/citypay-api-client-java">https://github.com/citypay/citypay-api-client-java</a></td>
+</tr>
+<tr>
+<td>JS</td>
+<td><a href="https://github.com/citypay/citypay-api-client-js">https://github.com/citypay/citypay-api-client-js</a></td>
+</tr>
+<tr>
+<td>PHP</td>
+<td><a href="https://github.com/citypay/citypay-api-client-php">https://github.com/citypay/citypay-api-client-php</a></td>
+</tr>
+<tr>
+<td>Python</td>
+<td><a href="https://github.com/citypay/citypay-api-client-python">https://github.com/citypay/citypay-api-client-python</a></td>
+</tr>
+<tr>
+<td>Ruby</td>
+<td><a href="https://github.com/citypay/citypay-api-client-ruby">https://github.com/citypay/citypay-api-client-ruby</a></td>
 </tr>
 </tbody></table>
 <h1 id='api-definitions'>API Definitions</h1><h2 id='response-codes'>Response Codes</h2>
@@ -4634,6 +4802,10 @@ for analysis and may result in a decline if incorrectly provided. |
 <tr>
 <td><code>20</code></td>
 <td>Unknown</td>
+</tr>
+<tr>
+<td><code>21</code></td>
+<td>Challenged</td>
 </tr>
 </tbody></table>
 <h2 id='avs-result-codes'>AVS Result Codes</h2>

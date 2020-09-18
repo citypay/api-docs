@@ -1,0 +1,33 @@
+<p>CityPay provide the following Client SDKs which are publicly available on github.</p>
+
+<table><thead>
+<tr>
+<th>Language</th>
+<th>URL</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>DotNet</td>
+<td><a href="https://github.com/citypay/citypay-api-client-dotnet">https://github.com/citypay/citypay-api-client-dotnet</a></td>
+</tr>
+<tr>
+<td>Java</td>
+<td><a href="https://github.com/citypay/citypay-api-client-java">https://github.com/citypay/citypay-api-client-java</a></td>
+</tr>
+<tr>
+<td>JS</td>
+<td><a href="https://github.com/citypay/citypay-api-client-js">https://github.com/citypay/citypay-api-client-js</a></td>
+</tr>
+<tr>
+<td>PHP</td>
+<td><a href="https://github.com/citypay/citypay-api-client-php">https://github.com/citypay/citypay-api-client-php</a></td>
+</tr>
+<tr>
+<td>Python</td>
+<td><a href="https://github.com/citypay/citypay-api-client-python">https://github.com/citypay/citypay-api-client-python</a></td>
+</tr>
+<tr>
+<td>Ruby</td>
+<td><a href="https://github.com/citypay/citypay-api-client-ruby">https://github.com/citypay/citypay-api-client-ruby</a></td>
+</tr>
+</tbody></table>
