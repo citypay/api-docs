@@ -270,7 +270,7 @@
                     <a href="#account-create" class="toc-h2 toc-link" data-title="Account Create">Account Create</a>
                   </li>
                   <li>
-                    <a href="#account-retrieval" class="toc-h2 toc-link" data-title="Account Retrieval">Account Retrieval</a>
+                    <a href="#account-exists" class="toc-h2 toc-link" data-title="Account Exists">Account Exists</a>
                   </li>
                   <li>
                     <a href="#account-deletion" class="toc-h2 toc-link" data-title="Account Deletion">Account Deletion</a>
@@ -393,6 +393,9 @@
                     <a href="#error" class="toc-h2 toc-link" data-title="Error">Error</a>
                   </li>
                   <li>
+                    <a href="#exists" class="toc-h2 toc-link" data-title="Exists">Exists</a>
+                  </li>
+                  <li>
                     <a href="#externalmpi" class="toc-h2 toc-link" data-title="ExternalMPI">ExternalMPI</a>
                   </li>
                   <li>
@@ -465,7 +468,7 @@
       </ul>
         <ul class="toc-footer">
             <li><a href='mailto:support@citypay.com'>Any Integration Questions?</a></li>
-            <li>V6.0.9 2020-09-18</li>
+            <li>V6.0.10 2020-10-01</li>
         </ul>
     </div>
     <div class="page-wrapper">
@@ -473,8 +476,8 @@
       <div class="content">
         <img src="images/citypay-logo-23676e0b.svg" class="cplogo" alt="" />
         <h1 id='citypay-payment-api'>CityPay Payment API</h1>
-<p>Version: 6.0.9
-Last Updated: 2020-09-18</p>
+<p>Version: 6.0.10
+Last Updated: 2020-10-01</p>
 
 <p>This CityPay API is a HTTP RESTful payment API used for direct server to server transactional processing. It
 provides a number of payment mechanisms including: Internet, MOTO, Continuous Authority transaction processing,
@@ -668,15 +671,10 @@ We have example code in varying languages, please consult with your account and 
 <td><code>application/json</code>, <code>text/xml</code>:  <br/> <a href="#cardholderaccount">CardHolderAccount</a></td>
 </tr>
 </tbody></table>
-<h2 id='account-retrieval'>Account Retrieval</h2>
+<h2 id='account-exists'>Account Exists</h2>
 <p><span class="http-method-get">GET</span> <code>/account/{accountid}</code></p>
 
-<p>Allows for the retrieval of a card holder account for the given <code>id</code>. Should duplicate accounts exist
-for the same <code>id</code>, the first account created with that <code>id</code> will be returned.</p>
-
-<p>The account can be used for tokenisation processing by listing all cards assigned to the account.
-The returned cards will include all <code>active</code>, <code>inactive</code> and <code>expired</code> cards. This can be used to 
-enable a card holder to view their wallet and make constructive choices on which card to use.</p>
+<p>.</p>
 <h3 id='path-parameters'>Path Parameters</h3>
 <table><thead>
 <tr>
@@ -725,8 +723,8 @@ enable a card holder to view their wallet and make constructive choices on which
 </tr>
 <tr>
 <td><code>200</code></td>
-<td>A card holder account that matches the account id provided in the request.</td>
-<td><code>application/json</code>, <code>text/xml</code>:  <br/> <a href="#cardholderaccount">CardHolderAccount</a></td>
+<td>A response model determining whether the account exists, if exists is true, a last modified date of the account is also provided.</td>
+<td><code>application/json</code>, <code>text/xml</code>:  <br/> <a href="#exists">Exists</a></td>
 </tr>
 </tbody></table>
 <h2 id='account-deletion'>Account Deletion</h2>
@@ -782,7 +780,7 @@ transactions will be alowed to be processed or actioned against this account.</p
 </tr>
 <tr>
 <td><code>200</code></td>
-<td>An acknowledgment that the card holder account has been marked for deletion.</td>
+<td>An acknowledgment code of <code>001</code> that the card holder account has been marked for deletion.</td>
 <td><code>application/json</code>, <code>text/xml</code>:  <br/> <a href="#acknowledgement">Acknowledgement</a></td>
 </tr>
 </tbody></table>
@@ -845,7 +843,7 @@ purge will clear the card permanently.</p>
 </tr>
 <tr>
 <td><code>200</code></td>
-<td>Acknowledges the card has been requested for deletion. A response code of <code>001</code> is returned if the account is available for deletion or an error code is returned.</td>
+<td>Acknowledges the card has been requested for deletion. A response code of <code>001</code> is returned if the account is available for deletion otherwise an error code is returned.</td>
 <td><code>application/json</code>, <code>text/xml</code>:  <br/> <a href="#acknowledgement">Acknowledgement</a></td>
 </tr>
 </tbody></table>
@@ -1398,6 +1396,12 @@ for use elsewhere.  </p>
 </tr>
 <tr>
 <td>Optional</td>
+<td><code>threedsecure</code></td>
+<td>object</td>
+<td><a href="#threedsecure">ThreeDSecure</a> ThreeDSecure element, providing values to enable full 3DS processing flows.</td>
+</tr>
+<tr>
+<td>Optional</td>
 <td><code>trans_info</code></td>
 <td>string</td>
 <td>Further information that can be added to the transaction will display in reporting. Can be used for flexible values such as operator id.<br/>maxLength: 50</td>
@@ -1565,7 +1569,7 @@ model is granting access from your source.</p>
 </tr>
 <tr>
 <td><code>200</code></td>
-<td>A result of the ping request.</td>
+<td>A result of the ping request, returning on 044 response code on successful receipt of the ping request.</td>
 <td><code>application/json</code>, <code>text/xml</code>:  <br/> <a href="#acknowledgement">Acknowledgement</a></td>
 </tr>
 </tbody></table>
@@ -2171,8 +2175,8 @@ be available for the settlement and completed at the end of the day.</p>
 </tr>
 <tr>
 <td><code>200</code></td>
-<td>A result and acknowledgement of the capture request.</td>
-<td><code>application/json</code>, <code>text/xml</code>:  <br/> <a href="#acknowledgement">Acknowledgement</a></td>
+<td>A result and acknowledgement of the capture request. The response will return a `000</td>
+<td>001` response on a successful capture otherwise an error code response explaining the error.</td>
 </tr>
 </tbody></table>
 <h2 id='cres'>CRes</h2>
@@ -2613,10 +2617,13 @@ outlining the result of the transaction.</p>
 </tr>
 <tr>
 <td><code>200</code></td>
-<td>A result and acknowledgement of the void request.</td>
-<td><code>application/json</code>, <code>text/xml</code>:  <br/> <a href="#acknowledgement">Acknowledgement</a></td>
+<td>A result and acknowledgement of the void request, returning an `080</td>
+<td>003` response code on successful void/cancellation of the transaction.</td>
 </tr>
 </tbody></table>
+
+<p>If an error occurs an error code will be returned explaining the failure.
+ <code>application/json</code>, <code>text/xml</code>:  <br/> <a href="#acknowledgement">Acknowledgement</a> |  </p>
 <h1 id='api-model'>API Model</h1><h2 id='accountcreate'>AccountCreate</h2><div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
    </span><span class="nl">"account_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"aaabbb-cccddd-eee"</span><span class="p">,</span><span class="w">
    </span><span class="nl">"contact"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="err">...</span><span class="w"> </span><span class="p">}</span><span class="w">
@@ -3570,6 +3577,7 @@ for analysis and may result in a decline if incorrectly provided. |
    </span><span class="nl">"bin_eu"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
    </span><span class="nl">"card_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
    </span><span class="nl">"card_status"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"date_created"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2020-01-02"</span><span class="p">,</span><span class="w">
    </span><span class="nl">"default"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
    </span><span class="nl">"expmonth"</span><span class="p">:</span><span class="w"> </span><span class="mi">9</span><span class="p">,</span><span class="w">
    </span><span class="nl">"expyear"</span><span class="p">:</span><span class="w"> </span><span class="mi">2023</span><span class="p">,</span><span class="w">
@@ -3590,6 +3598,7 @@ for analysis and may result in a decline if incorrectly provided. |
  <span class="nt">&lt;bin_eu&gt;&lt;/bin_eu&gt;</span> 
  <span class="nt">&lt;card_id&gt;&lt;/card_id&gt;</span> 
  <span class="nt">&lt;card_status&gt;&lt;/card_status&gt;</span> 
+ <span class="nt">&lt;date_created&gt;</span>2020-01-02<span class="nt">&lt;/date_created&gt;</span> 
  <span class="nt">&lt;default&gt;&lt;/default&gt;</span> 
  <span class="nt">&lt;expmonth&gt;</span>9<span class="nt">&lt;/expmonth&gt;</span> 
  <span class="nt">&lt;expyear&gt;</span>2023<span class="nt">&lt;/expyear&gt;</span> 
@@ -3669,6 +3678,12 @@ for analysis and may result in a decline if incorrectly provided. |
 <td>The status of the card such, valid values are<br/> - ACTIVE the card is active for processing<br/> - INACTIVE the card is not active for processing<br/> - EXPIRED for cards that have passed their expiry date.</td>
 </tr>
 <tr>
+<td><code>date_created</code></td>
+<td>string <em>date-time</em></td>
+<td>false</td>
+<td>The date time of when the card was created.</td>
+</tr>
+<tr>
 <td><code>default</code></td>
 <td>boolean</td>
 <td>false</td>
@@ -3724,6 +3739,7 @@ for analysis and may result in a decline if incorrectly provided. |
    </span><span class="nl">"date_created"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2020-01-02"</span><span class="p">,</span><span class="w">
    </span><span class="nl">"default_card_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
    </span><span class="nl">"default_card_index"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"last_modified"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2020-01-02"</span><span class="p">,</span><span class="w">
    </span><span class="nl">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
    </span><span class="nl">"unique_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="w">
 </span><span class="p">}</span><span class="w">
@@ -3734,6 +3750,7 @@ for analysis and may result in a decline if incorrectly provided. |
  <span class="nt">&lt;date_created&gt;</span>2020-01-02<span class="nt">&lt;/date_created&gt;</span> 
  <span class="nt">&lt;default_card_id&gt;&lt;/default_card_id&gt;</span> 
  <span class="nt">&lt;default_card_index&gt;&lt;/default_card_index&gt;</span> 
+ <span class="nt">&lt;last_modified&gt;</span>2020-01-02<span class="nt">&lt;/last_modified&gt;</span> 
  <span class="nt">&lt;status&gt;&lt;/status&gt;</span> 
  <span class="nt">&lt;unique_id&gt;&lt;/unique_id&gt;</span> 
 <span class="nt">&lt;/CardHolderAccount&gt;</span>
@@ -3781,6 +3798,12 @@ for analysis and may result in a decline if incorrectly provided. |
 <td>integer <em>int32</em></td>
 <td>false</td>
 <td>The index in the array of the default card.</td>
+</tr>
+<tr>
+<td><code>last_modified</code></td>
+<td>date-time</td>
+<td>false</td>
+<td>The date and time the account was last modified.</td>
 </tr>
 <tr>
 <td><code>status</code></td>
@@ -3835,6 +3858,7 @@ for analysis and may result in a decline if incorrectly provided. |
    </span><span class="nl">"identifier"</span><span class="p">:</span><span class="w"> </span><span class="s2">"95b857a1-5955-4b86-963c-5a6dbfc4fb95"</span><span class="p">,</span><span class="w">
    </span><span class="nl">"match_avsa"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
    </span><span class="nl">"merchantid"</span><span class="p">:</span><span class="w"> </span><span class="mi">11223344</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"threedsecure"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="err">...</span><span class="w"> </span><span class="p">},</span><span class="w">
    </span><span class="nl">"token"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ctPCAPyNyCkx3Ry8wGyv8khC3ch2hUSB3Db..Qzr"</span><span class="p">,</span><span class="w">
    </span><span class="nl">"trans_info"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
    </span><span class="nl">"trans_type"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="w">
@@ -3849,6 +3873,7 @@ for analysis and may result in a decline if incorrectly provided. |
  <span class="nt">&lt;identifier&gt;</span>95b857a1-5955-4b86-963c-5a6dbfc4fb95<span class="nt">&lt;/identifier&gt;</span> 
  <span class="nt">&lt;match_avsa&gt;&lt;/match_avsa&gt;</span> 
  <span class="nt">&lt;merchantid&gt;</span>11223344<span class="nt">&lt;/merchantid&gt;</span> 
+ <span class="nt">&lt;threedsecure&gt;</span><span class="err">&lt;</span>&gt;...<span class="err">&lt;</span>/&gt;<span class="nt">&lt;/threedsecure&gt;</span> 
  <span class="nt">&lt;token&gt;</span>ctPCAPyNyCkx3Ry8wGyv8khC3ch2hUSB3Db..Qzr<span class="nt">&lt;/token&gt;</span> 
  <span class="nt">&lt;trans_info&gt;&lt;/trans_info&gt;</span> 
  <span class="nt">&lt;trans_type&gt;&lt;/trans_type&gt;</span> 
@@ -3915,6 +3940,12 @@ for analysis and may result in a decline if incorrectly provided. |
 <td>integer <em>int32</em></td>
 <td>true</td>
 <td>Identifies the merchant account to perform processing for.</td>
+</tr>
+<tr>
+<td><code>threedsecure</code></td>
+<td>object</td>
+<td>false</td>
+<td><a href="#threedsecure">ThreeDSecure</a> ThreeDSecure element, providing values to enable full 3DS processing flows.</td>
 </tr>
 <tr>
 <td><code>token</code></td>
@@ -4135,6 +4166,44 @@ for analysis and may result in a decline if incorrectly provided. |
 <td>string</td>
 <td>false</td>
 <td>A response message providing a description of the result of the process.</td>
+</tr>
+</tbody></table>
+<h2 id='exists'>Exists</h2><div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+   </span><span class="nl">"active"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"exists"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"last_modified"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2020-01-02"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div><div class="highlight"><pre class="highlight xml tab-xml"><code><span class="nt">&lt;Exists&gt;</span>
+ <span class="nt">&lt;active&gt;</span>true<span class="nt">&lt;/active&gt;</span> 
+ <span class="nt">&lt;exists&gt;</span>true<span class="nt">&lt;/exists&gt;</span> 
+ <span class="nt">&lt;last_modified&gt;</span>2020-01-02<span class="nt">&lt;/last_modified&gt;</span> 
+<span class="nt">&lt;/Exists&gt;</span>
+</code></pre></div>
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>active</code></td>
+<td>boolean</td>
+<td>false</td>
+<td>Boolean value whether the entity is active.</td>
+</tr>
+<tr>
+<td><code>exists</code></td>
+<td>boolean</td>
+<td>true</td>
+<td>Boolean value whether the entity exists.</td>
+</tr>
+<tr>
+<td><code>last_modified</code></td>
+<td>date-time</td>
+<td>false</td>
+<td>The last modified date of the entity.</td>
 </tr>
 </tbody></table>
 <h2 id='externalmpi'>ExternalMPI</h2><div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
