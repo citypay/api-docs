@@ -6,7 +6,7 @@ language_tabs:
   - xml
 toc_footers:
   - <a href='mailto:support@citypay.com'>Any Integration Questions?</a>
-  - V6.0.10 2020-10-01
+  - V6.0.10 2020-10-02
 includes:
   - errorcodes
   - authresultcodes
@@ -23,7 +23,7 @@ search: true
 # CityPay Payment API
 
 Version: 6.0.10
-Last Updated: 2020-10-01
+Last Updated: 2020-10-02
 
 
 This CityPay API is a HTTP RESTful payment API used for direct server to server transactional processing. It
@@ -170,6 +170,38 @@ We have example code in varying languages, please consult with your account and 
 
 # Card Holder Account
 
+## Account Exists
+
+<span class="http-method-get">GET</span> `/account-exists/{accountid}`
+
+.
+
+
+### Path Parameters
+
+Name | Type | Required | Description |
+-----|------|----------|-------------|
+ `accountid` | string | true | The account id that refers to the customer's account no. This value will have been provided when setting up the card holder account. | 
+
+
+
+
+
+### Response
+
+Responses for this operation are
+
+ StatusCode | Description | Model |
+------------|-------------|-------|
+ `403` | Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request. |  |  
+ `401` | Unauthorized. No api key has been provided and is required for this operation. |  |  
+ `422` | Unprocessable Entity. Should a failure occur that prevents processing of the API call. | `application/json`, `text/xml`:  <br/> [Error](#error) |  
+ `400` | Bad Request. Should the incoming data not be validly determined. |  |  
+ `200` | A response model determining whether the account exists, if exists is true, a last modified date of the account is also provided. | `application/json`, `text/xml`:  <br/> [Exists](#exists) |  
+
+
+
+
 ## Account Create
 
 <span class="http-method-post">POST</span> `/account/create`
@@ -208,11 +240,17 @@ Responses for this operation are
 
 
 
-## Account Exists
+## Account Retrieval
 
 <span class="http-method-get">GET</span> `/account/{accountid}`
 
-.
+Allows for the retrieval of a card holder account for the given `id`. Should duplicate accounts exist
+for the same `id`, the first account created with that `id` will be returned.
+
+The account can be used for tokenisation processing by listing all cards assigned to the account.
+The returned cards will include all `active`, `inactive` and `expired` cards. This can be used to 
+enable a card holder to view their wallet and make constructive choices on which card to use.
+
 
 
 ### Path Parameters
@@ -235,7 +273,7 @@ Responses for this operation are
  `401` | Unauthorized. No api key has been provided and is required for this operation. |  |  
  `422` | Unprocessable Entity. Should a failure occur that prevents processing of the API call. | `application/json`, `text/xml`:  <br/> [Error](#error) |  
  `400` | Bad Request. Should the incoming data not be validly determined. |  |  
- `200` | A response model determining whether the account exists, if exists is true, a last modified date of the account is also provided. | `application/json`, `text/xml`:  <br/> [Exists](#exists) |  
+ `200` | A card holder account that matches the account id provided in the request. | `application/json`, `text/xml`:  <br/> [CardHolderAccount](#cardholderaccount) |  
 
 
 
