@@ -1,7 +1,7 @@
 {
   "openapi" : "3.0.0",
   "info" : {
-    "version" : "6.0.x-dev",
+    "version" : "6.0.11",
     "title" : "CityPay Payment API",
     "description" : "\nThis CityPay API is a HTTP RESTful payment API used for direct server to server transactional processing. It\nprovides a number of payment mechanisms including: Internet, MOTO, Continuous Authority transaction processing,\n3-D Secure decision handling using RFA Secure, Authorisation, Refunding, Pre-Authorisation, Cancellation/Voids and\nCompletion processing. The API is also capable of tokinsed payments using Card Holder Accounts.\n\n## Compliance and Security\n<aside class=\"notice\">\n  Before we begin a reminder that your application will need to adhere to PCI-DSS standards to operate safely\n  and to meet requirements set out by Visa and MasterCard and the PCI Security Standards Council including:\n</aside>\n\n* Data must be collected using TLS version 1.2 using [strong cryptography](#enabled-tls-ciphers). We will not accept calls to our API at\n  lower grade encryption levels. We regularly scan our TLS endpoints for vulnerabilities and perform TLS assessments\n  as part of our compliance program.\n* The application must not store sensitive card holder data (CHD) such as the card security code (CSC) or\n  primary access number (PAN)\n* The application must not display the full card number on receipts, it is recommended to mask the PAN\n  and show the last 4 digits. The API will return this for you for ease of receipt creation\n* If you are developing a website, you will be required to perform regular scans on the network where you host the\n  application to meet your compliance obligations\n* You will be required to be PCI Compliant and the application must adhere to the security standard. Further information\n  is available from [https://www.pcisecuritystandards.org/](https://www.pcisecuritystandards.org/)\n* The API verifies that the request is for a valid account and originates from a trusted source using the remote IP\n  address. Our application firewalls analyse data that may be an attempt to break a large number of security common\n  security vulnerabilities.\n",
     "contact" : {
@@ -198,7 +198,7 @@
             "description" : "Bad Request. Should the incoming data not be validly determined."
           },
           "200" : {
-            "description" : "An acknowledgment that the card holder account has been marked for deletion.",
+            "description" : "An acknowledgment code of `001` that the card holder account has been marked for deletion.",
             "content" : {
               "application/json" : {
                 "schema" : {
@@ -262,7 +262,7 @@
             "description" : "Bad Request. Should the incoming data not be validly determined."
           },
           "200" : {
-            "description" : "A result of the ping request.",
+            "description" : "A result of the ping request, returning on 044 response code on successful receipt of the ping request.",
             "content" : {
               "application/json" : {
                 "schema" : {
@@ -293,17 +293,17 @@
                 "$ref" : "#/components/schemas/CaptureRequest"
               },
               "examples" : {
-                "example1" : {
-                  "summary" : "Basic capture call for a merchant with a given identifier",
-                  "externalValue" : "CaptureRequest-example1.json"
+                "example2" : {
+                  "summary" : "Basic capture call for a merchant with a transno and final amount",
+                  "externalValue" : "CaptureRequest-example2.json"
                 },
                 "example3" : {
                   "summary" : "Capture call for a merchant with identifier and airline data once a ticket has been issued",
                   "externalValue" : "CaptureRequest-example3.json"
                 },
-                "example2" : {
-                  "summary" : "Basic capture call for a merchant with a transno and final amount",
-                  "externalValue" : "CaptureRequest-example2.json"
+                "example1" : {
+                  "summary" : "Basic capture call for a merchant with a given identifier",
+                  "externalValue" : "CaptureRequest-example1.json"
                 }
               }
             },
@@ -312,17 +312,17 @@
                 "$ref" : "#/components/schemas/CaptureRequest"
               },
               "examples" : {
-                "example1" : {
-                  "summary" : "Basic capture call for a merchant with a given identifier",
-                  "externalValue" : "CaptureRequest-example1.xml"
+                "example2" : {
+                  "summary" : "Basic capture call for a merchant with a transno and final amount",
+                  "externalValue" : "CaptureRequest-example2.xml"
                 },
                 "example3" : {
                   "summary" : "Capture call for a merchant with identifier and airline data once a ticket has been issued",
                   "externalValue" : "CaptureRequest-example3.xml"
                 },
-                "example2" : {
-                  "summary" : "Basic capture call for a merchant with a transno and final amount",
-                  "externalValue" : "CaptureRequest-example2.xml"
+                "example1" : {
+                  "summary" : "Basic capture call for a merchant with a given identifier",
+                  "externalValue" : "CaptureRequest-example1.xml"
                 }
               }
             }
@@ -354,7 +354,7 @@
             "description" : "Bad Request. Should the incoming data not be validly determined."
           },
           "200" : {
-            "description" : "A result and acknowledgement of the capture request.",
+            "description" : "A result and acknowledgement of the capture request. The response will return a `000|001` response on a successful capture otherwise an error code response explaining the error.",
             "content" : {
               "application/json" : {
                 "schema" : {
@@ -364,6 +364,64 @@
               "text/xml" : {
                 "schema" : {
                   "$ref" : "#/components/schemas/Acknowledgement"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/account-exists/{accountid}" : {
+      "get" : {
+        "summary" : "Account Exists",
+        "tags" : [ "Card Holder Account" ],
+        "operationId" : "AccountExistsRequest",
+        "parameters" : [ {
+          "name" : "accountid",
+          "in" : "path",
+          "required" : true,
+          "description" : "The account id that refers to the customer's account no. This value will have been provided when setting up the card holder account.",
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "description" : ".",
+        "responses" : {
+          "403" : {
+            "description" : "Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request."
+          },
+          "401" : {
+            "description" : "Unauthorized. No api key has been provided and is required for this operation."
+          },
+          "422" : {
+            "description" : "Unprocessable Entity. Should a failure occur that prevents processing of the API call.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Error"
+                }
+              },
+              "text/xml" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Bad Request. Should the incoming data not be validly determined."
+          },
+          "200" : {
+            "description" : "A response model determining whether the account exists, if exists is true, a last modified date of the account is also provided.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Exists"
+                }
+              },
+              "text/xml" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Exists"
                 }
               }
             }
@@ -589,6 +647,70 @@
         }
       }
     },
+    "/refund" : {
+      "post" : {
+        "summary" : "Refund",
+        "tags" : [ "Payment Processing" ],
+        "operationId" : "RefundRequest",
+        "description" : "A refund request which allows for the refunding of a previous transaction up \nand to the amount of the original sale. A refund will be performed against the \noriginal card used to process the transaction.\n",
+        "requestBody" : {
+          "required" : true,
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/RefundRequest"
+              }
+            },
+            "text/xml" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/RefundRequest"
+              }
+            }
+          }
+        },
+        "responses" : {
+          "403" : {
+            "description" : "Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request."
+          },
+          "401" : {
+            "description" : "Unauthorized. No api key has been provided and is required for this operation."
+          },
+          "422" : {
+            "description" : "Unprocessable Entity. Should a failure occur that prevents processing of the API call.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Error"
+                }
+              },
+              "text/xml" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Bad Request. Should the incoming data not be validly determined."
+          },
+          "200" : {
+            "description" : "A result of the refund of sale processing.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/AuthResponse"
+                }
+              },
+              "text/xml" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/AuthResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/void" : {
       "post" : {
         "summary" : "Void",
@@ -603,13 +725,13 @@
                 "$ref" : "#/components/schemas/VoidRequest"
               },
               "examples" : {
-                "example1" : {
-                  "summary" : "Basic capture call for a merchant with a given identifier",
-                  "externalValue" : "VoidRequest-example1.json"
-                },
                 "example2" : {
                   "summary" : "Basic capture call for a merchant with a transno and final amount",
                   "externalValue" : "VoidRequest-example2.json"
+                },
+                "example1" : {
+                  "summary" : "Basic capture call for a merchant with a given identifier",
+                  "externalValue" : "VoidRequest-example1.json"
                 }
               }
             },
@@ -618,13 +740,13 @@
                 "$ref" : "#/components/schemas/VoidRequest"
               },
               "examples" : {
-                "example1" : {
-                  "summary" : "Basic capture call for a merchant with a given identifier",
-                  "externalValue" : "VoidRequest-example1.xml"
-                },
                 "example2" : {
                   "summary" : "Basic capture call for a merchant with a transno and final amount",
                   "externalValue" : "VoidRequest-example2.xml"
+                },
+                "example1" : {
+                  "summary" : "Basic capture call for a merchant with a given identifier",
+                  "externalValue" : "VoidRequest-example1.xml"
                 }
               }
             }
@@ -656,7 +778,7 @@
             "description" : "Bad Request. Should the incoming data not be validly determined."
           },
           "200" : {
-            "description" : "A result and acknowledgement of the void request.",
+            "description" : "A result and acknowledgement of the void request, returning an `080|003` response code on successful void/cancellation of the transaction.\nIf an error occurs an error code will be returned explaining the failure.\n",
             "content" : {
               "application/json" : {
                 "schema" : {
@@ -795,7 +917,7 @@
             "description" : "Bad Request. Should the incoming data not be validly determined."
           },
           "200" : {
-            "description" : "Acknowledges the card has been requested for deletion. A response code of `001` is returned if the account is available for deletion or an error code is returned.",
+            "description" : "Acknowledges the card has been requested for deletion. A response code of `001` is returned if the account is available for deletion otherwise an error code is returned.",
             "content" : {
               "application/json" : {
                 "schema" : {
@@ -893,7 +1015,7 @@
         "summary" : "Authorisation",
         "tags" : [ "Payment Processing" ],
         "operationId" : "AuthorisationRequest",
-        "description" : "An authorisation process performs a standard transaction authorisation based on the provided parameters of its request.\nThe CityPay gateway will route your transaction via an Acquiring bank for subsequent authorisation to the appropriate card \nschemes such as Visa or MasterCard.\n\nThe authorisation API should be used for server environments to process transactions on demand and in realtime. \n\nThe authorisation API can be used for multiple types of transactions including E-commerce, mail order, telephone order,\ncustomer present (keyed), continuous authority, pre-authorisation and others. CityPay will configure your account for \nthe appropriate coding and this will perform transparently by the gateway. \n\nData properties that are required, may depend on the environment you are conducting payment for. Our API aims to be\n flexible enough to cater for these structures. Our integration team will aid you in providing the necessary data to \n transact. \n \n \n### E-commerce workflows\n \nFor E-commerce transactions requiring 3DSv1 and 3DSv2 transactions, the API contains a fully accredited in built mechanism\nto handle authentication.\n\nThe gateway has been accredited extensively with both Acquirers and Card Schemes and simplifies the nature of these calls\ninto a simple structure for authentication, preventing integrators from performing lengthy and a costly accreditation with\nVisa and MasterCard.\n\n3D-secure has been around for a number of years and aims to shift the liability of a transaction away from a merchant back\nto the card holder. A *liability shift* determines whether a card holder can charge back a transaction as unknown. Effectively\nthe process asks for a card holder to authenticate the transaction prior to authorisation producing a Cardholder \nverification value (CAVV) as evidence of authorisation.\n \n#### 3DSv1\n\n```json\n{ \n  \"AuthenticationRequired\": {\n    \"acsurl\": \"https://bank.com/3DS/ACS\",\n    \"pareq\": \"SXQgd2FzIHRoZSBiZXN0IG9mIHRpbWVzLCBpdCB3YXMgdGhlIHdvcnN00...\",\n    \"md\": \"WQgZXZlcnl0aGluZyBiZW\"\n  }               \n}\n```\n\n```xml\n<AuthenticationRequired>\n <acsurl>https://bank.com/3DS/ACS</acsurl>\n <pareq>SXQgd2FzIHRoZSBiZXN0IG9mIHRpbWVzLCBpdCB3YXMgdGhlIHdvcnN00...</pareq>\n <md>WQgZXZlcnl0aGluZyBiZW</md>\n</AuthenticationRequired>\n```\n\nFor E-commerce transactions requiring 3DSv1, the API contains a built in MPI which will be called to check whether the \ncard is participating in 3DSv1 with Verified by Visa or MasterCard SecureCode. We only support Amex SafeKey with 3DSv2. Should the card be enrolled, a payer \nrequest (PAReq) value will be created and returned back as an [authentication required](#authenticationrequired) response object. \n\nYour system will need to process this authentication packet and forward the user's browser to an authentication server (ACS) \nto gain the user's authentication. Once complete, the ACS will produce a HTTP `POST` call back to the URL supplied in \n the authentication request as `merchant_termurl`. This URL should behave as a controller and handle the post data from the\n  ACS and on a forked server to server HTTP request, forward this data to the [pares authentication url](#pares) for \n  subsequent authorisation processing. You may prefer to provide a processing page whilst this is being processed.\n  Processing with our systems should be relatively quick and be between 500ms - 3000ms however it is desirable to let\n  the user see that something is happening rather than a pending browser.\n  \n  The main reason for ensuring that this controller is two fold:\n  \n  1. We are never in control of the user's browser in a server API call\n  2. The controller is actioned on your site to ensure that any post actions from authorisation can be executed in real time\n  \nTo forward the user to the ACS, we recommend a simple auto submit HTML form.\n\n```html\n<html lang=\"en\">\n\t<head>\n        <title>Forward to ACS</title>\n\t\t<script type=\"text/javascript\">\n        function onLoadEvent() { \n            document.acs.submit(); \n        }\n        </script>\n        <noscript>You will require JavaScript to be enabled to complete this transaction</noscript>\n    </head>\n    <body onload=\"onLoadEvent();\">\n        <form name=\"acs\" action=\"{{ACSURL from Response}}\" method=\"POST\">\n            <input type=\"hidden\" name=\"PaReq\" value=\"{{PaReq Packet from Response}}\" />\n            <input type=\"hidden\" name=\"TermUrl\" value=\"{{Your Controller}}\" />\n            <input type=\"hidden\" name=\"MD\" value=\"{{MD From Response}}\" />\n        </form>\n    </body>\n</html>\n```\n\nPlease note that 3DSv1 is being phased out due to changes to strong customer authentication mechanisms. 3DSv2 addresses\nthis and will solidify the authorisation and confirmation process.\n\nWe provide a Test ACS for full 3DSv1 integration testing that simulates an ACS. \n\n\n#### 3DSv2\n\n```json\n{ \n  \"RequestChallenged\": {\n    \"acsurl\": \"https://bank.com/3DS/ACS\",\n    \"creq\": \"SXQgd2FzIHRoZSBiZXN0IG9mIHRpbWVzLCBpdCB3YXMgdGhlIHdvcnN00...\"\n  }               \n}\n```\n\n```xml\n<RequestChallenged>\n <acsurl>https://bank.com/3DS/ACS</acsurl>\n <creq>SXQgd2FzIHRoZSBiZXN0IG9mIHRpbWVzLCBpdCB3YXMgdGhlIHdvcnN00...</creq>\n</RequestChallenged>\n```\n\nAll merchants in the EEC will require to migrate their E-commerce transactions to a secure customer authentication \nmodel (SCA) throughout 2020. This has been adopted by the payment's industry as a progressive move alongside the European \nUnions payments service directive.\n\nCityPay support 3DSv2 for Verified by Visa, MasterCard Identity Check and American Express SafeKey 2.0 and will be rolling\nout acquirers on the new platform from Q2 2020. The new enhancement to 3DSv2 will allow for CityPay to seamlessly authenticate\ntransactions in a \"frictionless\" flowed method which will authenticate low risk transactions with minimal impact to a \nstandard authorisation flow. Our API simply performs this on behalf of the merchant and cardholder. For these transactions\nyou will not be required to change anything.\n\nHowever, should a transaction be \"challenged\" the API will return a [request challenge](#requestchallenged) which will \nrequire your integration to forward the cardholder's browser to the given [ACS url](#acsurl) by posting the [creq](#creq)\nvalue. Once complete, the ACS will have already been in touch with our servers by sending us a result of the authentication\nknown as `RReq`.\n\nOur servers however will await confirmation that the authorisation should continue and on receipt of a [cres](#cres)\nvalue, the flow will perform full authorisation processing. \n\nPlease note that the CRes returned to us is purely a mechanism of acknowledging that transactions should be committed for\nauthorisation. The ACS by this point will have sent us the verification value (CAVV) to perform a liability shift. The CRes\nvalue will be validated for receipt of the CAVV and subsequently may return back response codes illustrating this. \n\nTo forward the user to the ACS, we recommend a simple auto submit HTML form.\n\n```html\n<html lang=\"en\">\n\t<head>\n        <title>Forward to ACS</title>\n\t\t<script type=\"text/javascript\">\n        function onLoadEvent() { \n            document.acs.submit(); \n        }\n        </script>\n        <noscript>You will require JavaScript to be enabled to complete this transaction</noscript>\n    </head>\n    <body onload=\"onLoadEvent();\">\n        <form name=\"acs\" action=\"{{ACSURL from Response}}\" method=\"POST\">\n            <input type=\"hidden\" name=\"creq\" value=\"{{CReq Packet from Response}}\" />\n        </form>\n    </body>\n</html>\n```\n\nWe are currently working on an integration test suite for 3DSv2 which will mock the ACS challenge process.\n",
+        "description" : "An authorisation process performs a standard transaction authorisation based on the provided parameters of its request.\nThe CityPay gateway will route your transaction via an Acquiring bank for subsequent authorisation to the appropriate card \nschemes such as Visa or MasterCard.\n\nThe authorisation API should be used for server environments to process transactions on demand and in realtime. \n\nThe authorisation API can be used for multiple types of transactions including E-commerce, mail order, telephone order,\ncustomer present (keyed), continuous authority, pre-authorisation and others. CityPay will configure your account for \nthe appropriate coding and this will perform transparently by the gateway. \n\nData properties that are required, may depend on the environment you are conducting payment for. Our API aims to be\n flexible enough to cater for these structures. Our integration team will aid you in providing the necessary data to \n transact. \n \n \n### E-commerce workflows\n \nFor E-commerce transactions requiring 3DSv1 and 3DSv2 transactions, the API contains a fully accredited in built mechanism\nto handle authentication.\n\nThe gateway has been accredited extensively with both Acquirers and Card Schemes and simplifies the nature of these calls\ninto a simple structure for authentication, preventing integrators from performing lengthy and a costly accreditation with\nVisa and MasterCard.\n\n3D-secure has been around for a number of years and aims to shift the liability of a transaction away from a merchant back\nto the card holder. A *liability shift* determines whether a card holder can charge back a transaction as unknown. Effectively\nthe process asks for a card holder to authenticate the transaction prior to authorisation producing a Cardholder \nverification value (CAVV) as evidence of authorisation.\n \n#### 3DSv1\n\n```json\n{ \n  \"AuthenticationRequired\": {\n    \"acsurl\": \"https://bank.com/3DS/ACS\",\n    \"pareq\": \"SXQgd2FzIHRoZSBiZXN0IG9mIHRpbWVzLCBpdCB3YXMgdGhlIHdvcnN00...\",\n    \"md\": \"WQgZXZlcnl0aGluZyBiZW\"\n  }               \n}\n```\n\n```xml\n<AuthenticationRequired>\n <acsurl>https://bank.com/3DS/ACS</acsurl>\n <pareq>SXQgd2FzIHRoZSBiZXN0IG9mIHRpbWVzLCBpdCB3YXMgdGhlIHdvcnN00...</pareq>\n <md>WQgZXZlcnl0aGluZyBiZW</md>\n</AuthenticationRequired>\n```\n\nFor E-commerce transactions requiring 3DSv1, the API contains a built in MPI which will be called to check whether the \ncard is participating in 3DSv1 with Verified by Visa or MasterCard SecureCode. We only support Amex SafeKey with 3DSv2. Should the card be enrolled, a payer \nrequest (PAReq) value will be created and returned back as an [authentication required](#authenticationrequired) response object. \n\nYour system will need to process this authentication packet and forward the user's browser to an authentication server (ACS) \nto gain the user's authentication. Once complete, the ACS will produce a HTTP `POST` call back to the URL supplied in \n the authentication request as `merchant_termurl`. This URL should behave as a controller and handle the post data from the\n  ACS and on a forked server to server HTTP request, forward this data to the [pares authentication url](#pares) for \n  subsequent authorisation processing. You may prefer to provide a processing page whilst this is being processed.\n  Processing with our systems should be relatively quick and be between 500ms - 3000ms however it is desirable to let\n  the user see that something is happening rather than a pending browser.\n  \n  The main reason for ensuring that this controller is two fold:\n  \n  1. We are never in control of the user's browser in a server API call\n  2. The controller is actioned on your site to ensure that any post actions from authorisation can be executed in real time\n  \nTo forward the user to the ACS, we recommend a simple auto submit HTML form.\n\n```html\n<html lang=\"en\">\n\t<head>\n        <title>Forward to ACS</title>\n\t\t<script type=\"text/javascript\">\n        function onLoadEvent() { \n            document.acs.submit(); \n        }\n        </script>\n        <noscript>You will require JavaScript to be enabled to complete this transaction</noscript>\n    </head>\n    <body onload=\"onLoadEvent();\">\n        <form name=\"acs\" action=\"{{ACSURL from Response}}\" method=\"POST\">\n            <input type=\"hidden\" name=\"PaReq\" value=\"{{PaReq Packet from Response}}\" />\n            <input type=\"hidden\" name=\"TermUrl\" value=\"{{Your Controller}}\" />\n            <input type=\"hidden\" name=\"MD\" value=\"{{MD From Response}}\" />\n        </form>\n    </body>\n</html>\n```\n\nPlease note that 3DSv1 is being phased out due to changes to strong customer authentication mechanisms. 3DSv2 addresses\nthis and will solidify the authorisation and confirmation process.\n\nWe provide a Test ACS for full 3DSv1 integration testing that simulates an ACS. \n\n\n#### 3DSv2\n\n```json\n{ \n  \"RequestChallenged\": {\n    \"acsurl\": \"https://bank.com/3DS/ACS\",\n    \"creq\": \"SXQgd2FzIHRoZSBiZXN0IG9mIHRpbWVzLCBpdCB3YXMgdGhlIHdvcnN00...\"\n  }               \n}\n```\n\n```xml\n<RequestChallenged>\n <acsurl>https://bank.com/3DS/ACS</acsurl>\n <creq>SXQgd2FzIHRoZSBiZXN0IG9mIHRpbWVzLCBpdCB3YXMgdGhlIHdvcnN00...</creq>\n</RequestChallenged>\n```\n\nAll merchants in the EEC will require to migrate their E-commerce transactions to a secure customer authentication \nmodel (SCA) throughout 2020. This has been adopted by the payment's industry as a progressive move alongside the European \nUnions payments service directive.\n\nCityPay support 3DSv2 for Verified by Visa, MasterCard Identity Check and American Express SafeKey 2.0 and will be rolling\nout acquirers on the new platform from Q4 2020. The new enhancement to 3DSv2 will allow for CityPay to seamlessly authenticate\ntransactions in a \"frictionless\" flowed method which will authenticate low risk transactions with minimal impact to a \nstandard authorisation flow. Our API simply performs this on behalf of the merchant and cardholder. For these transactions\nyou will not be required to change anything.\n\nHowever, should a transaction be \"challenged\" the API will return a [request challenge](#requestchallenged) which will \nrequire your integration to forward the cardholder's browser to the given [ACS url](#acsurl) by posting the [creq](#creq)\nvalue. Once complete, the ACS will have already been in touch with our servers by sending us a result of the authentication\nknown as `RReq`.\n\nOur servers however will await confirmation that the authorisation should continue and on receipt of a [cres](#cres)\nvalue, the flow will perform full authorisation processing. \n\nPlease note that the CRes returned to us is purely a mechanism of acknowledging that transactions should be committed for\nauthorisation. The ACS by this point will have sent us the verification value (CAVV) to perform a liability shift. The CRes\nvalue will be validated for receipt of the CAVV and subsequently may return back response codes illustrating this. \n\nTo forward the user to the ACS, we recommend a simple auto submit HTML form.\n\n```html\n<html lang=\"en\">\n\t<head>\n        <title>Forward to ACS</title>\n\t\t<script type=\"text/javascript\">\n        function onLoadEvent() { \n            document.acs.submit(); \n        }\n        </script>\n        <noscript>You will require JavaScript to be enabled to complete this transaction</noscript>\n    </head>\n    <body onload=\"onLoadEvent();\">\n        <form name=\"acs\" action=\"{{ACSURL from Response}}\" method=\"POST\">\n            <input type=\"hidden\" name=\"creq\" value=\"{{CReq Packet from Response}}\" />\n        </form>\n    </body>\n</html>\n```\n\nWe are currently working on an integration test suite for 3DSv2 which will mock the ACS challenge process.\n        \n### Testing 3DSv2 Integrations\n\nThe API provides a mock 3dsV2 handler which performs a number of scenarios based on the value of the CSC in the request.\n\n| CSC Value | Behaviour |\n|-----------|-----------|\n| 731       | Frictionless processing - Not authenticated |\n| 732       | Frictionless processing - Account verification count not be performed |        \n| 733       | Frictionless processing - Verification Rejected |        \n| 741       | Frictionless processing - Attempts Processing |        \n| 750       | Frictionless processing - Authenticated  |        \n| 761       | Triggers an error message |  \n| Any       | Challenge Request |\n",
         "requestBody" : {
           "required" : true,
           "content" : {
@@ -1273,8 +1395,14 @@
             "description" : "The id of the default card."
           },
           "default_card_index" : {
-            "type" : "string",
+            "type" : "integer",
+            "format" : "int32",
             "description" : "The index in the array of the default card."
+          },
+          "last_modified" : {
+            "type" : "date-time",
+            "example" : "2020-01-02T18:32:28Z",
+            "description" : "The date and time the account was last modified."
           },
           "status" : {
             "type" : "string",
@@ -1473,7 +1601,7 @@
             "minLength" : 4,
             "maxLength" : 50,
             "example" : "95b857a1-5955-4b86-963c-5a6dbfc4fb95",
-            "description" : "The identifier of the transaction to process. The value should be a valid reference and may be used to perform\n post processing actions and to aid in reconciliation of transactions.\n\nThe value should be a valid printable string with ASCII character ranges from 32 to 127.\n\nThe identifier is recommended to be distinct for each transaction such as a [random unique identifier](https://en.wikipedia.org/wiki/Universally_unique_identifier)\nthis will aid in ensuring each transaction is identifiable.\n\nWhen transactions are processed they are also checked for duplicate requests. Changing the identifier on a subsequent\nrequest will ensure that a transaction is considered as different.\n"
+            "description" : "The identifier of the transaction to process. The value should be a valid reference and may be used to perform\n post processing actions and to aid in reconciliation of transactions.\n\nThe value should be a valid printable string with ASCII character ranges from 0x32 to 0x127.\n\nThe identifier is recommended to be distinct for each transaction such as a [random unique identifier](https://en.wikipedia.org/wiki/Universally_unique_identifier)\nthis will aid in ensuring each transaction is identifiable.\n\nWhen transactions are processed they are also checked for duplicate requests. Changing the identifier on a subsequent\nrequest will ensure that a transaction is considered as different.\n"
           },
           "match_avsa" : {
             "type" : "string",
@@ -1485,10 +1613,9 @@
             "example" : 11223344,
             "description" : "Identifies the merchant account to perform processing for."
           },
-          "sdk" : {
-            "type" : "string",
-            "example" : "MyClient 1.3.0",
-            "description" : "An optional reference value for the calling client such as a version number i.e."
+          "threedsecure" : {
+            "$ref" : "#/components/schemas/ThreeDSecure",
+            "x-description" : "ThreeDSecure element, providing values to enable full 3DS processing flows.\n"
           },
           "token" : {
             "type" : "string",
@@ -1505,6 +1632,44 @@
             "type" : "string",
             "maxLength" : 1,
             "description" : "The type of transaction being submitted. Normally this value is not required and your account manager may request that you set this field."
+          }
+        }
+      },
+      "RefundRequest" : {
+        "type" : "object",
+        "required" : [ "amount", "identifier", "merchantid", "refund_ref" ],
+        "properties" : {
+          "amount" : {
+            "type" : "integer",
+            "format" : "int32",
+            "minLength" : 1,
+            "maxLength" : 12,
+            "example" : 3600,
+            "description" : "The amount to refund in the lowest unit of currency with a variable length to a maximum of 12 digits.\nThe amount should be the total amount required to refund for the transaction up to the original processed amount.\nNo decimal points are to be included and no divisional characters such as 1,024.\nFor example with GBP £1,021.95 the amount value is 102195.\n"
+          },
+          "identifier" : {
+            "type" : "string",
+            "minLength" : 4,
+            "maxLength" : 50,
+            "example" : "95b857a1-5955-4b86-963c-5a6dbfc4fb95",
+            "description" : "The identifier of the refund to process. The value should be a valid reference and may be used to perform\n post processing actions and to aid in reconciliation of transactions.\n\nThe value should be a valid printable string with ASCII character ranges from 0x32 to 0x127.\n\nThe identifier is recommended to be distinct for each transaction such as a [random unique identifier](https://en.wikipedia.org/wiki/Universally_unique_identifier)\nthis will aid in ensuring each transaction is identifiable.\n\nWhen transactions are processed they are also checked for duplicate requests. Changing the identifier on a subsequent\nrequest will ensure that a transaction is considered as different.\n"
+          },
+          "merchantid" : {
+            "type" : "integer",
+            "format" : "int32",
+            "example" : 11223344,
+            "description" : "Identifies the merchant account to perform the refund for."
+          },
+          "refund_ref" : {
+            "type" : "integer",
+            "format" : "int32",
+            "example" : 8322,
+            "description" : "A reference to the original transaction number that is wanting to be refunded. The original\n transaction must be on the same merchant id, previously authorised.\n"
+          },
+          "trans_info" : {
+            "type" : "string",
+            "maxLength" : 50,
+            "description" : "Further information that can be added to the transaction will display in reporting. Can be used for flexible values such as operator id."
           }
         }
       },
@@ -1527,7 +1692,7 @@
             "example" : 11223344,
             "description" : "The merchant id that processed this transaction."
           },
-          "ThreeDServerTransId" : {
+          "threedserver_trans_id" : {
             "type" : "string",
             "description" : "The 3DSv2 trans id reference for the challenge process."
           },
@@ -1663,6 +1828,12 @@
           "card_status" : {
             "type" : "string",
             "description" : "The status of the card such, valid values are\n - ACTIVE the card is active for processing\n - INACTIVE the card is not active for processing\n - EXPIRED for cards that have passed their expiry date.\n"
+          },
+          "date_created" : {
+            "type" : "string",
+            "format" : "date-time",
+            "example" : "2020-01-02T18:32:28Z",
+            "description" : "The date time of when the card was created."
           },
           "default" : {
             "type" : "boolean",
@@ -2045,7 +2216,7 @@
             "minLength" : 4,
             "maxLength" : 50,
             "example" : "95b857a1-5955-4b86-963c-5a6dbfc4fb95",
-            "description" : "The identifier of the transaction to process. The value should be a valid reference and may be used to perform\n post processing actions and to aid in reconciliation of transactions.\n\nThe value should be a valid printable string with ASCII character ranges from 32 to 127.\n\nThe identifier is recommended to be distinct for each transaction such as a [random unique identifier](https://en.wikipedia.org/wiki/Universally_unique_identifier)\nthis will aid in ensuring each transaction is identifiable.\n\nWhen transactions are processed they are also checked for duplicate requests. Changing the identifier on a subsequent\nrequest will ensure that a transaction is considered as different.\n"
+            "description" : "The identifier of the transaction to process. The value should be a valid reference and may be used to perform\n post processing actions and to aid in reconciliation of transactions.\n\nThe value should be a valid printable string with ASCII character ranges from 0x32 to 0x127.\n\nThe identifier is recommended to be distinct for each transaction such as a [random unique identifier](https://en.wikipedia.org/wiki/Universally_unique_identifier)\nthis will aid in ensuring each transaction is identifiable.\n\nWhen transactions are processed they are also checked for duplicate requests. Changing the identifier on a subsequent\nrequest will ensure that a transaction is considered as different.\n"
           },
           "match_avsa" : {
             "type" : "string",
@@ -2061,11 +2232,6 @@
             "format" : "int32",
             "example" : 11223344,
             "description" : "Identifies the merchant account to perform processing for."
-          },
-          "sdk" : {
-            "type" : "string",
-            "example" : "MyClient 1.3.0",
-            "description" : "An optional reference value for the calling client such as a version number i.e."
           },
           "ship_to" : {
             "$ref" : "#/components/schemas/ContactDetails",
@@ -2218,6 +2384,27 @@
           }
         }
       },
+      "Exists" : {
+        "type" : "object",
+        "required" : [ "exists" ],
+        "properties" : {
+          "active" : {
+            "type" : "boolean",
+            "example" : true,
+            "description" : "Boolean value whether the entity is active."
+          },
+          "exists" : {
+            "type" : "boolean",
+            "example" : true,
+            "description" : "Boolean value whether the entity exists."
+          },
+          "last_modified" : {
+            "type" : "date-time",
+            "example" : "2020-01-02T18:32:28Z",
+            "description" : "The last modified date of the entity."
+          }
+        }
+      },
       "VoidRequest" : {
         "type" : "object",
         "required" : [ "merchantid" ],
@@ -2234,11 +2421,6 @@
             "format" : "int32",
             "example" : 11223344,
             "description" : "Identifies the merchant account to perform the void for."
-          },
-          "sdk" : {
-            "type" : "string",
-            "example" : "MyClient 1.3.0",
-            "description" : "An optional reference value for the calling client such as a version number i.e."
           },
           "transno" : {
             "type" : "integer",
@@ -2469,11 +2651,6 @@
             "format" : "int32",
             "example" : 11223344,
             "description" : "Identifies the merchant account to perform the capture for."
-          },
-          "sdk" : {
-            "type" : "string",
-            "example" : "MyClient 1.3.0",
-            "description" : "An optional reference value for the calling client such as a version number i.e."
           },
           "transno" : {
             "type" : "integer",
