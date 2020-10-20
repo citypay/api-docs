@@ -1,12 +1,12 @@
 ---
 title: CityPay Payment API
-version: 6.0.11
+version: 6.0.12
 language_tabs:
   - json
   - xml
 toc_footers:
   - <a href='mailto:support@citypay.com'>Any Integration Questions?</a>
-  - V6.0.11 2020-10-07
+  - V6.0.12 2020-10-20
 includes:
   - errorcodes
   - authresultcodes
@@ -22,8 +22,8 @@ search: true
 
 # CityPay Payment API
 
-Version: 6.0.11
-Last Updated: 2020-10-07
+Version: 6.0.12
+Last Updated: 2020-10-20
 
 
 This CityPay API is a HTTP RESTful payment API used for direct server to server transactional processing. It
@@ -2717,6 +2717,7 @@ Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Addi
 ```json
 {
    "accept_headers": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9",
+   "cp_bx": "",
    "downgrade1": false,
    "merchant_termurl": "",
    "tds_policy": "",
@@ -2727,6 +2728,7 @@ Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Addi
 ```xml
 <ThreeDSecure>
  <accept_headers>text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9</accept_headers> 
+ <cp_bx></cp_bx> 
  <downgrade1></downgrade1> 
  <merchant_termurl></merchant_termurl> 
  <tds_policy></tds_policy> 
@@ -2736,11 +2738,12 @@ Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Addi
 
 | Field | Type | Required | Description |
 |-------|------|----------|-------------|
-| `accept_headers` | string  | false | The content of the HTTP accept header as sent to the merchant from the cardholder's user agent.<br/>This value will be validated by the ACS when the card holder authenticates themselves to verify that<br/>no intermediary is performing this action. Required for 3DSv1. | 
+| `accept_headers` | string  | false | Required for 3DSv1. Optional if the `cp_bx` value is provided otherwise required for 3Dv2 processing operating in<br/>browser authentication mode.<br/><br/>The `cp_bx` value will override any value supplied to this field.<br/><br/>The content of the HTTP accept header as sent to the merchant from the cardholder's user agent.<br/>This value will be validated by the ACS when the card holder authenticates themselves to verify that<br/>no intermediary is performing this action. Required for 3DSv1. | 
+| `cp_bx` | string  | false | Required for 3DSv2.<br/><br/>Browser extension value produced by the citypay.js `bx` function. See https://sandbox.citypay.com/3dsv2/bx for<br/> details. | 
 | `downgrade1` | boolean  | false | Where a merchant is configured for 3DSv2, setting this option will attempt to downgrade the transaction to<br/> 3DSv1. | 
-| `merchant_termurl` | string  | false | A controller URL for 3D-Secure processing that any response from an authentication request or<br/>challenge request should be sent to.<br/><br/>The controller should forward on the response from the URL back via this API for subsequent processing.<br/>Required if 3DSv1 or 3DSv2 is required. | 
+| `merchant_termurl` | string  | false | Required for 3DSv1 and 3Dv2 processing.<br/><br/>A controller URL for 3D-Secure processing that any response from an authentication request or<br/>challenge request should be sent to.<br/><br/>The controller should forward on the response from the URL back via this API for subsequent processing.<br/>Required if 3DSv1 or 3DSv2 is required. | 
 | `tds_policy` | string  | false | A policy value which determines whether ThreeDSecure is enforced or bypassed. Note that this will only work for<br/>e-commerce transactions and accounts that have 3DSecure enabled and fully registered with Visa, MasterCard or<br/>American Express. It is useful when transactions may be wanted to bypass processing rules.<br/><br/>Note that this may affect the liability shift of transactions and may occur a higher fee with the acquiring bank.<br/><br/>Values are<br/> `0` for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.<br/> `1` for an enforced policy. Transactions will be enabled for 3DS processing<br/> `2` to bypass. Transactions that are bypassed will switch off 3DS processing. | 
-| `user_agent` | string  | false | The content of the HTTP user-agent header as sent to the merchant from the cardholder's user agent.<br/>This value will be validated by the ACS when the card holder authenticates themselves to verify that<br/>no intermediary is performing this action. Required for 3DSv1. | 
+| `user_agent` | string  | false | Required for 3DSv1. Optional if the `cp_bx` value is provided otherwise required 3Dv2 processing operating in<br/>browser authentication mode.<br/><br/>The `cp_bx` value will override any value supplied to this field.<br/><br/>The content of the HTTP user-agent header as sent to the merchant from the cardholder's user agent.<br/>This value will be validated by the ACS when the card holder authenticates themselves to verify that<br/>no intermediary is performing this action. Required for 3DSv1. | 
 
 
 

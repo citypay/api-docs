@@ -4,7 +4,7 @@ openapi: 3.0.0
 #                              API Information                                 #
 ################################################################################
 info:
-  version: 6.0.11
+  version: 6.0.12
   title: CityPay Payment API
   description: |
 
@@ -291,28 +291,28 @@ paths:
             schema: 
               $ref: '#/components/schemas/CaptureRequest'
             examples: 
+              example1: 
+                summary: Basic capture call for a merchant with a given identifier
+                externalValue: 'CaptureRequest-example1.json'
               example2: 
                 summary: Basic capture call for a merchant with a transno and final amount
                 externalValue: 'CaptureRequest-example2.json'
               example3: 
                 summary: Capture call for a merchant with identifier and airline data once a ticket has been issued
                 externalValue: 'CaptureRequest-example3.json'
-              example1: 
-                summary: Basic capture call for a merchant with a given identifier
-                externalValue: 'CaptureRequest-example1.json'
           text/xml: 
             schema: 
               $ref: '#/components/schemas/CaptureRequest'
             examples: 
+              example1: 
+                summary: Basic capture call for a merchant with a given identifier
+                externalValue: 'CaptureRequest-example1.xml'
               example2: 
                 summary: Basic capture call for a merchant with a transno and final amount
                 externalValue: 'CaptureRequest-example2.xml'
               example3: 
                 summary: Capture call for a merchant with identifier and airline data once a ticket has been issued
                 externalValue: 'CaptureRequest-example3.xml'
-              example1: 
-                summary: Basic capture call for a merchant with a given identifier
-                externalValue: 'CaptureRequest-example1.xml'
       responses: 
         403: 
           description: Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request.
@@ -600,22 +600,22 @@ paths:
             schema: 
               $ref: '#/components/schemas/VoidRequest'
             examples: 
-              example2: 
-                summary: Basic capture call for a merchant with a transno and final amount
-                externalValue: 'VoidRequest-example2.json'
               example1: 
                 summary: Basic capture call for a merchant with a given identifier
                 externalValue: 'VoidRequest-example1.json'
+              example2: 
+                summary: Basic capture call for a merchant with a transno and final amount
+                externalValue: 'VoidRequest-example2.json'
           text/xml: 
             schema: 
               $ref: '#/components/schemas/VoidRequest'
             examples: 
-              example2: 
-                summary: Basic capture call for a merchant with a transno and final amount
-                externalValue: 'VoidRequest-example2.xml'
               example1: 
                 summary: Basic capture call for a merchant with a given identifier
                 externalValue: 'VoidRequest-example1.xml'
+              example2: 
+                summary: Basic capture call for a merchant with a transno and final amount
+                externalValue: 'VoidRequest-example2.xml'
       responses: 
         403: 
           description: Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request.
@@ -2465,9 +2465,21 @@ components:
           type: string
           example: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9
           description: |
+            Required for 3DSv1. Optional if the `cp_bx` value is provided otherwise required for 3Dv2 processing operating in
+            browser authentication mode.
+            
+            The `cp_bx` value will override any value supplied to this field.
+            
             The content of the HTTP accept header as sent to the merchant from the cardholder's user agent.
             This value will be validated by the ACS when the card holder authenticates themselves to verify that
             no intermediary is performing this action. Required for 3DSv1.
+        cp_bx: 
+          type: string
+          description: |
+            Required for 3DSv2.
+            
+            Browser extension value produced by the citypay.js `bx` function. See https://sandbox.citypay.com/3dsv2/bx for
+             details.
         downgrade1: 
           type: boolean
           description: |
@@ -2476,6 +2488,8 @@ components:
         merchant_termurl: 
           type: string
           description: |
+            Required for 3DSv1 and 3Dv2 processing.
+            
             A controller URL for 3D-Secure processing that any response from an authentication request or
             challenge request should be sent to.
             
@@ -2498,6 +2512,11 @@ components:
           type: string
           example: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.149 Safari/537.36
           description: |
+            Required for 3DSv1. Optional if the `cp_bx` value is provided otherwise required 3Dv2 processing operating in
+            browser authentication mode.
+            
+            The `cp_bx` value will override any value supplied to this field.
+            
             The content of the HTTP user-agent header as sent to the merchant from the cardholder's user agent.
             This value will be validated by the ACS when the card holder authenticates themselves to verify that
             no intermediary is performing this action. Required for 3DSv1.
