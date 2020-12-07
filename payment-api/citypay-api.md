@@ -1,12 +1,12 @@
 ---
 title: CityPay Payment API
-version: 6.0.12
+version: 6.0.13
 language_tabs:
   - json
   - xml
 toc_footers:
   - <a href='mailto:support@citypay.com'>Any Integration Questions?</a>
-  - V6.0.12 2020-10-20
+  - V6.0.13 2020-12-07
 includes:
   - errorcodes
   - authresultcodes
@@ -22,8 +22,8 @@ search: true
 
 # CityPay Payment API
 
-Version: 6.0.12
-Last Updated: 2020-10-20
+Version: 6.0.13
+Last Updated: 2020-12-07
 
 
 This CityPay API is a HTTP RESTful payment API used for direct server to server transactional processing. It
@@ -2717,9 +2717,9 @@ Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Addi
 ```json
 {
    "accept_headers": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9",
-   "cp_bx": "",
+   "cp_bx": "FjaW50b3NoOyBJbnRlbCBNYWMgT1MgWCAx...",
    "downgrade1": false,
-   "merchant_termurl": "",
+   "merchant_termurl": "https://mysite.com/acs/return",
    "tds_policy": "",
    "user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.149 Safari/537.36"
 }
@@ -2728,9 +2728,9 @@ Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Addi
 ```xml
 <ThreeDSecure>
  <accept_headers>text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9</accept_headers> 
- <cp_bx></cp_bx> 
+ <cp_bx>FjaW50b3NoOyBJbnRlbCBNYWMgT1MgWCAx...</cp_bx> 
  <downgrade1></downgrade1> 
- <merchant_termurl></merchant_termurl> 
+ <merchant_termurl>https://mysite.com/acs/return</merchant_termurl> 
  <tds_policy></tds_policy> 
  <user_agent>Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.149 Safari/537.36</user_agent> 
 </ThreeDSecure>
