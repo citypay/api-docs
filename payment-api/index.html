@@ -217,8 +217,8 @@
   background-color: #1b1d1e;
 }
     </style>
-    <link href="stylesheets/screen-f56f3b69.css" rel="stylesheet" media="screen" />
-    <link href="stylesheets/print-f67105af.css" rel="stylesheet" media="print" />
+    <link href="stylesheets/screen-8cf9e4c5.css" rel="stylesheet" media="screen" />
+    <link href="stylesheets/print-73108708.css" rel="stylesheet" media="print" />
       <script src="javascripts/all-e9bde216.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
   </head>
@@ -231,7 +231,7 @@
       </span>
     </a>
     <div class="toc-wrapper">
-      <img src="images/logo-1cfc75b2.svg" class="logo" alt="" />
+      <img src="images/logo-26dfccc6.png" class="logo" alt="" />
         <div class="lang-selector">
               <a href="#" data-language-name="json">json</a>
               <a href="#" data-language-name="xml">xml</a>
@@ -471,7 +471,7 @@
       </ul>
         <ul class="toc-footer">
             <li><a href='mailto:support@citypay.com'>Any Integration Questions?</a></li>
-            <li>V6.0.9 2020-10-20</li>
+            <li>V6.1.3 2021-07-01</li>
         </ul>
     </div>
     <div class="page-wrapper">
@@ -479,8 +479,8 @@
       <div class="content">
         <img src="images/citypay-logo-23676e0b.svg" class="cplogo" alt="" />
         <h1 id='citypay-payment-api'>CityPay Payment API</h1>
-<p>Version: 6.0.9
-Last Updated: 2020-10-20</p>
+<p>Version: 6.1.3
+Last Updated: 2021-07-01</p>
 
 <p>This CityPay API is a HTTP RESTful payment API used for direct server to server transactional processing. It
 provides a number of payment mechanisms including: Internet, MOTO, Continuous Authority transaction processing,
@@ -613,7 +613,8 @@ We have example code in varying languages, please consult with your account and 
 <h1 id='card-holder-account'>Card Holder Account</h1><h2 id='account-exists'>Account Exists</h2>
 <p><span class="http-method-get">GET</span> <code>/account-exists/{accountid}</code></p>
 
-<p>.</p>
+<p>Checks that an account exists and is active by providing the account id as a url parameter 
+Checks that an account exists and is active by providing the account id as a url parameter.</p>
 <h3 id='path-parameters'>Path Parameters</h3>
 <table><thead>
 <tr>
@@ -685,7 +686,7 @@ We have example code in varying languages, please consult with your account and 
 <td>Required</td>
 <td><code>account_id</code></td>
 <td>string</td>
-<td>A card holder account id used for uniquely identifying the account. This value will be used for future<br/>referencing of the account oand to link your system to this API. This value is immutable and<br/>never changes.<br/><br/>minLength: 5<br/>maxLength: 50</td>
+<td>A card holder account id used for uniquely identifying the account. This value will be used for future referencing of the account oand to link your system to this API. This value is immutable and never changes.<br/><br/> minLength: 5<br/>maxLength: 50</td>
 </tr>
 <tr>
 <td>Optional</td>
@@ -1013,13 +1014,8 @@ purge will clear the card permanently.</p>
 </tr>
 <tr>
 <td><code>200</code></td>
-<td>Acknowledges the card status has changed, returning a response code of <code>001</code> for a valid change or <code>000</code> for a non valid change.</td>
-<td></td>
-</tr>
-<tr>
+<td></br>Acknowledges the card status has changed, returning a response code of <code>001</code> for a valid change or <code>000</code> for a non valid change.</td>
 <td><code>application/json</code>, <code>text/xml</code>:  <br/> <a href="#acknowledgement">Acknowledgement</a></td>
-<td></td>
-<td></td>
 </tr>
 </tbody></table>
 <h2 id='contact-details-update'>Contact Details Update</h2>
@@ -1057,25 +1053,25 @@ purge will clear the card permanently.</p>
 <td>Optional</td>
 <td><code>address1</code></td>
 <td>string</td>
-<td>The first line of the address for the card holder.<br/>maxLength: 50</td>
+<td>The first line of the address for the card holder.<br/><br/>maxLength: 50</td>
 </tr>
 <tr>
 <td>Optional</td>
 <td><code>address2</code></td>
 <td>string</td>
-<td>The second line of the address for the card holder.<br/>maxLength: 50</td>
+<td>The second line of the address for the card holder.<br/><br/>maxLength: 50</td>
 </tr>
 <tr>
 <td>Optional</td>
 <td><code>address3</code></td>
 <td>string</td>
-<td>The third line of the address for the card holder.<br/>maxLength: 50</td>
+<td>The third line of the address for the card holder.<br/><br/>maxLength: 50</td>
 </tr>
 <tr>
 <td>Optional</td>
 <td><code>area</code></td>
 <td>string</td>
-<td>The area such as city, department, parish for the card holder.<br/>maxLength: 50</td>
+<td>The area such as city, department, parish for the card holder.<br/><br/>maxLength: 50</td>
 </tr>
 <tr>
 <td>Optional</td>
@@ -1087,7 +1083,7 @@ purge will clear the card permanently.</p>
 <td>Optional</td>
 <td><code>country</code></td>
 <td>string</td>
-<td>The country code in ISO 3166 format. The country value may be used for fraud analysis and for<br/>  acceptance of the transaction.<br/><br/>minLength: 2<br/>maxLength: 2</td>
+<td>The country code in ISO 3166 format. The country value may be used for fraud analysis and for   acceptance of the transaction.<br/><br/> minLength: 2<br/>maxLength: 2</td>
 </tr>
 <tr>
 <td>Optional</td>
@@ -1111,19 +1107,19 @@ purge will clear the card permanently.</p>
 <td>Optional</td>
 <td><code>mobile_no</code></td>
 <td>string</td>
-<td>A mobile number for the card holder the mobile number is often required by delivery companies to ensure they are able to be in contact when required.<br/>maxLength: 20</td>
+<td>A mobile number for the card holder the mobile number is often required by delivery companies to ensure they are able to be in contact when required.<br/><br/>maxLength: 20</td>
 </tr>
 <tr>
 <td>Optional</td>
 <td><code>postcode</code></td>
 <td>string</td>
-<td>The postcode or zip code of the address which may be used for fraud analysis.<br/>maxLength: 10</td>
+<td>The postcode or zip code of the address which may be used for fraud analysis.<br/><br/>maxLength: 10</td>
 </tr>
 <tr>
 <td>Optional</td>
 <td><code>telephone_no</code></td>
 <td>string</td>
-<td>A telephone number for the card holder.<br/>maxLength: 20</td>
+<td>A telephone number for the card holder.<br/><br/>maxLength: 20</td>
 </tr>
 <tr>
 <td>Optional</td>
@@ -1212,19 +1208,19 @@ processing and will be available as a tokenised value for future processing.</p>
 <td>Required</td>
 <td><code>cardnumber</code></td>
 <td>string</td>
-<td>The primary number of the card.<br/>minLength: 12<br/>maxLength: 22</td>
+<td>The primary number of the card.<br/><br/>minLength: 12<br/>maxLength: 22</td>
 </tr>
 <tr>
 <td>Required</td>
 <td><code>expmonth</code></td>
 <td>integer <em>int32</em></td>
-<td>The expiry month of the card.<br/>minimum: 1<br/>maximum: 12</td>
+<td>The expiry month of the card.<br/><br/>minimum: 1<br/>maximum: 12</td>
 </tr>
 <tr>
 <td>Required</td>
 <td><code>expyear</code></td>
 <td>integer <em>int32</em></td>
-<td>The expiry year of the card.<br/>minimum: 2000<br/>maximum: 2100</td>
+<td>The expiry year of the card.<br/><br/>minimum: 2000<br/>maximum: 2100</td>
 </tr>
 <tr>
 <td>Optional</td>
@@ -1355,14 +1351,10 @@ processing and will be available as a tokenised value for future processing.</p>
 </tr>
 <tr>
 <td><code>200</code></td>
-<td>An acknowledgment that the card holder account status has been updated.</td>
-<td></td>
+<td>An acknowledgment that the card holder account status has been updated.</br></br>A response code of <code>001</code> is returned if the request was accepted or no change required.</br></br>A response code of <code>000</code> is returned if the request contains invalid data.</td>
+<td><code>application/json</code>, <code>text/xml</code>:  <br/> <a href="#acknowledgement">Acknowledgement</a></td>
 </tr>
 </tbody></table>
-
-<p>A response code of <code>001</code> is returned if the request was accepted or no change required.
-A response code of <code>000</code> is returned if the request contains invalid data.
- <code>application/json</code>, <code>text/xml</code>:  <br/> <a href="#acknowledgement">Acknowledgement</a> |  </p>
 <h2 id='charge'>Charge</h2>
 <p><span class="http-method-post">POST</span> <code>/charge</code></p>
 
@@ -1402,13 +1394,13 @@ for use elsewhere.  </p>
 <td>Required</td>
 <td><code>amount</code></td>
 <td>integer <em>int32</em></td>
-<td>The amount to authorise in the lowest unit of currency with a variable length to a maximum of 12 digits.<br/>No decimal points are to be included and no divisional characters such as 1,024.<br/>The amount should be the total amount required for the transaction.<br/>For example with GBP £1,021.95 the amount value is 102195.<br/><br/>minLength: 1<br/>maxLength: 12</td>
+<td>The amount to authorise in the lowest unit of currency with a variable length to a maximum of 12 digits.<br/><br/>No decimal points are to be included and no divisional characters such as 1,024.<br/><br/>The amount should be the total amount required for the transaction.<br/><br/>For example with GBP £1,021.95 the amount value is 102195.<br/><br/> minLength: 1<br/>maxLength: 12</td>
 </tr>
 <tr>
 <td>Required</td>
 <td><code>identifier</code></td>
 <td>string</td>
-<td>The identifier of the transaction to process. The value should be a valid reference and may be used to perform<br/> post processing actions and to aid in reconciliation of transactions.<br/><br/>The value should be a valid printable string with ASCII character ranges from 0x32 to 0x127.<br/><br/>The identifier is recommended to be distinct for each transaction such as a <a href="https://en.wikipedia.org/wiki/Universally_unique_identifier">random unique identifier</a><br/>this will aid in ensuring each transaction is identifiable.<br/><br/>When transactions are processed they are also checked for duplicate requests. Changing the identifier on a subsequent<br/>request will ensure that a transaction is considered as different.<br/><br/>minLength: 4<br/>maxLength: 50</td>
+<td>The identifier of the transaction to process. The value should be a valid reference and may be used to perform  post processing actions and to aid in reconciliation of transactions.<br/><br/>The value should be a valid printable string with ASCII character ranges from 0x32 to 0x127.<br/><br/>The identifier is recommended to be distinct for each transaction such as a <a href="https://en.wikipedia.org/wiki/Universally_unique_identifier">random unique identifier</a> this will aid in ensuring each transaction is identifiable.<br/><br/>When transactions are processed they are also checked for duplicate requests. Changing the identifier on a subsequent request will ensure that a transaction is considered as different.<br/><br/> minLength: 4<br/>maxLength: 50</td>
 </tr>
 <tr>
 <td>Required</td>
@@ -1420,43 +1412,43 @@ for use elsewhere.  </p>
 <td>Required</td>
 <td><code>token</code></td>
 <td>string <em>base58</em></td>
-<td>A tokenised form of a card that belongs to a card holder&#39;s account and that<br/>has been previously registered. The token is time based and will only be active for<br/>a short duration. The value is therefore designed not to be stored remotely for future<br/> use.<br/><br/>Tokens will start with ct and are resiliently tamper proof using HMacSHA-256.<br/>No sensitive card data is stored internally within the token.<br/><br/>Each card will contain a different token and the value may be different on any retrieval call.<br/><br/>The value can be presented for payment as a selection value to an end user in a web application.</td>
+<td>A tokenised form of a card that belongs to a card holder&#39;s account and that has been previously registered. The token is time based and will only be active for a short duration. The value is therefore designed not to be stored remotely for future use.<br/><br/> Tokens will start with ct and are resiliently tamper proof using HMacSHA-256. No sensitive card data is stored internally within the token.<br/><br/> Each card will contain a different token and the value may be different on any retrieval call.<br/><br/> The value can be presented for payment as a selection value to an end user in a web application.</td>
 </tr>
 <tr>
 <td>Optional</td>
 <td><code>avs_postcode_policy</code></td>
 <td>string</td>
-<td>A policy value which determines whether an AVS postcode policy is enforced or bypassed.<br/><br/>Values are<br/> <code>0</code> for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.<br/> <code>1</code> for an enforced policy. Transactions that are enforced will be rejected if the AVS postcode numeric value does not match.<br/> <code>2</code> to bypass. Transactions that are bypassed will be allowed through even if the postcode did not match.<br/> <code>3</code> to ignore. Transactions that are ignored will bypass the result and not send postcode details for authorisation.</td>
+<td>A policy value which determines whether an AVS postcode policy is enforced or bypassed.<br/><br/>Values are  <code>0</code> for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.<br/><br/> <code>1</code> for an enforced policy. Transactions that are enforced will be rejected if the AVS postcode numeric value does not match.<br/><br/> <code>2</code> to bypass. Transactions that are bypassed will be allowed through even if the postcode did not match.<br/><br/> <code>3</code> to ignore. Transactions that are ignored will bypass the result and not send postcode details for authorisation.</td>
 </tr>
 <tr>
 <td>Optional</td>
 <td><code>csc</code></td>
 <td>string</td>
-<td>The Card Security Code (CSC) (also known as CV2/CVV2) is normally found on the back of the card<br/>(American Express has it on the front). The value helps to identify posession of the card as it is not<br/>available within the chip or magnetic swipe.<br/><br/>When forwarding the CSC, please ensure the value is a string as some values start with 0 and this will be stripped<br/>out by any integer parsing.<br/><br/>The CSC number aids fraud prevention in Mail Order and Internet payments.<br/><br/> Business rules are available on your account to identify whether to accept<br/>or decline transactions based on mismatched results of the CSC.<br/><br/>The Payment Card Industry (PCI) requires that at no stage of a transaction should the CSC be stored.<br/>This applies to all entities handling card data.<br/>It should also not be used in any hashing process.<br/>CityPay do not store the value and have no method of retrieving the value once the transaction has been processed.<br/>For this reason, duplicate checking is unable to determine the CSC in its duplication check algorithm.<br/><br/>minLength: 3<br/>maxLength: 4</td>
+<td>The Card Security Code (CSC) (also known as CV2/CVV2) is normally found on the back of the card (American Express has it on the front). The value helps to identify posession of the card as it is not available within the chip or magnetic swipe.<br/><br/>When forwarding the CSC, please ensure the value is a string as some values start with 0 and this will be stripped out by any integer parsing.<br/><br/>The CSC number aids fraud prevention in Mail Order and Internet payments.<br/><br/>Business rules are available on your account to identify whether to accept or decline transactions based on mismatched results of the CSC.<br/><br/>The Payment Card Industry (PCI) requires that at no stage of a transaction should the CSC be stored.<br/><br/>This applies to all entities handling card data.<br/><br/>It should also not be used in any hashing process.<br/><br/>CityPay do not store the value and have no method of retrieving the value once the transaction has been processed. For this reason, duplicate checking is unable to determine the CSC in its duplication check algorithm.<br/><br/> minLength: 3<br/>maxLength: 4</td>
 </tr>
 <tr>
 <td>Optional</td>
 <td><code>csc_policy</code></td>
 <td>string</td>
-<td>A policy value which determines whether a CSC policy is enforced or bypassed.<br/><br/>Values are<br/> <code>0</code> for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.<br/> <code>1</code> for an enforced policy. Transactions that are enforced will be rejected if the CSC value does not match.<br/> <code>2</code> to bypass. Transactions that are bypassed will be allowed through even if the CSC did not match.<br/> <code>3</code> to ignore. Transactions that are ignored will bypass the result and not send the CSC details for authorisation.</td>
+<td>A policy value which determines whether a CSC policy is enforced or bypassed.<br/><br/>Values are  <code>0</code> for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.<br/><br/> <code>1</code> for an enforced policy. Transactions that are enforced will be rejected if the CSC value does not match.<br/><br/> <code>2</code> to bypass. Transactions that are bypassed will be allowed through even if the CSC did not match.<br/><br/> <code>3</code> to ignore. Transactions that are ignored will bypass the result and not send the CSC details for authorisation.</td>
 </tr>
 <tr>
 <td>Optional</td>
 <td><code>currency</code></td>
 <td>string</td>
-<td>The processing currency for the transaction. Will default to the merchant account currency.<br/>minLength: 3<br/>maxLength: 3</td>
+<td>The processing currency for the transaction. Will default to the merchant account currency.<br/><br/>minLength: 3<br/>maxLength: 3</td>
 </tr>
 <tr>
 <td>Optional</td>
 <td><code>duplicate_policy</code></td>
 <td>string</td>
-<td>A policy value which determines whether a duplication policy is enforced or bypassed. A duplication check has a window<br/>of time set against your account within which it can action. If a previous transaction with matching values occurred within<br/>the window, any subsequent transaction will result in a T001 result.<br/><br/>Values are<br/> <code>0</code> for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.<br/> <code>1</code> for an enforced policy. Transactions that are enforced will be checked for duplication within the duplication window.<br/> <code>2</code> to bypass. Transactions that are bypassed will not be checked for duplication within the duplication window.<br/> <code>3</code> to ignore. Transactions that are ignored will have the same affect as bypass.</td>
+<td>A policy value which determines whether a duplication policy is enforced or bypassed. A duplication check has a window of time set against your account within which it can action. If a previous transaction with matching values occurred within the window, any subsequent transaction will result in a T001 result.<br/><br/>Values are  <code>0</code> for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.<br/><br/> <code>1</code> for an enforced policy. Transactions that are enforced will be checked for duplication within the duplication window.<br/><br/> <code>2</code> to bypass. Transactions that are bypassed will not be checked for duplication within the duplication window.<br/><br/> <code>3</code> to ignore. Transactions that are ignored will have the same affect as bypass.</td>
 </tr>
 <tr>
 <td>Optional</td>
 <td><code>match_avsa</code></td>
 <td>string</td>
-<td>A policy value which determines whether an AVS address policy is enforced, bypassed or ignored.<br/><br/><br/>Values are<br/> <code>0</code> for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.<br/> <code>1</code> for an enforced policy. Transactions that are enforced will be rejected if the AVS address numeric value does not match.<br/> <code>2</code> to bypass. Transactions that are bypassed will be allowed through even if the address did not match.<br/> <code>3</code> to ignore. Transactions that are ignored will bypass the result and not send address numeric details for authorisation.</td>
+<td>A policy value which determines whether an AVS address policy is enforced, bypassed or ignored.<br/><br/>Values are  <code>0</code> for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.<br/><br/> <code>1</code> for an enforced policy. Transactions that are enforced will be rejected if the AVS address numeric value does not match.<br/><br/> <code>2</code> to bypass. Transactions that are bypassed will be allowed through even if the address did not match.<br/><br/> <code>3</code> to ignore. Transactions that are ignored will bypass the result and not send address numeric details for authorisation.</td>
 </tr>
 <tr>
 <td>Optional</td>
@@ -1468,13 +1460,13 @@ for use elsewhere.  </p>
 <td>Optional</td>
 <td><code>trans_info</code></td>
 <td>string</td>
-<td>Further information that can be added to the transaction will display in reporting. Can be used for flexible values such as operator id.<br/>maxLength: 50</td>
+<td>Further information that can be added to the transaction will display in reporting. Can be used for flexible values such as operator id.<br/><br/>maxLength: 50</td>
 </tr>
 <tr>
 <td>Optional</td>
 <td><code>trans_type</code></td>
 <td>string</td>
-<td>The type of transaction being submitted. Normally this value is not required and your account manager may request that you set this field.<br/>maxLength: 1</td>
+<td>The type of transaction being submitted. Normally this value is not required and your account manager may request that you set this field.<br/><br/>maxLength: 1</td>
 </tr>
 </tbody></table>
 <h3 id='response-10'>Response</h3>
@@ -1598,7 +1590,7 @@ model is granting access from your source.</p>
 <td>Optional</td>
 <td><code>identifier</code></td>
 <td>string</td>
-<td>An identifier of the ping request which will be returned in the response.<br/>minLength: 4<br/>maxLength: 50</td>
+<td>An identifier of the ping request which will be returned in the response.<br/><br/>minLength: 4<br/>maxLength: 50</td>
 </tr>
 </tbody></table>
 <h3 id='response-12'>Response</h3>
@@ -1698,6 +1690,10 @@ to gain the user&#39;s authentication. Once complete, the ACS will produce a HTT
 </ol>
 
 <p>To forward the user to the ACS, we recommend a simple auto submit HTML form.</p>
+
+<blockquote>
+<p>Simple auto submit HTML form</p>
+</blockquote>
 <div class="highlight"><pre class="highlight html tab-html"><code><span class="nt">&lt;html</span> <span class="na">lang=</span><span class="s">"en"</span><span class="nt">&gt;</span>
     <span class="nt">&lt;head&gt;</span>
         <span class="nt">&lt;title&gt;</span>Forward to ACS<span class="nt">&lt;/title&gt;</span>
@@ -1755,6 +1751,10 @@ authorisation. The ACS by this point will have sent us the verification value (C
 value will be validated for receipt of the CAVV and subsequently may return back response codes illustrating this. </p>
 
 <p>To forward the user to the ACS, we recommend a simple auto submit HTML form.</p>
+
+<blockquote>
+<p>Simple auto submit HTML form</p>
+</blockquote>
 <div class="highlight"><pre class="highlight html tab-html"><code><span class="nt">&lt;html</span> <span class="na">lang=</span><span class="s">"en"</span><span class="nt">&gt;</span>
     <span class="nt">&lt;head&gt;</span>
         <span class="nt">&lt;title&gt;</span>Forward to ACS<span class="nt">&lt;/title&gt;</span>
@@ -1880,31 +1880,31 @@ value will be validated for receipt of the CAVV and subsequently may return back
 <td>Required</td>
 <td><code>amount</code></td>
 <td>integer <em>int32</em></td>
-<td>The amount to authorise in the lowest unit of currency with a variable length to a maximum of 12 digits.<br/>No decimal points are to be included and no divisional characters such as 1,024.<br/>The amount should be the total amount required for the transaction.<br/>For example with GBP £1,021.95 the amount value is 102195.<br/><br/>minLength: 1<br/>maxLength: 12</td>
+<td>The amount to authorise in the lowest unit of currency with a variable length to a maximum of 12 digits.<br/><br/>No decimal points are to be included and no divisional characters such as 1,024.<br/><br/>The amount should be the total amount required for the transaction.<br/><br/>For example with GBP £1,021.95 the amount value is 102195.<br/><br/> minLength: 1<br/>maxLength: 12</td>
 </tr>
 <tr>
 <td>Required</td>
 <td><code>cardnumber</code></td>
 <td>string</td>
-<td>The card number (PAN) with a variable length to a maximum of 21 digits in numerical form.<br/>Any non numeric characters will be stripped out of the card number, this includes whitespace or separators internal of the<br/>provided value.<br/><br/>The card number must be treated as sensitive data. We only provide an obfuscated value in logging and reporting.<br/> The plaintext value is encrypted in our database using AES 256 GMC bit encryption for settlement or refund purposes.<br/><br/>When providing the card number to our gateway through the authorisation API you will be handling the card data on<br/>your application. This will require further PCI controls to be in place and this value must never be stored.<br/><br/>minLength: 12<br/>maxLength: 22</td>
+<td>The card number (PAN) with a variable length to a maximum of 21 digits in numerical form. Any non numeric characters will be stripped out of the card number, this includes whitespace or separators internal of the provided value.<br/><br/>The card number must be treated as sensitive data. We only provide an obfuscated value in logging and reporting.  The plaintext value is encrypted in our database using AES 256 GMC bit encryption for settlement or refund purposes.<br/><br/>When providing the card number to our gateway through the authorisation API you will be handling the card data on your application. This will require further PCI controls to be in place and this value must never be stored.<br/><br/> minLength: 12<br/>maxLength: 22</td>
 </tr>
 <tr>
 <td>Required</td>
 <td><code>expmonth</code></td>
 <td>integer <em>int32</em></td>
-<td>The month of expiry of the card. The month value should be a numerical value between 1 and 12.<br/><br/>minimum: 1<br/>maximum: 12</td>
+<td>The month of expiry of the card. The month value should be a numerical value between 1 and 12.<br/><br/> minimum: 1<br/>maximum: 12</td>
 </tr>
 <tr>
 <td>Required</td>
 <td><code>expyear</code></td>
 <td>integer <em>int32</em></td>
-<td>The year of expiry of the card.<br/><br/>minimum: 2000<br/>maximum: 2100</td>
+<td>The year of expiry of the card.<br/><br/> minimum: 2000<br/>maximum: 2100</td>
 </tr>
 <tr>
 <td>Required</td>
 <td><code>identifier</code></td>
 <td>string</td>
-<td>The identifier of the transaction to process. The value should be a valid reference and may be used to perform<br/> post processing actions and to aid in reconciliation of transactions.<br/><br/>The value should be a valid printable string with ASCII character ranges from 0x32 to 0x127.<br/><br/>The identifier is recommended to be distinct for each transaction such as a <a href="https://en.wikipedia.org/wiki/Universally_unique_identifier">random unique identifier</a><br/>this will aid in ensuring each transaction is identifiable.<br/><br/>When transactions are processed they are also checked for duplicate requests. Changing the identifier on a subsequent<br/>request will ensure that a transaction is considered as different.<br/><br/>minLength: 4<br/>maxLength: 50</td>
+<td>The identifier of the transaction to process. The value should be a valid reference and may be used to perform  post processing actions and to aid in reconciliation of transactions.<br/><br/>The value should be a valid printable string with ASCII character ranges from 0x32 to 0x127.<br/><br/>The identifier is recommended to be distinct for each transaction such as a <a href="https://en.wikipedia.org/wiki/Universally_unique_identifier">random unique identifier</a> this will aid in ensuring each transaction is identifiable.<br/><br/>When transactions are processed they are also checked for duplicate requests. Changing the identifier on a subsequent request will ensure that a transaction is considered as different.<br/><br/> minLength: 4<br/>maxLength: 50</td>
 </tr>
 <tr>
 <td>Required</td>
@@ -1916,13 +1916,13 @@ value will be validated for receipt of the CAVV and subsequently may return back
 <td>Optional</td>
 <td><code>avs_postcode_policy</code></td>
 <td>string</td>
-<td>A policy value which determines whether an AVS postcode policy is enforced or bypassed.<br/><br/>Values are<br/> <code>0</code> for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.<br/> <code>1</code> for an enforced policy. Transactions that are enforced will be rejected if the AVS postcode numeric value does not match.<br/> <code>2</code> to bypass. Transactions that are bypassed will be allowed through even if the postcode did not match.<br/> <code>3</code> to ignore. Transactions that are ignored will bypass the result and not send postcode details for authorisation.</td>
+<td>A policy value which determines whether an AVS postcode policy is enforced or bypassed.<br/><br/>Values are  <code>0</code> for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.<br/><br/> <code>1</code> for an enforced policy. Transactions that are enforced will be rejected if the AVS postcode numeric value does not match.<br/><br/> <code>2</code> to bypass. Transactions that are bypassed will be allowed through even if the postcode did not match.<br/><br/> <code>3</code> to ignore. Transactions that are ignored will bypass the result and not send postcode details for authorisation.</td>
 </tr>
 <tr>
 <td>Optional</td>
 <td><code>bill_to</code></td>
 <td>object</td>
-<td><a href="#contactdetails">ContactDetails</a> Billing details of the card holder making the payment.<br/><br/>These details may be used for AVS fraud analysis, 3DS and for future referencing of the transaction.<br/><br/><br/><br/>For AVS to work correctly, the billing details should be the registered address of the card holder<br/><br/>as it appears on the statement with their card issuer. The numeric details will be passed through<br/><br/>for analysis and may result in a decline if incorrectly provided.</td>
+<td><a href="#contactdetails">ContactDetails</a> Billing details of the card holder making the payment. These details may be used for AVS fraud analysis, 3DS and for future referencing of the transaction.<br/><br/>For AVS to work correctly, the billing details should be the registered address of the card holder as it appears on the statement with their card issuer. The numeric details will be passed through for analysis and may result in a decline if incorrectly provided.</td>
 </tr>
 <tr>
 <td>Optional</td>
@@ -1934,31 +1934,31 @@ value will be validated for receipt of the CAVV and subsequently may return back
 <td>Optional</td>
 <td><code>csc</code></td>
 <td>string</td>
-<td>The Card Security Code (CSC) (also known as CV2/CVV2) is normally found on the back of the card<br/>(American Express has it on the front). The value helps to identify posession of the card as it is not<br/>available within the chip or magnetic swipe.<br/><br/>When forwarding the CSC, please ensure the value is a string as some values start with 0 and this will be stripped<br/>out by any integer parsing.<br/><br/>The CSC number aids fraud prevention in Mail Order and Internet payments.<br/><br/> Business rules are available on your account to identify whether to accept<br/>or decline transactions based on mismatched results of the CSC.<br/><br/>The Payment Card Industry (PCI) requires that at no stage of a transaction should the CSC be stored.<br/>This applies to all entities handling card data.<br/>It should also not be used in any hashing process.<br/>CityPay do not store the value and have no method of retrieving the value once the transaction has been processed.<br/>For this reason, duplicate checking is unable to determine the CSC in its duplication check algorithm.<br/><br/>minLength: 3<br/>maxLength: 4</td>
+<td>The Card Security Code (CSC) (also known as CV2/CVV2) is normally found on the back of the card (American Express has it on the front). The value helps to identify posession of the card as it is not available within the chip or magnetic swipe.<br/><br/>When forwarding the CSC, please ensure the value is a string as some values start with 0 and this will be stripped out by any integer parsing.<br/><br/>The CSC number aids fraud prevention in Mail Order and Internet payments.<br/><br/>Business rules are available on your account to identify whether to accept or decline transactions based on mismatched results of the CSC.<br/><br/>The Payment Card Industry (PCI) requires that at no stage of a transaction should the CSC be stored.<br/><br/>This applies to all entities handling card data.<br/><br/>It should also not be used in any hashing process.<br/><br/>CityPay do not store the value and have no method of retrieving the value once the transaction has been processed. For this reason, duplicate checking is unable to determine the CSC in its duplication check algorithm.<br/><br/> minLength: 3<br/>maxLength: 4</td>
 </tr>
 <tr>
 <td>Optional</td>
 <td><code>csc_policy</code></td>
 <td>string</td>
-<td>A policy value which determines whether a CSC policy is enforced or bypassed.<br/><br/>Values are<br/> <code>0</code> for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.<br/> <code>1</code> for an enforced policy. Transactions that are enforced will be rejected if the CSC value does not match.<br/> <code>2</code> to bypass. Transactions that are bypassed will be allowed through even if the CSC did not match.<br/> <code>3</code> to ignore. Transactions that are ignored will bypass the result and not send the CSC details for authorisation.</td>
+<td>A policy value which determines whether a CSC policy is enforced or bypassed.<br/><br/>Values are  <code>0</code> for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.<br/><br/> <code>1</code> for an enforced policy. Transactions that are enforced will be rejected if the CSC value does not match.<br/><br/> <code>2</code> to bypass. Transactions that are bypassed will be allowed through even if the CSC did not match.<br/><br/> <code>3</code> to ignore. Transactions that are ignored will bypass the result and not send the CSC details for authorisation.</td>
 </tr>
 <tr>
 <td>Optional</td>
 <td><code>currency</code></td>
 <td>string</td>
-<td>The processing currency for the transaction. Will default to the merchant account currency.<br/>minLength: 3<br/>maxLength: 3</td>
+<td>The processing currency for the transaction. Will default to the merchant account currency.<br/><br/>minLength: 3<br/>maxLength: 3</td>
 </tr>
 <tr>
 <td>Optional</td>
 <td><code>duplicate_policy</code></td>
 <td>string</td>
-<td>A policy value which determines whether a duplication policy is enforced or bypassed. A duplication check has a window<br/>of time set against your account within which it can action. If a previous transaction with matching values occurred within<br/>the window, any subsequent transaction will result in a T001 result.<br/><br/>Values are<br/> <code>0</code> for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.<br/> <code>1</code> for an enforced policy. Transactions that are enforced will be checked for duplication within the duplication window.<br/> <code>2</code> to bypass. Transactions that are bypassed will not be checked for duplication within the duplication window.<br/> <code>3</code> to ignore. Transactions that are ignored will have the same affect as bypass.</td>
+<td>A policy value which determines whether a duplication policy is enforced or bypassed. A duplication check has a window of time set against your account within which it can action. If a previous transaction with matching values occurred within the window, any subsequent transaction will result in a T001 result.<br/><br/>Values are  <code>0</code> for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.<br/><br/> <code>1</code> for an enforced policy. Transactions that are enforced will be checked for duplication within the duplication window.<br/><br/> <code>2</code> to bypass. Transactions that are bypassed will not be checked for duplication within the duplication window.<br/><br/> <code>3</code> to ignore. Transactions that are ignored will have the same affect as bypass.</td>
 </tr>
 <tr>
 <td>Optional</td>
 <td><code>match_avsa</code></td>
 <td>string</td>
-<td>A policy value which determines whether an AVS address policy is enforced, bypassed or ignored.<br/><br/><br/>Values are<br/> <code>0</code> for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.<br/> <code>1</code> for an enforced policy. Transactions that are enforced will be rejected if the AVS address numeric value does not match.<br/> <code>2</code> to bypass. Transactions that are bypassed will be allowed through even if the address did not match.<br/> <code>3</code> to ignore. Transactions that are ignored will bypass the result and not send address numeric details for authorisation.</td>
+<td>A policy value which determines whether an AVS address policy is enforced, bypassed or ignored.<br/><br/>Values are  <code>0</code> for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.<br/><br/> <code>1</code> for an enforced policy. Transactions that are enforced will be rejected if the AVS address numeric value does not match.<br/><br/> <code>2</code> to bypass. Transactions that are bypassed will be allowed through even if the address did not match.<br/><br/> <code>3</code> to ignore. Transactions that are ignored will bypass the result and not send address numeric details for authorisation.</td>
 </tr>
 <tr>
 <td>Optional</td>
@@ -1976,13 +1976,13 @@ value will be validated for receipt of the CAVV and subsequently may return back
 <td>Optional</td>
 <td><code>trans_info</code></td>
 <td>string</td>
-<td>Further information that can be added to the transaction will display in reporting. Can be used for flexible values such as operator id.<br/>maxLength: 50</td>
+<td>Further information that can be added to the transaction will display in reporting. Can be used for flexible values such as operator id.<br/><br/>maxLength: 50</td>
 </tr>
 <tr>
 <td>Optional</td>
 <td><code>trans_type</code></td>
 <td>string</td>
-<td>The type of transaction being submitted. Normally this value is not required and your account manager may request that you set this field.<br/>maxLength: 1</td>
+<td>The type of transaction being submitted. Normally this value is not required and your account manager may request that you set this field.<br/><br/>maxLength: 1</td>
 </tr>
 </tbody></table>
 <h3 id='business-extension-mcc6012'>Business Extension: MCC6012</h3>
@@ -2030,7 +2030,7 @@ value will be validated for receipt of the CAVV and subsequently may return back
 <tr>
 <td><code>airline_data</code></td>
 <td>object</td>
-<td><a href="#airlineadvice">AirlineAdvice</a> Additional advice for airline integration that can be applied on an authorisation request.<br/><br/>As tickets are normally not allocated until successful payment it is normal for a transaction to be pre-authorised<br/><br/> and the airline advice supplied on a capture request instead. Should the data already exist and an auth and<br/><br/> capture is preferred. This data may be supplied.</td>
+<td><a href="#airlineadvice">AirlineAdvice</a> Additional advice for airline integration that can be applied on an authorisation request.<br/><br/>As tickets are normally not allocated until successful payment it is normal for a transaction to be pre-authorised  and the airline advice supplied on a capture request instead. Should the data already exist and an auth and  capture is preferred. This data may be supplied.</td>
 </tr>
 </tbody></table>
 <h3 id='response-13'>Response</h3>
@@ -2176,13 +2176,13 @@ be available for the settlement and completed at the end of the day.</p>
 <td>Optional</td>
 <td><code>amount</code></td>
 <td>integer <em>int32</em></td>
-<td>The completion amount provided in the lowest unit of currency for the specific currency of the merchant,<br/>with a variable length to a maximum of 12 digits. No decimal points to be included. For example with<br/>GBP 75.45 use the value 7545. Please check that you do not supply divisional characters such as 1,024 in the<br/>request which may be caused by some number formatters.<br/>If no amount is supplied, the original processing amount is used.<br/><br/>minLength: 1<br/>maxLength: 12</td>
+<td>The completion amount provided in the lowest unit of currency for the specific currency of the merchant, with a variable length to a maximum of 12 digits. No decimal points to be included. For example with GBP 75.45 use the value 7545. Please check that you do not supply divisional characters such as 1,024 in the request which may be caused by some number formatters.<br/><br/>If no amount is supplied, the original processing amount is used.<br/><br/> minLength: 1<br/>maxLength: 12</td>
 </tr>
 <tr>
 <td>Optional</td>
 <td><code>identifier</code></td>
 <td>string</td>
-<td>The identifier of the transaction to capture. If an empty value is supplied then a <code>trans_no</code> value must be supplied.<br/>minLength: 4<br/>maxLength: 50</td>
+<td>The identifier of the transaction to capture. If an empty value is supplied then a <code>trans_no</code> value must be supplied.<br/><br/>minLength: 4<br/>maxLength: 50</td>
 </tr>
 <tr>
 <td>Optional</td>
@@ -2239,8 +2239,8 @@ be available for the settlement and completed at the end of the day.</p>
 </tr>
 <tr>
 <td><code>200</code></td>
-<td>A result and acknowledgement of the capture request. The response will return a `000</td>
-<td>001` response on a successful capture otherwise an error code response explaining the error.</td>
+<td>A result and acknowledgement of the capture request. The response will return a <code>000/001</code> response on a successful capture otherwise an error code response explaining the error.</td>
+<td><code>application/json</code>, <code>text/xml</code>:  <br/> <a href="#acknowledgement">Acknowledgement</a></td>
 </tr>
 </tbody></table>
 <h2 id='cres'>CRes</h2>
@@ -2280,7 +2280,7 @@ on its own without a previous <a href="#requestchallenged">request challenge</a>
 <td>Optional</td>
 <td><code>cres</code></td>
 <td>string <em>base64</em></td>
-<td>The challenge response data forwarded by the ACS in 3D-Secure V2 processing. Data<br/>should be forwarded to CityPay unchanged for subsequent authorisation and processing.</td>
+<td>The challenge response data forwarded by the ACS in 3D-Secure V2 processing. Data should be forwarded to CityPay unchanged for subsequent authorisation and processing.</td>
 </tr>
 </tbody></table>
 <h3 id='response-15'>Response</h3>
@@ -2358,13 +2358,13 @@ on its own without a previous <a href="#authenticationrequired">authentication r
 <td>Required</td>
 <td><code>md</code></td>
 <td>string</td>
-<td>The Merchant Data (MD) which is a unique ID to reference the authentication session.<br/>This value will be created by CityPay when required. When responding from the ACS,<br/>this value will be returned by the ACS.</td>
+<td>The Merchant Data (MD) which is a unique ID to reference the authentication session.<br/><br/>This value will be created by CityPay when required. When responding from the ACS, this value will be returned by the ACS.</td>
 </tr>
 <tr>
 <td>Required</td>
 <td><code>pares</code></td>
 <td>string <em>base64</em></td>
-<td>The Payer Authentication Response packet which is returned by the ACS containing the<br/> response of the authentication session including verification values. The response<br/> is a base64 encoded packet and should be forwarded to CityPay untouched.</td>
+<td>The Payer Authentication Response packet which is returned by the ACS containing the  response of the authentication session including verification values. The response  is a base64 encoded packet and should be forwarded to CityPay untouched.</td>
 </tr>
 </tbody></table>
 <h3 id='response-16'>Response</h3>
@@ -2424,13 +2424,13 @@ original card used to process the transaction.</p>
 <td>Required</td>
 <td><code>amount</code></td>
 <td>integer <em>int32</em></td>
-<td>The amount to refund in the lowest unit of currency with a variable length to a maximum of 12 digits.<br/>The amount should be the total amount required to refund for the transaction up to the original processed amount.<br/>No decimal points are to be included and no divisional characters such as 1,024.<br/>For example with GBP £1,021.95 the amount value is 102195.<br/><br/>minLength: 1<br/>maxLength: 12</td>
+<td>The amount to refund in the lowest unit of currency with a variable length to a maximum of 12 digits.<br/><br/>The amount should be the total amount required to refund for the transaction up to the original processed amount.<br/><br/>No decimal points are to be included and no divisional characters such as 1,024.<br/><br/>For example with GBP £1,021.95 the amount value is 102195.<br/><br/> minLength: 1<br/>maxLength: 12</td>
 </tr>
 <tr>
 <td>Required</td>
 <td><code>identifier</code></td>
 <td>string</td>
-<td>The identifier of the refund to process. The value should be a valid reference and may be used to perform<br/> post processing actions and to aid in reconciliation of transactions.<br/><br/>The value should be a valid printable string with ASCII character ranges from 0x32 to 0x127.<br/><br/>The identifier is recommended to be distinct for each transaction such as a <a href="https://en.wikipedia.org/wiki/Universally_unique_identifier">random unique identifier</a><br/>this will aid in ensuring each transaction is identifiable.<br/><br/>When transactions are processed they are also checked for duplicate requests. Changing the identifier on a subsequent<br/>request will ensure that a transaction is considered as different.<br/><br/>minLength: 4<br/>maxLength: 50</td>
+<td>The identifier of the refund to process. The value should be a valid reference and may be used to perform  post processing actions and to aid in reconciliation of transactions.<br/><br/>The value should be a valid printable string with ASCII character ranges from 0x32 to 0x127.<br/><br/>The identifier is recommended to be distinct for each transaction such as a <a href="https://en.wikipedia.org/wiki/Universally_unique_identifier">random unique identifier</a> this will aid in ensuring each transaction is identifiable.<br/><br/>When transactions are processed they are also checked for duplicate requests. Changing the identifier on a subsequent request will ensure that a transaction is considered as different.<br/><br/> minLength: 4<br/>maxLength: 50</td>
 </tr>
 <tr>
 <td>Required</td>
@@ -2442,13 +2442,13 @@ original card used to process the transaction.</p>
 <td>Required</td>
 <td><code>refund_ref</code></td>
 <td>integer <em>int32</em></td>
-<td>A reference to the original transaction number that is wanting to be refunded. The original<br/> transaction must be on the same merchant id, previously authorised.</td>
+<td>A reference to the original transaction number that is wanting to be refunded. The original  transaction must be on the same merchant id, previously authorised.</td>
 </tr>
 <tr>
 <td>Optional</td>
 <td><code>trans_info</code></td>
 <td>string</td>
-<td>Further information that can be added to the transaction will display in reporting. Can be used for flexible values such as operator id.<br/>maxLength: 50</td>
+<td>Further information that can be added to the transaction will display in reporting. Can be used for flexible values such as operator id.<br/><br/>maxLength: 50</td>
 </tr>
 </tbody></table>
 <h3 id='response-17'>Response</h3>
@@ -2535,7 +2535,7 @@ information to be returned.</p>
 <td>Optional</td>
 <td><code>identifier</code></td>
 <td>string</td>
-<td>The identifier of the transaction to retrieve. Optional if a transaction number is provided.<br/>minLength: 4<br/>maxLength: 50</td>
+<td>The identifier of the transaction to retrieve. Optional if a transaction number is provided.<br/><br/>minLength: 4<br/>maxLength: 50</td>
 </tr>
 <tr>
 <td>Optional</td>
@@ -2640,7 +2640,7 @@ outlining the result of the transaction.</p>
 <td>Optional</td>
 <td><code>identifier</code></td>
 <td>string</td>
-<td>The identifier of the transaction to void. If an empty value is supplied then a <code>trans_no</code> value must be supplied.<br/>minLength: 4<br/>maxLength: 50</td>
+<td>The identifier of the transaction to void. If an empty value is supplied then a <code>trans_no</code> value must be supplied.<br/><br/>minLength: 4<br/>maxLength: 50</td>
 </tr>
 <tr>
 <td>Optional</td>
@@ -2681,13 +2681,10 @@ outlining the result of the transaction.</p>
 </tr>
 <tr>
 <td><code>200</code></td>
-<td>A result and acknowledgement of the void request, returning an `080</td>
-<td>003` response code on successful void/cancellation of the transaction.</td>
+<td></br>A result and acknowledgement of the void request, returning an <code>080/003</code> response code on successful void/cancellation of the transaction.</br></br>If an error occurs an error code will be returned explaining the failure.</td>
+<td><code>application/json</code>, <code>text/xml</code>:  <br/> <a href="#acknowledgement">Acknowledgement</a></td>
 </tr>
 </tbody></table>
-
-<p>If an error occurs an error code will be returned explaining the failure.
- <code>application/json</code>, <code>text/xml</code>:  <br/> <a href="#acknowledgement">Acknowledgement</a> |  </p>
 <h1 id='api-model'>API Model</h1><h2 id='accountcreate'>AccountCreate</h2><div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
    </span><span class="nl">"account_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"aaabbb-cccddd-eee"</span><span class="p">,</span><span class="w">
    </span><span class="nl">"contact"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="err">...</span><span class="w"> </span><span class="p">}</span><span class="w">
@@ -2709,7 +2706,7 @@ outlining the result of the transaction.</p>
 <td><code>account_id</code></td>
 <td>string</td>
 <td>true</td>
-<td>A card holder account id used for uniquely identifying the account. This value will be used for future<br/>referencing of the account oand to link your system to this API. This value is immutable and<br/>never changes.<br/><br/>minLength: 5<br/>maxLength: 50</td>
+<td>A card holder account id used for uniquely identifying the account. This value will be used for future referencing of the account oand to link your system to this API. This value is immutable and never changes.<br/><br/> minLength: 5<br/>maxLength: 50</td>
 </tr>
 <tr>
 <td><code>contact</code></td>
@@ -2765,7 +2762,7 @@ outlining the result of the transaction.</p>
 <td><code>code</code></td>
 <td>string</td>
 <td>false</td>
-<td>A response code providing a result of the process.<br/>minLength: 3<br/>maxLength: 4</td>
+<td>A response code providing a result of the process.<br/><br/>minLength: 3<br/>maxLength: 4</td>
 </tr>
 <tr>
 <td><code>context</code></td>
@@ -2777,7 +2774,7 @@ outlining the result of the transaction.</p>
 <td><code>identifier</code></td>
 <td>string</td>
 <td>false</td>
-<td>An identifier if presented in the original request.<br/>minLength: 4<br/>maxLength: 50</td>
+<td>An identifier if presented in the original request.<br/><br/>minLength: 4<br/>maxLength: 50</td>
 </tr>
 <tr>
 <td><code>message</code></td>
@@ -2835,13 +2832,13 @@ outlining the result of the transaction.</p>
 <td><code>carrier_name</code></td>
 <td>string</td>
 <td>true</td>
-<td>The name of the airline carrier that generated the tickets for airline travel.<br/>maxLength: 25</td>
+<td>The name of the airline carrier that generated the tickets for airline travel.<br/><br/>maxLength: 25</td>
 </tr>
 <tr>
 <td><code>conjunction_ticket_indicator</code></td>
 <td>boolean</td>
 <td>false</td>
-<td>true if a conjunction ticket (with additional coupons) was issued for an itinerary<br/>with more than four segments. Defaults to false.</td>
+<td>true if a conjunction ticket (with additional coupons) was issued for an itinerary with more than four segments. Defaults to false.</td>
 </tr>
 <tr>
 <td><code>eticket_indicator</code></td>
@@ -2853,7 +2850,7 @@ outlining the result of the transaction.</p>
 <td><code>no_air_segments</code></td>
 <td>integer <em>int32</em></td>
 <td>false</td>
-<td>A value that indicates the number of air travel segments included on this ticket.<br/>Valid entries include the numerals “0” through “4”. Required only if the transaction type is TKT or EXC.<br/><br/>minimum: 0<br/>maximum: 4</td>
+<td>A value that indicates the number of air travel segments included on this ticket.<br/><br/>Valid entries include the numerals “0” through “4”. Required only if the transaction type is TKT or EXC.<br/><br/> minimum: 0<br/>maximum: 4</td>
 </tr>
 <tr>
 <td><code>number_in_party</code></td>
@@ -2865,13 +2862,13 @@ outlining the result of the transaction.</p>
 <td><code>original_ticket_no</code></td>
 <td>string</td>
 <td>false</td>
-<td>Required if transaction type is EXC.<br/>maxLength: 14</td>
+<td>Required if transaction type is EXC.<br/><br/>maxLength: 14</td>
 </tr>
 <tr>
 <td><code>passenger_name</code></td>
 <td>string</td>
 <td>false</td>
-<td>The name of the passenger when the traveller is not the card member that purchased the ticket. Required only if the transaction type is TKT or EXC.<br/>maxLength: 25</td>
+<td>The name of the passenger when the traveller is not the card member that purchased the ticket. Required only if the transaction type is TKT or EXC.<br/><br/>maxLength: 25</td>
 </tr>
 <tr>
 <td><code>segment1</code></td>
@@ -2901,31 +2898,31 @@ outlining the result of the transaction.</p>
 <td><code>ticket_issue_city</code></td>
 <td>string</td>
 <td>true</td>
-<td>The name of the city town or village where the transaction took place.<br/>maxLength: 18</td>
+<td>The name of the city town or village where the transaction took place.<br/><br/>maxLength: 18</td>
 </tr>
 <tr>
 <td><code>ticket_issue_date</code></td>
 <td>string <em>date</em></td>
 <td>true</td>
-<td>The date the ticket was issued in ISO Date format (yyyy-MM-dd).<br/>maxLength: 10</td>
+<td>The date the ticket was issued in ISO Date format (yyyy-MM-dd).<br/><br/>maxLength: 10</td>
 </tr>
 <tr>
 <td><code>ticket_issue_name</code></td>
 <td>string</td>
 <td>true</td>
-<td>The name of the agency generating the ticket.<br/>maxLength: 26</td>
+<td>The name of the agency generating the ticket.<br/><br/>maxLength: 26</td>
 </tr>
 <tr>
 <td><code>ticket_no</code></td>
 <td>string</td>
 <td>true</td>
-<td>This must be a valid ticket number, i.e. numeric (the first 3 digits must represent the valid IATA plate carrier code).<br/>The final check digit should be validated prior to submission. On credit charges, this field should contain the<br/>number of the original ticket, and not of a replacement.<br/><br/>maxLength: 14</td>
+<td>This must be a valid ticket number, i.e. numeric (the first 3 digits must represent the valid IATA plate carrier code). The final check digit should be validated prior to submission. On credit charges, this field should contain the number of the original ticket, and not of a replacement.<br/><br/> maxLength: 14</td>
 </tr>
 <tr>
 <td><code>transaction_type</code></td>
 <td>string</td>
 <td>true</td>
-<td>This field contains the Transaction Type code assigned to this transaction. Valid codes include:<br/><br/> - <code>TKT</code> = Ticket Purchase<br/> - <code>REF</code> = Refund<br/> - <code>EXC</code> = Exchange Ticket<br/> - <code>MSC</code> = Miscellaneous (non-Ticket Purchase- and non-Exchange Ticket-related transactions only).<br/><br/>minLength: 3<br/>maxLength: 3</td>
+<td>This field contains the Transaction Type code assigned to this transaction. Valid codes include:<br/><br/> - <code>TKT</code> = Ticket Purchase<br/><br/> - <code>REF</code> = Refund<br/><br/> - <code>EXC</code> = Exchange Ticket<br/><br/> - <code>MSC</code> = Miscellaneous (non-Ticket Purchase- and non-Exchange Ticket-related transactions only).<br/><br/> minLength: 3<br/>maxLength: 3</td>
 </tr>
 </tbody></table>
 <h2 id='airlinesegment'>AirlineSegment</h2><div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
@@ -2961,19 +2958,19 @@ outlining the result of the transaction.</p>
 <td><code>arrival_location_code</code></td>
 <td>string</td>
 <td>true</td>
-<td>A standard airline routing code (airport code or location identifier) applicable to the<br/>arrival portion of this segment.<br/><br/>maxLength: 3</td>
+<td>A standard airline routing code (airport code or location identifier) applicable to the arrival portion of this segment.<br/><br/> maxLength: 3</td>
 </tr>
 <tr>
 <td><code>carrier_code</code></td>
 <td>string</td>
 <td>true</td>
-<td>This field contains the two character airline designator code (air carrier code or airline code) that<br/>corresponds to the airline carrier applicable for up to four flight segments of this trip itinerary.<br/><br/>maxLength: 2</td>
+<td>This field contains the two character airline designator code (air carrier code or airline code) that corresponds to the airline carrier applicable for up to four flight segments of this trip itinerary.<br/><br/> maxLength: 2</td>
 </tr>
 <tr>
 <td><code>class_service_code</code></td>
 <td>string</td>
 <td>true</td>
-<td>This field contains a code that corresponds to the fare class (A, B, C, D, Premium, Discounted, etc.)<br/>within the overall class of service (e.g., First Class, Business, Economy) applicable to this travel segment,<br/>as specified in the IATA Standard Code allocation table.<br/><br/>maxLength: 2</td>
+<td>This field contains a code that corresponds to the fare class (A, B, C, D, Premium, Discounted, etc.) within the overall class of service (e.g., First Class, Business, Economy) applicable to this travel segment, as specified in the IATA Standard Code allocation table.<br/><br/> maxLength: 2</td>
 </tr>
 <tr>
 <td><code>departure_date</code></td>
@@ -2985,13 +2982,13 @@ outlining the result of the transaction.</p>
 <td><code>departure_location_code</code></td>
 <td>string</td>
 <td>false</td>
-<td>A standard airline routing code (airport code or location identifier) applicable to the<br/>departure portion of this segment.<br/><br/>maxLength: 3</td>
+<td>A standard airline routing code (airport code or location identifier) applicable to the departure portion of this segment.<br/><br/> maxLength: 3</td>
 </tr>
 <tr>
 <td><code>flight_number</code></td>
 <td>string</td>
 <td>true</td>
-<td>This field contains the carrier-assigned Flight Number for this travel segment.<br/>maxLength: 4</td>
+<td>This field contains the carrier-assigned Flight Number for this travel segment.<br/><br/>maxLength: 4</td>
 </tr>
 <tr>
 <td><code>segment_fare</code></td>
@@ -3003,7 +3000,7 @@ outlining the result of the transaction.</p>
 <td><code>stop_over_indicator</code></td>
 <td>string</td>
 <td>false</td>
-<td>O = Stopover allowed, X = Stopover not allowed.<br/>maxLength: 1</td>
+<td>O = Stopover allowed, X = Stopover not allowed.<br/><br/>maxLength: 1</td>
 </tr>
 </tbody></table>
 <h2 id='authreference'>AuthReference</h2><div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
@@ -3051,13 +3048,13 @@ outlining the result of the transaction.</p>
 <td><code>amount</code></td>
 <td>string</td>
 <td>false</td>
-<td>The amount of the transaction in decimal currency format.<br/>maxLength: 12</td>
+<td>The amount of the transaction in decimal currency format.<br/><br/>maxLength: 12</td>
 </tr>
 <tr>
 <td><code>amount_value</code></td>
 <td>integer <em>int32</em></td>
 <td>false</td>
-<td>The amount of the transaction in integer/request format.<br/>minLength: 1<br/>maxLength: 12</td>
+<td>The amount of the transaction in integer/request format.<br/><br/>minLength: 1<br/>maxLength: 12</td>
 </tr>
 <tr>
 <td><code>atrn</code></td>
@@ -3081,7 +3078,7 @@ outlining the result of the transaction.</p>
 <td><code>currency</code></td>
 <td>string</td>
 <td>false</td>
-<td>The currency of the transaction in ISO 4217 code format.<br/>minLength: 3<br/>maxLength: 3</td>
+<td>The currency of the transaction in ISO 4217 code format.<br/><br/>minLength: 3<br/>maxLength: 3</td>
 </tr>
 <tr>
 <td><code>datetime</code></td>
@@ -3093,7 +3090,7 @@ outlining the result of the transaction.</p>
 <td><code>identifier</code></td>
 <td>string</td>
 <td>false</td>
-<td>The identifier of the transaction used to process the transaction.<br/>minLength: 4<br/>maxLength: 50</td>
+<td>The identifier of the transaction used to process the transaction.<br/><br/>minLength: 4<br/>maxLength: 50</td>
 </tr>
 <tr>
 <td><code>maskedpan</code></td>
@@ -3123,7 +3120,7 @@ outlining the result of the transaction.</p>
 <td><code>trans_type</code></td>
 <td>string</td>
 <td>false</td>
-<td>The type of transaction that was processed.<br/>maxLength: 1</td>
+<td>The type of transaction that was processed.<br/><br/>maxLength: 1</td>
 </tr>
 <tr>
 <td><code>transno</code></td>
@@ -3151,7 +3148,7 @@ outlining the result of the transaction.</p>
 <td><code>auths</code></td>
 <td>array</td>
 <td>false</td>
-<td></td>
+<td>Authorisations which match the request. <a href="#authreference">AuthReference</a></td>
 </tr>
 </tbody></table>
 <h2 id='authrequest'>AuthRequest</h2><div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
@@ -3166,7 +3163,7 @@ outlining the result of the transaction.</p>
    </span><span class="nl">"currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"GBP"</span><span class="p">,</span><span class="w">
    </span><span class="nl">"duplicate_policy"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
    </span><span class="nl">"expmonth"</span><span class="p">:</span><span class="w"> </span><span class="mi">9</span><span class="p">,</span><span class="w">
-   </span><span class="nl">"expyear"</span><span class="p">:</span><span class="w"> </span><span class="mi">2023</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"expyear"</span><span class="p">:</span><span class="w"> </span><span class="mi">2024</span><span class="p">,</span><span class="w">
    </span><span class="nl">"external_mpi"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="err">...</span><span class="w"> </span><span class="p">},</span><span class="w">
    </span><span class="nl">"identifier"</span><span class="p">:</span><span class="w"> </span><span class="s2">"95b857a1-5955-4b86-963c-5a6dbfc4fb95"</span><span class="p">,</span><span class="w">
    </span><span class="nl">"match_avsa"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
@@ -3189,7 +3186,7 @@ outlining the result of the transaction.</p>
  <span class="nt">&lt;currency&gt;</span>GBP<span class="nt">&lt;/currency&gt;</span> 
  <span class="nt">&lt;duplicate_policy&gt;&lt;/duplicate_policy&gt;</span> 
  <span class="nt">&lt;expmonth&gt;</span>9<span class="nt">&lt;/expmonth&gt;</span> 
- <span class="nt">&lt;expyear&gt;</span>2023<span class="nt">&lt;/expyear&gt;</span> 
+ <span class="nt">&lt;expyear&gt;</span>2024<span class="nt">&lt;/expyear&gt;</span> 
  <span class="nt">&lt;external_mpi&gt;</span><span class="err">&lt;</span>&gt;...<span class="err">&lt;</span>/&gt;<span class="nt">&lt;/external_mpi&gt;</span> 
  <span class="nt">&lt;identifier&gt;</span>95b857a1-5955-4b86-963c-5a6dbfc4fb95<span class="nt">&lt;/identifier&gt;</span> 
  <span class="nt">&lt;match_avsa&gt;&lt;/match_avsa&gt;</span> 
@@ -3213,44 +3210,123 @@ outlining the result of the transaction.</p>
 <td><code>amount</code></td>
 <td>integer <em>int32</em></td>
 <td>true</td>
-<td>The amount to authorise in the lowest unit of currency with a variable length to a maximum of 12 digits.<br/>No decimal points are to be included and no divisional characters such as 1,024.<br/>The amount should be the total amount required for the transaction.<br/>For example with GBP £1,021.95 the amount value is 102195.<br/><br/>minLength: 1<br/>maxLength: 12</td>
+<td>The amount to authorise in the lowest unit of currency with a variable length to a maximum of 12 digits.<br/><br/>No decimal points are to be included and no divisional characters such as 1,024.<br/><br/>The amount should be the total amount required for the transaction.<br/><br/>For example with GBP £1,021.95 the amount value is 102195.<br/><br/> minLength: 1<br/>maxLength: 12</td>
 </tr>
 <tr>
 <td><code>avs_postcode_policy</code></td>
 <td>string</td>
 <td>false</td>
-<td>A policy value which determines whether an AVS postcode policy is enforced or bypassed.<br/><br/>Values are<br/> <code>0</code> for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.<br/> <code>1</code> for an enforced policy. Transactions that are enforced will be rejected if the AVS postcode numeric value does not match.<br/> <code>2</code> to bypass. Transactions that are bypassed will be allowed through even if the postcode did not match.<br/> <code>3</code> to ignore. Transactions that are ignored will bypass the result and not send postcode details for authorisation.</td>
+<td>A policy value which determines whether an AVS postcode policy is enforced or bypassed.<br/><br/>Values are  <code>0</code> for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.<br/><br/> <code>1</code> for an enforced policy. Transactions that are enforced will be rejected if the AVS postcode numeric value does not match.<br/><br/> <code>2</code> to bypass. Transactions that are bypassed will be allowed through even if the postcode did not match.<br/><br/> <code>3</code> to ignore. Transactions that are ignored will bypass the result and not send postcode details for authorisation.</td>
 </tr>
 <tr>
 <td><code>bill_to</code></td>
 <td>object</td>
 <td>false</td>
-<td><a href="#contactdetails">ContactDetails</a> Billing details of the card holder making the payment.</td>
+<td><a href="#contactdetails">ContactDetails</a> Billing details of the card holder making the payment. These details may be used for AVS fraud analysis, 3DS and for future referencing of the transaction.<br/><br/>For AVS to work correctly, the billing details should be the registered address of the card holder as it appears on the statement with their card issuer. The numeric details will be passed through for analysis and may result in a decline if incorrectly provided.</td>
+</tr>
+<tr>
+<td><code>card_holder_name</code></td>
+<td>string</td>
+<td>false</td>
+<td>The card holder name as appears on the card such as MR N E BODY. Required for some acquirers.</td>
+</tr>
+<tr>
+<td><code>cardnumber</code></td>
+<td>string</td>
+<td>true</td>
+<td>The card number (PAN) with a variable length to a maximum of 21 digits in numerical form. Any non numeric characters will be stripped out of the card number, this includes whitespace or separators internal of the provided value.<br/><br/>The card number must be treated as sensitive data. We only provide an obfuscated value in logging and reporting.  The plaintext value is encrypted in our database using AES 256 GMC bit encryption for settlement or refund purposes.<br/><br/>When providing the card number to our gateway through the authorisation API you will be handling the card data on your application. This will require further PCI controls to be in place and this value must never be stored.<br/><br/> minLength: 12<br/>maxLength: 22</td>
+</tr>
+<tr>
+<td><code>csc</code></td>
+<td>string</td>
+<td>false</td>
+<td>The Card Security Code (CSC) (also known as CV2/CVV2) is normally found on the back of the card (American Express has it on the front). The value helps to identify posession of the card as it is not available within the chip or magnetic swipe.<br/><br/>When forwarding the CSC, please ensure the value is a string as some values start with 0 and this will be stripped out by any integer parsing.<br/><br/>The CSC number aids fraud prevention in Mail Order and Internet payments.<br/><br/>Business rules are available on your account to identify whether to accept or decline transactions based on mismatched results of the CSC.<br/><br/>The Payment Card Industry (PCI) requires that at no stage of a transaction should the CSC be stored.<br/><br/>This applies to all entities handling card data.<br/><br/>It should also not be used in any hashing process.<br/><br/>CityPay do not store the value and have no method of retrieving the value once the transaction has been processed. For this reason, duplicate checking is unable to determine the CSC in its duplication check algorithm.<br/><br/> minLength: 3<br/>maxLength: 4</td>
+</tr>
+<tr>
+<td><code>csc_policy</code></td>
+<td>string</td>
+<td>false</td>
+<td>A policy value which determines whether a CSC policy is enforced or bypassed.<br/><br/>Values are  <code>0</code> for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.<br/><br/> <code>1</code> for an enforced policy. Transactions that are enforced will be rejected if the CSC value does not match.<br/><br/> <code>2</code> to bypass. Transactions that are bypassed will be allowed through even if the CSC did not match.<br/><br/> <code>3</code> to ignore. Transactions that are ignored will bypass the result and not send the CSC details for authorisation.</td>
+</tr>
+<tr>
+<td><code>currency</code></td>
+<td>string</td>
+<td>false</td>
+<td>The processing currency for the transaction. Will default to the merchant account currency.<br/><br/>minLength: 3<br/>maxLength: 3</td>
+</tr>
+<tr>
+<td><code>duplicate_policy</code></td>
+<td>string</td>
+<td>false</td>
+<td>A policy value which determines whether a duplication policy is enforced or bypassed. A duplication check has a window of time set against your account within which it can action. If a previous transaction with matching values occurred within the window, any subsequent transaction will result in a T001 result.<br/><br/>Values are  <code>0</code> for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.<br/><br/> <code>1</code> for an enforced policy. Transactions that are enforced will be checked for duplication within the duplication window.<br/><br/> <code>2</code> to bypass. Transactions that are bypassed will not be checked for duplication within the duplication window.<br/><br/> <code>3</code> to ignore. Transactions that are ignored will have the same affect as bypass.</td>
+</tr>
+<tr>
+<td><code>expmonth</code></td>
+<td>integer <em>int32</em></td>
+<td>true</td>
+<td>The month of expiry of the card. The month value should be a numerical value between 1 and 12.<br/><br/> minimum: 1<br/>maximum: 12</td>
+</tr>
+<tr>
+<td><code>expyear</code></td>
+<td>integer <em>int32</em></td>
+<td>true</td>
+<td>The year of expiry of the card.<br/><br/> minimum: 2000<br/>maximum: 2100</td>
+</tr>
+<tr>
+<td><code>external_mpi</code></td>
+<td>object</td>
+<td>false</td>
+<td><a href="#externalmpi">ExternalMPI</a> If an external 3DSv1 MPI is used for authentication, values provided can be supplied in this element.</td>
+</tr>
+<tr>
+<td><code>identifier</code></td>
+<td>string</td>
+<td>true</td>
+<td>The identifier of the transaction to process. The value should be a valid reference and may be used to perform  post processing actions and to aid in reconciliation of transactions.<br/><br/>The value should be a valid printable string with ASCII character ranges from 0x32 to 0x127.<br/><br/>The identifier is recommended to be distinct for each transaction such as a <a href="https://en.wikipedia.org/wiki/Universally_unique_identifier">random unique identifier</a> this will aid in ensuring each transaction is identifiable.<br/><br/>When transactions are processed they are also checked for duplicate requests. Changing the identifier on a subsequent request will ensure that a transaction is considered as different.<br/><br/> minLength: 4<br/>maxLength: 50</td>
+</tr>
+<tr>
+<td><code>match_avsa</code></td>
+<td>string</td>
+<td>false</td>
+<td>A policy value which determines whether an AVS address policy is enforced, bypassed or ignored.<br/><br/>Values are  <code>0</code> for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.<br/><br/> <code>1</code> for an enforced policy. Transactions that are enforced will be rejected if the AVS address numeric value does not match.<br/><br/> <code>2</code> to bypass. Transactions that are bypassed will be allowed through even if the address did not match.<br/><br/> <code>3</code> to ignore. Transactions that are ignored will bypass the result and not send address numeric details for authorisation.</td>
+</tr>
+<tr>
+<td><code>mcc6012</code></td>
+<td>object</td>
+<td>false</td>
+<td><a href="#mcc6012">MCC6012</a> If the merchant is MCC coded as 6012, additional values are required for authorisation.</td>
+</tr>
+<tr>
+<td><code>merchantid</code></td>
+<td>integer <em>int32</em></td>
+<td>true</td>
+<td>Identifies the merchant account to perform processing for.</td>
+</tr>
+<tr>
+<td><code>ship_to</code></td>
+<td>object</td>
+<td>false</td>
+<td><a href="#contactdetails">ContactDetails</a> Shipping details of the card holder making the payment. These details may be used for 3DS and for future referencing of the transaction.</td>
+</tr>
+<tr>
+<td><code>threedsecure</code></td>
+<td>object</td>
+<td>false</td>
+<td><a href="#threedsecure">ThreeDSecure</a> ThreeDSecure element, providing values to enable full 3DS processing flows.</td>
+</tr>
+<tr>
+<td><code>trans_info</code></td>
+<td>string</td>
+<td>false</td>
+<td>Further information that can be added to the transaction will display in reporting. Can be used for flexible values such as operator id.<br/><br/>maxLength: 50</td>
+</tr>
+<tr>
+<td><code>trans_type</code></td>
+<td>string</td>
+<td>false</td>
+<td>The type of transaction being submitted. Normally this value is not required and your account manager may request that you set this field.<br/><br/>maxLength: 1</td>
 </tr>
 </tbody></table>
-
-<p>These details may be used for AVS fraud analysis, 3DS and for future referencing of the transaction.</p>
-
-<p>For AVS to work correctly, the billing details should be the registered address of the card holder
-as it appears on the statement with their card issuer. The numeric details will be passed through
-for analysis and may result in a decline if incorrectly provided. | 
-| <code>card_holder_name</code> | string  | false | The card holder name as appears on the card such as MR N E BODY. Required for some acquirers. | 
-| <code>cardnumber</code> | string  | true | The card number (PAN) with a variable length to a maximum of 21 digits in numerical form.<br/>Any non numeric characters will be stripped out of the card number, this includes whitespace or separators internal of the<br/>provided value.<br/><br/>The card number must be treated as sensitive data. We only provide an obfuscated value in logging and reporting.<br/> The plaintext value is encrypted in our database using AES 256 GMC bit encryption for settlement or refund purposes.<br/><br/>When providing the card number to our gateway through the authorisation API you will be handling the card data on<br/>your application. This will require further PCI controls to be in place and this value must never be stored.<br/><br/>minLength: 12<br/>maxLength: 22 | 
-| <code>csc</code> | string  | false | The Card Security Code (CSC) (also known as CV2/CVV2) is normally found on the back of the card<br/>(American Express has it on the front). The value helps to identify posession of the card as it is not<br/>available within the chip or magnetic swipe.<br/><br/>When forwarding the CSC, please ensure the value is a string as some values start with 0 and this will be stripped<br/>out by any integer parsing.<br/><br/>The CSC number aids fraud prevention in Mail Order and Internet payments.<br/><br/> Business rules are available on your account to identify whether to accept<br/>or decline transactions based on mismatched results of the CSC.<br/><br/>The Payment Card Industry (PCI) requires that at no stage of a transaction should the CSC be stored.<br/>This applies to all entities handling card data.<br/>It should also not be used in any hashing process.<br/>CityPay do not store the value and have no method of retrieving the value once the transaction has been processed.<br/>For this reason, duplicate checking is unable to determine the CSC in its duplication check algorithm.<br/><br/>minLength: 3<br/>maxLength: 4 | 
-| <code>csc_policy</code> | string  | false | A policy value which determines whether a CSC policy is enforced or bypassed.<br/><br/>Values are<br/> <code>0</code> for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.<br/> <code>1</code> for an enforced policy. Transactions that are enforced will be rejected if the CSC value does not match.<br/> <code>2</code> to bypass. Transactions that are bypassed will be allowed through even if the CSC did not match.<br/> <code>3</code> to ignore. Transactions that are ignored will bypass the result and not send the CSC details for authorisation. | 
-| <code>currency</code> | string  | false | The processing currency for the transaction. Will default to the merchant account currency.<br/>minLength: 3<br/>maxLength: 3 | 
-| <code>duplicate_policy</code> | string  | false | A policy value which determines whether a duplication policy is enforced or bypassed. A duplication check has a window<br/>of time set against your account within which it can action. If a previous transaction with matching values occurred within<br/>the window, any subsequent transaction will result in a T001 result.<br/><br/>Values are<br/> <code>0</code> for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.<br/> <code>1</code> for an enforced policy. Transactions that are enforced will be checked for duplication within the duplication window.<br/> <code>2</code> to bypass. Transactions that are bypassed will not be checked for duplication within the duplication window.<br/> <code>3</code> to ignore. Transactions that are ignored will have the same affect as bypass. | 
-| <code>expmonth</code> | integer <em>int32</em> | true | The month of expiry of the card. The month value should be a numerical value between 1 and 12.<br/><br/>minimum: 1<br/>maximum: 12 | 
-| <code>expyear</code> | integer <em>int32</em> | true | The year of expiry of the card.<br/><br/>minimum: 2000<br/>maximum: 2100 | 
-| <code>external_mpi</code> | object | false | <a href="#externalmpi">ExternalMPI</a> If an external 3DSv1 MPI is used for authentication, values provided can be supplied in this element. | 
-| <code>identifier</code> | string  | true | The identifier of the transaction to process. The value should be a valid reference and may be used to perform<br/> post processing actions and to aid in reconciliation of transactions.<br/><br/>The value should be a valid printable string with ASCII character ranges from 0x32 to 0x127.<br/><br/>The identifier is recommended to be distinct for each transaction such as a <a href="https://en.wikipedia.org/wiki/Universally_unique_identifier">random unique identifier</a><br/>this will aid in ensuring each transaction is identifiable.<br/><br/>When transactions are processed they are also checked for duplicate requests. Changing the identifier on a subsequent<br/>request will ensure that a transaction is considered as different.<br/><br/>minLength: 4<br/>maxLength: 50 | 
-| <code>match_avsa</code> | string  | false | A policy value which determines whether an AVS address policy is enforced, bypassed or ignored.<br/><br/><br/>Values are<br/> <code>0</code> for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.<br/> <code>1</code> for an enforced policy. Transactions that are enforced will be rejected if the AVS address numeric value does not match.<br/> <code>2</code> to bypass. Transactions that are bypassed will be allowed through even if the address did not match.<br/> <code>3</code> to ignore. Transactions that are ignored will bypass the result and not send address numeric details for authorisation. | 
-| <code>mcc6012</code> | object | false | <a href="#mcc6012">MCC6012</a> If the merchant is MCC coded as 6012, additional values are required for authorisation. | 
-| <code>merchantid</code> | integer <em>int32</em> | true | Identifies the merchant account to perform processing for. | 
-| <code>ship_to</code> | object | false | <a href="#contactdetails">ContactDetails</a> Shipping details of the card holder making the payment. These details may be used for 3DS and for future referencing of the transaction. | 
-| <code>threedsecure</code> | object | false | <a href="#threedsecure">ThreeDSecure</a> ThreeDSecure element, providing values to enable full 3DS processing flows. | 
-| <code>trans_info</code> | string  | false | Further information that can be added to the transaction will display in reporting. Can be used for flexible values such as operator id.<br/>maxLength: 50 | 
-| <code>trans_type</code> | string  | false | The type of transaction being submitted. Normally this value is not required and your account manager may request that you set this field.<br/>maxLength: 1 | </p>
 
 <table><thead>
 <tr>
@@ -3266,14 +3342,9 @@ for analysis and may result in a decline if incorrectly provided. |
 <td><code>airline_data</code></td>
 <td>object</td>
 <td>false</td>
-<td><a href="#airlineadvice">AirlineAdvice</a> Additional advice for airline integration that can be applied on an authorisation request.</td>
+<td><a href="#airlineadvice">AirlineAdvice</a> Additional advice for airline integration that can be applied on an authorisation request.<br/><br/>As tickets are normally not allocated until successful payment it is normal for a transaction to be pre-authorised  and the airline advice supplied on a capture request instead. Should the data already exist and an auth and  capture is preferred. This data may be supplied.</td>
 </tr>
 </tbody></table>
-
-<p>As tickets are normally not allocated until successful payment it is normal for a transaction to be pre-authorised
- and the airline advice supplied on a capture request instead. Should the data already exist and an auth and
- capture is preferred. This data may be supplied.
- |</p>
 <h2 id='authresponse'>AuthResponse</h2><div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
    </span><span class="nl">"amount"</span><span class="p">:</span><span class="w"> </span><span class="mi">3600</span><span class="p">,</span><span class="w">
    </span><span class="nl">"atrn"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
@@ -3345,13 +3416,13 @@ for analysis and may result in a decline if incorrectly provided. |
 <td><code>amount</code></td>
 <td>integer <em>int32</em></td>
 <td>false</td>
-<td>The amount of the transaction processed.<br/>minLength: 1<br/>maxLength: 12</td>
+<td>The amount of the transaction processed.<br/><br/>minLength: 1<br/>maxLength: 12</td>
 </tr>
 <tr>
 <td><code>atrn</code></td>
 <td>string</td>
 <td>false</td>
-<td>A reference number provided by the acquirer for a transaction it can be used to cross reference transactions<br/>with an Acquirers reporting panel.</td>
+<td>A reference number provided by the acquirer for a transaction it can be used to cross reference transactions with an Acquirers reporting panel.</td>
 </tr>
 <tr>
 <td><code>atsd</code></td>
@@ -3363,25 +3434,25 @@ for analysis and may result in a decline if incorrectly provided. |
 <td><code>authcode</code></td>
 <td>string</td>
 <td>false</td>
-<td>The authorisation code as returned by the card issuer or acquiring bank when a transaction has successfully<br/>  been authorised. Authorisation codes contain alphanumeric values. Whilst the code confirms authorisation it<br/>  should not be used to determine whether a transaction was successfully processed. For instance an auth code<br/>  may be returned when a transaction has been subsequently declined due to a CSC mismatch.</td>
+<td>The authorisation code as returned by the card issuer or acquiring bank when a transaction has successfully   been authorised. Authorisation codes contain alphanumeric values. Whilst the code confirms authorisation it   should not be used to determine whether a transaction was successfully processed. For instance an auth code   may be returned when a transaction has been subsequently declined due to a CSC mismatch.</td>
 </tr>
 <tr>
 <td><code>authen_result</code></td>
 <td>string</td>
 <td>false</td>
-<td>The result of any authentication using 3d_secure authorisation against ecommerce transactions. Values are<br/> Value</td>
+<td>The result of any authentication using 3d_secure authorisation against ecommerce transactions. Values are:<br/><br/><table> <tr> <th>Value</th> <th>Description</th> </tr> <tr> <td>Y</td> <td>Authentication Successful. The Cardholder&#39;s password was successfully validated.</td> </tr> <tr> <td>N</td> <td>Authentication Failed. Customer failed or cancelled authentication, transaction denied.</td> </tr> <tr> <td>A</td> <td>Attempts Processing Performed Authentication could not be completed but a proof of authentication attempt (CAVV) was generated.</td> </tr> <tr> <td>U</td> <td>Authentication Could Not Be Performed Authentication could not be completed, due to technical or other problem.</td> </tr> </table></td>
 </tr>
 <tr>
 <td><code>authorised</code></td>
 <td>boolean</td>
 <td>false</td>
-<td>A boolean definition that indicates that the transaction was authorised. It will return false if the transaction<br/> was declined, rejected or cancelled due to CSC matching failures.<br/>Attention should be referenced to the AuthResult and Response code for accurate determination of the result.</td>
+<td>A boolean definition that indicates that the transaction was authorised. It will return false if the transaction  was declined, rejected or cancelled due to CSC matching failures.<br/><br/>Attention should be referenced to the AuthResult and Response code for accurate determination of the result.</td>
 </tr>
 <tr>
 <td><code>avs_result</code></td>
 <td>string</td>
 <td>false</td>
-<td>The AVS result codes determine the result of checking the AVS values within the<br/>Address Verification fraud system. If a transaction is declined due to the AVS code not matching,<br/>this value can help determine the reason for the decline.<br/><br/> Code</td>
+<td>The AVS result codes determine the result of checking the AVS values within the Address Verification fraud system. If a transaction is declined due to the AVS code not matching, this value can help determine the reason for the decline.<br/><br/><table> <tr> <th>Code</th> <th>Description</th> </tr> <tr><td>Y</td><td>Address and 5 digit post code match</td></tr> <tr><td>M</td><td>Street address and Postal codes match for international transaction</td></tr> <tr><td>U</td><td>No AVS data available from issuer auth system</td></tr> <tr><td>A</td><td>Addres matches, post code does not</td></tr> <tr><td>I</td><td>Address information verified for international transaction</td></tr> <tr><td>Z</td><td>5 digit post code matches, Address does not</td></tr> <tr><td>W</td><td>9 digit post code matches, Address does not</td></tr> <tr><td>X</td><td>Postcode and address match</td></tr> <tr><td>B</td><td>Postal code not verified due to incompatible formats</td></tr> <tr><td>P</td><td>Postal codes match. Street address not verified due to to incompatible formats</td></tr> <tr><td>E</td><td>AVS Error</td></tr> <tr><td>C</td><td>Street address and Postal code not verified due to incompatible formats</td></tr> <tr><td>D</td><td>Street address and postal codes match</td></tr> <tr><td> </td><td>No information</td></tr> <tr><td>N</td><td>Neither postcode nor address match</td></tr> <tr><td>R</td><td>Retry, System unavailble or Timed Out</td></tr> <tr><td>S</td><td>AVS Service not supported by issuer or processor</td></tr> <tr><td>G</td><td>Issuer does not participate in AVS</td></tr> </table><br/><br/> minLength: 1<br/>maxLength: 1</td>
 </tr>
 <tr>
 <td><code>bin_commercial</code></td>
@@ -3405,7 +3476,7 @@ for analysis and may result in a decline if incorrectly provided. |
 <td><code>cavv</code></td>
 <td>string</td>
 <td>false</td>
-<td>The cardholder authentication verification value which can be returned for verification purposes of the authenticated<br/> transaction for dispute realisation.</td>
+<td>The cardholder authentication verification value which can be returned for verification purposes of the authenticated  transaction for dispute realisation.</td>
 </tr>
 <tr>
 <td><code>context</code></td>
@@ -3417,13 +3488,13 @@ for analysis and may result in a decline if incorrectly provided. |
 <td><code>csc_result</code></td>
 <td>string</td>
 <td>false</td>
-<td>The CSC rseult codes determine the result of checking the provided CSC value within the<br/>Card Security Code fraud system. If a transaction is declined due to the CSC code not matching,<br/>this value can help determine the reason for the decline.<br/><br/> Code</td>
+<td>The CSC rseult codes determine the result of checking the provided CSC value within the Card Security Code fraud system. If a transaction is declined due to the CSC code not matching, this value can help determine the reason for the decline.<br/><br/><table> <tr> <th>Code</th> <th>Description</th> </tr> <tr><td> </td><td>No information</td></tr> <tr><td>M</td><td>Card verification data matches</td></tr> <tr><td>N</td><td>Card verification data was checked but did not match</td></tr> <tr><td>P</td><td>Card verification was not processed</td></tr> <tr><td>S</td><td>The card verification data should be on the card but the merchant indicates that it is not</td></tr> <tr><td>U</td><td>The card issuer is not certified</td></tr> </table><br/><br/> minLength: 1<br/>maxLength: 1</td>
 </tr>
 <tr>
 <td><code>currency</code></td>
 <td>string</td>
 <td>false</td>
-<td>The currency the transaction was processed in. This is an <code>ISO4217</code> alpha currency value.<br/>minLength: 3<br/>maxLength: 3</td>
+<td>The currency the transaction was processed in. This is an <code>ISO4217</code> alpha currency value.<br/><br/>minLength: 3<br/>maxLength: 3</td>
 </tr>
 <tr>
 <td><code>datetime</code></td>
@@ -3441,13 +3512,13 @@ for analysis and may result in a decline if incorrectly provided. |
 <td><code>identifier</code></td>
 <td>string</td>
 <td>false</td>
-<td>The identifier provided within the request.<br/>minLength: 4<br/>maxLength: 50</td>
+<td>The identifier provided within the request.<br/><br/>minLength: 4<br/>maxLength: 50</td>
 </tr>
 <tr>
 <td><code>live</code></td>
 <td>boolean</td>
 <td>false</td>
-<td>Used to identify that a tranasction was processed on a live authorisation platform.</td>
+<td>Used to identify that a transaction was processed on a live authorisation platform.</td>
 </tr>
 <tr>
 <td><code>maskedpan</code></td>
@@ -3465,13 +3536,13 @@ for analysis and may result in a decline if incorrectly provided. |
 <td><code>result</code></td>
 <td>integer <em>int32</em></td>
 <td>false</td>
-<td>An integer result that indicates the outcome of the transaction. The Code value below maps to the result value<br/><br/> Code</td>
+<td>An integer result that indicates the outcome of the transaction. The Code value below maps to the result value<br/><br/><table> <tr> <th>Code</th> <th>Abbrev</th> <th>Description</th> </tr> <tr><td>0</td><td>Declined</td><td>Declined</td></tr> <tr><td>1</td><td>Accepted</td><td>Accepted</td></tr> <tr><td>2</td><td>Rejected</td><td>Rejected</td></tr> <tr><td>3</td><td>Not Attempted</td><td>Not Attempted</td></tr> <tr><td>4</td><td>Referred</td><td>Referred</td></tr> <tr><td>5</td><td>PinRetry</td><td>Perform PIN Retry</td></tr> <tr><td>6</td><td>ForSigVer</td><td>Force Signature Verification</td></tr> <tr><td>7</td><td>Hold</td><td>Hold</td></tr> <tr><td>8</td><td>SecErr</td><td>Security Error</td></tr> <tr><td>9</td><td>CallAcq</td><td>Call Acquirer</td></tr> <tr><td>10</td><td>DNH</td><td>Do Not Honour</td></tr> <tr><td>11</td><td>RtnCrd</td><td>Retain Card</td></tr> <tr><td>12</td><td>ExprdCrd</td><td>Expired Card</td></tr> <tr><td>13</td><td>InvldCrd</td><td>Invalid Card No</td></tr> <tr><td>14</td><td>PinExcd</td><td>Pin Tries Exceeded</td></tr> <tr><td>15</td><td>PinInvld</td><td>Pin Invalid</td></tr> <tr><td>16</td><td>AuthReq</td><td>Authentication Required</td></tr> <tr><td>17</td><td>AuthenFail</td><td>Authentication Failed</td></tr> <tr><td>18</td><td>Verified</td><td>Card Verified</td></tr> <tr><td>19</td><td>Cancelled</td><td>Cancelled</td></tr> <tr><td>20</td><td>Un</td><td>Unknown</td></tr> </table></td>
 </tr>
 <tr>
 <td><code>result_code</code></td>
 <td>string</td>
 <td>false</td>
-<td>The result code as defined in the Response Codes Reference for example 000 is an accepted live<br/>transaction whilst 001 is an accepted test transaction. Result codes identify the source of success and failure.<br/>Codes may start with an alpha character i.e. C001 indicating a type of error such as a card validation error.</td>
+<td>The result code as defined in the Response Codes Reference for example 000 is an accepted live transaction whilst 001 is an accepted test transaction. Result codes identify the source of success and failure.<br/><br/>Codes may start with an alpha character i.e. C001 indicating a type of error such as a card validation error.</td>
 </tr>
 <tr>
 <td><code>result_message</code></td>
@@ -3489,19 +3560,19 @@ for analysis and may result in a decline if incorrectly provided. |
 <td><code>sha256</code></td>
 <td>string</td>
 <td>false</td>
-<td>A SHA256 digest value of the transaction used to validate the response data<br/>The digest is calculated by concatenating<br/> * authcode<br/> * amount<br/> * response_code<br/> * merchant_id<br/> * trans_no<br/> * identifier<br/> * licence_key - which is not provided in the response.</td>
+<td>A SHA256 digest value of the transaction used to validate the response data The digest is calculated by concatenating<br/><br/> * authcode<br/><br/> * amount<br/><br/> * response_code<br/><br/> * merchant_id<br/><br/> * trans_no<br/><br/> * identifier<br/><br/> * licence_key - which is not provided in the response.</td>
 </tr>
 <tr>
 <td><code>trans_status</code></td>
 <td>string</td>
 <td>false</td>
-<td>Used to identify the status of a transaction. The status is used to track a transaction through its life cycle.<br/><br/> Id</td>
+<td>Used to identify the status of a transaction. The status is used to track a transaction through its life cycle.<br/><br/><table> <tr> <th>Id</th> <th>Description</th> </tr> <tr> <td>O</td> <td>Transaction is open for settlement</td> </tr> <tr> <td>A</td> <td>Transaction is assigned for settlement and can no longer be voided</td> </tr> <tr> <td>S</td> <td>Transaction has been settled</td> </tr> <tr> <td>D</td> <td>Transaction has been declined</td> </tr> <tr> <td>R</td> <td>Transaction has been rejected</td> </tr> <tr> <td>P</td> <td>Transaction has been authorised only and awaiting a capture. Used in pre-auth situations</td> </tr> <tr> <td>C</td> <td>Transaction has been cancelled</td> </tr> <tr> <td>E</td> <td>Transaction has expired</td> </tr> <tr> <td>I</td> <td>Transaction has been initialised but no action was able to be carried out</td> </tr> <tr> <td>H</td> <td>Transaction is awaiting authorisation</td> </tr> <tr> <td>.</td> <td>Transaction is on hold</td> </tr> <tr> <td>V</td> <td>Transaction has been verified</td> </tr> </table></td>
 </tr>
 <tr>
 <td><code>transno</code></td>
 <td>integer <em>int32</em></td>
 <td>false</td>
-<td>The resulting transaction number, ordered incrementally from 1 for every merchant_id. The value will default to less than 1<br/>for transactions that do not have a transaction number issued.</td>
+<td>The resulting transaction number, ordered incrementally from 1 for every merchant_id. The value will default to less than 1 for transactions that do not have a transaction number issued.</td>
 </tr>
 </tbody></table>
 <h2 id='authenrequired'>AuthenRequired</h2><div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
@@ -3533,13 +3604,13 @@ for analysis and may result in a decline if incorrectly provided. |
 <td><code>md</code></td>
 <td>string</td>
 <td>false</td>
-<td>Merchant Data (MD) which should be sent to the ACS to establish and reference<br/>the authentication session.</td>
+<td>Merchant Data (MD) which should be sent to the ACS to establish and reference the authentication session.</td>
 </tr>
 <tr>
 <td><code>pareq</code></td>
 <td>string <em>base64</em></td>
 <td>false</td>
-<td>The Payer Authentication Request packet which should be <code>POSTed</code> to the Url of the ACS<br/>to establish the authentication session. Data should be sent untouched.</td>
+<td>The Payer Authentication Request packet which should be <code>POSTed</code> to the Url of the ACS to establish the authentication session. Data should be sent untouched.</td>
 </tr>
 </tbody></table>
 <h2 id='cresauthrequest'>CResAuthRequest</h2><div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
@@ -3561,7 +3632,7 @@ for analysis and may result in a decline if incorrectly provided. |
 <td><code>cres</code></td>
 <td>string <em>base64</em></td>
 <td>false</td>
-<td>The challenge response data forwarded by the ACS in 3D-Secure V2 processing. Data<br/>should be forwarded to CityPay unchanged for subsequent authorisation and processing.</td>
+<td>The challenge response data forwarded by the ACS in 3D-Secure V2 processing. Data should be forwarded to CityPay unchanged for subsequent authorisation and processing.</td>
 </tr>
 </tbody></table>
 <h2 id='capturerequest'>CaptureRequest</h2><div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
@@ -3591,13 +3662,13 @@ for analysis and may result in a decline if incorrectly provided. |
 <td><code>amount</code></td>
 <td>integer <em>int32</em></td>
 <td>false</td>
-<td>The completion amount provided in the lowest unit of currency for the specific currency of the merchant,<br/>with a variable length to a maximum of 12 digits. No decimal points to be included. For example with<br/>GBP 75.45 use the value 7545. Please check that you do not supply divisional characters such as 1,024 in the<br/>request which may be caused by some number formatters.<br/>If no amount is supplied, the original processing amount is used.<br/><br/>minLength: 1<br/>maxLength: 12</td>
+<td>The completion amount provided in the lowest unit of currency for the specific currency of the merchant, with a variable length to a maximum of 12 digits. No decimal points to be included. For example with GBP 75.45 use the value 7545. Please check that you do not supply divisional characters such as 1,024 in the request which may be caused by some number formatters.<br/><br/>If no amount is supplied, the original processing amount is used.<br/><br/> minLength: 1<br/>maxLength: 12</td>
 </tr>
 <tr>
 <td><code>identifier</code></td>
 <td>string</td>
 <td>false</td>
-<td>The identifier of the transaction to capture. If an empty value is supplied then a <code>trans_no</code> value must be supplied.<br/>minLength: 4<br/>maxLength: 50</td>
+<td>The identifier of the transaction to capture. If an empty value is supplied then a <code>trans_no</code> value must be supplied.<br/><br/>minLength: 4<br/>maxLength: 50</td>
 </tr>
 <tr>
 <td><code>merchantid</code></td>
@@ -3644,7 +3715,7 @@ for analysis and may result in a decline if incorrectly provided. |
    </span><span class="nl">"date_created"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2020-01-02"</span><span class="p">,</span><span class="w">
    </span><span class="nl">"default"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
    </span><span class="nl">"expmonth"</span><span class="p">:</span><span class="w"> </span><span class="mi">9</span><span class="p">,</span><span class="w">
-   </span><span class="nl">"expyear"</span><span class="p">:</span><span class="w"> </span><span class="mi">2023</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"expyear"</span><span class="p">:</span><span class="w"> </span><span class="mi">2024</span><span class="p">,</span><span class="w">
    </span><span class="nl">"label"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Visa/0002"</span><span class="p">,</span><span class="w">
    </span><span class="nl">"label2"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Visa/0002,Exp:2304"</span><span class="p">,</span><span class="w">
    </span><span class="nl">"last4digits"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2"</span><span class="p">,</span><span class="w">
@@ -3665,7 +3736,7 @@ for analysis and may result in a decline if incorrectly provided. |
  <span class="nt">&lt;date_created&gt;</span>2020-01-02<span class="nt">&lt;/date_created&gt;</span> 
  <span class="nt">&lt;default&gt;&lt;/default&gt;</span> 
  <span class="nt">&lt;expmonth&gt;</span>9<span class="nt">&lt;/expmonth&gt;</span> 
- <span class="nt">&lt;expyear&gt;</span>2023<span class="nt">&lt;/expyear&gt;</span> 
+ <span class="nt">&lt;expyear&gt;</span>2024<span class="nt">&lt;/expyear&gt;</span> 
  <span class="nt">&lt;label&gt;</span>Visa/0002<span class="nt">&lt;/label&gt;</span> 
  <span class="nt">&lt;label2&gt;</span>Visa/0002,Exp:2304<span class="nt">&lt;/label2&gt;</span> 
  <span class="nt">&lt;last4digits&gt;</span>2<span class="nt">&lt;/last4digits&gt;</span> 
@@ -3739,7 +3810,7 @@ for analysis and may result in a decline if incorrectly provided. |
 <td><code>card_status</code></td>
 <td>string</td>
 <td>false</td>
-<td>The status of the card such, valid values are<br/> - ACTIVE the card is active for processing<br/> - INACTIVE the card is not active for processing<br/> - EXPIRED for cards that have passed their expiry date.</td>
+<td>The status of the card such, valid values are<br/><br/> - ACTIVE the card is active for processing<br/><br/> - INACTIVE the card is not active for processing<br/><br/> - EXPIRED for cards that have passed their expiry date.</td>
 </tr>
 <tr>
 <td><code>date_created</code></td>
@@ -3757,13 +3828,13 @@ for analysis and may result in a decline if incorrectly provided. |
 <td><code>expmonth</code></td>
 <td>integer <em>int32</em></td>
 <td>false</td>
-<td>The expiry month of the card.<br/>minimum: 1<br/>maximum: 12</td>
+<td>The expiry month of the card.<br/><br/>minimum: 1<br/>maximum: 12</td>
 </tr>
 <tr>
 <td><code>expyear</code></td>
 <td>integer <em>int32</em></td>
 <td>false</td>
-<td>The expiry year of the card.<br/>minimum: 2000<br/>maximum: 2100</td>
+<td>The expiry year of the card.<br/><br/>minimum: 2000<br/>maximum: 2100</td>
 </tr>
 <tr>
 <td><code>label</code></td>
@@ -3831,13 +3902,13 @@ for analysis and may result in a decline if incorrectly provided. |
 <td><code>account_id</code></td>
 <td>string</td>
 <td>true</td>
-<td>The account id of the card holder account provided by the merchant which uniquely identifies the account.<br/><br/>minLength: 5<br/>maxLength: 50</td>
+<td>The account id of the card holder account provided by the merchant which uniquely identifies the account.<br/><br/> minLength: 5<br/>maxLength: 50</td>
 </tr>
 <tr>
 <td><code>cards</code></td>
 <td>array</td>
 <td>false</td>
-<td></td>
+<td><a href="#card">Card</a></td>
 </tr>
 <tr>
 <td><code>contact</code></td>
@@ -3873,7 +3944,7 @@ for analysis and may result in a decline if incorrectly provided. |
 <td><code>status</code></td>
 <td>string</td>
 <td>false</td>
-<td>Defines the status of the account for processing valid values are<br/><br/> - ACTIVE for active accounts that are able to process<br/> - DISABLED for accounts that are currently disabled for processing.</td>
+<td>Defines the status of the account for processing valid values are<br/><br/> - ACTIVE for active accounts that are able to process<br/><br/> - DISABLED for accounts that are currently disabled for processing.</td>
 </tr>
 <tr>
 <td><code>unique_id</code></td>
@@ -3955,49 +4026,49 @@ for analysis and may result in a decline if incorrectly provided. |
 <td><code>amount</code></td>
 <td>integer <em>int32</em></td>
 <td>true</td>
-<td>The amount to authorise in the lowest unit of currency with a variable length to a maximum of 12 digits.<br/>No decimal points are to be included and no divisional characters such as 1,024.<br/>The amount should be the total amount required for the transaction.<br/>For example with GBP £1,021.95 the amount value is 102195.<br/><br/>minLength: 1<br/>maxLength: 12</td>
+<td>The amount to authorise in the lowest unit of currency with a variable length to a maximum of 12 digits.<br/><br/>No decimal points are to be included and no divisional characters such as 1,024.<br/><br/>The amount should be the total amount required for the transaction.<br/><br/>For example with GBP £1,021.95 the amount value is 102195.<br/><br/> minLength: 1<br/>maxLength: 12</td>
 </tr>
 <tr>
 <td><code>avs_postcode_policy</code></td>
 <td>string</td>
 <td>false</td>
-<td>A policy value which determines whether an AVS postcode policy is enforced or bypassed.<br/><br/>Values are<br/> <code>0</code> for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.<br/> <code>1</code> for an enforced policy. Transactions that are enforced will be rejected if the AVS postcode numeric value does not match.<br/> <code>2</code> to bypass. Transactions that are bypassed will be allowed through even if the postcode did not match.<br/> <code>3</code> to ignore. Transactions that are ignored will bypass the result and not send postcode details for authorisation.</td>
+<td>A policy value which determines whether an AVS postcode policy is enforced or bypassed.<br/><br/>Values are  <code>0</code> for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.<br/><br/> <code>1</code> for an enforced policy. Transactions that are enforced will be rejected if the AVS postcode numeric value does not match.<br/><br/> <code>2</code> to bypass. Transactions that are bypassed will be allowed through even if the postcode did not match.<br/><br/> <code>3</code> to ignore. Transactions that are ignored will bypass the result and not send postcode details for authorisation.</td>
 </tr>
 <tr>
 <td><code>csc</code></td>
 <td>string</td>
 <td>false</td>
-<td>The Card Security Code (CSC) (also known as CV2/CVV2) is normally found on the back of the card<br/>(American Express has it on the front). The value helps to identify posession of the card as it is not<br/>available within the chip or magnetic swipe.<br/><br/>When forwarding the CSC, please ensure the value is a string as some values start with 0 and this will be stripped<br/>out by any integer parsing.<br/><br/>The CSC number aids fraud prevention in Mail Order and Internet payments.<br/><br/> Business rules are available on your account to identify whether to accept<br/>or decline transactions based on mismatched results of the CSC.<br/><br/>The Payment Card Industry (PCI) requires that at no stage of a transaction should the CSC be stored.<br/>This applies to all entities handling card data.<br/>It should also not be used in any hashing process.<br/>CityPay do not store the value and have no method of retrieving the value once the transaction has been processed.<br/>For this reason, duplicate checking is unable to determine the CSC in its duplication check algorithm.<br/><br/>minLength: 3<br/>maxLength: 4</td>
+<td>The Card Security Code (CSC) (also known as CV2/CVV2) is normally found on the back of the card (American Express has it on the front). The value helps to identify posession of the card as it is not available within the chip or magnetic swipe.<br/><br/>When forwarding the CSC, please ensure the value is a string as some values start with 0 and this will be stripped out by any integer parsing.<br/><br/>The CSC number aids fraud prevention in Mail Order and Internet payments.<br/><br/>Business rules are available on your account to identify whether to accept or decline transactions based on mismatched results of the CSC.<br/><br/>The Payment Card Industry (PCI) requires that at no stage of a transaction should the CSC be stored.<br/><br/>This applies to all entities handling card data.<br/><br/>It should also not be used in any hashing process.<br/><br/>CityPay do not store the value and have no method of retrieving the value once the transaction has been processed. For this reason, duplicate checking is unable to determine the CSC in its duplication check algorithm.<br/><br/> minLength: 3<br/>maxLength: 4</td>
 </tr>
 <tr>
 <td><code>csc_policy</code></td>
 <td>string</td>
 <td>false</td>
-<td>A policy value which determines whether a CSC policy is enforced or bypassed.<br/><br/>Values are<br/> <code>0</code> for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.<br/> <code>1</code> for an enforced policy. Transactions that are enforced will be rejected if the CSC value does not match.<br/> <code>2</code> to bypass. Transactions that are bypassed will be allowed through even if the CSC did not match.<br/> <code>3</code> to ignore. Transactions that are ignored will bypass the result and not send the CSC details for authorisation.</td>
+<td>A policy value which determines whether a CSC policy is enforced or bypassed.<br/><br/>Values are  <code>0</code> for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.<br/><br/> <code>1</code> for an enforced policy. Transactions that are enforced will be rejected if the CSC value does not match.<br/><br/> <code>2</code> to bypass. Transactions that are bypassed will be allowed through even if the CSC did not match.<br/><br/> <code>3</code> to ignore. Transactions that are ignored will bypass the result and not send the CSC details for authorisation.</td>
 </tr>
 <tr>
 <td><code>currency</code></td>
 <td>string</td>
 <td>false</td>
-<td>The processing currency for the transaction. Will default to the merchant account currency.<br/>minLength: 3<br/>maxLength: 3</td>
+<td>The processing currency for the transaction. Will default to the merchant account currency.<br/><br/>minLength: 3<br/>maxLength: 3</td>
 </tr>
 <tr>
 <td><code>duplicate_policy</code></td>
 <td>string</td>
 <td>false</td>
-<td>A policy value which determines whether a duplication policy is enforced or bypassed. A duplication check has a window<br/>of time set against your account within which it can action. If a previous transaction with matching values occurred within<br/>the window, any subsequent transaction will result in a T001 result.<br/><br/>Values are<br/> <code>0</code> for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.<br/> <code>1</code> for an enforced policy. Transactions that are enforced will be checked for duplication within the duplication window.<br/> <code>2</code> to bypass. Transactions that are bypassed will not be checked for duplication within the duplication window.<br/> <code>3</code> to ignore. Transactions that are ignored will have the same affect as bypass.</td>
+<td>A policy value which determines whether a duplication policy is enforced or bypassed. A duplication check has a window of time set against your account within which it can action. If a previous transaction with matching values occurred within the window, any subsequent transaction will result in a T001 result.<br/><br/>Values are  <code>0</code> for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.<br/><br/> <code>1</code> for an enforced policy. Transactions that are enforced will be checked for duplication within the duplication window.<br/><br/> <code>2</code> to bypass. Transactions that are bypassed will not be checked for duplication within the duplication window.<br/><br/> <code>3</code> to ignore. Transactions that are ignored will have the same affect as bypass.</td>
 </tr>
 <tr>
 <td><code>identifier</code></td>
 <td>string</td>
 <td>true</td>
-<td>The identifier of the transaction to process. The value should be a valid reference and may be used to perform<br/> post processing actions and to aid in reconciliation of transactions.<br/><br/>The value should be a valid printable string with ASCII character ranges from 0x32 to 0x127.<br/><br/>The identifier is recommended to be distinct for each transaction such as a <a href="https://en.wikipedia.org/wiki/Universally_unique_identifier">random unique identifier</a><br/>this will aid in ensuring each transaction is identifiable.<br/><br/>When transactions are processed they are also checked for duplicate requests. Changing the identifier on a subsequent<br/>request will ensure that a transaction is considered as different.<br/><br/>minLength: 4<br/>maxLength: 50</td>
+<td>The identifier of the transaction to process. The value should be a valid reference and may be used to perform  post processing actions and to aid in reconciliation of transactions.<br/><br/>The value should be a valid printable string with ASCII character ranges from 0x32 to 0x127.<br/><br/>The identifier is recommended to be distinct for each transaction such as a <a href="https://en.wikipedia.org/wiki/Universally_unique_identifier">random unique identifier</a> this will aid in ensuring each transaction is identifiable.<br/><br/>When transactions are processed they are also checked for duplicate requests. Changing the identifier on a subsequent request will ensure that a transaction is considered as different.<br/><br/> minLength: 4<br/>maxLength: 50</td>
 </tr>
 <tr>
 <td><code>match_avsa</code></td>
 <td>string</td>
 <td>false</td>
-<td>A policy value which determines whether an AVS address policy is enforced, bypassed or ignored.<br/><br/><br/>Values are<br/> <code>0</code> for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.<br/> <code>1</code> for an enforced policy. Transactions that are enforced will be rejected if the AVS address numeric value does not match.<br/> <code>2</code> to bypass. Transactions that are bypassed will be allowed through even if the address did not match.<br/> <code>3</code> to ignore. Transactions that are ignored will bypass the result and not send address numeric details for authorisation.</td>
+<td>A policy value which determines whether an AVS address policy is enforced, bypassed or ignored.<br/><br/>Values are  <code>0</code> for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.<br/><br/> <code>1</code> for an enforced policy. Transactions that are enforced will be rejected if the AVS address numeric value does not match.<br/><br/> <code>2</code> to bypass. Transactions that are bypassed will be allowed through even if the address did not match.<br/><br/> <code>3</code> to ignore. Transactions that are ignored will bypass the result and not send address numeric details for authorisation.</td>
 </tr>
 <tr>
 <td><code>merchantid</code></td>
@@ -4015,19 +4086,19 @@ for analysis and may result in a decline if incorrectly provided. |
 <td><code>token</code></td>
 <td>string <em>base58</em></td>
 <td>true</td>
-<td>A tokenised form of a card that belongs to a card holder&#39;s account and that<br/>has been previously registered. The token is time based and will only be active for<br/>a short duration. The value is therefore designed not to be stored remotely for future<br/> use.<br/><br/>Tokens will start with ct and are resiliently tamper proof using HMacSHA-256.<br/>No sensitive card data is stored internally within the token.<br/><br/>Each card will contain a different token and the value may be different on any retrieval call.<br/><br/>The value can be presented for payment as a selection value to an end user in a web application.</td>
+<td>A tokenised form of a card that belongs to a card holder&#39;s account and that has been previously registered. The token is time based and will only be active for a short duration. The value is therefore designed not to be stored remotely for future use.<br/><br/> Tokens will start with ct and are resiliently tamper proof using HMacSHA-256. No sensitive card data is stored internally within the token.<br/><br/> Each card will contain a different token and the value may be different on any retrieval call.<br/><br/> The value can be presented for payment as a selection value to an end user in a web application.</td>
 </tr>
 <tr>
 <td><code>trans_info</code></td>
 <td>string</td>
 <td>false</td>
-<td>Further information that can be added to the transaction will display in reporting. Can be used for flexible values such as operator id.<br/>maxLength: 50</td>
+<td>Further information that can be added to the transaction will display in reporting. Can be used for flexible values such as operator id.<br/><br/>maxLength: 50</td>
 </tr>
 <tr>
 <td><code>trans_type</code></td>
 <td>string</td>
 <td>false</td>
-<td>The type of transaction being submitted. Normally this value is not required and your account manager may request that you set this field.<br/>maxLength: 1</td>
+<td>The type of transaction being submitted. Normally this value is not required and your account manager may request that you set this field.<br/><br/>maxLength: 1</td>
 </tr>
 </tbody></table>
 <h2 id='contactdetails'>ContactDetails</h2><div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
@@ -4073,25 +4144,25 @@ for analysis and may result in a decline if incorrectly provided. |
 <td><code>address1</code></td>
 <td>string</td>
 <td>false</td>
-<td>The first line of the address for the card holder.<br/>maxLength: 50</td>
+<td>The first line of the address for the card holder.<br/><br/>maxLength: 50</td>
 </tr>
 <tr>
 <td><code>address2</code></td>
 <td>string</td>
 <td>false</td>
-<td>The second line of the address for the card holder.<br/>maxLength: 50</td>
+<td>The second line of the address for the card holder.<br/><br/>maxLength: 50</td>
 </tr>
 <tr>
 <td><code>address3</code></td>
 <td>string</td>
 <td>false</td>
-<td>The third line of the address for the card holder.<br/>maxLength: 50</td>
+<td>The third line of the address for the card holder.<br/><br/>maxLength: 50</td>
 </tr>
 <tr>
 <td><code>area</code></td>
 <td>string</td>
 <td>false</td>
-<td>The area such as city, department, parish for the card holder.<br/>maxLength: 50</td>
+<td>The area such as city, department, parish for the card holder.<br/><br/>maxLength: 50</td>
 </tr>
 <tr>
 <td><code>company</code></td>
@@ -4103,7 +4174,7 @@ for analysis and may result in a decline if incorrectly provided. |
 <td><code>country</code></td>
 <td>string</td>
 <td>false</td>
-<td>The country code in ISO 3166 format. The country value may be used for fraud analysis and for<br/>  acceptance of the transaction.<br/><br/>minLength: 2<br/>maxLength: 2</td>
+<td>The country code in ISO 3166 format. The country value may be used for fraud analysis and for   acceptance of the transaction.<br/><br/> minLength: 2<br/>maxLength: 2</td>
 </tr>
 <tr>
 <td><code>email</code></td>
@@ -4127,19 +4198,19 @@ for analysis and may result in a decline if incorrectly provided. |
 <td><code>mobile_no</code></td>
 <td>string</td>
 <td>false</td>
-<td>A mobile number for the card holder the mobile number is often required by delivery companies to ensure they are able to be in contact when required.<br/>maxLength: 20</td>
+<td>A mobile number for the card holder the mobile number is often required by delivery companies to ensure they are able to be in contact when required.<br/><br/>maxLength: 20</td>
 </tr>
 <tr>
 <td><code>postcode</code></td>
 <td>string</td>
 <td>false</td>
-<td>The postcode or zip code of the address which may be used for fraud analysis.<br/>maxLength: 10</td>
+<td>The postcode or zip code of the address which may be used for fraud analysis.<br/><br/>maxLength: 10</td>
 </tr>
 <tr>
 <td><code>telephone_no</code></td>
 <td>string</td>
 <td>false</td>
-<td>A telephone number for the card holder.<br/>maxLength: 20</td>
+<td>A telephone number for the card holder.<br/><br/>maxLength: 20</td>
 </tr>
 <tr>
 <td><code>title</code></td>
@@ -4211,7 +4282,7 @@ for analysis and may result in a decline if incorrectly provided. |
 <td><code>code</code></td>
 <td>string</td>
 <td>false</td>
-<td>A response code providing a result of the process.<br/>minLength: 3<br/>maxLength: 4</td>
+<td>A response code providing a result of the process.<br/><br/>minLength: 3<br/>maxLength: 4</td>
 </tr>
 <tr>
 <td><code>context</code></td>
@@ -4223,7 +4294,7 @@ for analysis and may result in a decline if incorrectly provided. |
 <td><code>identifier</code></td>
 <td>string</td>
 <td>false</td>
-<td>An identifier if presented in the original request.<br/>minLength: 4<br/>maxLength: 50</td>
+<td>An identifier if presented in the original request.<br/><br/>minLength: 4<br/>maxLength: 50</td>
 </tr>
 <tr>
 <td><code>message</code></td>
@@ -4297,31 +4368,31 @@ for analysis and may result in a decline if incorrectly provided. |
 <td><code>authen_result</code></td>
 <td>string</td>
 <td>false</td>
-<td>The authentication result available from the MPI.<br/>maxLength: 1</td>
+<td>The authentication result available from the MPI.<br/><br/>maxLength: 1</td>
 </tr>
 <tr>
 <td><code>cavv</code></td>
 <td>string</td>
 <td>false</td>
-<td>A value determining the cardholder verification value supplied by the card scheme.<br/>maxLength: 20</td>
+<td>A value determining the cardholder verification value supplied by the card scheme.<br/><br/>maxLength: 20</td>
 </tr>
 <tr>
 <td><code>eci</code></td>
 <td>integer <em>int32</em></td>
 <td>false</td>
-<td>The obtained e-commerce indicator from the MPI.<br/>maxLength: 1</td>
+<td>The obtained e-commerce indicator from the MPI.<br/><br/>maxLength: 1</td>
 </tr>
 <tr>
 <td><code>enrolled</code></td>
 <td>string</td>
 <td>false</td>
-<td>A value determining whether the card holder was enrolled.<br/>maxLength: 1</td>
+<td>A value determining whether the card holder was enrolled.<br/><br/>maxLength: 1</td>
 </tr>
 <tr>
 <td><code>xid</code></td>
 <td>string</td>
 <td>false</td>
-<td>The XID used for processing with the MPI.<br/>maxLength: 20</td>
+<td>The XID used for processing with the MPI.<br/><br/>maxLength: 20</td>
 </tr>
 </tbody></table>
 <h2 id='listmerchantsresponse'>ListMerchantsResponse</h2><div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
@@ -4353,13 +4424,13 @@ for analysis and may result in a decline if incorrectly provided. |
 <td><code>clientid</code></td>
 <td>string</td>
 <td>false</td>
-<td>The client id requested.<br/>minLength: 3<br/>maxLength: 10</td>
+<td>The client id requested.<br/><br/>minLength: 3<br/>maxLength: 10</td>
 </tr>
 <tr>
 <td><code>merchants</code></td>
 <td>array</td>
 <td>false</td>
-<td></td>
+<td><a href="#merchant">Merchant</a></td>
 </tr>
 </tbody></table>
 <h2 id='mcc6012'>MCC6012</h2><div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
@@ -4483,13 +4554,13 @@ for analysis and may result in a decline if incorrectly provided. |
 <td><code>md</code></td>
 <td>string</td>
 <td>true</td>
-<td>The Merchant Data (MD) which is a unique ID to reference the authentication session.<br/>This value will be created by CityPay when required. When responding from the ACS,<br/>this value will be returned by the ACS.</td>
+<td>The Merchant Data (MD) which is a unique ID to reference the authentication session.<br/><br/>This value will be created by CityPay when required. When responding from the ACS, this value will be returned by the ACS.</td>
 </tr>
 <tr>
 <td><code>pares</code></td>
 <td>string <em>base64</em></td>
 <td>true</td>
-<td>The Payer Authentication Response packet which is returned by the ACS containing the<br/> response of the authentication session including verification values. The response<br/> is a base64 encoded packet and should be forwarded to CityPay untouched.</td>
+<td>The Payer Authentication Response packet which is returned by the ACS containing the  response of the authentication session including verification values. The response  is a base64 encoded packet and should be forwarded to CityPay untouched.</td>
 </tr>
 </tbody></table>
 <h2 id='ping'>Ping</h2><div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
@@ -4511,7 +4582,7 @@ for analysis and may result in a decline if incorrectly provided. |
 <td><code>identifier</code></td>
 <td>string</td>
 <td>false</td>
-<td>An identifier of the ping request which will be returned in the response.<br/>minLength: 4<br/>maxLength: 50</td>
+<td>An identifier of the ping request which will be returned in the response.<br/><br/>minLength: 4<br/>maxLength: 50</td>
 </tr>
 </tbody></table>
 <h2 id='refundrequest'>RefundRequest</h2><div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
@@ -4541,13 +4612,13 @@ for analysis and may result in a decline if incorrectly provided. |
 <td><code>amount</code></td>
 <td>integer <em>int32</em></td>
 <td>true</td>
-<td>The amount to refund in the lowest unit of currency with a variable length to a maximum of 12 digits.<br/>The amount should be the total amount required to refund for the transaction up to the original processed amount.<br/>No decimal points are to be included and no divisional characters such as 1,024.<br/>For example with GBP £1,021.95 the amount value is 102195.<br/><br/>minLength: 1<br/>maxLength: 12</td>
+<td>The amount to refund in the lowest unit of currency with a variable length to a maximum of 12 digits.<br/><br/>The amount should be the total amount required to refund for the transaction up to the original processed amount.<br/><br/>No decimal points are to be included and no divisional characters such as 1,024.<br/><br/>For example with GBP £1,021.95 the amount value is 102195.<br/><br/> minLength: 1<br/>maxLength: 12</td>
 </tr>
 <tr>
 <td><code>identifier</code></td>
 <td>string</td>
 <td>true</td>
-<td>The identifier of the refund to process. The value should be a valid reference and may be used to perform<br/> post processing actions and to aid in reconciliation of transactions.<br/><br/>The value should be a valid printable string with ASCII character ranges from 0x32 to 0x127.<br/><br/>The identifier is recommended to be distinct for each transaction such as a <a href="https://en.wikipedia.org/wiki/Universally_unique_identifier">random unique identifier</a><br/>this will aid in ensuring each transaction is identifiable.<br/><br/>When transactions are processed they are also checked for duplicate requests. Changing the identifier on a subsequent<br/>request will ensure that a transaction is considered as different.<br/><br/>minLength: 4<br/>maxLength: 50</td>
+<td>The identifier of the refund to process. The value should be a valid reference and may be used to perform  post processing actions and to aid in reconciliation of transactions.<br/><br/>The value should be a valid printable string with ASCII character ranges from 0x32 to 0x127.<br/><br/>The identifier is recommended to be distinct for each transaction such as a <a href="https://en.wikipedia.org/wiki/Universally_unique_identifier">random unique identifier</a> this will aid in ensuring each transaction is identifiable.<br/><br/>When transactions are processed they are also checked for duplicate requests. Changing the identifier on a subsequent request will ensure that a transaction is considered as different.<br/><br/> minLength: 4<br/>maxLength: 50</td>
 </tr>
 <tr>
 <td><code>merchantid</code></td>
@@ -4559,26 +4630,26 @@ for analysis and may result in a decline if incorrectly provided. |
 <td><code>refund_ref</code></td>
 <td>integer <em>int32</em></td>
 <td>true</td>
-<td>A reference to the original transaction number that is wanting to be refunded. The original<br/> transaction must be on the same merchant id, previously authorised.</td>
+<td>A reference to the original transaction number that is wanting to be refunded. The original  transaction must be on the same merchant id, previously authorised.</td>
 </tr>
 <tr>
 <td><code>trans_info</code></td>
 <td>string</td>
 <td>false</td>
-<td>Further information that can be added to the transaction will display in reporting. Can be used for flexible values such as operator id.<br/>maxLength: 50</td>
+<td>Further information that can be added to the transaction will display in reporting. Can be used for flexible values such as operator id.<br/><br/>maxLength: 50</td>
 </tr>
 </tbody></table>
 <h2 id='registercard'>RegisterCard</h2><div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
    </span><span class="nl">"cardnumber"</span><span class="p">:</span><span class="w"> </span><span class="s2">"4000 0000 0000 0002"</span><span class="p">,</span><span class="w">
    </span><span class="nl">"default"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
    </span><span class="nl">"expmonth"</span><span class="p">:</span><span class="w"> </span><span class="mi">9</span><span class="p">,</span><span class="w">
-   </span><span class="nl">"expyear"</span><span class="p">:</span><span class="w"> </span><span class="mi">2023</span><span class="w">
+   </span><span class="nl">"expyear"</span><span class="p">:</span><span class="w"> </span><span class="mi">2024</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre></div><div class="highlight"><pre class="highlight xml tab-xml"><code><span class="nt">&lt;RegisterCard&gt;</span>
  <span class="nt">&lt;cardnumber&gt;</span>4000 0000 0000 0002<span class="nt">&lt;/cardnumber&gt;</span> 
  <span class="nt">&lt;default&gt;&lt;/default&gt;</span> 
  <span class="nt">&lt;expmonth&gt;</span>9<span class="nt">&lt;/expmonth&gt;</span> 
- <span class="nt">&lt;expyear&gt;</span>2023<span class="nt">&lt;/expyear&gt;</span> 
+ <span class="nt">&lt;expyear&gt;</span>2024<span class="nt">&lt;/expyear&gt;</span> 
 <span class="nt">&lt;/RegisterCard&gt;</span>
 </code></pre></div>
 <table><thead>
@@ -4593,7 +4664,7 @@ for analysis and may result in a decline if incorrectly provided. |
 <td><code>cardnumber</code></td>
 <td>string</td>
 <td>true</td>
-<td>The primary number of the card.<br/>minLength: 12<br/>maxLength: 22</td>
+<td>The primary number of the card.<br/><br/>minLength: 12<br/>maxLength: 22</td>
 </tr>
 <tr>
 <td><code>default</code></td>
@@ -4605,13 +4676,13 @@ for analysis and may result in a decline if incorrectly provided. |
 <td><code>expmonth</code></td>
 <td>integer <em>int32</em></td>
 <td>true</td>
-<td>The expiry month of the card.<br/>minimum: 1<br/>maximum: 12</td>
+<td>The expiry month of the card.<br/><br/>minimum: 1<br/>maximum: 12</td>
 </tr>
 <tr>
 <td><code>expyear</code></td>
 <td>integer <em>int32</em></td>
 <td>true</td>
-<td>The expiry year of the card.<br/>minimum: 2000<br/>maximum: 2100</td>
+<td>The expiry year of the card.<br/><br/>minimum: 2000<br/>maximum: 2100</td>
 </tr>
 </tbody></table>
 <h2 id='requestchallenged'>RequestChallenged</h2><div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
@@ -4691,7 +4762,7 @@ for analysis and may result in a decline if incorrectly provided. |
 <td><code>identifier</code></td>
 <td>string</td>
 <td>false</td>
-<td>The identifier of the transaction to retrieve. Optional if a transaction number is provided.<br/>minLength: 4<br/>maxLength: 50</td>
+<td>The identifier of the transaction to retrieve. Optional if a transaction number is provided.<br/><br/>minLength: 4<br/>maxLength: 50</td>
 </tr>
 <tr>
 <td><code>merchantid</code></td>
@@ -4708,17 +4779,17 @@ for analysis and may result in a decline if incorrectly provided. |
 </tbody></table>
 <h2 id='threedsecure'>ThreeDSecure</h2><div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
    </span><span class="nl">"accept_headers"</span><span class="p">:</span><span class="w"> </span><span class="s2">"text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9"</span><span class="p">,</span><span class="w">
-   </span><span class="nl">"cp_bx"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"cp_bx"</span><span class="p">:</span><span class="w"> </span><span class="s2">"FjaW50b3NoOyBJbnRlbCBNYWMgT1MgWCAx..."</span><span class="p">,</span><span class="w">
    </span><span class="nl">"downgrade1"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
-   </span><span class="nl">"merchant_termurl"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"merchant_termurl"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://mysite.com/acs/return"</span><span class="p">,</span><span class="w">
    </span><span class="nl">"tds_policy"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
    </span><span class="nl">"user_agent"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.149 Safari/537.36"</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre></div><div class="highlight"><pre class="highlight xml tab-xml"><code><span class="nt">&lt;ThreeDSecure&gt;</span>
  <span class="nt">&lt;accept_headers&gt;</span>text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9<span class="nt">&lt;/accept_headers&gt;</span> 
- <span class="nt">&lt;cp_bx&gt;&lt;/cp_bx&gt;</span> 
+ <span class="nt">&lt;cp_bx&gt;</span>FjaW50b3NoOyBJbnRlbCBNYWMgT1MgWCAx...<span class="nt">&lt;/cp_bx&gt;</span> 
  <span class="nt">&lt;downgrade1&gt;&lt;/downgrade1&gt;</span> 
- <span class="nt">&lt;merchant_termurl&gt;&lt;/merchant_termurl&gt;</span> 
+ <span class="nt">&lt;merchant_termurl&gt;</span>https://mysite.com/acs/return<span class="nt">&lt;/merchant_termurl&gt;</span> 
  <span class="nt">&lt;tds_policy&gt;&lt;/tds_policy&gt;</span> 
  <span class="nt">&lt;user_agent&gt;</span>Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.149 Safari/537.36<span class="nt">&lt;/user_agent&gt;</span> 
 <span class="nt">&lt;/ThreeDSecure&gt;</span>
@@ -4735,37 +4806,37 @@ for analysis and may result in a decline if incorrectly provided. |
 <td><code>accept_headers</code></td>
 <td>string</td>
 <td>false</td>
-<td>Required for 3DSv1. Optional if the <code>cp_bx</code> value is provided otherwise required for 3Dv2 processing operating in<br/>browser authentication mode.<br/><br/>The <code>cp_bx</code> value will override any value supplied to this field.<br/><br/>The content of the HTTP accept header as sent to the merchant from the cardholder&#39;s user agent.<br/>This value will be validated by the ACS when the card holder authenticates themselves to verify that<br/>no intermediary is performing this action. Required for 3DSv1.</td>
+<td>Required for 3DSv1. Optional if the <code>cp_bx</code> value is provided otherwise required for 3Dv2 processing operating in browser authentication mode.<br/><br/>The <code>cp_bx</code> value will override any value supplied to this field.<br/><br/>The content of the HTTP accept header as sent to the merchant from the cardholder&#39;s user agent.<br/><br/>This value will be validated by the ACS when the card holder authenticates themselves to verify that no intermediary is performing this action. Required for 3DSv1.</td>
 </tr>
 <tr>
 <td><code>cp_bx</code></td>
 <td>string</td>
 <td>false</td>
-<td>Required for 3DSv2.<br/><br/>Browser extension value produced by the citypay.js <code>bx</code> function. See https://sandbox.citypay.com/3dsv2/bx for<br/> details.</td>
+<td>Required for 3DSv2.<br/><br/>Browser extension value produced by the citypay.js <code>bx</code> function. See <a href="https://sandbox.citypay.com/3dsv2/bx">https://sandbox.citypay.com/3dsv2/bx</a> for  details.</td>
 </tr>
 <tr>
 <td><code>downgrade1</code></td>
 <td>boolean</td>
 <td>false</td>
-<td>Where a merchant is configured for 3DSv2, setting this option will attempt to downgrade the transaction to<br/> 3DSv1.</td>
+<td>Where a merchant is configured for 3DSv2, setting this option will attempt to downgrade the transaction to  3DSv1.</td>
 </tr>
 <tr>
 <td><code>merchant_termurl</code></td>
 <td>string</td>
 <td>false</td>
-<td>Required for 3DSv1 and 3Dv2 processing.<br/><br/>A controller URL for 3D-Secure processing that any response from an authentication request or<br/>challenge request should be sent to.<br/><br/>The controller should forward on the response from the URL back via this API for subsequent processing.<br/>Required if 3DSv1 or 3DSv2 is required.</td>
+<td>Required for 3DSv1 and 3Dv2 processing.<br/><br/>A controller URL for 3D-Secure processing that any response from an authentication request or challenge request should be sent to.<br/><br/>The controller should forward on the response from the URL back via this API for subsequent processing. Required if 3DSv1 or 3DSv2 is required.</td>
 </tr>
 <tr>
 <td><code>tds_policy</code></td>
 <td>string</td>
 <td>false</td>
-<td>A policy value which determines whether ThreeDSecure is enforced or bypassed. Note that this will only work for<br/>e-commerce transactions and accounts that have 3DSecure enabled and fully registered with Visa, MasterCard or<br/>American Express. It is useful when transactions may be wanted to bypass processing rules.<br/><br/>Note that this may affect the liability shift of transactions and may occur a higher fee with the acquiring bank.<br/><br/>Values are<br/> <code>0</code> for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.<br/> <code>1</code> for an enforced policy. Transactions will be enabled for 3DS processing<br/> <code>2</code> to bypass. Transactions that are bypassed will switch off 3DS processing.</td>
+<td>A policy value which determines whether ThreeDSecure is enforced or bypassed. Note that this will only work for e-commerce transactions and accounts that have 3DSecure enabled and fully registered with Visa, MasterCard or American Express. It is useful when transactions may be wanted to bypass processing rules.<br/><br/>Note that this may affect the liability shift of transactions and may occur a higher fee with the acquiring bank.<br/><br/>Values are<br/><br/> <code>0</code> for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.<br/><br/> <code>1</code> for an enforced policy. Transactions will be enabled for 3DS processing<br/><br/> <code>2</code> to bypass. Transactions that are bypassed will switch off 3DS processing.</td>
 </tr>
 <tr>
 <td><code>user_agent</code></td>
 <td>string</td>
 <td>false</td>
-<td>Required for 3DSv1. Optional if the <code>cp_bx</code> value is provided otherwise required 3Dv2 processing operating in<br/>browser authentication mode.<br/><br/>The <code>cp_bx</code> value will override any value supplied to this field.<br/><br/>The content of the HTTP user-agent header as sent to the merchant from the cardholder&#39;s user agent.<br/>This value will be validated by the ACS when the card holder authenticates themselves to verify that<br/>no intermediary is performing this action. Required for 3DSv1.</td>
+<td>Required for 3DSv1. Optional if the <code>cp_bx</code> value is provided otherwise required 3Dv2 processing operating in browser authentication mode.<br/><br/>The <code>cp_bx</code> value will override any value supplied to this field.<br/><br/>The content of the HTTP user-agent header as sent to the merchant from the cardholder&#39;s user agent.<br/><br/>This value will be validated by the ACS when the card holder authenticates themselves to verify that no intermediary is performing this action. Required for 3DSv1.</td>
 </tr>
 </tbody></table>
 <h2 id='voidrequest'>VoidRequest</h2><div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
@@ -4791,7 +4862,7 @@ for analysis and may result in a decline if incorrectly provided. |
 <td><code>identifier</code></td>
 <td>string</td>
 <td>false</td>
-<td>The identifier of the transaction to void. If an empty value is supplied then a <code>trans_no</code> value must be supplied.<br/>minLength: 4<br/>maxLength: 50</td>
+<td>The identifier of the transaction to void. If an empty value is supplied then a <code>trans_no</code> value must be supplied.<br/><br/>minLength: 4<br/>maxLength: 50</td>
 </tr>
 <tr>
 <td><code>merchantid</code></td>
@@ -6499,5 +6570,23 @@ test gateway will only validate whether values are supplied where required. </p>
           </div>
       </div>
     </div>
+    <a class="float">
+        <i class="fa fa-code icon-float" aria-hidden="true"></i>
+    </a>
+    <script>
+        document.getElementsByClassName("float")[0].addEventListener("click", function () {
+            document.querySelectorAll(".dark-box").forEach(function (i) {
+                i.classList.toggle("hide")
+            });
+
+            document.querySelectorAll(".content div .highlight, .content blockquote").forEach(function (i) {
+                i.classList.toggle("hide")
+            })
+
+            document.querySelectorAll(".content>h1,.content>h2,.content>h3,.content>h4,.content>h5,.content>h6,.content>p,.content>table,.content>ul,.content>ol,.content>aside,.content>dl ").forEach(function (i) {
+                i.classList.toggle("no-margin-right")
+            })
+        });
+    </script>
   </body>
 </html>
