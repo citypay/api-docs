@@ -264,6 +264,20 @@
               </ul>
           </li>
           <li>
+            <a href="#batch-processing" class="toc-h1 toc-link" data-title="Batch Processing">Batch Processing</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#batch-process-request" class="toc-h2 toc-link" data-title="Batch Process Request">Batch Process Request</a>
+                  </li>
+                  <li>
+                    <a href="#batchreportrequest" class="toc-h2 toc-link" data-title="BatchReportRequest">BatchReportRequest</a>
+                  </li>
+                  <li>
+                    <a href="#checkbatchstatus" class="toc-h2 toc-link" data-title="CheckBatchStatus">CheckBatchStatus</a>
+                  </li>
+              </ul>
+          </li>
+          <li>
             <a href="#card-holder-account" class="toc-h1 toc-link" data-title="Card Holder Account">Card Holder Account</a>
               <ul class="toc-list-h2">
                   <li>
@@ -369,6 +383,18 @@
                     <a href="#authenrequired" class="toc-h2 toc-link" data-title="AuthenRequired">AuthenRequired</a>
                   </li>
                   <li>
+                    <a href="#batchreportrequest-2" class="toc-h2 toc-link" data-title="BatchReportRequest">BatchReportRequest</a>
+                  </li>
+                  <li>
+                    <a href="#batchreportresponsemodel" class="toc-h2 toc-link" data-title="BatchReportResponseModel">BatchReportResponseModel</a>
+                  </li>
+                  <li>
+                    <a href="#batchtransaction" class="toc-h2 toc-link" data-title="BatchTransaction">BatchTransaction</a>
+                  </li>
+                  <li>
+                    <a href="#batchtransactionresultmodel" class="toc-h2 toc-link" data-title="BatchTransactionResultModel">BatchTransactionResultModel</a>
+                  </li>
+                  <li>
                     <a href="#cresauthrequest" class="toc-h2 toc-link" data-title="CResAuthRequest">CResAuthRequest</a>
                   </li>
                   <li>
@@ -385,6 +411,12 @@
                   </li>
                   <li>
                     <a href="#chargerequest" class="toc-h2 toc-link" data-title="ChargeRequest">ChargeRequest</a>
+                  </li>
+                  <li>
+                    <a href="#checkbatchstatus-2" class="toc-h2 toc-link" data-title="CheckBatchStatus">CheckBatchStatus</a>
+                  </li>
+                  <li>
+                    <a href="#checkbatchstatusresponse" class="toc-h2 toc-link" data-title="CheckBatchStatusResponse">CheckBatchStatusResponse</a>
                   </li>
                   <li>
                     <a href="#contactdetails" class="toc-h2 toc-link" data-title="ContactDetails">ContactDetails</a>
@@ -415,6 +447,12 @@
                   </li>
                   <li>
                     <a href="#ping" class="toc-h2 toc-link" data-title="Ping">Ping</a>
+                  </li>
+                  <li>
+                    <a href="#processbatchrequest" class="toc-h2 toc-link" data-title="ProcessBatchRequest">ProcessBatchRequest</a>
+                  </li>
+                  <li>
+                    <a href="#processbatchresponse" class="toc-h2 toc-link" data-title="ProcessBatchResponse">ProcessBatchResponse</a>
                   </li>
                   <li>
                     <a href="#refundrequest" class="toc-h2 toc-link" data-title="RefundRequest">RefundRequest</a>
@@ -471,7 +509,7 @@
       </ul>
         <ul class="toc-footer">
             <li><a href='mailto:support@citypay.com'>Any Integration Questions?</a></li>
-            <li>V6.2.1 2021-08-06</li>
+            <li>V6.2.2 2021-09-01</li>
         </ul>
     </div>
     <div class="page-wrapper">
@@ -479,8 +517,8 @@
       <div class="content">
         <img src="images/citypay-logo-23676e0b.svg" class="cplogo" alt="" />
         <h1 id='citypay-payment-api'>CityPay Payment API</h1>
-<p>Version: 6.2.1
-Last Updated: 2021-08-06</p>
+<p>Version: 6.2.2
+Last Updated: 2021-09-01</p>
 
 <p>This CityPay API is a HTTP RESTful payment API used for direct server to server transactional processing. It
 provides a number of payment mechanisms including: Internet, MOTO, Continuous Authority transaction processing,
@@ -518,14 +556,17 @@ security vulnerabilities.</li>
 <p>Please contact CityPay Support</p>
 
 <ul>
-<li>At our online <a href="https://jira.ops.citypay.com/servicedesk/customer/portal/14">Service Desk</a></li>
+<li>At our online <a href="https://citypay.atlassian.net/servicedesk/customer/portal/1">CityPay Service Desk</a></li>
 <li>Or via our website at <a href="https://citypay.com/customer-centre/technical-support.html">https://citypay.com/customer-centre/technical-support.html</a></li>
 </ul>
 
-<p>For any transaction investigations or integration support, please provide your
- - merchant id
- - a context id or identifier
- - a date and time of the request</p>
+<p>For any transaction investigations or integration support, please provide your</p>
+
+<ul>
+<li>merchant id</li>
+<li>a context id or identifier</li>
+<li>a date and time of the request</li>
+</ul>
 <h1 id='authentication'>Authentication</h1>
 <blockquote>
 <p>Example authentication header as used in curl</p>
@@ -610,7 +651,226 @@ security vulnerabilities.</li>
 <aside class="notice">
 We have example code in varying languages, please consult with your account and integration point of contact for details.
 </aside>
-<h1 id='card-holder-account'>Card Holder Account</h1><h2 id='account-exists'>Account Exists</h2>
+<h1 id='batch-processing'>Batch Processing</h1>
+<p>Batch processing uses the Batch and Instalment Service (BIS) which allows for transaction processing against cardholder 
+accounts using a dynamic batch file. For merchants who process on schedules and dynamic amounts, the service allows for 
+the presentation of cardholder account references and transaction requirements to run as a scheduled batch.</p>
+<h2 id='batch-process-request'>Batch Process Request</h2>
+<p><span class="http-method-post">POST</span> <code>/batch/process</code></p>
+
+<p>A batch process request is used to start the batch process workflow by uploading batch
+data and initialising a new batch for processing. Once validated the batch will be queued
+for processing and further updates can be received by a subsequent call to retrieve the batch
+status.</p>
+<h3 id='model-processbatchrequest'>Model ProcessBatchRequest</h3>
+<p>Request body for this operation contains the following properties</p>
+
+<table><thead>
+<tr>
+<th>Required</th>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>Required</td>
+<td><code>batch_date</code></td>
+<td>string <em>date-time</em></td>
+<td>The date and time that the file was created in ISO-8601 format.</td>
+</tr>
+<tr>
+<td>Required</td>
+<td><code>batch_id</code></td>
+<td>integer <em>int32</em></td>
+<td>The id is a referencable id for the batch that should be generated by your integration. Its recommended to use an incremental id to help determine if a batch has been skipped or missed. The id is used by reporting systems to reference the unique batch alongside your client id.<br/><br/> maxLength: 8<br/>minimum: 1</td>
+</tr>
+<tr>
+<td>Required</td>
+<td><code>transactions</code></td>
+<td>array</td>
+<td>Transactions requested for processing. <a href="#batchtransaction">BatchTransaction</a></td>
+</tr>
+<tr>
+<td>Optional</td>
+<td><code>account_id</code></td>
+<td>string</td>
+<td>The batch account id to process the batch for. Defaults to your client id if not provided.<br/><br/>minLength: 3<br/>maxLength: 20</td>
+</tr>
+</tbody></table>
+<h3 id='response'>Response</h3>
+<p>Responses for this operation are</p>
+
+<table><thead>
+<tr>
+<th>StatusCode</th>
+<th>Description</th>
+<th>Model</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>403</code></td>
+<td>Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request.</td>
+<td></td>
+</tr>
+<tr>
+<td><code>401</code></td>
+<td>Unauthorized. No api key has been provided and is required for this operation.</td>
+<td></td>
+</tr>
+<tr>
+<td><code>422</code></td>
+<td>Unprocessable Entity. Should a failure occur that prevents processing of the API call.</td>
+<td><code>application/json</code>, <code>text/xml</code>:  <br/> <a href="#error">Error</a></td>
+</tr>
+<tr>
+<td><code>400</code></td>
+<td>Bad Request. Should the incoming data not be validly determined.</td>
+<td></td>
+</tr>
+<tr>
+<td><code>200</code></td>
+<td>Request to process a batch provided in the request.</td>
+<td><code>application/json</code>, <code>text/xml</code>:  <br/> <a href="#processbatchresponse">ProcessBatchResponse</a></td>
+</tr>
+</tbody></table>
+<h2 id='batchreportrequest'>BatchReportRequest</h2>
+<p><span class="http-method-post">POST</span> <code>/batch/retrieve</code></p>
+
+<p>The operation is used to retrieve a report of the result of a batch process.</p>
+<h3 id='model-batchreportrequest'>Model BatchReportRequest</h3>
+<p>Request body for this operation contains the following properties</p>
+
+<table><thead>
+<tr>
+<th>Required</th>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>Required</td>
+<td><code>batch_id</code></td>
+<td>integer <em>int32</em></td>
+<td>The batch id specified in the batch processing request.<br/><br/>maxLength: 8<br/>minimum: 1</td>
+</tr>
+<tr>
+<td>Optional</td>
+<td><code>account_id</code></td>
+<td>string</td>
+<td>The batch account id that the batch was processed for. Defaults to your client id if not provided.<br/><br/>minLength: 3<br/>maxLength: 20</td>
+</tr>
+</tbody></table>
+<h3 id='response-2'>Response</h3>
+<p>Responses for this operation are</p>
+
+<table><thead>
+<tr>
+<th>StatusCode</th>
+<th>Description</th>
+<th>Model</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>403</code></td>
+<td>Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request.</td>
+<td></td>
+</tr>
+<tr>
+<td><code>401</code></td>
+<td>Unauthorized. No api key has been provided and is required for this operation.</td>
+<td></td>
+</tr>
+<tr>
+<td><code>422</code></td>
+<td>Unprocessable Entity. Should a failure occur that prevents processing of the API call.</td>
+<td><code>application/json</code>, <code>text/xml</code>:  <br/> <a href="#error">Error</a></td>
+</tr>
+<tr>
+<td><code>400</code></td>
+<td>Bad Request. Should the incoming data not be validly determined.</td>
+<td></td>
+</tr>
+<tr>
+<td><code>200</code></td>
+<td>The report for a given batch.</td>
+<td><code>application/json</code>, <code>text/xml</code>:  <br/> <a href="#batchreportresponsemodel">BatchReportResponseModel</a></td>
+</tr>
+</tbody></table>
+<h2 id='checkbatchstatus'>CheckBatchStatus</h2>
+<p><span class="http-method-post">POST</span> <code>/batch/status</code></p>
+
+<p>The operation is used to retrieve the status of a batch process.</p>
+<h3 id='model-checkbatchstatus'>Model CheckBatchStatus</h3>
+<p>Request body for this operation contains the following properties</p>
+
+<table><thead>
+<tr>
+<th>Required</th>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>Required</td>
+<td><code>batch_id</code></td>
+<td>integer <em>int32</em></td>
+<td>The batch id to obtain the status for.<br/><br/>maxLength: 8<br/>minimum: 1</td>
+</tr>
+<tr>
+<td>Optional</td>
+<td><code>account_id</code></td>
+<td>string</td>
+<td>The batch account id to obtain the batch for. Defaults to your client id if not provided.<br/><br/>minLength: 3<br/>maxLength: 20</td>
+</tr>
+</tbody></table>
+<h3 id='response-3'>Response</h3>
+<p>Responses for this operation are</p>
+
+<table><thead>
+<tr>
+<th>StatusCode</th>
+<th>Description</th>
+<th>Model</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>403</code></td>
+<td>Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request.</td>
+<td></td>
+</tr>
+<tr>
+<td><code>401</code></td>
+<td>Unauthorized. No api key has been provided and is required for this operation.</td>
+<td></td>
+</tr>
+<tr>
+<td><code>422</code></td>
+<td>Unprocessable Entity. Should a failure occur that prevents processing of the API call.</td>
+<td><code>application/json</code>, <code>text/xml</code>:  <br/> <a href="#error">Error</a></td>
+</tr>
+<tr>
+<td><code>400</code></td>
+<td>Bad Request. Should the incoming data not be validly determined.</td>
+<td></td>
+</tr>
+<tr>
+<td><code>200</code></td>
+<td>The status of a batch provided in the request.</td>
+<td><code>application/json</code>, <code>text/xml</code>:  <br/> <a href="#checkbatchstatusresponse">CheckBatchStatusResponse</a></td>
+</tr>
+</tbody></table>
+<h1 id='card-holder-account'>Card Holder Account</h1>
+<p>A cardholder account models a cardholder and can register 1 or more cards for tokenised charging. </p>
+
+<p>The account offers a credential on file option to the CityPay gateway allowing for both cardholder initiated and 
+merchant initiated transaction processing.</p>
+
+<p>This can include unscheduled or scheduled transactions that can be requested through this API and include batch 
+processing options.</p>
+<h2 id='account-exists'>Account Exists</h2>
 <p><span class="http-method-get">GET</span> <code>/account-exists/{accountid}</code></p>
 
 <p>Checks that an account exists and is active by providing the account id as a url parameter 
@@ -631,7 +891,7 @@ Checks that an account exists and is active by providing the account id as a url
 <td>The account id that refers to the customer&#39;s account no. This value will have been provided when setting up the card holder account.</td>
 </tr>
 </tbody></table>
-<h3 id='response'>Response</h3>
+<h3 id='response-4'>Response</h3>
 <p>Responses for this operation are</p>
 
 <table><thead>
@@ -695,7 +955,7 @@ Checks that an account exists and is active by providing the account id as a url
 <td><a href="#contactdetails">ContactDetails</a> Contact details for a card holder account.</td>
 </tr>
 </tbody></table>
-<h3 id='response-2'>Response</h3>
+<h3 id='response-5'>Response</h3>
 <p>Responses for this operation are</p>
 
 <table><thead>
@@ -756,7 +1016,7 @@ enable a card holder to view their wallet and make constructive choices on which
 <td>The account id that refers to the customer&#39;s account no. This value will have been provided when setting up the card holder account.</td>
 </tr>
 </tbody></table>
-<h3 id='response-3'>Response</h3>
+<h3 id='response-6'>Response</h3>
 <p>Responses for this operation are</p>
 
 <table><thead>
@@ -813,7 +1073,7 @@ transactions will be alowed to be processed or actioned against this account.</p
 <td>The account id that refers to the customer&#39;s account no. This value will have been provided when setting up the card holder account.</td>
 </tr>
 </tbody></table>
-<h3 id='response-4'>Response</h3>
+<h3 id='response-7'>Response</h3>
 <p>Responses for this operation are</p>
 
 <table><thead>
@@ -876,7 +1136,7 @@ purge will clear the card permanently.</p>
 <td>The id of the card that is presented by a call to retrieve a card holder account.</td>
 </tr>
 </tbody></table>
-<h3 id='response-5'>Response</h3>
+<h3 id='response-8'>Response</h3>
 <p>Responses for this operation are</p>
 
 <table><thead>
@@ -982,7 +1242,7 @@ purge will clear the card permanently.</p>
 <td>Defines if the card is set as the default.</td>
 </tr>
 </tbody></table>
-<h3 id='response-6'>Response</h3>
+<h3 id='response-9'>Response</h3>
 <p>Responses for this operation are</p>
 
 <table><thead>
@@ -1128,7 +1388,7 @@ purge will clear the card permanently.</p>
 <td>A title for the card holder such as Mr, Mrs, Ms, M. Mme. etc.</td>
 </tr>
 </tbody></table>
-<h3 id='response-7'>Response</h3>
+<h3 id='response-10'>Response</h3>
 <p>Responses for this operation are</p>
 
 <table><thead>
@@ -1229,7 +1489,7 @@ processing and will be available as a tokenised value for future processing.</p>
 <td>Determines whether the card should be the new default card.</td>
 </tr>
 </tbody></table>
-<h3 id='response-8'>Response</h3>
+<h3 id='response-11'>Response</h3>
 <p>Responses for this operation are</p>
 
 <table><thead>
@@ -1319,7 +1579,7 @@ processing and will be available as a tokenised value for future processing.</p>
 <td>The status of the account to set, valid values are ACTIVE or DISABLED.</td>
 </tr>
 </tbody></table>
-<h3 id='response-9'>Response</h3>
+<h3 id='response-12'>Response</h3>
 <p>Responses for this operation are</p>
 
 <table><thead>
@@ -1469,7 +1729,7 @@ for use elsewhere.  </p>
 <td>The type of transaction being submitted. Normally this value is not required and your account manager may request that you set this field.<br/><br/>maxLength: 1</td>
 </tr>
 </tbody></table>
-<h3 id='response-10'>Response</h3>
+<h3 id='response-13'>Response</h3>
 <p>Responses for this operation are</p>
 
 <table><thead>
@@ -1505,7 +1765,9 @@ for use elsewhere.  </p>
 <td><code>application/json</code>, <code>text/xml</code>:  <br/> <a href="#decision">Decision</a></td>
 </tr>
 </tbody></table>
-<h1 id='operational'>Operational</h1><h2 id='list-merchants-request'>List Merchants Request</h2>
+<h1 id='operational'>Operational</h1>
+<p>Operations that are for operational purposes only such as checking connectivity to the API.</p>
+<h2 id='list-merchants-request'>List Merchants Request</h2>
 <p><span class="http-method-get">GET</span> <code>/merchants/{clientid}</code></p>
 
 <p>An operational request to list current merchants for a client.</p>
@@ -1529,7 +1791,7 @@ for use elsewhere.  </p>
 <td>The client id to return merchants for, specifying &quot;default&quot; will use the value in your api key.</td>
 </tr>
 </tbody></table>
-<h3 id='response-11'>Response</h3>
+<h3 id='response-14'>Response</h3>
 <p>Responses for this operation are</p>
 
 <table><thead>
@@ -1593,7 +1855,7 @@ model is granting access from your source.</p>
 <td>An identifier of the ping request which will be returned in the response.<br/><br/>minLength: 4<br/>maxLength: 50</td>
 </tr>
 </tbody></table>
-<h3 id='response-12'>Response</h3>
+<h3 id='response-15'>Response</h3>
 <p>Responses for this operation are</p>
 
 <table><thead>
@@ -1629,7 +1891,11 @@ model is granting access from your source.</p>
 <td><code>application/json</code>, <code>text/xml</code>:  <br/> <a href="#acknowledgement">Acknowledgement</a></td>
 </tr>
 </tbody></table>
-<h1 id='payment-processing'>Payment Processing</h1><h2 id='authorisation'>Authorisation</h2>
+<h1 id='payment-processing'>Payment Processing</h1>
+<p>The Payment Processing API offers standard and enhanced payment processing for MOTO, e-commerce
+ and continuous authority transactions that include fraud and risk checking, 3D-Secure flows 
+ and payment querying.</p>
+<h2 id='authorisation'>Authorisation</h2>
 <p><span class="http-method-post">POST</span> <code>/authorise</code></p>
 
 <p>An authorisation process performs a standard transaction authorisation based on the provided parameters of its request.
@@ -1720,12 +1986,18 @@ this and will solidify the authorisation and confirmation process.</p>
 <h4 id='3dsv2'>3DSv2</h4><div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w"> 
   </span><span class="nl">"RequestChallenged"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
     </span><span class="nl">"acsurl"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://bank.com/3DS/ACS"</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"creq"</span><span class="p">:</span><span class="w"> </span><span class="s2">"SXQgd2FzIHRoZSBiZXN0IG9mIHRpbWVzLCBpdCB3YXMgdGhlIHdvcnN00..."</span><span class="w">
+    </span><span class="nl">"creq"</span><span class="p">:</span><span class="w"> </span><span class="s2">"SXQgd2FzIHRoZSBiZXN0IG9mIHRpbWVzLCBpdCB3YXMgdGhlIHdvcnN00..."</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"merchantid"</span><span class="p">:</span><span class="w"> </span><span class="mi">12345</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"transno"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"threedserver_trans_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"d652d8d2-d74a-4264-a051-a7862b10d5d6"</span><span class="w">
   </span><span class="p">}</span><span class="w">               
 </span><span class="p">}</span><span class="w">
 </span></code></pre></div><div class="highlight"><pre class="highlight xml tab-xml"><code><span class="nt">&lt;RequestChallenged&gt;</span>
- <span class="nt">&lt;acsurl&gt;</span>https://bank.com/3DS/ACS<span class="nt">&lt;/acsurl&gt;</span>
- <span class="nt">&lt;creq&gt;</span>SXQgd2FzIHRoZSBiZXN0IG9mIHRpbWVzLCBpdCB3YXMgdGhlIHdvcnN00...<span class="nt">&lt;/creq&gt;</span>
+  <span class="nt">&lt;acsurl&gt;</span>https://bank.com/3DS/ACS<span class="nt">&lt;/acsurl&gt;</span>
+  <span class="nt">&lt;creq&gt;</span>SXQgd2FzIHRoZSBiZXN0IG9mIHRpbWVzLCBpdCB3YXMgdGhlIHdvcnN00...<span class="nt">&lt;/creq&gt;</span>
+  <span class="nt">&lt;merchantid&gt;</span>12345<span class="nt">&lt;/merchantid&gt;</span>
+  <span class="nt">&lt;transno&gt;</span>1<span class="nt">&lt;/transno&gt;</span>
+  <span class="nt">&lt;threedserver_trans_id&gt;</span>d652d8d2-d74a-4264-a051-a7862b10d5d6<span class="nt">&lt;/threedserver_trans_id&gt;</span>
 <span class="nt">&lt;/RequestChallenged&gt;</span>
 </code></pre></div>
 <p>All merchants in the EEC will require to migrate their E-commerce transactions to a secure customer authentication 
@@ -1742,6 +2014,12 @@ you will not be required to change anything.</p>
 require your integration to forward the cardholder&#39;s browser to the given <a href="#acsurl">ACS url</a> by posting the <a href="#creq">creq</a>
 value. Once complete, the ACS will have already been in touch with our servers by sending us a result of the authentication
 known as <code>RReq</code>.</p>
+
+<p>To maintain session state, a parameter <code>ThreeDSSessionData</code> can be posted to the ACS url and will be returned alongside 
+the <code>CRes</code> value. This will ensure that any controller code will be able to isolate state between calls. This field
+is to be used by your own systems rather than ours and may be any value which can uniquely identify your cardholder&#39;s
+session. As an option, we do provide a <code>threedserver_trans_id</code> value in the <code>RequestChallenged</code> packet which can be used
+for the <code>ThreeDSSessionData</code> value as it is used to uniquely identify the 3D-Secure session. </p>
 
 <p>Our servers however will await confirmation that the authorisation should continue and on receipt of a <a href="#cres">cres</a>
 value, the flow will perform full authorisation processing. </p>
@@ -1768,6 +2046,7 @@ value will be validated for receipt of the CAVV and subsequently may return back
     <span class="nt">&lt;body</span> <span class="na">onload=</span><span class="s">"onLoadEvent();"</span><span class="nt">&gt;</span>
         <span class="nt">&lt;form</span> <span class="na">name=</span><span class="s">"acs"</span> <span class="na">action=</span><span class="s">"{{ACSURL from Response}}"</span> <span class="na">method=</span><span class="s">"POST"</span><span class="nt">&gt;</span>
             <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"hidden"</span> <span class="na">name=</span><span class="s">"creq"</span> <span class="na">value=</span><span class="s">"{{CReq Packet from Response}}"</span> <span class="nt">/&gt;</span>
+            <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"hidden"</span> <span class="na">name=</span><span class="s">"ThreeDSSessionData"</span> <span class="na">value=</span><span class="s">"{{session-identifier}}"</span> <span class="nt">/&gt;</span>
         <span class="nt">&lt;/form&gt;</span>
     <span class="nt">&lt;/body&gt;</span>
 <span class="nt">&lt;/html&gt;</span>
@@ -2033,7 +2312,7 @@ value will be validated for receipt of the CAVV and subsequently may return back
 <td><a href="#airlineadvice">AirlineAdvice</a> Additional advice for airline integration that can be applied on an authorisation request.<br/><br/>As tickets are normally not allocated until successful payment it is normal for a transaction to be pre-authorised  and the airline advice supplied on a capture request instead. Should the data already exist and an auth and  capture is preferred. This data may be supplied.</td>
 </tr>
 </tbody></table>
-<h3 id='response-13'>Response</h3>
+<h3 id='response-16'>Response</h3>
 <p>Responses for this operation are</p>
 
 <table><thead>
@@ -2207,7 +2486,7 @@ be available for the settlement and completed at the end of the day.</p>
 <td><a href="#airlineadvice">AirlineAdvice</a> Additional advice to be applied for the capture request.</td>
 </tr>
 </tbody></table>
-<h3 id='response-14'>Response</h3>
+<h3 id='response-17'>Response</h3>
 <p>Responses for this operation are</p>
 
 <table><thead>
@@ -2283,7 +2562,7 @@ on its own without a previous <a href="#requestchallenged">request challenge</a>
 <td>The challenge response data forwarded by the ACS in 3D-Secure V2 processing. Data should be forwarded to CityPay unchanged for subsequent authorisation and processing.</td>
 </tr>
 </tbody></table>
-<h3 id='response-15'>Response</h3>
+<h3 id='response-18'>Response</h3>
 <p>Responses for this operation are</p>
 
 <table><thead>
@@ -2367,7 +2646,7 @@ on its own without a previous <a href="#authenticationrequired">authentication r
 <td>The Payer Authentication Response packet which is returned by the ACS containing the  response of the authentication session including verification values. The response  is a base64 encoded packet and should be forwarded to CityPay untouched.</td>
 </tr>
 </tbody></table>
-<h3 id='response-16'>Response</h3>
+<h3 id='response-19'>Response</h3>
 <p>Responses for this operation are</p>
 
 <table><thead>
@@ -2451,7 +2730,7 @@ original card used to process the transaction.</p>
 <td>Further information that can be added to the transaction will display in reporting. Can be used for flexible values such as operator id.<br/><br/>maxLength: 50</td>
 </tr>
 </tbody></table>
-<h3 id='response-17'>Response</h3>
+<h3 id='response-20'>Response</h3>
 <p>Responses for this operation are</p>
 
 <table><thead>
@@ -2544,7 +2823,7 @@ information to be returned.</p>
 <td>The transaction number of a transaction to retrieve. Optional if an identifier is supplied.</td>
 </tr>
 </tbody></table>
-<h3 id='response-18'>Response</h3>
+<h3 id='response-21'>Response</h3>
 <p>Responses for this operation are</p>
 
 <table><thead>
@@ -2649,7 +2928,7 @@ outlining the result of the transaction.</p>
 <td>The transaction number of the transaction to look up and void. If an empty value is supplied then an identifier value must be supplied.</td>
 </tr>
 </tbody></table>
-<h3 id='response-19'>Response</h3>
+<h3 id='response-22'>Response</h3>
 <p>Responses for this operation are</p>
 
 <table><thead>
@@ -3613,6 +3892,238 @@ outlining the result of the transaction.</p>
 <td>The Payer Authentication Request packet which should be <code>POSTed</code> to the Url of the ACS to establish the authentication session. Data should be sent untouched.</td>
 </tr>
 </tbody></table>
+<h2 id='batchreportrequest-2'>BatchReportRequest</h2><div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+   </span><span class="nl">"account_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"AC1"</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"batch_id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1975</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div><div class="highlight"><pre class="highlight xml tab-xml"><code><span class="nt">&lt;BatchReportRequest&gt;</span>
+ <span class="nt">&lt;account_id&gt;</span>AC1<span class="nt">&lt;/account_id&gt;</span> 
+ <span class="nt">&lt;batch_id&gt;</span>1975<span class="nt">&lt;/batch_id&gt;</span> 
+<span class="nt">&lt;/BatchReportRequest&gt;</span>
+</code></pre></div>
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>account_id</code></td>
+<td>string</td>
+<td>false</td>
+<td>The batch account id that the batch was processed for. Defaults to your client id if not provided.<br/><br/>minLength: 3<br/>maxLength: 20</td>
+</tr>
+<tr>
+<td><code>batch_id</code></td>
+<td>integer <em>int32</em></td>
+<td>true</td>
+<td>The batch id specified in the batch processing request.<br/><br/>maxLength: 8<br/>minimum: 1</td>
+</tr>
+</tbody></table>
+<h2 id='batchreportresponsemodel'>BatchReportResponseModel</h2><div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+   </span><span class="nl">"account_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"AC1"</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"amount"</span><span class="p">:</span><span class="w"> </span><span class="mi">3600</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"batch_date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2020-01-02"</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"batch_id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1975</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"batch_status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"COMPLETE"</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"transactions"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div><div class="highlight"><pre class="highlight xml tab-xml"><code><span class="nt">&lt;BatchReportResponseModel&gt;</span>
+ <span class="nt">&lt;account_id&gt;</span>AC1<span class="nt">&lt;/account_id&gt;</span> 
+ <span class="nt">&lt;amount&gt;</span>3600<span class="nt">&lt;/amount&gt;</span> 
+ <span class="nt">&lt;batch_date&gt;</span>2020-01-02<span class="nt">&lt;/batch_date&gt;</span> 
+ <span class="nt">&lt;batch_id&gt;</span>1975<span class="nt">&lt;/batch_id&gt;</span> 
+ <span class="nt">&lt;batch_status&gt;</span>COMPLETE<span class="nt">&lt;/batch_status&gt;</span> 
+ <span class="nt">&lt;transactions&gt;&lt;/transactions&gt;</span> 
+<span class="nt">&lt;/BatchReportResponseModel&gt;</span>
+</code></pre></div>
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>account_id</code></td>
+<td>string</td>
+<td>true</td>
+<td>The batch account id that the batch was processed with.<br/><br/>minLength: 3<br/>maxLength: 20</td>
+</tr>
+<tr>
+<td><code>amount</code></td>
+<td>integer <em>int32</em></td>
+<td>true</td>
+<td>The total amount that the batch contains.<br/><br/>minLength: 1<br/>maxLength: 12</td>
+</tr>
+<tr>
+<td><code>batch_date</code></td>
+<td>string <em>date-time</em></td>
+<td>true</td>
+<td>The date and time of the batch in ISO-8601 format.</td>
+</tr>
+<tr>
+<td><code>batch_id</code></td>
+<td>integer <em>int32</em></td>
+<td>true</td>
+<td>The batch id specified in the batch processing request.<br/><br/>maxLength: 8<br/>minimum: 1</td>
+</tr>
+<tr>
+<td><code>batch_status</code></td>
+<td>string</td>
+<td>true</td>
+<td>The status of the batch. Possible values are.</td>
+</tr>
+<tr>
+<td><code>transactions</code></td>
+<td>array</td>
+<td>true</td>
+<td>Transactions associated with the batch. <a href="#batchtransactionresultmodel">BatchTransactionResultModel</a></td>
+</tr>
+</tbody></table>
+<h2 id='batchtransaction'>BatchTransaction</h2><div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+   </span><span class="nl">"account_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"aaabbb-cccddd-eee"</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"amount"</span><span class="p">:</span><span class="w"> </span><span class="mi">3600</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"identifier"</span><span class="p">:</span><span class="w"> </span><span class="s2">"95b857a1-5955-4b86-963c-5a6dbfc4fb95"</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"merchantid"</span><span class="p">:</span><span class="w"> </span><span class="mi">11223344</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div><div class="highlight"><pre class="highlight xml tab-xml"><code><span class="nt">&lt;BatchTransaction&gt;</span>
+ <span class="nt">&lt;account_id&gt;</span>aaabbb-cccddd-eee<span class="nt">&lt;/account_id&gt;</span> 
+ <span class="nt">&lt;amount&gt;</span>3600<span class="nt">&lt;/amount&gt;</span> 
+ <span class="nt">&lt;identifier&gt;</span>95b857a1-5955-4b86-963c-5a6dbfc4fb95<span class="nt">&lt;/identifier&gt;</span> 
+ <span class="nt">&lt;merchantid&gt;</span>11223344<span class="nt">&lt;/merchantid&gt;</span> 
+<span class="nt">&lt;/BatchTransaction&gt;</span>
+</code></pre></div>
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>account_id</code></td>
+<td>string</td>
+<td>true</td>
+<td>The card holder account id to process against.<br/><br/>minLength: 5<br/>maxLength: 50</td>
+</tr>
+<tr>
+<td><code>amount</code></td>
+<td>integer <em>int32</em></td>
+<td>true</td>
+<td>The amount required to process in the lowest denomination.<br/><br/>minLength: 1<br/>maxLength: 12</td>
+</tr>
+<tr>
+<td><code>identifier</code></td>
+<td>string</td>
+<td>false</td>
+<td>An identifier used to reference the transaction set by your integration. The value should be used to refer to the transaction in future calls.<br/><br/>minLength: 4<br/>maxLength: 50</td>
+</tr>
+<tr>
+<td><code>merchantid</code></td>
+<td>integer <em>int32</em></td>
+<td>false</td>
+<td>The CityPay merchant id used to process the transaction.</td>
+</tr>
+</tbody></table>
+<h2 id='batchtransactionresultmodel'>BatchTransactionResultModel</h2><div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+   </span><span class="nl">"account_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"aaabbb-cccddd-eee"</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"amount"</span><span class="p">:</span><span class="w"> </span><span class="mi">3600</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"authcode"</span><span class="p">:</span><span class="w"> </span><span class="s2">"001245A"</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"authorised"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"identifier"</span><span class="p">:</span><span class="w"> </span><span class="s2">"95b857a1-5955-4b86-963c-5a6dbfc4fb95"</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"maskedpan"</span><span class="p">:</span><span class="w"> </span><span class="s2">"4***********0002"</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"merchantid"</span><span class="p">:</span><span class="w"> </span><span class="mi">11223344</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Approved 044332"</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"result"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"scheme"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Visa"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div><div class="highlight"><pre class="highlight xml tab-xml"><code><span class="nt">&lt;BatchTransactionResultModel&gt;</span>
+ <span class="nt">&lt;account_id&gt;</span>aaabbb-cccddd-eee<span class="nt">&lt;/account_id&gt;</span> 
+ <span class="nt">&lt;amount&gt;</span>3600<span class="nt">&lt;/amount&gt;</span> 
+ <span class="nt">&lt;authcode&gt;</span>001245A<span class="nt">&lt;/authcode&gt;</span> 
+ <span class="nt">&lt;authorised&gt;</span>true<span class="nt">&lt;/authorised&gt;</span> 
+ <span class="nt">&lt;identifier&gt;</span>95b857a1-5955-4b86-963c-5a6dbfc4fb95<span class="nt">&lt;/identifier&gt;</span> 
+ <span class="nt">&lt;maskedpan&gt;</span>4***********0002<span class="nt">&lt;/maskedpan&gt;</span> 
+ <span class="nt">&lt;merchantid&gt;</span>11223344<span class="nt">&lt;/merchantid&gt;</span> 
+ <span class="nt">&lt;message&gt;</span>Approved 044332<span class="nt">&lt;/message&gt;</span> 
+ <span class="nt">&lt;result&gt;</span>1<span class="nt">&lt;/result&gt;</span> 
+ <span class="nt">&lt;scheme&gt;</span>Visa<span class="nt">&lt;/scheme&gt;</span> 
+<span class="nt">&lt;/BatchTransactionResultModel&gt;</span>
+</code></pre></div>
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>account_id</code></td>
+<td>string</td>
+<td>true</td>
+<td>The card holder account id used for the transaction.<br/><br/>minLength: 5<br/>maxLength: 50</td>
+</tr>
+<tr>
+<td><code>amount</code></td>
+<td>integer <em>int32</em></td>
+<td>false</td>
+<td>The amount of the transaction processed.<br/><br/>minLength: 1<br/>maxLength: 12</td>
+</tr>
+<tr>
+<td><code>authcode</code></td>
+<td>string</td>
+<td>false</td>
+<td>The authorisation code of a successful transaction.</td>
+</tr>
+<tr>
+<td><code>authorised</code></td>
+<td>boolean</td>
+<td>false</td>
+<td>A boolean definition that indicates that the transaction was authorised. It will return false if the transaction  was declined, rejected or cancelled due to CSC matching failures.<br/><br/>Attention should be referenced to the AuthResult and Response code for accurate determination of the result.</td>
+</tr>
+<tr>
+<td><code>identifier</code></td>
+<td>string</td>
+<td>true</td>
+<td>The identifier of the transaction.<br/><br/>minLength: 4<br/>maxLength: 50</td>
+</tr>
+<tr>
+<td><code>maskedpan</code></td>
+<td>string</td>
+<td>false</td>
+<td>A masked value of the card number used for processing displaying limited values that can be used on a receipt.</td>
+</tr>
+<tr>
+<td><code>merchantid</code></td>
+<td>integer <em>int32</em></td>
+<td>true</td>
+<td>The merchant id of the transaction.</td>
+</tr>
+<tr>
+<td><code>message</code></td>
+<td>string</td>
+<td>true</td>
+<td>A response message pertaining to the transaction.</td>
+</tr>
+<tr>
+<td><code>result</code></td>
+<td>integer <em>int32</em></td>
+<td>false</td>
+<td>An integer result that indicates the outcome of the transaction. The Code value below maps to the result value<br/><br/><table> <tr> <th>Code</th> <th>Abbrev</th> <th>Description</th> </tr> <tr><td>0</td><td>Declined</td><td>Declined</td></tr> <tr><td>1</td><td>Accepted</td><td>Accepted</td></tr> <tr><td>2</td><td>Rejected</td><td>Rejected</td></tr> <tr><td>3</td><td>Not Attempted</td><td>Not Attempted</td></tr> <tr><td>4</td><td>Referred</td><td>Referred</td></tr> <tr><td>5</td><td>PinRetry</td><td>Perform PIN Retry</td></tr> <tr><td>6</td><td>ForSigVer</td><td>Force Signature Verification</td></tr> <tr><td>7</td><td>Hold</td><td>Hold</td></tr> <tr><td>8</td><td>SecErr</td><td>Security Error</td></tr> <tr><td>9</td><td>CallAcq</td><td>Call Acquirer</td></tr> <tr><td>10</td><td>DNH</td><td>Do Not Honour</td></tr> <tr><td>11</td><td>RtnCrd</td><td>Retain Card</td></tr> <tr><td>12</td><td>ExprdCrd</td><td>Expired Card</td></tr> <tr><td>13</td><td>InvldCrd</td><td>Invalid Card No</td></tr> <tr><td>14</td><td>PinExcd</td><td>Pin Tries Exceeded</td></tr> <tr><td>15</td><td>PinInvld</td><td>Pin Invalid</td></tr> <tr><td>16</td><td>AuthReq</td><td>Authentication Required</td></tr> <tr><td>17</td><td>AuthenFail</td><td>Authentication Failed</td></tr> <tr><td>18</td><td>Verified</td><td>Card Verified</td></tr> <tr><td>19</td><td>Cancelled</td><td>Cancelled</td></tr> <tr><td>20</td><td>Un</td><td>Unknown</td></tr> </table></td>
+</tr>
+<tr>
+<td><code>scheme</code></td>
+<td>string</td>
+<td>false</td>
+<td>A name of the card scheme of the transaction that processed the transaction such as Visa or MasterCard.</td>
+</tr>
+</tbody></table>
 <h2 id='cresauthrequest'>CResAuthRequest</h2><div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
    </span><span class="nl">"cres"</span><span class="p">:</span><span class="w"> </span><span class="s2">"x90+vZ/7Ll05Vid/jPfQn8adw+4D/vRDUGT19kndW97Hfirbv66ycfSp8jNlvy7PkHbx44NEt3vo..."</span><span class="w">
 </span><span class="p">}</span><span class="w">
@@ -4101,6 +4612,74 @@ outlining the result of the transaction.</p>
 <td>The type of transaction being submitted. Normally this value is not required and your account manager may request that you set this field.<br/><br/>maxLength: 1</td>
 </tr>
 </tbody></table>
+<h2 id='checkbatchstatus-2'>CheckBatchStatus</h2><div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+   </span><span class="nl">"account_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"AC1"</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"batch_id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1975</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div><div class="highlight"><pre class="highlight xml tab-xml"><code><span class="nt">&lt;CheckBatchStatus&gt;</span>
+ <span class="nt">&lt;account_id&gt;</span>AC1<span class="nt">&lt;/account_id&gt;</span> 
+ <span class="nt">&lt;batch_id&gt;</span>1975<span class="nt">&lt;/batch_id&gt;</span> 
+<span class="nt">&lt;/CheckBatchStatus&gt;</span>
+</code></pre></div>
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>account_id</code></td>
+<td>string</td>
+<td>false</td>
+<td>The batch account id to obtain the batch for. Defaults to your client id if not provided.<br/><br/>minLength: 3<br/>maxLength: 20</td>
+</tr>
+<tr>
+<td><code>batch_id</code></td>
+<td>integer <em>int32</em></td>
+<td>true</td>
+<td>The batch id to obtain the status for.<br/><br/>maxLength: 8<br/>minimum: 1</td>
+</tr>
+</tbody></table>
+<h2 id='checkbatchstatusresponse'>CheckBatchStatusResponse</h2><div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+   </span><span class="nl">"batch_date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2020-01-02"</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"batch_id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1975</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"batch_status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"COMPLETE"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div><div class="highlight"><pre class="highlight xml tab-xml"><code><span class="nt">&lt;CheckBatchStatusResponse&gt;</span>
+ <span class="nt">&lt;batch_date&gt;</span>2020-01-02<span class="nt">&lt;/batch_date&gt;</span> 
+ <span class="nt">&lt;batch_id&gt;</span>1975<span class="nt">&lt;/batch_id&gt;</span> 
+ <span class="nt">&lt;batch_status&gt;</span>COMPLETE<span class="nt">&lt;/batch_status&gt;</span> 
+<span class="nt">&lt;/CheckBatchStatusResponse&gt;</span>
+</code></pre></div>
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>batch_date</code></td>
+<td>string <em>date-time</em></td>
+<td>true</td>
+<td>The date and time that the file was created in ISO-8601 format.</td>
+</tr>
+<tr>
+<td><code>batch_id</code></td>
+<td>integer <em>int32</em></td>
+<td>false</td>
+<td>The batch id requested.<br/><br/>maxLength: 8<br/>minimum: 1</td>
+</tr>
+<tr>
+<td><code>batch_status</code></td>
+<td>string</td>
+<td>true</td>
+<td>The status of the batch. Possible values are.</td>
+</tr>
+</tbody></table>
 <h2 id='contactdetails'>ContactDetails</h2><div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
    </span><span class="nl">"address1"</span><span class="p">:</span><span class="w"> </span><span class="s2">"79 Parliament St"</span><span class="p">,</span><span class="w">
    </span><span class="nl">"address2"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Westminster"</span><span class="p">,</span><span class="w">
@@ -4585,6 +5164,82 @@ outlining the result of the transaction.</p>
 <td>An identifier of the ping request which will be returned in the response.<br/><br/>minLength: 4<br/>maxLength: 50</td>
 </tr>
 </tbody></table>
+<h2 id='processbatchrequest'>ProcessBatchRequest</h2><div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+   </span><span class="nl">"account_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"AC1"</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"batch_date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2020-01-02"</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"batch_id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1975</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"transactions"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div><div class="highlight"><pre class="highlight xml tab-xml"><code><span class="nt">&lt;ProcessBatchRequest&gt;</span>
+ <span class="nt">&lt;account_id&gt;</span>AC1<span class="nt">&lt;/account_id&gt;</span> 
+ <span class="nt">&lt;batch_date&gt;</span>2020-01-02<span class="nt">&lt;/batch_date&gt;</span> 
+ <span class="nt">&lt;batch_id&gt;</span>1975<span class="nt">&lt;/batch_id&gt;</span> 
+ <span class="nt">&lt;transactions&gt;&lt;/transactions&gt;</span> 
+<span class="nt">&lt;/ProcessBatchRequest&gt;</span>
+</code></pre></div>
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>account_id</code></td>
+<td>string</td>
+<td>false</td>
+<td>The batch account id to process the batch for. Defaults to your client id if not provided.<br/><br/>minLength: 3<br/>maxLength: 20</td>
+</tr>
+<tr>
+<td><code>batch_date</code></td>
+<td>string <em>date-time</em></td>
+<td>true</td>
+<td>The date and time that the file was created in ISO-8601 format.</td>
+</tr>
+<tr>
+<td><code>batch_id</code></td>
+<td>integer <em>int32</em></td>
+<td>true</td>
+<td>The id is a referencable id for the batch that should be generated by your integration. Its recommended to use an incremental id to help determine if a batch has been skipped or missed. The id is used by reporting systems to reference the unique batch alongside your client id.<br/><br/> maxLength: 8<br/>minimum: 1</td>
+</tr>
+<tr>
+<td><code>transactions</code></td>
+<td>array</td>
+<td>true</td>
+<td>Transactions requested for processing. <a href="#batchtransaction">BatchTransaction</a></td>
+</tr>
+</tbody></table>
+<h2 id='processbatchresponse'>ProcessBatchResponse</h2><div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+   </span><span class="nl">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Approved 044332"</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"valid"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div><div class="highlight"><pre class="highlight xml tab-xml"><code><span class="nt">&lt;ProcessBatchResponse&gt;</span>
+ <span class="nt">&lt;message&gt;</span>Approved 044332<span class="nt">&lt;/message&gt;</span> 
+ <span class="nt">&lt;valid&gt;</span>true<span class="nt">&lt;/valid&gt;</span> 
+<span class="nt">&lt;/ProcessBatchResponse&gt;</span>
+</code></pre></div>
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>message</code></td>
+<td>string</td>
+<td>false</td>
+<td>Information regarding the processing request.</td>
+</tr>
+<tr>
+<td><code>valid</code></td>
+<td>boolean</td>
+<td>true</td>
+<td>true if the request has been accepted for processing and is valid.</td>
+</tr>
+</tbody></table>
 <h2 id='refundrequest'>RefundRequest</h2><div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
    </span><span class="nl">"amount"</span><span class="p">:</span><span class="w"> </span><span class="mi">3600</span><span class="p">,</span><span class="w">
    </span><span class="nl">"identifier"</span><span class="p">:</span><span class="w"> </span><span class="s2">"95b857a1-5955-4b86-963c-5a6dbfc4fb95"</span><span class="p">,</span><span class="w">
@@ -4730,7 +5385,7 @@ outlining the result of the transaction.</p>
 <td><code>threedserver_trans_id</code></td>
 <td>string</td>
 <td>false</td>
-<td>The 3DSv2 trans id reference for the challenge process.</td>
+<td>The 3DSv2 trans id reference for the challenge process. May be used to create the ThreeDSSessionData value to send to the ACS.</td>
 </tr>
 <tr>
 <td><code>transno</code></td>
