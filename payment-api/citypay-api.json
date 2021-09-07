@@ -1,7 +1,7 @@
 {
   "openapi" : "3.0.0",
   "info" : {
-    "version" : "6.2.2",
+    "version" : "6.2.3",
     "title" : "CityPay Payment API",
     "description" : "\nThis CityPay API is a HTTP RESTful payment API used for direct server to server transactional processing. It\nprovides a number of payment mechanisms including: Internet, MOTO, Continuous Authority transaction processing,\n3-D Secure decision handling using RFA Secure, Authorisation, Refunding, Pre-Authorisation, Cancellation/Voids and\nCompletion processing. The API is also capable of tokinsed payments using Card Holder Accounts.\n\n## Compliance and Security\n<aside class=\"notice\">\n  Before we begin a reminder that your application will need to adhere to PCI-DSS standards to operate safely\n  and to meet requirements set out by Visa and MasterCard and the PCI Security Standards Council including:\n</aside>\n\n* Data must be collected using TLS version 1.2 using [strong cryptography](#enabled-tls-ciphers). We will not accept calls to our API at\n  lower grade encryption levels. We regularly scan our TLS endpoints for vulnerabilities and perform TLS assessments\n  as part of our compliance program.\n* The application must not store sensitive card holder data (CHD) such as the card security code (CSC) or\n  primary access number (PAN)\n* The application must not display the full card number on receipts, it is recommended to mask the PAN\n  and show the last 4 digits. The API will return this for you for ease of receipt creation\n* If you are developing a website, you will be required to perform regular scans on the network where you host the\n  application to meet your compliance obligations\n* You will be required to be PCI Compliant and the application must adhere to the security standard. Further information\n  is available from [https://www.pcisecuritystandards.org/](https://www.pcisecuritystandards.org/)\n* The API verifies that the request is for a valid account and originates from a trusted source using the remote IP\n  address. Our application firewalls analyse data that may be an attempt to break a large number of security common\n  security vulnerabilities.\n",
     "contact" : {
@@ -296,13 +296,13 @@
                 "$ref" : "#/components/schemas/CaptureRequest"
               },
               "examples" : {
-                "example1" : {
-                  "summary" : "Basic capture call for a merchant with a given identifier",
-                  "externalValue" : "CaptureRequest-example1.json"
-                },
                 "example2" : {
                   "summary" : "Basic capture call for a merchant with a transno and final amount",
                   "externalValue" : "CaptureRequest-example2.json"
+                },
+                "example1" : {
+                  "summary" : "Basic capture call for a merchant with a given identifier",
+                  "externalValue" : "CaptureRequest-example1.json"
                 },
                 "example3" : {
                   "summary" : "Capture call for a merchant with identifier and airline data once a ticket has been issued",
@@ -315,13 +315,13 @@
                 "$ref" : "#/components/schemas/CaptureRequest"
               },
               "examples" : {
-                "example1" : {
-                  "summary" : "Basic capture call for a merchant with a given identifier",
-                  "externalValue" : "CaptureRequest-example1.xml"
-                },
                 "example2" : {
                   "summary" : "Basic capture call for a merchant with a transno and final amount",
                   "externalValue" : "CaptureRequest-example2.xml"
+                },
+                "example1" : {
+                  "summary" : "Basic capture call for a merchant with a given identifier",
+                  "externalValue" : "CaptureRequest-example1.xml"
                 },
                 "example3" : {
                   "summary" : "Capture call for a merchant with identifier and airline data once a ticket has been issued",
@@ -489,6 +489,70 @@
               "text/xml" : {
                 "schema" : {
                   "$ref" : "#/components/schemas/Exists"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/bin" : {
+      "post" : {
+        "summary" : "Bin Lookup",
+        "tags" : [ "Payment Processing" ],
+        "operationId" : "BinRangeLookupRequest",
+        "description" : "A bin range lookup service can be used to check what a card is, as seen by the gateway. Each card number's \nleading digits help to identify who\n\n0. the card scheme is such as Visa, MasterCard or American Express \n1. the issuer of the card, such as the bank\n2. it's country of origin\n3. it's currency of origin\n\nOur gateway has 450 thousand possible bin ranges and uses a number of algorithms to determine the likelihood of the bin\ndata. The request requires a bin value of between 6 and 12 digits. The more digits provided may ensure a more accurate\nresult.\n",
+        "requestBody" : {
+          "required" : true,
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/BinLookup"
+              }
+            },
+            "text/xml" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/BinLookup"
+              }
+            }
+          }
+        },
+        "responses" : {
+          "403" : {
+            "description" : "Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request."
+          },
+          "401" : {
+            "description" : "Unauthorized. No api key has been provided and is required for this operation."
+          },
+          "422" : {
+            "description" : "Unprocessable Entity. Should a failure occur that prevents processing of the API call.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Error"
+                }
+              },
+              "text/xml" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Bad Request. Should the incoming data not be validly determined."
+          },
+          "200" : {
+            "description" : "A result of the bin lookup request returning a bin object determined by the gateway service.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Bin"
+                }
+              },
+              "text/xml" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Bin"
                 }
               }
             }
@@ -792,13 +856,13 @@
                 "$ref" : "#/components/schemas/VoidRequest"
               },
               "examples" : {
-                "example1" : {
-                  "summary" : "Basic capture call for a merchant with a given identifier",
-                  "externalValue" : "VoidRequest-example1.json"
-                },
                 "example2" : {
                   "summary" : "Basic capture call for a merchant with a transno and final amount",
                   "externalValue" : "VoidRequest-example2.json"
+                },
+                "example1" : {
+                  "summary" : "Basic capture call for a merchant with a given identifier",
+                  "externalValue" : "VoidRequest-example1.json"
                 }
               }
             },
@@ -807,13 +871,13 @@
                 "$ref" : "#/components/schemas/VoidRequest"
               },
               "examples" : {
-                "example1" : {
-                  "summary" : "Basic capture call for a merchant with a given identifier",
-                  "externalValue" : "VoidRequest-example1.xml"
-                },
                 "example2" : {
                   "summary" : "Basic capture call for a merchant with a transno and final amount",
                   "externalValue" : "VoidRequest-example2.xml"
+                },
+                "example1" : {
+                  "summary" : "Basic capture call for a merchant with a given identifier",
+                  "externalValue" : "VoidRequest-example1.xml"
                 }
               }
             }
@@ -1658,6 +1722,7 @@
           },
           "bin_description" : {
             "type" : "string",
+            "example" : "Platinum Card",
             "description" : "A description of the bin range found for the card."
           },
           "cavv" : {
@@ -2026,6 +2091,7 @@
           },
           "bin_description" : {
             "type" : "string",
+            "example" : "Platinum Card",
             "description" : "A description of the bin on the card to identify what type of product the card is."
           },
           "bin_eu" : {
@@ -2400,6 +2466,49 @@
           "RequestChallenged" : {
             "$ref" : "#/components/schemas/RequestChallenged",
             "x-description" : "The request resulted in the transaction participating in 3DSv2 and has been challenged for authentication by the ACS.\n"
+          }
+        }
+      },
+      "Bin" : {
+        "type" : "object",
+        "properties" : {
+          "bin_commercial" : {
+            "type" : "boolean",
+            "description" : "Defines whether the card is a commercial card."
+          },
+          "bin_corporate" : {
+            "type" : "boolean",
+            "description" : "Defines whether the card is a corporate business card."
+          },
+          "bin_country_issued" : {
+            "type" : "string",
+            "description" : "The determined country where the card was issued."
+          },
+          "bin_credit" : {
+            "type" : "boolean",
+            "description" : "Defines whether the card is a credit card."
+          },
+          "bin_currency" : {
+            "type" : "string",
+            "description" : "The default currency determined for the card."
+          },
+          "bin_debit" : {
+            "type" : "boolean",
+            "description" : "Defines whether the card is a debit card."
+          },
+          "bin_description" : {
+            "type" : "string",
+            "example" : "Platinum Card",
+            "description" : "A description of the bin on the card to identify what type of product the card is."
+          },
+          "bin_eu" : {
+            "type" : "boolean",
+            "description" : "Defines whether the card is regulated within the EU."
+          },
+          "scheme" : {
+            "type" : "string",
+            "example" : "Visa",
+            "description" : "The scheme that issued the card."
           }
         }
       },
@@ -2819,6 +2928,20 @@
             "type" : "date-time",
             "example" : "2020-01-02T18:32:28Z",
             "description" : "The last modified date of the entity."
+          }
+        }
+      },
+      "BinLookup" : {
+        "type" : "object",
+        "required" : [ "bin" ],
+        "properties" : {
+          "bin" : {
+            "type" : "integer",
+            "format" : "int32",
+            "minLength" : 6,
+            "maxLength" : 12,
+            "example" : 543712,
+            "description" : "A bin value to use for lookup."
           }
         }
       },

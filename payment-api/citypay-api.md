@@ -1,12 +1,12 @@
 ---
 title: CityPay Payment API
-version: 6.2.2
+version: 6.2.3
 language_tabs:
   - json
   - xml
 toc_footers:
   - <a href='mailto:support@citypay.com'>Any Integration Questions?</a>
-  - V6.2.2 2021-09-01
+  - V6.2.3 2021-09-07
 includes:
   - errorcodes
   - authresultcodes
@@ -22,8 +22,8 @@ search: true
 
 # CityPay Payment API
 
-Version: 6.2.2
-Last Updated: 2021-09-01
+Version: 6.2.3
+Last Updated: 2021-09-07
 
 
 This CityPay API is a HTTP RESTful payment API used for direct server to server transactional processing. It
@@ -1199,6 +1199,54 @@ Responses for this operation are
 
 
 
+## Bin Lookup
+
+<span class="http-method-post">POST</span> `/bin`
+
+A bin range lookup service can be used to check what a card is, as seen by the gateway. Each card number's 
+leading digits help to identify who
+
+0. the card scheme is such as Visa, MasterCard or American Express 
+1. the issuer of the card, such as the bank
+2. it's country of origin
+3. it's currency of origin
+
+Our gateway has 450 thousand possible bin ranges and uses a number of algorithms to determine the likelihood of the bin
+data. The request requires a bin value of between 6 and 12 digits. The more digits provided may ensure a more accurate
+result.
+
+
+
+
+
+
+
+### Model BinLookup
+
+Request body for this operation contains the following properties
+
+Required | Name | Type | Description |
+---------|------|------|-------------|
+ Required | `bin` | integer *int32* | A bin value to use for lookup.<br/><br/>minLength: 6<br/>maxLength: 12 | 
+
+
+
+
+### Response
+
+Responses for this operation are
+
+ StatusCode | Description | Model |
+------------|-------------|-------|
+ `403` | Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request. |  |  
+ `401` | Unauthorized. No api key has been provided and is required for this operation. |  |  
+ `422` | Unprocessable Entity. Should a failure occur that prevents processing of the API call. | `application/json`, `text/xml`:  <br/> [Error](#error) |  
+ `400` | Bad Request. Should the incoming data not be validly determined. |  |  
+ `200` | A result of the bin lookup request returning a bin object determined by the gateway service. | `application/json`, `text/xml`:  <br/> [Bin](#bin) |  
+
+
+
+
 ## Capture
 
 <span class="http-method-post">POST</span> `/capture`
@@ -2038,7 +2086,7 @@ Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Addi
    "avs_result": "",
    "bin_commercial": false,
    "bin_debit": false,
-   "bin_description": "",
+   "bin_description": "Platinum Card",
    "cavv": "",
    "context": "aspiu352908ns47n343598bads",
    "csc_result": "",
@@ -2070,7 +2118,7 @@ Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Addi
  <avs_result></avs_result> 
  <bin_commercial></bin_commercial> 
  <bin_debit></bin_debit> 
- <bin_description></bin_description> 
+ <bin_description>Platinum Card</bin_description> 
  <cavv></cavv> 
  <context>aspiu352908ns47n343598bads</context> 
  <csc_result></csc_result> 
@@ -2295,6 +2343,74 @@ Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Addi
 
 
 
+## Bin
+
+```json
+{
+   "bin_commercial": false,
+   "bin_corporate": false,
+   "bin_country_issued": "",
+   "bin_credit": false,
+   "bin_currency": "",
+   "bin_debit": false,
+   "bin_description": "Platinum Card",
+   "bin_eu": false,
+   "scheme": "Visa"
+}
+```
+
+```xml
+<Bin>
+ <bin_commercial></bin_commercial> 
+ <bin_corporate></bin_corporate> 
+ <bin_country_issued></bin_country_issued> 
+ <bin_credit></bin_credit> 
+ <bin_currency></bin_currency> 
+ <bin_debit></bin_debit> 
+ <bin_description>Platinum Card</bin_description> 
+ <bin_eu></bin_eu> 
+ <scheme>Visa</scheme> 
+</Bin>
+```
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `bin_commercial` | boolean  | false | Defines whether the card is a commercial card. | 
+| `bin_corporate` | boolean  | false | Defines whether the card is a corporate business card. | 
+| `bin_country_issued` | string  | false | The determined country where the card was issued. | 
+| `bin_credit` | boolean  | false | Defines whether the card is a credit card. | 
+| `bin_currency` | string  | false | The default currency determined for the card. | 
+| `bin_debit` | boolean  | false | Defines whether the card is a debit card. | 
+| `bin_description` | string  | false | A description of the bin on the card to identify what type of product the card is. | 
+| `bin_eu` | boolean  | false | Defines whether the card is regulated within the EU. | 
+| `scheme` | string  | false | The scheme that issued the card. | 
+
+
+
+
+
+## BinLookup
+
+```json
+{
+   "bin": 543712
+}
+```
+
+```xml
+<BinLookup>
+ <bin>543712</bin> 
+</BinLookup>
+```
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `bin` | integer *int32* | true | A bin value to use for lookup.<br/><br/>minLength: 6<br/>maxLength: 12 | 
+
+
+
+
+
 ## CResAuthRequest
 
 ```json
@@ -2365,7 +2481,7 @@ Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Addi
    "bin_credit": false,
    "bin_currency": "",
    "bin_debit": false,
-   "bin_description": "",
+   "bin_description": "Platinum Card",
    "bin_eu": false,
    "card_id": "",
    "card_status": "",
@@ -2389,7 +2505,7 @@ Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Addi
  <bin_credit></bin_credit> 
  <bin_currency></bin_currency> 
  <bin_debit></bin_debit> 
- <bin_description></bin_description> 
+ <bin_description>Platinum Card</bin_description> 
  <bin_eu></bin_eu> 
  <card_id></card_id> 
  <card_status></card_status> 

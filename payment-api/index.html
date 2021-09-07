@@ -330,6 +330,9 @@
                     <a href="#authorisation" class="toc-h2 toc-link" data-title="Authorisation">Authorisation</a>
                   </li>
                   <li>
+                    <a href="#bin-lookup" class="toc-h2 toc-link" data-title="Bin Lookup">Bin Lookup</a>
+                  </li>
+                  <li>
                     <a href="#capture" class="toc-h2 toc-link" data-title="Capture">Capture</a>
                   </li>
                   <li>
@@ -393,6 +396,12 @@
                   </li>
                   <li>
                     <a href="#batchtransactionresultmodel" class="toc-h2 toc-link" data-title="BatchTransactionResultModel">BatchTransactionResultModel</a>
+                  </li>
+                  <li>
+                    <a href="#bin" class="toc-h2 toc-link" data-title="Bin">Bin</a>
+                  </li>
+                  <li>
+                    <a href="#binlookup" class="toc-h2 toc-link" data-title="BinLookup">BinLookup</a>
                   </li>
                   <li>
                     <a href="#cresauthrequest" class="toc-h2 toc-link" data-title="CResAuthRequest">CResAuthRequest</a>
@@ -509,7 +518,7 @@
       </ul>
         <ul class="toc-footer">
             <li><a href='mailto:support@citypay.com'>Any Integration Questions?</a></li>
-            <li>V6.2.2 2021-09-01</li>
+            <li>V6.2.3 2021-09-07</li>
         </ul>
     </div>
     <div class="page-wrapper">
@@ -517,8 +526,8 @@
       <div class="content">
         <img src="images/citypay-logo-23676e0b.svg" class="cplogo" alt="" />
         <h1 id='citypay-payment-api'>CityPay Payment API</h1>
-<p>Version: 6.2.2
-Last Updated: 2021-09-01</p>
+<p>Version: 6.2.3
+Last Updated: 2021-09-07</p>
 
 <p>This CityPay API is a HTTP RESTful payment API used for direct server to server transactional processing. It
 provides a number of payment mechanisms including: Internet, MOTO, Continuous Authority transaction processing,
@@ -2348,6 +2357,76 @@ value will be validated for receipt of the CAVV and subsequently may return back
 <td><code>application/json</code>, <code>text/xml</code>:  <br/> <a href="#decision">Decision</a></td>
 </tr>
 </tbody></table>
+<h2 id='bin-lookup'>Bin Lookup</h2>
+<p><span class="http-method-post">POST</span> <code>/bin</code></p>
+
+<p>A bin range lookup service can be used to check what a card is, as seen by the gateway. Each card number&#39;s 
+leading digits help to identify who</p>
+
+<ol>
+<li>the card scheme is such as Visa, MasterCard or American Express </li>
+<li>the issuer of the card, such as the bank</li>
+<li>it&#39;s country of origin</li>
+<li>it&#39;s currency of origin</li>
+</ol>
+
+<p>Our gateway has 450 thousand possible bin ranges and uses a number of algorithms to determine the likelihood of the bin
+data. The request requires a bin value of between 6 and 12 digits. The more digits provided may ensure a more accurate
+result.</p>
+<h3 id='model-binlookup'>Model BinLookup</h3>
+<p>Request body for this operation contains the following properties</p>
+
+<table><thead>
+<tr>
+<th>Required</th>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>Required</td>
+<td><code>bin</code></td>
+<td>integer <em>int32</em></td>
+<td>A bin value to use for lookup.<br/><br/>minLength: 6<br/>maxLength: 12</td>
+</tr>
+</tbody></table>
+<h3 id='response-17'>Response</h3>
+<p>Responses for this operation are</p>
+
+<table><thead>
+<tr>
+<th>StatusCode</th>
+<th>Description</th>
+<th>Model</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>403</code></td>
+<td>Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request.</td>
+<td></td>
+</tr>
+<tr>
+<td><code>401</code></td>
+<td>Unauthorized. No api key has been provided and is required for this operation.</td>
+<td></td>
+</tr>
+<tr>
+<td><code>422</code></td>
+<td>Unprocessable Entity. Should a failure occur that prevents processing of the API call.</td>
+<td><code>application/json</code>, <code>text/xml</code>:  <br/> <a href="#error">Error</a></td>
+</tr>
+<tr>
+<td><code>400</code></td>
+<td>Bad Request. Should the incoming data not be validly determined.</td>
+<td></td>
+</tr>
+<tr>
+<td><code>200</code></td>
+<td>A result of the bin lookup request returning a bin object determined by the gateway service.</td>
+<td><code>application/json</code>, <code>text/xml</code>:  <br/> <a href="#bin">Bin</a></td>
+</tr>
+</tbody></table>
 <h2 id='capture'>Capture</h2>
 <p><span class="http-method-post">POST</span> <code>/capture</code></p>
 
@@ -2486,7 +2565,7 @@ be available for the settlement and completed at the end of the day.</p>
 <td><a href="#airlineadvice">AirlineAdvice</a> Additional advice to be applied for the capture request.</td>
 </tr>
 </tbody></table>
-<h3 id='response-17'>Response</h3>
+<h3 id='response-18'>Response</h3>
 <p>Responses for this operation are</p>
 
 <table><thead>
@@ -2562,7 +2641,7 @@ on its own without a previous <a href="#requestchallenged">request challenge</a>
 <td>The challenge response data forwarded by the ACS in 3D-Secure V2 processing. Data should be forwarded to CityPay unchanged for subsequent authorisation and processing.</td>
 </tr>
 </tbody></table>
-<h3 id='response-18'>Response</h3>
+<h3 id='response-19'>Response</h3>
 <p>Responses for this operation are</p>
 
 <table><thead>
@@ -2646,7 +2725,7 @@ on its own without a previous <a href="#authenticationrequired">authentication r
 <td>The Payer Authentication Response packet which is returned by the ACS containing the  response of the authentication session including verification values. The response  is a base64 encoded packet and should be forwarded to CityPay untouched.</td>
 </tr>
 </tbody></table>
-<h3 id='response-19'>Response</h3>
+<h3 id='response-20'>Response</h3>
 <p>Responses for this operation are</p>
 
 <table><thead>
@@ -2730,7 +2809,7 @@ original card used to process the transaction.</p>
 <td>Further information that can be added to the transaction will display in reporting. Can be used for flexible values such as operator id.<br/><br/>maxLength: 50</td>
 </tr>
 </tbody></table>
-<h3 id='response-20'>Response</h3>
+<h3 id='response-21'>Response</h3>
 <p>Responses for this operation are</p>
 
 <table><thead>
@@ -2823,7 +2902,7 @@ information to be returned.</p>
 <td>The transaction number of a transaction to retrieve. Optional if an identifier is supplied.</td>
 </tr>
 </tbody></table>
-<h3 id='response-21'>Response</h3>
+<h3 id='response-22'>Response</h3>
 <p>Responses for this operation are</p>
 
 <table><thead>
@@ -2928,7 +3007,7 @@ outlining the result of the transaction.</p>
 <td>The transaction number of the transaction to look up and void. If an empty value is supplied then an identifier value must be supplied.</td>
 </tr>
 </tbody></table>
-<h3 id='response-22'>Response</h3>
+<h3 id='response-23'>Response</h3>
 <p>Responses for this operation are</p>
 
 <table><thead>
@@ -3634,7 +3713,7 @@ outlining the result of the transaction.</p>
    </span><span class="nl">"avs_result"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
    </span><span class="nl">"bin_commercial"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
    </span><span class="nl">"bin_debit"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
-   </span><span class="nl">"bin_description"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"bin_description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Platinum Card"</span><span class="p">,</span><span class="w">
    </span><span class="nl">"cavv"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
    </span><span class="nl">"context"</span><span class="p">:</span><span class="w"> </span><span class="s2">"aspiu352908ns47n343598bads"</span><span class="p">,</span><span class="w">
    </span><span class="nl">"csc_result"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
@@ -3663,7 +3742,7 @@ outlining the result of the transaction.</p>
  <span class="nt">&lt;avs_result&gt;&lt;/avs_result&gt;</span> 
  <span class="nt">&lt;bin_commercial&gt;&lt;/bin_commercial&gt;</span> 
  <span class="nt">&lt;bin_debit&gt;&lt;/bin_debit&gt;</span> 
- <span class="nt">&lt;bin_description&gt;&lt;/bin_description&gt;</span> 
+ <span class="nt">&lt;bin_description&gt;</span>Platinum Card<span class="nt">&lt;/bin_description&gt;</span> 
  <span class="nt">&lt;cavv&gt;&lt;/cavv&gt;</span> 
  <span class="nt">&lt;context&gt;</span>aspiu352908ns47n343598bads<span class="nt">&lt;/context&gt;</span> 
  <span class="nt">&lt;csc_result&gt;&lt;/csc_result&gt;</span> 
@@ -4124,6 +4203,114 @@ outlining the result of the transaction.</p>
 <td>A name of the card scheme of the transaction that processed the transaction such as Visa or MasterCard.</td>
 </tr>
 </tbody></table>
+<h2 id='bin'>Bin</h2><div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+   </span><span class="nl">"bin_commercial"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"bin_corporate"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"bin_country_issued"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"bin_credit"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"bin_currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"bin_debit"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"bin_description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Platinum Card"</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"bin_eu"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"scheme"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Visa"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div><div class="highlight"><pre class="highlight xml tab-xml"><code><span class="nt">&lt;Bin&gt;</span>
+ <span class="nt">&lt;bin_commercial&gt;&lt;/bin_commercial&gt;</span> 
+ <span class="nt">&lt;bin_corporate&gt;&lt;/bin_corporate&gt;</span> 
+ <span class="nt">&lt;bin_country_issued&gt;&lt;/bin_country_issued&gt;</span> 
+ <span class="nt">&lt;bin_credit&gt;&lt;/bin_credit&gt;</span> 
+ <span class="nt">&lt;bin_currency&gt;&lt;/bin_currency&gt;</span> 
+ <span class="nt">&lt;bin_debit&gt;&lt;/bin_debit&gt;</span> 
+ <span class="nt">&lt;bin_description&gt;</span>Platinum Card<span class="nt">&lt;/bin_description&gt;</span> 
+ <span class="nt">&lt;bin_eu&gt;&lt;/bin_eu&gt;</span> 
+ <span class="nt">&lt;scheme&gt;</span>Visa<span class="nt">&lt;/scheme&gt;</span> 
+<span class="nt">&lt;/Bin&gt;</span>
+</code></pre></div>
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>bin_commercial</code></td>
+<td>boolean</td>
+<td>false</td>
+<td>Defines whether the card is a commercial card.</td>
+</tr>
+<tr>
+<td><code>bin_corporate</code></td>
+<td>boolean</td>
+<td>false</td>
+<td>Defines whether the card is a corporate business card.</td>
+</tr>
+<tr>
+<td><code>bin_country_issued</code></td>
+<td>string</td>
+<td>false</td>
+<td>The determined country where the card was issued.</td>
+</tr>
+<tr>
+<td><code>bin_credit</code></td>
+<td>boolean</td>
+<td>false</td>
+<td>Defines whether the card is a credit card.</td>
+</tr>
+<tr>
+<td><code>bin_currency</code></td>
+<td>string</td>
+<td>false</td>
+<td>The default currency determined for the card.</td>
+</tr>
+<tr>
+<td><code>bin_debit</code></td>
+<td>boolean</td>
+<td>false</td>
+<td>Defines whether the card is a debit card.</td>
+</tr>
+<tr>
+<td><code>bin_description</code></td>
+<td>string</td>
+<td>false</td>
+<td>A description of the bin on the card to identify what type of product the card is.</td>
+</tr>
+<tr>
+<td><code>bin_eu</code></td>
+<td>boolean</td>
+<td>false</td>
+<td>Defines whether the card is regulated within the EU.</td>
+</tr>
+<tr>
+<td><code>scheme</code></td>
+<td>string</td>
+<td>false</td>
+<td>The scheme that issued the card.</td>
+</tr>
+</tbody></table>
+<h2 id='binlookup'>BinLookup</h2><div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+   </span><span class="nl">"bin"</span><span class="p">:</span><span class="w"> </span><span class="mi">543712</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div><div class="highlight"><pre class="highlight xml tab-xml"><code><span class="nt">&lt;BinLookup&gt;</span>
+ <span class="nt">&lt;bin&gt;</span>543712<span class="nt">&lt;/bin&gt;</span> 
+<span class="nt">&lt;/BinLookup&gt;</span>
+</code></pre></div>
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>bin</code></td>
+<td>integer <em>int32</em></td>
+<td>true</td>
+<td>A bin value to use for lookup.<br/><br/>minLength: 6<br/>maxLength: 12</td>
+</tr>
+</tbody></table>
 <h2 id='cresauthrequest'>CResAuthRequest</h2><div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
    </span><span class="nl">"cres"</span><span class="p">:</span><span class="w"> </span><span class="s2">"x90+vZ/7Ll05Vid/jPfQn8adw+4D/vRDUGT19kndW97Hfirbv66ycfSp8jNlvy7PkHbx44NEt3vo..."</span><span class="w">
 </span><span class="p">}</span><span class="w">
@@ -4219,7 +4406,7 @@ outlining the result of the transaction.</p>
    </span><span class="nl">"bin_credit"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
    </span><span class="nl">"bin_currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
    </span><span class="nl">"bin_debit"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
-   </span><span class="nl">"bin_description"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"bin_description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Platinum Card"</span><span class="p">,</span><span class="w">
    </span><span class="nl">"bin_eu"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
    </span><span class="nl">"card_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
    </span><span class="nl">"card_status"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
@@ -4240,7 +4427,7 @@ outlining the result of the transaction.</p>
  <span class="nt">&lt;bin_credit&gt;&lt;/bin_credit&gt;</span> 
  <span class="nt">&lt;bin_currency&gt;&lt;/bin_currency&gt;</span> 
  <span class="nt">&lt;bin_debit&gt;&lt;/bin_debit&gt;</span> 
- <span class="nt">&lt;bin_description&gt;&lt;/bin_description&gt;</span> 
+ <span class="nt">&lt;bin_description&gt;</span>Platinum Card<span class="nt">&lt;/bin_description&gt;</span> 
  <span class="nt">&lt;bin_eu&gt;&lt;/bin_eu&gt;</span> 
  <span class="nt">&lt;card_id&gt;&lt;/card_id&gt;</span> 
  <span class="nt">&lt;card_status&gt;&lt;/card_status&gt;</span> 
