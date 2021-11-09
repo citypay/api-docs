@@ -1980,14 +1980,14 @@ verification value (CAVV) and ecommerce indicator (ECI) as evidence of authorisa
 <p>CityPay support 3DS version 2.1 for Verified by Visa, MasterCard Identity Check and American Express SafeKey 2.1. Version
 2.2 is currently in development however this will be a seamless upgrade for all integrations.</p>
 <h4 id='3-d-secure-none'>3-D Secure - None</h4>
-<p><img src="images/images/3dv2-no3d" alt="3DSv2 Frctionless Flow" /></p>
+<p><img src="images/3dsv2-no3d-98f5ca3a.png" alt="3DSv2 Frctionless Flow" /></p>
 
 <p>A basic flow may involve no 3-D secure processing. This could happen if there is no ability to perform authentication.
 An enrollment check may apply an &quot;attempted&quot; resolution to processing. In this instance a transaction may not meet any
 liability shift. A transaction may result in a decline due to this. We are also able to prevent from transactions being
 presented for authorisation if this occurs. </p>
 <h4 id='3-d-secure-frictionless'>3-D Secure - Frictionless</h4>
-<p><img src="images/images/3dsv2-frictionless.png" alt="3DSv2 Frctionless Flow" /></p>
+<p><img src="images/3dsv2-frictionless-2ce5610f.png" alt="3DSv2 Frctionless Flow" /></p>
 
 <p>E-commerce transactions supporting 3DSv2 can benefit from seamlessly authenticated transactions which may perform a 
 &quot;frictionless&quot; flow. This method will authenticate low risk transactions with minimal impact to a 
@@ -1996,7 +1996,7 @@ standard authorisation flow. Our API simply performs this on behalf of you the d
 <p>No redirection occurs and hence the flow is called frictionless and will appear as though a simple transaction 
 authorisation has occurred.</p>
 <h4 id='3-d-secure-challenge'>3-D Secure - Challenge</h4>
-<p><img src="images/images/3dsv2-challenge.png" alt="3DSv2 Frictionless Flow" /></p>
+<p><img src="images/3dsv2-challenge-6d221ccb.png" alt="3DSv2 Frctionless Flow" /></p>
 
 <p>A transaction that is deemed as higher risk my be &quot;challenged&quot;. In this instance, the API will return a
 <a href="#requestchallenged">request challenge</a> which will require your integration to forward the cardholder&#39;s browser to the 

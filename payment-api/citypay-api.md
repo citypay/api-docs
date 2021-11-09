@@ -943,7 +943,7 @@ CityPay support 3DS version 2.1 for Verified by Visa, MasterCard Identity Check 
 
 #### 3-D Secure - None
 
-![3DSv2 Frctionless Flow](images/3dv2-no3d)
+![3DSv2 Frctionless Flow](/images/3dsv2-no3d.png)
 
 A basic flow may involve no 3-D secure processing. This could happen if there is no ability to perform authentication.
 An enrollment check may apply an "attempted" resolution to processing. In this instance a transaction may not meet any
@@ -952,7 +952,7 @@ presented for authorisation if this occurs.
 
 #### 3-D Secure - Frictionless
 
-![3DSv2 Frctionless Flow](images/3dsv2-frictionless.png)
+![3DSv2 Frctionless Flow](/images/3dsv2-frictionless.png)
 
 E-commerce transactions supporting 3DSv2 can benefit from seamlessly authenticated transactions which may perform a 
 "frictionless" flow. This method will authenticate low risk transactions with minimal impact to a 
@@ -963,7 +963,7 @@ authorisation has occurred.
 
 #### 3-D Secure - Challenge
 
-![3DSv2 Frictionless Flow](images/3dsv2-challenge.png)
+![3DSv2 Frctionless Flow](/images/3dsv2-challenge.png)
 
 A transaction that is deemed as higher risk my be "challenged". In this instance, the API will return a
 [request challenge](#requestchallenged) which will require your integration to forward the cardholder's browser to the 

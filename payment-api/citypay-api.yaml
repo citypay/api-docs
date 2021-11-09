@@ -301,12 +301,12 @@ paths:
               example3: 
                 summary: Capture call for a merchant with identifier and airline data once a ticket has been issued
                 externalValue: 'CaptureRequest-example3.json'
-              example2: 
-                summary: Basic capture call for a merchant with a transno and final amount
-                externalValue: 'CaptureRequest-example2.json'
               example1: 
                 summary: Basic capture call for a merchant with a given identifier
                 externalValue: 'CaptureRequest-example1.json'
+              example2: 
+                summary: Basic capture call for a merchant with a transno and final amount
+                externalValue: 'CaptureRequest-example2.json'
           text/xml: 
             schema: 
               $ref: '#/components/schemas/CaptureRequest'
@@ -314,12 +314,12 @@ paths:
               example3: 
                 summary: Capture call for a merchant with identifier and airline data once a ticket has been issued
                 externalValue: 'CaptureRequest-example3.xml'
-              example2: 
-                summary: Basic capture call for a merchant with a transno and final amount
-                externalValue: 'CaptureRequest-example2.xml'
               example1: 
                 summary: Basic capture call for a merchant with a given identifier
                 externalValue: 'CaptureRequest-example1.xml'
+              example2: 
+                summary: Basic capture call for a merchant with a transno and final amount
+                externalValue: 'CaptureRequest-example2.xml'
       responses: 
         403: 
           description: Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request.
@@ -707,22 +707,22 @@ paths:
             schema: 
               $ref: '#/components/schemas/VoidRequest'
             examples: 
-              example2: 
-                summary: Basic capture call for a merchant with a transno and final amount
-                externalValue: 'VoidRequest-example2.json'
               example1: 
                 summary: Basic capture call for a merchant with a given identifier
                 externalValue: 'VoidRequest-example1.json'
+              example2: 
+                summary: Basic capture call for a merchant with a transno and final amount
+                externalValue: 'VoidRequest-example2.json'
           text/xml: 
             schema: 
               $ref: '#/components/schemas/VoidRequest'
             examples: 
-              example2: 
-                summary: Basic capture call for a merchant with a transno and final amount
-                externalValue: 'VoidRequest-example2.xml'
               example1: 
                 summary: Basic capture call for a merchant with a given identifier
                 externalValue: 'VoidRequest-example1.xml'
+              example2: 
+                summary: Basic capture call for a merchant with a transno and final amount
+                externalValue: 'VoidRequest-example2.xml'
       responses: 
         403: 
           description: Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request.
@@ -978,7 +978,7 @@ paths:
         
         #### 3-D Secure - None
         
-        ![3DSv2 Frctionless Flow](images/3dv2-no3d)
+        ![3DSv2 Frctionless Flow](/images/3dsv2-no3d.png)
         
         A basic flow may involve no 3-D secure processing. This could happen if there is no ability to perform authentication.
         An enrollment check may apply an "attempted" resolution to processing. In this instance a transaction may not meet any
@@ -987,7 +987,7 @@ paths:
         
         #### 3-D Secure - Frictionless
         
-        ![3DSv2 Frctionless Flow](images/3dsv2-frictionless.png)
+        ![3DSv2 Frctionless Flow](/images/3dsv2-frictionless.png)
         
         E-commerce transactions supporting 3DSv2 can benefit from seamlessly authenticated transactions which may perform a 
         "frictionless" flow. This method will authenticate low risk transactions with minimal impact to a 
@@ -998,7 +998,7 @@ paths:
         
         #### 3-D Secure - Challenge
         
-        ![3DSv2 Frictionless Flow](images/3dsv2-challenge.png)
+        ![3DSv2 Frctionless Flow](/images/3dsv2-challenge.png)
         
         A transaction that is deemed as higher risk my be "challenged". In this instance, the API will return a
         [request challenge](#requestchallenged) which will require your integration to forward the cardholder's browser to the 
