@@ -330,6 +330,9 @@
                     <a href="#authorisation" class="toc-h2 toc-link" data-title="Authorisation">Authorisation</a>
                   </li>
                   <li>
+                    <a href="#e-commerce-workflows" class="toc-h2 toc-link" data-title="E-commerce workflows">E-commerce workflows</a>
+                  </li>
+                  <li>
                     <a href="#bin-lookup" class="toc-h2 toc-link" data-title="Bin Lookup">Bin Lookup</a>
                   </li>
                   <li>
@@ -518,7 +521,7 @@
       </ul>
         <ul class="toc-footer">
             <li><a href='mailto:support@citypay.com'>Any Integration Questions?</a></li>
-            <li>V6.2.3 2021-09-07</li>
+            <li>V6.2.4 2021-11-09</li>
         </ul>
     </div>
     <div class="page-wrapper">
@@ -526,8 +529,8 @@
       <div class="content">
         <img src="images/citypay-logo-23676e0b.svg" class="cplogo" alt="" />
         <h1 id='citypay-payment-api'>CityPay Payment API</h1>
-<p>Version: 6.2.3
-Last Updated: 2021-09-07</p>
+<p>Version: 6.2.4
+Last Updated: 2021-11-09</p>
 
 <p>This CityPay API is a HTTP RESTful payment API used for direct server to server transactional processing. It
 provides a number of payment mechanisms including: Internet, MOTO, Continuous Authority transaction processing,
@@ -1346,7 +1349,7 @@ purge will clear the card permanently.</p>
 <td>Optional</td>
 <td><code>company</code></td>
 <td>string</td>
-<td>The company name for the card holder if the contact is a corporate contact.</td>
+<td>The company name for the card holder if the contact is a corporate contact.<br/><br/>maxLength: 50</td>
 </tr>
 <tr>
 <td>Optional</td>
@@ -1358,7 +1361,7 @@ purge will clear the card permanently.</p>
 <td>Optional</td>
 <td><code>email</code></td>
 <td>string</td>
-<td>An email address for the card holder which may be used for correspondence.</td>
+<td>An email address for the card holder which may be used for correspondence.<br/><br/>maxLength: 254</td>
 </tr>
 <tr>
 <td>Optional</td>
@@ -1382,7 +1385,7 @@ purge will clear the card permanently.</p>
 <td>Optional</td>
 <td><code>postcode</code></td>
 <td>string</td>
-<td>The postcode or zip code of the address which may be used for fraud analysis.<br/><br/>maxLength: 10</td>
+<td>The postcode or zip code of the address which may be used for fraud analysis.<br/><br/>maxLength: 16</td>
 </tr>
 <tr>
 <td>Optional</td>
@@ -1490,6 +1493,12 @@ processing and will be available as a tokenised value for future processing.</p>
 <td><code>expyear</code></td>
 <td>integer <em>int32</em></td>
 <td>The expiry year of the card.<br/><br/>minimum: 2000<br/>maximum: 2100</td>
+</tr>
+<tr>
+<td>Optional</td>
+<td><code>card_holder_name</code></td>
+<td>string</td>
+<td>The card holder name as it appears on the card. The value is required if the account is to be used for 3dsv2 processing, otherwise it is optional.<br/><br/>minLength: 2<br/>maxLength: 45</td>
 </tr>
 <tr>
 <td>Optional</td>
@@ -1646,8 +1655,11 @@ for use elsewhere.  </p>
 <li>easy authorisations just requiring CSC values to be entered</li>
 <li>can be used for credential on file style payments</li>
 <li>can require full 3-D Secure authentication to retain the liability shift</li>
-<li>wallet style usage.</li>
+<li>wallet style usage</li>
 </ul>
+
+<p><em>Should an account be used with 3DSv2, the card holder name should also be stored alongside the card as this is a
+required field with both Visa and MasterCard for risk analysis.</em>.</p>
 <h3 id='model-chargerequest'>Model ChargeRequest</h3>
 <p>Request body for this operation contains the following properties</p>
 
@@ -1691,6 +1703,12 @@ for use elsewhere.  </p>
 </tr>
 <tr>
 <td>Optional</td>
+<td><code>cardholder_agreement</code></td>
+<td>string</td>
+<td>Merchant-initiated transactions (MITs) are payments you trigger, where the cardholder has previously consented to you carrying out such payments. These may be scheduled (such as recurring payments and installments) or unscheduled (like account top-ups triggered by balance thresholds and no-show charges).<br/><br/>Scheduled --- These are regular payments using stored card details, like installments or a monthly subscription fee.<br/><br/>- <code>I</code> Instalment - A single purchase of goods or services billed to a cardholder in multiple transactions, over a period of time agreed by the cardholder and you. - <code>R</code> Recurring - Transactions processed at fixed, regular intervals not to exceed one year between transactions, representing an agreement between a cardholder and you to purchase goods or services provided over a period of time.<br/><br/>Unscheduled --- These are payments using stored card details that do not occur on a regular schedule, like top-ups for a digital wallet triggered by the balance falling below a certain threshold.<br/><br/>- <code>A</code> Reauthorisation - a purchase made after the original purchase. A common scenario is delayed/split shipments. - <code>C</code> Unscheduled Payment - A transaction using a stored credential for a fixed or variable amount that does not occur on a scheduled or regularly occurring transaction date. This includes account top-ups triggered by balance thresholds. - <code>D</code> Delayed Charge - A delayed charge is typically used in hotel, cruise lines and vehicle rental environments to perform a supplemental account charge after original services are rendered. - <code>L</code> Incremental - An incremental authorisation is typically found in hotel and car rental environments, where the cardholder has agreed to pay for any service incurred during the duration of the contract. An incremental authorisation is where you need to seek authorisation of further funds in addition to what you have originally requested. A common scenario is additional services charged to the contract, such as extending a stay in a hotel. - <code>S</code> Resubmission - When the original purchase occurred, but you were not able to get authorisation at the time the goods or services were provided. It should be only used where the goods or services have already been provided, but the authorisation request is declined for insufficient funds. - <code>X</code> No-show - A no-show is a transaction where you are enabled to charge for services which the cardholder entered into an agreement to purchase, but the cardholder did not meet the terms of the agreement.<br/><br/> maxLength: 1</td>
+</tr>
+<tr>
+<td>Optional</td>
 <td><code>csc</code></td>
 <td>string</td>
 <td>The Card Security Code (CSC) (also known as CV2/CVV2) is normally found on the back of the card (American Express has it on the front). The value helps to identify posession of the card as it is not available within the chip or magnetic swipe.<br/><br/>When forwarding the CSC, please ensure the value is a string as some values start with 0 and this will be stripped out by any integer parsing.<br/><br/>The CSC number aids fraud prevention in Mail Order and Internet payments.<br/><br/>Business rules are available on your account to identify whether to accept or decline transactions based on mismatched results of the CSC.<br/><br/>The Payment Card Industry (PCI) requires that at no stage of a transaction should the CSC be stored.<br/><br/>This applies to all entities handling card data.<br/><br/>It should also not be used in any hashing process.<br/><br/>CityPay do not store the value and have no method of retrieving the value once the transaction has been processed. For this reason, duplicate checking is unable to determine the CSC in its duplication check algorithm.<br/><br/> minLength: 3<br/>maxLength: 4</td>
@@ -1712,6 +1730,12 @@ for use elsewhere.  </p>
 <td><code>duplicate_policy</code></td>
 <td>string</td>
 <td>A policy value which determines whether a duplication policy is enforced or bypassed. A duplication check has a window of time set against your account within which it can action. If a previous transaction with matching values occurred within the window, any subsequent transaction will result in a T001 result.<br/><br/>Values are  <code>0</code> for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.<br/><br/> <code>1</code> for an enforced policy. Transactions that are enforced will be checked for duplication within the duplication window.<br/><br/> <code>2</code> to bypass. Transactions that are bypassed will not be checked for duplication within the duplication window.<br/><br/> <code>3</code> to ignore. Transactions that are ignored will have the same affect as bypass.</td>
+</tr>
+<tr>
+<td>Optional</td>
+<td><code>initiation</code></td>
+<td>string</td>
+<td>Transactions charged using the API are defined as:<br/><br/><strong>Cardholder Initiated</strong>: A <em>cardholder initiated transaction</em> (CIT) is where the cardholder selects the card for use for a purchase using previously stored details. An example would be a customer buying an item from your website after being present with their saved card details at checkout.<br/><br/><strong>Merchant Intiaited</strong>: A <em>merchant initiated transaction</em> (MIT) is an authorisation initiated where you are the  merchant submit a cardholders previously stored details without the cardholder&#39;s participation. An example would  be a subscription to a membership scheme to debit their card monthly.<br/><br/>MITs have different reasons such as reauthorisation, delayed, unscheduled, incremental, recurring, instalment, no-show or resubmission.<br/><br/>The following values apply<br/><br/> - <code>M</code> - specifies that the transaction is initiated by the merchant  - <code>C</code> - specifies that the transaction is initiated by the cardholder<br/><br/>Where transactions are merchant initiated, a valid cardholder agreement must be defined.<br/><br/> maxLength: 1</td>
 </tr>
 <tr>
 <td>Optional</td>
@@ -1920,79 +1944,23 @@ the appropriate coding and this will perform transparently by the gateway. </p>
 <p>Data properties that are required, may depend on the environment you are conducting payment for. Our API aims to be
  flexible enough to cater for these structures. Our integration team will aid you in providing the necessary data to 
  transact. </p>
-<h3 id='e-commerce-workflows'>E-commerce workflows</h3>
-<p>For E-commerce transactions requiring 3DSv1 and 3DSv2 transactions, the API contains a fully accredited in built mechanism
-to handle authentication.</p>
+<h2 id='e-commerce-workflows'>E-commerce workflows</h2>
+<p>For E-commerce transactions requiring 3DS, the API contains a fully accredited in built mechanism to handle authentication.</p>
 
-<p>The gateway has been accredited extensively with both Acquirers and Card Schemes and simplifies the nature of these calls
-into a simple structure for authentication, preventing integrators from performing lengthy and a costly accreditation with
+<p>The Api and gateway has been accredited extensively with both Acquirers and Card Schemes to simplify the nature of these calls
+into a simple structure for authentication, preventing integrators from performing lengthy and a costly accreditations with
 Visa and MasterCard.</p>
 
 <p>3D-secure has been around for a number of years and aims to shift the liability of a transaction away from a merchant back
 to the card holder. A <em>liability shift</em> determines whether a card holder can charge back a transaction as unknown. Effectively
 the process asks for a card holder to authenticate the transaction prior to authorisation producing a Cardholder 
-verification value (CAVV) as evidence of authorisation.</p>
-<h4 id='3dsv1'>3DSv1</h4><div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w"> 
-  </span><span class="nl">"AuthenticationRequired"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-    </span><span class="nl">"acsurl"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://bank.com/3DS/ACS"</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"pareq"</span><span class="p">:</span><span class="w"> </span><span class="s2">"SXQgd2FzIHRoZSBiZXN0IG9mIHRpbWVzLCBpdCB3YXMgdGhlIHdvcnN00..."</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"md"</span><span class="p">:</span><span class="w"> </span><span class="s2">"WQgZXZlcnl0aGluZyBiZW"</span><span class="w">
-  </span><span class="p">}</span><span class="w">               
-</span><span class="p">}</span><span class="w">
-</span></code></pre></div><div class="highlight"><pre class="highlight xml tab-xml"><code><span class="nt">&lt;AuthenticationRequired&gt;</span>
- <span class="nt">&lt;acsurl&gt;</span>https://bank.com/3DS/ACS<span class="nt">&lt;/acsurl&gt;</span>
- <span class="nt">&lt;pareq&gt;</span>SXQgd2FzIHRoZSBiZXN0IG9mIHRpbWVzLCBpdCB3YXMgdGhlIHdvcnN00...<span class="nt">&lt;/pareq&gt;</span>
- <span class="nt">&lt;md&gt;</span>WQgZXZlcnl0aGluZyBiZW<span class="nt">&lt;/md&gt;</span>
-<span class="nt">&lt;/AuthenticationRequired&gt;</span>
-</code></pre></div>
-<p>For E-commerce transactions requiring 3DSv1, the API contains a built in MPI which will be called to check whether the 
-card is participating in 3DSv1 with Verified by Visa or MasterCard SecureCode. We only support Amex SafeKey with 3DSv2. Should the card be enrolled, a payer 
-request (PAReq) value will be created and returned back as an <a href="#authenticationrequired">authentication required</a> response object. </p>
+verification value (CAVV) and ecommerce indicator (ECI) as evidence of authorisation.</p>
 
-<p>Your system will need to process this authentication packet and forward the user&#39;s browser to an authentication server (ACS) 
-to gain the user&#39;s authentication. Once complete, the ACS will produce a HTTP <code>POST</code> call back to the URL supplied in 
- the authentication request as <code>merchant_termurl</code>. This URL should behave as a controller and handle the post data from the
-  ACS and on a forked server to server HTTP request, forward this data to the <a href="#pares">pares authentication url</a> for 
-  subsequent authorisation processing. You may prefer to provide a processing page whilst this is being processed.
-  Processing with our systems should be relatively quick and be between 500ms - 3000ms however it is desirable to let
-  the user see that something is happening rather than a pending browser.</p>
+<p>3DS version 1 has now been replaced by 3DS version 2 to provide secure customer authentication (SCA) in line with EU regulation.
+3DSv2 is being phased out and any accounts using version 1 of the protocol is expected to be migrated by March 2022. </p>
 
-<p>The main reason for ensuring that this controller is two fold:</p>
-
-<ol>
-<li>We are never in control of the user&#39;s browser in a server API call</li>
-<li>The controller is actioned on your site to ensure that any post actions from authorisation can be executed in real time</li>
-</ol>
-
-<p>To forward the user to the ACS, we recommend a simple auto submit HTML form.</p>
-
-<blockquote>
-<p>Simple auto submit HTML form</p>
-</blockquote>
-<div class="highlight"><pre class="highlight html tab-html"><code><span class="nt">&lt;html</span> <span class="na">lang=</span><span class="s">"en"</span><span class="nt">&gt;</span>
-    <span class="nt">&lt;head&gt;</span>
-        <span class="nt">&lt;title&gt;</span>Forward to ACS<span class="nt">&lt;/title&gt;</span>
-        <span class="nt">&lt;script </span><span class="na">type=</span><span class="s">"text/javascript"</span><span class="nt">&gt;</span>
-        <span class="kd">function</span> <span class="nx">onLoadEvent</span><span class="p">()</span> <span class="p">{</span> 
-            <span class="nb">document</span><span class="p">.</span><span class="nx">acs</span><span class="p">.</span><span class="nx">submit</span><span class="p">();</span> 
-        <span class="p">}</span>
-        <span class="nt">&lt;/script&gt;</span>
-        <span class="nt">&lt;noscript&gt;</span>You will require JavaScript to be enabled to complete this transaction<span class="nt">&lt;/noscript&gt;</span>
-    <span class="nt">&lt;/head&gt;</span>
-    <span class="nt">&lt;body</span> <span class="na">onload=</span><span class="s">"onLoadEvent();"</span><span class="nt">&gt;</span>
-        <span class="nt">&lt;form</span> <span class="na">name=</span><span class="s">"acs"</span> <span class="na">action=</span><span class="s">"{{ACSURL from Response}}"</span> <span class="na">method=</span><span class="s">"POST"</span><span class="nt">&gt;</span>
-            <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"hidden"</span> <span class="na">name=</span><span class="s">"PaReq"</span> <span class="na">value=</span><span class="s">"{{PaReq Packet from Response}}"</span> <span class="nt">/&gt;</span>
-            <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"hidden"</span> <span class="na">name=</span><span class="s">"TermUrl"</span> <span class="na">value=</span><span class="s">"{{Your Controller}}"</span> <span class="nt">/&gt;</span>
-            <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"hidden"</span> <span class="na">name=</span><span class="s">"MD"</span> <span class="na">value=</span><span class="s">"{{MD From Response}}"</span> <span class="nt">/&gt;</span>
-        <span class="nt">&lt;/form&gt;</span>
-    <span class="nt">&lt;/body&gt;</span>
-<span class="nt">&lt;/html&gt;</span>
-</code></pre></div>
-<p>Please note that 3DSv1 is being phased out due to changes to strong customer authentication mechanisms. 3DSv2 addresses
-this and will solidify the authorisation and confirmation process.</p>
-
-<p>We provide a Test ACS for full 3DSv1 integration testing that simulates an ACS. </p>
-<h4 id='3dsv2'>3DSv2</h4><div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w"> 
+<p>Any new integrations should only consider 3DSv2 flows. </p>
+<h3 id='3dsv2'>3DSv2</h3><div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w"> 
   </span><span class="nl">"RequestChallenged"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
     </span><span class="nl">"acsurl"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://bank.com/3DS/ACS"</span><span class="p">,</span><span class="w">
     </span><span class="nl">"creq"</span><span class="p">:</span><span class="w"> </span><span class="s2">"SXQgd2FzIHRoZSBiZXN0IG9mIHRpbWVzLCBpdCB3YXMgdGhlIHdvcnN00..."</span><span class="p">,</span><span class="w">
@@ -2009,33 +1977,50 @@ this and will solidify the authorisation and confirmation process.</p>
   <span class="nt">&lt;threedserver_trans_id&gt;</span>d652d8d2-d74a-4264-a051-a7862b10d5d6<span class="nt">&lt;/threedserver_trans_id&gt;</span>
 <span class="nt">&lt;/RequestChallenged&gt;</span>
 </code></pre></div>
-<p>All merchants in the EEC will require to migrate their E-commerce transactions to a secure customer authentication 
-model (SCA) throughout 2020. This has been adopted by the payment&#39;s industry as a progressive move alongside the European 
-Unions payments service directive.</p>
+<p>CityPay support 3DS version 2.1 for Verified by Visa, MasterCard Identity Check and American Express SafeKey 2.1. Version
+2.2 is currently in development however this will be a seamless upgrade for all integrations.</p>
+<h4 id='3-d-secure-none'>3-D Secure - None</h4>
+<p><img src="images/images/3dv2-no3d" alt="3DSv2 Frctionless Flow" /></p>
 
-<p>CityPay support 3DSv2 for Verified by Visa, MasterCard Identity Check and American Express SafeKey 2.0 and will be rolling
-out acquirers on the new platform from Q4 2020. The new enhancement to 3DSv2 will allow for CityPay to seamlessly authenticate
-transactions in a &quot;frictionless&quot; flowed method which will authenticate low risk transactions with minimal impact to a 
-standard authorisation flow. Our API simply performs this on behalf of the merchant and cardholder. For these transactions
-you will not be required to change anything.</p>
+<p>A basic flow may involve no 3-D secure processing. This could happen if there is no ability to perform authentication.
+An enrollment check may apply an &quot;attempted&quot; resolution to processing. In this instance a transaction may not meet any
+liability shift. A transaction may result in a decline due to this. We are also able to prevent from transactions being
+presented for authorisation if this occurs. </p>
+<h4 id='3-d-secure-frictionless'>3-D Secure - Frictionless</h4>
+<p><img src="images/images/3dsv2-frictionless.png" alt="3DSv2 Frctionless Flow" /></p>
 
-<p>However, should a transaction be &quot;challenged&quot; the API will return a <a href="#requestchallenged">request challenge</a> which will 
-require your integration to forward the cardholder&#39;s browser to the given <a href="#acsurl">ACS url</a> by posting the <a href="#creq">creq</a>
-value. Once complete, the ACS will have already been in touch with our servers by sending us a result of the authentication
+<p>E-commerce transactions supporting 3DSv2 can benefit from seamlessly authenticated transactions which may perform a 
+&quot;frictionless&quot; flow. This method will authenticate low risk transactions with minimal impact to a 
+standard authorisation flow. Our API simply performs this on behalf of you the developer, the merchant and cardholder.</p>
+
+<p>No redirection occurs and hence the flow is called frictionless and will appear as though a simple transaction 
+authorisation has occurred.</p>
+<h4 id='3-d-secure-challenge'>3-D Secure - Challenge</h4>
+<p><img src="images/images/3dsv2-challenge.png" alt="3DSv2 Frictionless Flow" /></p>
+
+<p>A transaction that is deemed as higher risk my be &quot;challenged&quot;. In this instance, the API will return a
+<a href="#requestchallenged">request challenge</a> which will require your integration to forward the cardholder&#39;s browser to the 
+given <a href="#acsurl">ACS url</a>. This should be performed by posting the <a href="#creq">creq</a> value (the challenge request value). </p>
+
+<p>Once complete, the ACS will have already been in touch with our servers by sending us a result of the authentication
 known as <code>RReq</code>.</p>
 
-<p>To maintain session state, a parameter <code>ThreeDSSessionData</code> can be posted to the ACS url and will be returned alongside 
+<p>To maintain session state, a parameter <code>threeDSSessionData</code> can be posted to the ACS url and will be returned alongside 
 the <code>CRes</code> value. This will ensure that any controller code will be able to isolate state between calls. This field
 is to be used by your own systems rather than ours and may be any value which can uniquely identify your cardholder&#39;s
 session. As an option, we do provide a <code>threedserver_trans_id</code> value in the <code>RequestChallenged</code> packet which can be used
-for the <code>ThreeDSSessionData</code> value as it is used to uniquely identify the 3D-Secure session. </p>
+for the <code>threeDSSessionData</code> value as it is used to uniquely identify the 3D-Secure session. </p>
 
-<p>Our servers however will await confirmation that the authorisation should continue and on receipt of a <a href="#cres">cres</a>
-value, the flow will perform full authorisation processing. </p>
+<p>A common method of maintaining state is to provide a session related query string value in the <code>merchant_termurl</code> value
+(also known as the <code>notificationUrl</code>). For example providing a url of <code>https://mystore.com/checkout?token=asny2348w4561..</code>
+could return the user directly back to their session with your environment.</p>
+
+<p>Once you have received a <code>cres</code> post from the ACS authentication service, this should be POSTed to the <a href="#cres">cres</a> 
+endpoint to perform full authorisation processing. </p>
 
 <p>Please note that the CRes returned to us is purely a mechanism of acknowledging that transactions should be committed for
 authorisation. The ACS by this point will have sent us the verification value (CAVV) to perform a liability shift. The CRes
-value will be validated for receipt of the CAVV and subsequently may return back response codes illustrating this. </p>
+value will be validated for receipt of the CAVV and subsequently may return response codes illustrating this. </p>
 
 <p>To forward the user to the ACS, we recommend a simple auto submit HTML form.</p>
 
@@ -2055,12 +2040,12 @@ value will be validated for receipt of the CAVV and subsequently may return back
     <span class="nt">&lt;body</span> <span class="na">onload=</span><span class="s">"onLoadEvent();"</span><span class="nt">&gt;</span>
         <span class="nt">&lt;form</span> <span class="na">name=</span><span class="s">"acs"</span> <span class="na">action=</span><span class="s">"{{ACSURL from Response}}"</span> <span class="na">method=</span><span class="s">"POST"</span><span class="nt">&gt;</span>
             <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"hidden"</span> <span class="na">name=</span><span class="s">"creq"</span> <span class="na">value=</span><span class="s">"{{CReq Packet from Response}}"</span> <span class="nt">/&gt;</span>
-            <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"hidden"</span> <span class="na">name=</span><span class="s">"ThreeDSSessionData"</span> <span class="na">value=</span><span class="s">"{{session-identifier}}"</span> <span class="nt">/&gt;</span>
+            <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"hidden"</span> <span class="na">name=</span><span class="s">"threeDSSessionData"</span> <span class="na">value=</span><span class="s">"{{session-identifier}}"</span> <span class="nt">/&gt;</span>
         <span class="nt">&lt;/form&gt;</span>
     <span class="nt">&lt;/body&gt;</span>
 <span class="nt">&lt;/html&gt;</span>
 </code></pre></div>
-<p>We are currently working on an integration test suite for 3DSv2 which will mock the ACS challenge process.</p>
+<p>A full ACS test suite is available for 3DSv2 testing.</p>
 <h3 id='testing-3dsv2-integrations'>Testing 3DSv2 Integrations</h3>
 <p>The API provides a mock 3dsV2 handler which performs a number of scenarios based on the value of the CSC in the request.</p>
 
@@ -2099,6 +2084,68 @@ value will be validated for receipt of the CAVV and subsequently may return back
 <td>Challenge Request</td>
 </tr>
 </tbody></table>
+<h4 id='3dsv1'>3DSv1</h4>
+<p><strong>Please note that 3DSv1 should now be considered as deprecated.</strong></p>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w"> 
+  </span><span class="nl">"AuthenticationRequired"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"acsurl"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://bank.com/3DS/ACS"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"pareq"</span><span class="p">:</span><span class="w"> </span><span class="s2">"SXQgd2FzIHRoZSBiZXN0IG9mIHRpbWVzLCBpdCB3YXMgdGhlIHdvcnN00..."</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"md"</span><span class="p">:</span><span class="w"> </span><span class="s2">"WQgZXZlcnl0aGluZyBiZW"</span><span class="w">
+  </span><span class="p">}</span><span class="w">               
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div><div class="highlight"><pre class="highlight xml tab-xml"><code><span class="nt">&lt;AuthenticationRequired&gt;</span>
+ <span class="nt">&lt;acsurl&gt;</span>https://bank.com/3DS/ACS<span class="nt">&lt;/acsurl&gt;</span>
+ <span class="nt">&lt;pareq&gt;</span>SXQgd2FzIHRoZSBiZXN0IG9mIHRpbWVzLCBpdCB3YXMgdGhlIHdvcnN00...<span class="nt">&lt;/pareq&gt;</span>
+ <span class="nt">&lt;md&gt;</span>WQgZXZlcnl0aGluZyBiZW<span class="nt">&lt;/md&gt;</span>
+<span class="nt">&lt;/AuthenticationRequired&gt;</span>
+</code></pre></div>
+<p>For E-commerce transactions requiring 3DSv1, the API contains a built in MPI which will be called to check whether the
+card is participating in 3DSv1 with Verified by Visa or MasterCard SecureCode. We only support Amex SafeKey with 3DSv2. Should the card be enrolled, a payer
+request (PAReq) value will be created and returned back as an <a href="#authenticationrequired">authentication required</a> response object.</p>
+
+<p>Your system will need to process this authentication packet and forward the user&#39;s browser to an authentication server (ACS)
+to gain the user&#39;s authentication. Once complete, the ACS will produce a HTTP <code>POST</code> call back to the URL supplied in
+the authentication request as <code>merchant_termurl</code>. This URL should behave as a controller and handle the post data from the
+ACS and on a forked server to server HTTP request, forward this data to the <a href="#pares">pares authentication url</a> for
+subsequent authorisation processing. You may prefer to provide a processing page whilst this is being processed.
+Processing with our systems should be relatively quick and be between 500ms - 3000ms however it is desirable to let
+the user see that something is happening rather than a pending browser.</p>
+
+<p>The main reason for ensuring that this controller is two fold:</p>
+
+<ol>
+<li>We are never in control of the user&#39;s browser in a server API call</li>
+<li>The controller is actioned on your site to ensure that any post actions from authorisation can be executed in real time</li>
+</ol>
+
+<p>To forward the user to the ACS, we recommend a simple auto submit HTML form.</p>
+
+<blockquote>
+<p>Simple auto submit HTML form</p>
+</blockquote>
+<div class="highlight"><pre class="highlight html tab-html"><code><span class="nt">&lt;html</span> <span class="na">lang=</span><span class="s">"en"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;head&gt;</span>
+        <span class="nt">&lt;title&gt;</span>Forward to ACS<span class="nt">&lt;/title&gt;</span>
+        <span class="nt">&lt;script </span><span class="na">type=</span><span class="s">"text/javascript"</span><span class="nt">&gt;</span>
+        <span class="kd">function</span> <span class="nx">onLoadEvent</span><span class="p">()</span> <span class="p">{</span> 
+            <span class="nb">document</span><span class="p">.</span><span class="nx">acs</span><span class="p">.</span><span class="nx">submit</span><span class="p">();</span> 
+        <span class="p">}</span>
+        <span class="nt">&lt;/script&gt;</span>
+        <span class="nt">&lt;noscript&gt;</span>You will require JavaScript to be enabled to complete this transaction<span class="nt">&lt;/noscript&gt;</span>
+    <span class="nt">&lt;/head&gt;</span>
+    <span class="nt">&lt;body</span> <span class="na">onload=</span><span class="s">"onLoadEvent();"</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;form</span> <span class="na">name=</span><span class="s">"acs"</span> <span class="na">action=</span><span class="s">"{{ACSURL from Response}}"</span> <span class="na">method=</span><span class="s">"POST"</span><span class="nt">&gt;</span>
+            <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"hidden"</span> <span class="na">name=</span><span class="s">"PaReq"</span> <span class="na">value=</span><span class="s">"{{PaReq Packet from Response}}"</span> <span class="nt">/&gt;</span>
+            <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"hidden"</span> <span class="na">name=</span><span class="s">"TermUrl"</span> <span class="na">value=</span><span class="s">"{{Your Controller}}"</span> <span class="nt">/&gt;</span>
+            <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"hidden"</span> <span class="na">name=</span><span class="s">"MD"</span> <span class="na">value=</span><span class="s">"{{MD From Response}}"</span> <span class="nt">/&gt;</span>
+        <span class="nt">&lt;/form&gt;</span>
+    <span class="nt">&lt;/body&gt;</span>
+<span class="nt">&lt;/html&gt;</span>
+</code></pre></div>
+<p>Please note that 3DSv1 is being phased out due to changes to strong customer authentication mechanisms. 3DSv2 addresses
+this and will solidify the authorisation and confirmation process.</p>
+
+<p>We provide a Test ACS for full 3DSv1 integration testing that simulates an ACS.</p>
 
 <blockquote>
 <p>Basic capture call for a merchant with a given identifier</p>
@@ -2216,7 +2263,7 @@ value will be validated for receipt of the CAVV and subsequently may return back
 <td>Optional</td>
 <td><code>card_holder_name</code></td>
 <td>string</td>
-<td>The card holder name as appears on the card such as MR N E BODY. Required for some acquirers.</td>
+<td>The card holder name as appears on the card such as MR N E BODY. Required for some acquirers.<br/><br/> minLength: 2<br/>maxLength: 45</td>
 </tr>
 <tr>
 <td>Optional</td>
@@ -3514,7 +3561,7 @@ outlining the result of the transaction.</p>
    </span><span class="nl">"amount"</span><span class="p">:</span><span class="w"> </span><span class="mi">3600</span><span class="p">,</span><span class="w">
    </span><span class="nl">"avs_postcode_policy"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
    </span><span class="nl">"bill_to"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="err">...</span><span class="w"> </span><span class="p">},</span><span class="w">
-   </span><span class="nl">"card_holder_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"card_holder_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"MR NE BODY"</span><span class="p">,</span><span class="w">
    </span><span class="nl">"cardnumber"</span><span class="p">:</span><span class="w"> </span><span class="s2">"4000 0000 0000 0002"</span><span class="p">,</span><span class="w">
    </span><span class="nl">"csc"</span><span class="p">:</span><span class="w"> </span><span class="s2">"10"</span><span class="p">,</span><span class="w">
    </span><span class="nl">"csc_policy"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
@@ -3537,7 +3584,7 @@ outlining the result of the transaction.</p>
  <span class="nt">&lt;amount&gt;</span>3600<span class="nt">&lt;/amount&gt;</span> 
  <span class="nt">&lt;avs_postcode_policy&gt;&lt;/avs_postcode_policy&gt;</span> 
  <span class="nt">&lt;bill_to&gt;</span><span class="err">&lt;</span>&gt;...<span class="err">&lt;</span>/&gt;<span class="nt">&lt;/bill_to&gt;</span> 
- <span class="nt">&lt;card_holder_name&gt;&lt;/card_holder_name&gt;</span> 
+ <span class="nt">&lt;card_holder_name&gt;</span>MR NE BODY<span class="nt">&lt;/card_holder_name&gt;</span> 
  <span class="nt">&lt;cardnumber&gt;</span>4000 0000 0000 0002<span class="nt">&lt;/cardnumber&gt;</span> 
  <span class="nt">&lt;csc&gt;</span>10<span class="nt">&lt;/csc&gt;</span> 
  <span class="nt">&lt;csc_policy&gt;&lt;/csc_policy&gt;</span> 
@@ -3586,7 +3633,7 @@ outlining the result of the transaction.</p>
 <td><code>card_holder_name</code></td>
 <td>string</td>
 <td>false</td>
-<td>The card holder name as appears on the card such as MR N E BODY. Required for some acquirers.</td>
+<td>The card holder name as appears on the card such as MR N E BODY. Required for some acquirers.<br/><br/> minLength: 2<br/>maxLength: 45</td>
 </tr>
 <tr>
 <td><code>cardnumber</code></td>
@@ -4684,11 +4731,13 @@ outlining the result of the transaction.</p>
 <h2 id='chargerequest'>ChargeRequest</h2><div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
    </span><span class="nl">"amount"</span><span class="p">:</span><span class="w"> </span><span class="mi">3600</span><span class="p">,</span><span class="w">
    </span><span class="nl">"avs_postcode_policy"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"cardholder_agreement"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
    </span><span class="nl">"csc"</span><span class="p">:</span><span class="w"> </span><span class="s2">"10"</span><span class="p">,</span><span class="w">
    </span><span class="nl">"csc_policy"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
    </span><span class="nl">"currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"GBP"</span><span class="p">,</span><span class="w">
    </span><span class="nl">"duplicate_policy"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
    </span><span class="nl">"identifier"</span><span class="p">:</span><span class="w"> </span><span class="s2">"95b857a1-5955-4b86-963c-5a6dbfc4fb95"</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"initiation"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
    </span><span class="nl">"match_avsa"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
    </span><span class="nl">"merchantid"</span><span class="p">:</span><span class="w"> </span><span class="mi">11223344</span><span class="p">,</span><span class="w">
    </span><span class="nl">"threedsecure"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="err">...</span><span class="w"> </span><span class="p">},</span><span class="w">
@@ -4699,11 +4748,13 @@ outlining the result of the transaction.</p>
 </span></code></pre></div><div class="highlight"><pre class="highlight xml tab-xml"><code><span class="nt">&lt;ChargeRequest&gt;</span>
  <span class="nt">&lt;amount&gt;</span>3600<span class="nt">&lt;/amount&gt;</span> 
  <span class="nt">&lt;avs_postcode_policy&gt;&lt;/avs_postcode_policy&gt;</span> 
+ <span class="nt">&lt;cardholder_agreement&gt;&lt;/cardholder_agreement&gt;</span> 
  <span class="nt">&lt;csc&gt;</span>10<span class="nt">&lt;/csc&gt;</span> 
  <span class="nt">&lt;csc_policy&gt;&lt;/csc_policy&gt;</span> 
  <span class="nt">&lt;currency&gt;</span>GBP<span class="nt">&lt;/currency&gt;</span> 
  <span class="nt">&lt;duplicate_policy&gt;&lt;/duplicate_policy&gt;</span> 
  <span class="nt">&lt;identifier&gt;</span>95b857a1-5955-4b86-963c-5a6dbfc4fb95<span class="nt">&lt;/identifier&gt;</span> 
+ <span class="nt">&lt;initiation&gt;&lt;/initiation&gt;</span> 
  <span class="nt">&lt;match_avsa&gt;&lt;/match_avsa&gt;</span> 
  <span class="nt">&lt;merchantid&gt;</span>11223344<span class="nt">&lt;/merchantid&gt;</span> 
  <span class="nt">&lt;threedsecure&gt;</span><span class="err">&lt;</span>&gt;...<span class="err">&lt;</span>/&gt;<span class="nt">&lt;/threedsecure&gt;</span> 
@@ -4731,6 +4782,12 @@ outlining the result of the transaction.</p>
 <td>string</td>
 <td>false</td>
 <td>A policy value which determines whether an AVS postcode policy is enforced or bypassed.<br/><br/>Values are  <code>0</code> for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.<br/><br/> <code>1</code> for an enforced policy. Transactions that are enforced will be rejected if the AVS postcode numeric value does not match.<br/><br/> <code>2</code> to bypass. Transactions that are bypassed will be allowed through even if the postcode did not match.<br/><br/> <code>3</code> to ignore. Transactions that are ignored will bypass the result and not send postcode details for authorisation.</td>
+</tr>
+<tr>
+<td><code>cardholder_agreement</code></td>
+<td>string</td>
+<td>false</td>
+<td>Merchant-initiated transactions (MITs) are payments you trigger, where the cardholder has previously consented to you carrying out such payments. These may be scheduled (such as recurring payments and installments) or unscheduled (like account top-ups triggered by balance thresholds and no-show charges).<br/><br/>Scheduled --- These are regular payments using stored card details, like installments or a monthly subscription fee.<br/><br/>- <code>I</code> Instalment - A single purchase of goods or services billed to a cardholder in multiple transactions, over a period of time agreed by the cardholder and you. - <code>R</code> Recurring - Transactions processed at fixed, regular intervals not to exceed one year between transactions, representing an agreement between a cardholder and you to purchase goods or services provided over a period of time.<br/><br/>Unscheduled --- These are payments using stored card details that do not occur on a regular schedule, like top-ups for a digital wallet triggered by the balance falling below a certain threshold.<br/><br/>- <code>A</code> Reauthorisation - a purchase made after the original purchase. A common scenario is delayed/split shipments. - <code>C</code> Unscheduled Payment - A transaction using a stored credential for a fixed or variable amount that does not occur on a scheduled or regularly occurring transaction date. This includes account top-ups triggered by balance thresholds. - <code>D</code> Delayed Charge - A delayed charge is typically used in hotel, cruise lines and vehicle rental environments to perform a supplemental account charge after original services are rendered. - <code>L</code> Incremental - An incremental authorisation is typically found in hotel and car rental environments, where the cardholder has agreed to pay for any service incurred during the duration of the contract. An incremental authorisation is where you need to seek authorisation of further funds in addition to what you have originally requested. A common scenario is additional services charged to the contract, such as extending a stay in a hotel. - <code>S</code> Resubmission - When the original purchase occurred, but you were not able to get authorisation at the time the goods or services were provided. It should be only used where the goods or services have already been provided, but the authorisation request is declined for insufficient funds. - <code>X</code> No-show - A no-show is a transaction where you are enabled to charge for services which the cardholder entered into an agreement to purchase, but the cardholder did not meet the terms of the agreement.<br/><br/> maxLength: 1</td>
 </tr>
 <tr>
 <td><code>csc</code></td>
@@ -4761,6 +4818,12 @@ outlining the result of the transaction.</p>
 <td>string</td>
 <td>true</td>
 <td>The identifier of the transaction to process. The value should be a valid reference and may be used to perform  post processing actions and to aid in reconciliation of transactions.<br/><br/>The value should be a valid printable string with ASCII character ranges from 0x32 to 0x127.<br/><br/>The identifier is recommended to be distinct for each transaction such as a <a href="https://en.wikipedia.org/wiki/Universally_unique_identifier">random unique identifier</a> this will aid in ensuring each transaction is identifiable.<br/><br/>When transactions are processed they are also checked for duplicate requests. Changing the identifier on a subsequent request will ensure that a transaction is considered as different.<br/><br/> minLength: 4<br/>maxLength: 50</td>
+</tr>
+<tr>
+<td><code>initiation</code></td>
+<td>string</td>
+<td>false</td>
+<td>Transactions charged using the API are defined as:<br/><br/><strong>Cardholder Initiated</strong>: A <em>cardholder initiated transaction</em> (CIT) is where the cardholder selects the card for use for a purchase using previously stored details. An example would be a customer buying an item from your website after being present with their saved card details at checkout.<br/><br/><strong>Merchant Intiaited</strong>: A <em>merchant initiated transaction</em> (MIT) is an authorisation initiated where you are the  merchant submit a cardholders previously stored details without the cardholder&#39;s participation. An example would  be a subscription to a membership scheme to debit their card monthly.<br/><br/>MITs have different reasons such as reauthorisation, delayed, unscheduled, incremental, recurring, instalment, no-show or resubmission.<br/><br/>The following values apply<br/><br/> - <code>M</code> - specifies that the transaction is initiated by the merchant  - <code>C</code> - specifies that the transaction is initiated by the cardholder<br/><br/>Where transactions are merchant initiated, a valid cardholder agreement must be defined.<br/><br/> maxLength: 1</td>
 </tr>
 <tr>
 <td><code>match_avsa</code></td>
@@ -4934,7 +4997,7 @@ outlining the result of the transaction.</p>
 <td><code>company</code></td>
 <td>string</td>
 <td>false</td>
-<td>The company name for the card holder if the contact is a corporate contact.</td>
+<td>The company name for the card holder if the contact is a corporate contact.<br/><br/>maxLength: 50</td>
 </tr>
 <tr>
 <td><code>country</code></td>
@@ -4946,7 +5009,7 @@ outlining the result of the transaction.</p>
 <td><code>email</code></td>
 <td>string</td>
 <td>false</td>
-<td>An email address for the card holder which may be used for correspondence.</td>
+<td>An email address for the card holder which may be used for correspondence.<br/><br/>maxLength: 254</td>
 </tr>
 <tr>
 <td><code>firstname</code></td>
@@ -4970,7 +5033,7 @@ outlining the result of the transaction.</p>
 <td><code>postcode</code></td>
 <td>string</td>
 <td>false</td>
-<td>The postcode or zip code of the address which may be used for fraud analysis.<br/><br/>maxLength: 10</td>
+<td>The postcode or zip code of the address which may be used for fraud analysis.<br/><br/>maxLength: 16</td>
 </tr>
 <tr>
 <td><code>telephone_no</code></td>
@@ -5482,12 +5545,14 @@ outlining the result of the transaction.</p>
 </tr>
 </tbody></table>
 <h2 id='registercard'>RegisterCard</h2><div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+   </span><span class="nl">"card_holder_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"MR NE BODY"</span><span class="p">,</span><span class="w">
    </span><span class="nl">"cardnumber"</span><span class="p">:</span><span class="w"> </span><span class="s2">"4000 0000 0000 0002"</span><span class="p">,</span><span class="w">
    </span><span class="nl">"default"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
    </span><span class="nl">"expmonth"</span><span class="p">:</span><span class="w"> </span><span class="mi">9</span><span class="p">,</span><span class="w">
    </span><span class="nl">"expyear"</span><span class="p">:</span><span class="w"> </span><span class="mi">2024</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre></div><div class="highlight"><pre class="highlight xml tab-xml"><code><span class="nt">&lt;RegisterCard&gt;</span>
+ <span class="nt">&lt;card_holder_name&gt;</span>MR NE BODY<span class="nt">&lt;/card_holder_name&gt;</span> 
  <span class="nt">&lt;cardnumber&gt;</span>4000 0000 0000 0002<span class="nt">&lt;/cardnumber&gt;</span> 
  <span class="nt">&lt;default&gt;&lt;/default&gt;</span> 
  <span class="nt">&lt;expmonth&gt;</span>9<span class="nt">&lt;/expmonth&gt;</span> 
@@ -5502,6 +5567,12 @@ outlining the result of the transaction.</p>
 <th>Description</th>
 </tr>
 </thead><tbody>
+<tr>
+<td><code>card_holder_name</code></td>
+<td>string</td>
+<td>false</td>
+<td>The card holder name as it appears on the card. The value is required if the account is to be used for 3dsv2 processing, otherwise it is optional.<br/><br/>minLength: 2<br/>maxLength: 45</td>
+</tr>
 <tr>
 <td><code>cardnumber</code></td>
 <td>string</td>
@@ -5666,7 +5737,7 @@ outlining the result of the transaction.</p>
 <td><code>merchant_termurl</code></td>
 <td>string</td>
 <td>false</td>
-<td>Required for 3DSv1 and 3Dv2 processing.<br/><br/>A controller URL for 3D-Secure processing that any response from an authentication request or challenge request should be sent to.<br/><br/>The controller should forward on the response from the URL back via this API for subsequent processing. Required if 3DSv1 or 3DSv2 is required.</td>
+<td>A controller URL for 3D-Secure processing that any response from an authentication request or challenge request should be sent to.<br/><br/>The controller should forward on the response from the URL back via this API for subsequent processing.</td>
 </tr>
 <tr>
 <td><code>tds_policy</code></td>
@@ -5678,7 +5749,7 @@ outlining the result of the transaction.</p>
 <td><code>user_agent</code></td>
 <td>string</td>
 <td>false</td>
-<td>Required for 3DSv1. Optional if the <code>cp_bx</code> value is provided otherwise required 3Dv2 processing operating in browser authentication mode.<br/><br/>The <code>cp_bx</code> value will override any value supplied to this field.<br/><br/>The content of the HTTP user-agent header as sent to the merchant from the cardholder&#39;s user agent.<br/><br/>This value will be validated by the ACS when the card holder authenticates themselves to verify that no intermediary is performing this action. Required for 3DSv1.</td>
+<td>Required for 3DSv1.<br/><br/>Optional if the <code>cp_bx</code> value is provided otherwise required 3Dv2 processing operating in browser authentication mode.<br/><br/>The <code>cp_bx</code> value will override any value supplied to this field.<br/><br/>The content of the HTTP user-agent header as sent to the merchant from the cardholder&#39;s user agent.<br/><br/>This value will be validated by the ACS when the card holder authenticates themselves to verify that no intermediary is performing this action. Required for 3DSv1.</td>
 </tr>
 </tbody></table>
 <h2 id='voidrequest'>VoidRequest</h2><div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
