@@ -521,7 +521,7 @@
       </ul>
         <ul class="toc-footer">
             <li><a href='mailto:support@citypay.com'>Any Integration Questions?</a></li>
-            <li>V6.2.4 2021-11-09</li>
+            <li>V6.2.4 2021-11-10</li>
         </ul>
     </div>
     <div class="page-wrapper">
@@ -530,7 +530,7 @@
         <img src="images/citypay-logo-23676e0b.svg" class="cplogo" alt="" />
         <h1 id='citypay-payment-api'>CityPay Payment API</h1>
 <p>Version: 6.2.4
-Last Updated: 2021-11-09</p>
+Last Updated: 2021-11-10</p>
 
 <p>This CityPay API is a HTTP RESTful payment API used for direct server to server transactional processing. It
 provides a number of payment mechanisms including: Internet, MOTO, Continuous Authority transaction processing,
@@ -5834,6 +5834,1166 @@ outlining the result of the transaction.</p>
 <th>Description</th>
 </tr>
 </thead><tbody>
+<tr>
+<td><code>000</code></td>
+<td>Accepted Transaction</td>
+<td>The transaction was accepted.</td>
+</tr>
+<tr>
+<td><code>001</code></td>
+<td>Test Transaction</td>
+<td>The transaction was marked as being a test transaction and was successfully returned.</td>
+</tr>
+<tr>
+<td><code>002</code></td>
+<td>Accepted Refund</td>
+<td>The refund was successful</td>
+</tr>
+<tr>
+<td><code>003</code></td>
+<td>Accepted Void Transaction</td>
+<td>The transaction was successfully voided</td>
+</tr>
+<tr>
+<td><code>011</code></td>
+<td>Signature Verification</td>
+<td></td>
+</tr>
+<tr>
+<td><code>012</code></td>
+<td>Hold</td>
+<td></td>
+</tr>
+<tr>
+<td><code>013</code></td>
+<td>Pin Invalid</td>
+<td></td>
+</tr>
+<tr>
+<td><code>014</code></td>
+<td>Pin Retry</td>
+<td></td>
+</tr>
+<tr>
+<td><code>015</code></td>
+<td>Pin Tries Exceeded</td>
+<td></td>
+</tr>
+<tr>
+<td><code>030</code></td>
+<td>Cannot Authorise</td>
+<td>Invalid Card Number</td>
+</tr>
+<tr>
+<td><code>031</code></td>
+<td>Cannot Authorise</td>
+<td>Expired Card</td>
+</tr>
+<tr>
+<td><code>032</code></td>
+<td>Processing Server Unavailable</td>
+<td>A delegating processing server was unavailable and failover servers were retried, processing cannot continue</td>
+</tr>
+<tr>
+<td><code>040</code></td>
+<td>Transaction verification passed</td>
+<td>The transaction returned was verified succesfully</td>
+</tr>
+<tr>
+<td><code>041</code></td>
+<td>Transaction verification failed</td>
+<td>The transaction returned has failed to be verified</td>
+</tr>
+<tr>
+<td><code>044</code></td>
+<td>Ping OK</td>
+<td>A ping request was received and the server is replying to it</td>
+</tr>
+<tr>
+<td><code>050</code></td>
+<td>Waiting Authorisation</td>
+<td></td>
+</tr>
+<tr>
+<td><code>071</code></td>
+<td>Transaction already voided</td>
+<td>The transaction was previously voided</td>
+</tr>
+<tr>
+<td><code>072</code></td>
+<td>Transaction already refunded</td>
+<td>The transaction was previously refunded to the full amount</td>
+</tr>
+<tr>
+<td><code>080</code></td>
+<td>Transaction cancelled</td>
+<td>The transaction was cancelled</td>
+</tr>
+<tr>
+<td><code>081</code></td>
+<td>Transaction timed out</td>
+<td>The transaction timed out while processing</td>
+</tr>
+<tr>
+<td><code>082</code></td>
+<td>Terminal allocation timed out</td>
+<td>The transaction timed out while allocating a terminal id</td>
+</tr>
+<tr>
+<td><code>083</code></td>
+<td>Transaction timed out</td>
+<td>The transaction timed out while connecting to the acquirer</td>
+</tr>
+<tr>
+<td><code>084</code></td>
+<td>Transaction timed out</td>
+<td>The transaction timed out while awaiting a response from the acquirer</td>
+</tr>
+<tr>
+<td><code>085</code></td>
+<td>Concurrency Limit Reached</td>
+<td>The transaction could not be processed as the concurrency levels have been met</td>
+</tr>
+<tr>
+<td><code>087</code></td>
+<td>Revocation of Order</td>
+<td>The transaction has been revoked by the card holder, and must not retry with the same card details. Alternative payment details should be provided</td>
+</tr>
+<tr>
+<td><code>088</code></td>
+<td>Retain Card</td>
+<td></td>
+</tr>
+<tr>
+<td><code>089</code></td>
+<td>Referred</td>
+<td></td>
+</tr>
+<tr>
+<td><code>090</code></td>
+<td>Declined Transaction</td>
+<td>The transaction was declined by the card issuer.</td>
+</tr>
+<tr>
+<td><code>091</code></td>
+<td>Declined Transaction</td>
+<td>The transaction was declined due to the card failing the fraud check</td>
+</tr>
+<tr>
+<td><code>092</code></td>
+<td>Declined Refund</td>
+<td>The refund was declined</td>
+</tr>
+<tr>
+<td><code>093</code></td>
+<td>Declined Void Transaction</td>
+<td>The void transaction was declined</td>
+</tr>
+<tr>
+<td><code>094</code></td>
+<td>Declined Transaction</td>
+<td>Transaction Declined. CSC Failure</td>
+</tr>
+<tr>
+<td><code>095</code></td>
+<td>Declined Transaction</td>
+<td>Transaction Declined. AVS Failure</td>
+</tr>
+<tr>
+<td><code>096</code></td>
+<td>Declined Transaction</td>
+<td>Transaction Declined. AVS Failure</td>
+</tr>
+<tr>
+<td><code>097</code></td>
+<td>Declined Transaction</td>
+<td>Transaction Declined. AVS Failure</td>
+</tr>
+<tr>
+<td><code>098</code></td>
+<td>Declined Transaction</td>
+<td>Transaction Declined. Authentication Failure</td>
+</tr>
+<tr>
+<td><code>C001</code></td>
+<td>Card number contains non-numeric character</td>
+<td></td>
+</tr>
+<tr>
+<td><code>C002</code></td>
+<td>LUHN Check failure</td>
+<td>Consider the possibility that the card number was keyed incorrectly</td>
+</tr>
+<tr>
+<td><code>C003</code></td>
+<td>Card number missing</td>
+<td></td>
+</tr>
+<tr>
+<td><code>C004</code></td>
+<td>Card number is an invalid length</td>
+<td></td>
+</tr>
+<tr>
+<td><code>C005</code></td>
+<td>Card is not yet valid</td>
+<td>The start date is in the future.</td>
+</tr>
+<tr>
+<td><code>C006</code></td>
+<td>Card has expired</td>
+<td>The expiry date is in the past.</td>
+</tr>
+<tr>
+<td><code>C007</code></td>
+<td>Card expiry month is not a valid month</td>
+<td>Months should be an integer value between 1 and 12</td>
+</tr>
+<tr>
+<td><code>C008</code></td>
+<td>Card expiry year is not a valid year</td>
+<td>Year values should be either a 2 digit or 4 digit number</td>
+</tr>
+<tr>
+<td><code>C009</code></td>
+<td>Expiry date is not YYMM</td>
+<td>When providing an expiry date as a String the format should be 2 digit YEAR and 2 digit MONTH (YYMM) for example 0412</td>
+</tr>
+<tr>
+<td><code>C010</code></td>
+<td>Expiry data missing</td>
+<td></td>
+</tr>
+<tr>
+<td><code>C011</code></td>
+<td>Issue number is not numeric</td>
+<td></td>
+</tr>
+<tr>
+<td><code>C012</code></td>
+<td>CSC Not an Integer</td>
+<td></td>
+</tr>
+<tr>
+<td><code>C013</code></td>
+<td>CSC is longer than 4 characters</td>
+<td></td>
+</tr>
+<tr>
+<td><code>C014</code></td>
+<td>CSC Not Present</td>
+<td></td>
+</tr>
+<tr>
+<td><code>C015</code></td>
+<td>Start date is not YYMM</td>
+<td>When providing an expiry date as a String the format should be 2 digit YEAR and 2 digit MONTH (YYMM) for example 0412</td>
+</tr>
+<tr>
+<td><code>C016</code></td>
+<td>Card start date month is not a valid month</td>
+<td>Months should be an integer value between 1 and 12</td>
+</tr>
+<tr>
+<td><code>C017</code></td>
+<td>Card start date year is not a valid year</td>
+<td>Year values should be either a 2 digit or 4 digit number</td>
+</tr>
+<tr>
+<td><code>C018</code></td>
+<td>Card has previously been charged back</td>
+<td></td>
+</tr>
+<tr>
+<td><code>C019</code></td>
+<td>Invalid expiry date</td>
+<td>The expiry date is so far in the future that it is considered invalid. By default, this error is logged for expiry dates more than 7 years in the future; this offset may be changed by contacting support.</td>
+</tr>
+<tr>
+<td><code>C020</code></td>
+<td>Invalid Start Date</td>
+<td>The card start date contains an invalid date, invalid characters or has not been entered when required.</td>
+</tr>
+<tr>
+<td><code>C021</code></td>
+<td>Card number is invalid</td>
+<td>The card number is not a valid number</td>
+</tr>
+<tr>
+<td><code>C022</code></td>
+<td>Bin range not found</td>
+<td>The card number provided cannot be used for this transaction</td>
+</tr>
+<tr>
+<td><code>C023</code></td>
+<td>Unexpected Issue Number</td>
+<td>An unexpected issue number is present in the card details</td>
+</tr>
+<tr>
+<td><code>C024</code></td>
+<td>Expected Issue Number</td>
+<td>An expected issue number is not present in the card details</td>
+</tr>
+<tr>
+<td><code>C025</code></td>
+<td>Invalid Issue Number</td>
+<td>An invalid issue number is present in the card details</td>
+</tr>
+<tr>
+<td><code>C026</code></td>
+<td>CSC Length is invalid for Card</td>
+<td>The length of the card security code (CSC,CV2,CVV2) is invalid for the given card type. Visa and Mastercard, generally require a 3 digit code where as American Express require 4 digits.</td>
+</tr>
+<tr>
+<td><code>C027</code></td>
+<td>Card has expired</td>
+<td>The card is recognised as being expired.</td>
+</tr>
+<tr>
+<td><code>C028</code></td>
+<td>Card holder name is mandatory</td>
+<td>The card holder name is mandatory and is not supplied.</td>
+</tr>
+<tr>
+<td><code>D001</code></td>
+<td>Gateway Not Configured Error</td>
+<td>The gateway is not available as there is no configuration data available.</td>
+</tr>
+<tr>
+<td><code>D002</code></td>
+<td>Gateway Configuration Error</td>
+<td>The gateway is not available as there is a problem with the configuration.</td>
+</tr>
+<tr>
+<td><code>D003</code></td>
+<td>Fraud Module Configuration Error</td>
+<td>The fraud module is not available as there is a problem with the configuration.</td>
+</tr>
+<tr>
+<td><code>D004</code></td>
+<td>Class Instantiation Error</td>
+<td>An internal gatway problem.</td>
+</tr>
+<tr>
+<td><code>D005</code></td>
+<td>Class Illegal Access Error</td>
+<td>An internal gateway problem.</td>
+</tr>
+<tr>
+<td><code>D006</code></td>
+<td>Unkown Terminal</td>
+<td>The terminal configuration information is invalid.</td>
+</tr>
+<tr>
+<td><code>D007</code></td>
+<td>Unauthorised to use this Terminal</td>
+<td>The user is not authorised to use this terminal.</td>
+</tr>
+<tr>
+<td><code>D008</code></td>
+<td>Terminal Inactive</td>
+<td>The terminal being used is currently inactive.</td>
+</tr>
+<tr>
+<td><code>D009</code></td>
+<td>Password Invalid</td>
+<td>The password being used is invalid.</td>
+</tr>
+<tr>
+<td><code>D010</code></td>
+<td>User Invalid</td>
+<td>The user is invalid.</td>
+</tr>
+<tr>
+<td><code>D011</code></td>
+<td>User does not have permission to perform this operation</td>
+<td>User does not have permission to perform this operation</td>
+</tr>
+<tr>
+<td><code>D012</code></td>
+<td>Hostile card list is not available</td>
+<td>The system cannot retrieve details from the hostile card list</td>
+</tr>
+<tr>
+<td><code>D013</code></td>
+<td>Merchant is not found</td>
+<td>The merchant number is invalid</td>
+</tr>
+<tr>
+<td><code>D014</code></td>
+<td>Card holder must be present</td>
+<td>The card holder must be present for this transaction</td>
+</tr>
+<tr>
+<td><code>D015</code></td>
+<td>Invalid Currency Code</td>
+<td>The currency code provided is not a valid currency code</td>
+</tr>
+<tr>
+<td><code>D016</code></td>
+<td>Card type or currency for merchant not found</td>
+<td>The card bin range or currency code is not valid for the given merchant.</td>
+</tr>
+<tr>
+<td><code>D017</code></td>
+<td>Cardholder must be present</td>
+<td>The cardholder must be pressent for this transaction.</td>
+</tr>
+<tr>
+<td><code>D018</code></td>
+<td>Card must be present</td>
+<td>The card must be pressent for this transaction.</td>
+</tr>
+<tr>
+<td><code>D019</code></td>
+<td>Manual entry not allowed for this merchant</td>
+<td>The merchant is not allowed to perform a manual entry.</td>
+</tr>
+<tr>
+<td><code>D020</code></td>
+<td>Invalid Transaction Type</td>
+<td>The transaction type requested is invalid.</td>
+</tr>
+<tr>
+<td><code>D021</code></td>
+<td>Transaction not allowed for card</td>
+<td>The transaction is not allowed for the given card.</td>
+</tr>
+<tr>
+<td><code>D022</code></td>
+<td>Transaction not found for merchant with given trasaction number</td>
+<td>A transaction cannot be found for the merchant using the given transaction number.</td>
+</tr>
+<tr>
+<td><code>D023</code></td>
+<td>Transaction not found for merchant with given identifier</td>
+<td>A transaction cannot be found for the merchant using the given identifier.</td>
+</tr>
+<tr>
+<td><code>D024</code></td>
+<td>Decryption currently unavailable</td>
+<td>The crypto server cannot be contacted for decryption, decryption requests are unavailable.</td>
+</tr>
+<tr>
+<td><code>D025</code></td>
+<td>Encryption currently unavailable</td>
+<td>The crypto server cannot be contacted for encryption, encryption requests are unavailable.</td>
+</tr>
+<tr>
+<td><code>D026</code></td>
+<td>No batch id presented</td>
+<td>A batch id was required to perform the action and was not preset.</td>
+</tr>
+<tr>
+<td><code>D027</code></td>
+<td>No client id presented</td>
+<td>A client id was required to perform the action and was not preset.</td>
+</tr>
+<tr>
+<td><code>D028</code></td>
+<td>None ASCII characters found in data</td>
+<td>none ASCII encoded data was found when the data is restricted to the ASCII type.</td>
+</tr>
+<tr>
+<td><code>D029</code></td>
+<td>Invalid Encoding Error</td>
+<td>The data contains an invalid encoding that is not allowed for the resource.</td>
+</tr>
+<tr>
+<td><code>D030</code></td>
+<td>Batch does not contain transactions</td>
+<td>The batch presented for processing does not contain any transactions.</td>
+</tr>
+<tr>
+<td><code>D031</code></td>
+<td>Store is not found</td>
+<td>The store id is invalid</td>
+</tr>
+<tr>
+<td><code>D032</code></td>
+<td>Store is inactive</td>
+<td>The store defined by the store id is inactive</td>
+</tr>
+<tr>
+<td><code>D033</code></td>
+<td>Field value is an invalid signed integer value</td>
+<td>The maximum integer value is 0x7fffffff. The provided value is too large</td>
+</tr>
+<tr>
+<td><code>D034</code></td>
+<td>Field value is an invalid signed long value</td>
+<td>The maximum integer value is 0x7fffffffffffffff. The provided value is too large</td>
+</tr>
+<tr>
+<td><code>D035</code></td>
+<td>Field value is an invalid signed short value</td>
+<td>The maximum integer value is 32767. The provided value is too large</td>
+</tr>
+<tr>
+<td><code>D036</code></td>
+<td>The Card Scheme could not be determined</td>
+<td>Check the card pan to confirm that the pan number is correct and that the bin range entry for this card is available</td>
+</tr>
+<tr>
+<td><code>D037</code></td>
+<td>Acquirer is unavailable</td>
+<td>The acquirer for this request is currently unavailable</td>
+</tr>
+<tr>
+<td><code>D038</code></td>
+<td>Gateway route is unavailable</td>
+<td>The gateway route for this transaction is currently unavailable. This may be caused by a configuration change, technical fault or planned works</td>
+</tr>
+<tr>
+<td><code>D039</code></td>
+<td>No Terminal ID available</td>
+<td>A terminal id is required to process a transaction. Dependant on the acquirer this may be due to a limitation of concurrency in processing against the number of allocation terminal IDs to the account.</td>
+</tr>
+<tr>
+<td><code>D040</code></td>
+<td>Acquirer Dataset is not found for transaction</td>
+<td>No acquirer dataset is configured to handle this transaction</td>
+</tr>
+<tr>
+<td><code>D041</code></td>
+<td>3DSecure Currently Unavailable</td>
+<td>The ecommerce transaction requires 3DSecure for processing and the Merchant Plug In is currently unavailable. Please retry later</td>
+</tr>
+<tr>
+<td><code>D042</code></td>
+<td>3DSecure Enrollment Error</td>
+<td>The account is not enrolled fully for 3DSecure</td>
+</tr>
+<tr>
+<td><code>D043</code></td>
+<td>3DSecure Configuration Error</td>
+<td>The account contains invalid or no configuration information which prevented a 3DSecure session from continuing</td>
+</tr>
+<tr>
+<td><code>D044</code></td>
+<td>3DSecure Merchant URI Invalid</td>
+<td>The Merchant URI is either blank or invalid for 3DSecure authentication</td>
+</tr>
+<tr>
+<td><code>D045</code></td>
+<td>3DSecure Accept Headers Invalid</td>
+<td>The Accept Headers is either blank or invalid for 3DSecure authentication</td>
+</tr>
+<tr>
+<td><code>D046</code></td>
+<td>3DSecure User Agent Invalid</td>
+<td>The User Agent is either blank or invalid for 3DSecure authentication</td>
+</tr>
+<tr>
+<td><code>D047</code></td>
+<td>3DSecure Directory Server Comms Failure</td>
+<td>A communication failure was realised while contacting the 3dsecure directory server</td>
+</tr>
+<tr>
+<td><code>D048</code></td>
+<td>Account Id is Invalid</td>
+<td>The account id supplied is not in the required format. Account ids must contain URL sensitive characters only such as [a-zA-Z0-9-_.~]</td>
+</tr>
+<tr>
+<td><code>D049</code></td>
+<td>Account Already Exists</td>
+<td>The account id provided, already exists and does not allow for accounts with the same id</td>
+</tr>
+<tr>
+<td><code>D050</code></td>
+<td>Test Error</td>
+<td>An error used for testing purposes</td>
+</tr>
+<tr>
+<td><code>F001</code></td>
+<td>Unknown Error</td>
+<td></td>
+</tr>
+<tr>
+<td><code>F002</code></td>
+<td>Data Error</td>
+<td></td>
+</tr>
+<tr>
+<td><code>F003</code></td>
+<td>System Error</td>
+<td></td>
+</tr>
+<tr>
+<td><code>F004</code></td>
+<td>Null error occurred</td>
+<td></td>
+</tr>
+<tr>
+<td><code>F005</code></td>
+<td>Unknown Transaction Type</td>
+<td></td>
+</tr>
+<tr>
+<td><code>F006</code></td>
+<td>Upstream Communication Error</td>
+<td>The service could not connect to its upstream service. This is normally an indication that an upstream service has a problem. An engineer will be looking into the failure and retry your call later.</td>
+</tr>
+<tr>
+<td><code>F007</code></td>
+<td>TID Allocation Timeout</td>
+<td></td>
+</tr>
+<tr>
+<td><code>P001</code></td>
+<td>Response type not set</td>
+<td></td>
+</tr>
+<tr>
+<td><code>P002</code></td>
+<td>Merchant ID Not Supplied</td>
+<td></td>
+</tr>
+<tr>
+<td><code>P003</code></td>
+<td>Merchant ID Is Invalid</td>
+<td></td>
+</tr>
+<tr>
+<td><code>P004</code></td>
+<td>Amount is not supplied</td>
+<td></td>
+</tr>
+<tr>
+<td><code>P005</code></td>
+<td>Amount is invalid</td>
+<td>The transaction amount sent in the transaction request is invalid because it is too long or contains characters other than digits.</td>
+</tr>
+<tr>
+<td><code>P006</code></td>
+<td>Amount is not supplied in the lowest denomination</td>
+<td></td>
+</tr>
+<tr>
+<td><code>P007</code></td>
+<td>The request is not from an accepted source</td>
+<td></td>
+</tr>
+<tr>
+<td><code>P008</code></td>
+<td>The referal source is unknown</td>
+<td>This error occurs when the system cannot identify the source of the request (IP or HTTP Header).</td>
+</tr>
+<tr>
+<td><code>P009</code></td>
+<td>AVS Postcode is not supplied</td>
+<td></td>
+</tr>
+<tr>
+<td><code>P010</code></td>
+<td>AVS Postcode greater than 8 characters</td>
+<td>The AVS value contains too many numeric values</td>
+</tr>
+<tr>
+<td><code>P011</code></td>
+<td>AVS Address is not supplied</td>
+<td></td>
+</tr>
+<tr>
+<td><code>P012</code></td>
+<td>AVS Address greater than 8 characters</td>
+<td>The AVS value contains too many numeric values</td>
+</tr>
+<tr>
+<td><code>P013</code></td>
+<td>Transaction Id or Identifier not Present</td>
+<td></td>
+</tr>
+<tr>
+<td><code>P014</code></td>
+<td>Transaction Id not Numeric</td>
+<td>The transaction ID should be a numeric value</td>
+</tr>
+<tr>
+<td><code>P015</code></td>
+<td>Ceiling Limit Exceeded</td>
+<td>The transaction amount for this transaction request is above the ceiling limit for the relevant Merchant.</td>
+</tr>
+<tr>
+<td><code>P016</code></td>
+<td>Identifier is greater than 50 characters</td>
+<td>The identifier must be an alphanumeric value up to 50 characters in length</td>
+</tr>
+<tr>
+<td><code>P017</code></td>
+<td>LicenceKey is greater than 255 characters</td>
+<td>The licencekey value must be an alphanumeric value up to 255 characters in length</td>
+</tr>
+<tr>
+<td><code>P018</code></td>
+<td>Invalid transaction type</td>
+<td>The transaction type is not allowed for this merchant</td>
+</tr>
+<tr>
+<td><code>P019</code></td>
+<td>Validation Code Error</td>
+<td>The request failed the validation code test and is deemed to be an insecure request</td>
+</tr>
+<tr>
+<td><code>P020</code></td>
+<td>Cashback amount is invalid</td>
+<td>The cash amount sent in the transaction request is invalid because it is too long or contains characters other than digits.</td>
+</tr>
+<tr>
+<td><code>P021</code></td>
+<td>Cashback transaction not permitted</td>
+<td>Transaction requested cashback and the Merchant does not allow cashback transactions for the credit/debit card tendered.</td>
+</tr>
+<tr>
+<td><code>P022</code></td>
+<td>Cashback ceiling limit exceeded</td>
+<td>The cash amount for this transaction request is above the ceiling limit for the relevant MerchantID.</td>
+</tr>
+<tr>
+<td><code>P023</code></td>
+<td>Invalid transaction type code</td>
+<td>The transaction request does not have a valid Transaction Type code.</td>
+</tr>
+<tr>
+<td><code>P024</code></td>
+<td>Void Transaction failed, invalid orginal transaction</td>
+<td>The request for a void transaction failed due to the original transaction not being valid.</td>
+</tr>
+<tr>
+<td><code>P025</code></td>
+<td>Void Transaction failed, no valid original authcode</td>
+<td>The request for a void transaction failed due to the original transaction not hvaing a valid authorisation code.</td>
+</tr>
+<tr>
+<td><code>P026</code></td>
+<td>Identifier is not supplied</td>
+<td>The transaction identifier was not supplied by the merchant.</td>
+</tr>
+<tr>
+<td><code>P027</code></td>
+<td>Email address is not supplied</td>
+<td>The email address is required and was not supplied by the merchant.</td>
+</tr>
+<tr>
+<td><code>P028</code></td>
+<td>Product information is not supplied</td>
+<td>Product Information is required for this transaction and was not supplied by the merchant.</td>
+</tr>
+<tr>
+<td><code>P029</code></td>
+<td>Authorisation key is not supplied</td>
+<td>An authorisation key is required for this request and was not supplied</td>
+</tr>
+<tr>
+<td><code>P030</code></td>
+<td>Authorisation invalid</td>
+<td></td>
+</tr>
+<tr>
+<td><code>P031</code></td>
+<td>Unsupported transaction type</td>
+<td>The transaction type requested is not supported by the gateway.</td>
+</tr>
+<tr>
+<td><code>P032</code></td>
+<td>Transaction type not available for processing</td>
+<td>The transaction type is not configured for the merchant.</td>
+</tr>
+<tr>
+<td><code>P033</code></td>
+<td>Card scheme not available for processing</td>
+<td>The card scheme is not configured for the merchant.</td>
+</tr>
+<tr>
+<td><code>P034</code></td>
+<td>Invalid Currency</td>
+<td>The currency specified is invalid.</td>
+</tr>
+<tr>
+<td><code>P035</code></td>
+<td>Licence key is not supplied</td>
+<td>The Licence key is required for processing and was not supplied.</td>
+</tr>
+<tr>
+<td><code>P036</code></td>
+<td>Licence key does not match</td>
+<td>The Licence key was supplied but did not match the key required for processing.</td>
+</tr>
+<tr>
+<td><code>P037</code></td>
+<td>Licence key invalid</td>
+<td>The Licence key was supplied and was not a valid key.</td>
+</tr>
+<tr>
+<td><code>P038</code></td>
+<td>Floor limit not reached</td>
+<td>The floor limit was not reached for processing the transaction.</td>
+</tr>
+<tr>
+<td><code>P039</code></td>
+<td>Identifier is less than 4 characters</td>
+<td>The identifier must be an alphanumeric value greater than 4 characters in length</td>
+</tr>
+<tr>
+<td><code>P040</code></td>
+<td>Account Number Not Supplied</td>
+<td>A card holder account number was not supplied and therefore the transaction cannot continue</td>
+</tr>
+<tr>
+<td><code>P041</code></td>
+<td>Account Number is an invalid length</td>
+<td>A card holder account number is an invalid length</td>
+</tr>
+<tr>
+<td><code>P042</code></td>
+<td>Account Number contains invalid characters</td>
+<td>A card holder account number contains non ascii characters or contains spaces surrounding the value</td>
+</tr>
+<tr>
+<td><code>P043</code></td>
+<td>Account Number not found</td>
+<td>A card holder account was not found for the given request. Please check the account number and/or password is correct</td>
+</tr>
+<tr>
+<td><code>P044</code></td>
+<td>Field not provided</td>
+<td>The given field was not provided and is required. Please check the documentation provided with your installation instructions.</td>
+</tr>
+<tr>
+<td><code>P045</code></td>
+<td>Field value invalid</td>
+<td>The given field value is invalid. Please check the documentation provided with your installation instructions.</td>
+</tr>
+<tr>
+<td><code>P046</code></td>
+<td>Cart Invalid Mode</td>
+<td>The given cart mode is not valid</td>
+</tr>
+<tr>
+<td><code>P047</code></td>
+<td>Cart Contains No Items</td>
+<td>The cart items are required for the cart mode and contains no items</td>
+</tr>
+<tr>
+<td><code>P048</code></td>
+<td>Cart Amount Invalid</td>
+<td>The amounts in the cart are not valid, please ensure each amount is &gt; 0</td>
+</tr>
+<tr>
+<td><code>P049</code></td>
+<td>Account is Not Active</td>
+<td>The card holder account is not active and cannot be used used.</td>
+</tr>
+<tr>
+<td><code>P050</code></td>
+<td>Account has not been verified</td>
+<td>The card holder account has not yet been verified. Please verify before using the account.</td>
+</tr>
+<tr>
+<td><code>P051</code></td>
+<td>Token has expired</td>
+<td>The payment token has expired and can no longer be used</td>
+</tr>
+<tr>
+<td><code>P052</code></td>
+<td>Token is not valid</td>
+<td>The token is not valid and cannot be decoded</td>
+</tr>
+<tr>
+<td><code>P053</code></td>
+<td>Token card not found</td>
+<td>The token has been understood but no active card has been found that can be used for this token</td>
+</tr>
+<tr>
+<td><code>R001</code></td>
+<td>Could not identify the original transaction</td>
+<td></td>
+</tr>
+<tr>
+<td><code>R002</code></td>
+<td>Transaction Exceeds original value</td>
+<td></td>
+</tr>
+<tr>
+<td><code>R003</code></td>
+<td>Transaction has already been refunded</td>
+<td></td>
+</tr>
+<tr>
+<td><code>R004</code></td>
+<td>Error retrieving original amount</td>
+<td></td>
+</tr>
+<tr>
+<td><code>R005</code></td>
+<td>The amount to refund exceeds the amount available to refund</td>
+<td></td>
+</tr>
+<tr>
+<td><code>R006</code></td>
+<td>Refund not permitted for MerchantID</td>
+<td>Transaction requested a refund and the Merchant does not allow refunds on the credit/debit card tendered.</td>
+</tr>
+<tr>
+<td><code>R007</code></td>
+<td>Transaction number is not a valid number</td>
+<td>The transaction number provided is invalid for the request and must be a valid integer.</td>
+</tr>
+<tr>
+<td><code>R008</code></td>
+<td>Refund Security Code invalid</td>
+<td>The refund security code was provided but did not match the required security code for the provided merchant id</td>
+</tr>
+<tr>
+<td><code>R009</code></td>
+<td>Refund Security Code Not Provided</td>
+<td>The refund security code was not provided and is required to perform a refund.</td>
+</tr>
+<tr>
+<td><code>R010</code></td>
+<td>Original transaction is not a valid purchase</td>
+<td>The transaction cannot be refunded because the original transaction is not a valid purchase.</td>
+</tr>
+<tr>
+<td><code>R011</code></td>
+<td>Original transaction was not accepted</td>
+<td>The transaction cannot be refunded because the original transaction was not accepted.</td>
+</tr>
+<tr>
+<td><code>S001</code></td>
+<td>Invalid Client ID</td>
+<td>The client id provided is invalid</td>
+</tr>
+<tr>
+<td><code>S002</code></td>
+<td>Invalid Merchant ID</td>
+<td>The merchant id provided is invalid</td>
+</tr>
+<tr>
+<td><code>S003</code></td>
+<td>Invalid Merchant and Client ID Combination</td>
+<td>Either the merchant id or client id provided is invalid for this request</td>
+</tr>
+<tr>
+<td><code>S004</code></td>
+<td>General Authentication Failure</td>
+<td>The authentication failed for the requested service.</td>
+</tr>
+<tr>
+<td><code>S005</code></td>
+<td>Not Authorised</td>
+<td>You are not authorised to perform the operation</td>
+</tr>
+<tr>
+<td><code>S006</code></td>
+<td>Not Licenced</td>
+<td>You are not licenced to perform this operation</td>
+</tr>
+<tr>
+<td><code>S007</code></td>
+<td>Authentication Required</td>
+<td>Authentication is required to perform this operation and no authentication was presented for authorisation.</td>
+</tr>
+<tr>
+<td><code>S008</code></td>
+<td>Invalid Licence Key</td>
+<td>The given licence key is invalid.</td>
+</tr>
+<tr>
+<td><code>S009</code></td>
+<td>Risk Generation Threshold Limit Reached.</td>
+<td>Risk has determined that the request cannot be completed due to too many attempts during the period.</td>
+</tr>
+<tr>
+<td><code>T001</code></td>
+<td>Duplicate Transaction Error</td>
+<td>A transaction with the same transaction reference and card details has been provided</td>
+</tr>
+<tr>
+<td><code>T002</code></td>
+<td>Transaction exceeds required level</td>
+<td></td>
+</tr>
+<tr>
+<td><code>T003</code></td>
+<td>Transaction is not a valid capture</td>
+<td>An invalid capture request was requested.</td>
+</tr>
+<tr>
+<td><code>T004</code></td>
+<td>Transaction is not a valid reversal</td>
+<td>An invalid reversal request was requested.</td>
+</tr>
+<tr>
+<td><code>T005</code></td>
+<td>3D Secure Authentication Error</td>
+<td>Caused when the PARes fails digital signature validation.</td>
+</tr>
+<tr>
+<td><code>T006</code></td>
+<td>3D Secure Authentication Required</td>
+<td>A transaction is required to be fully authorised using 3d secure by returning a valid CAVV and AuthenticationResult=Y</td>
+</tr>
+<tr>
+<td><code>T007</code></td>
+<td>Pre-Auth not available for card scheme</td>
+<td>Caused when the card scheme is not able to perform pre-authorisation requests.</td>
+</tr>
+<tr>
+<td><code>T008</code></td>
+<td>Pre-Auth not available for Acquirer</td>
+<td>Caused when the Acquirer is not able to perform pre-authorisation requests.</td>
+</tr>
+<tr>
+<td><code>T009</code></td>
+<td>Transaction already cancelled</td>
+<td>Caused when the transaction has already been cancelled</td>
+</tr>
+<tr>
+<td><code>T010</code></td>
+<td>Cannot cancel pre-auth transaction</td>
+<td>Caused when the transaction is not available to be cancelled</td>
+</tr>
+<tr>
+<td><code>T011</code></td>
+<td>Transaction already completed</td>
+<td>Caused when the transaction has already been completed</td>
+</tr>
+<tr>
+<td><code>T012</code></td>
+<td>Cannot complete pre-auth transaction</td>
+<td>Caused when the transaction is not available to be completed</td>
+</tr>
+<tr>
+<td><code>T013</code></td>
+<td>Transaction was not authorised</td>
+<td>A post authorisation action has found that the original transaction was not authorised and therefore the action cannot be completed</td>
+</tr>
+<tr>
+<td><code>W001</code></td>
+<td>Tokens amount not present</td>
+<td></td>
+</tr>
+<tr>
+<td><code>W002</code></td>
+<td>Tokens Amount Not an Integer</td>
+<td></td>
+</tr>
+<tr>
+<td><code>W003</code></td>
+<td>Email Address Not Supplied</td>
+<td></td>
+</tr>
+<tr>
+<td><code>W004</code></td>
+<td>PostCode/ZipCode Not Supplied</td>
+<td></td>
+</tr>
+<tr>
+<td><code>W005</code></td>
+<td>Country Not Present</td>
+<td></td>
+</tr>
+<tr>
+<td><code>W006</code></td>
+<td>Town/City Not Present</td>
+<td></td>
+</tr>
+<tr>
+<td><code>W007</code></td>
+<td>First Address Line Not Supplied</td>
+<td></td>
+</tr>
+<tr>
+<td><code>W008</code></td>
+<td>Last Name Not Supplied</td>
+<td></td>
+</tr>
+<tr>
+<td><code>W009</code></td>
+<td>First Name Not Supplied</td>
+<td></td>
+</tr>
+<tr>
+<td><code>W010</code></td>
+<td>Password not supplied</td>
+<td></td>
+</tr>
+<tr>
+<td><code>W011</code></td>
+<td>Password Must be at least 8 chars</td>
+<td></td>
+</tr>
+<tr>
+<td><code>W012</code></td>
+<td>An error occurred creating the account</td>
+<td></td>
+</tr>
+<tr>
+<td><code>W013</code></td>
+<td>Could not find a wallet from the given criteria</td>
+<td></td>
+</tr>
+<tr>
+<td><code>W014</code></td>
+<td>An error occurred obtaining the wallet</td>
+<td></td>
+</tr>
+<tr>
+<td><code>W015</code></td>
+<td>Wallet is de-activated</td>
+<td></td>
+</tr>
+<tr>
+<td><code>W016</code></td>
+<td>Password contains illegal characters</td>
+<td>The password can only contain alphanumeric characters with no spaces</td>
+</tr>
+<tr>
+<td><code>W017</code></td>
+<td>Ceiling Limit Exceeded</td>
+<td></td>
+</tr>
+<tr>
+<td><code>W018</code></td>
+<td>Error purchasing tokens</td>
+<td></td>
+</tr>
+<tr>
+<td><code>W019</code></td>
+<td>Error redeeming tokens</td>
+<td></td>
+</tr>
+<tr>
+<td><code>W020</code></td>
+<td>Redirect address is invalid</td>
+<td></td>
+</tr>
+<tr>
+<td><code>W021</code></td>
+<td>Merchant ID is invalid</td>
+<td></td>
+</tr>
+<tr>
+<td><code>W022</code></td>
+<td>Merchant ID is not supplied</td>
+<td></td>
+</tr>
+<tr>
+<td><code>W023</code></td>
+<td>Request was from an invalid source</td>
+<td></td>
+</tr>
+<tr>
+<td><code>W024</code></td>
+<td>Terms and conditions were not agreed to</td>
+<td>The customer failed to check the terms and conditions checkbox.</td>
+</tr>
+<tr>
+<td><code>W025</code></td>
+<td>Floor limit not reached</td>
+<td>The amount is not greater than the floor limit set for your account.</td>
+</tr>
 </tbody></table>
 <h2 id='auth-result-codes'>Auth Result Codes</h2>
 <p>The CityPay Payment API uses the following authorisation result codes in its response messages:</p>
