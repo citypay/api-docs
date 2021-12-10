@@ -4,7 +4,7 @@ openapi: 3.0.0
 #                              API Information                                 #
 ################################################################################
 info:
-  version: 6.2.4
+  version: 6.2.5
   title: CityPay Payment API
   description: |
 
@@ -298,28 +298,28 @@ paths:
             schema: 
               $ref: '#/components/schemas/CaptureRequest'
             examples: 
-              example3: 
-                summary: Capture call for a merchant with identifier and airline data once a ticket has been issued
-                externalValue: 'CaptureRequest-example3.json'
-              example1: 
-                summary: Basic capture call for a merchant with a given identifier
-                externalValue: 'CaptureRequest-example1.json'
               example2: 
                 summary: Basic capture call for a merchant with a transno and final amount
                 externalValue: 'CaptureRequest-example2.json'
+              example1: 
+                summary: Basic capture call for a merchant with a given identifier
+                externalValue: 'CaptureRequest-example1.json'
+              example3: 
+                summary: Capture call for a merchant with identifier and airline data once a ticket has been issued
+                externalValue: 'CaptureRequest-example3.json'
           text/xml: 
             schema: 
               $ref: '#/components/schemas/CaptureRequest'
             examples: 
-              example3: 
-                summary: Capture call for a merchant with identifier and airline data once a ticket has been issued
-                externalValue: 'CaptureRequest-example3.xml'
-              example1: 
-                summary: Basic capture call for a merchant with a given identifier
-                externalValue: 'CaptureRequest-example1.xml'
               example2: 
                 summary: Basic capture call for a merchant with a transno and final amount
                 externalValue: 'CaptureRequest-example2.xml'
+              example1: 
+                summary: Basic capture call for a merchant with a given identifier
+                externalValue: 'CaptureRequest-example1.xml'
+              example3: 
+                summary: Capture call for a merchant with identifier and airline data once a ticket has been issued
+                externalValue: 'CaptureRequest-example3.xml'
       responses: 
         403: 
           description: Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request.
@@ -707,22 +707,22 @@ paths:
             schema: 
               $ref: '#/components/schemas/VoidRequest'
             examples: 
-              example1: 
-                summary: Basic capture call for a merchant with a given identifier
-                externalValue: 'VoidRequest-example1.json'
               example2: 
                 summary: Basic capture call for a merchant with a transno and final amount
                 externalValue: 'VoidRequest-example2.json'
+              example1: 
+                summary: Basic capture call for a merchant with a given identifier
+                externalValue: 'VoidRequest-example1.json'
           text/xml: 
             schema: 
               $ref: '#/components/schemas/VoidRequest'
             examples: 
-              example1: 
-                summary: Basic capture call for a merchant with a given identifier
-                externalValue: 'VoidRequest-example1.xml'
               example2: 
                 summary: Basic capture call for a merchant with a transno and final amount
                 externalValue: 'VoidRequest-example2.xml'
+              example1: 
+                summary: Basic capture call for a merchant with a given identifier
+                externalValue: 'VoidRequest-example1.xml'
       responses: 
         403: 
           description: Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request.
@@ -1901,6 +1901,7 @@ components:
             These are regular payments using stored card details, like installments or a monthly subscription fee.
             
             - `I` Instalment - A single purchase of goods or services billed to a cardholder in multiple transactions, over a period of time agreed by the cardholder and you.
+            
             - `R` Recurring - Transactions processed at fixed, regular intervals not to exceed one year between transactions, representing an agreement between a cardholder and you to purchase goods or services provided over a period of time.
             
             Unscheduled
@@ -1909,10 +1910,15 @@ components:
             digital wallet triggered by the balance falling below a certain threshold.
             
             - `A` Reauthorisation - a purchase made after the original purchase. A common scenario is delayed/split shipments.
+            
             - `C` Unscheduled Payment - A transaction using a stored credential for a fixed or variable amount that does not occur on a scheduled or regularly occurring transaction date. This includes account top-ups triggered by balance thresholds.
+            
             - `D` Delayed Charge - A delayed charge is typically used in hotel, cruise lines and vehicle rental environments to perform a supplemental account charge after original services are rendered.
+            
             - `L` Incremental - An incremental authorisation is typically found in hotel and car rental environments, where the cardholder has agreed to pay for any service incurred during the duration of the contract. An incremental authorisation is where you need to seek authorisation of further funds in addition to what you have originally requested. A common scenario is additional services charged to the contract, such as extending a stay in a hotel.
+            
             - `S` Resubmission - When the original purchase occurred, but you were not able to get authorisation at the time the goods or services were provided. It should be only used where the goods or services have already been provided, but the authorisation request is declined for insufficient funds.
+            
             - `X` No-show - A no-show is a transaction where you are enabled to charge for services which the cardholder entered into an agreement to purchase, but the cardholder did not meet the terms of the agreement.
         csc: 
           type: string
@@ -2000,7 +2006,7 @@ components:
             card for use for a purchase using previously stored details. An example would be a customer buying an item from
             your website after being present with their saved card details at checkout.
             
-            **Merchant Intiaited**: A _merchant initiated transaction_ (MIT) is an authorisation initiated where you are the
+            **Merchant Intiated**: A _merchant initiated transaction_ (MIT) is an authorisation initiated where you as the
              merchant submit a cardholders previously stored details without the cardholder's participation. An example would
              be a subscription to a membership scheme to debit their card monthly.
             
@@ -2009,6 +2015,7 @@ components:
             The following values apply
             
              - `M` - specifies that the transaction is initiated by the merchant
+            
              - `C` - specifies that the transaction is initiated by the cardholder
             
             Where transactions are merchant initiated, a valid cardholder agreement must be defined.
@@ -2295,6 +2302,12 @@ components:
           type: string
           example: 0002
           description: The last 4 digits of the card to aid in identification.
+        name_on_card: 
+          type: string
+          minLength: 2
+          maxLength: 45
+          example: MR NE BODY
+          description: The name on the card.
         scheme: 
           type: string
           example: Visa
@@ -2694,13 +2707,6 @@ components:
             For AVS to work correctly, the billing details should be the registered address of the card holder
             as it appears on the statement with their card issuer. The numeric details will be passed through
             for analysis and may result in a decline if incorrectly provided.
-        card_holder_name: 
-          type: string
-          minLength: 2
-          maxLength: 45
-          example: MR NE BODY
-          description: |
-            The card holder name as appears on the card such as MR N E BODY. Required for some acquirers.
         cardnumber: 
           type: string
           minLength: 12
@@ -2834,6 +2840,13 @@ components:
           format: int32
           example: 11223344
           description: Identifies the merchant account to perform processing for.
+        name_on_card: 
+          type: string
+          minLength: 2
+          maxLength: 45
+          example: MR NE BODY
+          description: |
+            The card holder name as appears on the card such as MR N E BODY. Required for some acquirers.
         ship_to: 
           $ref: '#/components/schemas/ContactDetails'
           x-description: Shipping details of the card holder making the payment. These details may be used for 3DS and for future referencing of the transaction.
@@ -3387,12 +3400,6 @@ components:
         - expmonth
         - expyear
       properties: 
-        card_holder_name: 
-          type: string
-          minLength: 2
-          maxLength: 45
-          example: MR NE BODY
-          description: The card holder name as it appears on the card. The value is required if the account is to be used for 3dsv2 processing, otherwise it is optional.
         cardnumber: 
           type: string
           minLength: 12
@@ -3416,6 +3423,12 @@ components:
           minimum: 2000
           maximum: 2100
           description: The expiry year of the card.
+        name_on_card: 
+          type: string
+          minLength: 2
+          maxLength: 45
+          example: MR NE BODY
+          description: The card holder name as it appears on the card. The value is required if the account is to be used for 3dsv2 processing, otherwise it is optional.
     Ping: 
       type: object
       properties: 

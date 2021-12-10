@@ -521,7 +521,7 @@
       </ul>
         <ul class="toc-footer">
             <li><a href='mailto:support@citypay.com'>Any Integration Questions?</a></li>
-            <li>V6.2.4 2021-11-10</li>
+            <li>V6.2.5 2021-12-10</li>
         </ul>
     </div>
     <div class="page-wrapper">
@@ -529,8 +529,8 @@
       <div class="content">
         <img src="images/citypay-logo-23676e0b.svg" class="cplogo" alt="" />
         <h1 id='citypay-payment-api'>CityPay Payment API</h1>
-<p>Version: 6.2.4
-Last Updated: 2021-11-10</p>
+<p>Version: 6.2.5
+Last Updated: 2021-12-10</p>
 
 <p>This CityPay API is a HTTP RESTful payment API used for direct server to server transactional processing. It
 provides a number of payment mechanisms including: Internet, MOTO, Continuous Authority transaction processing,
@@ -1496,15 +1496,15 @@ processing and will be available as a tokenised value for future processing.</p>
 </tr>
 <tr>
 <td>Optional</td>
-<td><code>card_holder_name</code></td>
-<td>string</td>
-<td>The card holder name as it appears on the card. The value is required if the account is to be used for 3dsv2 processing, otherwise it is optional.<br/><br/>minLength: 2<br/>maxLength: 45</td>
-</tr>
-<tr>
-<td>Optional</td>
 <td><code>default</code></td>
 <td>boolean</td>
 <td>Determines whether the card should be the new default card.</td>
+</tr>
+<tr>
+<td>Optional</td>
+<td><code>name_on_card</code></td>
+<td>string</td>
+<td>The card holder name as it appears on the card. The value is required if the account is to be used for 3dsv2 processing, otherwise it is optional.<br/><br/>minLength: 2<br/>maxLength: 45</td>
 </tr>
 </tbody></table>
 <h3 id='response-11'>Response</h3>
@@ -1705,7 +1705,7 @@ required field with both Visa and MasterCard for risk analysis.</em>.</p>
 <td>Optional</td>
 <td><code>cardholder_agreement</code></td>
 <td>string</td>
-<td>Merchant-initiated transactions (MITs) are payments you trigger, where the cardholder has previously consented to you carrying out such payments. These may be scheduled (such as recurring payments and installments) or unscheduled (like account top-ups triggered by balance thresholds and no-show charges).<br/><br/>Scheduled --- These are regular payments using stored card details, like installments or a monthly subscription fee.<br/><br/>- <code>I</code> Instalment - A single purchase of goods or services billed to a cardholder in multiple transactions, over a period of time agreed by the cardholder and you. - <code>R</code> Recurring - Transactions processed at fixed, regular intervals not to exceed one year between transactions, representing an agreement between a cardholder and you to purchase goods or services provided over a period of time.<br/><br/>Unscheduled --- These are payments using stored card details that do not occur on a regular schedule, like top-ups for a digital wallet triggered by the balance falling below a certain threshold.<br/><br/>- <code>A</code> Reauthorisation - a purchase made after the original purchase. A common scenario is delayed/split shipments. - <code>C</code> Unscheduled Payment - A transaction using a stored credential for a fixed or variable amount that does not occur on a scheduled or regularly occurring transaction date. This includes account top-ups triggered by balance thresholds. - <code>D</code> Delayed Charge - A delayed charge is typically used in hotel, cruise lines and vehicle rental environments to perform a supplemental account charge after original services are rendered. - <code>L</code> Incremental - An incremental authorisation is typically found in hotel and car rental environments, where the cardholder has agreed to pay for any service incurred during the duration of the contract. An incremental authorisation is where you need to seek authorisation of further funds in addition to what you have originally requested. A common scenario is additional services charged to the contract, such as extending a stay in a hotel. - <code>S</code> Resubmission - When the original purchase occurred, but you were not able to get authorisation at the time the goods or services were provided. It should be only used where the goods or services have already been provided, but the authorisation request is declined for insufficient funds. - <code>X</code> No-show - A no-show is a transaction where you are enabled to charge for services which the cardholder entered into an agreement to purchase, but the cardholder did not meet the terms of the agreement.<br/><br/> maxLength: 1</td>
+<td>Merchant-initiated transactions (MITs) are payments you trigger, where the cardholder has previously consented to you carrying out such payments. These may be scheduled (such as recurring payments and installments) or unscheduled (like account top-ups triggered by balance thresholds and no-show charges).<br/><br/>Scheduled --- These are regular payments using stored card details, like installments or a monthly subscription fee.<br/><br/>- <code>I</code> Instalment - A single purchase of goods or services billed to a cardholder in multiple transactions, over a period of time agreed by the cardholder and you.<br/><br/>- <code>R</code> Recurring - Transactions processed at fixed, regular intervals not to exceed one year between transactions, representing an agreement between a cardholder and you to purchase goods or services provided over a period of time.<br/><br/>Unscheduled --- These are payments using stored card details that do not occur on a regular schedule, like top-ups for a digital wallet triggered by the balance falling below a certain threshold.<br/><br/>- <code>A</code> Reauthorisation - a purchase made after the original purchase. A common scenario is delayed/split shipments.<br/><br/>- <code>C</code> Unscheduled Payment - A transaction using a stored credential for a fixed or variable amount that does not occur on a scheduled or regularly occurring transaction date. This includes account top-ups triggered by balance thresholds.<br/><br/>- <code>D</code> Delayed Charge - A delayed charge is typically used in hotel, cruise lines and vehicle rental environments to perform a supplemental account charge after original services are rendered.<br/><br/>- <code>L</code> Incremental - An incremental authorisation is typically found in hotel and car rental environments, where the cardholder has agreed to pay for any service incurred during the duration of the contract. An incremental authorisation is where you need to seek authorisation of further funds in addition to what you have originally requested. A common scenario is additional services charged to the contract, such as extending a stay in a hotel.<br/><br/>- <code>S</code> Resubmission - When the original purchase occurred, but you were not able to get authorisation at the time the goods or services were provided. It should be only used where the goods or services have already been provided, but the authorisation request is declined for insufficient funds.<br/><br/>- <code>X</code> No-show - A no-show is a transaction where you are enabled to charge for services which the cardholder entered into an agreement to purchase, but the cardholder did not meet the terms of the agreement.<br/><br/> maxLength: 1</td>
 </tr>
 <tr>
 <td>Optional</td>
@@ -1735,7 +1735,7 @@ required field with both Visa and MasterCard for risk analysis.</em>.</p>
 <td>Optional</td>
 <td><code>initiation</code></td>
 <td>string</td>
-<td>Transactions charged using the API are defined as:<br/><br/><strong>Cardholder Initiated</strong>: A <em>cardholder initiated transaction</em> (CIT) is where the cardholder selects the card for use for a purchase using previously stored details. An example would be a customer buying an item from your website after being present with their saved card details at checkout.<br/><br/><strong>Merchant Intiaited</strong>: A <em>merchant initiated transaction</em> (MIT) is an authorisation initiated where you are the  merchant submit a cardholders previously stored details without the cardholder&#39;s participation. An example would  be a subscription to a membership scheme to debit their card monthly.<br/><br/>MITs have different reasons such as reauthorisation, delayed, unscheduled, incremental, recurring, instalment, no-show or resubmission.<br/><br/>The following values apply<br/><br/> - <code>M</code> - specifies that the transaction is initiated by the merchant  - <code>C</code> - specifies that the transaction is initiated by the cardholder<br/><br/>Where transactions are merchant initiated, a valid cardholder agreement must be defined.<br/><br/> maxLength: 1</td>
+<td>Transactions charged using the API are defined as:<br/><br/><strong>Cardholder Initiated</strong>: A <em>cardholder initiated transaction</em> (CIT) is where the cardholder selects the card for use for a purchase using previously stored details. An example would be a customer buying an item from your website after being present with their saved card details at checkout.<br/><br/><strong>Merchant Intiated</strong>: A <em>merchant initiated transaction</em> (MIT) is an authorisation initiated where you as the  merchant submit a cardholders previously stored details without the cardholder&#39;s participation. An example would  be a subscription to a membership scheme to debit their card monthly.<br/><br/>MITs have different reasons such as reauthorisation, delayed, unscheduled, incremental, recurring, instalment, no-show or resubmission.<br/><br/>The following values apply<br/><br/> - <code>M</code> - specifies that the transaction is initiated by the merchant<br/><br/> - <code>C</code> - specifies that the transaction is initiated by the cardholder<br/><br/>Where transactions are merchant initiated, a valid cardholder agreement must be defined.<br/><br/> maxLength: 1</td>
 </tr>
 <tr>
 <td>Optional</td>
@@ -2261,12 +2261,6 @@ this and will solidify the authorisation and confirmation process.</p>
 </tr>
 <tr>
 <td>Optional</td>
-<td><code>card_holder_name</code></td>
-<td>string</td>
-<td>The card holder name as appears on the card such as MR N E BODY. Required for some acquirers.<br/><br/> minLength: 2<br/>maxLength: 45</td>
-</tr>
-<tr>
-<td>Optional</td>
 <td><code>csc</code></td>
 <td>string</td>
 <td>The Card Security Code (CSC) (also known as CV2/CVV2) is normally found on the back of the card (American Express has it on the front). The value helps to identify posession of the card as it is not available within the chip or magnetic swipe.<br/><br/>When forwarding the CSC, please ensure the value is a string as some values start with 0 and this will be stripped out by any integer parsing.<br/><br/>The CSC number aids fraud prevention in Mail Order and Internet payments.<br/><br/>Business rules are available on your account to identify whether to accept or decline transactions based on mismatched results of the CSC.<br/><br/>The Payment Card Industry (PCI) requires that at no stage of a transaction should the CSC be stored.<br/><br/>This applies to all entities handling card data.<br/><br/>It should also not be used in any hashing process.<br/><br/>CityPay do not store the value and have no method of retrieving the value once the transaction has been processed. For this reason, duplicate checking is unable to determine the CSC in its duplication check algorithm.<br/><br/> minLength: 3<br/>maxLength: 4</td>
@@ -2294,6 +2288,12 @@ this and will solidify the authorisation and confirmation process.</p>
 <td><code>match_avsa</code></td>
 <td>string</td>
 <td>A policy value which determines whether an AVS address policy is enforced, bypassed or ignored.<br/><br/>Values are  <code>0</code> for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.<br/><br/> <code>1</code> for an enforced policy. Transactions that are enforced will be rejected if the AVS address numeric value does not match.<br/><br/> <code>2</code> to bypass. Transactions that are bypassed will be allowed through even if the address did not match.<br/><br/> <code>3</code> to ignore. Transactions that are ignored will bypass the result and not send address numeric details for authorisation.</td>
+</tr>
+<tr>
+<td>Optional</td>
+<td><code>name_on_card</code></td>
+<td>string</td>
+<td>The card holder name as appears on the card such as MR N E BODY. Required for some acquirers.<br/><br/> minLength: 2<br/>maxLength: 45</td>
 </tr>
 <tr>
 <td>Optional</td>
@@ -3561,7 +3561,6 @@ outlining the result of the transaction.</p>
    </span><span class="nl">"amount"</span><span class="p">:</span><span class="w"> </span><span class="mi">3600</span><span class="p">,</span><span class="w">
    </span><span class="nl">"avs_postcode_policy"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
    </span><span class="nl">"bill_to"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="err">...</span><span class="w"> </span><span class="p">},</span><span class="w">
-   </span><span class="nl">"card_holder_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"MR NE BODY"</span><span class="p">,</span><span class="w">
    </span><span class="nl">"cardnumber"</span><span class="p">:</span><span class="w"> </span><span class="s2">"4000 0000 0000 0002"</span><span class="p">,</span><span class="w">
    </span><span class="nl">"csc"</span><span class="p">:</span><span class="w"> </span><span class="s2">"10"</span><span class="p">,</span><span class="w">
    </span><span class="nl">"csc_policy"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
@@ -3574,6 +3573,7 @@ outlining the result of the transaction.</p>
    </span><span class="nl">"match_avsa"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
    </span><span class="nl">"mcc6012"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="err">...</span><span class="w"> </span><span class="p">},</span><span class="w">
    </span><span class="nl">"merchantid"</span><span class="p">:</span><span class="w"> </span><span class="mi">11223344</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"name_on_card"</span><span class="p">:</span><span class="w"> </span><span class="s2">"MR NE BODY"</span><span class="p">,</span><span class="w">
    </span><span class="nl">"ship_to"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="err">...</span><span class="w"> </span><span class="p">},</span><span class="w">
    </span><span class="nl">"threedsecure"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="err">...</span><span class="w"> </span><span class="p">},</span><span class="w">
    </span><span class="nl">"trans_info"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
@@ -3584,7 +3584,6 @@ outlining the result of the transaction.</p>
  <span class="nt">&lt;amount&gt;</span>3600<span class="nt">&lt;/amount&gt;</span> 
  <span class="nt">&lt;avs_postcode_policy&gt;&lt;/avs_postcode_policy&gt;</span> 
  <span class="nt">&lt;bill_to&gt;</span><span class="err">&lt;</span>&gt;...<span class="err">&lt;</span>/&gt;<span class="nt">&lt;/bill_to&gt;</span> 
- <span class="nt">&lt;card_holder_name&gt;</span>MR NE BODY<span class="nt">&lt;/card_holder_name&gt;</span> 
  <span class="nt">&lt;cardnumber&gt;</span>4000 0000 0000 0002<span class="nt">&lt;/cardnumber&gt;</span> 
  <span class="nt">&lt;csc&gt;</span>10<span class="nt">&lt;/csc&gt;</span> 
  <span class="nt">&lt;csc_policy&gt;&lt;/csc_policy&gt;</span> 
@@ -3597,6 +3596,7 @@ outlining the result of the transaction.</p>
  <span class="nt">&lt;match_avsa&gt;&lt;/match_avsa&gt;</span> 
  <span class="nt">&lt;mcc6012&gt;</span><span class="err">&lt;</span>&gt;...<span class="err">&lt;</span>/&gt;<span class="nt">&lt;/mcc6012&gt;</span> 
  <span class="nt">&lt;merchantid&gt;</span>11223344<span class="nt">&lt;/merchantid&gt;</span> 
+ <span class="nt">&lt;name_on_card&gt;</span>MR NE BODY<span class="nt">&lt;/name_on_card&gt;</span> 
  <span class="nt">&lt;ship_to&gt;</span><span class="err">&lt;</span>&gt;...<span class="err">&lt;</span>/&gt;<span class="nt">&lt;/ship_to&gt;</span> 
  <span class="nt">&lt;threedsecure&gt;</span><span class="err">&lt;</span>&gt;...<span class="err">&lt;</span>/&gt;<span class="nt">&lt;/threedsecure&gt;</span> 
  <span class="nt">&lt;trans_info&gt;&lt;/trans_info&gt;</span> 
@@ -3628,12 +3628,6 @@ outlining the result of the transaction.</p>
 <td>object</td>
 <td>false</td>
 <td><a href="#contactdetails">ContactDetails</a> Billing details of the card holder making the payment. These details may be used for AVS fraud analysis, 3DS and for future referencing of the transaction.<br/><br/>For AVS to work correctly, the billing details should be the registered address of the card holder as it appears on the statement with their card issuer. The numeric details will be passed through for analysis and may result in a decline if incorrectly provided.</td>
-</tr>
-<tr>
-<td><code>card_holder_name</code></td>
-<td>string</td>
-<td>false</td>
-<td>The card holder name as appears on the card such as MR N E BODY. Required for some acquirers.<br/><br/> minLength: 2<br/>maxLength: 45</td>
 </tr>
 <tr>
 <td><code>cardnumber</code></td>
@@ -3706,6 +3700,12 @@ outlining the result of the transaction.</p>
 <td>integer <em>int32</em></td>
 <td>true</td>
 <td>Identifies the merchant account to perform processing for.</td>
+</tr>
+<tr>
+<td><code>name_on_card</code></td>
+<td>string</td>
+<td>false</td>
+<td>The card holder name as appears on the card such as MR N E BODY. Required for some acquirers.<br/><br/> minLength: 2<br/>maxLength: 45</td>
 </tr>
 <tr>
 <td><code>ship_to</code></td>
@@ -4464,6 +4464,7 @@ outlining the result of the transaction.</p>
    </span><span class="nl">"label"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Visa/0002"</span><span class="p">,</span><span class="w">
    </span><span class="nl">"label2"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Visa/0002,Exp:2304"</span><span class="p">,</span><span class="w">
    </span><span class="nl">"last4digits"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2"</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"name_on_card"</span><span class="p">:</span><span class="w"> </span><span class="s2">"MR NE BODY"</span><span class="p">,</span><span class="w">
    </span><span class="nl">"scheme"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Visa"</span><span class="p">,</span><span class="w">
    </span><span class="nl">"token"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ctPCAPyNyCkx3Ry8wGyv8khC3ch2hUSB3Db..Qzr"</span><span class="w">
 </span><span class="p">}</span><span class="w">
@@ -4485,6 +4486,7 @@ outlining the result of the transaction.</p>
  <span class="nt">&lt;label&gt;</span>Visa/0002<span class="nt">&lt;/label&gt;</span> 
  <span class="nt">&lt;label2&gt;</span>Visa/0002,Exp:2304<span class="nt">&lt;/label2&gt;</span> 
  <span class="nt">&lt;last4digits&gt;</span>2<span class="nt">&lt;/last4digits&gt;</span> 
+ <span class="nt">&lt;name_on_card&gt;</span>MR NE BODY<span class="nt">&lt;/name_on_card&gt;</span> 
  <span class="nt">&lt;scheme&gt;</span>Visa<span class="nt">&lt;/scheme&gt;</span> 
  <span class="nt">&lt;token&gt;</span>ctPCAPyNyCkx3Ry8wGyv8khC3ch2hUSB3Db..Qzr<span class="nt">&lt;/token&gt;</span> 
 <span class="nt">&lt;/Card&gt;</span>
@@ -4598,6 +4600,12 @@ outlining the result of the transaction.</p>
 <td>string</td>
 <td>false</td>
 <td>The last 4 digits of the card to aid in identification.</td>
+</tr>
+<tr>
+<td><code>name_on_card</code></td>
+<td>string</td>
+<td>false</td>
+<td>The name on the card.<br/><br/>minLength: 2<br/>maxLength: 45</td>
 </tr>
 <tr>
 <td><code>scheme</code></td>
@@ -4787,7 +4795,7 @@ outlining the result of the transaction.</p>
 <td><code>cardholder_agreement</code></td>
 <td>string</td>
 <td>false</td>
-<td>Merchant-initiated transactions (MITs) are payments you trigger, where the cardholder has previously consented to you carrying out such payments. These may be scheduled (such as recurring payments and installments) or unscheduled (like account top-ups triggered by balance thresholds and no-show charges).<br/><br/>Scheduled --- These are regular payments using stored card details, like installments or a monthly subscription fee.<br/><br/>- <code>I</code> Instalment - A single purchase of goods or services billed to a cardholder in multiple transactions, over a period of time agreed by the cardholder and you. - <code>R</code> Recurring - Transactions processed at fixed, regular intervals not to exceed one year between transactions, representing an agreement between a cardholder and you to purchase goods or services provided over a period of time.<br/><br/>Unscheduled --- These are payments using stored card details that do not occur on a regular schedule, like top-ups for a digital wallet triggered by the balance falling below a certain threshold.<br/><br/>- <code>A</code> Reauthorisation - a purchase made after the original purchase. A common scenario is delayed/split shipments. - <code>C</code> Unscheduled Payment - A transaction using a stored credential for a fixed or variable amount that does not occur on a scheduled or regularly occurring transaction date. This includes account top-ups triggered by balance thresholds. - <code>D</code> Delayed Charge - A delayed charge is typically used in hotel, cruise lines and vehicle rental environments to perform a supplemental account charge after original services are rendered. - <code>L</code> Incremental - An incremental authorisation is typically found in hotel and car rental environments, where the cardholder has agreed to pay for any service incurred during the duration of the contract. An incremental authorisation is where you need to seek authorisation of further funds in addition to what you have originally requested. A common scenario is additional services charged to the contract, such as extending a stay in a hotel. - <code>S</code> Resubmission - When the original purchase occurred, but you were not able to get authorisation at the time the goods or services were provided. It should be only used where the goods or services have already been provided, but the authorisation request is declined for insufficient funds. - <code>X</code> No-show - A no-show is a transaction where you are enabled to charge for services which the cardholder entered into an agreement to purchase, but the cardholder did not meet the terms of the agreement.<br/><br/> maxLength: 1</td>
+<td>Merchant-initiated transactions (MITs) are payments you trigger, where the cardholder has previously consented to you carrying out such payments. These may be scheduled (such as recurring payments and installments) or unscheduled (like account top-ups triggered by balance thresholds and no-show charges).<br/><br/>Scheduled --- These are regular payments using stored card details, like installments or a monthly subscription fee.<br/><br/>- <code>I</code> Instalment - A single purchase of goods or services billed to a cardholder in multiple transactions, over a period of time agreed by the cardholder and you.<br/><br/>- <code>R</code> Recurring - Transactions processed at fixed, regular intervals not to exceed one year between transactions, representing an agreement between a cardholder and you to purchase goods or services provided over a period of time.<br/><br/>Unscheduled --- These are payments using stored card details that do not occur on a regular schedule, like top-ups for a digital wallet triggered by the balance falling below a certain threshold.<br/><br/>- <code>A</code> Reauthorisation - a purchase made after the original purchase. A common scenario is delayed/split shipments.<br/><br/>- <code>C</code> Unscheduled Payment - A transaction using a stored credential for a fixed or variable amount that does not occur on a scheduled or regularly occurring transaction date. This includes account top-ups triggered by balance thresholds.<br/><br/>- <code>D</code> Delayed Charge - A delayed charge is typically used in hotel, cruise lines and vehicle rental environments to perform a supplemental account charge after original services are rendered.<br/><br/>- <code>L</code> Incremental - An incremental authorisation is typically found in hotel and car rental environments, where the cardholder has agreed to pay for any service incurred during the duration of the contract. An incremental authorisation is where you need to seek authorisation of further funds in addition to what you have originally requested. A common scenario is additional services charged to the contract, such as extending a stay in a hotel.<br/><br/>- <code>S</code> Resubmission - When the original purchase occurred, but you were not able to get authorisation at the time the goods or services were provided. It should be only used where the goods or services have already been provided, but the authorisation request is declined for insufficient funds.<br/><br/>- <code>X</code> No-show - A no-show is a transaction where you are enabled to charge for services which the cardholder entered into an agreement to purchase, but the cardholder did not meet the terms of the agreement.<br/><br/> maxLength: 1</td>
 </tr>
 <tr>
 <td><code>csc</code></td>
@@ -4823,7 +4831,7 @@ outlining the result of the transaction.</p>
 <td><code>initiation</code></td>
 <td>string</td>
 <td>false</td>
-<td>Transactions charged using the API are defined as:<br/><br/><strong>Cardholder Initiated</strong>: A <em>cardholder initiated transaction</em> (CIT) is where the cardholder selects the card for use for a purchase using previously stored details. An example would be a customer buying an item from your website after being present with their saved card details at checkout.<br/><br/><strong>Merchant Intiaited</strong>: A <em>merchant initiated transaction</em> (MIT) is an authorisation initiated where you are the  merchant submit a cardholders previously stored details without the cardholder&#39;s participation. An example would  be a subscription to a membership scheme to debit their card monthly.<br/><br/>MITs have different reasons such as reauthorisation, delayed, unscheduled, incremental, recurring, instalment, no-show or resubmission.<br/><br/>The following values apply<br/><br/> - <code>M</code> - specifies that the transaction is initiated by the merchant  - <code>C</code> - specifies that the transaction is initiated by the cardholder<br/><br/>Where transactions are merchant initiated, a valid cardholder agreement must be defined.<br/><br/> maxLength: 1</td>
+<td>Transactions charged using the API are defined as:<br/><br/><strong>Cardholder Initiated</strong>: A <em>cardholder initiated transaction</em> (CIT) is where the cardholder selects the card for use for a purchase using previously stored details. An example would be a customer buying an item from your website after being present with their saved card details at checkout.<br/><br/><strong>Merchant Intiated</strong>: A <em>merchant initiated transaction</em> (MIT) is an authorisation initiated where you as the  merchant submit a cardholders previously stored details without the cardholder&#39;s participation. An example would  be a subscription to a membership scheme to debit their card monthly.<br/><br/>MITs have different reasons such as reauthorisation, delayed, unscheduled, incremental, recurring, instalment, no-show or resubmission.<br/><br/>The following values apply<br/><br/> - <code>M</code> - specifies that the transaction is initiated by the merchant<br/><br/> - <code>C</code> - specifies that the transaction is initiated by the cardholder<br/><br/>Where transactions are merchant initiated, a valid cardholder agreement must be defined.<br/><br/> maxLength: 1</td>
 </tr>
 <tr>
 <td><code>match_avsa</code></td>
@@ -5545,18 +5553,18 @@ outlining the result of the transaction.</p>
 </tr>
 </tbody></table>
 <h2 id='registercard'>RegisterCard</h2><div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-   </span><span class="nl">"card_holder_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"MR NE BODY"</span><span class="p">,</span><span class="w">
    </span><span class="nl">"cardnumber"</span><span class="p">:</span><span class="w"> </span><span class="s2">"4000 0000 0000 0002"</span><span class="p">,</span><span class="w">
    </span><span class="nl">"default"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
    </span><span class="nl">"expmonth"</span><span class="p">:</span><span class="w"> </span><span class="mi">9</span><span class="p">,</span><span class="w">
-   </span><span class="nl">"expyear"</span><span class="p">:</span><span class="w"> </span><span class="mi">2024</span><span class="w">
+   </span><span class="nl">"expyear"</span><span class="p">:</span><span class="w"> </span><span class="mi">2024</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"name_on_card"</span><span class="p">:</span><span class="w"> </span><span class="s2">"MR NE BODY"</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre></div><div class="highlight"><pre class="highlight xml tab-xml"><code><span class="nt">&lt;RegisterCard&gt;</span>
- <span class="nt">&lt;card_holder_name&gt;</span>MR NE BODY<span class="nt">&lt;/card_holder_name&gt;</span> 
  <span class="nt">&lt;cardnumber&gt;</span>4000 0000 0000 0002<span class="nt">&lt;/cardnumber&gt;</span> 
  <span class="nt">&lt;default&gt;&lt;/default&gt;</span> 
  <span class="nt">&lt;expmonth&gt;</span>9<span class="nt">&lt;/expmonth&gt;</span> 
  <span class="nt">&lt;expyear&gt;</span>2024<span class="nt">&lt;/expyear&gt;</span> 
+ <span class="nt">&lt;name_on_card&gt;</span>MR NE BODY<span class="nt">&lt;/name_on_card&gt;</span> 
 <span class="nt">&lt;/RegisterCard&gt;</span>
 </code></pre></div>
 <table><thead>
@@ -5567,12 +5575,6 @@ outlining the result of the transaction.</p>
 <th>Description</th>
 </tr>
 </thead><tbody>
-<tr>
-<td><code>card_holder_name</code></td>
-<td>string</td>
-<td>false</td>
-<td>The card holder name as it appears on the card. The value is required if the account is to be used for 3dsv2 processing, otherwise it is optional.<br/><br/>minLength: 2<br/>maxLength: 45</td>
-</tr>
 <tr>
 <td><code>cardnumber</code></td>
 <td>string</td>
@@ -5596,6 +5598,12 @@ outlining the result of the transaction.</p>
 <td>integer <em>int32</em></td>
 <td>true</td>
 <td>The expiry year of the card.<br/><br/>minimum: 2000<br/>maximum: 2100</td>
+</tr>
+<tr>
+<td><code>name_on_card</code></td>
+<td>string</td>
+<td>false</td>
+<td>The card holder name as it appears on the card. The value is required if the account is to be used for 3dsv2 processing, otherwise it is optional.<br/><br/>minLength: 2<br/>maxLength: 45</td>
 </tr>
 </tbody></table>
 <h2 id='requestchallenged'>RequestChallenged</h2><div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
