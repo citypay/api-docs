@@ -1,7 +1,7 @@
 {
   "openapi" : "3.0.0",
   "info" : {
-    "version" : "6.2.5",
+    "version" : "6.2.6",
     "title" : "CityPay Payment API",
     "description" : "\nThis CityPay API is a HTTP RESTful payment API used for direct server to server transactional processing. It\nprovides a number of payment mechanisms including: Internet, MOTO, Continuous Authority transaction processing,\n3-D Secure decision handling using RFA Secure, Authorisation, Refunding, Pre-Authorisation, Cancellation/Voids and\nCompletion processing. The API is also capable of tokinsed payments using Card Holder Accounts.\n\n## Compliance and Security\n<aside class=\"notice\">\n  Before we begin a reminder that your application will need to adhere to PCI-DSS standards to operate safely\n  and to meet requirements set out by Visa and MasterCard and the PCI Security Standards Council including:\n</aside>\n\n* Data must be collected using TLS version 1.2 using [strong cryptography](#enabled-tls-ciphers). We will not accept calls to our API at\n  lower grade encryption levels. We regularly scan our TLS endpoints for vulnerabilities and perform TLS assessments\n  as part of our compliance program.\n* The application must not store sensitive card holder data (CHD) such as the card security code (CSC) or\n  primary access number (PAN)\n* The application must not display the full card number on receipts, it is recommended to mask the PAN\n  and show the last 4 digits. The API will return this for you for ease of receipt creation\n* If you are developing a website, you will be required to perform regular scans on the network where you host the\n  application to meet your compliance obligations\n* You will be required to be PCI Compliant and the application must adhere to the security standard. Further information\n  is available from [https://www.pcisecuritystandards.org/](https://www.pcisecuritystandards.org/)\n* The API verifies that the request is for a valid account and originates from a trusted source using the remote IP\n  address. Our application firewalls analyse data that may be an attempt to break a large number of security common\n  security vulnerabilities.\n",
     "contact" : {
@@ -300,13 +300,13 @@
                   "summary" : "Basic capture call for a merchant with a transno and final amount",
                   "externalValue" : "CaptureRequest-example2.json"
                 },
-                "example1" : {
-                  "summary" : "Basic capture call for a merchant with a given identifier",
-                  "externalValue" : "CaptureRequest-example1.json"
-                },
                 "example3" : {
                   "summary" : "Capture call for a merchant with identifier and airline data once a ticket has been issued",
                   "externalValue" : "CaptureRequest-example3.json"
+                },
+                "example1" : {
+                  "summary" : "Basic capture call for a merchant with a given identifier",
+                  "externalValue" : "CaptureRequest-example1.json"
                 }
               }
             },
@@ -319,13 +319,13 @@
                   "summary" : "Basic capture call for a merchant with a transno and final amount",
                   "externalValue" : "CaptureRequest-example2.xml"
                 },
-                "example1" : {
-                  "summary" : "Basic capture call for a merchant with a given identifier",
-                  "externalValue" : "CaptureRequest-example1.xml"
-                },
                 "example3" : {
                   "summary" : "Capture call for a merchant with identifier and airline data once a ticket has been issued",
                   "externalValue" : "CaptureRequest-example3.xml"
+                },
+                "example1" : {
+                  "summary" : "Basic capture call for a merchant with a given identifier",
+                  "externalValue" : "CaptureRequest-example1.xml"
                 }
               }
             }
@@ -1843,7 +1843,7 @@
             "type" : "string",
             "minLength" : 3,
             "maxLength" : 4,
-            "example" : 12,
+            "example" : 10,
             "description" : "The Card Security Code (CSC) (also known as CV2/CVV2) is normally found on the back of the card\n(American Express has it on the front). The value helps to identify posession of the card as it is not\navailable within the chip or magnetic swipe.\n\nWhen forwarding the CSC, please ensure the value is a string as some values start with 0 and this will be stripped\nout by any integer parsing.\n\nThe CSC number aids fraud prevention in Mail Order and Internet payments.\n\nBusiness rules are available on your account to identify whether to accept\nor decline transactions based on mismatched results of the CSC.\n\nThe Payment Card Industry (PCI) requires that at no stage of a transaction should the CSC be stored.\n\nThis applies to all entities handling card data.\n\nIt should also not be used in any hashing process.\n\nCityPay do not store the value and have no method of retrieving the value once the transaction has been processed.\nFor this reason, duplicate checking is unable to determine the CSC in its duplication check algorithm.\n"
           },
           "csc_policy" : {
@@ -2599,7 +2599,7 @@
             "type" : "string",
             "minLength" : 3,
             "maxLength" : 4,
-            "example" : 12,
+            "example" : 10,
             "description" : "The Card Security Code (CSC) (also known as CV2/CVV2) is normally found on the back of the card\n(American Express has it on the front). The value helps to identify posession of the card as it is not\navailable within the chip or magnetic swipe.\n\nWhen forwarding the CSC, please ensure the value is a string as some values start with 0 and this will be stripped\nout by any integer parsing.\n\nThe CSC number aids fraud prevention in Mail Order and Internet payments.\n\nBusiness rules are available on your account to identify whether to accept\nor decline transactions based on mismatched results of the CSC.\n\nThe Payment Card Industry (PCI) requires that at no stage of a transaction should the CSC be stored.\n\nThis applies to all entities handling card data.\n\nIt should also not be used in any hashing process.\n\nCityPay do not store the value and have no method of retrieving the value once the transaction has been processed.\nFor this reason, duplicate checking is unable to determine the CSC in its duplication check algorithm.\n"
           },
           "csc_policy" : {
@@ -2910,7 +2910,7 @@
           "mobile_no" : {
             "type" : "string",
             "maxLength" : 20,
-            "example" : "+447790123456",
+            "example" : 447790123456,
             "description" : "A mobile number for the card holder the mobile number is often required by delivery companies to ensure they are able to be in contact when required."
           },
           "postcode" : {
@@ -2922,7 +2922,7 @@
           "telephone_no" : {
             "type" : "string",
             "maxLength" : 20,
-            "example" : "+442030123456",
+            "example" : 442030123456,
             "description" : "A telephone number for the card holder."
           },
           "title" : {
