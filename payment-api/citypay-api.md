@@ -1,12 +1,12 @@
 ---
 title: CityPay Payment API
-version: 6.2.6
+version: 6.2.7
 language_tabs:
   - json
   - xml
 toc_footers:
   - <a href='mailto:support@citypay.com'>Any Integration Questions?</a>
-  - V6.2.6 2021-12-16
+  - V6.2.7 2022-01-05
 includes:
   - errorcodes
   - authresultcodes
@@ -22,8 +22,8 @@ search: true
 
 # CityPay Payment API
 
-Version: 6.2.6
-Last Updated: 2021-12-16
+Version: 6.2.7
+Last Updated: 2022-01-05
 
 
 This CityPay API is a HTTP RESTful payment API used for direct server to server transactional processing. It
@@ -2037,7 +2037,7 @@ Responses for this operation are
    "currency": "GBP",
    "duplicate_policy": "",
    "expmonth": 9,
-   "expyear": 2024,
+   "expyear": 2025,
    "external_mpi": { ... },
    "identifier": "95b857a1-5955-4b86-963c-5a6dbfc4fb95",
    "match_avsa": "",
@@ -2063,7 +2063,7 @@ Responses for this operation are
  <currency>GBP</currency> 
  <duplicate_policy></duplicate_policy> 
  <expmonth>9</expmonth> 
- <expyear>2024</expyear> 
+ <expyear>2025</expyear> 
  <external_mpi><>...</></external_mpi> 
  <identifier>95b857a1-5955-4b86-963c-5a6dbfc4fb95</identifier> 
  <match_avsa></match_avsa> 
@@ -2524,7 +2524,7 @@ Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Addi
    "date_created": "2020-01-02",
    "default": false,
    "expmonth": 9,
-   "expyear": 2024,
+   "expyear": 2025,
    "label": "Visa/0002",
    "label2": "Visa/0002,Exp:2304",
    "last4digits": "2",
@@ -2549,7 +2549,7 @@ Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Addi
  <date_created>2020-01-02</date_created> 
  <default></default> 
  <expmonth>9</expmonth> 
- <expyear>2024</expyear> 
+ <expyear>2025</expyear> 
  <label>Visa/0002</label> 
  <label2>Visa/0002,Exp:2304</label2> 
  <last4digits>2</last4digits> 
@@ -3190,7 +3190,7 @@ Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Addi
    "cardnumber": "4000 0000 0000 0002",
    "default": false,
    "expmonth": 9,
-   "expyear": 2024,
+   "expyear": 2025,
    "name_on_card": "MR NE BODY"
 }
 ```
@@ -3200,7 +3200,7 @@ Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Addi
  <cardnumber>4000 0000 0000 0002</cardnumber> 
  <default></default> 
  <expmonth>9</expmonth> 
- <expyear>2024</expyear> 
+ <expyear>2025</expyear> 
  <name_on_card>MR NE BODY</name_on_card> 
 </RegisterCard>
 ```

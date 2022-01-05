@@ -4,7 +4,7 @@ openapi: 3.0.0
 #                              API Information                                 #
 ################################################################################
 info:
-  version: 6.2.6
+  version: 6.2.7
   title: CityPay Payment API
   description: |
 
@@ -298,28 +298,28 @@ paths:
             schema: 
               $ref: '#/components/schemas/CaptureRequest'
             examples: 
-              example2: 
-                summary: Basic capture call for a merchant with a transno and final amount
-                externalValue: 'CaptureRequest-example2.json'
               example3: 
                 summary: Capture call for a merchant with identifier and airline data once a ticket has been issued
                 externalValue: 'CaptureRequest-example3.json'
               example1: 
                 summary: Basic capture call for a merchant with a given identifier
                 externalValue: 'CaptureRequest-example1.json'
+              example2: 
+                summary: Basic capture call for a merchant with a transno and final amount
+                externalValue: 'CaptureRequest-example2.json'
           text/xml: 
             schema: 
               $ref: '#/components/schemas/CaptureRequest'
             examples: 
-              example2: 
-                summary: Basic capture call for a merchant with a transno and final amount
-                externalValue: 'CaptureRequest-example2.xml'
               example3: 
                 summary: Capture call for a merchant with identifier and airline data once a ticket has been issued
                 externalValue: 'CaptureRequest-example3.xml'
               example1: 
                 summary: Basic capture call for a merchant with a given identifier
                 externalValue: 'CaptureRequest-example1.xml'
+              example2: 
+                summary: Basic capture call for a merchant with a transno and final amount
+                externalValue: 'CaptureRequest-example2.xml'
       responses: 
         403: 
           description: Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request.
@@ -707,22 +707,22 @@ paths:
             schema: 
               $ref: '#/components/schemas/VoidRequest'
             examples: 
-              example2: 
-                summary: Basic capture call for a merchant with a transno and final amount
-                externalValue: 'VoidRequest-example2.json'
               example1: 
                 summary: Basic capture call for a merchant with a given identifier
                 externalValue: 'VoidRequest-example1.json'
+              example2: 
+                summary: Basic capture call for a merchant with a transno and final amount
+                externalValue: 'VoidRequest-example2.json'
           text/xml: 
             schema: 
               $ref: '#/components/schemas/VoidRequest'
             examples: 
-              example2: 
-                summary: Basic capture call for a merchant with a transno and final amount
-                externalValue: 'VoidRequest-example2.xml'
               example1: 
                 summary: Basic capture call for a merchant with a given identifier
                 externalValue: 'VoidRequest-example1.xml'
+              example2: 
+                summary: Basic capture call for a merchant with a transno and final amount
+                externalValue: 'VoidRequest-example2.xml'
       responses: 
         403: 
           description: Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request.
@@ -2286,7 +2286,7 @@ components:
         expyear: 
           type: integer
           format: int32
-          example: 2024
+          example: 2025
           minimum: 2000
           maximum: 2100
           description: The expiry year of the card.
@@ -2793,7 +2793,7 @@ components:
         expyear: 
           type: integer
           format: int32
-          example: 2024
+          example: 2025
           minimum: 2000
           maximum: 2100
           description: |
@@ -3419,7 +3419,7 @@ components:
         expyear: 
           type: integer
           format: int32
-          example: 2024
+          example: 2025
           minimum: 2000
           maximum: 2100
           description: The expiry year of the card.
