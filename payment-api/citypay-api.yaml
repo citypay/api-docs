@@ -4,7 +4,7 @@ openapi: 3.0.0
 #                              API Information                                 #
 ################################################################################
 info:
-  version: 6.2.7
+  version: 6.2.8
   title: CityPay Payment API
   description: |
 
@@ -107,21 +107,6 @@ paths:
             schema: 
               $ref: '#/components/schemas/RegisterCard'
       responses: 
-        403: 
-          description: Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request.
-        401: 
-          description: Unauthorized. No api key has been provided and is required for this operation.
-        422: 
-          description: Unprocessable Entity. Should a failure occur that prevents processing of the API call.
-          content: 
-            application/json: 
-              schema: 
-                $ref: '#/components/schemas/Error'
-            text/xml: 
-              schema: 
-                $ref: '#/components/schemas/Error'
-        400: 
-          description: Bad Request. Should the incoming data not be validly determined.
         200: 
           description: A successfully registered card provides a reload of the account including the new card.
           content: 
@@ -131,6 +116,65 @@ paths:
             text/xml: 
               schema: 
                 $ref: '#/components/schemas/CardHolderAccount'
+        400: 
+          description: Bad Request. Should the incoming data not be validly determined.
+        401: 
+          description: Unauthorized. No api key has been provided and is required for this operation.
+        403: 
+          description: Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request.
+        422: 
+          description: Unprocessable Entity. Should a failure occur that prevents processing of the API call.
+          content: 
+            application/json: 
+              schema: 
+                $ref: '#/components/schemas/Error'
+            text/xml: 
+              schema: 
+                $ref: '#/components/schemas/Error'
+
+  /acl/check: 
+    post: 
+      summary: ACL Check Request
+      tags: 
+        - Operational
+      operationId: AclCheckRequest
+      description: |
+        Allows the checking of IP addresses against configured ACLs. Requests can perform a lookup of addresses in subnets and
+        services such as AWS or Azure to check that those addresses are listed in the ACLs.
+      requestBody: 
+        required: true
+        content: 
+          application/json: 
+            schema: 
+              $ref: '#/components/schemas/AclCheckRequest'
+          text/xml: 
+            schema: 
+              $ref: '#/components/schemas/AclCheckRequest'
+      responses: 
+        200: 
+          description: Response to the ACL Check request.
+          content: 
+            application/json: 
+              schema: 
+                $ref: '#/components/schemas/AclCheckResponseModel'
+            text/xml: 
+              schema: 
+                $ref: '#/components/schemas/AclCheckResponseModel'
+        400: 
+          description: Bad Request. Should the incoming data not be validly determined.
+        401: 
+          description: Unauthorized. No api key has been provided and is required for this operation.
+        403: 
+          description: Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request.
+        422: 
+          description: Unprocessable Entity. Should a failure occur that prevents processing of the API call.
+          content: 
+            application/json: 
+              schema: 
+                $ref: '#/components/schemas/Error'
+            text/xml: 
+              schema: 
+                $ref: '#/components/schemas/Error'
 
   /account/{accountid}: 
     get: 
@@ -153,21 +197,6 @@ paths:
         The returned cards will include all `active`, `inactive` and `expired` cards. This can be used to 
         enable a card holder to view their wallet and make constructive choices on which card to use.
       responses: 
-        403: 
-          description: Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request.
-        401: 
-          description: Unauthorized. No api key has been provided and is required for this operation.
-        422: 
-          description: Unprocessable Entity. Should a failure occur that prevents processing of the API call.
-          content: 
-            application/json: 
-              schema: 
-                $ref: '#/components/schemas/Error'
-            text/xml: 
-              schema: 
-                $ref: '#/components/schemas/Error'
-        400: 
-          description: Bad Request. Should the incoming data not be validly determined.
         200: 
           description: A card holder account that matches the account id provided in the request.
           content: 
@@ -177,6 +206,21 @@ paths:
             text/xml: 
               schema: 
                 $ref: '#/components/schemas/CardHolderAccount'
+        400: 
+          description: Bad Request. Should the incoming data not be validly determined.
+        401: 
+          description: Unauthorized. No api key has been provided and is required for this operation.
+        403: 
+          description: Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request.
+        422: 
+          description: Unprocessable Entity. Should a failure occur that prevents processing of the API call.
+          content: 
+            application/json: 
+              schema: 
+                $ref: '#/components/schemas/Error'
+            text/xml: 
+              schema: 
+                $ref: '#/components/schemas/Error'
     delete: 
       summary: Account Deletion
       tags: 
@@ -193,21 +237,6 @@ paths:
         Allows for the deletion of an account. The account will marked for deletion and subsequent purging. No further
         transactions will be alowed to be processed or actioned against this account.
       responses: 
-        403: 
-          description: Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request.
-        401: 
-          description: Unauthorized. No api key has been provided and is required for this operation.
-        422: 
-          description: Unprocessable Entity. Should a failure occur that prevents processing of the API call.
-          content: 
-            application/json: 
-              schema: 
-                $ref: '#/components/schemas/Error'
-            text/xml: 
-              schema: 
-                $ref: '#/components/schemas/Error'
-        400: 
-          description: Bad Request. Should the incoming data not be validly determined.
         200: 
           description: An acknowledgment code of `001` that the card holder account has been marked for deletion.
           content: 
@@ -217,6 +246,21 @@ paths:
             text/xml: 
               schema: 
                 $ref: '#/components/schemas/Acknowledgement'
+        400: 
+          description: Bad Request. Should the incoming data not be validly determined.
+        401: 
+          description: Unauthorized. No api key has been provided and is required for this operation.
+        403: 
+          description: Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request.
+        422: 
+          description: Unprocessable Entity. Should a failure occur that prevents processing of the API call.
+          content: 
+            application/json: 
+              schema: 
+                $ref: '#/components/schemas/Error'
+            text/xml: 
+              schema: 
+                $ref: '#/components/schemas/Error'
 
   /ping: 
     post: 
@@ -242,21 +286,6 @@ paths:
             schema: 
               $ref: '#/components/schemas/Ping'
       responses: 
-        403: 
-          description: Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request.
-        401: 
-          description: Unauthorized. No api key has been provided and is required for this operation.
-        422: 
-          description: Unprocessable Entity. Should a failure occur that prevents processing of the API call.
-          content: 
-            application/json: 
-              schema: 
-                $ref: '#/components/schemas/Error'
-            text/xml: 
-              schema: 
-                $ref: '#/components/schemas/Error'
-        400: 
-          description: Bad Request. Should the incoming data not be validly determined.
         200: 
           description: A result of the ping request, returning on 044 response code on successful receipt of the ping request.
           content: 
@@ -266,6 +295,21 @@ paths:
             text/xml: 
               schema: 
                 $ref: '#/components/schemas/Acknowledgement'
+        400: 
+          description: Bad Request. Should the incoming data not be validly determined.
+        401: 
+          description: Unauthorized. No api key has been provided and is required for this operation.
+        403: 
+          description: Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request.
+        422: 
+          description: Unprocessable Entity. Should a failure occur that prevents processing of the API call.
+          content: 
+            application/json: 
+              schema: 
+                $ref: '#/components/schemas/Error'
+            text/xml: 
+              schema: 
+                $ref: '#/components/schemas/Error'
 
   /capture: 
     post: 
@@ -298,12 +342,12 @@ paths:
             schema: 
               $ref: '#/components/schemas/CaptureRequest'
             examples: 
-              example3: 
-                summary: Capture call for a merchant with identifier and airline data once a ticket has been issued
-                externalValue: 'CaptureRequest-example3.json'
               example1: 
                 summary: Basic capture call for a merchant with a given identifier
                 externalValue: 'CaptureRequest-example1.json'
+              example3: 
+                summary: Capture call for a merchant with identifier and airline data once a ticket has been issued
+                externalValue: 'CaptureRequest-example3.json'
               example2: 
                 summary: Basic capture call for a merchant with a transno and final amount
                 externalValue: 'CaptureRequest-example2.json'
@@ -311,31 +355,16 @@ paths:
             schema: 
               $ref: '#/components/schemas/CaptureRequest'
             examples: 
-              example3: 
-                summary: Capture call for a merchant with identifier and airline data once a ticket has been issued
-                externalValue: 'CaptureRequest-example3.xml'
               example1: 
                 summary: Basic capture call for a merchant with a given identifier
                 externalValue: 'CaptureRequest-example1.xml'
+              example3: 
+                summary: Capture call for a merchant with identifier and airline data once a ticket has been issued
+                externalValue: 'CaptureRequest-example3.xml'
               example2: 
                 summary: Basic capture call for a merchant with a transno and final amount
                 externalValue: 'CaptureRequest-example2.xml'
       responses: 
-        403: 
-          description: Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request.
-        401: 
-          description: Unauthorized. No api key has been provided and is required for this operation.
-        422: 
-          description: Unprocessable Entity. Should a failure occur that prevents processing of the API call.
-          content: 
-            application/json: 
-              schema: 
-                $ref: '#/components/schemas/Error'
-            text/xml: 
-              schema: 
-                $ref: '#/components/schemas/Error'
-        400: 
-          description: Bad Request. Should the incoming data not be validly determined.
         200: 
           description: A result and acknowledgement of the capture request. The response will return a `000/001` response on a successful capture otherwise an error code response explaining the error.
           content: 
@@ -345,6 +374,21 @@ paths:
             text/xml: 
               schema: 
                 $ref: '#/components/schemas/Acknowledgement'
+        400: 
+          description: Bad Request. Should the incoming data not be validly determined.
+        401: 
+          description: Unauthorized. No api key has been provided and is required for this operation.
+        403: 
+          description: Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request.
+        422: 
+          description: Unprocessable Entity. Should a failure occur that prevents processing of the API call.
+          content: 
+            application/json: 
+              schema: 
+                $ref: '#/components/schemas/Error'
+            text/xml: 
+              schema: 
+                $ref: '#/components/schemas/Error'
 
   /batch/process: 
     post: 
@@ -367,21 +411,6 @@ paths:
             schema: 
               $ref: '#/components/schemas/ProcessBatchRequest'
       responses: 
-        403: 
-          description: Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request.
-        401: 
-          description: Unauthorized. No api key has been provided and is required for this operation.
-        422: 
-          description: Unprocessable Entity. Should a failure occur that prevents processing of the API call.
-          content: 
-            application/json: 
-              schema: 
-                $ref: '#/components/schemas/Error'
-            text/xml: 
-              schema: 
-                $ref: '#/components/schemas/Error'
-        400: 
-          description: Bad Request. Should the incoming data not be validly determined.
         200: 
           description: Request to process a batch provided in the request.
           content: 
@@ -391,6 +420,21 @@ paths:
             text/xml: 
               schema: 
                 $ref: '#/components/schemas/ProcessBatchResponse'
+        400: 
+          description: Bad Request. Should the incoming data not be validly determined.
+        401: 
+          description: Unauthorized. No api key has been provided and is required for this operation.
+        403: 
+          description: Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request.
+        422: 
+          description: Unprocessable Entity. Should a failure occur that prevents processing of the API call.
+          content: 
+            application/json: 
+              schema: 
+                $ref: '#/components/schemas/Error'
+            text/xml: 
+              schema: 
+                $ref: '#/components/schemas/Error'
 
   /account-exists/{accountid}: 
     get: 
@@ -409,21 +453,6 @@ paths:
         Checks that an account exists and is active by providing the account id as a url parameter 
         Checks that an account exists and is active by providing the account id as a url parameter.
       responses: 
-        403: 
-          description: Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request.
-        401: 
-          description: Unauthorized. No api key has been provided and is required for this operation.
-        422: 
-          description: Unprocessable Entity. Should a failure occur that prevents processing of the API call.
-          content: 
-            application/json: 
-              schema: 
-                $ref: '#/components/schemas/Error'
-            text/xml: 
-              schema: 
-                $ref: '#/components/schemas/Error'
-        400: 
-          description: Bad Request. Should the incoming data not be validly determined.
         200: 
           description: A response model determining whether the account exists, if exists is true, a last modified date of the account is also provided.
           content: 
@@ -433,6 +462,21 @@ paths:
             text/xml: 
               schema: 
                 $ref: '#/components/schemas/Exists'
+        400: 
+          description: Bad Request. Should the incoming data not be validly determined.
+        401: 
+          description: Unauthorized. No api key has been provided and is required for this operation.
+        403: 
+          description: Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request.
+        422: 
+          description: Unprocessable Entity. Should a failure occur that prevents processing of the API call.
+          content: 
+            application/json: 
+              schema: 
+                $ref: '#/components/schemas/Error'
+            text/xml: 
+              schema: 
+                $ref: '#/components/schemas/Error'
 
   /bin: 
     post: 
@@ -462,21 +506,6 @@ paths:
             schema: 
               $ref: '#/components/schemas/BinLookup'
       responses: 
-        403: 
-          description: Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request.
-        401: 
-          description: Unauthorized. No api key has been provided and is required for this operation.
-        422: 
-          description: Unprocessable Entity. Should a failure occur that prevents processing of the API call.
-          content: 
-            application/json: 
-              schema: 
-                $ref: '#/components/schemas/Error'
-            text/xml: 
-              schema: 
-                $ref: '#/components/schemas/Error'
-        400: 
-          description: Bad Request. Should the incoming data not be validly determined.
         200: 
           description: A result of the bin lookup request returning a bin object determined by the gateway service.
           content: 
@@ -486,6 +515,21 @@ paths:
             text/xml: 
               schema: 
                 $ref: '#/components/schemas/Bin'
+        400: 
+          description: Bad Request. Should the incoming data not be validly determined.
+        401: 
+          description: Unauthorized. No api key has been provided and is required for this operation.
+        403: 
+          description: Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request.
+        422: 
+          description: Unprocessable Entity. Should a failure occur that prevents processing of the API call.
+          content: 
+            application/json: 
+              schema: 
+                $ref: '#/components/schemas/Error'
+            text/xml: 
+              schema: 
+                $ref: '#/components/schemas/Error'
 
   /account/{accountid}/contact: 
     post: 
@@ -511,21 +555,6 @@ paths:
             schema: 
               $ref: '#/components/schemas/ContactDetails'
       responses: 
-        403: 
-          description: Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request.
-        401: 
-          description: Unauthorized. No api key has been provided and is required for this operation.
-        422: 
-          description: Unprocessable Entity. Should a failure occur that prevents processing of the API call.
-          content: 
-            application/json: 
-              schema: 
-                $ref: '#/components/schemas/Error'
-            text/xml: 
-              schema: 
-                $ref: '#/components/schemas/Error'
-        400: 
-          description: Bad Request. Should the incoming data not be validly determined.
         200: 
           description: A revised account with the new details set.
           content: 
@@ -535,6 +564,21 @@ paths:
             text/xml: 
               schema: 
                 $ref: '#/components/schemas/CardHolderAccount'
+        400: 
+          description: Bad Request. Should the incoming data not be validly determined.
+        401: 
+          description: Unauthorized. No api key has been provided and is required for this operation.
+        403: 
+          description: Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request.
+        422: 
+          description: Unprocessable Entity. Should a failure occur that prevents processing of the API call.
+          content: 
+            application/json: 
+              schema: 
+                $ref: '#/components/schemas/Error'
+            text/xml: 
+              schema: 
+                $ref: '#/components/schemas/Error'
 
   /account/{accountid}/card/{cardId}/status: 
     post: 
@@ -573,21 +617,6 @@ paths:
             schema: 
               $ref: '#/components/schemas/CardStatus'
       responses: 
-        403: 
-          description: Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request.
-        401: 
-          description: Unauthorized. No api key has been provided and is required for this operation.
-        422: 
-          description: Unprocessable Entity. Should a failure occur that prevents processing of the API call.
-          content: 
-            application/json: 
-              schema: 
-                $ref: '#/components/schemas/Error'
-            text/xml: 
-              schema: 
-                $ref: '#/components/schemas/Error'
-        400: 
-          description: Bad Request. Should the incoming data not be validly determined.
         200: 
           description: </br>Acknowledges the card status has changed, returning a response code of `001` for a valid change or `000` for a non valid change.
           content: 
@@ -597,6 +626,21 @@ paths:
             text/xml: 
               schema: 
                 $ref: '#/components/schemas/Acknowledgement'
+        400: 
+          description: Bad Request. Should the incoming data not be validly determined.
+        401: 
+          description: Unauthorized. No api key has been provided and is required for this operation.
+        403: 
+          description: Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request.
+        422: 
+          description: Unprocessable Entity. Should a failure occur that prevents processing of the API call.
+          content: 
+            application/json: 
+              schema: 
+                $ref: '#/components/schemas/Error'
+            text/xml: 
+              schema: 
+                $ref: '#/components/schemas/Error'
 
   /account/create: 
     post: 
@@ -615,21 +659,6 @@ paths:
             schema: 
               $ref: '#/components/schemas/AccountCreate'
       responses: 
-        403: 
-          description: Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request.
-        401: 
-          description: Unauthorized. No api key has been provided and is required for this operation.
-        422: 
-          description: Unprocessable Entity. Should a failure occur that prevents processing of the API call.
-          content: 
-            application/json: 
-              schema: 
-                $ref: '#/components/schemas/Error'
-            text/xml: 
-              schema: 
-                $ref: '#/components/schemas/Error'
-        400: 
-          description: Bad Request. Should the incoming data not be validly determined.
         200: 
           description: Provides an initialised account.
           content: 
@@ -639,6 +668,21 @@ paths:
             text/xml: 
               schema: 
                 $ref: '#/components/schemas/CardHolderAccount'
+        400: 
+          description: Bad Request. Should the incoming data not be validly determined.
+        401: 
+          description: Unauthorized. No api key has been provided and is required for this operation.
+        403: 
+          description: Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request.
+        422: 
+          description: Unprocessable Entity. Should a failure occur that prevents processing of the API call.
+          content: 
+            application/json: 
+              schema: 
+                $ref: '#/components/schemas/Error'
+            text/xml: 
+              schema: 
+                $ref: '#/components/schemas/Error'
 
   /refund: 
     post: 
@@ -660,21 +704,6 @@ paths:
             schema: 
               $ref: '#/components/schemas/RefundRequest'
       responses: 
-        403: 
-          description: Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request.
-        401: 
-          description: Unauthorized. No api key has been provided and is required for this operation.
-        422: 
-          description: Unprocessable Entity. Should a failure occur that prevents processing of the API call.
-          content: 
-            application/json: 
-              schema: 
-                $ref: '#/components/schemas/Error'
-            text/xml: 
-              schema: 
-                $ref: '#/components/schemas/Error'
-        400: 
-          description: Bad Request. Should the incoming data not be validly determined.
         200: 
           description: A result of the refund of sale processing.
           content: 
@@ -684,6 +713,21 @@ paths:
             text/xml: 
               schema: 
                 $ref: '#/components/schemas/AuthResponse'
+        400: 
+          description: Bad Request. Should the incoming data not be validly determined.
+        401: 
+          description: Unauthorized. No api key has been provided and is required for this operation.
+        403: 
+          description: Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request.
+        422: 
+          description: Unprocessable Entity. Should a failure occur that prevents processing of the API call.
+          content: 
+            application/json: 
+              schema: 
+                $ref: '#/components/schemas/Error'
+            text/xml: 
+              schema: 
+                $ref: '#/components/schemas/Error'
 
   /void: 
     post: 
@@ -724,21 +768,6 @@ paths:
                 summary: Basic capture call for a merchant with a transno and final amount
                 externalValue: 'VoidRequest-example2.xml'
       responses: 
-        403: 
-          description: Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request.
-        401: 
-          description: Unauthorized. No api key has been provided and is required for this operation.
-        422: 
-          description: Unprocessable Entity. Should a failure occur that prevents processing of the API call.
-          content: 
-            application/json: 
-              schema: 
-                $ref: '#/components/schemas/Error'
-            text/xml: 
-              schema: 
-                $ref: '#/components/schemas/Error'
-        400: 
-          description: Bad Request. Should the incoming data not be validly determined.
         200: 
           description: </br>A result and acknowledgement of the void request, returning an `080/003` response code on successful void/cancellation of the transaction.</br></br>If an error occurs an error code will be returned explaining the failure.
           content: 
@@ -748,6 +777,21 @@ paths:
             text/xml: 
               schema: 
                 $ref: '#/components/schemas/Acknowledgement'
+        400: 
+          description: Bad Request. Should the incoming data not be validly determined.
+        401: 
+          description: Unauthorized. No api key has been provided and is required for this operation.
+        403: 
+          description: Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request.
+        422: 
+          description: Unprocessable Entity. Should a failure occur that prevents processing of the API call.
+          content: 
+            application/json: 
+              schema: 
+                $ref: '#/components/schemas/Error'
+            text/xml: 
+              schema: 
+                $ref: '#/components/schemas/Error'
 
   /account/{accountid}/status: 
     post: 
@@ -779,21 +823,6 @@ paths:
             schema: 
               $ref: '#/components/schemas/AccountStatus'
       responses: 
-        403: 
-          description: Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request.
-        401: 
-          description: Unauthorized. No api key has been provided and is required for this operation.
-        422: 
-          description: Unprocessable Entity. Should a failure occur that prevents processing of the API call.
-          content: 
-            application/json: 
-              schema: 
-                $ref: '#/components/schemas/Error'
-            text/xml: 
-              schema: 
-                $ref: '#/components/schemas/Error'
-        400: 
-          description: Bad Request. Should the incoming data not be validly determined.
         200: 
           description: An acknowledgment that the card holder account status has been updated.</br></br>A response code of `001` is returned if the request was accepted or no change required.</br></br>A response code of `000` is returned if the request contains invalid data.
           content: 
@@ -803,6 +832,21 @@ paths:
             text/xml: 
               schema: 
                 $ref: '#/components/schemas/Acknowledgement'
+        400: 
+          description: Bad Request. Should the incoming data not be validly determined.
+        401: 
+          description: Unauthorized. No api key has been provided and is required for this operation.
+        403: 
+          description: Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request.
+        422: 
+          description: Unprocessable Entity. Should a failure occur that prevents processing of the API call.
+          content: 
+            application/json: 
+              schema: 
+                $ref: '#/components/schemas/Error'
+            text/xml: 
+              schema: 
+                $ref: '#/components/schemas/Error'
 
   /account/{accountid}/card/{cardId}: 
     delete: 
@@ -827,21 +871,6 @@ paths:
         Deletes a card from the account. The card will be marked for deletion before a subsequent
         purge will clear the card permanently.
       responses: 
-        403: 
-          description: Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request.
-        401: 
-          description: Unauthorized. No api key has been provided and is required for this operation.
-        422: 
-          description: Unprocessable Entity. Should a failure occur that prevents processing of the API call.
-          content: 
-            application/json: 
-              schema: 
-                $ref: '#/components/schemas/Error'
-            text/xml: 
-              schema: 
-                $ref: '#/components/schemas/Error'
-        400: 
-          description: Bad Request. Should the incoming data not be validly determined.
         200: 
           description: Acknowledges the card has been requested for deletion. A response code of `001` is returned if the account is available for deletion otherwise an error code is returned.
           content: 
@@ -851,6 +880,21 @@ paths:
             text/xml: 
               schema: 
                 $ref: '#/components/schemas/Acknowledgement'
+        400: 
+          description: Bad Request. Should the incoming data not be validly determined.
+        401: 
+          description: Unauthorized. No api key has been provided and is required for this operation.
+        403: 
+          description: Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request.
+        422: 
+          description: Unprocessable Entity. Should a failure occur that prevents processing of the API call.
+          content: 
+            application/json: 
+              schema: 
+                $ref: '#/components/schemas/Error'
+            text/xml: 
+              schema: 
+                $ref: '#/components/schemas/Error'
 
   /cres: 
     post: 
@@ -884,21 +928,6 @@ paths:
                 summary: PaRes example request
                 externalValue: 'CResRequest-example1.xml'
       responses: 
-        403: 
-          description: Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request.
-        401: 
-          description: Unauthorized. No api key has been provided and is required for this operation.
-        422: 
-          description: Unprocessable Entity. Should a failure occur that prevents processing of the API call.
-          content: 
-            application/json: 
-              schema: 
-                $ref: '#/components/schemas/Error'
-            text/xml: 
-              schema: 
-                $ref: '#/components/schemas/Error'
-        400: 
-          description: Bad Request. Should the incoming data not be validly determined.
         200: 
           description: A result of processing the 3DSv2 authorisation data.
           content: 
@@ -908,6 +937,21 @@ paths:
             text/xml: 
               schema: 
                 $ref: '#/components/schemas/AuthResponse'
+        400: 
+          description: Bad Request. Should the incoming data not be validly determined.
+        401: 
+          description: Unauthorized. No api key has been provided and is required for this operation.
+        403: 
+          description: Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request.
+        422: 
+          description: Unprocessable Entity. Should a failure occur that prevents processing of the API call.
+          content: 
+            application/json: 
+              schema: 
+                $ref: '#/components/schemas/Error'
+            text/xml: 
+              schema: 
+                $ref: '#/components/schemas/Error'
 
   /authorise: 
     post: 
@@ -1151,21 +1195,6 @@ paths:
                 summary: Basic capture call for a merchant with a given identifier
                 externalValue: 'AuthorisationRequest-example1.xml'
       responses: 
-        403: 
-          description: Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request.
-        401: 
-          description: Unauthorized. No api key has been provided and is required for this operation.
-        422: 
-          description: Unprocessable Entity. Should a failure occur that prevents processing of the API call.
-          content: 
-            application/json: 
-              schema: 
-                $ref: '#/components/schemas/Error'
-            text/xml: 
-              schema: 
-                $ref: '#/components/schemas/Error'
-        400: 
-          description: Bad Request. Should the incoming data not be validly determined.
         200: 
           description: A decision made by the result of processing.
           content: 
@@ -1175,6 +1204,21 @@ paths:
             text/xml: 
               schema: 
                 $ref: '#/components/schemas/Decision'
+        400: 
+          description: Bad Request. Should the incoming data not be validly determined.
+        401: 
+          description: Unauthorized. No api key has been provided and is required for this operation.
+        403: 
+          description: Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request.
+        422: 
+          description: Unprocessable Entity. Should a failure occur that prevents processing of the API call.
+          content: 
+            application/json: 
+              schema: 
+                $ref: '#/components/schemas/Error'
+            text/xml: 
+              schema: 
+                $ref: '#/components/schemas/Error'
 
   /batch/retrieve: 
     post: 
@@ -1193,21 +1237,6 @@ paths:
             schema: 
               $ref: '#/components/schemas/BatchReportRequest'
       responses: 
-        403: 
-          description: Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request.
-        401: 
-          description: Unauthorized. No api key has been provided and is required for this operation.
-        422: 
-          description: Unprocessable Entity. Should a failure occur that prevents processing of the API call.
-          content: 
-            application/json: 
-              schema: 
-                $ref: '#/components/schemas/Error'
-            text/xml: 
-              schema: 
-                $ref: '#/components/schemas/Error'
-        400: 
-          description: Bad Request. Should the incoming data not be validly determined.
         200: 
           description: The report for a given batch.
           content: 
@@ -1217,6 +1246,21 @@ paths:
             text/xml: 
               schema: 
                 $ref: '#/components/schemas/BatchReportResponseModel'
+        400: 
+          description: Bad Request. Should the incoming data not be validly determined.
+        401: 
+          description: Unauthorized. No api key has been provided and is required for this operation.
+        403: 
+          description: Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request.
+        422: 
+          description: Unprocessable Entity. Should a failure occur that prevents processing of the API call.
+          content: 
+            application/json: 
+              schema: 
+                $ref: '#/components/schemas/Error'
+            text/xml: 
+              schema: 
+                $ref: '#/components/schemas/Error'
 
   /retrieve: 
     post: 
@@ -1253,21 +1297,6 @@ paths:
                 summary: Basic retrieval call for a merchant with a given identifier
                 externalValue: 'RetrievalRequest-example1.xml'
       responses: 
-        403: 
-          description: Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request.
-        401: 
-          description: Unauthorized. No api key has been provided and is required for this operation.
-        422: 
-          description: Unprocessable Entity. Should a failure occur that prevents processing of the API call.
-          content: 
-            application/json: 
-              schema: 
-                $ref: '#/components/schemas/Error'
-            text/xml: 
-              schema: 
-                $ref: '#/components/schemas/Error'
-        400: 
-          description: Bad Request. Should the incoming data not be validly determined.
         200: 
           description: A result of the retrieval request.
           content: 
@@ -1277,6 +1306,21 @@ paths:
             text/xml: 
               schema: 
                 $ref: '#/components/schemas/AuthReferences'
+        400: 
+          description: Bad Request. Should the incoming data not be validly determined.
+        401: 
+          description: Unauthorized. No api key has been provided and is required for this operation.
+        403: 
+          description: Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request.
+        422: 
+          description: Unprocessable Entity. Should a failure occur that prevents processing of the API call.
+          content: 
+            application/json: 
+              schema: 
+                $ref: '#/components/schemas/Error'
+            text/xml: 
+              schema: 
+                $ref: '#/components/schemas/Error'
 
   /charge: 
     post: 
@@ -1318,21 +1362,6 @@ paths:
             schema: 
               $ref: '#/components/schemas/ChargeRequest'
       responses: 
-        403: 
-          description: Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request.
-        401: 
-          description: Unauthorized. No api key has been provided and is required for this operation.
-        422: 
-          description: Unprocessable Entity. Should a failure occur that prevents processing of the API call.
-          content: 
-            application/json: 
-              schema: 
-                $ref: '#/components/schemas/Error'
-            text/xml: 
-              schema: 
-                $ref: '#/components/schemas/Error'
-        400: 
-          description: Bad Request. Should the incoming data not be validly determined.
         200: 
           description: A decision met by the result of the charge.
           content: 
@@ -1342,6 +1371,21 @@ paths:
             text/xml: 
               schema: 
                 $ref: '#/components/schemas/Decision'
+        400: 
+          description: Bad Request. Should the incoming data not be validly determined.
+        401: 
+          description: Unauthorized. No api key has been provided and is required for this operation.
+        403: 
+          description: Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request.
+        422: 
+          description: Unprocessable Entity. Should a failure occur that prevents processing of the API call.
+          content: 
+            application/json: 
+              schema: 
+                $ref: '#/components/schemas/Error'
+            text/xml: 
+              schema: 
+                $ref: '#/components/schemas/Error'
 
   /merchants/{clientid}: 
     get: 
@@ -1365,21 +1409,6 @@ paths:
         
         Fields that can be sorted are `merchantid` or `name`.
       responses: 
-        403: 
-          description: Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request.
-        401: 
-          description: Unauthorized. No api key has been provided and is required for this operation.
-        422: 
-          description: Unprocessable Entity. Should a failure occur that prevents processing of the API call.
-          content: 
-            application/json: 
-              schema: 
-                $ref: '#/components/schemas/Error'
-            text/xml: 
-              schema: 
-                $ref: '#/components/schemas/Error'
-        400: 
-          description: Bad Request. Should the incoming data not be validly determined.
         200: 
           description: A list of merchants that are configured against the client id.
           content: 
@@ -1389,6 +1418,21 @@ paths:
             text/xml: 
               schema: 
                 $ref: '#/components/schemas/ListMerchantsResponse'
+        400: 
+          description: Bad Request. Should the incoming data not be validly determined.
+        401: 
+          description: Unauthorized. No api key has been provided and is required for this operation.
+        403: 
+          description: Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request.
+        422: 
+          description: Unprocessable Entity. Should a failure occur that prevents processing of the API call.
+          content: 
+            application/json: 
+              schema: 
+                $ref: '#/components/schemas/Error'
+            text/xml: 
+              schema: 
+                $ref: '#/components/schemas/Error'
 
   /batch/status: 
     post: 
@@ -1407,10 +1451,21 @@ paths:
             schema: 
               $ref: '#/components/schemas/CheckBatchStatus'
       responses: 
-        403: 
-          description: Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request.
+        200: 
+          description: The status of batches provided in the request.
+          content: 
+            application/json: 
+              schema: 
+                $ref: '#/components/schemas/CheckBatchStatusResponse'
+            text/xml: 
+              schema: 
+                $ref: '#/components/schemas/CheckBatchStatusResponse'
+        400: 
+          description: Bad Request. Should the incoming data not be validly determined.
         401: 
           description: Unauthorized. No api key has been provided and is required for this operation.
+        403: 
+          description: Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request.
         422: 
           description: Unprocessable Entity. Should a failure occur that prevents processing of the API call.
           content: 
@@ -1420,17 +1475,6 @@ paths:
             text/xml: 
               schema: 
                 $ref: '#/components/schemas/Error'
-        400: 
-          description: Bad Request. Should the incoming data not be validly determined.
-        200: 
-          description: The status of a batch provided in the request.
-          content: 
-            application/json: 
-              schema: 
-                $ref: '#/components/schemas/CheckBatchStatusResponse'
-            text/xml: 
-              schema: 
-                $ref: '#/components/schemas/CheckBatchStatusResponse'
 
   /pares: 
     post: 
@@ -1464,21 +1508,6 @@ paths:
                 summary: PaRes example request
                 externalValue: 'PaResRequest-example1.xml'
       responses: 
-        403: 
-          description: Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request.
-        401: 
-          description: Unauthorized. No api key has been provided and is required for this operation.
-        422: 
-          description: Unprocessable Entity. Should a failure occur that prevents processing of the API call.
-          content: 
-            application/json: 
-              schema: 
-                $ref: '#/components/schemas/Error'
-            text/xml: 
-              schema: 
-                $ref: '#/components/schemas/Error'
-        400: 
-          description: Bad Request. Should the incoming data not be validly determined.
         200: 
           description: A result of processing the 3DSv1 authorisation data.
           content: 
@@ -1488,6 +1517,21 @@ paths:
             text/xml: 
               schema: 
                 $ref: '#/components/schemas/AuthResponse'
+        400: 
+          description: Bad Request. Should the incoming data not be validly determined.
+        401: 
+          description: Unauthorized. No api key has been provided and is required for this operation.
+        403: 
+          description: Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request.
+        422: 
+          description: Unprocessable Entity. Should a failure occur that prevents processing of the API call.
+          content: 
+            application/json: 
+              schema: 
+                $ref: '#/components/schemas/Error'
+            text/xml: 
+              schema: 
+                $ref: '#/components/schemas/Error'
 
 
 
@@ -1546,12 +1590,15 @@ components:
           description: A unique id of the card holder account which uniquely identifies the stored account. This value is not searchable.
     AuthResponse: 
       type: object
+      required: 
+        - merchantid
+        - result
+        - result_code
+        - result_message
       properties: 
         amount: 
           type: integer
           format: int32
-          minLength: 1
-          maxLength: 12
           example: 3600
           description: The amount of the transaction processed.
         atrn: 
@@ -1607,8 +1654,6 @@ components:
             Attention should be referenced to the AuthResult and Response code for accurate determination of the result.
         avs_result: 
           type: string
-          minLength: 1
-          maxLength: 1
           description: |
             The AVS result codes determine the result of checking the AVS values within the
             Address Verification fraud system. If a transaction is declined due to the AVS code not matching,
@@ -1659,8 +1704,6 @@ components:
           description: The context which processed the transaction, can be used for support purposes to trace transactions.
         csc_result: 
           type: string
-          minLength: 1
-          maxLength: 1
           description: |
             The CSC rseult codes determine the result of checking the provided CSC value within the
             Card Security Code fraud system. If a transaction is declined due to the CSC code not matching,
@@ -1680,8 +1723,6 @@ components:
             </table>
         currency: 
           type: string
-          minLength: 3
-          maxLength: 3
           example: GBP
           description: The currency the transaction was processed in. This is an `ISO4217` alpha currency value.
         datetime: 
@@ -1696,8 +1737,6 @@ components:
             An Electronic Commerce Indicator (ECI) used to identify the result of authentication using 3DSecure.
         identifier: 
           type: string
-          minLength: 4
-          maxLength: 50
           example: 95b857a1-5955-4b86-963c-5a6dbfc4fb95
           description: The identifier provided within the request.
         live: 
@@ -2068,6 +2107,14 @@ components:
           type: string
           maxLength: 1
           description: The type of transaction being submitted. Normally this value is not required and your account manager may request that you set this field.
+    AclCheckRequest: 
+      type: object
+      properties: 
+        ip: 
+          type: string
+          format: ipv4
+          example: 8.8.8.8
+          description: An ip address to check for an ACL against. The address should be a publicly routable IPv4 address.
     ProcessBatchResponse: 
       type: object
       required: 
@@ -2279,16 +2326,16 @@ components:
         expmonth: 
           type: integer
           format: int32
-          example: 9
           minimum: 1
           maximum: 12
+          example: 9
           description: The expiry month of the card.
         expyear: 
           type: integer
           format: int32
-          example: 2025
           minimum: 2000
           maximum: 2100
+          example: 2025
           description: The expiry year of the card.
         label: 
           type: string
@@ -2506,27 +2553,29 @@ components:
         - batch_id
         - transactions
       properties: 
-        account_id: 
+        batch_date: 
+          type: string
+          format: date
+          example: 2020-01-02
+          description: The date and time that the file was created in ISO-8601 format.
+        batch_id: 
+          type: array
+          items:
+            type: integer
+            format: int32
+            maxLength: 8
+            minimum: 1
+            example: 1975
+            description: |
+              The id is a referencable id for the batch that should be generated by your integration.
+              Its recommended to use an incremental id to help determine if a batch has been skipped or missed.
+              The id is used by reporting systems to reference the unique batch alongside your client id.
+        client_account_id: 
           type: string
           minLength: 3
           maxLength: 20
           example: AC1
           description: The batch account id to process the batch for. Defaults to your client id if not provided.
-        batch_date: 
-          type: string
-          format: date-time
-          example: 2020-01-02T18:32:28Z
-          description: The date and time that the file was created in ISO-8601 format.
-        batch_id: 
-          type: integer
-          format: int32
-          maxLength: 8
-          example: 1975
-          minimum: 1
-          description: |
-            The id is a referencable id for the batch that should be generated by your integration.
-            Its recommended to use an incremental id to help determine if a batch has been skipped or missed.
-            The id is used by reporting systems to reference the unique batch alongside your client id.
         transactions: 
           type: array
           x-description: Transactions requested for processing.
@@ -2555,26 +2604,11 @@ components:
             to establish the authentication session. Data should be sent untouched.
     CheckBatchStatusResponse: 
       type: object
-      required: 
-        - batch_date
-        - batch_status
       properties: 
-        batch_date: 
-          type: string
-          format: date-time
-          example: 2020-01-02T18:32:28Z
-          description: The date and time that the file was created in ISO-8601 format.
-        batch_id: 
-          type: integer
-          format: int32
-          maxLength: 8
-          example: 1975
-          minimum: 1
-          description: The batch id requested.
-        batch_status: 
-          type: string
-          example: COMPLETE
-          description: The status of the batch. Possible values are.
+        batches: 
+          type: array
+          items:
+            $ref: '#/components/schemas/Batch'
     Decision: 
       type: object
       properties: 
@@ -2622,6 +2656,23 @@ components:
           type: string
           example: Visa
           description: The scheme that issued the card.
+    AclCheckResponseModel: 
+      type: object
+      properties: 
+        acl: 
+          type: string
+          description: The name or value of the acl which was found to match the ip address.
+        cache: 
+          type: boolean
+          description: Whether the ACL was returned via a cached instance.
+        ip: 
+          type: string
+          format: ipv4
+          example: 8.8.8.8
+          description: The IP address used in the lookup.
+        provider: 
+          type: string
+          description: The source provider of the ACL.
     BatchTransaction: 
       type: object
       required: 
@@ -2785,17 +2836,17 @@ components:
         expmonth: 
           type: integer
           format: int32
-          example: 9
           minimum: 1
           maximum: 12
+          example: 9
           description: |
             The month of expiry of the card. The month value should be a numerical value between 1 and 12.
         expyear: 
           type: integer
           format: int32
-          example: 2025
           minimum: 2000
           maximum: 2100
+          example: 2025
           description: |
             The year of expiry of the card.
         external_mpi: 
@@ -2881,19 +2932,13 @@ components:
     BatchReportResponseModel: 
       type: object
       required: 
-        - account_id
         - amount
         - batch_date
         - batch_id
         - batch_status
+        - client_account_id
         - transactions
       properties: 
-        account_id: 
-          type: string
-          minLength: 3
-          maxLength: 20
-          example: AC1
-          description: The batch account id that the batch was processed with.
         amount: 
           type: integer
           format: int32
@@ -2903,20 +2948,35 @@ components:
           description: The total amount that the batch contains.
         batch_date: 
           type: string
-          format: date-time
-          example: 2020-01-02T18:32:28Z
+          format: date
+          example: 2020-01-02
           description: The date and time of the batch in ISO-8601 format.
         batch_id: 
-          type: integer
-          format: int32
-          maxLength: 8
-          example: 1975
-          minimum: 1
-          description: The batch id specified in the batch processing request.
+          type: array
+          items:
+            type: integer
+            format: int32
+            maxLength: 8
+            minimum: 1
+            example: 1975
+            description: The batch id specified in the batch processing request.
         batch_status: 
           type: string
           example: COMPLETE
-          description: The status of the batch. Possible values are.
+          description: |
+            The status of the batch. Possible values are - CANCELLED. The file has been cancelled by an administrator or server process. 
+            - COMPLETE. The file has passed through the processing cycle and is determined as being complete further information should be obtained on the results of the processing
+            - ERROR_IN_PROCESSING. Errors have occurred in the processing that has deemed that processing can not continue.
+            - INITIALISED. The file has been initialised and no action has yet been performed
+            - LOCKED. The file has been locked for processing
+            - QUEUED. The file has been queued for processing yet no processing has yet been performed
+            - UNKNOWN. The file is of an unknown status, that is the file can either not be determined by the information requested of the file has not yet been received.
+        client_account_id: 
+          type: string
+          minLength: 3
+          maxLength: 20
+          example: AC1
+          description: The batch account id that the batch was processed with.
         transactions: 
           type: array
           x-description: Transactions associated with the batch.
@@ -2929,6 +2989,7 @@ components:
         - identifier
         - merchantid
         - message
+        - result
       properties: 
         account_id: 
           type: string
@@ -2947,14 +3008,6 @@ components:
           type: string
           example: 001245A
           description: The authorisation code of a successful transaction.
-        authorised: 
-          type: boolean
-          example: true
-          description: |
-            A boolean definition that indicates that the transaction was authorised. It will return false if the transaction
-             was declined, rejected or cancelled due to CSC matching failures.
-            
-            Attention should be referenced to the AuthResult and Response code for accurate determination of the result.
         identifier: 
           type: string
           minLength: 4
@@ -3144,19 +3197,21 @@ components:
       required: 
         - batch_id
       properties: 
-        account_id: 
+        batch_id: 
+          type: array
+          items:
+            type: integer
+            format: int32
+            maxLength: 8
+            minimum: 1
+            example: 1975
+            description: The batch id to obtain the status for.
+        client_account_id: 
           type: string
           minLength: 3
           maxLength: 20
           example: AC1
           description: The batch account id to obtain the batch for. Defaults to your client id if not provided.
-        batch_id: 
-          type: integer
-          format: int32
-          maxLength: 8
-          example: 1975
-          minimum: 1
-          description: The batch id to obtain the status for.
     VoidRequest: 
       type: object
       required: 
@@ -3183,19 +3238,21 @@ components:
       required: 
         - batch_id
       properties: 
-        account_id: 
+        batch_id: 
+          type: array
+          items:
+            type: integer
+            format: int32
+            maxLength: 8
+            minimum: 1
+            example: 1975
+            description: The batch id specified in the batch processing request.
+        client_account_id: 
           type: string
           minLength: 3
           maxLength: 20
           example: AC1
           description: The batch account id that the batch was processed for. Defaults to your client id if not provided.
-        batch_id: 
-          type: integer
-          format: int32
-          maxLength: 8
-          example: 1975
-          minimum: 1
-          description: The batch id specified in the batch processing request.
     AccountStatus: 
       type: object
       properties: 
@@ -3291,6 +3348,37 @@ components:
             The Payer Authentication Response packet which is returned by the ACS containing the
              response of the authentication session including verification values. The response
              is a base64 encoded packet and should be forwarded to CityPay untouched.
+    Batch: 
+      type: object
+      required: 
+        - batch_date
+        - batch_status
+      properties: 
+        batch_date: 
+          type: string
+          format: date
+          example: 2020-01-02
+          description: The date that the file was created in ISO-8601 format.
+        batch_id: 
+          type: array
+          items:
+            type: integer
+            format: int32
+            maxLength: 8
+            minimum: 1
+            example: 1975
+            description: The batch id requested.
+        batch_status: 
+          type: string
+          example: COMPLETE
+          description: |
+            The status of the batch. Possible values are - CANCELLED. The file has been cancelled by an administrator or server process. 
+            - COMPLETE. The file has passed through the processing cycle and is determined as being complete further information should be obtained on the results of the processing
+            - ERROR_IN_PROCESSING. Errors have occurred in the processing that has deemed that processing can not continue.
+            - INITIALISED. The file has been initialised and no action has yet been performed
+            - LOCKED. The file has been locked for processing
+            - QUEUED. The file has been queued for processing yet no processing has yet been performed
+            - UNKNOWN. The file is of an unknown status, that is the file can either not be determined by the information requested of the file has not yet been received.
     AirlineAdvice: 
       type: object
       required: 
@@ -3321,9 +3409,9 @@ components:
         no_air_segments: 
           type: integer
           format: int32
-          example: 2
           minimum: 0
           maximum: 4
+          example: 2
           description: |
             A value that indicates the number of air travel segments included on this ticket.
             
@@ -3412,16 +3500,16 @@ components:
         expmonth: 
           type: integer
           format: int32
-          example: 9
           minimum: 1
           maximum: 12
+          example: 9
           description: The expiry month of the card.
         expyear: 
           type: integer
           format: int32
-          example: 2025
           minimum: 2000
           maximum: 2100
+          example: 2025
           description: The expiry year of the card.
         name_on_card: 
           type: string
