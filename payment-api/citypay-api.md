@@ -1,12 +1,12 @@
 ---
 title: CityPay Payment API
-version: 6.2.8
+version: 6.2.9
 language_tabs:
   - json
   - xml
 toc_footers:
   - <a href='mailto:support@citypay.com'>Any Integration Questions?</a>
-  - V6.2.8 2022-01-25
+  - V6.2.9 2022-01-26
 includes:
   - errorcodes
   - authresultcodes
@@ -22,8 +22,8 @@ search: true
 
 # CityPay Payment API
 
-Version: 6.2.8
-Last Updated: 2022-01-25
+Version: 6.2.9
+Last Updated: 2022-01-26
 
 
 This CityPay API is a HTTP RESTful payment API used for direct server to server transactional processing. It
@@ -212,11 +212,11 @@ Responses for this operation are
 
  StatusCode | Description | Model |
 ------------|-------------|-------|
- `403` | Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request. |  |  
- `401` | Unauthorized. No api key has been provided and is required for this operation. |  |  
- `422` | Unprocessable Entity. Should a failure occur that prevents processing of the API call. | `application/json`, `text/xml`:  <br/> [Error](#error) |  
- `400` | Bad Request. Should the incoming data not be validly determined. |  |  
  `200` | Request to process a batch provided in the request. | `application/json`, `text/xml`:  <br/> [ProcessBatchResponse](#processbatchresponse) |  
+ `400` | Bad Request. Should the incoming data not be validly determined. |  |  
+ `401` | Unauthorized. No api key has been provided and is required for this operation. |  |  
+ `403` | Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request. |  |  
+ `422` | Unprocessable Entity. Should a failure occur that prevents processing of the API call. | `application/json`, `text/xml`:  <br/> [Error](#error) |  
 
 
 
@@ -250,11 +250,11 @@ Responses for this operation are
 
  StatusCode | Description | Model |
 ------------|-------------|-------|
- `403` | Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request. |  |  
- `401` | Unauthorized. No api key has been provided and is required for this operation. |  |  
- `422` | Unprocessable Entity. Should a failure occur that prevents processing of the API call. | `application/json`, `text/xml`:  <br/> [Error](#error) |  
- `400` | Bad Request. Should the incoming data not be validly determined. |  |  
  `200` | The report for a given batch. | `application/json`, `text/xml`:  <br/> [BatchReportResponseModel](#batchreportresponsemodel) |  
+ `400` | Bad Request. Should the incoming data not be validly determined. |  |  
+ `401` | Unauthorized. No api key has been provided and is required for this operation. |  |  
+ `403` | Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request. |  |  
+ `422` | Unprocessable Entity. Should a failure occur that prevents processing of the API call. | `application/json`, `text/xml`:  <br/> [Error](#error) |  
 
 
 
@@ -288,11 +288,11 @@ Responses for this operation are
 
  StatusCode | Description | Model |
 ------------|-------------|-------|
- `403` | Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request. |  |  
- `401` | Unauthorized. No api key has been provided and is required for this operation. |  |  
- `422` | Unprocessable Entity. Should a failure occur that prevents processing of the API call. | `application/json`, `text/xml`:  <br/> [Error](#error) |  
- `400` | Bad Request. Should the incoming data not be validly determined. |  |  
  `200` | The status of batches provided in the request. | `application/json`, `text/xml`:  <br/> [CheckBatchStatusResponse](#checkbatchstatusresponse) |  
+ `400` | Bad Request. Should the incoming data not be validly determined. |  |  
+ `401` | Unauthorized. No api key has been provided and is required for this operation. |  |  
+ `403` | Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request. |  |  
+ `422` | Unprocessable Entity. Should a failure occur that prevents processing of the API call. | `application/json`, `text/xml`:  <br/> [Error](#error) |  
 
 
 
@@ -334,11 +334,11 @@ Responses for this operation are
 
  StatusCode | Description | Model |
 ------------|-------------|-------|
- `403` | Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request. |  |  
- `401` | Unauthorized. No api key has been provided and is required for this operation. |  |  
- `422` | Unprocessable Entity. Should a failure occur that prevents processing of the API call. | `application/json`, `text/xml`:  <br/> [Error](#error) |  
- `400` | Bad Request. Should the incoming data not be validly determined. |  |  
  `200` | A response model determining whether the account exists, if exists is true, a last modified date of the account is also provided. | `application/json`, `text/xml`:  <br/> [Exists](#exists) |  
+ `400` | Bad Request. Should the incoming data not be validly determined. |  |  
+ `401` | Unauthorized. No api key has been provided and is required for this operation. |  |  
+ `403` | Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request. |  |  
+ `422` | Unprocessable Entity. Should a failure occur that prevents processing of the API call. | `application/json`, `text/xml`:  <br/> [Error](#error) |  
 
 
 
@@ -372,11 +372,11 @@ Responses for this operation are
 
  StatusCode | Description | Model |
 ------------|-------------|-------|
- `403` | Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request. |  |  
- `401` | Unauthorized. No api key has been provided and is required for this operation. |  |  
- `422` | Unprocessable Entity. Should a failure occur that prevents processing of the API call. | `application/json`, `text/xml`:  <br/> [Error](#error) |  
- `400` | Bad Request. Should the incoming data not be validly determined. |  |  
  `200` | Provides an initialised account. | `application/json`, `text/xml`:  <br/> [CardHolderAccount](#cardholderaccount) |  
+ `400` | Bad Request. Should the incoming data not be validly determined. |  |  
+ `401` | Unauthorized. No api key has been provided and is required for this operation. |  |  
+ `403` | Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request. |  |  
+ `422` | Unprocessable Entity. Should a failure occur that prevents processing of the API call. | `application/json`, `text/xml`:  <br/> [Error](#error) |  
 
 
 
@@ -410,11 +410,11 @@ Responses for this operation are
 
  StatusCode | Description | Model |
 ------------|-------------|-------|
- `403` | Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request. |  |  
- `401` | Unauthorized. No api key has been provided and is required for this operation. |  |  
- `422` | Unprocessable Entity. Should a failure occur that prevents processing of the API call. | `application/json`, `text/xml`:  <br/> [Error](#error) |  
- `400` | Bad Request. Should the incoming data not be validly determined. |  |  
  `200` | A card holder account that matches the account id provided in the request. | `application/json`, `text/xml`:  <br/> [CardHolderAccount](#cardholderaccount) |  
+ `400` | Bad Request. Should the incoming data not be validly determined. |  |  
+ `401` | Unauthorized. No api key has been provided and is required for this operation. |  |  
+ `403` | Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request. |  |  
+ `422` | Unprocessable Entity. Should a failure occur that prevents processing of the API call. | `application/json`, `text/xml`:  <br/> [Error](#error) |  
 
 
 
@@ -444,11 +444,11 @@ Responses for this operation are
 
  StatusCode | Description | Model |
 ------------|-------------|-------|
- `403` | Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request. |  |  
- `401` | Unauthorized. No api key has been provided and is required for this operation. |  |  
- `422` | Unprocessable Entity. Should a failure occur that prevents processing of the API call. | `application/json`, `text/xml`:  <br/> [Error](#error) |  
- `400` | Bad Request. Should the incoming data not be validly determined. |  |  
  `200` | An acknowledgment code of `001` that the card holder account has been marked for deletion. | `application/json`, `text/xml`:  <br/> [Acknowledgement](#acknowledgement) |  
+ `400` | Bad Request. Should the incoming data not be validly determined. |  |  
+ `401` | Unauthorized. No api key has been provided and is required for this operation. |  |  
+ `403` | Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request. |  |  
+ `422` | Unprocessable Entity. Should a failure occur that prevents processing of the API call. | `application/json`, `text/xml`:  <br/> [Error](#error) |  
 
 
 
@@ -479,11 +479,11 @@ Responses for this operation are
 
  StatusCode | Description | Model |
 ------------|-------------|-------|
- `403` | Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request. |  |  
- `401` | Unauthorized. No api key has been provided and is required for this operation. |  |  
- `422` | Unprocessable Entity. Should a failure occur that prevents processing of the API call. | `application/json`, `text/xml`:  <br/> [Error](#error) |  
- `400` | Bad Request. Should the incoming data not be validly determined. |  |  
  `200` | Acknowledges the card has been requested for deletion. A response code of `001` is returned if the account is available for deletion otherwise an error code is returned. | `application/json`, `text/xml`:  <br/> [Acknowledgement](#acknowledgement) |  
+ `400` | Bad Request. Should the incoming data not be validly determined. |  |  
+ `401` | Unauthorized. No api key has been provided and is required for this operation. |  |  
+ `403` | Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request. |  |  
+ `422` | Unprocessable Entity. Should a failure occur that prevents processing of the API call. | `application/json`, `text/xml`:  <br/> [Error](#error) |  
 
 
 
@@ -533,11 +533,11 @@ Responses for this operation are
 
  StatusCode | Description | Model |
 ------------|-------------|-------|
- `403` | Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request. |  |  
- `401` | Unauthorized. No api key has been provided and is required for this operation. |  |  
- `422` | Unprocessable Entity. Should a failure occur that prevents processing of the API call. | `application/json`, `text/xml`:  <br/> [Error](#error) |  
- `400` | Bad Request. Should the incoming data not be validly determined. |  |  
  `200` | </br>Acknowledges the card status has changed, returning a response code of `001` for a valid change or `000` for a non valid change. | `application/json`, `text/xml`:  <br/> [Acknowledgement](#acknowledgement) |  
+ `400` | Bad Request. Should the incoming data not be validly determined. |  |  
+ `401` | Unauthorized. No api key has been provided and is required for this operation. |  |  
+ `403` | Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request. |  |  
+ `422` | Unprocessable Entity. Should a failure occur that prevents processing of the API call. | `application/json`, `text/xml`:  <br/> [Error](#error) |  
 
 
 
@@ -590,11 +590,11 @@ Responses for this operation are
 
  StatusCode | Description | Model |
 ------------|-------------|-------|
- `403` | Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request. |  |  
- `401` | Unauthorized. No api key has been provided and is required for this operation. |  |  
- `422` | Unprocessable Entity. Should a failure occur that prevents processing of the API call. | `application/json`, `text/xml`:  <br/> [Error](#error) |  
- `400` | Bad Request. Should the incoming data not be validly determined. |  |  
  `200` | A revised account with the new details set. | `application/json`, `text/xml`:  <br/> [CardHolderAccount](#cardholderaccount) |  
+ `400` | Bad Request. Should the incoming data not be validly determined. |  |  
+ `401` | Unauthorized. No api key has been provided and is required for this operation. |  |  
+ `403` | Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request. |  |  
+ `422` | Unprocessable Entity. Should a failure occur that prevents processing of the API call. | `application/json`, `text/xml`:  <br/> [Error](#error) |  
 
 
 
@@ -647,11 +647,11 @@ Responses for this operation are
 
  StatusCode | Description | Model |
 ------------|-------------|-------|
- `403` | Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request. |  |  
- `401` | Unauthorized. No api key has been provided and is required for this operation. |  |  
- `422` | Unprocessable Entity. Should a failure occur that prevents processing of the API call. | `application/json`, `text/xml`:  <br/> [Error](#error) |  
- `400` | Bad Request. Should the incoming data not be validly determined. |  |  
  `200` | A successfully registered card provides a reload of the account including the new card. | `application/json`, `text/xml`:  <br/> [CardHolderAccount](#cardholderaccount) |  
+ `400` | Bad Request. Should the incoming data not be validly determined. |  |  
+ `401` | Unauthorized. No api key has been provided and is required for this operation. |  |  
+ `403` | Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request. |  |  
+ `422` | Unprocessable Entity. Should a failure occur that prevents processing of the API call. | `application/json`, `text/xml`:  <br/> [Error](#error) |  
 
 
 
@@ -698,11 +698,11 @@ Responses for this operation are
 
  StatusCode | Description | Model |
 ------------|-------------|-------|
- `403` | Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request. |  |  
- `401` | Unauthorized. No api key has been provided and is required for this operation. |  |  
- `422` | Unprocessable Entity. Should a failure occur that prevents processing of the API call. | `application/json`, `text/xml`:  <br/> [Error](#error) |  
- `400` | Bad Request. Should the incoming data not be validly determined. |  |  
  `200` | An acknowledgment that the card holder account status has been updated.</br></br>A response code of `001` is returned if the request was accepted or no change required.</br></br>A response code of `000` is returned if the request contains invalid data. | `application/json`, `text/xml`:  <br/> [Acknowledgement](#acknowledgement) |  
+ `400` | Bad Request. Should the incoming data not be validly determined. |  |  
+ `401` | Unauthorized. No api key has been provided and is required for this operation. |  |  
+ `403` | Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request. |  |  
+ `422` | Unprocessable Entity. Should a failure occur that prevents processing of the API call. | `application/json`, `text/xml`:  <br/> [Error](#error) |  
 
 
 
@@ -772,11 +772,11 @@ Responses for this operation are
 
  StatusCode | Description | Model |
 ------------|-------------|-------|
- `403` | Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request. |  |  
- `401` | Unauthorized. No api key has been provided and is required for this operation. |  |  
- `422` | Unprocessable Entity. Should a failure occur that prevents processing of the API call. | `application/json`, `text/xml`:  <br/> [Error](#error) |  
- `400` | Bad Request. Should the incoming data not be validly determined. |  |  
  `200` | A decision met by the result of the charge. | `application/json`, `text/xml`:  <br/> [Decision](#decision) |  
+ `400` | Bad Request. Should the incoming data not be validly determined. |  |  
+ `401` | Unauthorized. No api key has been provided and is required for this operation. |  |  
+ `403` | Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request. |  |  
+ `422` | Unprocessable Entity. Should a failure occur that prevents processing of the API call. | `application/json`, `text/xml`:  <br/> [Error](#error) |  
 
 
 
@@ -816,11 +816,11 @@ Responses for this operation are
 
  StatusCode | Description | Model |
 ------------|-------------|-------|
- `403` | Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request. |  |  
- `401` | Unauthorized. No api key has been provided and is required for this operation. |  |  
- `422` | Unprocessable Entity. Should a failure occur that prevents processing of the API call. | `application/json`, `text/xml`:  <br/> [Error](#error) |  
- `400` | Bad Request. Should the incoming data not be validly determined. |  |  
  `200` | Response to the ACL Check request. | `application/json`, `text/xml`:  <br/> [AclCheckResponseModel](#aclcheckresponsemodel) |  
+ `400` | Bad Request. Should the incoming data not be validly determined. |  |  
+ `401` | Unauthorized. No api key has been provided and is required for this operation. |  |  
+ `403` | Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request. |  |  
+ `422` | Unprocessable Entity. Should a failure occur that prevents processing of the API call. | `application/json`, `text/xml`:  <br/> [Error](#error) |  
 
 
 
@@ -855,11 +855,11 @@ Responses for this operation are
 
  StatusCode | Description | Model |
 ------------|-------------|-------|
- `403` | Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request. |  |  
- `401` | Unauthorized. No api key has been provided and is required for this operation. |  |  
- `422` | Unprocessable Entity. Should a failure occur that prevents processing of the API call. | `application/json`, `text/xml`:  <br/> [Error](#error) |  
- `400` | Bad Request. Should the incoming data not be validly determined. |  |  
  `200` | A list of merchants that are configured against the client id. | `application/json`, `text/xml`:  <br/> [ListMerchantsResponse](#listmerchantsresponse) |  
+ `400` | Bad Request. Should the incoming data not be validly determined. |  |  
+ `401` | Unauthorized. No api key has been provided and is required for this operation. |  |  
+ `403` | Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request. |  |  
+ `422` | Unprocessable Entity. Should a failure occur that prevents processing of the API call. | `application/json`, `text/xml`:  <br/> [Error](#error) |  
 
 
 
@@ -899,11 +899,11 @@ Responses for this operation are
 
  StatusCode | Description | Model |
 ------------|-------------|-------|
- `403` | Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request. |  |  
- `401` | Unauthorized. No api key has been provided and is required for this operation. |  |  
- `422` | Unprocessable Entity. Should a failure occur that prevents processing of the API call. | `application/json`, `text/xml`:  <br/> [Error](#error) |  
- `400` | Bad Request. Should the incoming data not be validly determined. |  |  
  `200` | A result of the ping request, returning on 044 response code on successful receipt of the ping request. | `application/json`, `text/xml`:  <br/> [Acknowledgement](#acknowledgement) |  
+ `400` | Bad Request. Should the incoming data not be validly determined. |  |  
+ `401` | Unauthorized. No api key has been provided and is required for this operation. |  |  
+ `403` | Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request. |  |  
+ `422` | Unprocessable Entity. Should a failure occur that prevents processing of the API call. | `application/json`, `text/xml`:  <br/> [Error](#error) |  
 
 
 
@@ -1265,11 +1265,11 @@ Responses for this operation are
 
  StatusCode | Description | Model |
 ------------|-------------|-------|
- `403` | Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request. |  |  
- `401` | Unauthorized. No api key has been provided and is required for this operation. |  |  
- `422` | Unprocessable Entity. Should a failure occur that prevents processing of the API call. | `application/json`, `text/xml`:  <br/> [Error](#error) |  
- `400` | Bad Request. Should the incoming data not be validly determined. |  |  
  `200` | A decision made by the result of processing. | `application/json`, `text/xml`:  <br/> [Decision](#decision) |  
+ `400` | Bad Request. Should the incoming data not be validly determined. |  |  
+ `401` | Unauthorized. No api key has been provided and is required for this operation. |  |  
+ `403` | Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request. |  |  
+ `422` | Unprocessable Entity. Should a failure occur that prevents processing of the API call. | `application/json`, `text/xml`:  <br/> [Error](#error) |  
 
 
 
@@ -1313,11 +1313,11 @@ Responses for this operation are
 
  StatusCode | Description | Model |
 ------------|-------------|-------|
- `403` | Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request. |  |  
- `401` | Unauthorized. No api key has been provided and is required for this operation. |  |  
- `422` | Unprocessable Entity. Should a failure occur that prevents processing of the API call. | `application/json`, `text/xml`:  <br/> [Error](#error) |  
- `400` | Bad Request. Should the incoming data not be validly determined. |  |  
  `200` | A result of the bin lookup request returning a bin object determined by the gateway service. | `application/json`, `text/xml`:  <br/> [Bin](#bin) |  
+ `400` | Bad Request. Should the incoming data not be validly determined. |  |  
+ `401` | Unauthorized. No api key has been provided and is required for this operation. |  |  
+ `403` | Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request. |  |  
+ `422` | Unprocessable Entity. Should a failure occur that prevents processing of the API call. | `application/json`, `text/xml`:  <br/> [Error](#error) |  
 
 
 
@@ -1459,11 +1459,11 @@ Responses for this operation are
 
  StatusCode | Description | Model |
 ------------|-------------|-------|
- `403` | Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request. |  |  
- `401` | Unauthorized. No api key has been provided and is required for this operation. |  |  
- `422` | Unprocessable Entity. Should a failure occur that prevents processing of the API call. | `application/json`, `text/xml`:  <br/> [Error](#error) |  
- `400` | Bad Request. Should the incoming data not be validly determined. |  |  
  `200` | A result and acknowledgement of the capture request. The response will return a `000/001` response on a successful capture otherwise an error code response explaining the error. | `application/json`, `text/xml`:  <br/> [Acknowledgement](#acknowledgement) |  
+ `400` | Bad Request. Should the incoming data not be validly determined. |  |  
+ `401` | Unauthorized. No api key has been provided and is required for this operation. |  |  
+ `403` | Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request. |  |  
+ `422` | Unprocessable Entity. Should a failure occur that prevents processing of the API call. | `application/json`, `text/xml`:  <br/> [Error](#error) |  
 
 
 
@@ -1519,11 +1519,11 @@ Responses for this operation are
 
  StatusCode | Description | Model |
 ------------|-------------|-------|
- `403` | Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request. |  |  
- `401` | Unauthorized. No api key has been provided and is required for this operation. |  |  
- `422` | Unprocessable Entity. Should a failure occur that prevents processing of the API call. | `application/json`, `text/xml`:  <br/> [Error](#error) |  
- `400` | Bad Request. Should the incoming data not be validly determined. |  |  
  `200` | A result of processing the 3DSv2 authorisation data. | `application/json`, `text/xml`:  <br/> [AuthResponse](#authresponse) |  
+ `400` | Bad Request. Should the incoming data not be validly determined. |  |  
+ `401` | Unauthorized. No api key has been provided and is required for this operation. |  |  
+ `403` | Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request. |  |  
+ `422` | Unprocessable Entity. Should a failure occur that prevents processing of the API call. | `application/json`, `text/xml`:  <br/> [Error](#error) |  
 
 
 
@@ -1582,11 +1582,11 @@ Responses for this operation are
 
  StatusCode | Description | Model |
 ------------|-------------|-------|
- `403` | Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request. |  |  
- `401` | Unauthorized. No api key has been provided and is required for this operation. |  |  
- `422` | Unprocessable Entity. Should a failure occur that prevents processing of the API call. | `application/json`, `text/xml`:  <br/> [Error](#error) |  
- `400` | Bad Request. Should the incoming data not be validly determined. |  |  
  `200` | A result of processing the 3DSv1 authorisation data. | `application/json`, `text/xml`:  <br/> [AuthResponse](#authresponse) |  
+ `400` | Bad Request. Should the incoming data not be validly determined. |  |  
+ `401` | Unauthorized. No api key has been provided and is required for this operation. |  |  
+ `403` | Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request. |  |  
+ `422` | Unprocessable Entity. Should a failure occur that prevents processing of the API call. | `application/json`, `text/xml`:  <br/> [Error](#error) |  
 
 
 
@@ -1626,11 +1626,11 @@ Responses for this operation are
 
  StatusCode | Description | Model |
 ------------|-------------|-------|
- `403` | Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request. |  |  
- `401` | Unauthorized. No api key has been provided and is required for this operation. |  |  
- `422` | Unprocessable Entity. Should a failure occur that prevents processing of the API call. | `application/json`, `text/xml`:  <br/> [Error](#error) |  
- `400` | Bad Request. Should the incoming data not be validly determined. |  |  
  `200` | A result of the refund of sale processing. | `application/json`, `text/xml`:  <br/> [AuthResponse](#authresponse) |  
+ `400` | Bad Request. Should the incoming data not be validly determined. |  |  
+ `401` | Unauthorized. No api key has been provided and is required for this operation. |  |  
+ `403` | Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request. |  |  
+ `422` | Unprocessable Entity. Should a failure occur that prevents processing of the API call. | `application/json`, `text/xml`:  <br/> [Error](#error) |  
 
 
 
@@ -1693,11 +1693,11 @@ Responses for this operation are
 
  StatusCode | Description | Model |
 ------------|-------------|-------|
- `403` | Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request. |  |  
- `401` | Unauthorized. No api key has been provided and is required for this operation. |  |  
- `422` | Unprocessable Entity. Should a failure occur that prevents processing of the API call. | `application/json`, `text/xml`:  <br/> [Error](#error) |  
- `400` | Bad Request. Should the incoming data not be validly determined. |  |  
  `200` | A result of the retrieval request. | `application/json`, `text/xml`:  <br/> [AuthReferences](#authreferences) |  
+ `400` | Bad Request. Should the incoming data not be validly determined. |  |  
+ `401` | Unauthorized. No api key has been provided and is required for this operation. |  |  
+ `403` | Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request. |  |  
+ `422` | Unprocessable Entity. Should a failure occur that prevents processing of the API call. | `application/json`, `text/xml`:  <br/> [Error](#error) |  
 
 
 
@@ -1777,11 +1777,11 @@ Responses for this operation are
 
  StatusCode | Description | Model |
 ------------|-------------|-------|
- `403` | Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request. |  |  
- `401` | Unauthorized. No api key has been provided and is required for this operation. |  |  
- `422` | Unprocessable Entity. Should a failure occur that prevents processing of the API call. | `application/json`, `text/xml`:  <br/> [Error](#error) |  
- `400` | Bad Request. Should the incoming data not be validly determined. |  |  
  `200` | </br>A result and acknowledgement of the void request, returning an `080/003` response code on successful void/cancellation of the transaction.</br></br>If an error occurs an error code will be returned explaining the failure. | `application/json`, `text/xml`:  <br/> [Acknowledgement](#acknowledgement) |  
+ `400` | Bad Request. Should the incoming data not be validly determined. |  |  
+ `401` | Unauthorized. No api key has been provided and is required for this operation. |  |  
+ `403` | Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request. |  |  
+ `422` | Unprocessable Entity. Should a failure occur that prevents processing of the API call. | `application/json`, `text/xml`:  <br/> [Error](#error) |  
 
 
 

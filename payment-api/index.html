@@ -533,7 +533,7 @@
       </ul>
         <ul class="toc-footer">
             <li><a href='mailto:support@citypay.com'>Any Integration Questions?</a></li>
-            <li>V6.2.8 2022-01-25</li>
+            <li>V6.2.9 2022-01-26</li>
         </ul>
     </div>
     <div class="page-wrapper">
@@ -541,8 +541,8 @@
       <div class="content">
         <img src="images/citypay-logo-23676e0b.svg" class="cplogo" alt="" />
         <h1 id='citypay-payment-api'>CityPay Payment API</h1>
-<p>Version: 6.2.8
-Last Updated: 2022-01-25</p>
+<p>Version: 6.2.9
+Last Updated: 2022-01-26</p>
 
 <p>This CityPay API is a HTTP RESTful payment API used for direct server to server transactional processing. It
 provides a number of payment mechanisms including: Internet, MOTO, Continuous Authority transaction processing,
@@ -733,8 +733,13 @@ status.</p>
 </tr>
 </thead><tbody>
 <tr>
-<td><code>403</code></td>
-<td>Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request.</td>
+<td><code>200</code></td>
+<td>Request to process a batch provided in the request.</td>
+<td><code>application/json</code>, <code>text/xml</code>:  <br/> <a href="#processbatchresponse">ProcessBatchResponse</a></td>
+</tr>
+<tr>
+<td><code>400</code></td>
+<td>Bad Request. Should the incoming data not be validly determined.</td>
 <td></td>
 </tr>
 <tr>
@@ -743,19 +748,14 @@ status.</p>
 <td></td>
 </tr>
 <tr>
-<td><code>422</code></td>
-<td>Unprocessable Entity. Should a failure occur that prevents processing of the API call.</td>
-<td><code>application/json</code>, <code>text/xml</code>:  <br/> <a href="#error">Error</a></td>
-</tr>
-<tr>
-<td><code>400</code></td>
-<td>Bad Request. Should the incoming data not be validly determined.</td>
+<td><code>403</code></td>
+<td>Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request.</td>
 <td></td>
 </tr>
 <tr>
-<td><code>200</code></td>
-<td>Request to process a batch provided in the request.</td>
-<td><code>application/json</code>, <code>text/xml</code>:  <br/> <a href="#processbatchresponse">ProcessBatchResponse</a></td>
+<td><code>422</code></td>
+<td>Unprocessable Entity. Should a failure occur that prevents processing of the API call.</td>
+<td><code>application/json</code>, <code>text/xml</code>:  <br/> <a href="#error">Error</a></td>
 </tr>
 </tbody></table>
 <h2 id='batchreportrequest'>BatchReportRequest</h2>
@@ -797,8 +797,13 @@ status.</p>
 </tr>
 </thead><tbody>
 <tr>
-<td><code>403</code></td>
-<td>Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request.</td>
+<td><code>200</code></td>
+<td>The report for a given batch.</td>
+<td><code>application/json</code>, <code>text/xml</code>:  <br/> <a href="#batchreportresponsemodel">BatchReportResponseModel</a></td>
+</tr>
+<tr>
+<td><code>400</code></td>
+<td>Bad Request. Should the incoming data not be validly determined.</td>
 <td></td>
 </tr>
 <tr>
@@ -807,19 +812,14 @@ status.</p>
 <td></td>
 </tr>
 <tr>
-<td><code>422</code></td>
-<td>Unprocessable Entity. Should a failure occur that prevents processing of the API call.</td>
-<td><code>application/json</code>, <code>text/xml</code>:  <br/> <a href="#error">Error</a></td>
-</tr>
-<tr>
-<td><code>400</code></td>
-<td>Bad Request. Should the incoming data not be validly determined.</td>
+<td><code>403</code></td>
+<td>Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request.</td>
 <td></td>
 </tr>
 <tr>
-<td><code>200</code></td>
-<td>The report for a given batch.</td>
-<td><code>application/json</code>, <code>text/xml</code>:  <br/> <a href="#batchreportresponsemodel">BatchReportResponseModel</a></td>
+<td><code>422</code></td>
+<td>Unprocessable Entity. Should a failure occur that prevents processing of the API call.</td>
+<td><code>application/json</code>, <code>text/xml</code>:  <br/> <a href="#error">Error</a></td>
 </tr>
 </tbody></table>
 <h2 id='checkbatchstatus'>CheckBatchStatus</h2>
@@ -861,8 +861,13 @@ status.</p>
 </tr>
 </thead><tbody>
 <tr>
-<td><code>403</code></td>
-<td>Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request.</td>
+<td><code>200</code></td>
+<td>The status of batches provided in the request.</td>
+<td><code>application/json</code>, <code>text/xml</code>:  <br/> <a href="#checkbatchstatusresponse">CheckBatchStatusResponse</a></td>
+</tr>
+<tr>
+<td><code>400</code></td>
+<td>Bad Request. Should the incoming data not be validly determined.</td>
 <td></td>
 </tr>
 <tr>
@@ -871,19 +876,14 @@ status.</p>
 <td></td>
 </tr>
 <tr>
-<td><code>422</code></td>
-<td>Unprocessable Entity. Should a failure occur that prevents processing of the API call.</td>
-<td><code>application/json</code>, <code>text/xml</code>:  <br/> <a href="#error">Error</a></td>
-</tr>
-<tr>
-<td><code>400</code></td>
-<td>Bad Request. Should the incoming data not be validly determined.</td>
+<td><code>403</code></td>
+<td>Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request.</td>
 <td></td>
 </tr>
 <tr>
-<td><code>200</code></td>
-<td>The status of batches provided in the request.</td>
-<td><code>application/json</code>, <code>text/xml</code>:  <br/> <a href="#checkbatchstatusresponse">CheckBatchStatusResponse</a></td>
+<td><code>422</code></td>
+<td>Unprocessable Entity. Should a failure occur that prevents processing of the API call.</td>
+<td><code>application/json</code>, <code>text/xml</code>:  <br/> <a href="#error">Error</a></td>
 </tr>
 </tbody></table>
 <h1 id='card-holder-account'>Card Holder Account</h1>
@@ -926,8 +926,13 @@ Checks that an account exists and is active by providing the account id as a url
 </tr>
 </thead><tbody>
 <tr>
-<td><code>403</code></td>
-<td>Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request.</td>
+<td><code>200</code></td>
+<td>A response model determining whether the account exists, if exists is true, a last modified date of the account is also provided.</td>
+<td><code>application/json</code>, <code>text/xml</code>:  <br/> <a href="#exists">Exists</a></td>
+</tr>
+<tr>
+<td><code>400</code></td>
+<td>Bad Request. Should the incoming data not be validly determined.</td>
 <td></td>
 </tr>
 <tr>
@@ -936,19 +941,14 @@ Checks that an account exists and is active by providing the account id as a url
 <td></td>
 </tr>
 <tr>
-<td><code>422</code></td>
-<td>Unprocessable Entity. Should a failure occur that prevents processing of the API call.</td>
-<td><code>application/json</code>, <code>text/xml</code>:  <br/> <a href="#error">Error</a></td>
-</tr>
-<tr>
-<td><code>400</code></td>
-<td>Bad Request. Should the incoming data not be validly determined.</td>
+<td><code>403</code></td>
+<td>Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request.</td>
 <td></td>
 </tr>
 <tr>
-<td><code>200</code></td>
-<td>A response model determining whether the account exists, if exists is true, a last modified date of the account is also provided.</td>
-<td><code>application/json</code>, <code>text/xml</code>:  <br/> <a href="#exists">Exists</a></td>
+<td><code>422</code></td>
+<td>Unprocessable Entity. Should a failure occur that prevents processing of the API call.</td>
+<td><code>application/json</code>, <code>text/xml</code>:  <br/> <a href="#error">Error</a></td>
 </tr>
 </tbody></table>
 <h2 id='account-create'>Account Create</h2>
@@ -990,8 +990,13 @@ Checks that an account exists and is active by providing the account id as a url
 </tr>
 </thead><tbody>
 <tr>
-<td><code>403</code></td>
-<td>Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request.</td>
+<td><code>200</code></td>
+<td>Provides an initialised account.</td>
+<td><code>application/json</code>, <code>text/xml</code>:  <br/> <a href="#cardholderaccount">CardHolderAccount</a></td>
+</tr>
+<tr>
+<td><code>400</code></td>
+<td>Bad Request. Should the incoming data not be validly determined.</td>
 <td></td>
 </tr>
 <tr>
@@ -1000,19 +1005,14 @@ Checks that an account exists and is active by providing the account id as a url
 <td></td>
 </tr>
 <tr>
-<td><code>422</code></td>
-<td>Unprocessable Entity. Should a failure occur that prevents processing of the API call.</td>
-<td><code>application/json</code>, <code>text/xml</code>:  <br/> <a href="#error">Error</a></td>
-</tr>
-<tr>
-<td><code>400</code></td>
-<td>Bad Request. Should the incoming data not be validly determined.</td>
+<td><code>403</code></td>
+<td>Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request.</td>
 <td></td>
 </tr>
 <tr>
-<td><code>200</code></td>
-<td>Provides an initialised account.</td>
-<td><code>application/json</code>, <code>text/xml</code>:  <br/> <a href="#cardholderaccount">CardHolderAccount</a></td>
+<td><code>422</code></td>
+<td>Unprocessable Entity. Should a failure occur that prevents processing of the API call.</td>
+<td><code>application/json</code>, <code>text/xml</code>:  <br/> <a href="#error">Error</a></td>
 </tr>
 </tbody></table>
 <h2 id='account-retrieval'>Account Retrieval</h2>
@@ -1051,8 +1051,13 @@ enable a card holder to view their wallet and make constructive choices on which
 </tr>
 </thead><tbody>
 <tr>
-<td><code>403</code></td>
-<td>Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request.</td>
+<td><code>200</code></td>
+<td>A card holder account that matches the account id provided in the request.</td>
+<td><code>application/json</code>, <code>text/xml</code>:  <br/> <a href="#cardholderaccount">CardHolderAccount</a></td>
+</tr>
+<tr>
+<td><code>400</code></td>
+<td>Bad Request. Should the incoming data not be validly determined.</td>
 <td></td>
 </tr>
 <tr>
@@ -1061,19 +1066,14 @@ enable a card holder to view their wallet and make constructive choices on which
 <td></td>
 </tr>
 <tr>
-<td><code>422</code></td>
-<td>Unprocessable Entity. Should a failure occur that prevents processing of the API call.</td>
-<td><code>application/json</code>, <code>text/xml</code>:  <br/> <a href="#error">Error</a></td>
-</tr>
-<tr>
-<td><code>400</code></td>
-<td>Bad Request. Should the incoming data not be validly determined.</td>
+<td><code>403</code></td>
+<td>Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request.</td>
 <td></td>
 </tr>
 <tr>
-<td><code>200</code></td>
-<td>A card holder account that matches the account id provided in the request.</td>
-<td><code>application/json</code>, <code>text/xml</code>:  <br/> <a href="#cardholderaccount">CardHolderAccount</a></td>
+<td><code>422</code></td>
+<td>Unprocessable Entity. Should a failure occur that prevents processing of the API call.</td>
+<td><code>application/json</code>, <code>text/xml</code>:  <br/> <a href="#error">Error</a></td>
 </tr>
 </tbody></table>
 <h2 id='account-deletion'>Account Deletion</h2>
@@ -1108,8 +1108,13 @@ transactions will be alowed to be processed or actioned against this account.</p
 </tr>
 </thead><tbody>
 <tr>
-<td><code>403</code></td>
-<td>Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request.</td>
+<td><code>200</code></td>
+<td>An acknowledgment code of <code>001</code> that the card holder account has been marked for deletion.</td>
+<td><code>application/json</code>, <code>text/xml</code>:  <br/> <a href="#acknowledgement">Acknowledgement</a></td>
+</tr>
+<tr>
+<td><code>400</code></td>
+<td>Bad Request. Should the incoming data not be validly determined.</td>
 <td></td>
 </tr>
 <tr>
@@ -1118,19 +1123,14 @@ transactions will be alowed to be processed or actioned against this account.</p
 <td></td>
 </tr>
 <tr>
-<td><code>422</code></td>
-<td>Unprocessable Entity. Should a failure occur that prevents processing of the API call.</td>
-<td><code>application/json</code>, <code>text/xml</code>:  <br/> <a href="#error">Error</a></td>
-</tr>
-<tr>
-<td><code>400</code></td>
-<td>Bad Request. Should the incoming data not be validly determined.</td>
+<td><code>403</code></td>
+<td>Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request.</td>
 <td></td>
 </tr>
 <tr>
-<td><code>200</code></td>
-<td>An acknowledgment code of <code>001</code> that the card holder account has been marked for deletion.</td>
-<td><code>application/json</code>, <code>text/xml</code>:  <br/> <a href="#acknowledgement">Acknowledgement</a></td>
+<td><code>422</code></td>
+<td>Unprocessable Entity. Should a failure occur that prevents processing of the API call.</td>
+<td><code>application/json</code>, <code>text/xml</code>:  <br/> <a href="#error">Error</a></td>
 </tr>
 </tbody></table>
 <h2 id='card-deletion'>Card Deletion</h2>
@@ -1171,8 +1171,13 @@ purge will clear the card permanently.</p>
 </tr>
 </thead><tbody>
 <tr>
-<td><code>403</code></td>
-<td>Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request.</td>
+<td><code>200</code></td>
+<td>Acknowledges the card has been requested for deletion. A response code of <code>001</code> is returned if the account is available for deletion otherwise an error code is returned.</td>
+<td><code>application/json</code>, <code>text/xml</code>:  <br/> <a href="#acknowledgement">Acknowledgement</a></td>
+</tr>
+<tr>
+<td><code>400</code></td>
+<td>Bad Request. Should the incoming data not be validly determined.</td>
 <td></td>
 </tr>
 <tr>
@@ -1181,19 +1186,14 @@ purge will clear the card permanently.</p>
 <td></td>
 </tr>
 <tr>
-<td><code>422</code></td>
-<td>Unprocessable Entity. Should a failure occur that prevents processing of the API call.</td>
-<td><code>application/json</code>, <code>text/xml</code>:  <br/> <a href="#error">Error</a></td>
-</tr>
-<tr>
-<td><code>400</code></td>
-<td>Bad Request. Should the incoming data not be validly determined.</td>
+<td><code>403</code></td>
+<td>Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request.</td>
 <td></td>
 </tr>
 <tr>
-<td><code>200</code></td>
-<td>Acknowledges the card has been requested for deletion. A response code of <code>001</code> is returned if the account is available for deletion otherwise an error code is returned.</td>
-<td><code>application/json</code>, <code>text/xml</code>:  <br/> <a href="#acknowledgement">Acknowledgement</a></td>
+<td><code>422</code></td>
+<td>Unprocessable Entity. Should a failure occur that prevents processing of the API call.</td>
+<td><code>application/json</code>, <code>text/xml</code>:  <br/> <a href="#error">Error</a></td>
 </tr>
 </tbody></table>
 <h2 id='card-status'>Card Status</h2>
@@ -1277,8 +1277,13 @@ purge will clear the card permanently.</p>
 </tr>
 </thead><tbody>
 <tr>
-<td><code>403</code></td>
-<td>Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request.</td>
+<td><code>200</code></td>
+<td></br>Acknowledges the card status has changed, returning a response code of <code>001</code> for a valid change or <code>000</code> for a non valid change.</td>
+<td><code>application/json</code>, <code>text/xml</code>:  <br/> <a href="#acknowledgement">Acknowledgement</a></td>
+</tr>
+<tr>
+<td><code>400</code></td>
+<td>Bad Request. Should the incoming data not be validly determined.</td>
 <td></td>
 </tr>
 <tr>
@@ -1287,19 +1292,14 @@ purge will clear the card permanently.</p>
 <td></td>
 </tr>
 <tr>
-<td><code>422</code></td>
-<td>Unprocessable Entity. Should a failure occur that prevents processing of the API call.</td>
-<td><code>application/json</code>, <code>text/xml</code>:  <br/> <a href="#error">Error</a></td>
-</tr>
-<tr>
-<td><code>400</code></td>
-<td>Bad Request. Should the incoming data not be validly determined.</td>
+<td><code>403</code></td>
+<td>Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request.</td>
 <td></td>
 </tr>
 <tr>
-<td><code>200</code></td>
-<td></br>Acknowledges the card status has changed, returning a response code of <code>001</code> for a valid change or <code>000</code> for a non valid change.</td>
-<td><code>application/json</code>, <code>text/xml</code>:  <br/> <a href="#acknowledgement">Acknowledgement</a></td>
+<td><code>422</code></td>
+<td>Unprocessable Entity. Should a failure occur that prevents processing of the API call.</td>
+<td><code>application/json</code>, <code>text/xml</code>:  <br/> <a href="#error">Error</a></td>
 </tr>
 </tbody></table>
 <h2 id='contact-details-update'>Contact Details Update</h2>
@@ -1423,8 +1423,13 @@ purge will clear the card permanently.</p>
 </tr>
 </thead><tbody>
 <tr>
-<td><code>403</code></td>
-<td>Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request.</td>
+<td><code>200</code></td>
+<td>A revised account with the new details set.</td>
+<td><code>application/json</code>, <code>text/xml</code>:  <br/> <a href="#cardholderaccount">CardHolderAccount</a></td>
+</tr>
+<tr>
+<td><code>400</code></td>
+<td>Bad Request. Should the incoming data not be validly determined.</td>
 <td></td>
 </tr>
 <tr>
@@ -1433,19 +1438,14 @@ purge will clear the card permanently.</p>
 <td></td>
 </tr>
 <tr>
-<td><code>422</code></td>
-<td>Unprocessable Entity. Should a failure occur that prevents processing of the API call.</td>
-<td><code>application/json</code>, <code>text/xml</code>:  <br/> <a href="#error">Error</a></td>
-</tr>
-<tr>
-<td><code>400</code></td>
-<td>Bad Request. Should the incoming data not be validly determined.</td>
+<td><code>403</code></td>
+<td>Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request.</td>
 <td></td>
 </tr>
 <tr>
-<td><code>200</code></td>
-<td>A revised account with the new details set.</td>
-<td><code>application/json</code>, <code>text/xml</code>:  <br/> <a href="#cardholderaccount">CardHolderAccount</a></td>
+<td><code>422</code></td>
+<td>Unprocessable Entity. Should a failure occur that prevents processing of the API call.</td>
+<td><code>application/json</code>, <code>text/xml</code>:  <br/> <a href="#error">Error</a></td>
 </tr>
 </tbody></table>
 <h2 id='card-registration'>Card Registration</h2>
@@ -1530,8 +1530,13 @@ processing and will be available as a tokenised value for future processing.</p>
 </tr>
 </thead><tbody>
 <tr>
-<td><code>403</code></td>
-<td>Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request.</td>
+<td><code>200</code></td>
+<td>A successfully registered card provides a reload of the account including the new card.</td>
+<td><code>application/json</code>, <code>text/xml</code>:  <br/> <a href="#cardholderaccount">CardHolderAccount</a></td>
+</tr>
+<tr>
+<td><code>400</code></td>
+<td>Bad Request. Should the incoming data not be validly determined.</td>
 <td></td>
 </tr>
 <tr>
@@ -1540,19 +1545,14 @@ processing and will be available as a tokenised value for future processing.</p>
 <td></td>
 </tr>
 <tr>
-<td><code>422</code></td>
-<td>Unprocessable Entity. Should a failure occur that prevents processing of the API call.</td>
-<td><code>application/json</code>, <code>text/xml</code>:  <br/> <a href="#error">Error</a></td>
-</tr>
-<tr>
-<td><code>400</code></td>
-<td>Bad Request. Should the incoming data not be validly determined.</td>
+<td><code>403</code></td>
+<td>Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request.</td>
 <td></td>
 </tr>
 <tr>
-<td><code>200</code></td>
-<td>A successfully registered card provides a reload of the account including the new card.</td>
-<td><code>application/json</code>, <code>text/xml</code>:  <br/> <a href="#cardholderaccount">CardHolderAccount</a></td>
+<td><code>422</code></td>
+<td>Unprocessable Entity. Should a failure occur that prevents processing of the API call.</td>
+<td><code>application/json</code>, <code>text/xml</code>:  <br/> <a href="#error">Error</a></td>
 </tr>
 </tbody></table>
 <h2 id='account-status'>Account Status</h2>
@@ -1620,8 +1620,13 @@ processing and will be available as a tokenised value for future processing.</p>
 </tr>
 </thead><tbody>
 <tr>
-<td><code>403</code></td>
-<td>Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request.</td>
+<td><code>200</code></td>
+<td>An acknowledgment that the card holder account status has been updated.</br></br>A response code of <code>001</code> is returned if the request was accepted or no change required.</br></br>A response code of <code>000</code> is returned if the request contains invalid data.</td>
+<td><code>application/json</code>, <code>text/xml</code>:  <br/> <a href="#acknowledgement">Acknowledgement</a></td>
+</tr>
+<tr>
+<td><code>400</code></td>
+<td>Bad Request. Should the incoming data not be validly determined.</td>
 <td></td>
 </tr>
 <tr>
@@ -1630,19 +1635,14 @@ processing and will be available as a tokenised value for future processing.</p>
 <td></td>
 </tr>
 <tr>
-<td><code>422</code></td>
-<td>Unprocessable Entity. Should a failure occur that prevents processing of the API call.</td>
-<td><code>application/json</code>, <code>text/xml</code>:  <br/> <a href="#error">Error</a></td>
-</tr>
-<tr>
-<td><code>400</code></td>
-<td>Bad Request. Should the incoming data not be validly determined.</td>
+<td><code>403</code></td>
+<td>Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request.</td>
 <td></td>
 </tr>
 <tr>
-<td><code>200</code></td>
-<td>An acknowledgment that the card holder account status has been updated.</br></br>A response code of <code>001</code> is returned if the request was accepted or no change required.</br></br>A response code of <code>000</code> is returned if the request contains invalid data.</td>
-<td><code>application/json</code>, <code>text/xml</code>:  <br/> <a href="#acknowledgement">Acknowledgement</a></td>
+<td><code>422</code></td>
+<td>Unprocessable Entity. Should a failure occur that prevents processing of the API call.</td>
+<td><code>application/json</code>, <code>text/xml</code>:  <br/> <a href="#error">Error</a></td>
 </tr>
 </tbody></table>
 <h2 id='charge'>Charge</h2>
@@ -1785,8 +1785,13 @@ required field with both Visa and MasterCard for risk analysis.</em>.</p>
 </tr>
 </thead><tbody>
 <tr>
-<td><code>403</code></td>
-<td>Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request.</td>
+<td><code>200</code></td>
+<td>A decision met by the result of the charge.</td>
+<td><code>application/json</code>, <code>text/xml</code>:  <br/> <a href="#decision">Decision</a></td>
+</tr>
+<tr>
+<td><code>400</code></td>
+<td>Bad Request. Should the incoming data not be validly determined.</td>
 <td></td>
 </tr>
 <tr>
@@ -1795,19 +1800,14 @@ required field with both Visa and MasterCard for risk analysis.</em>.</p>
 <td></td>
 </tr>
 <tr>
-<td><code>422</code></td>
-<td>Unprocessable Entity. Should a failure occur that prevents processing of the API call.</td>
-<td><code>application/json</code>, <code>text/xml</code>:  <br/> <a href="#error">Error</a></td>
-</tr>
-<tr>
-<td><code>400</code></td>
-<td>Bad Request. Should the incoming data not be validly determined.</td>
+<td><code>403</code></td>
+<td>Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request.</td>
 <td></td>
 </tr>
 <tr>
-<td><code>200</code></td>
-<td>A decision met by the result of the charge.</td>
-<td><code>application/json</code>, <code>text/xml</code>:  <br/> <a href="#decision">Decision</a></td>
+<td><code>422</code></td>
+<td>Unprocessable Entity. Should a failure occur that prevents processing of the API call.</td>
+<td><code>application/json</code>, <code>text/xml</code>:  <br/> <a href="#error">Error</a></td>
 </tr>
 </tbody></table>
 <h1 id='operational'>Operational</h1>
@@ -1846,8 +1846,13 @@ services such as AWS or Azure to check that those addresses are listed in the AC
 </tr>
 </thead><tbody>
 <tr>
-<td><code>403</code></td>
-<td>Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request.</td>
+<td><code>200</code></td>
+<td>Response to the ACL Check request.</td>
+<td><code>application/json</code>, <code>text/xml</code>:  <br/> <a href="#aclcheckresponsemodel">AclCheckResponseModel</a></td>
+</tr>
+<tr>
+<td><code>400</code></td>
+<td>Bad Request. Should the incoming data not be validly determined.</td>
 <td></td>
 </tr>
 <tr>
@@ -1856,19 +1861,14 @@ services such as AWS or Azure to check that those addresses are listed in the AC
 <td></td>
 </tr>
 <tr>
-<td><code>422</code></td>
-<td>Unprocessable Entity. Should a failure occur that prevents processing of the API call.</td>
-<td><code>application/json</code>, <code>text/xml</code>:  <br/> <a href="#error">Error</a></td>
-</tr>
-<tr>
-<td><code>400</code></td>
-<td>Bad Request. Should the incoming data not be validly determined.</td>
+<td><code>403</code></td>
+<td>Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request.</td>
 <td></td>
 </tr>
 <tr>
-<td><code>200</code></td>
-<td>Response to the ACL Check request.</td>
-<td><code>application/json</code>, <code>text/xml</code>:  <br/> <a href="#aclcheckresponsemodel">AclCheckResponseModel</a></td>
+<td><code>422</code></td>
+<td>Unprocessable Entity. Should a failure occur that prevents processing of the API call.</td>
+<td><code>application/json</code>, <code>text/xml</code>:  <br/> <a href="#error">Error</a></td>
 </tr>
 </tbody></table>
 <h2 id='list-merchants-request'>List Merchants Request</h2>
@@ -1906,8 +1906,13 @@ services such as AWS or Azure to check that those addresses are listed in the AC
 </tr>
 </thead><tbody>
 <tr>
-<td><code>403</code></td>
-<td>Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request.</td>
+<td><code>200</code></td>
+<td>A list of merchants that are configured against the client id.</td>
+<td><code>application/json</code>, <code>text/xml</code>:  <br/> <a href="#listmerchantsresponse">ListMerchantsResponse</a></td>
+</tr>
+<tr>
+<td><code>400</code></td>
+<td>Bad Request. Should the incoming data not be validly determined.</td>
 <td></td>
 </tr>
 <tr>
@@ -1916,19 +1921,14 @@ services such as AWS or Azure to check that those addresses are listed in the AC
 <td></td>
 </tr>
 <tr>
-<td><code>422</code></td>
-<td>Unprocessable Entity. Should a failure occur that prevents processing of the API call.</td>
-<td><code>application/json</code>, <code>text/xml</code>:  <br/> <a href="#error">Error</a></td>
-</tr>
-<tr>
-<td><code>400</code></td>
-<td>Bad Request. Should the incoming data not be validly determined.</td>
+<td><code>403</code></td>
+<td>Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request.</td>
 <td></td>
 </tr>
 <tr>
-<td><code>200</code></td>
-<td>A list of merchants that are configured against the client id.</td>
-<td><code>application/json</code>, <code>text/xml</code>:  <br/> <a href="#listmerchantsresponse">ListMerchantsResponse</a></td>
+<td><code>422</code></td>
+<td>Unprocessable Entity. Should a failure occur that prevents processing of the API call.</td>
+<td><code>application/json</code>, <code>text/xml</code>:  <br/> <a href="#error">Error</a></td>
 </tr>
 </tbody></table>
 <h2 id='ping-request'>Ping Request</h2>
@@ -1970,8 +1970,13 @@ model is granting access from your source.</p>
 </tr>
 </thead><tbody>
 <tr>
-<td><code>403</code></td>
-<td>Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request.</td>
+<td><code>200</code></td>
+<td>A result of the ping request, returning on 044 response code on successful receipt of the ping request.</td>
+<td><code>application/json</code>, <code>text/xml</code>:  <br/> <a href="#acknowledgement">Acknowledgement</a></td>
+</tr>
+<tr>
+<td><code>400</code></td>
+<td>Bad Request. Should the incoming data not be validly determined.</td>
 <td></td>
 </tr>
 <tr>
@@ -1980,19 +1985,14 @@ model is granting access from your source.</p>
 <td></td>
 </tr>
 <tr>
-<td><code>422</code></td>
-<td>Unprocessable Entity. Should a failure occur that prevents processing of the API call.</td>
-<td><code>application/json</code>, <code>text/xml</code>:  <br/> <a href="#error">Error</a></td>
-</tr>
-<tr>
-<td><code>400</code></td>
-<td>Bad Request. Should the incoming data not be validly determined.</td>
+<td><code>403</code></td>
+<td>Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request.</td>
 <td></td>
 </tr>
 <tr>
-<td><code>200</code></td>
-<td>A result of the ping request, returning on 044 response code on successful receipt of the ping request.</td>
-<td><code>application/json</code>, <code>text/xml</code>:  <br/> <a href="#acknowledgement">Acknowledgement</a></td>
+<td><code>422</code></td>
+<td>Unprocessable Entity. Should a failure occur that prevents processing of the API call.</td>
+<td><code>application/json</code>, <code>text/xml</code>:  <br/> <a href="#error">Error</a></td>
 </tr>
 </tbody></table>
 <h1 id='payment-processing'>Payment Processing</h1>
@@ -2450,8 +2450,13 @@ this and will solidify the authorisation and confirmation process.</p>
 </tr>
 </thead><tbody>
 <tr>
-<td><code>403</code></td>
-<td>Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request.</td>
+<td><code>200</code></td>
+<td>A decision made by the result of processing.</td>
+<td><code>application/json</code>, <code>text/xml</code>:  <br/> <a href="#decision">Decision</a></td>
+</tr>
+<tr>
+<td><code>400</code></td>
+<td>Bad Request. Should the incoming data not be validly determined.</td>
 <td></td>
 </tr>
 <tr>
@@ -2460,19 +2465,14 @@ this and will solidify the authorisation and confirmation process.</p>
 <td></td>
 </tr>
 <tr>
-<td><code>422</code></td>
-<td>Unprocessable Entity. Should a failure occur that prevents processing of the API call.</td>
-<td><code>application/json</code>, <code>text/xml</code>:  <br/> <a href="#error">Error</a></td>
-</tr>
-<tr>
-<td><code>400</code></td>
-<td>Bad Request. Should the incoming data not be validly determined.</td>
+<td><code>403</code></td>
+<td>Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request.</td>
 <td></td>
 </tr>
 <tr>
-<td><code>200</code></td>
-<td>A decision made by the result of processing.</td>
-<td><code>application/json</code>, <code>text/xml</code>:  <br/> <a href="#decision">Decision</a></td>
+<td><code>422</code></td>
+<td>Unprocessable Entity. Should a failure occur that prevents processing of the API call.</td>
+<td><code>application/json</code>, <code>text/xml</code>:  <br/> <a href="#error">Error</a></td>
 </tr>
 </tbody></table>
 <h2 id='bin-lookup'>Bin Lookup</h2>
@@ -2520,8 +2520,13 @@ result.</p>
 </tr>
 </thead><tbody>
 <tr>
-<td><code>403</code></td>
-<td>Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request.</td>
+<td><code>200</code></td>
+<td>A result of the bin lookup request returning a bin object determined by the gateway service.</td>
+<td><code>application/json</code>, <code>text/xml</code>:  <br/> <a href="#bin">Bin</a></td>
+</tr>
+<tr>
+<td><code>400</code></td>
+<td>Bad Request. Should the incoming data not be validly determined.</td>
 <td></td>
 </tr>
 <tr>
@@ -2530,19 +2535,14 @@ result.</p>
 <td></td>
 </tr>
 <tr>
-<td><code>422</code></td>
-<td>Unprocessable Entity. Should a failure occur that prevents processing of the API call.</td>
-<td><code>application/json</code>, <code>text/xml</code>:  <br/> <a href="#error">Error</a></td>
-</tr>
-<tr>
-<td><code>400</code></td>
-<td>Bad Request. Should the incoming data not be validly determined.</td>
+<td><code>403</code></td>
+<td>Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request.</td>
 <td></td>
 </tr>
 <tr>
-<td><code>200</code></td>
-<td>A result of the bin lookup request returning a bin object determined by the gateway service.</td>
-<td><code>application/json</code>, <code>text/xml</code>:  <br/> <a href="#bin">Bin</a></td>
+<td><code>422</code></td>
+<td>Unprocessable Entity. Should a failure occur that prevents processing of the API call.</td>
+<td><code>application/json</code>, <code>text/xml</code>:  <br/> <a href="#error">Error</a></td>
 </tr>
 </tbody></table>
 <h2 id='capture'>Capture</h2>
@@ -2694,8 +2694,13 @@ be available for the settlement and completed at the end of the day.</p>
 </tr>
 </thead><tbody>
 <tr>
-<td><code>403</code></td>
-<td>Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request.</td>
+<td><code>200</code></td>
+<td>A result and acknowledgement of the capture request. The response will return a <code>000/001</code> response on a successful capture otherwise an error code response explaining the error.</td>
+<td><code>application/json</code>, <code>text/xml</code>:  <br/> <a href="#acknowledgement">Acknowledgement</a></td>
+</tr>
+<tr>
+<td><code>400</code></td>
+<td>Bad Request. Should the incoming data not be validly determined.</td>
 <td></td>
 </tr>
 <tr>
@@ -2704,19 +2709,14 @@ be available for the settlement and completed at the end of the day.</p>
 <td></td>
 </tr>
 <tr>
-<td><code>422</code></td>
-<td>Unprocessable Entity. Should a failure occur that prevents processing of the API call.</td>
-<td><code>application/json</code>, <code>text/xml</code>:  <br/> <a href="#error">Error</a></td>
-</tr>
-<tr>
-<td><code>400</code></td>
-<td>Bad Request. Should the incoming data not be validly determined.</td>
+<td><code>403</code></td>
+<td>Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request.</td>
 <td></td>
 </tr>
 <tr>
-<td><code>200</code></td>
-<td>A result and acknowledgement of the capture request. The response will return a <code>000/001</code> response on a successful capture otherwise an error code response explaining the error.</td>
-<td><code>application/json</code>, <code>text/xml</code>:  <br/> <a href="#acknowledgement">Acknowledgement</a></td>
+<td><code>422</code></td>
+<td>Unprocessable Entity. Should a failure occur that prevents processing of the API call.</td>
+<td><code>application/json</code>, <code>text/xml</code>:  <br/> <a href="#error">Error</a></td>
 </tr>
 </tbody></table>
 <h2 id='cres'>CRes</h2>
@@ -2770,8 +2770,13 @@ on its own without a previous <a href="#requestchallenged">request challenge</a>
 </tr>
 </thead><tbody>
 <tr>
-<td><code>403</code></td>
-<td>Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request.</td>
+<td><code>200</code></td>
+<td>A result of processing the 3DSv2 authorisation data.</td>
+<td><code>application/json</code>, <code>text/xml</code>:  <br/> <a href="#authresponse">AuthResponse</a></td>
+</tr>
+<tr>
+<td><code>400</code></td>
+<td>Bad Request. Should the incoming data not be validly determined.</td>
 <td></td>
 </tr>
 <tr>
@@ -2780,19 +2785,14 @@ on its own without a previous <a href="#requestchallenged">request challenge</a>
 <td></td>
 </tr>
 <tr>
-<td><code>422</code></td>
-<td>Unprocessable Entity. Should a failure occur that prevents processing of the API call.</td>
-<td><code>application/json</code>, <code>text/xml</code>:  <br/> <a href="#error">Error</a></td>
-</tr>
-<tr>
-<td><code>400</code></td>
-<td>Bad Request. Should the incoming data not be validly determined.</td>
+<td><code>403</code></td>
+<td>Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request.</td>
 <td></td>
 </tr>
 <tr>
-<td><code>200</code></td>
-<td>A result of processing the 3DSv2 authorisation data.</td>
-<td><code>application/json</code>, <code>text/xml</code>:  <br/> <a href="#authresponse">AuthResponse</a></td>
+<td><code>422</code></td>
+<td>Unprocessable Entity. Should a failure occur that prevents processing of the API call.</td>
+<td><code>application/json</code>, <code>text/xml</code>:  <br/> <a href="#error">Error</a></td>
 </tr>
 </tbody></table>
 <h2 id='pares'>PaRes</h2>
@@ -2854,8 +2854,13 @@ on its own without a previous <a href="#authenticationrequired">authentication r
 </tr>
 </thead><tbody>
 <tr>
-<td><code>403</code></td>
-<td>Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request.</td>
+<td><code>200</code></td>
+<td>A result of processing the 3DSv1 authorisation data.</td>
+<td><code>application/json</code>, <code>text/xml</code>:  <br/> <a href="#authresponse">AuthResponse</a></td>
+</tr>
+<tr>
+<td><code>400</code></td>
+<td>Bad Request. Should the incoming data not be validly determined.</td>
 <td></td>
 </tr>
 <tr>
@@ -2864,19 +2869,14 @@ on its own without a previous <a href="#authenticationrequired">authentication r
 <td></td>
 </tr>
 <tr>
-<td><code>422</code></td>
-<td>Unprocessable Entity. Should a failure occur that prevents processing of the API call.</td>
-<td><code>application/json</code>, <code>text/xml</code>:  <br/> <a href="#error">Error</a></td>
-</tr>
-<tr>
-<td><code>400</code></td>
-<td>Bad Request. Should the incoming data not be validly determined.</td>
+<td><code>403</code></td>
+<td>Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request.</td>
 <td></td>
 </tr>
 <tr>
-<td><code>200</code></td>
-<td>A result of processing the 3DSv1 authorisation data.</td>
-<td><code>application/json</code>, <code>text/xml</code>:  <br/> <a href="#authresponse">AuthResponse</a></td>
+<td><code>422</code></td>
+<td>Unprocessable Entity. Should a failure occur that prevents processing of the API call.</td>
+<td><code>application/json</code>, <code>text/xml</code>:  <br/> <a href="#error">Error</a></td>
 </tr>
 </tbody></table>
 <h2 id='refund'>Refund</h2>
@@ -2938,8 +2938,13 @@ original card used to process the transaction.</p>
 </tr>
 </thead><tbody>
 <tr>
-<td><code>403</code></td>
-<td>Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request.</td>
+<td><code>200</code></td>
+<td>A result of the refund of sale processing.</td>
+<td><code>application/json</code>, <code>text/xml</code>:  <br/> <a href="#authresponse">AuthResponse</a></td>
+</tr>
+<tr>
+<td><code>400</code></td>
+<td>Bad Request. Should the incoming data not be validly determined.</td>
 <td></td>
 </tr>
 <tr>
@@ -2948,19 +2953,14 @@ original card used to process the transaction.</p>
 <td></td>
 </tr>
 <tr>
-<td><code>422</code></td>
-<td>Unprocessable Entity. Should a failure occur that prevents processing of the API call.</td>
-<td><code>application/json</code>, <code>text/xml</code>:  <br/> <a href="#error">Error</a></td>
-</tr>
-<tr>
-<td><code>400</code></td>
-<td>Bad Request. Should the incoming data not be validly determined.</td>
+<td><code>403</code></td>
+<td>Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request.</td>
 <td></td>
 </tr>
 <tr>
-<td><code>200</code></td>
-<td>A result of the refund of sale processing.</td>
-<td><code>application/json</code>, <code>text/xml</code>:  <br/> <a href="#authresponse">AuthResponse</a></td>
+<td><code>422</code></td>
+<td>Unprocessable Entity. Should a failure occur that prevents processing of the API call.</td>
+<td><code>application/json</code>, <code>text/xml</code>:  <br/> <a href="#error">Error</a></td>
 </tr>
 </tbody></table>
 <h2 id='retrieval'>Retrieval</h2>
@@ -3031,8 +3031,13 @@ information to be returned.</p>
 </tr>
 </thead><tbody>
 <tr>
-<td><code>403</code></td>
-<td>Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request.</td>
+<td><code>200</code></td>
+<td>A result of the retrieval request.</td>
+<td><code>application/json</code>, <code>text/xml</code>:  <br/> <a href="#authreferences">AuthReferences</a></td>
+</tr>
+<tr>
+<td><code>400</code></td>
+<td>Bad Request. Should the incoming data not be validly determined.</td>
 <td></td>
 </tr>
 <tr>
@@ -3041,19 +3046,14 @@ information to be returned.</p>
 <td></td>
 </tr>
 <tr>
-<td><code>422</code></td>
-<td>Unprocessable Entity. Should a failure occur that prevents processing of the API call.</td>
-<td><code>application/json</code>, <code>text/xml</code>:  <br/> <a href="#error">Error</a></td>
-</tr>
-<tr>
-<td><code>400</code></td>
-<td>Bad Request. Should the incoming data not be validly determined.</td>
+<td><code>403</code></td>
+<td>Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request.</td>
 <td></td>
 </tr>
 <tr>
-<td><code>200</code></td>
-<td>A result of the retrieval request.</td>
-<td><code>application/json</code>, <code>text/xml</code>:  <br/> <a href="#authreferences">AuthReferences</a></td>
+<td><code>422</code></td>
+<td>Unprocessable Entity. Should a failure occur that prevents processing of the API call.</td>
+<td><code>application/json</code>, <code>text/xml</code>:  <br/> <a href="#error">Error</a></td>
 </tr>
 </tbody></table>
 <h2 id='void'>Void</h2>
@@ -3136,8 +3136,13 @@ outlining the result of the transaction.</p>
 </tr>
 </thead><tbody>
 <tr>
-<td><code>403</code></td>
-<td>Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request.</td>
+<td><code>200</code></td>
+<td></br>A result and acknowledgement of the void request, returning an <code>080/003</code> response code on successful void/cancellation of the transaction.</br></br>If an error occurs an error code will be returned explaining the failure.</td>
+<td><code>application/json</code>, <code>text/xml</code>:  <br/> <a href="#acknowledgement">Acknowledgement</a></td>
+</tr>
+<tr>
+<td><code>400</code></td>
+<td>Bad Request. Should the incoming data not be validly determined.</td>
 <td></td>
 </tr>
 <tr>
@@ -3146,19 +3151,14 @@ outlining the result of the transaction.</p>
 <td></td>
 </tr>
 <tr>
-<td><code>422</code></td>
-<td>Unprocessable Entity. Should a failure occur that prevents processing of the API call.</td>
-<td><code>application/json</code>, <code>text/xml</code>:  <br/> <a href="#error">Error</a></td>
-</tr>
-<tr>
-<td><code>400</code></td>
-<td>Bad Request. Should the incoming data not be validly determined.</td>
+<td><code>403</code></td>
+<td>Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request.</td>
 <td></td>
 </tr>
 <tr>
-<td><code>200</code></td>
-<td></br>A result and acknowledgement of the void request, returning an <code>080/003</code> response code on successful void/cancellation of the transaction.</br></br>If an error occurs an error code will be returned explaining the failure.</td>
-<td><code>application/json</code>, <code>text/xml</code>:  <br/> <a href="#acknowledgement">Acknowledgement</a></td>
+<td><code>422</code></td>
+<td>Unprocessable Entity. Should a failure occur that prevents processing of the API call.</td>
+<td><code>application/json</code>, <code>text/xml</code>:  <br/> <a href="#error">Error</a></td>
 </tr>
 </tbody></table>
 <h1 id='api-model'>API Model</h1><h2 id='accountcreate'>AccountCreate</h2><div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
