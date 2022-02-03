@@ -4,7 +4,7 @@ openapi: 3.0.0
 #                              API Information                                 #
 ################################################################################
 info:
-  version: 6.2.12
+  version: 6.2.13
   title: CityPay Payment API
   description: |
 
@@ -342,28 +342,28 @@ paths:
             schema: 
               $ref: '#/components/schemas/CaptureRequest'
             examples: 
-              example1: 
-                summary: Basic capture call for a merchant with a given identifier
-                externalValue: 'CaptureRequest-example1.json'
               example2: 
                 summary: Basic capture call for a merchant with a transno and final amount
                 externalValue: 'CaptureRequest-example2.json'
               example3: 
                 summary: Capture call for a merchant with identifier and airline data once a ticket has been issued
                 externalValue: 'CaptureRequest-example3.json'
+              example1: 
+                summary: Basic capture call for a merchant with a given identifier
+                externalValue: 'CaptureRequest-example1.json'
           text/xml: 
             schema: 
               $ref: '#/components/schemas/CaptureRequest'
             examples: 
-              example1: 
-                summary: Basic capture call for a merchant with a given identifier
-                externalValue: 'CaptureRequest-example1.xml'
               example2: 
                 summary: Basic capture call for a merchant with a transno and final amount
                 externalValue: 'CaptureRequest-example2.xml'
               example3: 
                 summary: Capture call for a merchant with identifier and airline data once a ticket has been issued
                 externalValue: 'CaptureRequest-example3.xml'
+              example1: 
+                summary: Basic capture call for a merchant with a given identifier
+                externalValue: 'CaptureRequest-example1.xml'
       responses: 
         200: 
           description: A result and acknowledgement of the capture request. The response will return a `000/001` response on a successful capture otherwise an error code response explaining the error.
@@ -751,22 +751,22 @@ paths:
             schema: 
               $ref: '#/components/schemas/VoidRequest'
             examples: 
-              example1: 
-                summary: Basic capture call for a merchant with a given identifier
-                externalValue: 'VoidRequest-example1.json'
               example2: 
                 summary: Basic capture call for a merchant with a transno and final amount
                 externalValue: 'VoidRequest-example2.json'
+              example1: 
+                summary: Basic capture call for a merchant with a given identifier
+                externalValue: 'VoidRequest-example1.json'
           text/xml: 
             schema: 
               $ref: '#/components/schemas/VoidRequest'
             examples: 
-              example1: 
-                summary: Basic capture call for a merchant with a given identifier
-                externalValue: 'VoidRequest-example1.xml'
               example2: 
                 summary: Basic capture call for a merchant with a transno and final amount
                 externalValue: 'VoidRequest-example2.xml'
+              example1: 
+                summary: Basic capture call for a merchant with a given identifier
+                externalValue: 'VoidRequest-example1.xml'
       responses: 
         200: 
           description: </br>A result and acknowledgement of the void request, returning an `080/003` response code on successful void/cancellation of the transaction.</br></br>If an error occurs an error code will be returned explaining the failure.
