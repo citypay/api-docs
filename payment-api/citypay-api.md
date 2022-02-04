@@ -1,12 +1,12 @@
 ---
 title: CityPay Payment API
-version: 6.2.11
+version: 6.2.13
 language_tabs:
   - json
   - xml
 toc_footers:
   - <a href='mailto:support@citypay.com'>Any Integration Questions?</a>
-  - V6.2.11 2022-01-31
+  - V6.2.13 2022-02-03
 includes:
   - errorcodes
   - authresultcodes
@@ -22,8 +22,8 @@ search: true
 
 # CityPay Payment API
 
-Version: 6.2.11
-Last Updated: 2022-01-31
+Version: 6.2.13
+Last Updated: 2022-02-03
 
 
 This CityPay API is a HTTP RESTful payment API used for direct server to server transactional processing. It
