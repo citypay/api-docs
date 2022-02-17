@@ -32,7 +32,7 @@ info:
       is available from [https://www.pcisecuritystandards.org/](https://www.pcisecuritystandards.org/)
     * The API verifies that the request is for a valid account and originates from a trusted source using the remote IP
       address. Our application firewalls analyse data that may be an attempt to break a large number of security common
-      security vulnerabilities.
+      security vulnerabilities..
 
 
   contact:
