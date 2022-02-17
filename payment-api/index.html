@@ -533,7 +533,7 @@
       </ul>
         <ul class="toc-footer">
             <li><a href='mailto:support@citypay.com'>Any Integration Questions?</a></li>
-            <li>V6.2.13 2022-02-03</li>
+            <li>V6.2.13 2022-02-04</li>
         </ul>
     </div>
     <div class="page-wrapper">
@@ -542,7 +542,7 @@
         <img src="images/citypay-logo-23676e0b.svg" class="cplogo" alt="" />
         <h1 id='citypay-payment-api'>CityPay Payment API</h1>
 <p>Version: 6.2.13
-Last Updated: 2022-02-03</p>
+Last Updated: 2022-02-04</p>
 
 <p>This CityPay API is a HTTP RESTful payment API used for direct server to server transactional processing. It
 provides a number of payment mechanisms including: Internet, MOTO, Continuous Authority transaction processing,
@@ -4159,12 +4159,12 @@ outlining the result of the transaction.</p>
 </tbody></table>
 <h2 id='batch'>Batch</h2><div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
    </span><span class="nl">"batch_date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2020-01-02"</span><span class="p">,</span><span class="w">
-   </span><span class="nl">"batch_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"batch_id"</span><span class="p">:</span><span class="w"> </span><span class="mi">35</span><span class="p">,</span><span class="w">
    </span><span class="nl">"batch_status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"COMPLETE"</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre></div><div class="highlight"><pre class="highlight xml tab-xml"><code><span class="nt">&lt;Batch&gt;</span>
  <span class="nt">&lt;batch_date&gt;</span>2020-01-02<span class="nt">&lt;/batch_date&gt;</span> 
- <span class="nt">&lt;batch_id&gt;&lt;/batch_id&gt;</span> 
+ <span class="nt">&lt;batch_id&gt;</span>35<span class="nt">&lt;/batch_id&gt;</span> 
  <span class="nt">&lt;batch_status&gt;</span>COMPLETE<span class="nt">&lt;/batch_status&gt;</span> 
 <span class="nt">&lt;/Batch&gt;</span>
 </code></pre></div>
@@ -4184,9 +4184,9 @@ outlining the result of the transaction.</p>
 </tr>
 <tr>
 <td><code>batch_id</code></td>
-<td>array</td>
+<td>integer <em>int32</em></td>
 <td>false</td>
-<td>type: integer</td>
+<td>The batch id requested.<br/><br/>maxLength: 8<br/>minimum: 1</td>
 </tr>
 <tr>
 <td><code>batch_status</code></td>
@@ -4228,7 +4228,7 @@ outlining the result of the transaction.</p>
 <h2 id='batchreportresponsemodel'>BatchReportResponseModel</h2><div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
    </span><span class="nl">"amount"</span><span class="p">:</span><span class="w"> </span><span class="mi">3600</span><span class="p">,</span><span class="w">
    </span><span class="nl">"batch_date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2020-01-02"</span><span class="p">,</span><span class="w">
-   </span><span class="nl">"batch_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"batch_id"</span><span class="p">:</span><span class="w"> </span><span class="mi">35</span><span class="p">,</span><span class="w">
    </span><span class="nl">"batch_status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"COMPLETE"</span><span class="p">,</span><span class="w">
    </span><span class="nl">"client_account_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"AC1"</span><span class="p">,</span><span class="w">
    </span><span class="nl">"transactions"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="w">
@@ -4236,7 +4236,7 @@ outlining the result of the transaction.</p>
 </span></code></pre></div><div class="highlight"><pre class="highlight xml tab-xml"><code><span class="nt">&lt;BatchReportResponseModel&gt;</span>
  <span class="nt">&lt;amount&gt;</span>3600<span class="nt">&lt;/amount&gt;</span> 
  <span class="nt">&lt;batch_date&gt;</span>2020-01-02<span class="nt">&lt;/batch_date&gt;</span> 
- <span class="nt">&lt;batch_id&gt;&lt;/batch_id&gt;</span> 
+ <span class="nt">&lt;batch_id&gt;</span>35<span class="nt">&lt;/batch_id&gt;</span> 
  <span class="nt">&lt;batch_status&gt;</span>COMPLETE<span class="nt">&lt;/batch_status&gt;</span> 
  <span class="nt">&lt;client_account_id&gt;</span>AC1<span class="nt">&lt;/client_account_id&gt;</span> 
  <span class="nt">&lt;transactions&gt;&lt;/transactions&gt;</span> 
@@ -4264,9 +4264,9 @@ outlining the result of the transaction.</p>
 </tr>
 <tr>
 <td><code>batch_id</code></td>
-<td>array</td>
+<td>integer <em>int32</em></td>
 <td>true</td>
-<td>type: integer</td>
+<td>The batch id specified in the batch processing request.<br/><br/>maxLength: 8<br/>minimum: 1</td>
 </tr>
 <tr>
 <td><code>batch_status</code></td>

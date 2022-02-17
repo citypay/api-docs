@@ -6,7 +6,7 @@ language_tabs:
   - xml
 toc_footers:
   - <a href='mailto:support@citypay.com'>Any Integration Questions?</a>
-  - V6.2.13 2022-02-03
+  - V6.2.13 2022-02-04
 includes:
   - errorcodes
   - authresultcodes
@@ -23,7 +23,7 @@ search: true
 # CityPay Payment API
 
 Version: 6.2.13
-Last Updated: 2022-02-03
+Last Updated: 2022-02-04
 
 
 This CityPay API is a HTTP RESTful payment API used for direct server to server transactional processing. It
@@ -2334,7 +2334,7 @@ Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Addi
 ```json
 {
    "batch_date": "2020-01-02",
-   "batch_id": "",
+   "batch_id": 35,
    "batch_status": "COMPLETE"
 }
 ```
@@ -2342,7 +2342,7 @@ Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Addi
 ```xml
 <Batch>
  <batch_date>2020-01-02</batch_date> 
- <batch_id></batch_id> 
+ <batch_id>35</batch_id> 
  <batch_status>COMPLETE</batch_status> 
 </Batch>
 ```
@@ -2350,7 +2350,7 @@ Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Addi
 | Field | Type | Required | Description |
 |-------|------|----------|-------------|
 | `batch_date` | string *date* | true | The date that the file was created in ISO-8601 format. | 
-| `batch_id` | array | false | type: integer | 
+| `batch_id` | integer *int32* | false | The batch id requested.<br/><br/>maxLength: 8<br/>minimum: 1 | 
 | `batch_status` | string  | true | The status of the batch. Possible values are - CANCELLED. The file has been cancelled by an administrator or server process.  - COMPLETE. The file has passed through the processing cycle and is determined as being complete further information should be obtained on the results of the processing - ERROR_IN_PROCESSING. Errors have occurred in the processing that has deemed that processing can not continue. - INITIALISED. The file has been initialised and no action has yet been performed - LOCKED. The file has been locked for processing - QUEUED. The file has been queued for processing yet no processing has yet been performed - UNKNOWN. The file is of an unknown status, that is the file can either not be determined by the information requested of the file has not yet been received. | 
 
 
@@ -2388,7 +2388,7 @@ Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Addi
 {
    "amount": 3600,
    "batch_date": "2020-01-02",
-   "batch_id": "",
+   "batch_id": 35,
    "batch_status": "COMPLETE",
    "client_account_id": "AC1",
    "transactions": ""
@@ -2399,7 +2399,7 @@ Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Addi
 <BatchReportResponseModel>
  <amount>3600</amount> 
  <batch_date>2020-01-02</batch_date> 
- <batch_id></batch_id> 
+ <batch_id>35</batch_id> 
  <batch_status>COMPLETE</batch_status> 
  <client_account_id>AC1</client_account_id> 
  <transactions></transactions> 
@@ -2410,7 +2410,7 @@ Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Addi
 |-------|------|----------|-------------|
 | `amount` | integer *int32* | true | The total amount that the batch contains.<br/><br/>minLength: 1<br/>maxLength: 12 | 
 | `batch_date` | string *date* | true | The date and time of the batch in ISO-8601 format. | 
-| `batch_id` | array | true | type: integer | 
+| `batch_id` | integer *int32* | true | The batch id specified in the batch processing request.<br/><br/>maxLength: 8<br/>minimum: 1 | 
 | `batch_status` | string  | true | The status of the batch. Possible values are - CANCELLED. The file has been cancelled by an administrator or server process.  - COMPLETE. The file has passed through the processing cycle and is determined as being complete further information should be obtained on the results of the processing - ERROR_IN_PROCESSING. Errors have occurred in the processing that has deemed that processing can not continue. - INITIALISED. The file has been initialised and no action has yet been performed - LOCKED. The file has been locked for processing - QUEUED. The file has been queued for processing yet no processing has yet been performed - UNKNOWN. The file is of an unknown status, that is the file can either not be determined by the information requested of the file has not yet been received. | 
 | `client_account_id` | string  | true | The batch account id that the batch was processed with.<br/><br/>minLength: 3<br/>maxLength: 20 | 
 | `transactions` | array | true | Transactions associated with the batch. [BatchTransactionResultModel](#batchtransactionresultmodel) | 
