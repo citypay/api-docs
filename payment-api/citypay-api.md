@@ -1,12 +1,12 @@
 ---
 title: CityPay Payment API
-version: 6.2.14
+version: 6.2.15
 language_tabs:
   - json
   - xml
 toc_footers:
   - <a href='mailto:support@citypay.com'>Any Integration Questions?</a>
-  - V6.2.14 2022-02-17
+  - V6.2.15 2022-02-18
 includes:
   - errorcodes
   - authresultcodes
@@ -22,8 +22,8 @@ search: true
 
 # CityPay Payment API
 
-Version: 6.2.14
-Last Updated: 2022-02-17
+Version: 6.2.15
+Last Updated: 2022-02-18
 
 
 This CityPay API is a HTTP RESTful payment API used for direct server to server transactional processing. It
@@ -115,11 +115,13 @@ The `cp-api-key` authentication header is required for all payment processing ac
  A key has been designed to:
  - be temporal and time based. The key rotates frequently to protect against replay attacks and to ensure a
    computation derives your client details from the request
- - to remain secret, the key value is youur access permission to process transactions and
+ - to remain secret, the key value is your access permission to process transactions and
    although we have preventative measures to protect the key, undue exposure is not desirable
  - to allow processing against multiple merchant accounts that belong to your CityPay account.
  - to use a HTTP header value to protect undue logging mechanisms from logging data packet values and
    logically seperates authentication concerns from the body of data.
+ - keys typically have a TTL of 5 minutes in production and 20 minutes in Sandbox. 
+ - keys should be rotated often and is recommended on each API call
 
 
  A valid key is programmatically generated using
