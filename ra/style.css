@@ -17,7 +17,7 @@
 
 body, p, td, th, li {
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-    font-size: 14px;
+    font-size: 16px;
 }
 
 div.ra {
@@ -26,7 +26,7 @@ div.ra {
     background-color: #fcfcfc;
     padding: 25px;
     padding-top: 200px;
-    background-image: url("citypay-2019-color.svg");
+    background-image: url("https://cdn.citypay.com/citypay-logo.svg");
 	background-size: 350px;
     background-repeat: no-repeat;
     background-position: 265px 50px;
