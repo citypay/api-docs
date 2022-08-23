@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <title>Paylink-v3</title>
+    <title>Paylink Api Specification</title>
     <link href="images/favicon-c177ed8f.ico" rel="icon" type="image/ico" />
     <style>
       .highlight table td { padding: 5px; }
@@ -297,6 +297,17 @@
           </li>
           <li>
             <a href="#paylink-token-api-response" class="toc-h1 toc-link" data-title="Paylink Token API Response">Paylink Token API Response</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#paylink-successful-token-response-example" class="toc-h2 toc-link" data-title="Paylink Successful Token Response Example">Paylink Successful Token Response Example</a>
+                  </li>
+                  <li>
+                    <a href="#paylink-failed-token-response-example" class="toc-h2 toc-link" data-title="Paylink Failed Token Response Example">Paylink Failed Token Response Example</a>
+                  </li>
+                  <li>
+                    <a href="#changing-the-amount-of-a-request" class="toc-h2 toc-link" data-title="Changing the amount of a Request">Changing the amount of a Request</a>
+                  </li>
+              </ul>
           </li>
           <li>
             <a href="#postback-handling" class="toc-h1 toc-link" data-title="Postback Handling">Postback Handling</a>
@@ -443,7 +454,9 @@
       </ul>
         <ul class="toc-footer">
             <li><a href='mailto:support@citypay.com'>Any Integration Questions?</a></li>
-            <li>V3.2.7 2021-07-07</li>
+            <li>V3.2.7</li>
+            <li><a href='https://citypay.github.io/api-docs/payment-api'>CityPay API Documentation</a></li>
+            <li><a href='https://citypay.com'>CityPay Website</a></li>
         </ul>
     </div>
     <div class="page-wrapper">
@@ -651,9 +664,7 @@ delay or on the cardholder clicking on the redirect button, the Payment Form red
   </span><span class="p">]</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre></div>
-<p>To create a Paylink token, a call should be made to the Paylink server
-at <a href="https://secure.citypay.com/paylink3/create">https://secure.citypay.com/paylink3/create</a>. The call is validated,
-checking:</p>
+<p>To create a Paylink token, a call should be made to <code>https://pl.citypay.com/create</code>. The call is validated, checking:</p>
 
 <ol>
     <li>the source ip address of the request.</li>
@@ -1568,20 +1579,116 @@ cart.contents</code> field group is not cross checked with the <code>amount</cod
 <h1 id='paylink-token-api-response'>Paylink Token API Response</h1>
 <p>On successful validation, authentication and processing of the Paylink Token Request a response of result <code>1</code> is 
 returned whilst a value of <code>0</code> indicates an error.</p>
-
-<blockquote>
-<p>Paylink Token Response Example</p>
-</blockquote>
-<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+<h2 id='paylink-successful-token-response-example'>Paylink Successful Token Response Example</h2><div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
   </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ND4NjIzNzA4NzQyNjA0NTU"</span><span class="p">,</span><span class="w">
   </span><span class="nl">"result"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://pl.citypay.com/RV1FFV4/ND4NjIzNzA4NzQyNjA0NTU"</span><span class="w">
+  </span><span class="nl">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://pl.citypay.com/RV1FFV4/ND4NjIzNzA4NzQyNjA0NTU"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"qrcode"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://pl.citypay.com/RV1FFV4/ND4NjIzNzA4NzQyNjA0NTU/qrcode"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"server_version"</span><span class="p">:</span><span class="w"> </span><span class="s2">"3.4.1"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"date_created"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2022-02-18T20:07:21"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"source"</span><span class="p">:</span><span class="w"> </span><span class="s2">"218.8.x.x"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"token"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ND4NjIzNzA4NzQyNjA0NTU"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"mode"</span><span class="p">:</span><span class="w"> </span><span class="s2">"live"</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre></div><div class="highlight"><pre class="highlight xml tab-xml"><code>
 <span class="nt">&lt;paylinkTokenResponse&gt;</span>
     <span class="nt">&lt;id&gt;</span>ND4NjIzNzA4NzQyNjA0NTU<span class="nt">&lt;/id&gt;</span>
     <span class="nt">&lt;result&gt;</span>1<span class="nt">&lt;/result&gt;</span>
     <span class="nt">&lt;url&gt;</span>https://pl.citypay.com/RV1FFV4/ND4NjIzNzA4NzQyNjA0NTU<span class="nt">&lt;/url&gt;</span>
+    <span class="nt">&lt;qrcode&gt;</span>https://pl.citypay.com/RV1FFV4/ND4NjIzNzA4NzQyNjA0NTU/qrcode<span class="nt">&lt;/qrcode&gt;</span>
+    <span class="nt">&lt;server_version&gt;</span>3.4.1<span class="nt">&lt;/server_version&gt;</span>
+    <span class="nt">&lt;date_created&gt;</span>2022-02-18T20:07:21<span class="nt">&lt;/date_created&gt;</span>
+    <span class="nt">&lt;source&gt;</span>218.8.x.x<span class="nt">&lt;/source&gt;</span>
+    <span class="nt">&lt;token&gt;</span>ND4NjIzNzA4NzQyNjA0NTU<span class="nt">&lt;/token&gt;</span>
+    <span class="nt">&lt;mode&gt;</span>live<span class="nt">&lt;/mode&gt;</span>
+<span class="nt">&lt;/paylinkTokenResponse&gt;</span>
+</code></pre></div>
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Usage</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>id</td>
+<td>string</td>
+<td>Required</td>
+<td>The Paylink token id.</td>
+</tr>
+<tr>
+<td>result</td>
+<td>int</td>
+<td>Required</td>
+<td>A value of <code>1</code> denoting a successful creation</td>
+</tr>
+<tr>
+<td>url</td>
+<td>string</td>
+<td>Required</td>
+<td>The Paylink token URL which is to be presented to the user to access the Paylink Payment Form.</td>
+</tr>
+<tr>
+<td>qrcode</td>
+<td>string</td>
+<td>Required</td>
+<td>A URL which generates a QR Code for use in billing solutions</td>
+</tr>
+<tr>
+<td>server_version</td>
+<td>string</td>
+<td>Required</td>
+<td>A version string of the server generating the response</td>
+</tr>
+<tr>
+<td>date_created</td>
+<td>datetime</td>
+<td>Required</td>
+<td>The date and time in ISO 8601 format of when the token was generated</td>
+</tr>
+<tr>
+<td>source</td>
+<td>string</td>
+<td>Required</td>
+<td>The source IP address creating the request.</td>
+</tr>
+<tr>
+<td>token</td>
+<td>string</td>
+<td>Required</td>
+<td>The Paylink token - this is the same as the id field</td>
+</tr>
+<tr>
+<td>identifier</td>
+<td>string</td>
+<td>Required</td>
+<td>The identifier requested in the request</td>
+</tr>
+<tr>
+<td>mode</td>
+<td>string</td>
+<td>Required</td>
+<td>Whether the request is a <code>live</code> or <code>test</code> token.</td>
+</tr>
+</tbody></table>
+<h2 id='paylink-failed-token-response-example'>Paylink Failed Token Response Example</h2><div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ND4NjIzNzA4NzQyNjA0NTU"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"result"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"errors"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="nl">"code"</span><span class="p">:</span><span class="w"> </span><span class="s2">"P007"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"msg"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Request was from an unaccepted source"</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div><div class="highlight"><pre class="highlight xml tab-xml"><code>
+<span class="nt">&lt;paylinkTokenResponse&gt;</span>
+    <span class="nt">&lt;id&gt;</span>ND4NjIzNzA4NzQyNjA0NTU<span class="nt">&lt;/id&gt;</span>
+    <span class="nt">&lt;result&gt;</span>0<span class="nt">&lt;/result&gt;</span>
+    <span class="nt">&lt;errors&gt;</span>
+        <span class="nt">&lt;error</span> <span class="na">code=</span><span class="s">"P007"</span> <span class="na">msg=</span><span class="s">"Request was from an unaccepted source"</span> <span class="nt">/&gt;</span>
+    <span class="nt">&lt;/errors&gt;</span>
 <span class="nt">&lt;/paylinkTokenResponse&gt;</span>
 </code></pre></div>
 <table><thead>
@@ -1602,23 +1709,43 @@ returned whilst a value of <code>0</code> indicates an error.</p>
 <td>id</td>
 <td>string</td>
 <td>Required</td>
-<td>The <code>id</code> field contains the merchant unique identifier for the configured transaction.</td>
+<td>The Paylink token id.</td>
 </tr>
 <tr>
 <td>result</td>
 <td>int</td>
 <td>Required</td>
-<td>The <code>result</code> field contains the result for the Paylink Token Request. <br/>0 indicates that an error was encountered while creating the token <br/>1 which indicates that a Token was successfully created.</td>
+<td>A value of <code>0</code> denoting an invalid creation</td>
 </tr>
 <tr>
-<td>url</td>
+<td>server_version</td>
 <td>string</td>
-<td>Optional</td>
-<td>The <code>url</code> is the Paylink Token URL which is to be used by the Customer Browser to access the Paylink Payment Form. Required (<em>when result=1</em>)</td>
+<td>Required</td>
+<td>A version string of the server generating the response</td>
+</tr>
+<tr>
+<td>date_created</td>
+<td>datetime</td>
+<td>Required</td>
+<td>The date and time in ISO 8601 format of when the error was generated</td>
+</tr>
+<tr>
+<td>source</td>
+<td>string</td>
+<td>Required</td>
+<td>The source IP address creating the request.</td>
+</tr>
+<tr>
+<td>token</td>
+<td>string</td>
+<td>Required</td>
+<td>The Paylink token - this is the same as the id field</td>
 </tr>
 </tbody></table>
 
-<p>Error Code Format</p>
+<p>Error Code Format.</p>
+
+<p>A response may return 1 or more error codes.</p>
 
 <table><thead>
 <tr>
@@ -1639,6 +1766,109 @@ returned whilst a value of <code>0</code> indicates an error.</p>
 <td>string</td>
 <td>Required</td>
 <td>The <code>errors[n].msg</code> field contains an error message indicating why the Token could not be generated.</td>
+</tr>
+</tbody></table>
+<h2 id='changing-the-amount-of-a-request'>Changing the amount of a Request</h2>
+<p>Token amounts may be change after created either due to a shopping cart being
+updated after a token is initialised or an invoice has received part payment
+since the token was generated.</p>
+
+<p>To issue a change, forward a JSON HTTP call to the endpoint <code>/changeAmount</code>
+with a <code>ChangeAmountRequest</code> object including a JWT authentication header. </p>
+
+<p>Example Change Amount Request</p>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w"> 
+  </span><span class="nl">"token"</span><span class="p">:</span><span class="w"> </span><span class="s2">"NDMwMzk6ODC0MzU2NDUzMjI3MjE"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"identifier"</span><span class="p">:</span><span class="w"> </span><span class="s2">"tx-000001"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"amount"</span><span class="p">:</span><span class="w"> </span><span class="mi">11000</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div>
+<p>Successful Change Amount Response</p>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"success"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"msg"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Amount update completed"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div>
+<p>Failed Change Amount Response</p>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"success"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"errorcode"</span><span class="p">:</span><span class="w"> </span><span class="s2">"P004"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"msg"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Amount is not supplied"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+
+</span></code></pre></div>
+<p>To update the amount, a call should be made to
+at <a href="https://pl.citypay.com/changeAmount">https://pl.citypay.com/changeAmount</a>. The call is
+validated,
+checking:</p>
+
+<ol>
+    <li>the source ip address of the request.</li>
+    <li>the content type of the request such as `application/json`</li>
+    <li>the validity of the data within the request.</li>
+</ol>
+
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Usage</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>amount</td>
+<td>int</td>
+<td>Required</td>
+<td>Specifies the intended value of the amount to change to in the lowest denomination with no spacing characters or decimal point.</td>
+</tr>
+<tr>
+<td>identifier</td>
+<td>string</td>
+<td>Optional</td>
+<td>The identifier used to create the original token. If this is not supplied, the token value should be supplied.</td>
+</tr>
+<tr>
+<td>reason</td>
+<td>string</td>
+<td>Optional</td>
+<td>Textual reason for the change to aid in support queries</td>
+</tr>
+<tr>
+<td>token</td>
+<td>string</td>
+<td>Optional</td>
+<td>The token generated on the initial create request. If both the token and identifier is supplied, the token takes precedence.</td>
+</tr>
+</tbody></table>
+
+<p>Note that if multiple transactions are created with the same identifier, the last created item is updated only.</p>
+<h3 id='response-values'>Response Values</h3>
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Usage</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>success</td>
+<td>boolean</td>
+<td>Required</td>
+<td>The success of the request</td>
+</tr>
+<tr>
+<td>msg</td>
+<td>string</td>
+<td>Required</td>
+<td>A message outlining the result of the operation</td>
+</tr>
+<tr>
+<td>errorcode</td>
+<td>string</td>
+<td>Optional</td>
+<td>If success is false, an errorcode is provided to identify the error</td>
 </tr>
 </tbody></table>
 <h1 id='postback-handling'>Postback Handling</h1>
@@ -2286,6 +2516,26 @@ Some result codes may not be relevant to the Merchant Application or to processi
 <td>cardSchemeId</td>
 <td>string</td>
 <td>The field contains an id for the card scheme used for the transaction.</td>
+</tr>
+<tr>
+<td>card_accountType</td>
+<td>string</td>
+<td>Determines if the account is debit &#39;D&#39; or credit &#39;C&#39;</td>
+</tr>
+<tr>
+<td>card_country</td>
+<td>string</td>
+<td>The ISO 3166-1 country code of where the range is issued</td>
+</tr>
+<tr>
+<td>card_commercial</td>
+<td>string</td>
+<td>Commercial cards are a common name used for cards used for business. These cards may enforce higher processing fees.</td>
+</tr>
+<tr>
+<td>card_consumer</td>
+<td>string</td>
+<td>Consumer cards are a common name used for cards that are for person use.</td>
 </tr>
 <tr>
 <td>expMonth</td>
