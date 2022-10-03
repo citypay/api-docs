@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <title>Paylink-v3</title>
+    <title>Paylink Api Specification</title>
     <link href="images/favicon-c177ed8f.ico" rel="icon" type="image/ico" />
     <style>
       .highlight table td { padding: 5px; }
@@ -389,6 +389,20 @@
               </ul>
           </li>
           <li>
+            <a href="#alternate-payment-methods" class="toc-h1 toc-link" data-title="Alternate Payment Methods">Alternate Payment Methods</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#apple-pay" class="toc-h2 toc-link" data-title="Apple Pay">Apple Pay</a>
+                  </li>
+                  <li>
+                    <a href="#google-pay" class="toc-h2 toc-link" data-title="Google Pay">Google Pay</a>
+                  </li>
+                  <li>
+                    <a href="#paypal" class="toc-h2 toc-link" data-title="PayPal">PayPal</a>
+                  </li>
+              </ul>
+          </li>
+          <li>
             <a href="#testing-best-practices" class="toc-h1 toc-link" data-title="Testing Best Practices">Testing Best Practices</a>
               <ul class="toc-list-h2">
                   <li>
@@ -443,7 +457,9 @@
       </ul>
         <ul class="toc-footer">
             <li><a href='mailto:support@citypay.com'>Any Integration Questions?</a></li>
-            <li>V3.2.7 2021-07-07</li>
+            <li>V3.2.7</li>
+            <li><a href='https://citypay.github.io/api-docs/payment-api'>CityPay API Documentation</a></li>
+            <li><a href='https://citypay.com'>CityPay Website</a></li>
         </ul>
     </div>
     <div class="page-wrapper">
@@ -2752,6 +2768,21 @@ the customer then attempt to pay, the transaction will display on screen as expi
         </td> 
     </tr>
 </table>
+<h1 id='alternate-payment-methods'>Alternate Payment Methods</h1>
+<p><img src="images/pl-alt-payments-main-dede8716.png" alt="Paylink Payment Page" /></p>
+
+<p>Merchants have the option to provide their customers with alternate payment methods such as <strong>Apple Pay</strong>, <strong>Google Pay™</strong> and <strong>PayPal</strong>. 
+Merchants will need to request this feature to be enabled by CityPay by providing some extra information depending on which alternate methods are required.</p>
+
+<p><strong><em>Note:</em></strong> This feature is only available on Paylink version 4 and above.</p>
+<h2 id='apple-pay'>Apple Pay</h2>
+<p>Merchants that opt to provide Apple Pay as a payment option for their customers must request this feature to be enabled by CityPay.<br>
+CityPay will register a merchant with Apple in order to allow for the merchant to take payments via Apple Pay.</p>
+<h2 id='google-pay'>Google Pay</h2>
+<p>To onboard a Merchant for GooglePay a merchant must ensure they agree with <a href="https://payments.developers.google.com/terms/sellertos">Google Pay Terms and Conditions</a> before requesting CityPay to enable Google Pay as a payment option.<br>
+CityPay will then register with Google a Google Pay licence for the merchant, in order to provide their customers with the option to pay with Google Pay.</p>
+<h2 id='paypal'>PayPal</h2>
+<p>In order to take payments via PayPay, merchant will need to register for a PayPal Business account.  </p>
 <h1 id='testing-best-practices'>Testing Best Practices</h1>
 <p>CityPay offer a test facility for client testing and integration development on this API all testing should
 be geared within the sandbox service. This service models an acquirer and produces test transactions for
