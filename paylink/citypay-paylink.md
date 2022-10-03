@@ -15,13 +15,13 @@ includes:
   - merchant-integration
   - token-api-request
   - token-api-response
-  - adjustment-request
   - postback-handling
   - paylink-transaction-response-reference
   - redirection-handling
   - notification-messaging
   - advanced-topics
   - integrations
+  - alternate-payments
   - test-best-practices
   - error-codes-reference
 search: true
