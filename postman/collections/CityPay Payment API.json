@@ -18152,9 +18152,79 @@
 			"id": "94b729a6-68df-4b5c-9452-bdb780352931"
 		}
 	],
+	"auth": {
+		"type": "apikey"
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "68de2834-3bce-4199-a048-0d4d5af63ede",
+				"type": "text/javascript",
+				"exec": [
+					"require('crypto-js');",
+					"",
+					"function dtToBuffer(dt) {",
+					"    const pad2 = n => n < 10 ? '0' + n : n;",
+					"    // format as yyyyMMddHHmm",
+					"    const dtstr = [dt.getUTCFullYear(), dt.getUTCMonth() + 1, dt.getUTCDate(), dt.getUTCHours(), dt.getUTCMinutes()].map(pad2).join(\"\");",
+					"    console.log(\"KeyDTStr: \" + dtstr)",
+					"    return Buffer.from(dtstr, \"hex\")",
+					"}",
+					"",
+					"function generateApiKey(clientId, licenceKey, nonce, dt = new Date()) {",
+					"    if (!nonce) {",
+					"        nonce = CryptoJS.lib.WordArray.random(128 / 8);",
+					"    } else if (typeof nonce === 'string') {",
+					"        nonce = CryptoJS.enc.Hex.parse(nonce);",
+					"    } else {",
+					"        throw new Error(\"Unsupported nonce type\");",
+					"    }",
+					"    console.log(\"Nonce: \" + nonce.toString(CryptoJS.enc.Hex).toUpperCase())",
+					"    const msg = CryptoJS.enc.Utf8.parse(clientId)",
+					"        .concat(nonce)",
+					"        .concat(CryptoJS.lib.WordArray.create(dtToBuffer(dt)));",
+					"    const hash = CryptoJS.HmacSHA256(msg, CryptoJS.enc.Utf8.parse(licenceKey));",
+					"    const packet = CryptoJS.enc.Utf8.parse(clientId + '\\u003A' + nonce.toString(CryptoJS.enc.Hex).toUpperCase() + '\\u003A').concat(hash);",
+					"    return CryptoJS.enc.Base64.stringify(packet);",
+					"}",
+					"",
+					"var client_id = pm.variables.get(\"client_id\");",
+					"var licence_key = pm.variables.get(\"licence_key\");",
+					"",
+					"var api_key = generateApiKey(client_id, licence_key);",
+					"var data = { key: \"cp-api-key\", value: api_key };",
+					"console.log(data);",
+					"pm.request.headers.upsert(data);",
+					"",
+					"function uuidv4() {",
+					"  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {",
+					"    var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);",
+					"    return v.toString(16);",
+					"  });",
+					"}",
+					"",
+					"postman.setEnvironmentVariable(\"identifier\", uuidv4());",
+					"",
+					"",
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "a8d83711-00d0-4fa3-b06d-5d39b7396d0d",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
 	"variable": [
 		{
-			"id": "14e6df19-e623-499c-b8a0-3934403c1b3e",
+			"id": "feb5c7bd-df4d-4826-8d48-c68afe84ce42",
 			"key": "baseUrl",
 			"value": "https://api.citypay.com",
 			"type": "string"
