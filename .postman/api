@@ -1,0 +1,16 @@
+id = 4722acf4-ec35-4eeb-94cc-0fe13b73c0bd
+
+[relations]
+
+[relations.collections]
+rootDirectory = postman/collections
+
+[relations.collections.metaData]
+
+[relations.apiDefinition]
+rootDirectory = postman/schemas
+files[] = {"path":"citypay-api.json","metaData":{}}
+
+[relations.apiDefinition.metaData]
+type = openapi:3
+rootFiles[] = citypay-api.json
