@@ -1,0 +1,21 @@
+<h3 id='api-key'>API Key</h3>
+<p><strong>cp-domain-key</strong></p>
+
+<p>path <code>cp-domain-key</code></p>
+
+<p>The <code>cp-domain-key</code> authentication is required for host based authentication where integrations
+are over direct HTTPS calls.
+Calls using this key will be validated against a prefixed list of host addresses and the <code>Origin</code> or <code>Referer</code>
+header of the HTTP call checked.
+All calls are scrutinised by the CityPay application firewall for security protection
+and attack mitigation.</p>
+
+<p>A key has been designed to:
+- be added to a HTML Form as an authentication token for a pre-registered domain.
+- Allow for the registration of multiple domains
+- Only calls which are host based may use a domain key</p>
+
+<ul>
+<li>your merchant id</li>
+<li>your access/licence key</li>
+</ul>
