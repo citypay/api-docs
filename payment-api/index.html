@@ -671,7 +671,7 @@
       </ul>
         <ul class="toc-footer">
             <li><a href='mailto:support@citypay.com'>Any Integration Questions?</a></li>
-            <li>V6.4.5 2022-10-21</li>
+            <li>V6.4.6 2022-10-24</li>
         </ul>
     </div>
     <div class="page-wrapper">
@@ -679,8 +679,8 @@
       <div class="content">
         <img src="images/header-4aeb62fd.png" width="100%" alt="header image" />
         <h1 id='citypay-payment-api'>CityPay Payment API</h1>
-<p>Version: 6.4.5
-Last Updated: 2022-10-21</p>
+<p>Version: 6.4.6
+Last Updated: 2022-10-24</p>
 
 <p>This CityPay API is a HTTP RESTful payment API used for direct server to server transactional processing. It
 provides a number of payment mechanisms including: Internet, MOTO, Continuous Authority transaction processing,
@@ -5175,7 +5175,7 @@ Up to 3 notification paths may be provided per request.</p>
 customised for each call.</p>
 
 <p>SMS messages use URL Short Codes (USC) as a payment link to the invoice payment page. This allows for a standard payment
-URL to be shortened for optimised usage in SMS. For instance a URL of <code>https://secured.citypay.com/PL1234/s348yb8yna4a48n2f8nq2f3msgyng-psn348ynaw8ynaw/en</code>
+URL to be shortened for optimised usage in SMS. For instance a URL of <code>https://checkout.citypay.com/PL1234/s348yb8yna4a48n2f8nq2f3msgyng-psn348ynaw8ynaw/en</code>
 becomes <code>citypay.com/Za48na3x</code>. Each USC is unique however it is a requirement that each USC generated is protected
 with Field Guards to ensure that sensitive data (such as customer contact details and GDPR) is protected.</p>
 
@@ -5194,6 +5194,7 @@ with Field Guards to ensure that sensitive data (such as customer contact detail
     </span><span class="p">}</span><span class="w">
   </span><span class="p">]</span><span class="w">
 </span><span class="p">}</span><span class="w">
+
 </span></code></pre></div>
 <p>Notification paths trigger a number of events which are stored as part of the timeline of events of a Paylink token</p>
 
@@ -5207,9 +5208,13 @@ with Field Guards to ensure that sensitive data (such as customer contact detail
 <li><code>BillPaymentEmailNotificationSent</code> -  identifies when an email notification has been accepted by our SMS forwarder</li>
 <li><code>BillPaymentEmailNotificationFailure</code> - identifies when an email notification has failed delivery</li>
 </ul>
-<h4 id='sms-notification-paths'>SMS Notification Paths</h4>
-<p>SMS originated from a CityPay pool of numbers, we are able to register custom phone numbers if required. Retries may incur
-extra fees.</p>
+<h4 id='sms-notification-path'>SMS Notification Path</h4>
+<p>SMS originated from a CityPay pool of numbers and by default only sends to country codes where the service is registered.
+SMSs may contain a From field which is configured as part of you onboarding and have a name associated to identify the service
+origin. For example if your business is titled <code>Health Surgery Ltd</code> the SMS may be sent to originate from <code>Health Surgery</code>. </p>
+
+<p>SMS is also configured for a &quot;polite mode&quot;. This mode ensures that SMSs aren&#39;t sent in the middle of the night when backend
+services ordinarily run. SMSs will be queued until the time range is deemed as polite. Normally this is between 8am and 9pm.</p>
 
 <table><thead>
 <tr>
@@ -5219,12 +5224,6 @@ extra fees.</p>
 <th>Description</th>
 </tr>
 </thead><tbody>
-<tr>
-<td>channel</td>
-<td>string</td>
-<td>Required</td>
-<td>Should be specified as <code>sms</code></td>
-</tr>
 <tr>
 <td>template</td>
 <td>string</td>
@@ -5248,12 +5247,6 @@ extra fees.</p>
 </tr>
 </thead><tbody>
 <tr>
-<td>channel</td>
-<td>string</td>
-<td>Required</td>
-<td>Should be specified as <code>email</code></td>
-</tr>
-<tr>
 <td>template</td>
 <td>string</td>
 <td>Reserved</td>
@@ -5264,6 +5257,24 @@ extra fees.</p>
 <td>string[]</td>
 <td>Required</td>
 <td>An array of email addresses to be used for delivery. A maximum of 5 addresses can be added.</td>
+</tr>
+<tr>
+<td>cc</td>
+<td>string[]</td>
+<td>Required</td>
+<td>An array of email addresses to be used for cc delivery. A maximum of 5 addresses can be added.</td>
+</tr>
+<tr>
+<td>bcc</td>
+<td>string[]</td>
+<td>Required</td>
+<td>An array of email addresses to be used for bcc delivery. A maximum of 5 addresses can be added.</td>
+</tr>
+<tr>
+<td>reply_to</td>
+<td>string[]</td>
+<td>Required</td>
+<td>An array of email addresses to be used for the Reply-To header of an email.</td>
 </tr>
 </tbody></table>
 <h3 id='field-guards'>Field Guards</h3>
@@ -9800,21 +9811,21 @@ request calls.</p>
 </thead><tbody>
 <tr>
 <td><code>bcc</code></td>
-<td>string</td>
+<td>array</td>
 <td>false</td>
-<td>An array of email addresses to be used for blind carbon copy delivery. A maximum of 5 addresses can be added.</td>
+<td>type: string</td>
 </tr>
 <tr>
 <td><code>cc</code></td>
-<td>string</td>
+<td>array</td>
 <td>false</td>
-<td>An array of email addresses to be used for carbon copy delivery. A maximum of 5 addresses can be added.</td>
+<td>type: string</td>
 </tr>
 <tr>
 <td><code>reply_to</code></td>
-<td>string</td>
+<td>array</td>
 <td>false</td>
-<td>An email address to be used for the Reply-To header of an email.</td>
+<td>type: string</td>
 </tr>
 <tr>
 <td><code>template</code></td>
@@ -9824,9 +9835,9 @@ request calls.</p>
 </tr>
 <tr>
 <td><code>to</code></td>
-<td>string</td>
+<td>array</td>
 <td>true</td>
-<td>An array of email addresses to be used for the send to email address for delivery. A maximum of 5 addresses can be added.</td>
+<td>type: string</td>
 </tr>
 </tbody></table>
 <h2 id='paylinkerrorcode'>PaylinkErrorCode</h2><div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
