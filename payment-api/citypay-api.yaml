@@ -4,7 +4,7 @@ openapi: 3.0.0
 #                              API Information                                 #
 ################################################################################
 info:
-  version: 6.4.4
+  version: 6.4.6
   title: CityPay Payment API
   description: |
 
@@ -600,7 +600,7 @@ paths:
         customised for each call.
         
         SMS messages use URL Short Codes (USC) as a payment link to the invoice payment page. This allows for a standard payment
-        URL to be shortened for optimised usage in SMS. For instance a URL of `https://secured.citypay.com/PL1234/s348yb8yna4a48n2f8nq2f3msgyng-psn348ynaw8ynaw/en`
+        URL to be shortened for optimised usage in SMS. For instance a URL of `https://checkout.citypay.com/PL1234/s348yb8yna4a48n2f8nq2f3msgyng-psn348ynaw8ynaw/en`
         becomes `citypay.com/Za48na3x`. Each USC is unique however it is a requirement that each USC generated is protected
         with Field Guards to ensure that sensitive data (such as customer contact details and GDPR) is protected.
         
@@ -621,6 +621,7 @@ paths:
             }
           ]
         }
+        
         ```
         
         Notification paths trigger a number of events which are stored as part of the timeline of events of a Paylink token
@@ -635,24 +636,29 @@ paths:
         - `BillPaymentEmailNotificationFailure` - identifies when an email notification has failed delivery
         
         
-        #### SMS Notification Paths
+        #### SMS Notification Path
         
-        SMS originated from a CityPay pool of numbers, we are able to register custom phone numbers if required. Retries may incur
-        extra fees.
+        SMS originated from a CityPay pool of numbers and by default only sends to country codes where the service is registered.
+        SMSs may contain a From field which is configured as part of you onboarding and have a name associated to identify the service
+        origin. For example if your business is titled `Health Surgery Ltd` the SMS may be sent to originate from `Health Surgery`. 
+        
+        SMS is also configured for a "polite mode". This mode ensures that SMSs aren't sent in the middle of the night when backend
+        services ordinarily run. SMSs will be queued until the time range is deemed as polite. Normally this is between 8am and 9pm.
         
         | Field    | Type     | Usage    | Description                                                                                     |
         |----------|----------|----------|-------------------------------------------------------------------------------------------------|
-        | channel  | string   | Required | Should be specified as `sms`                                                                    |
         | template | string   | Reserved | An optional template name to use a template other than the default.                             |
         | to       | string   | Reserved | The phone number in [E.164](https://en.wikipedia.org/wiki/E.164) format to send the message to. |
         
         #### Email Notification Paths
         
-        | Field    | Type     | Usage    | Description                                                                                 |
-        |----------|----------|----------|---------------------------------------------------------------------------------------------|
-        | channel  | string   | Required | Should be specified as `email`                                                              |
-        | template | string   | Reserved | An optional template name to use a template other than the default.                         |
-        | to       | string[] | Required | An array of email addresses to be used for delivery. A maximum of 5 addresses can be added. |
+        | Field    | Type     | Usage    | Description                                                                                     |
+        |----------|----------|----------|-------------------------------------------------------------------------------------------------|
+        | template | string   | Reserved | An optional template name to use a template other than the default.                             |
+        | to       | string[] | Required | An array of email addresses to be used for delivery. A maximum of 5 addresses can be added.     |
+        | cc       | string[] | Required | An array of email addresses to be used for cc delivery. A maximum of 5 addresses can be added.  |
+        | bcc      | string[] | Required | An array of email addresses to be used for bcc delivery. A maximum of 5 addresses can be added. |
+        | reply_to | string[] | Required | An array of email addresses to be used for the Reply-To header of an email.     |
         
         
         ### Field Guards
@@ -2139,12 +2145,12 @@ paths:
             schema: 
               $ref: '#/components/schemas/CaptureRequest'
             examples: 
-              example3: 
-                summary: Capture call for a merchant with identifier and airline data once a ticket has been issued
-                externalValue: 'CaptureRequest-example3.json'
               example1: 
                 summary: Basic capture call for a merchant with a given identifier
                 externalValue: 'CaptureRequest-example1.json'
+              example3: 
+                summary: Capture call for a merchant with identifier and airline data once a ticket has been issued
+                externalValue: 'CaptureRequest-example3.json'
               example2: 
                 summary: Basic capture call for a merchant with a transno and final amount
                 externalValue: 'CaptureRequest-example2.json'
@@ -2152,12 +2158,12 @@ paths:
             schema: 
               $ref: '#/components/schemas/CaptureRequest'
             examples: 
-              example3: 
-                summary: Capture call for a merchant with identifier and airline data once a ticket has been issued
-                externalValue: 'CaptureRequest-example3.xml'
               example1: 
                 summary: Basic capture call for a merchant with a given identifier
                 externalValue: 'CaptureRequest-example1.xml'
+              example3: 
+                summary: Capture call for a merchant with identifier and airline data once a ticket has been issued
+                externalValue: 'CaptureRequest-example3.xml'
               example2: 
                 summary: Basic capture call for a merchant with a transno and final amount
                 externalValue: 'CaptureRequest-example2.xml'
@@ -5169,20 +5175,28 @@ components:
         - to
       properties: 
         bcc: 
-          type: string
-          description: An array of email addresses to be used for blind carbon copy delivery. A maximum of 5 addresses can be added.
+          type: array
+          items:
+            type: string
+            description: An array of email addresses to be used for blind carbon copy delivery. A maximum of 5 addresses can be added.
         cc: 
-          type: string
-          description: An array of email addresses to be used for carbon copy delivery. A maximum of 5 addresses can be added.
+          type: array
+          items:
+            type: string
+            description: An array of email addresses to be used for carbon copy delivery. A maximum of 5 addresses can be added.
         reply_to: 
-          type: string
-          description: An email address to be used for the Reply-To header of an email.
+          type: array
+          items:
+            type: string
+            description: An array of email addresses to be used for the Reply-To header of an email.
         template: 
           type: string
           description: An optional template name to use a template other than the default.
         to: 
-          type: string
-          description: An array of email addresses to be used for the send to email address for delivery. A maximum of 5 addresses can be added.
+          type: array
+          items:
+            type: string
+            description: A list of email addresses to be used for the send to email address for delivery. A maximum of 5 addresses can be added.
     PaylinkErrorCode: 
       type: object
       required: 

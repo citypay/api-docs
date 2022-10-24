@@ -1,12 +1,12 @@
 ---
 title: CityPay Payment API
-version: 6.4.4
+version: 6.4.6
 language_tabs:
   - json
   - xml
 toc_footers:
   - <a href='mailto:support@citypay.com'>Any Integration Questions?</a>
-  - V6.4.4 2022-10-18
+  - V6.4.6 2022-10-24
 includes:
   - errorcodes
   - authresultcodes
@@ -22,8 +22,8 @@ search: true
 
 # CityPay Payment API
 
-Version: 6.4.4
-Last Updated: 2022-10-18
+Version: 6.4.6
+Last Updated: 2022-10-24
 
 
 This CityPay API is a HTTP RESTful payment API used for direct server to server transactional processing. It
@@ -2798,7 +2798,7 @@ Each notification uses a template to generate the body of the message. This allo
 customised for each call.
 
 SMS messages use URL Short Codes (USC) as a payment link to the invoice payment page. This allows for a standard payment
-URL to be shortened for optimised usage in SMS. For instance a URL of `https://secured.citypay.com/PL1234/s348yb8yna4a48n2f8nq2f3msgyng-psn348ynaw8ynaw/en`
+URL to be shortened for optimised usage in SMS. For instance a URL of `https://checkout.citypay.com/PL1234/s348yb8yna4a48n2f8nq2f3msgyng-psn348ynaw8ynaw/en`
 becomes `citypay.com/Za48na3x`. Each USC is unique however it is a requirement that each USC generated is protected
 with Field Guards to ensure that sensitive data (such as customer contact details and GDPR) is protected.
 
@@ -2819,6 +2819,7 @@ To send a notification path, append a `notification-path` property to the reques
     }
   ]
 }
+
 ```
 
 Notification paths trigger a number of events which are stored as part of the timeline of events of a Paylink token
@@ -2833,24 +2834,29 @@ Notification paths trigger a number of events which are stored as part of the ti
 - `BillPaymentEmailNotificationFailure` - identifies when an email notification has failed delivery
 
 
-#### SMS Notification Paths
+#### SMS Notification Path
 
-SMS originated from a CityPay pool of numbers, we are able to register custom phone numbers if required. Retries may incur
-extra fees.
+SMS originated from a CityPay pool of numbers and by default only sends to country codes where the service is registered.
+SMSs may contain a From field which is configured as part of you onboarding and have a name associated to identify the service
+origin. For example if your business is titled `Health Surgery Ltd` the SMS may be sent to originate from `Health Surgery`. 
+
+SMS is also configured for a "polite mode". This mode ensures that SMSs aren't sent in the middle of the night when backend
+services ordinarily run. SMSs will be queued until the time range is deemed as polite. Normally this is between 8am and 9pm.
 
  Field    | Type     | Usage    | Description                                                                                     |
 ----------|----------|----------|-------------------------------------------------------------------------------------------------|
- channel  | string   | Required | Should be specified as `sms`                                                                    |
  template | string   | Reserved | An optional template name to use a template other than the default.                             |
  to       | string   | Reserved | The phone number in [E.164](https://en.wikipedia.org/wiki/E.164) format to send the message to. |
 
 #### Email Notification Paths
 
- Field    | Type     | Usage    | Description                                                                                 |
-----------|----------|----------|---------------------------------------------------------------------------------------------|
- channel  | string   | Required | Should be specified as `email`                                                              |
- template | string   | Reserved | An optional template name to use a template other than the default.                         |
- to       | string[] | Required | An array of email addresses to be used for delivery. A maximum of 5 addresses can be added. |
+ Field    | Type     | Usage    | Description                                                                                     |
+----------|----------|----------|-------------------------------------------------------------------------------------------------|
+ template | string   | Reserved | An optional template name to use a template other than the default.                             |
+ to       | string[] | Required | An array of email addresses to be used for delivery. A maximum of 5 addresses can be added.     |
+ cc       | string[] | Required | An array of email addresses to be used for cc delivery. A maximum of 5 addresses can be added.  |
+ bcc      | string[] | Required | An array of email addresses to be used for bcc delivery. A maximum of 5 addresses can be added. |
+ reply_to | string[] | Required | An array of email addresses to be used for the Reply-To header of an email.     |
 
 
 ### Field Guards
@@ -5456,11 +5462,11 @@ Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Addi
 
 | Field | Type | Required | Description |
 |-------|------|----------|-------------|
-| `bcc` | string  | false | An array of email addresses to be used for blind carbon copy delivery. A maximum of 5 addresses can be added. | 
-| `cc` | string  | false | An array of email addresses to be used for carbon copy delivery. A maximum of 5 addresses can be added. | 
-| `reply_to` | string  | false | An email address to be used for the Reply-To header of an email. | 
+| `bcc` | array | false | type: string | 
+| `cc` | array | false | type: string | 
+| `reply_to` | array | false | type: string | 
 | `template` | string  | false | An optional template name to use a template other than the default. | 
-| `to` | string  | true | An array of email addresses to be used for the send to email address for delivery. A maximum of 5 addresses can be added. | 
+| `to` | array | true | type: string | 
 
 
 
