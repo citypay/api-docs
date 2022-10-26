@@ -5138,11 +5138,11 @@ components:
         part_payments: 
           $ref: '#/components/schemas/PaylinkPartPayments'
           x-description: Configuration object for part payments.
-        passThroughHeaders: 
-          type: array
+        pass_through_headers: 
+          type: object
           x-description: Values can be provided in the Token Request which are added as HTTP headers in the post back such as bearer tokens or authentication data.
-          items: 
-            $ref: '#/components/schemas/NameValuePair'
+          additionalProperties: 
+            type: 'string'
         postback: 
           type: string
           format: url
