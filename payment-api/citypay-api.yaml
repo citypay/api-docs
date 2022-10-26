@@ -4,7 +4,7 @@ openapi: 3.0.0
 #                              API Information                                 #
 ################################################################################
 info:
-  version: 6.4.6
+  version: 6.4.7-SNAPSHOT
   title: CityPay Payment API
   description: |
 
@@ -3127,6 +3127,11 @@ components:
              `2` to bypass. Transactions that are bypassed will not be checked for duplication within the duplication window.
             
              `3` to ignore. Transactions that are ignored will have the same affect as bypass.
+        event_management: 
+          $ref: '#/components/schemas/EventDataModel'
+          x-business-extension: Event Management
+          x-description: |
+            Additional advice data for event management integration that can be applied to an authorisation request.
         expmonth: 
           type: integer
           format: int32
@@ -3856,6 +3861,11 @@ components:
             request which may be caused by some number formatters.
             
             If no amount is supplied, the original processing amount is used.
+        event_management: 
+          $ref: '#/components/schemas/EventDataModel'
+          x-business-extension: Event Management
+          x-description: |
+            Additional advice data for event management integration for the capture request.
         identifier: 
           type: string
           minLength: 4
@@ -4697,6 +4707,26 @@ components:
           format: date-time
           example: 2020-01-02T18:32:28Z
           description: The ISO-8601 UTC date and time of the response data.
+    EventDataModel: 
+      type: object
+      properties: 
+        event_end_date: 
+          type: string
+          format: date
+          description: The date when the event ends in ISO format (yyyy-MM-dd).
+        event_id: 
+          type: string
+          description: An id of the event.
+        event_organiser_id: 
+          type: string
+          description: An id of the event organiser.
+        event_start_date: 
+          type: string
+          format: date
+          description: The date when the event starts in ISO format (yyyy-MM-dd).
+        payment_type: 
+          type: string
+          description: The type of payment such as `deposit` or `balance`.
     Exists: 
       type: object
       required: 
@@ -4794,6 +4824,15 @@ components:
           type: string
           example: Active
           description: The status label of the account.
+    NameValuePair: 
+      type: object
+      properties: 
+        name: 
+          type: string
+          description: The name of the data pair.
+        value: 
+          type: string
+          description: The value of the data pair.
     PaResAuthRequest: 
       type: object
       required: 
@@ -5099,6 +5138,11 @@ components:
         part_payments: 
           $ref: '#/components/schemas/PaylinkPartPayments'
           x-description: Configuration object for part payments.
+        passThroughHeaders: 
+          type: array
+          x-description: Values can be provided in the Token Request which are added as HTTP headers in the post back such as bearer tokens or authentication data.
+          items: 
+            $ref: '#/components/schemas/NameValuePair'
         postback: 
           type: string
           format: url
@@ -5128,7 +5172,7 @@ components:
           type: string
           description: The Paylink renderer engine to use.
         return_params: 
-          type: string
+          type: boolean
           description: If a value of true is specified, any redirection will include the transaction result in parameters. It is recommended to use the postback integration rather than redirection parameters.
         ui: 
           $ref: '#/components/schemas/PaylinkUI'
