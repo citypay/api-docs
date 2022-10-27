@@ -521,6 +521,9 @@
                     <a href="#error" class="toc-h2 toc-link" data-title="Error">Error</a>
                   </li>
                   <li>
+                    <a href="#eventdatamodel" class="toc-h2 toc-link" data-title="EventDataModel">EventDataModel</a>
+                  </li>
+                  <li>
                     <a href="#exists" class="toc-h2 toc-link" data-title="Exists">Exists</a>
                   </li>
                   <li>
@@ -671,7 +674,7 @@
       </ul>
         <ul class="toc-footer">
             <li><a href='mailto:support@citypay.com'>Any Integration Questions?</a></li>
-            <li>V6.4.6 2022-10-24</li>
+            <li>V6.4.7 2022-10-27</li>
         </ul>
     </div>
     <div class="page-wrapper">
@@ -679,8 +682,8 @@
       <div class="content">
         <img src="images/header-4aeb62fd.png" width="100%" alt="header image" />
         <h1 id='citypay-payment-api'>CityPay Payment API</h1>
-<p>Version: 6.4.6
-Last Updated: 2022-10-24</p>
+<p>Version: 6.4.7
+Last Updated: 2022-10-27</p>
 
 <p>This CityPay API is a HTTP RESTful payment API used for direct server to server transactional processing. It
 provides a number of payment mechanisms including: Internet, MOTO, Continuous Authority transaction processing,
@@ -1227,6 +1230,22 @@ this and will solidify the authorisation and confirmation process.</p>
 <td>The type of transaction being submitted. Normally this value is not required and your account manager may request that you set this field.<br/><br/>maxLength: 1</td>
 </tr>
 </tbody></table>
+<h3 id='business-extension-event-management'>Business Extension: Event Management</h3>
+<p>Supports the event management business extension by adding the following parameters to the request.</p>
+
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>event_management</code></td>
+<td>object</td>
+<td><a href="#eventdatamodel">EventDataModel</a> Additional advice data for event management integration that can be applied to an authorisation request.</td>
+</tr>
+</tbody></table>
 <h3 id='business-extension-mcc6012'>Business Extension: MCC6012</h3>
 <p>Supports the mcc6012 business extension by adding the following parameters to the request.</p>
 
@@ -1567,6 +1586,22 @@ be available for the settlement and completed at the end of the day.</p>
 <td>integer <em>int32</em></td>
 <td>Optional</td>
 <td>The transaction number of the transaction to look up and capture. If an empty value is supplied then an identifier value must be supplied.</td>
+</tr>
+</tbody></table>
+<h3 id='business-extension-event-management-2'>Business Extension: Event Management</h3>
+<p>Supports the event management business extension by adding the following parameters to the request.</p>
+
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>event_management</code></td>
+<td>object</td>
+<td><a href="#eventdatamodel">EventDataModel</a> Additional advice data for event management integration for the capture request.</td>
 </tr>
 </tbody></table>
 <h3 id='business-extension-airline-2'>Business Extension: Airline</h3>
@@ -6778,6 +6813,7 @@ request calls.</p>
    </span><span class="nl">"csc_policy"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
    </span><span class="nl">"currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"GBP"</span><span class="p">,</span><span class="w">
    </span><span class="nl">"duplicate_policy"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"event_management"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="err">...</span><span class="w"> </span><span class="p">},</span><span class="w">
    </span><span class="nl">"expmonth"</span><span class="p">:</span><span class="w"> </span><span class="mi">9</span><span class="p">,</span><span class="w">
    </span><span class="nl">"expyear"</span><span class="p">:</span><span class="w"> </span><span class="mi">2025</span><span class="p">,</span><span class="w">
    </span><span class="nl">"external_mpi"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="err">...</span><span class="w"> </span><span class="p">},</span><span class="w">
@@ -6801,6 +6837,7 @@ request calls.</p>
  <span class="nt">&lt;csc_policy&gt;&lt;/csc_policy&gt;</span> 
  <span class="nt">&lt;currency&gt;</span>GBP<span class="nt">&lt;/currency&gt;</span> 
  <span class="nt">&lt;duplicate_policy&gt;&lt;/duplicate_policy&gt;</span> 
+ <span class="nt">&lt;event_management&gt;</span><span class="err">&lt;</span>&gt;...<span class="err">&lt;</span>/&gt;<span class="nt">&lt;/event_management&gt;</span> 
  <span class="nt">&lt;expmonth&gt;</span>9<span class="nt">&lt;/expmonth&gt;</span> 
  <span class="nt">&lt;expyear&gt;</span>2025<span class="nt">&lt;/expyear&gt;</span> 
  <span class="nt">&lt;external_mpi&gt;</span><span class="err">&lt;</span>&gt;...<span class="err">&lt;</span>/&gt;<span class="nt">&lt;/external_mpi&gt;</span> 
@@ -6870,6 +6907,12 @@ request calls.</p>
 <td>string</td>
 <td>false</td>
 <td>A policy value which determines whether a duplication policy is enforced or bypassed. A duplication check has a window of time set against your account within which it can action. If a previous transaction with matching values occurred within the window, any subsequent transaction will result in a T001 result.<br/><br/>Values are  <code>0</code> for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.<br/><br/> <code>1</code> for an enforced policy. Transactions that are enforced will be checked for duplication within the duplication window.<br/><br/> <code>2</code> to bypass. Transactions that are bypassed will not be checked for duplication within the duplication window.<br/><br/> <code>3</code> to ignore. Transactions that are ignored will have the same affect as bypass.</td>
+</tr>
+<tr>
+<td><code>event_management</code></td>
+<td>object</td>
+<td>false</td>
+<td><a href="#eventdatamodel">EventDataModel</a> Additional advice data for event management integration that can be applied to an authorisation request.</td>
 </tr>
 <tr>
 <td><code>expmonth</code></td>
@@ -7679,6 +7722,7 @@ request calls.</p>
 <h2 id='capturerequest'>CaptureRequest</h2><div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
    </span><span class="nl">"airline_data"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="err">...</span><span class="w"> </span><span class="p">},</span><span class="w">
    </span><span class="nl">"amount"</span><span class="p">:</span><span class="w"> </span><span class="mi">3600</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"event_management"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="err">...</span><span class="w"> </span><span class="p">},</span><span class="w">
    </span><span class="nl">"identifier"</span><span class="p">:</span><span class="w"> </span><span class="s2">"95b857a1-5955-4b86-963c-5a6dbfc4fb95"</span><span class="p">,</span><span class="w">
    </span><span class="nl">"merchantid"</span><span class="p">:</span><span class="w"> </span><span class="mi">11223344</span><span class="p">,</span><span class="w">
    </span><span class="nl">"transno"</span><span class="p">:</span><span class="w"> </span><span class="mi">78416</span><span class="w">
@@ -7686,6 +7730,7 @@ request calls.</p>
 </span></code></pre></div><div class="highlight"><pre class="highlight xml tab-xml"><code><span class="nt">&lt;CaptureRequest&gt;</span>
  <span class="nt">&lt;airline_data&gt;</span><span class="err">&lt;</span>&gt;...<span class="err">&lt;</span>/&gt;<span class="nt">&lt;/airline_data&gt;</span> 
  <span class="nt">&lt;amount&gt;</span>3600<span class="nt">&lt;/amount&gt;</span> 
+ <span class="nt">&lt;event_management&gt;</span><span class="err">&lt;</span>&gt;...<span class="err">&lt;</span>/&gt;<span class="nt">&lt;/event_management&gt;</span> 
  <span class="nt">&lt;identifier&gt;</span>95b857a1-5955-4b86-963c-5a6dbfc4fb95<span class="nt">&lt;/identifier&gt;</span> 
  <span class="nt">&lt;merchantid&gt;</span>11223344<span class="nt">&lt;/merchantid&gt;</span> 
  <span class="nt">&lt;transno&gt;</span>78416<span class="nt">&lt;/transno&gt;</span> 
@@ -7704,6 +7749,12 @@ request calls.</p>
 <td>integer <em>int32</em></td>
 <td>false</td>
 <td>The completion amount provided in the lowest unit of currency for the specific currency of the merchant, with a variable length to a maximum of 12 digits. No decimal points to be included. For example with GBP 75.45 use the value 7545. Please check that you do not supply divisional characters such as 1,024 in the request which may be caused by some number formatters.<br/><br/>If no amount is supplied, the original processing amount is used.<br/><br/> minLength: 1<br/>maxLength: 9</td>
+</tr>
+<tr>
+<td><code>event_management</code></td>
+<td>object</td>
+<td>false</td>
+<td><a href="#eventdatamodel">EventDataModel</a> Additional advice data for event management integration for the capture request.</td>
 </tr>
 <tr>
 <td><code>identifier</code></td>
@@ -8770,6 +8821,60 @@ request calls.</p>
 <td>The ISO-8601 UTC date and time of the response data.</td>
 </tr>
 </tbody></table>
+<h2 id='eventdatamodel'>EventDataModel</h2><div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+   </span><span class="nl">"event_end_date"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"event_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"event_organiser_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"event_start_date"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"payment_type"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div><div class="highlight"><pre class="highlight xml tab-xml"><code><span class="nt">&lt;EventDataModel&gt;</span>
+ <span class="nt">&lt;event_end_date&gt;&lt;/event_end_date&gt;</span> 
+ <span class="nt">&lt;event_id&gt;&lt;/event_id&gt;</span> 
+ <span class="nt">&lt;event_organiser_id&gt;&lt;/event_organiser_id&gt;</span> 
+ <span class="nt">&lt;event_start_date&gt;&lt;/event_start_date&gt;</span> 
+ <span class="nt">&lt;payment_type&gt;&lt;/payment_type&gt;</span> 
+<span class="nt">&lt;/EventDataModel&gt;</span>
+</code></pre></div>
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>event_end_date</code></td>
+<td>string <em>date</em></td>
+<td>false</td>
+<td>The date when the event ends in ISO format (yyyy-MM-dd).</td>
+</tr>
+<tr>
+<td><code>event_id</code></td>
+<td>string</td>
+<td>false</td>
+<td>An id of the event.</td>
+</tr>
+<tr>
+<td><code>event_organiser_id</code></td>
+<td>string</td>
+<td>false</td>
+<td>An id of the event organiser.</td>
+</tr>
+<tr>
+<td><code>event_start_date</code></td>
+<td>string <em>date</em></td>
+<td>false</td>
+<td>The date when the event starts in ISO format (yyyy-MM-dd).</td>
+</tr>
+<tr>
+<td><code>payment_type</code></td>
+<td>string</td>
+<td>false</td>
+<td>The type of payment such as <code>deposit</code> or <code>balance</code>.</td>
+</tr>
+</tbody></table>
 <h2 id='exists'>Exists</h2><div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
    </span><span class="nl">"active"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
    </span><span class="nl">"exists"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
@@ -9529,6 +9634,8 @@ request calls.</p>
    </span><span class="nl">"merch_terms"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
    </span><span class="nl">"options"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
    </span><span class="nl">"part_payments"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="err">...</span><span class="w"> </span><span class="p">},</span><span class="w">
+   </span><span class="nl">"pass_through_data"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="err">...</span><span class="w"> </span><span class="p">},</span><span class="w">
+   </span><span class="nl">"pass_through_headers"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="err">...</span><span class="w"> </span><span class="p">},</span><span class="w">
    </span><span class="nl">"postback"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
    </span><span class="nl">"postback_password"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
    </span><span class="nl">"postback_policy"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
@@ -9537,7 +9644,7 @@ request calls.</p>
    </span><span class="nl">"redirect_failure"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
    </span><span class="nl">"redirect_success"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
    </span><span class="nl">"renderer"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
-   </span><span class="nl">"return_params"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"return_params"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
    </span><span class="nl">"ui"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="err">...</span><span class="w"> </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre></div><div class="highlight"><pre class="highlight xml tab-xml"><code><span class="nt">&lt;PaylinkConfig&gt;</span>
@@ -9551,6 +9658,8 @@ request calls.</p>
  <span class="nt">&lt;merch_terms&gt;&lt;/merch_terms&gt;</span> 
  <span class="nt">&lt;options&gt;&lt;/options&gt;</span> 
  <span class="nt">&lt;part_payments&gt;</span><span class="err">&lt;</span>&gt;...<span class="err">&lt;</span>/&gt;<span class="nt">&lt;/part_payments&gt;</span> 
+ <span class="nt">&lt;pass_through_data&gt;</span><span class="err">&lt;</span>&gt;...<span class="err">&lt;</span>/&gt;<span class="nt">&lt;/pass_through_data&gt;</span> 
+ <span class="nt">&lt;pass_through_headers&gt;</span><span class="err">&lt;</span>&gt;...<span class="err">&lt;</span>/&gt;<span class="nt">&lt;/pass_through_headers&gt;</span> 
  <span class="nt">&lt;postback&gt;&lt;/postback&gt;</span> 
  <span class="nt">&lt;postback_password&gt;&lt;/postback_password&gt;</span> 
  <span class="nt">&lt;postback_policy&gt;&lt;/postback_policy&gt;</span> 
@@ -9632,6 +9741,18 @@ request calls.</p>
 <td><a href="#paylinkpartpayments">PaylinkPartPayments</a> Configuration object for part payments.</td>
 </tr>
 <tr>
+<td><code>pass_through_data</code></td>
+<td>object</td>
+<td>false</td>
+<td></td>
+</tr>
+<tr>
+<td><code>pass_through_headers</code></td>
+<td>object</td>
+<td>false</td>
+<td></td>
+</tr>
+<tr>
 <td><code>postback</code></td>
 <td>string <em>url</em></td>
 <td>false</td>
@@ -9681,7 +9802,7 @@ request calls.</p>
 </tr>
 <tr>
 <td><code>return_params</code></td>
-<td>string</td>
+<td>boolean</td>
 <td>false</td>
 <td>If a value of true is specified, any redirection will include the transaction result in parameters. It is recommended to use the postback integration rather than redirection parameters.</td>
 </tr>
