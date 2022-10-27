@@ -1,12 +1,12 @@
 ---
 title: CityPay Payment API
-version: 6.4.6
+version: 6.4.7
 language_tabs:
   - json
   - xml
 toc_footers:
   - <a href='mailto:support@citypay.com'>Any Integration Questions?</a>
-  - V6.4.6 2022-10-24
+  - V6.4.7 2022-10-27
 includes:
   - errorcodes
   - authresultcodes
@@ -22,8 +22,8 @@ search: true
 
 # CityPay Payment API
 
-Version: 6.4.6
-Last Updated: 2022-10-24
+Version: 6.4.7
+Last Updated: 2022-10-27
 
 
 This CityPay API is a HTTP RESTful payment API used for direct server to server transactional processing. It
@@ -496,6 +496,16 @@ Field  | Type | Usage | Description |
  `trans_type` | string  | Optional | The type of transaction being submitted. Normally this value is not required and your account manager may request that you set this field.<br/><br/>maxLength: 1 | 
 
 
+### Business Extension: Event Management
+
+Supports the event management business extension by adding the following parameters to the request.
+
+Field	| Type| Description |
+-----|------|-------------|
+`event_management` | object | [EventDataModel](#eventdatamodel) Additional advice data for event management integration that can be applied to an authorisation request. | 
+
+
+
 ### Business Extension: MCC6012
 
 Supports the mcc6012 business extension by adding the following parameters to the request.
@@ -744,6 +754,16 @@ Field  | Type | Usage | Description |
  `amount` | integer *int32* | Optional | The completion amount provided in the lowest unit of currency for the specific currency of the merchant, with a variable length to a maximum of 12 digits. No decimal points to be included. For example with GBP 75.45 use the value 7545. Please check that you do not supply divisional characters such as 1,024 in the request which may be caused by some number formatters.<br/><br/>If no amount is supplied, the original processing amount is used.<br/><br/> minLength: 1<br/>maxLength: 9 | 
  `identifier` | string  | Optional | The identifier of the transaction to capture. If an empty value is supplied then a `trans_no` value must be supplied.<br/><br/>minLength: 4<br/>maxLength: 50 | 
  `transno` | integer *int32* | Optional | The transaction number of the transaction to look up and capture. If an empty value is supplied then an identifier value must be supplied. | 
+
+
+### Business Extension: Event Management
+
+Supports the event management business extension by adding the following parameters to the request.
+
+Field	| Type| Description |
+-----|------|-------------|
+`event_management` | object | [EventDataModel](#eventdatamodel) Additional advice data for event management integration for the capture request. | 
+
 
 
 ### Business Extension: Airline
@@ -3729,6 +3749,7 @@ Responses for the TokenStatusRequest operation are
    "csc_policy": "",
    "currency": "GBP",
    "duplicate_policy": "",
+   "event_management": { ... },
    "expmonth": 9,
    "expyear": 2025,
    "external_mpi": { ... },
@@ -3755,6 +3776,7 @@ Responses for the TokenStatusRequest operation are
  <csc_policy></csc_policy> 
  <currency>GBP</currency> 
  <duplicate_policy></duplicate_policy> 
+ <event_management><>...</></event_management> 
  <expmonth>9</expmonth> 
  <expyear>2025</expyear> 
  <external_mpi><>...</></external_mpi> 
@@ -3780,6 +3802,7 @@ Responses for the TokenStatusRequest operation are
 | `csc_policy` | string  | false | A policy value which determines whether a CSC policy is enforced or bypassed.<br/><br/>Values are  `0` for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.<br/><br/> `1` for an enforced policy. Transactions that are enforced will be rejected if the CSC value does not match.<br/><br/> `2` to bypass. Transactions that are bypassed will be allowed through even if the CSC did not match.<br/><br/> `3` to ignore. Transactions that are ignored will bypass the result and not send the CSC details for authorisation. | 
 | `currency` | string  | false | The processing currency for the transaction. Will default to the merchant account currency.<br/><br/>minLength: 3<br/>maxLength: 3 | 
 | `duplicate_policy` | string  | false | A policy value which determines whether a duplication policy is enforced or bypassed. A duplication check has a window of time set against your account within which it can action. If a previous transaction with matching values occurred within the window, any subsequent transaction will result in a T001 result.<br/><br/>Values are  `0` for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.<br/><br/> `1` for an enforced policy. Transactions that are enforced will be checked for duplication within the duplication window.<br/><br/> `2` to bypass. Transactions that are bypassed will not be checked for duplication within the duplication window.<br/><br/> `3` to ignore. Transactions that are ignored will have the same affect as bypass. | 
+| `event_management` | object | false | [EventDataModel](#eventdatamodel) Additional advice data for event management integration that can be applied to an authorisation request. | 
 | `expmonth` | integer *int32* | true | The month of expiry of the card. The month value should be a numerical value between 1 and 12.<br/><br/> minimum: 1<br/>maximum: 12 | 
 | `expyear` | integer *int32* | true | The year of expiry of the card.<br/><br/> minimum: 2000<br/>maximum: 2100 | 
 | `external_mpi` | object | false | [ExternalMPI](#externalmpi) If an external 3DSv1 MPI is used for authentication, values provided can be supplied in this element. | 
@@ -4227,6 +4250,7 @@ Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Addi
 {
    "airline_data": { ... },
    "amount": 3600,
+   "event_management": { ... },
    "identifier": "95b857a1-5955-4b86-963c-5a6dbfc4fb95",
    "merchantid": 11223344,
    "transno": 78416
@@ -4237,6 +4261,7 @@ Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Addi
 <CaptureRequest>
  <airline_data><>...</></airline_data> 
  <amount>3600</amount> 
+ <event_management><>...</></event_management> 
  <identifier>95b857a1-5955-4b86-963c-5a6dbfc4fb95</identifier> 
  <merchantid>11223344</merchantid> 
  <transno>78416</transno> 
@@ -4246,6 +4271,7 @@ Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Addi
 | Field | Type | Required | Description |
 |-------|------|----------|-------------|
 | `amount` | integer *int32* | false | The completion amount provided in the lowest unit of currency for the specific currency of the merchant, with a variable length to a maximum of 12 digits. No decimal points to be included. For example with GBP 75.45 use the value 7545. Please check that you do not supply divisional characters such as 1,024 in the request which may be caused by some number formatters.<br/><br/>If no amount is supplied, the original processing amount is used.<br/><br/> minLength: 1<br/>maxLength: 9 | 
+| `event_management` | object | false | [EventDataModel](#eventdatamodel) Additional advice data for event management integration for the capture request. | 
 | `identifier` | string  | false | The identifier of the transaction to capture. If an empty value is supplied then a `trans_no` value must be supplied.<br/><br/>minLength: 4<br/>maxLength: 50 | 
 | `merchantid` | integer *int32* | true | Identifies the merchant account to perform the capture for. | 
 | `transno` | integer *int32* | false | The transaction number of the transaction to look up and capture. If an empty value is supplied then an identifier value must be supplied. | 
@@ -4837,6 +4863,40 @@ Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Addi
 
 
 
+## EventDataModel
+
+```json
+{
+   "event_end_date": "",
+   "event_id": "",
+   "event_organiser_id": "",
+   "event_start_date": "",
+   "payment_type": ""
+}
+```
+
+```xml
+<EventDataModel>
+ <event_end_date></event_end_date> 
+ <event_id></event_id> 
+ <event_organiser_id></event_organiser_id> 
+ <event_start_date></event_start_date> 
+ <payment_type></payment_type> 
+</EventDataModel>
+```
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `event_end_date` | string *date* | false | The date when the event ends in ISO format (yyyy-MM-dd). | 
+| `event_id` | string  | false | An id of the event. | 
+| `event_organiser_id` | string  | false | An id of the event organiser. | 
+| `event_start_date` | string *date* | false | The date when the event starts in ISO format (yyyy-MM-dd). | 
+| `payment_type` | string  | false | The type of payment such as `deposit` or `balance`. | 
+
+
+
+
+
 ## Exists
 
 ```json
@@ -5324,6 +5384,8 @@ Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Addi
    "merch_terms": "",
    "options": "",
    "part_payments": { ... },
+   "pass_through_data": { ... },
+   "pass_through_headers": { ... },
    "postback": "",
    "postback_password": "",
    "postback_policy": "",
@@ -5332,7 +5394,7 @@ Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Addi
    "redirect_failure": "",
    "redirect_success": "",
    "renderer": "",
-   "return_params": "",
+   "return_params": false,
    "ui": { ... }
 }
 ```
@@ -5349,6 +5411,8 @@ Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Addi
  <merch_terms></merch_terms> 
  <options></options> 
  <part_payments><>...</></part_payments> 
+ <pass_through_data><>...</></pass_through_data> 
+ <pass_through_headers><>...</></pass_through_headers> 
  <postback></postback> 
  <postback_password></postback_password> 
  <postback_policy></postback_policy> 
@@ -5374,6 +5438,8 @@ Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Addi
 | `merch_terms` | string *url* | false | A URL of the merchant terms and conditions for payment. If a value is supplied, a checkbox will be required to be completed to confirm that the cardholder agrees to these conditions before payment. A modal dialogue is displayed with the content of the conditions displayed. | 
 | `options` | array | false | Specifies an array of configuration options to be applied to the transaction which complement or override default values. type: string | 
 | `part_payments` | object | false | [PaylinkPartPayments](#paylinkpartpayments) Configuration object for part payments. | 
+| `pass_through_data` | object  | false |  | 
+| `pass_through_headers` | object  | false |  | 
 | `postback` | string *url* | false | Specifies a URL to use for a call back when the payment is completed. see Postback Handling }. | 
 | `postback_password` | string  | false | A password to be added to the postback for HTTP Basic Authentication. | 
 | `postback_policy` | string  | false | The policy setting for the postback see Postback Handling. | 
@@ -5382,7 +5448,7 @@ Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Addi
 | `redirect_failure` | string *url* | false | A URL which the browser is redirected to on non-completion of a transaction. | 
 | `redirect_success` | string *url* | false | A URL which the browser is redirected to on authorisation of a transaction. | 
 | `renderer` | string  | false | The Paylink renderer engine to use. | 
-| `return_params` | string  | false | If a value of true is specified, any redirection will include the transaction result in parameters. It is recommended to use the postback integration rather than redirection parameters. | 
+| `return_params` | boolean  | false | If a value of true is specified, any redirection will include the transaction result in parameters. It is recommended to use the postback integration rather than redirection parameters. | 
 | `ui` | object | false | [PaylinkUI](#paylinkui) Configuration object for UI customisation. | 
 
 
