@@ -4,7 +4,7 @@ openapi: 3.0.0
 #                              API Information                                 #
 ################################################################################
 info:
-  version: 6.4.7
+  version: 6.4.8
   title: CityPay Payment API
   description: |
 
@@ -46,14 +46,17 @@ servers:
   description: Testing service returning test results for all transactions
 
 tags:
-  - name: Authorisation and Payment API
-    description: .
-  - name: Batch Processing API
+  - name: Authorisation and Payment Api
+    description: |
+      The Payment Processing API offers standard and enhanced payment processing for MOTO, e-commerce
+      and continuous authority transactions that include fraud and risk checking, 3D-Secure flows
+      and payment querying.
+  - name: Batch Processing Api
     description: |
       Batch processing uses the Batch and Instalment Service (BIS) which allows for transaction processing against cardholder 
       accounts using a dynamic batch file. For merchants who process on schedules and dynamic amounts, the service allows for 
       the presentation of cardholder account references and transaction requirements to run as a scheduled batch.
-  - name: Card Holder Account API
+  - name: Card Holder Account Api
     description: |
       A cardholder account models a cardholder and can register 1 or more cards for tokenised charging. 
       
@@ -62,7 +65,7 @@ tags:
       
       This can include unscheduled or scheduled transactions that can be requested through this API and include batch 
       processing options.
-  - name: Direct Post API
+  - name: Direct Post Api
     description: |
       The Direct Post Method for e-commerce payment is generally used by merchants that require more control over their
       payment form “look and feel” and can understand and implement the extra PCI DSS security controls that are required to
@@ -116,9 +119,9 @@ tags:
       To allow for processing of transactions in a direct manner, CityPay provide domain keys. This value is provided on the
       initial direct post call and must be run on a pre-registered host. Our validation processes will check the `Origin` or
       `Referer`   HTTP headers to ensure that the domain keys are valid. A domain key can be registered for 1 or more domains.
-  - name: Operational API Functions
+  - name: Operational Functions Api
     description: Operations that are for operational purposes only such as checking connectivity to the API.
-  - name: Paylink API
+  - name: Paylink Api
     description: |
       CityPay Paylink makes online e-commerce easier to implement by handling the card payment process directly with the cardholder's browser and CityPay's payment processing servers, allowing you to concentrate on your business whilst allowing us to manage the payment process.
       
@@ -142,7 +145,7 @@ paths:
     post: 
       summary: Direct Post Auth Request
       tags: 
-        - Direct Post API
+        - Direct Post Api
       operationId: DirectPostAuthRequest
       description: |
         Used to initiate a direct post request transaction flow.
@@ -215,7 +218,7 @@ paths:
     post: 
       summary: Handles a CRes response from ACS, returning back the result of authorisation
       tags: 
-        - Direct Post API
+        - Direct Post Api
       operationId: DirectCResAuthRequest
       parameters: 
         - name: uuid
@@ -275,7 +278,7 @@ paths:
     post: 
       summary: Handles a CRes response from ACS, returning back a token for future authorisation
       tags: 
-        - Direct Post API
+        - Direct Post Api
       operationId: DirectCResTokeniseRequest
       parameters: 
         - name: uuid
@@ -335,7 +338,7 @@ paths:
     post: 
       summary: Direct Post Token Request
       tags: 
-        - Direct Post API
+        - Direct Post Api
       operationId: TokenRequest
       description: |
         Perform a request for authorisation for a previously generated token. This flow will return an authorisation
@@ -400,7 +403,7 @@ paths:
     post: 
       summary: Direct Post Tokenise Request
       tags: 
-        - Direct Post API
+        - Direct Post Api
       operationId: DirectPostTokeniseRequest
       description: |
         Used to initiate a direct post request transaction flow.
@@ -473,7 +476,7 @@ paths:
     post: 
       summary: Domain Key Check Request
       tags: 
-        - Operational API Functions
+        - Operational Functions Api
       operationId: DomainKeyCheckRequest
       description: |
         Checks the contents of a `domain key`. Can be used for operational processes to ensure that the properties of a 
@@ -521,7 +524,7 @@ paths:
     post: 
       summary: Domain Key Generation Request
       tags: 
-        - Operational API Functions
+        - Operational Functions Api
       operationId: DomainKeyGenRequest
       description: |
         Generates a domain key based on the permissions of the calling `api-key`. Domain keys can be used in _Direct Post_ and
@@ -569,7 +572,7 @@ paths:
     post: 
       summary: Create Bill Payment Paylink Token
       tags: 
-        - Paylink API
+        - Paylink Api
       operationId: TokenCreateBillPaymentRequest
       description: |
         CityPay Paylink supports invoice and bill payment services by allowing merchants to raise an invoice in their systems and
@@ -790,7 +793,7 @@ paths:
     post: 
       summary: Create Paylink Token
       tags: 
-        - Paylink API
+        - Paylink Api
       operationId: TokenCreateRequest
       description: Creates a Paylink token from the CityPay API.
       security: 
@@ -836,7 +839,7 @@ paths:
     post: 
       summary: Paylink Token Audit
       tags: 
-        - Paylink API
+        - Paylink Api
       operationId: TokenStatusChangesRequest
       description: |
         Obtains any changes on Paylink Tokens since a given date and time. This allows for a merchant to regularly check on 
@@ -887,7 +890,7 @@ paths:
     post: 
       summary: Paylink Token Adjustment
       tags: 
-        - Paylink API
+        - Paylink Api
       operationId: TokenAdjustmentRequest
       parameters: 
         - name: token
@@ -944,7 +947,7 @@ paths:
     put: 
       summary: Close Paylink Token
       tags: 
-        - Paylink API
+        - Paylink Api
       operationId: TokenCloseRequest
       parameters: 
         - name: token
@@ -990,7 +993,7 @@ paths:
     put: 
       summary: Reconcile Paylink Token
       tags: 
-        - Paylink API
+        - Paylink Api
       operationId: TokenReconciledRequest
       parameters: 
         - name: token
@@ -1034,7 +1037,7 @@ paths:
     put: 
       summary: Reopen Paylink Token
       tags: 
-        - Paylink API
+        - Paylink Api
       operationId: TokenReopenRequest
       parameters: 
         - name: token
@@ -1078,7 +1081,7 @@ paths:
     get: 
       summary: Paylink Token Status
       tags: 
-        - Paylink API
+        - Paylink Api
       operationId: TokenStatusRequest
       parameters: 
         - name: token
@@ -1122,7 +1125,7 @@ paths:
     get: 
       summary: Account Exists
       tags: 
-        - Card Holder Account API
+        - Card Holder Account Api
       operationId: AccountExistsRequest
       parameters: 
         - name: accountid
@@ -1167,7 +1170,7 @@ paths:
     post: 
       summary: Account Create
       tags: 
-        - Card Holder Account API
+        - Card Holder Account Api
       operationId: AccountCreate
       description: Creates a new card holder account and initialises the account ready for adding cards.
       security: 
@@ -1213,7 +1216,7 @@ paths:
     get: 
       summary: Account Retrieval
       tags: 
-        - Card Holder Account API
+        - Card Holder Account Api
       operationId: AccountRetrieveRequest
       parameters: 
         - name: accountid
@@ -1261,7 +1264,7 @@ paths:
     delete: 
       summary: Account Deletion
       tags: 
-        - Card Holder Account API
+        - Card Holder Account Api
       operationId: AccountDeleteRequest
       parameters: 
         - name: accountid
@@ -1307,7 +1310,7 @@ paths:
     delete: 
       summary: Card Deletion
       tags: 
-        - Card Holder Account API
+        - Card Holder Account Api
       operationId: AccountCardDeleteRequest
       parameters: 
         - name: accountid
@@ -1359,7 +1362,7 @@ paths:
     post: 
       summary: Card Status
       tags: 
-        - Card Holder Account API
+        - Card Holder Account Api
       operationId: AccountCardStatusRequest
       parameters: 
         - name: accountid
@@ -1425,7 +1428,7 @@ paths:
     post: 
       summary: Contact Details Update
       tags: 
-        - Card Holder Account API
+        - Card Holder Account Api
       operationId: AccountChangeContactRequest
       parameters: 
         - name: accountid
@@ -1478,7 +1481,7 @@ paths:
     post: 
       summary: Card Registration
       tags: 
-        - Card Holder Account API
+        - Card Holder Account Api
       operationId: AccountCardRegisterRequest
       parameters: 
         - name: accountid
@@ -1539,7 +1542,7 @@ paths:
     post: 
       summary: Account Status
       tags: 
-        - Card Holder Account API
+        - Card Holder Account Api
       operationId: AccountStatusRequest
       parameters: 
         - name: accountid
@@ -1598,7 +1601,7 @@ paths:
     post: 
       summary: ACL Check Request
       tags: 
-        - Operational API Functions
+        - Operational Functions Api
       operationId: AclCheckRequest
       description: |
         Allows the checking of IP addresses against configured ACLs. Requests can perform a lookup of addresses in subnets and
@@ -1646,7 +1649,7 @@ paths:
     post: 
       summary: Authorisation
       tags: 
-        - Authorisation and Payment API
+        - Authorisation and Payment Api
       operationId: AuthorisationRequest
       description: |
         An authorisation process performs a standard transaction authorisation based on the provided parameters of its request.
@@ -1917,7 +1920,7 @@ paths:
     post: 
       summary: Batch Process Request
       tags: 
-        - Batch Processing API
+        - Batch Processing Api
       operationId: BatchProcessRequest
       description: |
         A batch process request is used to start the batch process workflow by uploading batch
@@ -1967,7 +1970,7 @@ paths:
     post: 
       summary: BatchReportRequest
       tags: 
-        - Batch Processing API
+        - Batch Processing Api
       operationId: BatchReportRequest
       description: The operation is used to retrieve a report of the result of a batch process.
       security: 
@@ -2013,7 +2016,7 @@ paths:
     post: 
       summary: CheckBatchStatus
       tags: 
-        - Batch Processing API
+        - Batch Processing Api
       operationId: CheckBatchStatusRequest
       description: The operation is used to retrieve the status of a batch process.
       security: 
@@ -2059,7 +2062,7 @@ paths:
     post: 
       summary: Bin Lookup
       tags: 
-        - Authorisation and Payment API
+        - Authorisation and Payment Api
       operationId: BinRangeLookupRequest
       description: |
         A bin range lookup service can be used to check what a card is, as seen by the gateway. Each card number's 
@@ -2116,7 +2119,7 @@ paths:
     post: 
       summary: Capture
       tags: 
-        - Authorisation and Payment API
+        - Authorisation and Payment Api
       operationId: CaptureRequest
       description: |
         _The capture process only applies to transactions which have been pre-authorised only._ 
@@ -2148,12 +2151,12 @@ paths:
               example2: 
                 summary: Basic capture call for a merchant with a transno and final amount
                 externalValue: 'CaptureRequest-example2.json'
-              example3: 
-                summary: Capture call for a merchant with identifier and airline data once a ticket has been issued
-                externalValue: 'CaptureRequest-example3.json'
               example1: 
                 summary: Basic capture call for a merchant with a given identifier
                 externalValue: 'CaptureRequest-example1.json'
+              example3: 
+                summary: Capture call for a merchant with identifier and airline data once a ticket has been issued
+                externalValue: 'CaptureRequest-example3.json'
           text/xml: 
             schema: 
               $ref: '#/components/schemas/CaptureRequest'
@@ -2161,12 +2164,12 @@ paths:
               example2: 
                 summary: Basic capture call for a merchant with a transno and final amount
                 externalValue: 'CaptureRequest-example2.xml'
-              example3: 
-                summary: Capture call for a merchant with identifier and airline data once a ticket has been issued
-                externalValue: 'CaptureRequest-example3.xml'
               example1: 
                 summary: Basic capture call for a merchant with a given identifier
                 externalValue: 'CaptureRequest-example1.xml'
+              example3: 
+                summary: Capture call for a merchant with identifier and airline data once a ticket has been issued
+                externalValue: 'CaptureRequest-example3.xml'
       responses: 
         200: 
           description: A result and acknowledgement of the capture request. The response will return a `000/001` response on a successful capture otherwise an error code response explaining the error.
@@ -2199,7 +2202,7 @@ paths:
     post: 
       summary: Charge
       tags: 
-        - Card Holder Account API
+        - Card Holder Account Api
       operationId: ChargeRequest
       description: |
         A charge process obtains an authorisation using a tokenised value which represents a stored card 
@@ -2268,7 +2271,7 @@ paths:
     post: 
       summary: CRes
       tags: 
-        - Authorisation and Payment API
+        - Authorisation and Payment Api
       operationId: CResRequest
       description: |
         The CRes request performs authorisation processing once a challenge request has been completed
@@ -2329,7 +2332,7 @@ paths:
     get: 
       summary: List Merchants Request
       tags: 
-        - Operational API Functions
+        - Operational Functions Api
       operationId: ListMerchantsRequest
       parameters: 
         - name: clientid
@@ -2380,7 +2383,7 @@ paths:
     post: 
       summary: PaRes
       tags: 
-        - Authorisation and Payment API
+        - Authorisation and Payment Api
       operationId: PaResRequest
       description: |
         The Payer Authentication Response (PaRes) is an operation after the result of authentication 
@@ -2441,7 +2444,7 @@ paths:
     post: 
       summary: Ping Request
       tags: 
-        - Operational API Functions
+        - Operational Functions Api
       operationId: PingRequest
       description: |
         A ping request which performs a connection and authentication test to the CityPay API server. The request
@@ -2504,7 +2507,7 @@ paths:
     post: 
       summary: Refund
       tags: 
-        - Authorisation and Payment API
+        - Authorisation and Payment Api
       operationId: RefundRequest
       description: |
         A refund request which allows for the refunding of a previous transaction up 
@@ -2553,7 +2556,7 @@ paths:
     post: 
       summary: Retrieval
       tags: 
-        - Authorisation and Payment API
+        - Authorisation and Payment Api
       operationId: RetrievalRequest
       description: |
         A retrieval request which allows an integration to obtain the result of a transaction processed
@@ -2617,7 +2620,7 @@ paths:
     post: 
       summary: Void
       tags: 
-        - Authorisation and Payment API
+        - Authorisation and Payment Api
       operationId: VoidRequest
       description: |
         _The void process generally applies to transactions which have been pre-authorised only however voids can occur 

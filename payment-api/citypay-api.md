@@ -1,12 +1,12 @@
 ---
 title: CityPay Payment API
-version: 6.4.7
+version: 6.4.8
 language_tabs:
   - json
   - xml
 toc_footers:
   - <a href='mailto:support@citypay.com'>Any Integration Questions?</a>
-  - V6.4.7 2022-10-27
+  - V6.4.8 2022-11-01
 includes:
   - errorcodes
   - authresultcodes
@@ -22,8 +22,8 @@ search: true
 
 # CityPay Payment API
 
-Version: 6.4.7
-Last Updated: 2022-10-27
+Version: 6.4.8
+Last Updated: 2022-11-01
 
 
 This CityPay API is a HTTP RESTful payment API used for direct server to server transactional processing. It
@@ -166,9 +166,12 @@ A key has been designed to:
 
 
 
-# Authorisation and Payment API
+# Authorisation and Payment Api
 
-.
+The Payment Processing API offers standard and enhanced payment processing for MOTO, e-commerce
+and continuous authority transactions that include fraud and risk checking, 3D-Secure flows
+and payment querying.
+
 
 
 ## Authorisation
@@ -1205,7 +1208,7 @@ Responses for the VoidRequest operation are
 
 
 
-# Batch Processing API
+# Batch Processing Api
 
 Batch processing uses the Batch and Instalment Service (BIS) which allows for transaction processing against cardholder 
 accounts using a dynamic batch file. For merchants who process on schedules and dynamic amounts, the service allows for 
@@ -1387,7 +1390,7 @@ Responses for the CheckBatchStatusRequest operation are
 
 
 
-# Card Holder Account API
+# Card Holder Account Api
 
 A cardholder account models a cardholder and can register 1 or more cards for tokenised charging. 
 
@@ -2042,7 +2045,7 @@ Responses for the ChargeRequest operation are
 
 
 
-# Direct Post API
+# Direct Post Api
 
 The Direct Post Method for e-commerce payment is generally used by merchants that require more control over their
 payment form “look and feel” and can understand and implement the extra PCI DSS security controls that are required to
@@ -2468,7 +2471,7 @@ Responses for the DirectPostTokeniseRequest operation are
 
 
 
-# Operational API Functions
+# Operational Functions Api
 
 Operations that are for operational purposes only such as checking connectivity to the API.
 
@@ -2763,7 +2766,7 @@ Responses for the PingRequest operation are
 
 
 
-# Paylink API
+# Paylink Api
 
 CityPay Paylink makes online e-commerce easier to implement by handling the card payment process directly with the cardholder's browser and CityPay's payment processing servers, allowing you to concentrate on your business whilst allowing us to manage the payment process.
 
