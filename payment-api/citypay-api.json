@@ -1,7 +1,7 @@
 {
   "openapi" : "3.0.0",
   "info" : {
-    "version" : "6.4.7",
+    "version" : "6.x",
     "title" : "CityPay Payment API",
     "description" : "\nThis CityPay API is a HTTP RESTful payment API used for direct server to server transactional processing. It\nprovides a number of payment mechanisms including: Internet, MOTO, Continuous Authority transaction processing,\n3-D Secure decision handling using RFA Secure, Authorisation, Refunding, Pre-Authorisation, Cancellation/Voids and\nCompletion processing. The API is also capable of tokinsed payments using Card Holder Accounts.\n\n## Compliance and Security\nYour application will need to adhere to PCI-DSS standards to operate safely and to meet requirements set out by \nVisa and MasterCard and the PCI Security Standards Council. These include\n\n* Data must be collected using TLS version 1.2 using [strong cryptography](#enabled-tls-ciphers). We will not accept calls to our API at\n  lower grade encryption levels. We regularly scan our TLS endpoints for vulnerabilities and perform TLS assessments\n  as part of our compliance program.\n* The application must not store sensitive card holder data (CHD) such as the card security code (CSC) or\n  primary access number (PAN)\n* The application must not display the full card number on receipts, it is recommended to mask the PAN\n  and show the last 4 digits. The API will return this for you for ease of receipt creation\n* If you are developing a website, you will be required to perform regular scans on the network where you host the\n  application to meet your compliance obligations\n* You will be required to be PCI Compliant and the application must adhere to the security standard. Further information\n  is available from [https://www.pcisecuritystandards.org/](https://www.pcisecuritystandards.org/)\n* The API verifies that the request is for a valid account and originates from a trusted source using the remote IP\n  address. Our application firewalls analyse data that may be an attempt to break a large number of security common\n  security vulnerabilities.\n",
     "contact" : {
@@ -18,29 +18,29 @@
     "description" : "Testing service returning test results for all transactions"
   } ],
   "tags" : [ {
-    "name" : "Authorisation and Payment API",
-    "description" : "."
+    "name" : "Authorisation and Payment Api",
+    "description" : "The Payment Processing API offers standard and enhanced payment processing for MOTO, e-commerce\nand continuous authority transactions that include fraud and risk checking, 3D-Secure flows\nand payment querying.\n"
   }, {
-    "name" : "Batch Processing API",
+    "name" : "Batch Processing Api",
     "description" : "Batch processing uses the Batch and Instalment Service (BIS) which allows for transaction processing against cardholder \naccounts using a dynamic batch file. For merchants who process on schedules and dynamic amounts, the service allows for \nthe presentation of cardholder account references and transaction requirements to run as a scheduled batch.\n"
   }, {
-    "name" : "Card Holder Account API",
+    "name" : "Card Holder Account Api",
     "description" : "A cardholder account models a cardholder and can register 1 or more cards for tokenised charging. \n\nThe account offers a credential on file option to the CityPay gateway allowing for both cardholder initiated and \nmerchant initiated transaction processing.\n\nThis can include unscheduled or scheduled transactions that can be requested through this API and include batch \nprocessing options.\n"
   }, {
-    "name" : "Direct Post API",
+    "name" : "Direct Post Api",
     "description" : "The Direct Post Method for e-commerce payment is generally used by merchants that require more control over their\npayment form “look and feel” and can understand and implement the extra PCI DSS security controls that are required to\nprotect their systems.\n\nThe Direct Post Method uses the merchant’s website to generate the shopping cart and payment web pages. The merchant’s\npayment form, loaded in the customer’s browser, sends the cardholder data directly to CityPay’s API, ensuring cardholder\ndata is not stored, processed, or transmitted via the merchant systems. The payment form, however, is provided by the\nmerchant. The merchant’s systems are therefore in scope for additional PCI DSS controls, which are necessary to protect\nthe merchant website against malicious individuals changing the form and capturing cardholder data.\n\n### Direct Post Flow\n\n#### Simple Authorisation Flow\n\nThe merchant’s website creates the payment page.\n\n1. The customer’s browser displays the payment page and posts the cardholder data directly to CityPay as a url-encoded\n   payment form.\n2. CityPay receives the cardholder data and sends it for online authorisation, handling any ThreeDSecure authorisation\n   challenges\n3. The merchant receives a HTTP 303 redirect, containing the result of the transaction as query parameters\n\n<img src=\"../../images/direct-post-flow.png\" width=\"600\" />\n\n#### Tokenisation Authorisation Flow\n\nThe merchant’s website creates the payment page.\n\n1. The customer’s browser displays the payment page and posts the cardholder data directly to CityPay as a url-encoded\n   payment form.\n2. CityPay receives the cardholder data and processes any ThreeDSecure authorisation and challenges.\n3. The merchant receives a HTTP `303` redirect containing the card details tokenised for consequential processing\n4. Once final confirmation is agreed at checkout, the generated token is forward to CityPay for realtime authorisation.\n   This may by using HTTP redirects in a direct manner, or via an api level call\n\n#### Handling Redirects\n\nThe direct post method uses HTTP `303` redirects to return data to your system. A `303` redirect differs to conventional 301\nor `302` redirects by telling the browser to not resend data if refresh is pressed.\n\nPayments should be developed to cater for failure. Transactions may not complete authorisation at the challenge stage or\ndecline either due to insufficient funds or transient network conditions. To ensure correct payment flow, the direct\npost API requires\n\n1. a `redirectSuccess` url. This is used to forward the result of authorisation.\n2. a `redirectFailure` url. This is used to forward any errors that are due to invalid requests or payment failures.\n\n#### Domain Keys\n\nTo allow for processing of transactions in a direct manner, CityPay provide domain keys. This value is provided on the\ninitial direct post call and must be run on a pre-registered host. Our validation processes will check the `Origin` or\n`Referer`   HTTP headers to ensure that the domain keys are valid. A domain key can be registered for 1 or more domains.\n"
   }, {
-    "name" : "Operational API Functions",
+    "name" : "Operational Functions Api",
     "description" : "Operations that are for operational purposes only such as checking connectivity to the API."
   }, {
-    "name" : "Paylink API",
+    "name" : "Paylink Api",
     "description" : "CityPay Paylink makes online e-commerce easier to implement by handling the card payment process directly with the cardholder's browser and CityPay's payment processing servers, allowing you to concentrate on your business whilst allowing us to manage the payment process.\n\n0. Simplified payment solutions.\n0. payment processing is handled by our secure web servers adding security and confidence to your shoppers.\n0. 3D-Secure authentication is available within the application without any difficult MPI integration, allowing for immediate Verified by Visa and MasterCard SecureCode processing.\n0. customisation may be performed on the secure payment form.\n0. significantly reduced technical and financial overheads associated with software implementation and PCI compliance.\n1. reduced time-to-market.\n\nThe CityPay API offers embedded end-point calls to Paylink offering advanced features of generated tokens.\n\nFor further information on Paylink see [Paylink Online Documentation](https://citypay.github.io/api-docs/paylink).\n"
   } ],
   "paths" : {
     "/direct/auth" : {
       "post" : {
         "summary" : "Direct Post Auth Request",
-        "tags" : [ "Direct Post API" ],
+        "tags" : [ "Direct Post Api" ],
         "operationId" : "DirectPostAuthRequest",
         "description" : "Used to initiate a direct post request transaction flow.\n\n<pre class=\"inline-code language-bash\">\n<code>\ncurl https://api.citypay.com/v6/direct?cp-domain-key=n834ytqp84y... \\\n -d \"amount=7500&identifier=example_trans&cardnumber=4000000000000002&expmonth=9&expyear=2028&bill_to_postcode=L1+7ZW\n</code>\n</pre>.\n",
         "security" : [ {
@@ -142,7 +142,7 @@
     "/direct/cres/auth/{uuid}" : {
       "post" : {
         "summary" : "Handles a CRes response from ACS, returning back the result of authorisation",
-        "tags" : [ "Direct Post API" ],
+        "tags" : [ "Direct Post Api" ],
         "operationId" : "DirectCResAuthRequest",
         "parameters" : [ {
           "name" : "uuid",
@@ -228,7 +228,7 @@
     "/direct/cres/tokenise/{uuid}" : {
       "post" : {
         "summary" : "Handles a CRes response from ACS, returning back a token for future authorisation",
-        "tags" : [ "Direct Post API" ],
+        "tags" : [ "Direct Post Api" ],
         "operationId" : "DirectCResTokeniseRequest",
         "parameters" : [ {
           "name" : "uuid",
@@ -314,7 +314,7 @@
     "/direct/token" : {
       "post" : {
         "summary" : "Direct Post Token Request",
-        "tags" : [ "Direct Post API" ],
+        "tags" : [ "Direct Post Api" ],
         "operationId" : "TokenRequest",
         "description" : "Perform a request for authorisation for a previously generated token. This flow will return an authorisation\nresponse stating that the transaction was approved or declined.\n",
         "security" : [ {
@@ -413,7 +413,7 @@
     "/direct/tokenise" : {
       "post" : {
         "summary" : "Direct Post Tokenise Request",
-        "tags" : [ "Direct Post API" ],
+        "tags" : [ "Direct Post Api" ],
         "operationId" : "DirectPostTokeniseRequest",
         "description" : "Used to initiate a direct post request transaction flow.\n\n<pre class=\"inline-code language-bash\">\n<code>\ncurl https://api.citypay.com/v6/direct?cp-domain-key=n834ytqp84y... \\\n -d \"amount=7500&identifier=example_trans&cardnumber=4000000000000002&expmonth=9&expyear=2028&bill_to_postcode=L1+7ZW\n</code>\n</pre>.\n",
         "security" : [ {
@@ -515,7 +515,7 @@
     "/dk/check" : {
       "post" : {
         "summary" : "Domain Key Check Request",
-        "tags" : [ "Operational API Functions" ],
+        "tags" : [ "Operational Functions Api" ],
         "operationId" : "DomainKeyCheckRequest",
         "description" : "Checks the contents of a `domain key`. Can be used for operational processes to ensure that the properties of a \ndomain key meet their expectations.\n",
         "security" : [ {
@@ -585,7 +585,7 @@
     "/dk/gen" : {
       "post" : {
         "summary" : "Domain Key Generation Request",
-        "tags" : [ "Operational API Functions" ],
+        "tags" : [ "Operational Functions Api" ],
         "operationId" : "DomainKeyGenRequest",
         "description" : "Generates a domain key based on the permissions of the calling `api-key`. Domain keys can be used in _Direct Post_ and\n`XHR` calls to the API services.\n",
         "security" : [ {
@@ -655,7 +655,7 @@
     "/paylink/bill-payment" : {
       "post" : {
         "summary" : "Create Bill Payment Paylink Token",
-        "tags" : [ "Paylink API" ],
+        "tags" : [ "Paylink Api" ],
         "operationId" : "TokenCreateBillPaymentRequest",
         "description" : "CityPay Paylink supports invoice and bill payment services by allowing merchants to raise an invoice in their systems and\nassociate the invoice with a Paylink checkout token. CityPay will co-ordinate the checkout flow in relationship with\nyour customer. Our bill payment solution may be used to streamline the payment flow with cardholders to allow your\ninvoice to be paid promptly and via multiple payment channels such as Card Payment, Apple Pay or Google Pay.\n\nThe bill payment service allows\n\n1. setting up notification paths to an end customer, such as SMS or Email\n2. enabling attachments to be included with Paylink tokens\n3. produce chaser notifications for unpaid invoices\n4. provide callbacks for notification of the payment of an invoice\n5. support part payments against an invoice\n6. support of field guards to protect the payment screen\n7. support of status reporting on tokens\n8. URL short codes for SMS notifications\n\n<img src=\"../images/merchant-BPS-workflow.png\" alt=\"Paylink BPSv2 Overview\" width=\"50%\"/> \n\n\n### Notification Paths\n\nNotification paths can be provided which identify the channels for communication of the invoice availability.\nUp to 3 notification paths may be provided per request.\n\nEach notification uses a template to generate the body of the message. This allows for variable text to be sent out and\ncustomised for each call.\n\nSMS messages use URL Short Codes (USC) as a payment link to the invoice payment page. This allows for a standard payment\nURL to be shortened for optimised usage in SMS. For instance a URL of `https://checkout.citypay.com/PL1234/s348yb8yna4a48n2f8nq2f3msgyng-psn348ynaw8ynaw/en`\nbecomes `citypay.com/Za48na3x`. Each USC is unique however it is a requirement that each USC generated is protected\nwith Field Guards to ensure that sensitive data (such as customer contact details and GDPR) is protected.\n\nTo send a notification path, append a `notification-path` property to the request.\n\n```json\n {\n  \"notification-path\": [\n    {\n      \"channel\": \"sms\",\n      \"to\": \"+441534884000\"\n    },\n    {\n      \"channel\": \"email\",\n      \"to\": [\"help-desk@citypay.com\"],\n      \"cc\": [\"third-party@citypay.com\"],\n      \"reply\": [\"help@my-company.com\"]\n    }\n  ]\n}\n\n```\n\nNotification paths trigger a number of events which are stored as part of the timeline of events of a Paylink token\n\n- `BillPaymentSmsNotificationQueued` - identifies when an SMS notification has been queued for delivery\n- `BillPaymentSmsNotificationSent` - identifies when an SMS notification has been sent to the upstream network\n- `BillPaymentSmsNotificationDelivered` - identifies when an SMS notification has been delivered as notified by the upstream network\n- `BillPaymentSmsNotificationUndelivered` - identifies when an SMS notification has undelivered notification is provided by the upstream network\n- `BillPaymentSmsNotificationFailure` - identifies when an SMS notification has failed\n- `BillPaymentEmailNotificationQueued` -  identifies when an email notification has been queued for delivery\n- `BillPaymentEmailNotificationSent` -  identifies when an email notification has been accepted by our SMS forwarder\n- `BillPaymentEmailNotificationFailure` - identifies when an email notification has failed delivery\n\n\n#### SMS Notification Path\n\nSMS originated from a CityPay pool of numbers and by default only sends to country codes where the service is registered.\nSMSs may contain a From field which is configured as part of you onboarding and have a name associated to identify the service\norigin. For example if your business is titled `Health Surgery Ltd` the SMS may be sent to originate from `Health Surgery`. \n\nSMS is also configured for a \"polite mode\". This mode ensures that SMSs aren't sent in the middle of the night when backend\nservices ordinarily run. SMSs will be queued until the time range is deemed as polite. Normally this is between 8am and 9pm.\n\n| Field    | Type     | Usage    | Description                                                                                     |\n|----------|----------|----------|-------------------------------------------------------------------------------------------------|\n| template | string   | Reserved | An optional template name to use a template other than the default.                             |\n| to       | string   | Reserved | The phone number in [E.164](https://en.wikipedia.org/wiki/E.164) format to send the message to. |\n\n#### Email Notification Paths\n\n| Field    | Type     | Usage    | Description                                                                                     |\n|----------|----------|----------|-------------------------------------------------------------------------------------------------|\n| template | string   | Reserved | An optional template name to use a template other than the default.                             |\n| to       | string[] | Required | An array of email addresses to be used for delivery. A maximum of 5 addresses can be added.     |\n| cc       | string[] | Required | An array of email addresses to be used for cc delivery. A maximum of 5 addresses can be added.  |\n| bcc      | string[] | Required | An array of email addresses to be used for bcc delivery. A maximum of 5 addresses can be added. |\n| reply_to | string[] | Required | An array of email addresses to be used for the Reply-To header of an email.     |\n\n\n### Field Guards\n\nTo ensure that invoices are paid by the intended recipient, Paylink supports the addition of Field Guards.\n\nA Field Guard is an intended field which is to be used as a form of guarded authentication. More than 1 field can be\nrequested.\n\n<img src=\"../images/paylink-field-guards.png\" alt=\"Paylink Field Guards\" width=\"50%\"/>\n\nTo determine the source value of the field, each field name is searched in the order of\n\n- identifier\n- cardholder data such as name\n- custom parameters\n- pass through data\n\nIf no field values are found, the token request returns a D041 validation error.\n\n#### Authentication and Validation\n\nWhen values are entered by the user, resultant comparisons are performed by\n\n1. Transliteration of both the source value and entered value. For example, names with accents (e.g. é will become e)\n2. Only Alphanumeric values are retained any whitespace or special characters are ignored\n3. Case is ignored\n\nShould all values match, the user is authenticated and can continue to the payment form rendered by the Paylink server.\n\nOn successful login, an event will be added to include that the access guard validated access.\n\n#### Access-Key\n\nTo ensure that a user does not need to re-enter these values multiple times, a cookie is pushed to the user’s\nbrowser with an access-key digest value. This value will be presented to the server on each refresh therefore\nallowing the guard to accept the call. Each value is uniquely stored per merchant account and cannot be shared cross\nmerchant. The lifetime of the cookie is set to 24 hours.\n\n#### Brute Force Prevention\n\nTo prevent multiple calls hitting the server, attempting a brute force attack, the login process\n\n1. is fronted by a contemporary web application firewall\n2. creates an event for each token when access was denied\n3. should the number of failed events breach more than 5 in 30 minutes, the token is locked for an hour\n4. should the number of events breach more than 20 the token is fully locked\n\n### Attachments\n\nAttachments can be included in the request in 2 ways\n\n1. Via a data element direct in the request\n2. Via a URL upload to a provided pre-signed URL\n\nThe decision of which option is dependent on the size of the attachments. Should the attachment size be greater than\n32kb a URL upload is required. Small attachments can be included in the JSON request. This is to prevent our web\nfirewall from blocking your request and to also ensure efficiency of larger file uploads.\n\nThere is a maximum of 3 attachments that can be added to a request.\n\n```json\n    [{\n      \"filename\": \"invoice1.pdf\",\n      \"mime-type\": \"application/pdf\"\n    },{\n      \"filename\": \"invoice2.pdf\",\n      \"data\": \"b4sE64Enc0dEd...=\",\n      \"mime-type\": \"application/pdf\"\n    }]\n```\n\n| Field     | Type   | Usage    | Description                                                                                                                                          |\n|-----------|--------|----------|------------------------------------------------------------------------------------------------------------------------------------------------------|\n| filename  | string | Required | The name of the attachment normally taken from the filename. You should not include the filename path as appropriate                                 |\n| data      | string | Optional | base64 encoding of the file if less than 32kb in size                                                                                                |\n| mime-type | string | Required | The mime type of the attachment as defined in [RFC 9110](https://www.rfc-editor.org/rfc/rfc9110.html). Currently only `application/pdf` is supported |\n\n\n#### Attachment Result\n\nA result of an attachment specifies whether the attachment was successfully added or whether a further upload is requried\n\n| Field  | Type   | Usage    | Description                                                                                                                                       |\n|--------|--------|----------|---------------------------------------------------------------------------------------------------------------------------------------------------|\n| result | string | Required | `OK` should the file have uploaded or `UPLOAD` if the file is required to be uploaded.                                                            |\n| name   | string | Required | The filename that was specified in the upload process                                                                                             |\n| url    | string | Optional | Should an upload be required, this URL is available for an upload to be issued. The URL is only available for uploads for 24 hours from creation. |\n",
         "security" : [ {
@@ -725,7 +725,7 @@
     "/paylink/create" : {
       "post" : {
         "summary" : "Create Paylink Token",
-        "tags" : [ "Paylink API" ],
+        "tags" : [ "Paylink Api" ],
         "operationId" : "TokenCreateRequest",
         "description" : "Creates a Paylink token from the CityPay API.",
         "security" : [ {
@@ -795,7 +795,7 @@
     "/paylink/token/changes" : {
       "post" : {
         "summary" : "Paylink Token Audit",
-        "tags" : [ "Paylink API" ],
+        "tags" : [ "Paylink Api" ],
         "operationId" : "TokenStatusChangesRequest",
         "description" : "Obtains any changes on Paylink Tokens since a given date and time. This allows for a merchant to regularly check on \nactivity over a collection of Paylink Tokens and to check on any events that may have occurred. If a Token is `Closed` \nit is not considered.\n\nOnly statuses that have been appended since the given date and time is returned.\n",
         "security" : [ {
@@ -865,7 +865,7 @@
     "/paylink/{token}/adjustment" : {
       "post" : {
         "summary" : "Paylink Token Adjustment",
-        "tags" : [ "Paylink API" ],
+        "tags" : [ "Paylink Api" ],
         "operationId" : "TokenAdjustmentRequest",
         "parameters" : [ {
           "name" : "token",
@@ -944,7 +944,7 @@
     "/paylink/{token}/close" : {
       "put" : {
         "summary" : "Close Paylink Token",
-        "tags" : [ "Paylink API" ],
+        "tags" : [ "Paylink Api" ],
         "operationId" : "TokenCloseRequest",
         "parameters" : [ {
           "name" : "token",
@@ -1008,7 +1008,7 @@
     "/paylink/{token}/reconciled" : {
       "put" : {
         "summary" : "Reconcile Paylink Token",
-        "tags" : [ "Paylink API" ],
+        "tags" : [ "Paylink Api" ],
         "operationId" : "TokenReconciledRequest",
         "parameters" : [ {
           "name" : "token",
@@ -1072,7 +1072,7 @@
     "/paylink/{token}/reopen" : {
       "put" : {
         "summary" : "Reopen Paylink Token",
-        "tags" : [ "Paylink API" ],
+        "tags" : [ "Paylink Api" ],
         "operationId" : "TokenReopenRequest",
         "parameters" : [ {
           "name" : "token",
@@ -1136,7 +1136,7 @@
     "/paylink/{token}/status" : {
       "get" : {
         "summary" : "Paylink Token Status",
-        "tags" : [ "Paylink API" ],
+        "tags" : [ "Paylink Api" ],
         "operationId" : "TokenStatusRequest",
         "parameters" : [ {
           "name" : "token",
@@ -1200,7 +1200,7 @@
     "/v6/account-exists/{accountid}" : {
       "get" : {
         "summary" : "Account Exists",
-        "tags" : [ "Card Holder Account API" ],
+        "tags" : [ "Card Holder Account Api" ],
         "operationId" : "AccountExistsRequest",
         "parameters" : [ {
           "name" : "accountid",
@@ -1264,7 +1264,7 @@
     "/v6/account/create" : {
       "post" : {
         "summary" : "Account Create",
-        "tags" : [ "Card Holder Account API" ],
+        "tags" : [ "Card Holder Account Api" ],
         "operationId" : "AccountCreate",
         "description" : "Creates a new card holder account and initialises the account ready for adding cards.",
         "security" : [ {
@@ -1334,7 +1334,7 @@
     "/v6/account/{accountid}" : {
       "get" : {
         "summary" : "Account Retrieval",
-        "tags" : [ "Card Holder Account API" ],
+        "tags" : [ "Card Holder Account Api" ],
         "operationId" : "AccountRetrieveRequest",
         "parameters" : [ {
           "name" : "accountid",
@@ -1396,7 +1396,7 @@
       },
       "delete" : {
         "summary" : "Account Deletion",
-        "tags" : [ "Card Holder Account API" ],
+        "tags" : [ "Card Holder Account Api" ],
         "operationId" : "AccountDeleteRequest",
         "parameters" : [ {
           "name" : "accountid",
@@ -1460,7 +1460,7 @@
     "/v6/account/{accountid}/card/{cardId}" : {
       "delete" : {
         "summary" : "Card Deletion",
-        "tags" : [ "Card Holder Account API" ],
+        "tags" : [ "Card Holder Account Api" ],
         "operationId" : "AccountCardDeleteRequest",
         "parameters" : [ {
           "name" : "accountid",
@@ -1532,7 +1532,7 @@
     "/v6/account/{accountid}/card/{cardId}/status" : {
       "post" : {
         "summary" : "Card Status",
-        "tags" : [ "Card Holder Account API" ],
+        "tags" : [ "Card Holder Account Api" ],
         "operationId" : "AccountCardStatusRequest",
         "parameters" : [ {
           "name" : "accountid",
@@ -1619,7 +1619,7 @@
     "/v6/account/{accountid}/contact" : {
       "post" : {
         "summary" : "Contact Details Update",
-        "tags" : [ "Card Holder Account API" ],
+        "tags" : [ "Card Holder Account Api" ],
         "operationId" : "AccountChangeContactRequest",
         "parameters" : [ {
           "name" : "accountid",
@@ -1698,7 +1698,7 @@
     "/v6/account/{accountid}/register" : {
       "post" : {
         "summary" : "Card Registration",
-        "tags" : [ "Card Holder Account API" ],
+        "tags" : [ "Card Holder Account Api" ],
         "operationId" : "AccountCardRegisterRequest",
         "parameters" : [ {
           "name" : "accountid",
@@ -1777,7 +1777,7 @@
     "/v6/account/{accountid}/status" : {
       "post" : {
         "summary" : "Account Status",
-        "tags" : [ "Card Holder Account API" ],
+        "tags" : [ "Card Holder Account Api" ],
         "operationId" : "AccountStatusRequest",
         "parameters" : [ {
           "name" : "accountid",
@@ -1856,7 +1856,7 @@
     "/v6/acl/check" : {
       "post" : {
         "summary" : "ACL Check Request",
-        "tags" : [ "Operational API Functions" ],
+        "tags" : [ "Operational Functions Api" ],
         "operationId" : "AclCheckRequest",
         "description" : "Allows the checking of IP addresses against configured ACLs. Requests can perform a lookup of addresses in subnets and\nservices such as AWS or Azure to check that those addresses are listed in the ACLs.\n",
         "security" : [ {
@@ -1926,7 +1926,7 @@
     "/v6/authorise" : {
       "post" : {
         "summary" : "Authorisation",
-        "tags" : [ "Authorisation and Payment API" ],
+        "tags" : [ "Authorisation and Payment Api" ],
         "operationId" : "AuthorisationRequest",
         "description" : "An authorisation process performs a standard transaction authorisation based on the provided parameters of its request.\nThe CityPay gateway will route your transaction via an Acquiring bank for subsequent authorisation to the appropriate card \nschemes such as Visa or MasterCard.\n\nThe authorisation API should be used for server environments to process transactions on demand and in realtime. \n\nThe authorisation API can be used for multiple types of transactions including E-commerce, mail order, telephone order,\ncustomer present (keyed), continuous authority, pre-authorisation and others. CityPay will configure your account for \nthe appropriate coding and this will perform transparently by the gateway. \n\nData properties that are required, may depend on the environment you are conducting payment for. Our API aims to be\n flexible enough to cater for these structures. Our integration team will aid you in providing the necessary data to \n transact. \n \n \n## E-commerce workflows\n \nFor E-commerce transactions requiring 3DS, the API contains a fully accredited in built mechanism to handle authentication.\n\nThe Api and gateway has been accredited extensively with both Acquirers and Card Schemes to simplify the nature of these calls\ninto a simple structure for authentication, preventing integrators from performing lengthy and a costly accreditations with\nVisa and MasterCard.\n\n3D-secure has been around for a number of years and aims to shift the liability of a transaction away from a merchant back\nto the card holder. A *liability shift* determines whether a card holder can charge back a transaction as unknown. Effectively\nthe process asks for a card holder to authenticate the transaction prior to authorisation producing a Cardholder \nverification value (CAVV) and ecommerce indicator (ECI) as evidence of authorisation.\n\n3DS version 1 has now been replaced by 3DS version 2 to provide secure customer authentication (SCA) in line with EU regulation.\n3DSv2 is being phased out and any accounts using version 1 of the protocol is expected to be migrated by March 2022. \n\nAny new integrations should only consider 3DSv2 flows. \n\n### 3DSv2\n\n```json\n{ \n  \"RequestChallenged\": {\n    \"acsurl\": \"https://bank.com/3DS/ACS\",\n    \"creq\": \"SXQgd2FzIHRoZSBiZXN0IG9mIHRpbWVzLCBpdCB3YXMgdGhlIHdvcnN00...\",\n    \"merchantid\": 12345,\n    \"transno\": 1,\n    \"threedserver_trans_id\": \"d652d8d2-d74a-4264-a051-a7862b10d5d6\"\n  }               \n}\n```\n\n```xml\n<RequestChallenged>\n  <acsurl>https://bank.com/3DS/ACS</acsurl>\n  <creq>SXQgd2FzIHRoZSBiZXN0IG9mIHRpbWVzLCBpdCB3YXMgdGhlIHdvcnN00...</creq>\n  <merchantid>12345</merchantid>\n  <transno>1</transno>\n  <threedserver_trans_id>d652d8d2-d74a-4264-a051-a7862b10d5d6</threedserver_trans_id>\n</RequestChallenged>\n```\n\nCityPay support 3DS version 2.1 for Verified by Visa, MasterCard Identity Check and American Express SafeKey 2.1. Version\n2.2 is currently in development however this will be a seamless upgrade for all integrations.\n\n#### 3-D Secure - None\n\n![3DSv2 Frctionless Flow](/images/3dsv2-no3d.png)\n\nA basic flow may involve no 3-D secure processing. This could happen if there is no ability to perform authentication.\nAn enrollment check may apply an \"attempted\" resolution to processing. In this instance a transaction may not meet any\nliability shift. A transaction may result in a decline due to this. We are also able to prevent from transactions being\npresented for authorisation if this occurs. \n\n#### 3-D Secure - Frictionless\n\n![3DSv2 Frctionless Flow](/images/3dsv2-frictionless.png)\n\nE-commerce transactions supporting 3DSv2 can benefit from seamlessly authenticated transactions which may perform a \n\"frictionless\" flow. This method will authenticate low risk transactions with minimal impact to a \nstandard authorisation flow. Our API simply performs this on behalf of you the developer, the merchant and cardholder.\n\nNo redirection occurs and hence the flow is called frictionless and will appear as though a simple transaction \nauthorisation has occurred.\n\n#### 3-D Secure - Challenge\n\n![3DSv2 Frctionless Flow](/images/3dsv2-challenge.png)\n\nA transaction that is deemed as higher risk my be \"challenged\". In this instance, the API will return a\n[request challenge](#requestchallenged) which will require your integration to forward the cardholder's browser to the \ngiven [ACS url](#acsurl). This should be performed by posting the [creq](#creq) value (the challenge request value). \n\nOnce complete, the ACS will have already been in touch with our servers by sending us a result of the authentication\nknown as `RReq`.\n\nTo maintain session state, a parameter `threeDSSessionData` can be posted to the ACS url and will be returned alongside \nthe `CRes` value. This will ensure that any controller code will be able to isolate state between calls. This field\nis to be used by your own systems rather than ours and may be any value which can uniquely identify your cardholder's\nsession. As an option, we do provide a `threedserver_trans_id` value in the `RequestChallenged` packet which can be used\nfor the `threeDSSessionData` value as it is used to uniquely identify the 3D-Secure session. \n\nA common method of maintaining state is to provide a session related query string value in the `merchant_termurl` value\n(also known as the `notificationUrl`). For example providing a url of `https://mystore.com/checkout?token=asny2348w4561..`\ncould return the user directly back to their session with your environment.\n\nOnce you have received a `cres` post from the ACS authentication service, this should be POSTed to the [cres](#cres) \nendpoint to perform full authorisation processing. \n\nPlease note that the CRes returned to us is purely a mechanism of acknowledging that transactions should be committed for\nauthorisation. The ACS by this point will have sent us the verification value (CAVV) to perform a liability shift. The CRes\nvalue will be validated for receipt of the CAVV and subsequently may return response codes illustrating this. \n\nTo forward the user to the ACS, we recommend a simple auto submit HTML form.\n\n> Simple auto submit HTML form\n\n```html\n<html lang=\"en\">\n\t<head>\n        <title>Forward to ACS</title>\n\t\t<script type=\"text/javascript\">\n        function onLoadEvent() { \n            document.acs.submit(); \n        }\n        </script>\n        <noscript>You will require JavaScript to be enabled to complete this transaction</noscript>\n    </head>\n    <body onload=\"onLoadEvent();\">\n        <form name=\"acs\" action=\"{{ACSURL from Response}}\" method=\"POST\">\n            <input type=\"hidden\" name=\"creq\" value=\"{{CReq Packet from Response}}\" />\n            <input type=\"hidden\" name=\"threeDSSessionData\" value=\"{{session-identifier}}\" />\n        </form>\n    </body>\n</html>\n```\n\nA full ACS test suite is available for 3DSv2 testing.\n        \n### Testing 3DSv2 Integrations\n\nThe API provides a mock 3dsV2 handler which performs a number of scenarios based on the value of the CSC in the request.\n\n| CSC Value | Behaviour |\n|-----------|-----------|\n| 731       | Frictionless processing - Not authenticated |\n| 732       | Frictionless processing - Account verification count not be performed |        \n| 733       | Frictionless processing - Verification Rejected |        \n| 741       | Frictionless processing - Attempts Processing |        \n| 750       | Frictionless processing - Authenticated  |        \n| 761       | Triggers an error message |  \n| Any       | Challenge Request |       \n\n\n#### 3DSv1\n\n**Please note that 3DSv1 should now be considered as deprecated.**\n\n```json\n{ \n  \"AuthenticationRequired\": {\n    \"acsurl\": \"https://bank.com/3DS/ACS\",\n    \"pareq\": \"SXQgd2FzIHRoZSBiZXN0IG9mIHRpbWVzLCBpdCB3YXMgdGhlIHdvcnN00...\",\n    \"md\": \"WQgZXZlcnl0aGluZyBiZW\"\n  }               \n}\n```\n\n```xml\n<AuthenticationRequired>\n <acsurl>https://bank.com/3DS/ACS</acsurl>\n <pareq>SXQgd2FzIHRoZSBiZXN0IG9mIHRpbWVzLCBpdCB3YXMgdGhlIHdvcnN00...</pareq>\n <md>WQgZXZlcnl0aGluZyBiZW</md>\n</AuthenticationRequired>\n```\n\nFor E-commerce transactions requiring 3DSv1, the API contains a built in MPI which will be called to check whether the\ncard is participating in 3DSv1 with Verified by Visa or MasterCard SecureCode. We only support Amex SafeKey with 3DSv2. Should the card be enrolled, a payer\nrequest (PAReq) value will be created and returned back as an [authentication required](#authenticationrequired) response object.\n\nYour system will need to process this authentication packet and forward the user's browser to an authentication server (ACS)\nto gain the user's authentication. Once complete, the ACS will produce a HTTP `POST` call back to the URL supplied in\nthe authentication request as `merchant_termurl`. This URL should behave as a controller and handle the post data from the\nACS and on a forked server to server HTTP request, forward this data to the [pares authentication url](#pares) for\nsubsequent authorisation processing. You may prefer to provide a processing page whilst this is being processed.\nProcessing with our systems should be relatively quick and be between 500ms - 3000ms however it is desirable to let\nthe user see that something is happening rather than a pending browser.\n\nThe main reason for ensuring that this controller is two fold:\n\n1. We are never in control of the user's browser in a server API call\n2. The controller is actioned on your site to ensure that any post actions from authorisation can be executed in real time\n\nTo forward the user to the ACS, we recommend a simple auto submit HTML form.\n\n> Simple auto submit HTML form\n\n```html\n<html lang=\"en\">\n\t<head>\n        <title>Forward to ACS</title>\n\t\t<script type=\"text/javascript\">\n        function onLoadEvent() { \n            document.acs.submit(); \n        }\n        </script>\n        <noscript>You will require JavaScript to be enabled to complete this transaction</noscript>\n    </head>\n    <body onload=\"onLoadEvent();\">\n        <form name=\"acs\" action=\"{{ACSURL from Response}}\" method=\"POST\">\n            <input type=\"hidden\" name=\"PaReq\" value=\"{{PaReq Packet from Response}}\" />\n            <input type=\"hidden\" name=\"TermUrl\" value=\"{{Your Controller}}\" />\n            <input type=\"hidden\" name=\"MD\" value=\"{{MD From Response}}\" />\n        </form>\n    </body>\n</html>\n```\n\nPlease note that 3DSv1 is being phased out due to changes to strong customer authentication mechanisms. 3DSv2 addresses\nthis and will solidify the authorisation and confirmation process.\n\nWe provide a Test ACS for full 3DSv1 integration testing that simulates an ACS.\n",
         "security" : [ {
@@ -2008,7 +2008,7 @@
     "/v6/batch/process" : {
       "post" : {
         "summary" : "Batch Process Request",
-        "tags" : [ "Batch Processing API" ],
+        "tags" : [ "Batch Processing Api" ],
         "operationId" : "BatchProcessRequest",
         "description" : "A batch process request is used to start the batch process workflow by uploading batch\ndata and initialising a new batch for processing. Once validated the batch will be queued\nfor processing and further updates can be received by a subsequent call to retrieve the batch\nstatus.\n",
         "security" : [ {
@@ -2078,7 +2078,7 @@
     "/v6/batch/retrieve" : {
       "post" : {
         "summary" : "BatchReportRequest",
-        "tags" : [ "Batch Processing API" ],
+        "tags" : [ "Batch Processing Api" ],
         "operationId" : "BatchReportRequest",
         "description" : "The operation is used to retrieve a report of the result of a batch process.",
         "security" : [ {
@@ -2148,7 +2148,7 @@
     "/v6/batch/status" : {
       "post" : {
         "summary" : "CheckBatchStatus",
-        "tags" : [ "Batch Processing API" ],
+        "tags" : [ "Batch Processing Api" ],
         "operationId" : "CheckBatchStatusRequest",
         "description" : "The operation is used to retrieve the status of a batch process.",
         "security" : [ {
@@ -2218,7 +2218,7 @@
     "/v6/bin" : {
       "post" : {
         "summary" : "Bin Lookup",
-        "tags" : [ "Authorisation and Payment API" ],
+        "tags" : [ "Authorisation and Payment Api" ],
         "operationId" : "BinRangeLookupRequest",
         "description" : "A bin range lookup service can be used to check what a card is, as seen by the gateway. Each card number's \nleading digits help to identify who\n\n0. the card scheme is such as Visa, MasterCard or American Express \n1. the issuer of the card, such as the bank\n2. it's country of origin\n3. it's currency of origin\n\nOur gateway has 450 thousand possible bin ranges and uses a number of algorithms to determine the likelihood of the bin\ndata. The request requires a bin value of between 6 and 12 digits. The more digits provided may ensure a more accurate\nresult.\n",
         "security" : [ {
@@ -2288,7 +2288,7 @@
     "/v6/capture" : {
       "post" : {
         "summary" : "Capture",
-        "tags" : [ "Authorisation and Payment API" ],
+        "tags" : [ "Authorisation and Payment Api" ],
         "operationId" : "CaptureRequest",
         "description" : "_The capture process only applies to transactions which have been pre-authorised only._ \n\nThe capture process will ensure\nthat a transaction will now settle. It is expected that a capture call will be provided within 3 days or\na maximum of 7 days.\n\nA capture request is provided to confirm that you wish the transaction to be settled. This request can\ncontain a final amount for the transaction which is different to the original authorisation amount. This\nmay be useful in a delayed system process such as waiting for stock to be ordered, confirmed, or services\nprovided before the final cost is known.\n\nWhen a transaction is completed, a new authorisation code may be created and a new confirmation\ncan be sent online to the acquiring bank.\n\nOnce the transaction has been processed. A standard [`Acknowledgement`](#acknowledgement) will be returned,\noutlining the result of the transaction. On a successful completion process, the transaction will\nbe available for the settlement and completed at the end of the day.\n",
         "security" : [ {
@@ -2302,17 +2302,17 @@
                 "$ref" : "#/components/schemas/CaptureRequest"
               },
               "examples" : {
-                "example2" : {
-                  "summary" : "Basic capture call for a merchant with a transno and final amount",
-                  "externalValue" : "CaptureRequest-example2.json"
+                "example1" : {
+                  "summary" : "Basic capture call for a merchant with a given identifier",
+                  "externalValue" : "CaptureRequest-example1.json"
                 },
                 "example3" : {
                   "summary" : "Capture call for a merchant with identifier and airline data once a ticket has been issued",
                   "externalValue" : "CaptureRequest-example3.json"
                 },
-                "example1" : {
-                  "summary" : "Basic capture call for a merchant with a given identifier",
-                  "externalValue" : "CaptureRequest-example1.json"
+                "example2" : {
+                  "summary" : "Basic capture call for a merchant with a transno and final amount",
+                  "externalValue" : "CaptureRequest-example2.json"
                 }
               }
             },
@@ -2321,17 +2321,17 @@
                 "$ref" : "#/components/schemas/CaptureRequest"
               },
               "examples" : {
-                "example2" : {
-                  "summary" : "Basic capture call for a merchant with a transno and final amount",
-                  "externalValue" : "CaptureRequest-example2.xml"
+                "example1" : {
+                  "summary" : "Basic capture call for a merchant with a given identifier",
+                  "externalValue" : "CaptureRequest-example1.xml"
                 },
                 "example3" : {
                   "summary" : "Capture call for a merchant with identifier and airline data once a ticket has been issued",
                   "externalValue" : "CaptureRequest-example3.xml"
                 },
-                "example1" : {
-                  "summary" : "Basic capture call for a merchant with a given identifier",
-                  "externalValue" : "CaptureRequest-example1.xml"
+                "example2" : {
+                  "summary" : "Basic capture call for a merchant with a transno and final amount",
+                  "externalValue" : "CaptureRequest-example2.xml"
                 }
               }
             }
@@ -2386,7 +2386,7 @@
     "/v6/charge" : {
       "post" : {
         "summary" : "Charge",
-        "tags" : [ "Card Holder Account API" ],
+        "tags" : [ "Card Holder Account Api" ],
         "operationId" : "ChargeRequest",
         "description" : "A charge process obtains an authorisation using a tokenised value which represents a stored card \non a card holder account. \nA card must previously be registered by calling `/account-register-card` with the card details \nor retrieved using `/account-retrieve`\n\nTokens are generated whenever a previously registered list of cards are retrieved. Each token has, by design a \nrelatively short time to live of 30 minutes. This is both to safe guard the merchant and card holder from \nreplay attacks. Tokens are also restricted to your account, preventing malicious actors from stealing details\nfor use elsewhere.  \n\nIf a token is reused after it has expired it will be rejected and a new token will be required.\n \nTokenisation can be used for\n \n- repeat authorisations on a previously stored card\n- easy authorisations just requiring CSC values to be entered\n- can be used for credential on file style payments\n- can require full 3-D Secure authentication to retain the liability shift\n- wallet style usage\n \n\n_Should an account be used with 3DSv2, the card holder name should also be stored alongside the card as this is a\nrequired field with both Visa and MasterCard for risk analysis._.\n",
         "security" : [ {
@@ -2456,7 +2456,7 @@
     "/v6/cres" : {
       "post" : {
         "summary" : "CRes",
-        "tags" : [ "Authorisation and Payment API" ],
+        "tags" : [ "Authorisation and Payment Api" ],
         "operationId" : "CResRequest",
         "description" : "The CRes request performs authorisation processing once a challenge request has been completed\nwith an Authentication Server (ACS). This challenge response contains confirmation that will\nallow the API systems to return an authorisation response based on the result. Our systems will \nknow out of band via an `RReq` call by the ACS to notify us if the liability shift has been issued.\n\nAny call to the CRes operation will require a previous authorisation request and cannot be called \non its own without a previous [request challenge](#requestchallenged) being obtained.\n",
         "security" : [ {
@@ -2538,7 +2538,7 @@
     "/v6/merchants/{clientid}" : {
       "get" : {
         "summary" : "List Merchants Request",
-        "tags" : [ "Operational API Functions" ],
+        "tags" : [ "Operational Functions Api" ],
         "operationId" : "ListMerchantsRequest",
         "parameters" : [ {
           "name" : "clientid",
@@ -2602,7 +2602,7 @@
     "/v6/pares" : {
       "post" : {
         "summary" : "PaRes",
-        "tags" : [ "Authorisation and Payment API" ],
+        "tags" : [ "Authorisation and Payment Api" ],
         "operationId" : "PaResRequest",
         "description" : "The Payer Authentication Response (PaRes) is an operation after the result of authentication \n being performed. The request uses an encoded packet of authentication data to \nnotify us of the completion of the liability shift. Once this value has been unpacked and its\nsignature is checked, our systems will proceed to authorisation processing.  \n\nAny call to the PaRes operation will require a previous authorisation request and cannot be called \non its own without a previous [authentication required](#authenticationrequired)  being obtained.\n",
         "security" : [ {
@@ -2684,7 +2684,7 @@
     "/v6/ping" : {
       "post" : {
         "summary" : "Ping Request",
-        "tags" : [ "Operational API Functions" ],
+        "tags" : [ "Operational Functions Api" ],
         "operationId" : "PingRequest",
         "description" : "A ping request which performs a connection and authentication test to the CityPay API server. The request\nwill return a standard Acknowledgement with a response code `044` to signify a successful\nping.\n\nThe ping call is useful to confirm that you will be able to access \nthe API from behind any firewalls and that the permission\nmodel is granting access from your source.\n",
         "security" : [ {
@@ -2771,7 +2771,7 @@
     "/v6/refund" : {
       "post" : {
         "summary" : "Refund",
-        "tags" : [ "Authorisation and Payment API" ],
+        "tags" : [ "Authorisation and Payment Api" ],
         "operationId" : "RefundRequest",
         "description" : "A refund request which allows for the refunding of a previous transaction up \nand to the amount of the original sale. A refund will be performed against the \noriginal card used to process the transaction.\n",
         "security" : [ {
@@ -2841,7 +2841,7 @@
     "/v6/retrieve" : {
       "post" : {
         "summary" : "Retrieval",
-        "tags" : [ "Authorisation and Payment API" ],
+        "tags" : [ "Authorisation and Payment Api" ],
         "operationId" : "RetrievalRequest",
         "description" : "A retrieval request which allows an integration to obtain the result of a transaction processed\nin the last 90 days. The request allows for retrieval based on the identifier or transaction \nnumber. \n\nThe process may return multiple results in particular where a transaction was processed multiple\ntimes against the same identifier. This can happen if errors were first received. The API therefore\nreturns up to the first 5 transactions in the latest date time order.\n\nIt is not intended for this operation to be a replacement for reporting and only allows for base transaction\ninformation to be returned.\n",
         "security" : [ {
@@ -2923,7 +2923,7 @@
     "/v6/void" : {
       "post" : {
         "summary" : "Void",
-        "tags" : [ "Authorisation and Payment API" ],
+        "tags" : [ "Authorisation and Payment Api" ],
         "operationId" : "VoidRequest",
         "description" : "_The void process generally applies to transactions which have been pre-authorised only however voids can occur \non the same day if performed before batching and settlement._ \n\nThe void process will ensure that a transaction will now settle. It is expected that a void call will be \nprovided on the same day before batching and settlement or within 3 days or within a maximum of 7 days.\n\nOnce the transaction has been processed as a void, an [`Acknowledgement`](#acknowledgement) will be returned,\noutlining the result of the transaction.\n",
         "security" : [ {
@@ -2937,13 +2937,13 @@
                 "$ref" : "#/components/schemas/VoidRequest"
               },
               "examples" : {
-                "example2" : {
-                  "summary" : "Basic capture call for a merchant with a transno and final amount",
-                  "externalValue" : "VoidRequest-example2.json"
-                },
                 "example1" : {
                   "summary" : "Basic capture call for a merchant with a given identifier",
                   "externalValue" : "VoidRequest-example1.json"
+                },
+                "example2" : {
+                  "summary" : "Basic capture call for a merchant with a transno and final amount",
+                  "externalValue" : "VoidRequest-example2.json"
                 }
               }
             },
@@ -2952,13 +2952,13 @@
                 "$ref" : "#/components/schemas/VoidRequest"
               },
               "examples" : {
-                "example2" : {
-                  "summary" : "Basic capture call for a merchant with a transno and final amount",
-                  "externalValue" : "VoidRequest-example2.xml"
-                },
                 "example1" : {
                   "summary" : "Basic capture call for a merchant with a given identifier",
                   "externalValue" : "VoidRequest-example1.xml"
+                },
+                "example2" : {
+                  "summary" : "Basic capture call for a merchant with a transno and final amount",
+                  "externalValue" : "VoidRequest-example2.xml"
                 }
               }
             }
@@ -3173,7 +3173,6 @@
           "ticket_issue_date" : {
             "type" : "string",
             "format" : "date",
-            "maxLength" : 10,
             "example" : "2020-08-01",
             "description" : "The date the ticket was issued in ISO Date format (yyyy-MM-dd)."
           },
