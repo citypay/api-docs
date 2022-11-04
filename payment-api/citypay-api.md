@@ -1,12 +1,12 @@
 ---
 title: CityPay Payment API
-version: 6.4.8
+version: 6.4.9
 language_tabs:
   - json
   - xml
 toc_footers:
   - <a href='mailto:support@citypay.com'>Any Integration Questions?</a>
-  - V6.4.8 2022-11-01
+  - V6.4.9 2022-11-04
 includes:
   - errorcodes
   - authresultcodes
@@ -22,8 +22,8 @@ search: true
 
 # CityPay Payment API
 
-Version: 6.4.8
-Last Updated: 2022-11-01
+Version: 6.4.9
+Last Updated: 2022-11-04
 
 
 This CityPay API is a HTTP RESTful payment API used for direct server to server transactional processing. It
@@ -2116,7 +2116,7 @@ Used to initiate a direct post request transaction flow.
 
 <pre class="inline-code language-bash">
 <code>
-curl https://api.citypay.com/v6/direct?cp-domain-key=n834ytqp84y... \
+curl https://api.citypay.com/direct/auth?cp-domain-key=n834ytqp84y... \
  -d "amount=7500&identifier=example_trans&cardnumber=4000000000000002&expmonth=9&expyear=2028&bill_to_postcode=L1+7ZW
 </code>
 </pre>.
@@ -3604,7 +3604,7 @@ Responses for the TokenStatusRequest operation are
 | `segment3` | object | false | [AirlineSegment](#airlinesegment) Segment 3 of airline data if defined. | 
 | `segment4` | object | false | [AirlineSegment](#airlinesegment) Segment 4 of airline data if defined. | 
 | `ticket_issue_city` | string  | true | The name of the city town or village where the transaction took place.<br/><br/>maxLength: 18 | 
-| `ticket_issue_date` | string *date* | true | The date the ticket was issued in ISO Date format (yyyy-MM-dd).<br/><br/>maxLength: 10 | 
+| `ticket_issue_date` | string *date* | true | The date the ticket was issued in ISO Date format (yyyy-MM-dd). | 
 | `ticket_issue_name` | string  | true | The name of the agency generating the ticket.<br/><br/>maxLength: 26 | 
 | `ticket_no` | string  | true | This must be a valid ticket number, i.e. numeric (the first 3 digits must represent the valid IATA plate carrier code). The final check digit should be validated prior to submission. On credit charges, this field should contain the number of the original ticket, and not of a replacement.<br/><br/> maxLength: 14 | 
 | `transaction_type` | string  | true | This field contains the Transaction Type code assigned to this transaction. Valid codes include:<br/><br/> - `TKT` = Ticket Purchase<br/><br/> - `REF` = Refund<br/><br/> - `EXC` = Exchange Ticket<br/><br/> - `MSC` = Miscellaneous (non-Ticket Purchase- and non-Exchange Ticket-related transactions only).<br/><br/> minLength: 3<br/>maxLength: 3 | 
