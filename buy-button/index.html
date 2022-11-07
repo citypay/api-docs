@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>CityPay Buy Button</title>
+    <style>
+        .container {
+            padding-top: 5em;
+        }
+
+        .cp-blue {
+            color: #08406B;
+        }
+
+        html, body, div {
+            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+        }
+
+        code {
+            color: #338;
+            background-color: #e5e5e5;
+        }
+
+    </style>
+  </head>
+  <body>
+
+
+<h1 id="citypay-pay-button">CityPay Pay-Button</h1>
+<script type="text/javascript" src="https://cdn.citypay.com/citypay.js"></script>
+
+<p>CityPay payment buttons enable you to accept payments quickly and easily online by using your own checkout form.</p>
+<p>To setup the payment button, you will need to add a small Javascript file to your page. The script is designed 
+to be asynchronous by not blocking your browser onload. It should be included in your document by adding a 
+script element. This can be added to the head or end of your document.</p>
+<pre><code class="lang-javascript">  <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">async</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"https://api.citypay.com/js/citypay.js"</span>&gt;</span><span class="undefined"></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+</code></pre>
+<p><em>Note: If you are already including the <code>citypay.js</code> script file you will not need to perform this</em></p>
+<h2 id="button-styling">Button Styling</h2>
+<p>To style buttons, you will just need to add class files to your required form button. This may be a 
+<code>&lt;button /&gt;</code> or <code>&lt;input type=&quot;button&quot; /&gt;</code> element. It will not however work on submit or reset input button types.</p>
+<p>There are 2 main buttons</p>
+<table>
+<thead>
+<tr>
+<th>Button Type</th>
+<th>Example</th>
+<th>CSS Class</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A dark styled button</td>
+<td><button class='citypay-pay-button-dark' /></td>
+<td><code>citypay-pay-button-dark</code></td>
+</tr>
+<tr>
+<td>A light styled button</td>
+<td><button class='citypay-pay-button' /></td>
+<td><code>citypay-pay-button</code></td>
+</tr>
+</tbody>
+</table>
+<p>To enable styling, add the appropraite css className i.e. </p>
+<pre><code class="lang-html">&lt;<span class="hljs-keyword">button</span> class=<span class="hljs-string">"my-class citypay-pay-button"</span>&gt;<span class="hljs-keyword">Button</span> Text&lt;/<span class="hljs-keyword">button</span>&gt;
+</code></pre>
+<p>CityPay provides several types of buttons so that you can choose the button type that fits best with
+the terminology and flow of your purchase or payment experience.</p>
+<p>When you use this process, you get:</p>
+<ul>
+<li>A button that is guaranteed to use a CityPay approved caption, font, color, and style </li>
+<li>Assurance that the button’s contents maintain ideal proportions as you change its size</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>Button Image</th>
+<th>Example Usage</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><button class='citypay-pay-button-dark'  /></td>
+<td>An app or website that has stylistic reasons to use a button that can have a smaller minimum width or that doesn’t specify a call to action.</td>
+</tr>
+<tr>
+<td><button class='citypay-pay-button-dark with-buy'  /></td>
+<td>An area in an app or website where people can make a purchase, such as a product detail page or shopping cart page.</td>
+</tr>
+<tr>
+<td><button class='citypay-pay-button-dark with-pay'  /></td>
+<td>An app or website that lets people pay bills or invoices, such as a service like plumbing or car repair.</td>
+</tr>
+<tr>
+<td><button class='citypay-pay-button-dark with-checkout'  /></td>
+<td>An app or website offering a shopping cart or purchase experience</td>
+</tr>
+<tr>
+<td><button class='citypay-pay-button-dark with-continue' /></td>
+<td>An app or website offering a shopping cart or purchase experience</td>
+</tr>
+<tr>
+<td><button class='citypay-pay-button-dark with-book' /></td>
+<td>An app or website that helps people book flights, trips, or other experiences</td>
+</tr>
+<tr>
+<td><button class='citypay-pay-button-dark with-donate' /></td>
+<td>An app or website for an approved nonprofit that lets people make donations.</td>
+</tr>
+<tr>
+<td><button class='citypay-pay-button-dark with-subscribe' /></td>
+<td>An app or website that lets people purchase a subscription, such as a gym membership</td>
+</tr>
+<tr>
+<td><button class='citypay-pay-button-dark with-reload' /></td>
+<td>An app or website that uses the term <em>reload</em> to help people add money to an account or system associated with a service, such as a prepaid phone plan.</td>
+</tr>
+<tr>
+<td><button class='citypay-pay-button-dark with-topup' /></td>
+<td>An app or website that uses the term top up to help people add money to an account or system associated with a service, such as a prepaid phone plan.</td>
+</tr>
+<tr>
+<td><button class='citypay-pay-button-dark with-order' /></td>
+<td>An app or website that lets people place orders for items like meals or flowers.</td>
+</tr>
+<tr>
+<td><button class='citypay-pay-button-dark with-support' /></td>
+<td>An app or website that uses the term support to help people give money to projects, causes, and other entities.</td>
+</tr>
+<tr>
+<td><button class='citypay-pay-button-dark with-contribute' /></td>
+<td>An app or website that uses the term contribute to help people give money to projects, causes, and other entities.</td>
+</tr>
+<tr>
+<td><button class='citypay-pay-button-dark with-tip'  /></td>
+<td>An app or website that lets people tip for goods or services.</td>
+</tr>
+</tbody>
+</table>
+  </body>
+</html>

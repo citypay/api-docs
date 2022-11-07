@@ -1,0 +1,237 @@
+
+@page {
+	size: A4;
+}
+
+@media screen and (min-width: 400px) {
+	body {
+		padding: 50px;
+		background-color: #f3f3f3;
+	}
+}
+
+@page body {
+	padding: 0;
+	background-color: transparent;
+}
+
+body, p, td, th, li {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 16px;
+	line-height: 1.5em;
+}
+
+div.ra {
+    width: 880px;
+    margin: auto;
+    background-color: #fcfcfc;
+    padding: 25px;
+    padding-top: 200px;
+    background-image: url("https://cdn.citypay.com/citypay-logo.svg");
+    background-size: 350px;
+    background-repeat: no-repeat;
+    background-position: 265px 50px;
+}
+
+h1.title {
+    font-weight: 200;
+    font-size: 2em;
+}
+
+
+h2 {
+    font-weight: 200;
+    font-size: 1.8em;
+    padding-top: 1em;
+	margin-top: 2em;
+    border-top: 1px solid #cdcdcd;
+}
+
+@media print {
+	h2 {page-break-before: always;}
+	div.analysis h3 {page-break-before: always;}
+}
+
+h3 {
+    font-weight: 400;
+    font-size: 20px;
+    padding-top: 20px;
+}
+
+div.header div#company {
+	text-align: left;
+	margin-bottom: 3px;
+	color:#000;
+	font-size: 175%;
+	display: block;
+	padding-bottom: 20px;
+	border-bottom: 1px solid #99D;
+}
+
+div#meta1 {
+	padding:5px 0 5px 0;
+    color: #333;
+}
+
+table {
+	border: 1px solid #cdcdcd;
+}
+
+
+table td ol.threat-sources {
+	list-style: lower-alpha;
+	margin: 5px;
+}
+
+table td h4 {
+	padding: 0px;
+	padding-right:5px;
+	margin: 0px;
+	font-weight: normal;
+	color: #000;
+	font-style: italic;
+	text-align: right;
+}
+
+@media print {
+	page-break {
+		page-break-before: always;
+	}
+}
+
+div.analysis {
+	border-top: 1px dotted #DDD;
+	padding-top: 25px;
+}
+
+div.analysis table {
+	border-collapse: collapse;
+	border: 1px solid #343;
+}
+
+div.analysis table td {
+	padding: 3px;
+	vertical-align: top;
+}
+
+div.analysis table h3 {
+	margin: 0px;
+}
+
+div.analysis table th {
+	font-weight: normal;
+}
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+tr.closed {
+    background-color: #e5e5e9;
+}
+
+tr.open {
+    background-color: #f4f4f8;
+}
+
+th {
+	text-align: left;
+}
+
+th.threatTitle {
+    vertical-align: text-top;
+}
+
+.right {
+    text-align: right;
+}
+
+td,th {
+	padding: 0.2em 1em 0.2em 1em;
+}
+
+.ratitle, .ravalue, .controltitle
+	{
+	padding: 1px 3px 1px 3px;
+	margin:0px;
+	text-align: center;
+	width: 40px;
+	border:1px solid #333;
+	background-color: #EEF;
+}
+
+.ravalue {
+    background-color: #FFE;
+}
+
+.RALow, .RAInPlace {
+	background-color: #8F8;
+}
+
+.RAHigh, .RAAction  {
+	background-color: #F88;
+}
+
+.RAMedium, .RARecommended, .RAConfirm {
+	background-color: #fb5;
+}
+
+.statusOpen {
+	color:red;
+    font-size: 16px;
+}
+
+.statusClosed {
+    color: #367e22;
+    font-size: 16px;
+}
+
+.actionStatus {
+    text-decoration: underline;
+}
+
+.catmethod {  color: #738623;  }
+.catcategory {  color: #821728;  }
+.catstatus {  color: #394198;  }
+
+span#AssessmentOpen {color:red;}
+span#AssessmentClosed {color:blue;}
+
+div.status {
+	text-align: right;
+	padding: 3px;
+	font-weight: bold;
+	color: #544;
+}
+
+div.analysis table.status-Open, div.analysis table.status-Closed {
+	width:100%;
+	border:0px;
+	margin-left:0px;
+
+}
+
+table.control,table.action {
+    margin: 0px;
+    padding:0px;
+    width:100%;
+}
+
+div.analysis table table {
+    border:0px;
+}
+
+
+/**
+ * debug
+div.analysis table td, div.analysis table th {
+    border:1px solid red;
+    background-color: #FFE;
+}
+
+div.analysis table table td {
+    border:1px solid orange;
+}
+*/
+

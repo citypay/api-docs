@@ -1,0 +1,4191 @@
+
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>Paylink Api Specification</title>
+    <link href="images/favicon-c177ed8f.ico" rel="icon" type="image/ico" />
+    <style>
+      .highlight table td { padding: 5px; }
+.highlight table pre { margin: 0; }
+.highlight .cm {
+  color: #999988;
+  font-style: italic;
+}
+.highlight .cp {
+  color: #999999;
+  font-weight: bold;
+}
+.highlight .c1 {
+  color: #999988;
+  font-style: italic;
+}
+.highlight .cs {
+  color: #999999;
+  font-weight: bold;
+  font-style: italic;
+}
+.highlight .c, .highlight .ch, .highlight .cd, .highlight .cpf {
+  color: #999988;
+  font-style: italic;
+}
+.highlight .err {
+  color: #a61717;
+  background-color: #e3d2d2;
+}
+.highlight .gd {
+  color: #000000;
+  background-color: #ffdddd;
+}
+.highlight .ge {
+  color: #000000;
+  font-style: italic;
+}
+.highlight .gr {
+  color: #aa0000;
+}
+.highlight .gh {
+  color: #999999;
+}
+.highlight .gi {
+  color: #000000;
+  background-color: #ddffdd;
+}
+.highlight .go {
+  color: #888888;
+}
+.highlight .gp {
+  color: #555555;
+}
+.highlight .gs {
+  font-weight: bold;
+}
+.highlight .gu {
+  color: #aaaaaa;
+}
+.highlight .gt {
+  color: #aa0000;
+}
+.highlight .kc {
+  color: #000000;
+  font-weight: bold;
+}
+.highlight .kd {
+  color: #000000;
+  font-weight: bold;
+}
+.highlight .kn {
+  color: #000000;
+  font-weight: bold;
+}
+.highlight .kp {
+  color: #000000;
+  font-weight: bold;
+}
+.highlight .kr {
+  color: #000000;
+  font-weight: bold;
+}
+.highlight .kt {
+  color: #445588;
+  font-weight: bold;
+}
+.highlight .k, .highlight .kv {
+  color: #000000;
+  font-weight: bold;
+}
+.highlight .mf {
+  color: #009999;
+}
+.highlight .mh {
+  color: #009999;
+}
+.highlight .il {
+  color: #009999;
+}
+.highlight .mi {
+  color: #009999;
+}
+.highlight .mo {
+  color: #009999;
+}
+.highlight .m, .highlight .mb, .highlight .mx {
+  color: #009999;
+}
+.highlight .sb {
+  color: #d14;
+}
+.highlight .sc {
+  color: #d14;
+}
+.highlight .sd {
+  color: #d14;
+}
+.highlight .s2 {
+  color: #d14;
+}
+.highlight .se {
+  color: #d14;
+}
+.highlight .sh {
+  color: #d14;
+}
+.highlight .si {
+  color: #d14;
+}
+.highlight .sx {
+  color: #d14;
+}
+.highlight .sr {
+  color: #009926;
+}
+.highlight .s1 {
+  color: #d14;
+}
+.highlight .ss {
+  color: #990073;
+}
+.highlight .s, .highlight .sa, .highlight .dl {
+  color: #d14;
+}
+.highlight .na {
+  color: #008080;
+}
+.highlight .bp {
+  color: #999999;
+}
+.highlight .nb {
+  color: #0086B3;
+}
+.highlight .nc {
+  color: #445588;
+  font-weight: bold;
+}
+.highlight .no {
+  color: #008080;
+}
+.highlight .nd {
+  color: #3c5d5d;
+  font-weight: bold;
+}
+.highlight .ni {
+  color: #800080;
+}
+.highlight .ne {
+  color: #990000;
+  font-weight: bold;
+}
+.highlight .nf, .highlight .fm {
+  color: #990000;
+  font-weight: bold;
+}
+.highlight .nl {
+  color: #990000;
+  font-weight: bold;
+}
+.highlight .nn {
+  color: #555555;
+}
+.highlight .nt {
+  color: #000080;
+}
+.highlight .vc {
+  color: #008080;
+}
+.highlight .vg {
+  color: #008080;
+}
+.highlight .vi {
+  color: #008080;
+}
+.highlight .nv, .highlight .vm {
+  color: #008080;
+}
+.highlight .ow {
+  color: #000000;
+  font-weight: bold;
+}
+.highlight .o {
+  color: #000000;
+  font-weight: bold;
+}
+.highlight .w {
+  color: #bbbbbb;
+}
+.highlight {
+  background-color: #f8f8f8;
+}
+    </style>
+    <link href="stylesheets/screen-dd3615a4.css" rel="stylesheet" media="screen" />
+    <link href="stylesheets/print-417d2ad5.css" rel="stylesheet" media="print" />
+      <script src="javascripts/all-e9bde216.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+  </head>
+
+  <body class="index" data-languages="[&quot;json&quot;,&quot;xml&quot;]">
+    <div class="toc-wrapper">
+      <img src="images/citypay-logo-23676e0b.svg" class="cplogo" alt="" />
+        <div class="lang-selector">
+              <a href="#" data-language-name="json">json</a>
+              <a href="#" data-language-name="xml">xml</a>
+        </div>
+        <div class="search">
+          <input type="text" class="search" id="input-search" placeholder="Search">
+        </div>
+        <ul class="search-results"></ul>
+      <ul id="toc" class="toc-list-h1">
+          <li>
+            <a href="#citypay-paylink" class="toc-h1 toc-link" data-title="CityPay Paylink">CityPay Paylink</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#key-benefits" class="toc-h2 toc-link" data-title="Key Benefits">Key Benefits</a>
+                  </li>
+                  <li>
+                    <a href="#features" class="toc-h2 toc-link" data-title="Features">Features</a>
+                  </li>
+                  <li>
+                    <a href="#security" class="toc-h2 toc-link" data-title="Security">Security</a>
+                  </li>
+              </ul>
+          </li>
+          <li>
+            <a href="#technical-overview" class="toc-h1 toc-link" data-title="Technical overview">Technical overview</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#transaction-control-flow" class="toc-h2 toc-link" data-title="Transaction Control Flow">Transaction Control Flow</a>
+                  </li>
+              </ul>
+          </li>
+          <li>
+            <a href="#getting-started" class="toc-h1 toc-link" data-title="Getting Started">Getting Started</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#allowing-access" class="toc-h2 toc-link" data-title="Allowing Access">Allowing Access</a>
+                  </li>
+                  <li>
+                    <a href="#recommended-integration-workflow" class="toc-h2 toc-link" data-title="Recommended Integration Workflow">Recommended Integration Workflow</a>
+                  </li>
+              </ul>
+          </li>
+          <li>
+            <a href="#paylink-token-api-request" class="toc-h1 toc-link" data-title="Paylink Token API Request">Paylink Token API Request</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#constructing-a-payment-request" class="toc-h2 toc-link" data-title="Constructing a Payment Request">Constructing a Payment Request</a>
+                  </li>
+                  <li>
+                    <a href="#processing-configuration-fields" class="toc-h2 toc-link" data-title="Processing Configuration Fields">Processing Configuration Fields</a>
+                  </li>
+                  <li>
+                    <a href="#cardholder-fields" class="toc-h2 toc-link" data-title="Cardholder Fields">Cardholder Fields</a>
+                  </li>
+                  <li>
+                    <a href="#config-fields" class="toc-h2 toc-link" data-title="Config Fields">Config Fields</a>
+                  </li>
+                  <li>
+                    <a href="#custom-parameters" class="toc-h2 toc-link" data-title="Custom Parameters">Custom Parameters</a>
+                  </li>
+                  <li>
+                    <a href="#cardholder-account-fields" class="toc-h2 toc-link" data-title="Cardholder Account Fields">Cardholder Account Fields</a>
+                  </li>
+                  <li>
+                    <a href="#cart-fields" class="toc-h2 toc-link" data-title="Cart Fields">Cart Fields</a>
+                  </li>
+              </ul>
+          </li>
+          <li>
+            <a href="#paylink-token-api-response" class="toc-h1 toc-link" data-title="Paylink Token API Response">Paylink Token API Response</a>
+          </li>
+          <li>
+            <a href="#postback-handling" class="toc-h1 toc-link" data-title="Postback Handling">Postback Handling</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#providing-a-postback-url" class="toc-h2 toc-link" data-title="Providing a Postback URL">Providing a Postback URL</a>
+                  </li>
+                  <li>
+                    <a href="#postback-delivery-options" class="toc-h2 toc-link" data-title="Postback Delivery Options">Postback Delivery Options</a>
+                  </li>
+                  <li>
+                    <a href="#connection-settings" class="toc-h2 toc-link" data-title="Connection Settings">Connection Settings</a>
+                  </li>
+              </ul>
+          </li>
+          <li>
+            <a href="#paylink-transaction-response-reference" class="toc-h1 toc-link" data-title="Paylink Transaction Response Reference">Paylink Transaction Response Reference</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#merchant-authentication-fields-3" class="toc-h2 toc-link" data-title="Merchant Authentication Fields">Merchant Authentication Fields</a>
+                  </li>
+                  <li>
+                    <a href="#card-details" class="toc-h2 toc-link" data-title="Card Details">Card Details</a>
+                  </li>
+                  <li>
+                    <a href="#card-holder-details" class="toc-h2 toc-link" data-title="Card Holder Details">Card Holder Details</a>
+                  </li>
+                  <li>
+                    <a href="#3dsecure-result-codes" class="toc-h2 toc-link" data-title="3DSecure Result Codes">3DSecure Result Codes</a>
+                  </li>
+                  <li>
+                    <a href="#cardholder-account-fields" class="toc-h2 toc-link" data-title="Cardholder Account Fields">Cardholder Account Fields</a>
+                  </li>
+                  <li>
+                    <a href="#transaction-response-digests" class="toc-h2 toc-link" data-title="Transaction Response Digests">Transaction Response Digests</a>
+                  </li>
+              </ul>
+          </li>
+          <li>
+            <a href="#redirection-handling" class="toc-h1 toc-link" data-title="Redirection Handling">Redirection Handling</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#redirection-payload" class="toc-h2 toc-link" data-title="Redirection Payload">Redirection Payload</a>
+                  </li>
+              </ul>
+          </li>
+          <li>
+            <a href="#notifications-and-messaging" class="toc-h1 toc-link" data-title="Notifications and Messaging">Notifications and Messaging</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#email-handling" class="toc-h2 toc-link" data-title="Email Handling">Email Handling</a>
+                  </li>
+                  <li>
+                    <a href="#merchant-notification-email" class="toc-h2 toc-link" data-title="Merchant Notification Email">Merchant Notification Email</a>
+                  </li>
+                  <li>
+                    <a href="#customer-email-receipt" class="toc-h2 toc-link" data-title="Customer Email Receipt">Customer Email Receipt</a>
+                  </li>
+                  <li>
+                    <a href="#sms-notifications" class="toc-h2 toc-link" data-title="SMS Notifications">SMS Notifications</a>
+                  </li>
+                  <li>
+                    <a href="#chatops" class="toc-h2 toc-link" data-title="ChatOps">ChatOps</a>
+                  </li>
+              </ul>
+          </li>
+          <li>
+            <a href="#advanced-topics" class="toc-h1 toc-link" data-title="Advanced Topics">Advanced Topics</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#surcharging-support-in-paylink" class="toc-h2 toc-link" data-title="Surcharging Support in Paylink">Surcharging Support in Paylink</a>
+                  </li>
+                  <li>
+                    <a href="#credential-on-file-functionality-in-paylink" class="toc-h2 toc-link" data-title="Credential on File Functionality in Paylink">Credential on File Functionality in Paylink</a>
+                  </li>
+                  <li>
+                    <a href="#pre-authorisation-support-in-paylink" class="toc-h2 toc-link" data-title="Pre-Authorisation Support in Paylink">Pre-Authorisation Support in Paylink</a>
+                  </li>
+                  <li>
+                    <a href="#qr-codes" class="toc-h2 toc-link" data-title="QR Codes">QR Codes</a>
+                  </li>
+              </ul>
+          </li>
+          <li>
+            <a href="#paylink-integrations" class="toc-h1 toc-link" data-title="Paylink Integrations">Paylink Integrations</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#shopping-cart-examples" class="toc-h2 toc-link" data-title="Shopping Cart Examples">Shopping Cart Examples</a>
+                  </li>
+              </ul>
+          </li>
+          <li>
+            <a href="#alternate-payment-methods" class="toc-h1 toc-link" data-title="Alternate Payment Methods">Alternate Payment Methods</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#apple-pay" class="toc-h2 toc-link" data-title="Apple Pay">Apple Pay</a>
+                  </li>
+                  <li>
+                    <a href="#google-pay" class="toc-h2 toc-link" data-title="Google Pay™">Google Pay™</a>
+                  </li>
+                  <li>
+                    <a href="#paypal" class="toc-h2 toc-link" data-title="PayPal">PayPal</a>
+                  </li>
+              </ul>
+          </li>
+          <li>
+            <a href="#testing-best-practices" class="toc-h1 toc-link" data-title="Testing Best Practices">Testing Best Practices</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#authorisation-codes-on-the-test-gateway" class="toc-h2 toc-link" data-title="Authorisation Codes on the Test Gateway">Authorisation Codes on the Test Gateway</a>
+                  </li>
+                  <li>
+                    <a href="#modelling-behaviour" class="toc-h2 toc-link" data-title="Modelling behaviour">Modelling behaviour</a>
+                  </li>
+                  <li>
+                    <a href="#test-card-numbers" class="toc-h2 toc-link" data-title="Test Card Numbers">Test Card Numbers</a>
+                  </li>
+                  <li>
+                    <a href="#avs-checking" class="toc-h2 toc-link" data-title="AVS Checking">AVS Checking</a>
+                  </li>
+                  <li>
+                    <a href="#test-acs" class="toc-h2 toc-link" data-title="Test ACS">Test ACS</a>
+                  </li>
+              </ul>
+          </li>
+          <li>
+            <a href="#error-codes-reference" class="toc-h1 toc-link" data-title="Error Codes Reference">Error Codes Reference</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#system" class="toc-h2 toc-link" data-title="System">System</a>
+                  </li>
+                  <li>
+                    <a href="#card-validation-errors" class="toc-h2 toc-link" data-title="Card Validation Errors">Card Validation Errors</a>
+                  </li>
+                  <li>
+                    <a href="#data-error" class="toc-h2 toc-link" data-title="Data Error">Data Error</a>
+                  </li>
+                  <li>
+                    <a href="#fatal-error" class="toc-h2 toc-link" data-title="Fatal Error">Fatal Error</a>
+                  </li>
+                  <li>
+                    <a href="#request-error" class="toc-h2 toc-link" data-title="Request Error">Request Error</a>
+                  </li>
+                  <li>
+                    <a href="#refund-errors" class="toc-h2 toc-link" data-title="Refund Errors">Refund Errors</a>
+                  </li>
+                  <li>
+                    <a href="#security-error" class="toc-h2 toc-link" data-title="Security Error">Security Error</a>
+                  </li>
+                  <li>
+                    <a href="#transaction-error" class="toc-h2 toc-link" data-title="Transaction Error">Transaction Error</a>
+                  </li>
+                  <li>
+                    <a href="#wallet-error" class="toc-h2 toc-link" data-title="Wallet Error">Wallet Error</a>
+                  </li>
+              </ul>
+          </li>
+      </ul>
+        <ul class="toc-footer">
+            <li><a href='mailto:support@citypay.com'>Any Integration Questions?</a></li>
+            <li>V3.2.7</li>
+            <li><a href='https://citypay.github.io/api-docs/payment-api'>CityPay API Documentation</a></li>
+            <li><a href='https://citypay.com'>CityPay Website</a></li>
+        </ul>
+    </div>
+    <div class="page-wrapper">
+      <div class="dark-box"></div>
+      <div class="content">
+        <p><img src="images/pl-multi-049886f1.jpg" alt="Paylink Payment Page" /></p>
+<h1 id='citypay-paylink'>CityPay Paylink</h1>
+<p>CityPay Paylink is a comprehensive, low latency, secure and flexible online hosted payment form. It has been built from the ground up to cater for mobile and responsive design, meaning that your payments can be completed on a desktop, tablet or smartphone catering for IOS, Android or conventional browser environments.</p>
+
+<p><strong>Comprehensive</strong>: CityPay Paylink caters for the entire payment process, including authorisation, payment notifications and validation.</p>
+
+<p><strong>Low latency</strong>: CityPay Paylink is written to be fast. Content such as images and JavaScript files are delivered using a global content delivery network. The payment form is a single-page modern web application that provides a fast, low latency user experience for the end customer.</p>
+
+<p><strong>Secure</strong>: CityPay Paylink uses the latest browser security models to protect merchant and customer data and is rigorously tested each time a new version is deployed. CityPay is a PCI Level 1 accredited service provider which streamlines your PCI accreditation process by indirectly handling sensitive cardholder data (CHD).</p>
+
+<p><strong>Flexible</strong>:  CityPay Paylink is flexible by nature. It is responsive to the viewer&#39;s experience and offers various customisations.</p>
+
+<p><strong>3DSv2 Out of the Box</strong>: CityPay Paylink includes 3DS version 2 and provides frictionless and challenge-based flows. Authentication cardholder transactions for PSD2 enabled transactions.</p>
+<h2 id='key-benefits'>Key Benefits</h2>
+<p>CityPay Paylink makes online e-commerce easier to implement by handling the card payment process directly with the
+cardholder&#39;s browser and CityPay&#39;s payment processing servers, allowing you to concentrate on your business whilst allowing us to
+manage the payment process.</p>
+
+<ol>
+    <li>Simplified payment solutions.</li>
+    <li>payment processing is handled by our secure web servers adding security and confidence to your shoppers.</li>
+    <li>3D-Secure authentication is available within the application without any difficult MPI integration, allowing for immediate Verified by Visa and MasterCard SecureCode processing.</li>
+    <li>customisation may be performed on the secure payment form.</li>
+    <li>significantly reduced technical and financial overheads associated with software implementation and PCI compliance.</li>
+    <li>reduced time-to-market.</li>
+</ol>
+<h2 id='features'>Features</h2><h3 id='data-representation'>Data Representation</h3>
+<p>CityPay Paylink supports <code>JSON</code>, <code>XML</code> and <code>application/x-www-form-urlencoded</code> data exchange to create token based
+payment requests and payment notifications.</p>
+<h3 id='url-based-payments'>URL Based Payments</h3>
+<p>CityPay Paylink interacts with the Customer using a Payment Token embedded in a URL. Your application creates the token, calling the Paylink server <code>/create</code> process to generate the token. You can then present the generated URL to the cardholder via multiple methods, including HTTP redirection (GET or POST), a link on a page, SMS, email, pdf or QR Code.</p>
+
+<p>CityPay Paylink provides that every Payment Token is subject to an expiry period which, by default, is <strong>30 minutes</strong>. The expiry period may be extended to any length of time either through the configuration of the Payment Token Request or management configuration.</p>
+<h3 id='notifications'>Notifications</h3>
+<p>Paylink can perform webhooks using an HTTP POST call to the Merchant Application known as a PostBack. If a customer does not make payment before the relevant Payment Token expires, Paylink 3 performs a PostBack to advise the Merchant Application that the appropriate Payment Token and Payment Transaction have expired.</p>
+<h3 id='user-interface'>User interface</h3>
+<p>The CityPay Paylink user interface has been developed with the following objectives in mind:</p>
+
+<p><strong>User-friendly</strong>: the user interface has been written to guide the user through the payment process logically and efficiently.</p>
+
+<p><strong>Compliance</strong> with modern browser standards, the user interface is generated using HTML5 and is tested for compatibility with older browsers.</p>
+
+<p>Wide, <strong>cross-platform browser support</strong>: Paylink has been developed to support modern browsers and has plugins for different rendering engines. We use <code>browserify</code> to ensure compatibility with modern browsers.</p>
+
+<p><strong>Responsive design</strong>: CityPay Paylink built upon Bootstrap 5. The payment form will automatically scale to fit the screen area available to the customer&#39;s browser while maintaining a breadth of functionality.</p>
+
+<p><strong>Internationalisation</strong>: CityPay Paylink generates a Payment Form appropriate to the Customer according to the language reported by and the location implied by the HTTP Accept-Language request header received by Paylink from the Customer Browser.</p>
+<h3 id='pragmatic-error-reporting'>Pragmatic error reporting</h3>
+<p>Under its staged validation and processing architecture, Paylink generates a list of all validation errors it encounters when processing an incoming request from the Merchant Application before returning any response. Accordingly, the Merchant Application implements comprehensive error management and reporting.</p>
+<h3 id='auditing'>Auditing</h3>
+<p>CityPay Paylink maintains a record of the changes a Customer makes to the pre-completed Payment Form and any subsequent changes the Customer makes to their payment details on each attempted payment submission.</p>
+<h3 id='3-d-secure'>3-D Secure</h3>
+<p>3-D Secure is embedded into Paylink, ensuring the user&#39;s seamless authentication experience. No further integration is required to run a seamless, authenticated transaction process, reducing exposure to fraudulent transactions.</p>
+<h3 id='integration-testing'>Integration Testing</h3>
+<p>To facilitate integration development and testing, Paylink provides a test transaction mode which behaves under the production payment processing system. See <a href="#testing-best-practices">Testing Best Practices</a> for using the test mode.</p>
+<h3 id='custom-fields'>Custom Fields</h3>
+<p>CityPay Paylink allows a Merchant Application to provide custom fields for data collection through the payment form.</p>
+<h3 id='credential-on-file-support'>Credential on File Support</h3>
+<p>Paylink supports storing account data, storing cardholder data, and allowing Merchants to process credential on file style transactions for subsequent charging.</p>
+
+<aside class="notice">PCI-DSS requires that the card security code should not be stored, and we are therefore unable to store this data. Due to this absence, cardholder account payment transactions may be subject to higher transaction charges due to the heightened chargeback risk.</aside>
+<h3 id='surcharging-support'>Surcharging Support</h3>
+<p>Paylink optionally enables Merchants to apply surcharges to Payment Transactions depending on the type of Payment Card the customer intends to use for the transaction. Surcharge functionality includes support for:</p>
+
+<ol>
+    <li>fixed amount surcharges irrespective of the transaction value;</li>
+    <li>percentage surcharges which may operate to pass on the cost of credit cards transaction processing; or</li>
+    <li>a mixture of fixed amount surcharges and percentage surcharges may reflect the different transaction processing approaches adopted for credit and debit card transactions.</li>
+</ol>
+
+<aside class="notice">Regulation in the EU now states that surcharging is not permitted on consumer cards.</aside>
+<h2 id='security'>Security</h2>
+<p>We have designed CityPay Paylink to be simple in delivery but as secure as possible. Paylink 3 complies with PCI-DSS requirements by following the recommendations of the Open Web Application Security Project (&quot;OWASP&quot;) top 10 vulnerabilities as follows:</p>
+
+<p><strong>Injection</strong>: the CityPay Paylink application is protected from any injection flaws by ensuring that all data is parameterised and input validation is performed before the application handles any data.</p>
+
+<p><strong>Broken Authentication and Session Management</strong>: CityPay Paylink uses the URL as a session construct and does not require a session cookie to maintain the state. The scope at which this URL is available is configurable so that payment may be locked to a browser or IP address. The unique identifier in the URL is a 64-bit randomised string guaranteed to be a unique value per merchant.</p>
+
+<p><strong>Cross Site Scripting</strong>: CityPay Paylink is protected against cross-site scripting (&quot;XSS&quot;) attack vectors through several mechanisms. All input data is validated, sanitised and encoded before being rendered within the body of the page. We also enable a Content Security Policy (&quot;CSP&quot;) for the Paylink application, which ensures that the application can only load page resources from an acceptable list of directives.</p>
+
+<p><strong>Insecure Direct Object References</strong>: No references are used in communication between the Merchant Application and Paylink or the Customer Browser and Paylink 3 that map directly to internal objects except the Payment Token used for Payment Transaction session management.</p>
+
+<p><strong>Security Misconfiguration</strong>: Paylink is deployed in compliance with CityPay&#39;s internal security policies that provide for structured security analysis and security hardening of servers based on their potential exposure. CityPay&#39;s internal security policies are regularly updated to be abreast of the latest security trends, and all of our servers are regularly patched, and vulnerability tested.</p>
+
+<p><strong>Sensitive Data Exposure</strong>: Cardholder data is encrypted using HTTPS with validated SSL certificates. Additionally, HTML forms generated are transmitted with the Cache-Control HTTP header set to prevent caching on the Customer Browser or by any intermediate proxy. The HTML form element is prevented from remembering the data entered by disabling autocomplete. Sensitive data such as the primary account number (&quot;PAN&quot;) are encrypted using an asymmetric encryption algorithm immediately following input validation on the server. CityPay uses industry-standard strong encryption algorithms (AES256) throughout its operations and has adopted key management and rotation processes to maintain security.</p>
+
+<p><strong>Missing Function Level Access Control</strong>: Every Paylink Payment Token Request is subject to authentication and access control before a Payment Token is generated. Paylink does not have any hidden functions accessed without authentication or outside the context of an established Payment Transaction session.</p>
+
+<p><strong>Cross-Site Request Forgery</strong>: Paylink creates a CSRF token as a session-based cookie when the Payment Token URL is first accessed. This cookie effectively binds the Payment Token to the relevant Customer Browser session to protect the Payment Transaction against cross-site request forgery (&quot;CSRF&quot;) attacks.</p>
+
+<p><strong>Using Components with Known Vulnerabilities</strong>: any dependencies are subject to scrutiny and are validated for use as a dependency through acceptable use policies. CityPay only uses industry-validated components and maintains a vulnerability programme that checks for vulnerabilities against these components.</p>
+
+<p><strong>Unvalidated Redirects and Forwards</strong>: The payment token follows an undisclosed, internal algorithm that allows us to validate any Payment Token before it arrives. As a server-side call generates the token, the merchant can trust the URL before forwarding the user for payment.</p>
+<h1 id='technical-overview'>Technical overview</h1>
+<p>Payment processing is initiated by an API request from your servers to CityPay&#39;s token creation endpoint to generate a
+Paylink Token. This token is provided to you in the form of a URL</p>
+
+<p>The Paylink service is a REST API over a TLSv1.2 channel for transmitting payment card data. Most HTTP clients can process
+TLSv1.2 and above; however, some legacy products may require specific configuration to communicate using TLSv1.2.</p>
+
+<p>Data is exchanged using JSON, XML or URL encoded data allowing developers to integrate applications using various languages. We are working towards SDKs for fast developer integration.</p>
+<h2 id='transaction-control-flow'>Transaction Control Flow</h2>
+<ol>
+<li><strong>Paylink Token Generation</strong>
+
+<ol>
+<li>the Merchant Application generates a Token for a Paylink Transaction via an API call (see  <a href="#token-api-reference">Token API Reference</a>)</li>
+<li>the Merchant Application transfers browser control to the Paylink service to a URL within the Paylink Token Response</li>
+</ol></li>
+<li><strong>Payment Form</strong>
+
+<ol>
+<li>Paylink validates and authenticates the request and renders a Payment Form</li>
+<li>the Shopper completes the Payment Form using their browser</li>
+<li>the form is validated and processed with 3D-Secure and the CityPay acquiring network</li>
+<li>a post-back call is made by paylink to notify your application of the result</li>
+<li>Paylink generates a response which is displayed to the user</li>
+<li>the browser is transferred to the Merchant Application via redirection</li>
+</ol></li>
+</ol>
+
+<p><img src="images/paylink-control-flow-8b1874d2.png" alt="Paylink-3 Control Flow" /></p>
+<h3 id='successful-payment-transaction-control-flow'>Successful payment transaction control flow</h3>
+<ol>
+<li>if a <code>redirectSuccess</code> URL was supplied and a redirection delay has been specified, the payment form displays a dialog stating that the transaction was successful. After the
+delay or on the cardholder clicking on the redirect button, the Payment Form redirects the browser</li>
+<li>if a <code>redirectSuccess</code> URL was supplied and no redirection delay has been specified, the payment form redirects the Customer Browser to the On Success URL immediately</li>
+<li>if a <code>redirectSuccess</code> URL was not specified, the payment form displays a dialog stating that the was successful.</li>
+</ol>
+<h3 id='failed-payment-transaction-control-flow'>Failed payment transaction control flow</h3>
+<p>Displays a dialog stating that the Transaction failed and allows the Customer to</p>
+
+<ol>
+<li>amend their payment card details to enable a further transaction to be processed or</li>
+<li>if a <code>redirectFailure</code> was specified, click on the return button to redirected the browser or</li>
+<li>the cardholder closes the browser tab or window</li>
+</ol>
+<h1 id='getting-started'>Getting Started</h1>
+<p>As a pre-requisite to integrate with CityPay Paylink, you will need:</p>
+
+<ol>
+    <li>a CityPay ClientId. A client id is a top-level account which identifies you as a client on our systems. Each account may have multiple merchant accounts.</li>
+    <li>a CityPay Client Integration Licence Key. This key identifies your integration.</li>
+    <li>a CityPay MerchantId. To be able to process, you will need a merchant id. Each merchant id maps to one or more bank merchant accounts and can be used to process and route payments to your merchant account.</li>
+</ol>
+
+<p>Please contact <a href="mailto:sales@citypay.com">sales</a> if you do not have these details. For integrators, we will be able to offer test accounts.</p>
+<h2 id='allowing-access'>Allowing Access</h2>
+<p>Before creating tokens, we will need to open access for your systems to process transactions. Access control is based on your IP address and can be configured as a single IP address, a subnet or a cloud service provider such as Amazon eu-west-1 or Google Cloud europe-west2.  Requests that are disallowed will return a <code>P007</code> error code.  You will also require authenticated access provided by your Merchant Id and an Integration Licence Key within each request.</p>
+
+<p>When setting up your account, please advise <a href="mailto:support@citypay.com">support</a> to discuss your access requirements.</p>
+<h2 id='recommended-integration-workflow'>Recommended Integration Workflow</h2>
+<ol>
+    <li>determine content type of call and add a HTTP request i.e. `Content-Type: application/json`</li>
+    <li>create structure for the <code>Token Request</code></li>
+        <ol>
+            <li>specify the relevant <code>merchantId</code> for your account</li>
+            <li>specify the relevant <code>licenceKey</code> provided for the Paylink service</li>
+            <li>specify the transaction mode</li>
+                <ol>
+                    <li>is a test transaction set <code>test</code> to <code>true</code></li>
+                    <li>is a live transaction set <code>test</code> to <code>false</code></li>
+                    <li>specifying no value will result in a test transaction</li>
+                </ol>
+            <li>specify the <code>identifier</code></li>
+            <li>specify the <code>amount</code></li>
+            <li>specify further options as per the <a href="#token-api-reference">Token API Reference</a></li>
+        </ol>
+<li>perform a HTTPS POST operation to the Paylink server URL, specifying the Token Request as the body of the POST call</li>
+<li>inspect and parse the Token Response</li>
+<li>if the <code>result</code> field is <code>1</code>, obtain the value of the <code>url</code> field and direct or redirect the customer browser to the provided value</li>
+<li>If the <code>result</code> field is <code>2</code>, obtain the value represented by <code>errors</code> and process each  <code>error</code> according to their respective errorCode;</li>
+</ol>
+<h1 id='paylink-token-api-request'>Paylink Token API Request</h1><h2 id='constructing-a-payment-request'>Constructing a Payment Request</h2>
+<p>Example Paylink Request</p>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"merchantId"</span><span class="p">:</span><span class="w"> </span><span class="mi">123456</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"licenceKey"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ASCnrtsona46on"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"amount"</span><span class="p">:</span><span class="w"> </span><span class="mi">11500</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"identifier"</span><span class="p">:</span><span class="w"> </span><span class="s2">"tx-000001"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div>
+<p>Successful Paylink Response</p>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"NDMwMzk6ODC0MzU2NDUzMjI3MjE"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"result"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"version"</span><span class="p">:</span><span class="w"> </span><span class="s2">"3.3.9"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://citypay.com/Vc889/NDMwMzk6ODC0MzU2NDUzMjI3MjE"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div>
+<p>Failed Paylink Response</p>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"NDMwMzk6ODC0MzU2NDUzMjI3MjE"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"result"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"errors"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="nl">"code"</span><span class="p">:</span><span class="w"> </span><span class="s2">"P026"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"msg"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Identifier is not supplied"</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div>
+<p>To create a Paylink token, a call should be made to the Paylink server
+at <a href="https://secure.citypay.com/paylink3/create">https://secure.citypay.com/paylink3/create</a>. The call is validated,
+checking:</p>
+
+<ol>
+    <li>the source ip address of the request.</li>
+    <li>the content type of the request such as `application/json`</li>
+    <li>the validity of the data within the request.</li>
+</ol>
+
+<p>Once these have all been met, a response object will be returned, providing either an error code or a success code and a
+URL to redirect the user&#39;s browser to payment.</p>
+
+<p>A payment request has been broken down to the following components to understand their context and scope:</p>
+
+<h3 id="merchant-authentication-fields-1">1. Merchant Authentication Fields</h3>
+
+<p>These fields are required to identify your CityPay account</p>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"merchantId"</span><span class="p">:</span><span class="w"> </span><span class="mi">12345</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"licenceKey"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ASCnrtsona46on"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div><div class="highlight"><pre class="highlight xml tab-xml"><code>
+<span class="nt">&lt;paylinkTokenRequest&gt;</span>
+    <span class="nt">&lt;merchantId&gt;</span>12345<span class="nt">&lt;/merchantId&gt;</span>
+    <span class="nt">&lt;licenceKey&gt;</span>ASCnrtsona46on<span class="nt">&lt;/licenceKey&gt;</span>
+<span class="nt">&lt;/paylinkTokenRequest&gt;</span>
+</code></pre></div>
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Usage</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>merchantId</td>
+<td>int</td>
+<td>Required</td>
+<td>The merchant id you wish to process this transaction with. You will be provided with one  or more merchant ids when signing up for an account.</td>
+</tr>
+<tr>
+<td>licenceKey</td>
+<td>string</td>
+<td>Required</td>
+<td>The <code>licenceKey</code> field is used to identify the integration being requested.</td>
+</tr>
+</tbody></table>
+<h2 id='processing-configuration-fields'>Processing Configuration Fields</h2>
+<p>These fields identify what is to be processed</p>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"amount"</span><span class="p">:</span><span class="w"> </span><span class="mi">7495</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"identifier"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0209fcb3fe72"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"test"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div><div class="highlight"><pre class="highlight xml tab-xml"><code>
+<span class="nt">&lt;paylinkTokenRequest&gt;</span>
+    <span class="nt">&lt;amount&gt;</span>7495<span class="nt">&lt;/amount&gt;</span>
+    <span class="nt">&lt;identifier&gt;</span>0209fcb3fe72<span class="nt">&lt;/identifier&gt;</span>
+    <span class="nt">&lt;test&gt;</span>true<span class="nt">&lt;/test&gt;</span>
+<span class="nt">&lt;/paylinkTokenRequest&gt;</span>
+</code></pre></div>
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Usage</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>accountNo</td>
+<td>string</td>
+<td>Optional</td>
+<td>Specifies an alpha-numeric account number that the Paylink service uses when creating a Cardholder Account. The value should be no longer than 20 characters in length.</td>
+</tr>
+<tr>
+<td>amount</td>
+<td>int</td>
+<td>Required</td>
+<td>Specifies the intended value of the transaction in the lowest denomination with no spacing characters or decimal point. This is the net total to be processed. An example of £74.95 would be presented as 7495.</td>
+</tr>
+<tr>
+<td>clientVersion</td>
+<td>string</td>
+<td>Optional</td>
+<td>The <code>clientVersion</code> field is used to specify the version of your application that has invoked the Paylink payment process. This feature is typically used for tracing issues relating to application deployments, or any Paylink integration module or plugin.</td>
+</tr>
+<tr>
+<td>email</td>
+<td>string</td>
+<td>Optional</td>
+<td>The email field is used for the Merchant to be <a href="#notifications-and-messaging">notified on completion of the transaction </a> . The value may be supplied to override the default stored value.<br/> Emails sent to this address by the Paylink service should not be forwarded on to the cardholder as it may contain certain information that is used by the Paylink service to validate and authenticate Paylink Token Requests: for example, the Merchant ID and the licence key.</td>
+</tr>
+<tr>
+<td>identifier</td>
+<td>string</td>
+<td>Required</td>
+<td>Identifies a particular transaction linked to a Merchant account. It enables accurate duplicate checking within a pre-configured time period, as well as transaction reporting and tracing. The <code>identifier</code> should be unique to prevent payment card processing attempts from being rejected due to duplication. <br/> Len (<em>5-50 characters</em>)</td>
+</tr>
+<tr>
+<td>test</td>
+<td>string</td>
+<td>Required</td>
+<td>Specifies the mode of the transaction:<br/> <strong>true</strong>: the transaction will be processed using the CityPay Test Authorisation System to enable comprehensive systems integration testing. If no value is supplied then a request is assumed to be a test transaction by default.<br/><strong>false</strong>: the transaction will be processed and authorised within the CityPay Acquiring network. The cardholder will be deducted the amount of the transaction on successful authorisation. <br/> (<em>default=true</em>)</td>
+</tr>
+</tbody></table>
+<h2 id='cardholder-fields'>Cardholder Fields</h2>
+<p>Cardholder fields are used to identify the underlying cardholder processing the transaction. These values are optional and the user can complete these values on the online form or may be pre-populated in the initial create request.</p>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"cardholder"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"email"</span><span class="p">:</span><span class="w"> </span><span class="s2">"purchaser@email.com"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"title"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Mr"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"firstName"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Noel"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"lastName"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Body"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"mobile"</span><span class="p">:</span><span class="w"> </span><span class="s2">"+44771122334455"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"address"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nl">"address1"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1 Some Street"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"address2"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Westminster"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"area"</span><span class="p">:</span><span class="w"> </span><span class="s2">"London"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"postcode"</span><span class="p">:</span><span class="w"> </span><span class="s2">"SW1A 2AA"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"country"</span><span class="p">:</span><span class="w"> </span><span class="s2">"GB"</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="nl">"acceptHeaders"</span><span class="p">:</span><span class="w"> </span><span class="s2">"text/html,applicat...;q=0.9"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"remoteAddr"</span><span class="p">:</span><span class="w"> </span><span class="s2">"55.44.33.22"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"userAgent"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Mozilla/5.0(Mac...Safari/537.36"</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div><div class="highlight"><pre class="highlight xml tab-xml"><code>
+<span class="nt">&lt;paylinkTokenRequest&gt;</span>
+    <span class="nt">&lt;cardholder&gt;</span>
+        <span class="nt">&lt;email&gt;</span>purchaser@email.com<span class="nt">&lt;/email&gt;</span>
+        <span class="nt">&lt;title&gt;</span>Mr<span class="nt">&lt;/title&gt;</span>
+        <span class="nt">&lt;firstName&gt;</span>Noel<span class="nt">&lt;/firstName&gt;</span>
+        <span class="nt">&lt;lastName&gt;</span>Body<span class="nt">&lt;/lastName&gt;</span>
+        <span class="nt">&lt;mobile&gt;</span>+44771122334455<span class="nt">&lt;/mobile&gt;</span>
+        <span class="nt">&lt;address&gt;</span>
+            <span class="nt">&lt;address1&gt;</span>1 Some Street<span class="nt">&lt;/address1&gt;</span>
+            <span class="nt">&lt;address2&gt;</span>Westminster<span class="nt">&lt;/address2&gt;</span>
+            <span class="nt">&lt;area&gt;</span>London<span class="nt">&lt;/area&gt;</span>
+            <span class="nt">&lt;postcode&gt;</span>SW1A 2AA<span class="nt">&lt;/postcode&gt;</span>
+            <span class="nt">&lt;country&gt;</span>GB<span class="nt">&lt;/country&gt;</span>
+        <span class="nt">&lt;/address&gt;</span>
+        <span class="c">&lt;!-- advanced optional security --&gt;</span>
+        <span class="nt">&lt;acceptHeaders&gt;</span>text/html,applicat ...;q=0.9<span class="nt">&lt;/acceptHeaders&gt;</span>
+        <span class="nt">&lt;remoteAddr&gt;</span>55.44.33.22<span class="nt">&lt;/remoteAddr&gt;</span>
+        <span class="nt">&lt;userAgent&gt;</span>Mozilla/5.0(Mac ...Safari/537.36<span class="nt">&lt;/userAgent&gt;</span>
+    <span class="nt">&lt;/cardholder&gt;</span>
+<span class="nt">&lt;/paylinkTokenRequest&gt;</span>
+</code></pre></div>
+<p>The <code>cardholder</code> node represents a container for the <strong>following</strong> cardholder-related fields:</p>
+
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Usage</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>address</td>
+<td>string</td>
+<td>Optional</td>
+<td>Represents a container for address related fields.</td>
+</tr>
+<tr>
+<td>company</td>
+<td>string</td>
+<td>Optional</td>
+<td>A company name for the cardholder.</td>
+</tr>
+<tr>
+<td>email</td>
+<td>string</td>
+<td>Optional</td>
+<td>The cardholder&#39;s email address. This field can be used to send a receipt to the payment cardholder. If this value is not supplied, no email will be sent.</td>
+</tr>
+<tr>
+<td>firstName</td>
+<td>string</td>
+<td>Optional</td>
+<td>The first name of the cardholder.</td>
+</tr>
+<tr>
+<td>lastName</td>
+<td>string</td>
+<td>Optional</td>
+<td>The last name of the cardholder.</td>
+</tr>
+<tr>
+<td>mobile</td>
+<td>string</td>
+<td>Optional</td>
+<td>The mobile number of the cardholder. This can be used for data collection via the Paylink Payment Form or to send an SMS on completion of a transaction. <em>This feature is a licensable option and is not configured by default</em>.</td>
+</tr>
+<tr>
+<td>title</td>
+<td>string</td>
+<td>Optional</td>
+<td>The title for the cardholder such as Mr, Mrs, Dr etc.</td>
+</tr>
+</tbody></table>
+
+<p>The billing address for the cardholder is <u>Required</u> if AVS address checking is enabled. </p>
+
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Usage</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>address1</td>
+<td>string</td>
+<td>Optional</td>
+<td>The first line of the address.</td>
+</tr>
+<tr>
+<td>address2</td>
+<td>string</td>
+<td>Optional</td>
+<td>The second line of the address</td>
+</tr>
+<tr>
+<td>address3</td>
+<td>string</td>
+<td>Optional</td>
+<td>The third line of the address</td>
+</tr>
+<tr>
+<td>area</td>
+<td>string</td>
+<td>Optional</td>
+<td>The area such as city, town, parish</td>
+</tr>
+<tr>
+<td>country</td>
+<td>string</td>
+<td>Optional</td>
+<td>The country of the billing address of the cardholder. The country code should be an ISO 3166 2 or 3 digit country code.</td>
+</tr>
+<tr>
+<td>label</td>
+<td>string</td>
+<td>Optional</td>
+<td>A label for the address such as Head Office, Home Address</td>
+</tr>
+<tr>
+<td>postcode</td>
+<td>string</td>
+<td>Optional</td>
+<td>The postal/zip code associated with the billing address</td>
+</tr>
+</tbody></table>
+<h3 id='cardholder-security-options'>CardHolder Security Options</h3>
+<p>These security fields allow locking in the request to known details of the users browser. If these values do not match the request arriving at payment, a security error will be shown.</p>
+
+<p>Note that these values are strong enforcement and consideration and may prevent easy transaction of payment due to ip addresses changing or dynamic values in the browser.</p>
+
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Usage</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>acceptHeaders</td>
+<td>string</td>
+<td>Optional</td>
+<td>The accept headers string generated by the Customer Browser. This field may be used to lock the payment process to the customer&#39;s browser. If the customer were to attempt to use a different browser an error will be generated.</td>
+</tr>
+<tr>
+<td>remoteAddr</td>
+<td>string</td>
+<td>Optional</td>
+<td>Specifies the remote IP address of the customer&#39;s browser. This field may be used to lock the payment form to the customer&#39;s IP address. Should the address change or a malicious third party attempted to hijack the transaction, an error will be generated.</td>
+</tr>
+<tr>
+<td>userAgent</td>
+<td>string</td>
+<td>Optional</td>
+<td>Specifies the user agent string of the Customer Browser. This field may be used to lock the payment form to the browser. Should a different user agent attempt to process the transaction or a malicious third party attempted to hijack the transaction, an error is generated.</td>
+</tr>
+</tbody></table>
+<h2 id='config-fields'>Config Fields</h2>
+<p>Configuration Fields allow for tailoring the Paylink user experience and for providing integration parameters to enhance
+with your integration.</p>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"config"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"acsMode"</span><span class="p">:</span><span class="w"> </span><span class="s2">"inline"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"expireIn"</span><span class="p">:</span><span class="w"> </span><span class="mi">30</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div><div class="highlight"><pre class="highlight xml tab-xml"><code>
+<span class="nt">&lt;paylinkTokenRequest&gt;</span>
+    <span class="nt">&lt;config&gt;</span>
+        <span class="nt">&lt;acsMode&gt;</span>inline<span class="nt">&lt;/acsMode&gt;</span>
+    <span class="nt">&lt;/config&gt;</span>
+<span class="nt">&lt;/paylinkTokenRequest&gt;</span>
+</code></pre></div>
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Usage</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>acsMode</td>
+<td>string</td>
+<td>Optional</td>
+<td>Specifies the approach to be adopted by the Paylink form when displaying a 3-D Secure challenge window. The values may be <ul><li><strong>iframe</strong>: shows the 3-D Secure ACS in an iframe dialog, neatly embedding it in Paylink. This provides a more seamless flow for the cardholder who is able to validate and authenticate their card using a dialog provided by their card issuer.</li><li><strong>inline</strong>: an inline mode transfers the full browser window to the authentication server, allowing the payment cardholder to see their payment card issuer&#39;s URL and the certificate status in the browser.</li></ul> <aside class="notice aside-padding">If you request an iframe mode and the browser width is deemed as being small (&lt; 768px) then an inline mode will be enforced. This is to ensure that mobile users have an improved user experience.</aside> (default = iframe)</td>
+</tr>
+<tr>
+<td>customParams</td>
+<td>array</td>
+<td>Optional</td>
+<td>Defines custom parameters to add to the request.</td>
+</tr>
+<tr>
+<td>descriptor</td>
+<td>string</td>
+<td>Optional</td>
+<td>Directly specify the merchant descriptor used for the transaction to be displayed on the payment page.</td>
+</tr>
+<tr>
+<td>expireIn</td>
+<td>int</td>
+<td>Optional</td>
+<td>Specifies a period of time in <strong>seconds</strong> after which the token cannot be used. A value of 0 defines that the token will never expire. The API will convert an expiry time based on a string value. For instance: <ul><li>s - Time in seconds, for example 90s.</li><li>m - Time in minutes, for example 20m.</li><li>h - Time in hours, for example 4h.</li><li>w - Time in weeks, for example 4w.</li><li>M - Time in months, for example 6M.</li><li>y - Time in years, for example 1y.</li></ul> Defaults to <em>30 minutes</em></td>
+</tr>
+<tr>
+<td>lockParams</td>
+<td>string[]</td>
+<td>Optional</td>
+<td>May be used to lock fields which are displayed in the form. For example, if the <code>cardholder.address.postcode</code> field were to be specified this would will prevent the customer amending the postal code for the cardholder postcode field.</td>
+</tr>
+<tr>
+<td>merch_branding</td>
+<td>string</td>
+<td>Optional</td>
+<td>Used to customise the branding of the form. This is currently deprecated.</td>
+</tr>
+<tr>
+<td>merch_logo</td>
+<td>URL</td>
+<td>Optional</td>
+<td>A URL of a logo to include in the form. The URL should be delivered using HTTPS.</td>
+</tr>
+<tr>
+<td>merch_terms</td>
+<td>URL</td>
+<td>Optional</td>
+<td>A URL of the merchant terms and conditions for payment. If a value is supplied, a checkbox will be required to be completed to confirm that the cardholder agrees to these conditions before payment. A modal dialogue is displayed with the content of the conditions displayed.</td>
+</tr>
+<tr>
+<td>options</td>
+<td>string[]</td>
+<td>Optional</td>
+<td>Specifies an array of configuration options to be applied to the transaction which complement or override default values.</td>
+</tr>
+<tr>
+<td>passThroughData</td>
+<td>array</td>
+<td>Optional</td>
+<td>To allow for greater interoperability, Paylink offers developers the ability to include Json data in any call using a <code>config.passThroughData</code> field. This data will be stored with your token request for the duration of the transaction session but not with any resulting authorisation. This is useful to provide information related to the user&#39;s session or cart. A practical length of 1024 bytes is possible to be stored.<br/>The Paylink system doesn&#39;t restrict you to simple key value pairs and allows for nested complex objects to be supplied. Pass through data will be supplied on a post back call or a post redirection.</td>
+</tr>
+<tr>
+<td>passThroughHeaders</td>
+<td>array</td>
+<td>Optional</td>
+<td>Values can be provided in the Token Request which are added as HTTP headers in the post back such as bearer tokens or authentication data.</td>
+</tr>
+<tr>
+<td>postback</td>
+<td>URL</td>
+<td>Optional</td>
+<td>Specifies a URL to use for a call back when the payment is completed. <a href="#postback-handling">see Postback Handling</a> }</td>
+</tr>
+<tr>
+<td>postback_password</td>
+<td>string</td>
+<td>Optional</td>
+<td>A password to be added to the postback for HTTP Basic Authentication</td>
+</tr>
+<tr>
+<td>postback_policy</td>
+<td>string</td>
+<td>Optional</td>
+<td>The policy setting for the postback <a href="#postback-handling">see Postback Handling</a> }</td>
+</tr>
+<tr>
+<td>postback_username</td>
+<td>string</td>
+<td>Optional</td>
+<td>A username to be added to the postback for HTTP Basic Authentication</td>
+</tr>
+<tr>
+<td>redirect_delay</td>
+<td>int</td>
+<td>Optional</td>
+<td>A value which can delay the redirection in seconds. A value of <code>0</code> will redirect immediately.</td>
+</tr>
+<tr>
+<td>redirect_failure</td>
+<td>URL</td>
+<td>Optional</td>
+<td>A URL which the browser is redirected to on non-completion of a transaction.</td>
+</tr>
+<tr>
+<td>redirect_success</td>
+<td>URL</td>
+<td>Optional</td>
+<td>A URL which the browser is redirected to on authorisation of a transaction.</td>
+</tr>
+<tr>
+<td>renderer</td>
+<td>string</td>
+<td>Optional</td>
+<td>The Paylink renderer engine to use</td>
+</tr>
+<tr>
+<td>return_params</td>
+<td>string</td>
+<td>Optional</td>
+<td>If a value of <code>true</code> is specified, any redirection will include the transaction result in parameters. It is recommended to use the postback integration rather than redirection parameters.</td>
+</tr>
+<tr>
+<td>ui</td>
+<td>object</td>
+<td>Optional</td>
+<td>Configuration object for UI customisation</td>
+</tr>
+</tbody></table>
+
+<p><strong>Redirection URLs</strong></p>
+
+<p>Redirects by default arrive as url-form encoded HTTP POST operation however redirects may also be a GET call by 
+prefixing the URL as <code>VERB:URL</code> such as <code>GET:https://mysite.com/redirect</code>. </p>
+
+<p>If no value is specified, the Paylink form will notify the outcome of the transaction to the customer via the online 
+form and the user will need to manually close their window.</p>
+
+<p><strong>Options</strong></p>
+
+<p>Available options are:</p>
+
+<table><thead>
+<tr>
+<th>Option</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>BYPASS_AVS_POSTCODE</code></td>
+<td>which bypasses the AVS postcode checking policy where it is enabled by default</td>
+</tr>
+<tr>
+<td><code>BYPASS_AVS_ADDRESS</code></td>
+<td>which bypasses the AVS address checking policy where it is enabled by default</td>
+</tr>
+<tr>
+<td><code>BYPASS_CSC_REQUIRED</code></td>
+<td>which bypasses the CSC checking policy where it is enabled by default</td>
+</tr>
+<tr>
+<td><code>BYPASS_3DSECURE</code></td>
+<td>which bypasses 3D secure processing where it is enabled by default. It is not possible to enforce 3D Secure as it requires further configuration by your account setup</td>
+</tr>
+<tr>
+<td><code>BYPASS_CUSTOMER_EMAIL</code></td>
+<td>which allows bypassing of sending emails to the customer when enabled</td>
+</tr>
+<tr>
+<td><code>BYPASS_CUSTOMER_SMS</code></td>
+<td>which allows bypassing of sending SMSs to the customer when enabled (licensed option)</td>
+</tr>
+<tr>
+<td><code>BYPASS_DUPLICATE_CHECK</code></td>
+<td>which allows the bypassing of the duplicate checker, this is on by default and allows prevention of duplicate transactions from being processed within a time slot</td>
+</tr>
+<tr>
+<td><code>BYPASS_MERCHANT_EMAIL</code></td>
+<td>which allows bypassing of sending emails to the merchant account</td>
+</tr>
+<tr>
+<td><code>BYPASS_PREAUTH</code></td>
+<td>which bypasses pre-authorisation when it is enabled to pre auth by default (licensed option)</td>
+</tr>
+<tr>
+<td><code>CAC_OPTIN</code></td>
+<td>adds a checkbox to the payment form which allows a cardholder account facility to have their card details remembered or opt not to</td>
+</tr>
+<tr>
+<td><code>CAC_AUTO_UUID</code></td>
+<td>generates a unique ID for each cardholder account rather than having one specified</td>
+</tr>
+<tr>
+<td><code>CREATE_CAC_ACCOUNT_ON_AUTHORISATION</code></td>
+<td>which Required where creating cardholder accounts to confirm creation is Required (licensed option)</td>
+</tr>
+<tr>
+<td><code>ENFORCE_AVS_ADDRESS</code></td>
+<td>which enforces the AVS address checking policy where it is disabled by default</td>
+</tr>
+<tr>
+<td><code>ENFORCE_AVS_POSTCODE</code></td>
+<td>which enforces the AVS postcode checking policy where it is disabled by default</td>
+</tr>
+<tr>
+<td><code>ENFORCE_CSC_REQUIRED</code></td>
+<td>which bypasses the CSC checking policy where it is disabled by default</td>
+</tr>
+<tr>
+<td><code>ENFORCE_PREAUTH</code></td>
+<td>which enforces pre-authorisation when it does not pre-auth by default (licensed option)</td>
+</tr>
+<tr>
+<td><code>REQUIRE_CUSTOMER_EMAIL</code></td>
+<td>Enforces that the cardholder must enter an email address</td>
+</tr>
+</tbody></table>
+
+<aside class="notice aside-padding">If BYPASS and ENFORCE options for the same underlying functionality exist, 
+the BYPASS option will take precedence.</aside>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"options"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+    </span><span class="s2">"BYPASS_3DSECURE"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"BYPASS_AVS_ADDRESS"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"BYPASS_AVS_POSTCODE"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"BYPASS_CUSTOMER_EMAIL"</span><span class="w">
+  </span><span class="p">]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div><div class="highlight"><pre class="highlight xml tab-xml"><code><span class="nt">&lt;config&gt;</span>
+    <span class="nt">&lt;options&gt;</span>BYPASS_3DSECURE<span class="nt">&lt;/options&gt;</span>
+    <span class="nt">&lt;options&gt;</span>BYPASS_AVS_ADDRESS<span class="nt">&lt;/options&gt;</span>
+    <span class="nt">&lt;options&gt;</span>BYPASS_AVS_POSTCODE<span class="nt">&lt;/options&gt;</span>
+<span class="nt">&lt;/config&gt;</span>
+</code></pre></div>
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Usage</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>addressMandatory</td>
+<td>boolean</td>
+<td>Optional</td>
+<td>whether the cardholder address is mandatory</td>
+</tr>
+<tr>
+<td>postcodeMandatory</td>
+<td>boolean</td>
+<td>Optional</td>
+<td>whether the cardholder poostcode is mandatory</td>
+</tr>
+<tr>
+<td>formAutocomplete</td>
+<td>string</td>
+<td>Optional</td>
+<td>specify the form autocomplete setting of the HTML form. If set to <code>off</code> the UI will set autocomplete=&quot;off&quot; on the form level. Default is <code>on</code></td>
+</tr>
+<tr>
+<td>ordering</td>
+<td>int</td>
+<td>Optional</td>
+<td>A logical ordering of the UI components</td>
+</tr>
+</tbody></table>
+<h2 id='custom-parameters'>Custom Parameters</h2>
+<p>You are able to add custom fields to the Paylink engine which may request further information from the shopper. Fields
+may also be used as hidden values and not displayed in the browser. A custom parameter can display as a text field, 
+select list, checkbox or any html5 input type.</p>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"config"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"customParams"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+      </span><span class="p">{</span><span class="w">
+        </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"param1"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"required"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"placeholder"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Enter the value for param1"</span><span class="w">
+      </span><span class="p">},</span><span class="w">
+      </span><span class="p">{</span><span class="w">
+        </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"param2"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"value"</span><span class="p">:</span><span class="w"> </span><span class="s2">"123"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"fieldType"</span><span class="p">:</span><span class="w"> </span><span class="s2">"range"</span><span class="w">
+      </span><span class="p">}</span><span class="w">
+    </span><span class="p">]</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div>
+<p>If you are wishing to use session tokens or callback parameters for your integration, it is recommended to use <code>passThroughHeaders</code> or <code>passThroughData</code> instead.</p>
+
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Usage</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>fieldType</td>
+<td>string</td>
+<td>Optional</td>
+<td>The HTML input element type which may include &#39;hidden&#39; or any other permitted value. Should the fieldType be <code>select</code> a select list will render however requires option values, see below.</td>
+</tr>
+<tr>
+<td>group</td>
+<td>string</td>
+<td>Optional</td>
+<td>A value which groups items for layout. The value should be a string title for rendering such as &quot;Your Account Info&quot;. If no value is provided, the paramer is added to a default parameter group. Group names are rendered alphabetically.</td>
+</tr>
+<tr>
+<td>label</td>
+<td>string</td>
+<td>Optional</td>
+<td>A label that should appear immediately before the field element in the generated form. If this value is not supplied, the name value will be used.</td>
+</tr>
+<tr>
+<td>locked</td>
+<td>boolean</td>
+<td>Optional</td>
+<td>States whether the field is locked, preventing entry or amendment by the person completing the form.</td>
+</tr>
+<tr>
+<td>name</td>
+<td>string</td>
+<td>Required</td>
+<td>Refers to the rendered HTML form element name. The value of this field is used in the postback and redirect dataset.</td>
+</tr>
+<tr>
+<td>order</td>
+<td>int</td>
+<td>Optional</td>
+<td>A value which allows you to order the position of elements in a grouping. Values will order in ascending order. Negative values are possible.</td>
+</tr>
+<tr>
+<td>pattern</td>
+<td>string</td>
+<td>Optional</td>
+<td>A string value which specifies the validation logic of the form element, for example a value of <code>QA[0-9]{3,4}</code> will require a value such as QA221 or QA4433.</td>
+</tr>
+<tr>
+<td>placeholder</td>
+<td>string</td>
+<td>Optional</td>
+<td>A value to set as the placeholder attribute which will render in modern browsers.</td>
+</tr>
+<tr>
+<td>required</td>
+<td>boolean</td>
+<td>Optional</td>
+<td>A boolean value that states whether the field is required or optional. When an element is required, validation will be performed on the end user&#39;s input form.</td>
+</tr>
+<tr>
+<td>value</td>
+<td>string</td>
+<td>Optional</td>
+<td>An initial value for the parameter as it appears on the Form. If your parameter is hidden, the value will be required.</td>
+</tr>
+</tbody></table>
+<h3 id='fieldtype-select-options'>fieldType Select Options</h3>
+<p>A fieldType value of <code>select</code> can request select items to be rendered. This is constructed by providing a list of values 
+in the <code>value</code> custom parameter field. Each value should be delimited by a pipe character &#39;&#124;&#39; <code>|</code>.  If a single 
+value is provided this value will be used as the value and label of the option item. Value items delimited with a colon
+<code>:</code> can be provide a value label pair, for instance:</p>
+
+<div class="inline-code language-html">
+"label" : "Age Group", "fieldType": "select", "value" : "Under 18|18-30|30-50|50+"
+... would render as
+
+&lt;select&gt;
+    &lt;option value=&quot;Under 18&quot;&gt;Under 18&lt;/option&gt;
+    &lt;option value=&quot;18-30&quot;&gt;18-30&lt;/option&gt;
+    &lt;option value=&quot;30-50&quot;&gt;30-50&lt;/option&gt;
+    &lt;option value=&quot;50+&quot;&gt;50+&lt;/option&gt;
+&lt;/select&gt;
+
+however,
+
+&quot;label&quot; : &quot;Age Group&quot;, 
+&quot;fieldType&quot;: &quot;select&quot;, 
+&quot;value&quot; : &quot;junior:Under 18|hipster:18-30|midage:30-50|senior:50+&quot;
+
+... would render as
+
+&lt;select&gt;
+    &lt;option value=&quot;junior&quot;&gt;Under 18&lt;/option&gt;
+    &lt;option value=&quot;hipster&quot;&gt;18-30&lt;/option&gt;
+    &lt;option value=&quot;midage&quot;&gt;30-50&lt;/option&gt;
+    &lt;option value=&quot;senior&quot;&gt;50+&lt;/option&gt;
+&lt;/select&gt;
+</div>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"config"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"passThroughData"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nl">"Key1"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Value1"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"Key2"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Value2"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"Key3"</span><span class="p">:</span><span class="w"> </span><span class="mi">1234</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"Key4"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"Key5"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nl">"sub1"</span><span class="p">:</span><span class="w"> </span><span class="s2">"asdfadf"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"sub2"</span><span class="p">:</span><span class="w"> </span><span class="mf">1234.9</span><span class="w">
+      </span><span class="p">},</span><span class="w">
+      </span><span class="nl">"Key6"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+        </span><span class="p">{</span><span class="w">
+          </span><span class="nl">"s1"</span><span class="p">:</span><span class="w"> </span><span class="mi">141</span><span class="p">,</span><span class="w">
+          </span><span class="nl">"s2"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+        </span><span class="p">},</span><span class="w">
+        </span><span class="p">{</span><span class="w">
+          </span><span class="nl">"s1"</span><span class="p">:</span><span class="w"> </span><span class="mi">99</span><span class="p">,</span><span class="w">
+          </span><span class="nl">"s2"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+      </span><span class="p">]</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="nl">"passThroughHeaders"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nl">"key1"</span><span class="p">:</span><span class="w"> </span><span class="s2">"value1"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"key2"</span><span class="p">:</span><span class="w"> </span><span class="s2">"value2"</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div><div class="highlight"><pre class="highlight http tab-http"><code><span class="nf">POST</span> <span class="nn">/YourUrl</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
+<span class="na">Content-Type</span><span class="p">:</span> <span class="s">application/json</span>
+<span class="na">key1</span><span class="p">:</span> <span class="s">value1</span>
+<span class="na">key2</span><span class="p">:</span> <span class="s">value2</span>
+<span class="na">Cache-Control</span><span class="p">:</span> <span class="s">no-cache</span>
+<span class="na">Pragma</span><span class="p">:</span> <span class="s">no-cache</span>
+<span class="s">...</span>
+</code></pre></div><h2 id='cardholder-account-fields'>Cardholder Account Fields</h2>
+<p>To be able to use credential on file (COF) services. A cardholder account may be created once the payment has been 
+authorised, this is then stored &quot;on file&quot; for subsequent charging for example re-authorisation, unscheduled payment, 
+delayed charges, incremental authorisation, recurring payments, resubmission or no-show style agreements.</p>
+
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Usage</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>accountNo</td>
+<td>string</td>
+<td>Optional</td>
+<td>Specifies an alpha-numeric account number that the Paylink service uses when creating a Cardholder Account. The value should be no longer than 20 characters in length.</td>
+</tr>
+</tbody></table>
+<h2 id='cart-fields'>Cart Fields</h2>
+<p>Container for cart options. <aside class="notice aside-padding">The shopping cart represented in the <code>
+cart.contents</code> field group is not cross checked with the <code>amount</code> field</aside></p>
+
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Usage</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>contents</td>
+<td>array</td>
+<td>Optional</td>
+<td>The <code>cart.contents</code> field represents an array containing zero, one or more cart items represented by objects of the form:</td>
+</tr>
+<tr>
+<td>mode</td>
+<td>integer</td>
+<td>Optional</td>
+<td>The <code>mode</code> field specifies the behaviour or functionality of the cart as below. Defaults to <code>0</code>.</td>
+</tr>
+<tr>
+<td>productDescription</td>
+<td>string</td>
+<td>Optional</td>
+<td>Specifies a description about the product or service that is the subject of the transaction. It will be rendered in the header of the page with no labels.</td>
+</tr>
+<tr>
+<td>productInformation</td>
+<td>string</td>
+<td>Optional</td>
+<td>Specifies information about the product or service that is the subject of the transaction. It will be rendered in the header of the page.</td>
+</tr>
+<tr>
+<td>shipping</td>
+<td>int</td>
+<td>Optional</td>
+<td>The shipping amount of the transaction in the lowest denomination of currency</td>
+</tr>
+<tr>
+<td>tax</td>
+<td>int</td>
+<td>Optional</td>
+<td>The tax amount of the transaction in the lowest denomination of currency</td>
+</tr>
+</tbody></table>
+
+<p>Cart Modes:</p>
+
+<table><thead>
+<tr>
+<th>Mode</th>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>0</td>
+<td>No cart</td>
+<td>No cart is shown</td>
+</tr>
+<tr>
+<td>1</td>
+<td>Read-only</td>
+<td>The cart is shown with a breakdown of the item details provided by objects in the <code>contents</code> array.</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Selection cart</td>
+<td>The cart is shown as a drop-down box of available cart items that the customer can a single item select from.</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Dynamic cart</td>
+<td>a text box is rendered to enable the operator to input an amount.</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Multi cart</td>
+<td>The cart is displayed with items rendered with selectable quantities.</td>
+</tr>
+</tbody></table>
+
+<p>Cart Items</p>
+
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Usage</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>amount</td>
+<td>int</td>
+<td>Required</td>
+<td>The net amount of the item. The Paylink Payment Form does not multiply this figure by the value provided by the <code>count</code> value for the cart item, this is principally to avoid rounding errors to introduce discrepancies between the value of the goods charged for and the total amount represented by the collection of cart items.</td>
+</tr>
+<tr>
+<td>brand</td>
+<td>string</td>
+<td>Optional</td>
+<td>The brand of the item such as Nike</td>
+</tr>
+<tr>
+<td>category</td>
+<td>string</td>
+<td>Optional</td>
+<td>The category of the item such as shoes</td>
+</tr>
+<tr>
+<td>count</td>
+<td>int</td>
+<td>Optional</td>
+<td>The count of how many of this item is being purchased, should the cart be editable, this value should be the default count required. The Paylink Payment Form assumes a <code>count</code> of 1 in the event that no value for the count field is provided for a cart item.</td>
+</tr>
+<tr>
+<td>label</td>
+<td>string</td>
+<td>Optional</td>
+<td>The label which describes the item</td>
+</tr>
+<tr>
+<td>max</td>
+<td>int</td>
+<td>Optional</td>
+<td>For an editable cart, the maximum number of items that can be purchased, defaults to 5</td>
+</tr>
+<tr>
+<td>sku</td>
+<td>string</td>
+<td>Optional</td>
+<td>The stock control unit value</td>
+</tr>
+<tr>
+<td>variant</td>
+<td>string</td>
+<td>Optional</td>
+<td>The <code>variant</code> field refers to the variant of the cart item to enable similar items to be distinguished according to certain criteria. For example, similar items may be distinguished in terms of size, weight and power. The Paylink Payment Form does not constrain the value of the <code>variant</code> field to a particular set of metrics.</td>
+</tr>
+</tbody></table>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"sku"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;sku&gt;"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"label"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;descriptive label&gt;"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"category"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;category&gt;"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"brand"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;brand&gt;"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"variant"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;variant&gt;"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"count"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"amount"</span><span class="p">:</span><span class="w"> </span><span class="mi">1000</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div>
+<p>** Required subfields are only Required if the parent container is present in the relevant data represented.</p>
+<h1 id='paylink-token-api-response'>Paylink Token API Response</h1>
+<p>On successful validation, authentication and processing of the Paylink Token Request a response of result <code>1</code> is 
+returned whilst a value of <code>0</code> indicates an error.</p>
+
+<blockquote>
+<p>Paylink Token Response Example</p>
+</blockquote>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ND4NjIzNzA4NzQyNjA0NTU"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"result"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://pl.citypay.com/RV1FFV4/ND4NjIzNzA4NzQyNjA0NTU"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div><div class="highlight"><pre class="highlight xml tab-xml"><code>
+<span class="nt">&lt;paylinkTokenResponse&gt;</span>
+    <span class="nt">&lt;id&gt;</span>ND4NjIzNzA4NzQyNjA0NTU<span class="nt">&lt;/id&gt;</span>
+    <span class="nt">&lt;result&gt;</span>1<span class="nt">&lt;/result&gt;</span>
+    <span class="nt">&lt;url&gt;</span>https://pl.citypay.com/RV1FFV4/ND4NjIzNzA4NzQyNjA0NTU<span class="nt">&lt;/url&gt;</span>
+<span class="nt">&lt;/paylinkTokenResponse&gt;</span>
+</code></pre></div>
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Usage</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>errors</td>
+<td>array</td>
+<td>Optional</td>
+<td>An array of errors which are found when attempting to create the payment token. Required (<em>when result=0</em>)</td>
+</tr>
+<tr>
+<td>id</td>
+<td>string</td>
+<td>Required</td>
+<td>The <code>id</code> field contains the merchant unique identifier for the configured transaction.</td>
+</tr>
+<tr>
+<td>result</td>
+<td>int</td>
+<td>Required</td>
+<td>The <code>result</code> field contains the result for the Paylink Token Request. <br/>0 indicates that an error was encountered while creating the token <br/>1 which indicates that a Token was successfully created.</td>
+</tr>
+<tr>
+<td>url</td>
+<td>string</td>
+<td>Optional</td>
+<td>The <code>url</code> is the Paylink Token URL which is to be used by the Customer Browser to access the Paylink Payment Form. Required (<em>when result=1</em>)</td>
+</tr>
+</tbody></table>
+
+<p>Error Code Format</p>
+
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Usage</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>code</td>
+<td>string</td>
+<td>Required</td>
+<td>The <code>errors[n].code</code> field contains an error code indicating why the Paylink Token Request could not be completed successfully.</td>
+</tr>
+<tr>
+<td>msg</td>
+<td>string</td>
+<td>Required</td>
+<td>The <code>errors[n].msg</code> field contains an error message indicating why the Token could not be generated.</td>
+</tr>
+</tbody></table>
+<h1 id='postback-handling'>Postback Handling</h1>
+<p>On processing a Transaction Request, Paylink will perform a HTTP POST operation to the provided postback
+URL. The body of the POST call contains a  <a href="#paylink-transaction-response-reference">Transaction Response</a>
+represented by the content-type of the originating call (JSON, XML). A postback is a pseudonym for a Webhook or
+Callback.</p>
+
+<p>To accept postback calls, the Merchant should configure their firewall to accept HTTP or HTTPS addresses from our
+production IP addresses of <code>54.246.184.95</code>, <code>54.246.184.93</code> and <code>54.246.184.81</code> as appropriate.</p>
+
+<p>A Postback does contain SHA256 integrity information which should also be checked to confirm that it is sent from a
+valid source. We also provide a sha1 value for backwards compatibility however integrators should consider this as
+deprecated.</p>
+
+<blockquote>
+<p>Examples</p>
+</blockquote>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"sha1"</span><span class="p">:</span><span class="w"> </span><span class="s2">"+Yz7zrgtzI4AN1b9UOa7th2u+/4="</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"cardScheme"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Visa Debit"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"expYear"</span><span class="p">:</span><span class="w"> </span><span class="mi">2020</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"authenticationResult"</span><span class="p">:</span><span class="w"> </span><span class="s2">"?"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"CSCResponse"</span><span class="p">:</span><span class="w"> </span><span class="s2">"M"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"digest"</span><span class="p">:</span><span class="w"> </span><span class="s2">"BxNq3NffJGzVfqFLYfjm+w=="</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"email"</span><span class="p">:</span><span class="w"> </span><span class="s2">"email@mail.com"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"identifier"</span><span class="p">:</span><span class="w"> </span><span class="s2">"shop_12345"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"firstname"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Joe"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"AVSResponse"</span><span class="p">:</span><span class="w"> </span><span class="s2">"M"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"cavv"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"postcode"</span><span class="p">:</span><span class="w"> </span><span class="s2">"JE3 1ZZ"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"result"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"datetime"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2018-02-28T09:02:51.603Z"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"errormessage"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Accepted Transaction"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"country"</span><span class="p">:</span><span class="w"> </span><span class="s2">"GB"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"amount"</span><span class="p">:</span><span class="w"> </span><span class="mi">8192</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"sha256"</span><span class="p">:</span><span class="w"> </span><span class="s2">"qLYMh02W+Wjg1pN2r/TV8Al+YlcLwLn8exotfNYdRFA="</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"maskedPan"</span><span class="p">:</span><span class="w"> </span><span class="s2">"475117******5712"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"lastname"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Smith"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"expMonth"</span><span class="p">:</span><span class="w"> </span><span class="mi">11</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"cac"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"O"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"errorid"</span><span class="p">:</span><span class="w"> </span><span class="s2">"000"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"GBP"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"address"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1 street"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"errorcode"</span><span class="p">:</span><span class="w"> </span><span class="s2">"000"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"mode"</span><span class="p">:</span><span class="w"> </span><span class="s2">"live"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"authcode"</span><span class="p">:</span><span class="w"> </span><span class="s2">"460190"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"cardSchemeId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"VD"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"eci"</span><span class="p">:</span><span class="w"> </span><span class="s2">"7"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"title"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"authorised"</span><span class="p">:</span><span class="w"> </span><span class="s2">"true"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"cac_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"transno"</span><span class="p">:</span><span class="w"> </span><span class="mi">271696</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"merchantid"</span><span class="p">:</span><span class="w"> </span><span class="mi">12345678</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div><div class="highlight"><pre class="highlight xml tab-xml"><code>
+<span class="nt">&lt;paylinkTransactionResult&gt;</span>
+    <span class="nt">&lt;sha1&gt;</span>RHKJeRJn+EBSaaowXce4KcKTCIw=<span class="nt">&lt;/sha1&gt;</span>
+    <span class="nt">&lt;cardScheme&gt;</span>Visa<span class="nt">&lt;/cardScheme&gt;</span>
+    <span class="nt">&lt;expYear&gt;</span>2023<span class="nt">&lt;/expYear&gt;</span>
+    <span class="nt">&lt;authenticationResult&gt;</span>?<span class="nt">&lt;/authenticationResult&gt;</span>
+    <span class="nt">&lt;CSCResponse&gt;&lt;/CSCResponse&gt;</span>
+    <span class="nt">&lt;digest&gt;</span>8pEXNXUcCF6YQ4FQnMT4bg==<span class="nt">&lt;/digest&gt;</span>
+    <span class="nt">&lt;email&gt;</span>your@email.com<span class="nt">&lt;/email&gt;</span>
+    <span class="nt">&lt;identifier&gt;</span>xmlTest<span class="nt">&lt;/identifier&gt;</span>
+    <span class="nt">&lt;firstname&gt;</span>Joe<span class="nt">&lt;/firstname&gt;</span>
+    <span class="nt">&lt;AVSResponse&gt;&lt;/AVSResponse&gt;</span>
+    <span class="nt">&lt;cavv&gt;&lt;/cavv&gt;</span>
+    <span class="nt">&lt;postcode&gt;</span>JE2 3NT<span class="nt">&lt;/postcode&gt;</span>
+    <span class="nt">&lt;result&gt;</span>1<span class="nt">&lt;/result&gt;</span>
+    <span class="nt">&lt;datetime&gt;</span>2018-01-06T15:40:15.807Z<span class="nt">&lt;/datetime&gt;</span>
+    <span class="nt">&lt;errormessage&gt;</span>Test Transaction<span class="nt">&lt;/errormessage&gt;</span>
+    <span class="nt">&lt;country&gt;</span>AU<span class="nt">&lt;/country&gt;</span>
+    <span class="nt">&lt;amount&gt;</span>123412<span class="nt">&lt;/amount&gt;</span>
+    <span class="nt">&lt;sha256&gt;</span>QhoBrnywFG4Vl8T5wOVwAPZslVrbL0kac9FzktxRw00=<span class="nt">&lt;/sha256&gt;</span>
+    <span class="nt">&lt;maskedPan&gt;</span>400000******0002<span class="nt">&lt;/maskedPan&gt;</span>
+    <span class="nt">&lt;lastname&gt;</span>Blogs<span class="nt">&lt;/lastname&gt;</span>
+    <span class="nt">&lt;expMonth&gt;</span>7<span class="nt">&lt;/expMonth&gt;</span>
+    <span class="nt">&lt;cac&gt;</span>0<span class="nt">&lt;/cac&gt;</span>
+    <span class="nt">&lt;status&gt;</span>O<span class="nt">&lt;/status&gt;</span>
+    <span class="nt">&lt;errorid&gt;</span>001<span class="nt">&lt;/errorid&gt;</span>
+    <span class="nt">&lt;currency&gt;</span>GBP<span class="nt">&lt;/currency&gt;</span>
+    <span class="nt">&lt;address&gt;</span>la rue de home<span class="nt">&lt;/address&gt;</span>
+    <span class="nt">&lt;errorcode&gt;</span>001<span class="nt">&lt;/errorcode&gt;</span>
+    <span class="nt">&lt;mode&gt;</span>test<span class="nt">&lt;/mode&gt;</span>
+    <span class="nt">&lt;authcode&gt;</span>A12345<span class="nt">&lt;/authcode&gt;</span>
+    <span class="nt">&lt;cardSchemeId&gt;</span>VE<span class="nt">&lt;/cardSchemeId&gt;</span>
+    <span class="nt">&lt;eci&gt;</span>7<span class="nt">&lt;/eci&gt;</span>
+    <span class="nt">&lt;title&gt;&lt;/title&gt;</span>
+    <span class="nt">&lt;authorised&gt;</span>true<span class="nt">&lt;/authorised&gt;</span>
+    <span class="nt">&lt;cac_id&gt;&lt;/cac_id&gt;</span>
+    <span class="nt">&lt;transno&gt;</span>65191<span class="nt">&lt;/transno&gt;</span>
+    <span class="nt">&lt;merchantid&gt;</span>12345678<span class="nt">&lt;/merchantid&gt;</span>
+<span class="nt">&lt;/paylinkTransactionResult&gt;</span>
+</code></pre></div><h2 id='providing-a-postback-url'>Providing a Postback URL</h2>
+<p>A default URL can be provided within your Paylink profile. Any value supplied in the Token Request, will override the
+stored profile value. Should a value of <strong>none</strong> be supplied in the Token Request, no postback will be performed.
+The determination of whether a postback should be sent is performed on a transaction by transaction basis based on the
+result of the transaction.</p>
+
+<p>A URL can only be on ports HTTP 80 and HTTPS 443. If you wish to utilise multiple applications or use a different
+port,
+we recommend reverse proxying your calls via Apache or Nginx or cloud services such as AWS Application Load Balancer.</p>
+
+<p>Merchant <strong>internal</strong> or <strong>localhost</strong> addresses often used for development testing cannot be used unless made publicly
+available. Whilst in an integration phase we suggest using a product such as <code>ngrok.com</code> to create a secure tunnel for
+building your post back.</p>
+
+<p>A valid URL is considered:</p>
+
+<ul>
+<li>to not be an empty string.</li>
+<li>to be RFC 1738 compliant.</li>
+<li>is a valid, reachable port such as port 443.</li>
+</ul>
+
+<p>Paylink optionally supports postback URLs where the endpoints use self-signed certificates.</p>
+<h2 id='postback-delivery-options'>Postback Delivery Options</h2>
+<p>A Postback may be delivered at different points of the lifecycle of a transaction. If a transaction is authorised,
+you can expect a post back to be sent. A postback may be withheld such that, if a transaction is processed and either
+rejected or declined, Paylink will allow the cardholder to retry a different card or correct their values. Therefore, a
+further attempt is made against the Paylink session with 1 or more transaction entries generated for the cardholder to
+reach payment. From an ordering perspective you will only want to know whether the transaction has been approved or not,
+therefore the last result is delivered. We determine what to deliver based on a successful authorisation or
+timeout of the token.</p>
+<h2 id='connection-settings'>Connection Settings</h2>
+<p>We recommend your store is hosted behind a secure site using HTTPS. Paylink will accept all certificate authorities as
+standardised by Oracle&#39;s Java runtime. If you are developing your site or have an untrusted certificate authority,
+Paylink can be configured to trust all authorities. This is a configurable option and whilst not recommended for
+integration purposes it may be necessary to allow this setting.</p>
+
+<p>Paylink will attempt a postback and require a connection within 10 seconds. Once connected it will also wait for a
+response for 10 seconds. If we are unable to determine that the Postback has been received then the Postback is marked
+as failed. If these timeout values are too short, please contact support who can alter these values as appropriate.</p>
+<h3 id='postback-response-handling'>Postback Response Handling</h3>
+<p>To confirm the Postback has been received by your servers, we expect a simple 20X status code response
+i.e. 200 OK to be returned.</p>
+<h3 id='synchronization-strategy'>Synchronization Strategy</h3>
+<p>A Postback call may be configured to be synchronous or asynchronous (default).</p>
+
+<p>The config parameter <code>postback_policy</code> should be set to 
+- <code>none</code> defines that no postback is to be sent
+- <code>sync</code> defines that the postback is synchronous
+- <code>async</code> defines that the postback is asynchronous (default)</p>
+
+<p><strong>Synchronous Postback</strong></p>
+
+<p>If the Postback is synchronous, Paylink will execute the Postback before any response is delivered to the Customer&#39;s
+Browser. This ensures that the information has been delivered to your site before the result is presented to the
+cardholder. The call is attempted by default only once. This is to ensure that Paylink can respond to the
+browser session within a reasonable period of time. Paylink however can be configured to retry.</p>
+
+<p>If we are unable to retrieve a response in this time period Paylink may:</p>
+
+<ol>
+<li>Allow the transaction to continue but move the Postback to a background process which will retry asynchronously; or</li>
+<li>Email out a failure message</li>
+</ol>
+
+<p><strong>Asynchronous Postback</strong></p>
+
+<p>If the Postback is asynchronous, Paylink will execute the Postback in a background process. resulting in a faster user
+experience. The Postback call may be received by the Merchant Application an arbitrary period of time after the
+Transaction was concluded. While the actual period of time between the provision of a response is likely to be
+relatively small, a Merchant Application that uses asynchronous PostBack calls should be implemented to avoid reliance
+on the outcome of the Transaction until the Postback call is actually received.</p>
+
+<p>In an asynchronous mode, a Postback is queued for delivery and may retry up to 10 times (configurable). A retry will be
+attempted every minute for the first 3 attempts, every 15 minutes for the next 3 attempts and every hour for every
+consequential retry.</p>
+<h1 id='paylink-transaction-response-reference'>Paylink Transaction Response Reference</h1>
+<p>Transaction Response parameters are returned in a postback and optionally in a redirection URL. </p>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+    </span><span class="nl">"AVSResponse"</span><span class="p">:</span><span class="w"> </span><span class="s2">" "</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"CSCResponse"</span><span class="p">:</span><span class="w"> </span><span class="s2">"M"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"address"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"amount"</span><span class="p">:</span><span class="w"> </span><span class="mi">11056</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"authcode"</span><span class="p">:</span><span class="w"> </span><span class="s2">"021079"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"authenticationResult"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Y"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"authorised"</span><span class="p">:</span><span class="w"> </span><span class="s2">"true"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"cac"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"cac_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"cardScheme"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Visa Debit"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"cardSchemeId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"VD"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"cavv"</span><span class="p">:</span><span class="w"> </span><span class="s2">"AJkBBQNSNgAAACswgmICdAAAAAA="</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"country"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"GBP"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"datetime"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2021-07-21T08:34:46.065Z"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"digest"</span><span class="p">:</span><span class="w"> </span><span class="s2">"i0JoTkP2Q3Ah3mGr7qeqqg=="</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"eci"</span><span class="p">:</span><span class="w"> </span><span class="s2">"5"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"email"</span><span class="p">:</span><span class="w"> </span><span class="s2">"transactions@citypay.com"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"errorcode"</span><span class="p">:</span><span class="w"> </span><span class="s2">"000"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"errorid"</span><span class="p">:</span><span class="w"> </span><span class="s2">"000"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"errormessage"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Accepted Transaction"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"expMonth"</span><span class="p">:</span><span class="w"> </span><span class="mi">8</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"expYear"</span><span class="p">:</span><span class="w"> </span><span class="mi">2025</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"firstname"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"identifier"</span><span class="p">:</span><span class="w"> </span><span class="s2">"RT-00000-181"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"lastname"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"maskedPan"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Visa***3028"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"merchantid"</span><span class="p">:</span><span class="w"> </span><span class="mi">123456</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"mode"</span><span class="p">:</span><span class="w"> </span><span class="s2">"live"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"name_on_card"</span><span class="p">:</span><span class="w"> </span><span class="s2">"MR N E PERSON"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"postcode"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"result"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"sha1"</span><span class="p">:</span><span class="w"> </span><span class="s2">"+DVBFjo5qw2PT6tYy9CkzBv8uJE="</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"sha256"</span><span class="p">:</span><span class="w"> </span><span class="s2">"JnJ/J456xCEnCeb2cCgROG7rsxF2HMBJiJRN4qkehz0="</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"O"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"title"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Mr"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"transno"</span><span class="p">:</span><span class="w"> </span><span class="mi">82101</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div><div class="highlight"><pre class="highlight xml tab-xml"><code><span class="nt">&lt;paylinkTransactionResult&gt;</span>
+    <span class="nt">&lt;AVSResponse&gt;</span> <span class="nt">&lt;/AVSResponse&gt;</span>
+    <span class="nt">&lt;CSCResponse&gt;</span>M<span class="nt">&lt;/CSCResponse&gt;</span>
+    <span class="nt">&lt;address&gt;&lt;/address&gt;</span>
+    <span class="nt">&lt;amount&gt;</span>11056<span class="nt">&lt;/amount&gt;</span>
+    <span class="nt">&lt;authcode&gt;</span>021079<span class="nt">&lt;/authcode&gt;</span>
+    <span class="nt">&lt;authenticationResult&gt;</span>Y<span class="nt">&lt;/authenticationResult&gt;</span>
+    <span class="nt">&lt;authorised&gt;</span>true<span class="nt">&lt;/authorised&gt;</span>
+    <span class="nt">&lt;cac&gt;</span>0<span class="nt">&lt;/cac&gt;</span>
+    <span class="nt">&lt;cac_id&gt;&lt;/cac_id&gt;</span>
+    <span class="nt">&lt;cardScheme&gt;</span>Visa Debit<span class="nt">&lt;/cardScheme&gt;</span>
+    <span class="nt">&lt;cardSchemeId&gt;</span>VD<span class="nt">&lt;/cardSchemeId&gt;</span>
+    <span class="nt">&lt;cavv&gt;</span>AJkBBQNSNgAAACswgmICdAAAAAA=<span class="nt">&lt;/cavv&gt;</span>
+    <span class="nt">&lt;country&gt;&lt;/country&gt;</span>
+    <span class="nt">&lt;currency&gt;</span>GBP<span class="nt">&lt;/currency&gt;</span>
+    <span class="nt">&lt;datetime&gt;</span>2021-07-21T08:34:46.065Z<span class="nt">&lt;/datetime&gt;</span>
+    <span class="nt">&lt;digest&gt;</span>i0JoTkP2Q3Ah3mGr7qeqqg==<span class="nt">&lt;/digest&gt;</span>
+    <span class="nt">&lt;eci&gt;</span>5<span class="nt">&lt;/eci&gt;</span>
+    <span class="nt">&lt;email&gt;</span>transactions@citypay.com<span class="nt">&lt;/email&gt;</span>
+    <span class="nt">&lt;errorcode&gt;</span>000<span class="nt">&lt;/errorcode&gt;</span>
+    <span class="nt">&lt;errorid&gt;</span>000<span class="nt">&lt;/errorid&gt;</span>
+    <span class="nt">&lt;errormessage&gt;</span>Accepted Transaction<span class="nt">&lt;/errormessage&gt;</span>
+    <span class="nt">&lt;expMonth&gt;</span>8<span class="nt">&lt;/expMonth&gt;</span>
+    <span class="nt">&lt;expYear&gt;</span>2025<span class="nt">&lt;/expYear&gt;</span>
+    <span class="nt">&lt;firstname&gt;&lt;/firstname&gt;</span>
+    <span class="nt">&lt;identifier&gt;</span>RT-00000-181<span class="nt">&lt;/identifier&gt;</span>
+    <span class="nt">&lt;lastname&gt;&lt;/lastname&gt;</span>
+    <span class="nt">&lt;maskedPan&gt;</span>Visa***3028<span class="nt">&lt;/maskedPan&gt;</span>
+    <span class="nt">&lt;merchantid&gt;</span>123456<span class="nt">&lt;/merchantid&gt;</span>
+    <span class="nt">&lt;mode&gt;</span>live<span class="nt">&lt;/mode&gt;</span>
+    <span class="nt">&lt;name_on_card&gt;</span>MR N E PERSON<span class="nt">&lt;/name_on_card&gt;</span>
+    <span class="nt">&lt;postcode&gt;&lt;/postcode&gt;</span>
+    <span class="nt">&lt;result&gt;</span>1<span class="nt">&lt;/result&gt;</span>
+    <span class="nt">&lt;sha1&gt;</span>+DVBFjo5qw2PT6tYy9CkzBv8uJE=<span class="nt">&lt;/sha1&gt;</span>
+    <span class="nt">&lt;sha256&gt;</span>JnJ/J456xCEnCeb2cCgROG7rsxF2HMBJiJRN4qkehz0=<span class="nt">&lt;/sha256&gt;</span>
+    <span class="nt">&lt;status&gt;</span>O<span class="nt">&lt;/status&gt;</span>
+    <span class="nt">&lt;title&gt;</span>Mr<span class="nt">&lt;/title&gt;</span>
+    <span class="nt">&lt;transno&gt;</span>8210<span class="nt">&lt;/transno&gt;</span>
+<span class="nt">&lt;/paylinkTransactionResult&gt;</span>
+</code></pre></div>
+<h2 id="merchant-authentication-fields-3">Merchant Authentication Fields</h2>
+
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>amount</td>
+<td>int</td>
+<td>The total amount of the transaction processed in Lowest Denomination Form, inclusive of any surcharge applied.</td>
+</tr>
+<tr>
+<td>authcode</td>
+<td>string</td>
+<td>The authorisation code returned by the acquirer if the transaction was <u>successful</u>.</td>
+</tr>
+<tr>
+<td>authorised</td>
+<td>boolean</td>
+<td>Indicates that the transaction was <u>authorised</u> and was successfully processed. The <code>result</code> and <code>errorcode</code> values provide further detailed information on the successful or failed transaction.</td>
+</tr>
+<tr>
+<td>currency</td>
+<td>string</td>
+<td>The field contains the currency of the transaction as an ISO-4217 3 digit alpha-numeric value.</td>
+</tr>
+<tr>
+<td>datetime</td>
+<td>string</td>
+<td>The UTC date and time that the transaction was processed as an ISO-8601 date and time value. For example <code>2021-12-03T10:15:30</code></td>
+</tr>
+<tr>
+<td>errorcode</td>
+<td>string</td>
+<td>The error/result code for the resultant transaction. See <a href="#error-codes-reference">API Response &amp; Error Codes.</a></td>
+</tr>
+<tr>
+<td>errorid</td>
+<td>string</td>
+<td>The full error id for the resultant transaction, in the form <code>000.0.0</code></td>
+</tr>
+<tr>
+<td>errormessage</td>
+<td>string</td>
+<td>The human-readable error message for the resultant transaction.</td>
+</tr>
+<tr>
+<td>identifier</td>
+<td>string</td>
+<td>The identifier provided in the originating token request.</td>
+</tr>
+<tr>
+<td>merchantid</td>
+<td>int</td>
+<td>The CityPay merchant id that the transaction was processed with.</td>
+</tr>
+<tr>
+<td>mode</td>
+<td>string</td>
+<td>The mode of the transaction, returning <code>live</code> or <code>test</code>.</td>
+</tr>
+<tr>
+<td>passThroughData</td>
+<td>object</td>
+<td>An object of data provided in the request to pass through</td>
+</tr>
+<tr>
+<td>result</td>
+<td>int</td>
+<td>The result code, indicating the outcome of the transaction.</td>
+</tr>
+<tr>
+<td>status</td>
+<td>string</td>
+<td>The status code determines how the transaction will be handled for settlement. A value of &#39;O&#39;, indicates that the transaction is open for settlement. Merchants who have pre-authorisation enabled can determine that the transaction is pre-authorised by seeing a &#39;P&#39; in this response.</td>
+</tr>
+<tr>
+<td>transno</td>
+<td>int</td>
+<td>An incremented transaction number generated by the platform to produce an audited list of transactions as they are processed. If a transaction failed to process this value may be -1</td>
+</tr>
+</tbody></table>
+<h3 id='result-codes'>Result Codes</h3>
+<p>The following result codes are an exhaustive list and cater for all transaction types, including e-commerce, card present and mail-order telephone-order transactions. 
+Some result codes may not be relevant to the Merchant Application or to processing in an online environment.</p>
+
+<table><thead>
+<tr>
+<th>Value</th>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>0</td>
+<td>Declined</td>
+<td>Result code when a transaction is declined by the acquirer and no further processing is allowed.</td>
+</tr>
+<tr>
+<td>1</td>
+<td>Accepted</td>
+<td>Result code when a transaction is accepted by the acquirer.</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Rejected</td>
+<td>The transaction was rejected before sending to the acquirer for processing.</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Not Attempted</td>
+<td>The transaction was not attempted due to a validation failure and therefore not processed (default).</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Referred</td>
+<td>Result code when a transaction has been referred for manual authorisation.</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Perform PIN Retry</td>
+<td>Retry the PIN entry.</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Force Signature Verification</td>
+<td>Force Signature Verification</td>
+</tr>
+<tr>
+<td>7</td>
+<td>Hold</td>
+<td>Hold transaction and recheck.</td>
+</tr>
+<tr>
+<td>8</td>
+<td>Security Error</td>
+<td>A security error was found which prevented the transaction from processing</td>
+</tr>
+<tr>
+<td>9</td>
+<td>Call Acquirer</td>
+<td>The transaction was referred by the Acquirer who should be called to gain a manual authcode. N/A in an e-commerce environment.</td>
+</tr>
+<tr>
+<td>10</td>
+<td>Do Not Honour</td>
+<td>The transaction was declined and being rejected for consideration of processing. This may be due to the cardholder having a hold on their card, multiple denied payments in a row and therefore awaiting the cardholder to contact their issuer</td>
+</tr>
+<tr>
+<td>11</td>
+<td>Retain Card</td>
+<td>Your should retain the card as it is considered fraudulent.</td>
+</tr>
+<tr>
+<td>12</td>
+<td>Expired Card</td>
+<td>The card has expired. This normally occurs when a valid expiry date is supplied and the card has been superseded by the issuer.</td>
+</tr>
+<tr>
+<td>13</td>
+<td>Invalid Card No</td>
+<td>The card number is invalid. This may occur after a valid LUHN check.</td>
+</tr>
+<tr>
+<td>14</td>
+<td>Pin Tries Exceeded</td>
+<td>The number of PIN entries have been exceeded.</td>
+</tr>
+<tr>
+<td>15</td>
+<td>PIN Invalid</td>
+<td>The PIN number entered is invalid.</td>
+</tr>
+<tr>
+<td>16</td>
+<td>Authentication Required</td>
+<td>3DSv1 Authentication required for a transaction, in an e-commerce transaction, the system will need to refer to an ACS.</td>
+</tr>
+<tr>
+<td>17</td>
+<td>Authentication Failed</td>
+<td>Authentication is required for the transaction. The authorisation process failed.</td>
+</tr>
+<tr>
+<td>18</td>
+<td>Verified</td>
+<td>A verification request was made and the transaction waas verified</td>
+</tr>
+<tr>
+<td>19</td>
+<td>Cancelled</td>
+<td>A transaction has been cancelled from processing.</td>
+</tr>
+<tr>
+<td>20</td>
+<td>Unknown</td>
+<td>The unknown response is a value returned when the system has produced an error and the result cannot be determined.</td>
+</tr>
+<tr>
+<td>21</td>
+<td>Challenged</td>
+<td>The request has been challenged in association with 3DSv2 and requires the cardholder to provide authentication</td>
+</tr>
+<tr>
+<td>22</td>
+<td>Decoupled</td>
+<td>The transaction has been decoupled</td>
+</tr>
+<tr>
+<td>23</td>
+<td>Permission Denied</td>
+<td>The transaction has been denied due to a card scheme mandate or the result of fraudulent transactions</td>
+</tr>
+</tbody></table>
+<h3 id='fraud-checking-response-fields'>Fraud Checking Response Fields</h3>
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>AVSResponse</td>
+<td>string</td>
+<td>The result of address verification provided by the card issuer.</td>
+</tr>
+<tr>
+<td>CSCResponse</td>
+<td>string</td>
+<td>The result of the card security code checking by the card issuer</td>
+</tr>
+</tbody></table>
+<h4 id='avs-address-resopnse-values'>AVS Address Resopnse Values</h4>
+<aside class="notice aside-padding">The meaning of some values are duplicated due to the source values from MasterCard and Visa.</aside>
+
+<table><thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>&#39; &#39; (Space)</td>
+<td>No information.</td>
+</tr>
+<tr>
+<td>A</td>
+<td>Address matches, post code does not</td>
+</tr>
+<tr>
+<td>B</td>
+<td>Postal code not verified due to incompatible formats.</td>
+</tr>
+<tr>
+<td>C</td>
+<td>Street address and Postal code not verified due to incompatible formats.</td>
+</tr>
+<tr>
+<td>D</td>
+<td>Street address and postal codes match.</td>
+</tr>
+<tr>
+<td>E</td>
+<td>AVS Error.</td>
+</tr>
+<tr>
+<td>G</td>
+<td>Issuer does not participate in AVS.</td>
+</tr>
+<tr>
+<td>I</td>
+<td>Address information verified for international transaction.</td>
+</tr>
+<tr>
+<td>M</td>
+<td>Street address and Postal codes match for international transaction.</td>
+</tr>
+<tr>
+<td>N</td>
+<td>No match on address or postcode.</td>
+</tr>
+<tr>
+<td>P</td>
+<td>Postal codes match. Street address not verified due to to incompatible formats.</td>
+</tr>
+<tr>
+<td>R</td>
+<td>System unavailable or Timed Out.</td>
+</tr>
+<tr>
+<td>S</td>
+<td>Service not supported by issuer or processor.</td>
+</tr>
+<tr>
+<td>U</td>
+<td>Address information unavailable.</td>
+</tr>
+<tr>
+<td>W</td>
+<td>9 digit post code matches, Address does not.</td>
+</tr>
+<tr>
+<td>X</td>
+<td>Postcode and Address match.</td>
+</tr>
+<tr>
+<td>Y</td>
+<td>Address and 5 digit post code match.</td>
+</tr>
+<tr>
+<td>Z</td>
+<td>5 digit post code matches, Address does not.</td>
+</tr>
+</tbody></table>
+<h4 id='csc-response-values'>CSC Response Values</h4>
+<table><thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>M</td>
+<td>Card verification data matches.</td>
+</tr>
+<tr>
+<td>N</td>
+<td>The card verification data was checked but did not match.</td>
+</tr>
+<tr>
+<td>P</td>
+<td>The card verification data was not processed.</td>
+</tr>
+<tr>
+<td>S</td>
+<td>The card verification data should be on a card but the merchant indicates that it is not.</td>
+</tr>
+<tr>
+<td>U</td>
+<td>Issuer not certified, did not provide the data or both.</td>
+</tr>
+<tr>
+<td>&#39; &#39; (Space)</td>
+<td>No information.</td>
+</tr>
+</tbody></table>
+<h3 id='surcharging-additional-response-fields'>Surcharging Additional Response Fields</h3>
+<p>If surcharging is enabled on the merchant account and applied to the transaction.</p>
+
+<aside class="notice aside-padding">Surcharge functionality enables the Merchant to apply a fixed percentage charge or a fixed amount charge against a transaction to enable the Merchant to recover their costs of Payment Card processing. The actual surcharges to be applied to transactions are associated with each merchant id.</aside>
+
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>initial_amount:</td>
+<td>int</td>
+<td>The amount of the transaction provided in the originating request, in Lowest Denomination Form.</td>
+</tr>
+<tr>
+<td>surcharge:</td>
+<td>int</td>
+<td>The surcharge amount that has been added to the transaction</td>
+</tr>
+<tr>
+<td>surcharge_rate:</td>
+<td>int</td>
+<td>the surcharge_rate field contains the rate in which the surcharge was applied.</td>
+</tr>
+</tbody></table>
+<h2 id='card-details'>Card Details</h2>
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>cardScheme</td>
+<td>string</td>
+<td>The field describes the card scheme of the Payment Card that was processed in the transaction such as Visa, MasterCard.</td>
+</tr>
+<tr>
+<td>cardSchemeId</td>
+<td>string</td>
+<td>The field contains an id for the card scheme used for the transaction.</td>
+</tr>
+<tr>
+<td>expMonth</td>
+<td>int</td>
+<td>The month of expiry of the card, a value between 1 and 12</td>
+</tr>
+<tr>
+<td>expYear</td>
+<td>int</td>
+<td>The full year of expiry of the card</td>
+</tr>
+<tr>
+<td>maskedPan</td>
+<td>string</td>
+<td>The masked version of the primary account number (PAN) used by the card holder used in the resultant transaction. For example <code>Visa***3028</code></td>
+</tr>
+<tr>
+<td>name_on_card</td>
+<td>string</td>
+<td>The name as it appears on the card such as MR N E PERSON. This value is normally requested from the cardholder and checked with 3DS.</td>
+</tr>
+</tbody></table>
+<h2 id='card-holder-details'>Card Holder Details</h2>
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>address</td>
+<td>string</td>
+<td>The billing address as a single line comma delimited address as entered by the cardholder at the time of completing payment.</td>
+</tr>
+<tr>
+<td>country</td>
+<td>string</td>
+<td>The field contains the ISO-3166 2 character country code of the cardholders billing address.</td>
+</tr>
+<tr>
+<td>email</td>
+<td>string</td>
+<td>The field contains the cardholder email address entered within the online form.</td>
+</tr>
+<tr>
+<td>firstname</td>
+<td>string</td>
+<td>The first name of the cardholder as entered within the online form.</td>
+</tr>
+<tr>
+<td>lastname</td>
+<td>string</td>
+<td>The last name of the cardholder as entered within the online form.</td>
+</tr>
+<tr>
+<td>postcode</td>
+<td>string</td>
+<td>The postcode that the cardholder entered when completing the online payment form.</td>
+</tr>
+<tr>
+<td>title</td>
+<td>string</td>
+<td>The title of the cardholder as entered on the payment form.</td>
+</tr>
+</tbody></table>
+<h2 id='3dsecure-result-codes'>3DSecure Result Codes</h2>
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td></td>
+<td>cavv</td>
+<td>string</td>
+</tr>
+<tr>
+<td></td>
+<td>eci</td>
+<td>string</td>
+</tr>
+<tr>
+<td></td>
+<td>authenticationResult</td>
+<td>string</td>
+</tr>
+</tbody></table>
+<h3 id='authentication-result'>Authentication Result</h3>
+<ul>
+<li><code>Y</code> authentication was successful</li>
+<li><code>N</code> authentication failed</li>
+<li><code>U</code> authentication could not be performed</li>
+<li><code>A</code> authentication was attempted but could not be performed</li>
+</ul>
+
+<p>Authentication that could not be performed or attempted may result in a transaction 
+that is authorised by the Acquirer. In such circumstances, the transaction may be subject to a higher risk profile and
+may not benefit from the liability shift from Merchant to cardholder that 3DSecure authentication 
+generally provides. CityPay are able to control the workflow of your transaction if you desire only fully authenticated 
+transactions to be authorised.</p>
+<h3 id='eci-values'>ECI Values</h3>
+<table><thead>
+<tr>
+<th>Visa</th>
+<th>MasterCard</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>7</code></td>
+<td><code>0</code></td>
+<td>set when transaction authentication was not authenticated, unsuccessful or not attempted</td>
+</tr>
+<tr>
+<td><code>6</code></td>
+<td><code>1</code></td>
+<td>set when an attempt is made to authenticate the cardholder using 3DSecure, but the Payment Card Issuer or the payment cardholder were not participating in the 3DSecure scheme, or the Payment Card Issuer ACS was not able to respond to the request</td>
+</tr>
+<tr>
+<td><code>5</code></td>
+<td><code>2</code></td>
+<td>set when a transaction has been fully authenticated</td>
+</tr>
+</tbody></table>
+<h2 id='cardholder-account-fields'>Cardholder Account Fields</h2>
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>cac</td>
+<td>int</td>
+<td>The field contains the results of the control path in response to card holder account actions. <code>0</code> indicates that no action has been taken<br/> <code>1</code> indicates that the account was loaded and processed<br/><code>2</code> indicates that a new account was created<br/><code>3</code> indicates that an account was updated with details such as the billing address submitted by the card holder using the payment form<br/><code>4</code> indicates that the accountwas deleted</td>
+</tr>
+<tr>
+<td>cac_id</td>
+<td>string</td>
+<td>Contains the identifier of the Cardholder Account associated with the transaction.</td>
+</tr>
+</tbody></table>
+<h2 id='transaction-response-digests'>Transaction Response Digests</h2>
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>digest</td>
+<td>string</td>
+<td><strong>Deprecated</strong> The field contains an MD5, base64 encoded string of the result parameters. Will be removed from future versions.</td>
+</tr>
+<tr>
+<td>sha1</td>
+<td>string</td>
+<td><strong>Deprecated</strong> The field contains an SHA-1, base64 encoded string of the result parameters. Will be removed from future versions.</td>
+</tr>
+<tr>
+<td>sha256</td>
+<td>string</td>
+<td>The field contains an SHA-256, base64 encoded string of the result parameters.</td>
+</tr>
+</tbody></table>
+
+<p>A digest is used to trust the integrity of the returned data. This is performed by concatenating fields of the
+response with additional information not present in the response data. To handle a digest:</p>
+
+<ul>
+<li>concatenate the following response fields, in order  <code>authcode</code>, <code>amount</code>, <code>errorcode</code>, <code>merchantid</code>, <code>transno</code>, <code>identifier</code>, <code>licencekey</code>.</li>
+<li>apply through the hash function.</li>
+<li>encode the byte array result from the hash function as a base64 string.</li>
+<li>compare the generated value to the value returned by Paylink.</li>
+<li>if the both digests are the same, the integrity of the data is correct.</li>
+<li>if the digests differ, the data should be considered as incorrect. It is up to your application whether to accept the result at this time.</li>
+</ul>
+
+<p>Example values are: </p>
+
+<p><code>authcode</code>: <code>88A123</code>, <code>amount</code>: <code>1500</code>, <code>errorcode</code>: <code>000</code> ,<code>merchantid</code>: <code>123456</code> ,<code>transno</code>: <code>8601</code>, <code>identifier</code>: <code>TX-0001</code> ,<code>licencekey</code>: <code>BWCG00WES4JSH0Q6</code></p>
+
+<p>Results in 
+- <code>SHA-1</code>: <code>DIVLXJ4HcKg4K6u51a+e8yhk9Bo</code>
+- <code>SHA-256</code>: <code>xnKflRW1tqa9BTgu79sGZsES7e3c+LpJ4+hJHt8VfwI=</code></p>
+<h1 id='redirection-handling'>Redirection Handling</h1>
+<p>Once a transaction has processed, the browser can be redirected back to the merchant&#39;s store, within the Paylink API
+this is known as a redirect. A redirection may depend on whether the transaction result is successful or failed.
+Likewise you are able to configure a redirection URL on each token request or a default value that may be configured
+store wide. The default is to have no redirection.</p>
+
+<p>A redirection from Paylink is performed through a HTTP POST containing <code>application/x-www-form-urlencoded</code> data rather 
+than a HTTP 302 redirection. This enables Paylink to send data in the redirection in a POST call. Optionally a URL may 
+be prefixed with a verb such as &quot;GET:&quot; where the redirection process will enforce a GET call. For instance:</p>
+
+<blockquote>
+<p>A default redirection simply provides a URL</p>
+</blockquote>
+<div class="highlight"><pre class="highlight javascript tab-javascript"><code><span class="p">{</span>
+    <span class="dl">"</span><span class="s2">redirect_success</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">https://mysite.com/payment/result</span><span class="dl">"</span><span class="p">,</span> 
+    <span class="dl">"</span><span class="s2">redirect_failure</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">https://mysite.com/payment/failed</span><span class="dl">"</span>
+<span class="p">}</span>
+</code></pre></div>
+<blockquote>
+<p>whilst an enforced GET call can be preceded</p>
+</blockquote>
+<div class="highlight"><pre class="highlight javascript tab-javascript"><code><span class="p">{</span>
+    <span class="dl">"</span><span class="s2">redirect_success</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">GET:https://mysite.com/payment/result</span><span class="dl">"</span><span class="p">,</span> 
+    <span class="dl">"</span><span class="s2">redirect_failure</span><span class="dl">"</span><span class="p">:</span><span class="dl">"</span><span class="s2">GET:https://mysite.com/payment/failed</span><span class="dl">"</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>A Merchant Store that relies on receiving the result of the transaction through redirection in preference to a post back
+should be aware that:</p>
+
+<ol>
+<li><strong>Customer Browser Redirection is unreliable</strong> : The Customer may close the browser, or a network failure may occur
+immediately or before being redirected to a redirection URL. In such cases, the Merchant Application will not receive
+an update of the status of the transaction, despite the fact that it may have been successful.</li>
+<li><strong>Status information flow depends on compliant Customer behaviour</strong> : This means that the Merchant Application only
+receives status updates when the Customer Browser is redirected either automatically, or by requiring the user to
+click a button on the Payment Form.</li>
+</ol>
+
+<aside class="notice aside-padding">If the Customer Browser Redirection URL refers to an unencrypted protocol such as HTTP, 
+the Customer Browser is likely to display a warning that they are moving from a secure, encrypted connection 
+to an unsecured connection. This is a by-product of the redirection being performed as a POST operation. To ensure that 
+the user experience is as seamless as possible, it is recommended that Merchant Applications use an encrypted protocol such as HTTPS.</aside>
+<h2 id='redirection-payload'>Redirection Payload</h2>
+<p>If a transaction has been configured for redirection, <a href="#paylink-transaction-response-reference">Transaction
+Response</a> data may optionally be including within a HTTP POST call, with the following considerations:</p>
+
+<ol>
+<li>it is feasible that the payload data may not be genuine, and data should be validated using a SHA-2 digest.</li>
+<li>data will optionally be returned in success or failure results.</li>
+<li>the redirection data will only be provided once the transaction is concluded.
+
+<ol>
+<li>the Content-Type entity header of the POST operation will be set to <code>application/x-www-form-urlencoded</code> it is not
+currently capable of performing JSON or XML data redirections
+the payload data will be URL encoded regardless of the request content-type.</li>
+<li>the payload data will be URL encoded regardless of the request content-type.</li>
+</ol></li>
+</ol>
+<h1 id='notifications-and-messaging'>Notifications and Messaging</h1><h2 id='email-handling'>Email Handling</h2>
+<p>Paylink will optionally forward an email to 
+- a merchant email to a specified merchaant email address asnotification of payment completion 
+- a customer email to a cardholder&#39;s email address as a receipt.</p>
+
+<p>Emails are generated in multipart/alternative format containing both HTML and Plain Text MultiPart messages. </p>
+<h2 id='merchant-notification-email'>Merchant Notification Email</h2>
+<p>A merchant notification email is optionally sent on approval of a transaction. It may also be configured to forward an
+email on expiration of a non-processed transaction.</p>
+
+<p>An example email is provided below:</p>
+
+<p><img src="images/paylink-merchant-email-f3d1d9a7.png" alt="Email bypassed" /></p>
+
+<p>Emails will also forward any custom values send through the Paylink engine to allow help desk operators to identify
+internal information related to the transaction.</p>
+<h2 id='customer-email-receipt'>Customer Email Receipt</h2>
+<p>A customer receipt may be sent on completion of a transaction when certain conditions are met:</p>
+
+<ol>
+<li>Your service is configured to send card holder emails.</li>
+<li>The customer email option is not bypassed (using config.options = <code>BYPASS_CUSTOMER_EMAIL</code>).</li>
+<li>A valid RFC822 email address is provided in the bill to address (this may be enforced on form validation).</li>
+</ol>
+
+<p>By default, an email is sent from <code>CityPay Transaction &lt;transactions@citypay.com&gt;</code> to ensure that our email is delivered
+via our email policies, including <a href="https://en.wikipedia.org/wiki/Sender_Policy_Framework">Sender Policy Framework (SPF)</a>
+and <a href="https://en.wikipedia.org/wiki/DomainKeys_Identified_Mail">DKIM signatures</a>. On setup of your account you will also
+be required to set a support email address which is then set in the Reply-To header of the email.</p>
+
+<p>Should you wish to tailor the email sent or switch off this functionality, please consult your account manager.</p>
+
+<p>An example email is provided below.</p>
+
+<p><img src="images/paylink-trans-receipt-82545307.png" alt="Customer Email Receipt" /></p>
+<h2 id='sms-notifications'>SMS Notifications</h2>
+<p>Paylink supports SMS notifications as a licensing option. An SMS may be sent to the cardholder should the following
+conditions be met:</p>
+
+<ol>
+<li>A valid SMS licence is included (additional fees may be applied).</li>
+<li>A valid mobile number is supplied in the billing details and meets the <a href="https://en.wikipedia.org/wiki/E.164">
+E.164 format specifications</a>. The format is internationally standardised and provides the relevant information to
+route messages globally.</li>
+</ol>
+
+<p>An SMS message is limited to 153 characters.</p>
+<h2 id='chatops'>ChatOps</h2>
+<p>Paylink is able to integrate with other mechanisms such as <a href="https://slack.com/">Slack</a>. If you are interested
+in this feature, please consult your account manager.</p>
+<h1 id='advanced-topics'>Advanced Topics</h1><h2 id='surcharging-support-in-paylink'>Surcharging Support in Paylink</h2>
+<p>Paylink allows the Merchant to apply a surcharge to transactions depending on the card provided by the Customer.
+Surcharges may be applied as a fixed rate amount i.e. £0.50 or a percentage rate applied such as 2.5%.</p>
+
+<p>If you wish to configure surcharging, please contact your support representative.</p>
+<h3 id='surcharging-extensions-to-the-response'>Surcharging Extensions to the Response</h3>
+<p>A response will include:</p>
+
+<ol>
+<li><code>amount</code> specifies an integer of the amount ultimately processed, inclusive of the surcharge expressed in the lowest
+denomination.</li>
+<li><code>initial_amount</code> specifies the original amount specified in the originating token request, expressed in the lowest
+denomination.</li>
+<li><code>surcharge</code> specifies the decimal value of the rate in which the surcharge was applied for instance if the rate is
+1.5% the value would be 1.5, if the rate is fixed at 0.25, the value would be 0.25.</li>
+<li><code>surcharge_calc</code> specifies the calculation used, possible values are <code>%</code> for percentage calculations and <code>+</code> for
+fixed rate calculations.</li>
+</ol>
+<h2 id='credential-on-file-functionality-in-paylink'>Credential on File Functionality in Paylink</h2>
+<p>Paylink provides cardholder account support for storing payment card details for future use. This can be used to facilitate
+incremental bill and subscription payments made as continuing authority of the Customer. Paylink
+provides support for the acquisition and updating of payment card and cardholder information using the hosted Payment
+Form.</p>
+
+<p>The Paylink API allows Merchant Applications to:</p>
+
+<ol>
+<li>specify, on an individual transaction basis, whether a Cardholder Account is to be created when a transaction is successfully authorised</li>
+<li>update payment card information for use with a particular Cardholder Account.</li>
+</ol>
+
+<p>To enhance Paylink to create cardholder accounts, your account will need to be activated to accept this option.</p>
+
+<p>A cardholder account is identified using an <code>accountNo</code> parameter which is used to reference the account
+once created. The account number is within the bounds of your Client account allowing multiple merchant ids to be used
+against a single cardholder account. Should a Transaction, on processing, be found to match an existing account, the
+transaction will be marked against that account. Should the card details have changed, these values are also updated.</p>
+
+<p>Transactions initiated using the Paylink Payment Form are processed and coded as e-commerce transactions which provides
+for full validation of the payment cardholder using 3D-Secure, CSC and AVS. Subsequent transactions are ordinarily
+coded as continuing authority transactions using batch processing through
+the <a href="https://citypay.github.io/api-docs/payment-api/#citypay-payment-api">CityPay API</a>.</p>
+<h3 id='enabling-cardholder-account-transactions'>Enabling CardHolder Account Transactions</h3>
+<p>This can be performed by contacting your support representative. Once you have been notified that this has been enabled,
+the following options are programmable by your API integration:</p>
+
+<ol>
+<li>construct the Token Request in accordance with the basic integration;</li>
+<li>obtain and record prior consent of the Customer to process the Transaction associated with the Token Request, and
+future transactions under continuing authority;</li>
+<li>specify the <code>config.options</code> field and include the option &quot;<code>CREATE_CAC_ACCOUNT_ON_AUTHORISATION</code>&quot;;</li>
+<li>add the <code>accountNo</code> field to individually reference the Cardholder Account used;</li>
+<li>optionally specify the firstName of the account holder;</li>
+<li>optionally specify the lastName of the account holder.</li>
+</ol>
+<h3 id='cardholder-account-extensions-to-the-response'>CardHolder Account Extensions to the Response</h3>
+<p><code>cac</code> values</p>
+
+<ul>
+<li><code>0</code> – no action is carried out</li>
+<li><code>1</code> – an account has been loaded and processed</li>
+<li><code>2</code> – an account was created using the value in the <code>accountNo</code> field</li>
+<li><code>3</code> – an account was updated recording any change of the billing address, the expiry date or card number</li>
+<li><code>4</code> – the account was deleted (Paylink does not support this method)</li>
+<li><code>5</code> – the account was auto created based on the identifier (configurable)</li>
+</ul>
+<h2 id='pre-authorisation-support-in-paylink'>Pre-Authorisation Support in Paylink</h2>
+<p>Paylink supports pre-authorisation processes that involve:</p>
+
+<ol>
+<li>an initial pre-authorisation of a transaction, earmarked as the requested amount</li>
+<li>receipt of a message indicating the success or failure of the pre-authorised transaction</li>
+<li>a subsequent completion or cancellation of the transaction via the <a href="https://citypay.github.io/api-docs/payment-api/#citypay-payment-api">CityPay API</a>. Note that the
+completion command may increase or decrease the final amount.</li>
+</ol>
+
+<p>Pre-authorised Transaction support is typically required for Merchants that require situations where the price may not
+be final, or there is a risk that the particular resource to be supplied to the customer may not in fact be supplied due
+to ordering, technical or communications failure. A pre-authorisation requires a completion or cancellation request to
+close the transaction. This should be completed within 7 days to ensure no additional fees are applied by MasterCard. We
+mark the transaction as an estimated amount which complies with the MasterCard mandate for Pre-Authorisation
+reservations and on completion of the transaction, an optional final actual amount can be set.</p>
+
+<p>Pre-authorised Transaction support is required to be activated on your account and may be forced to pre-auth by default.</p>
+
+<p>Requests into Paylink allow for configuration to bypass or enforce rules to ensure that you can pre-authorise only when
+required. To enforce a pre-auth, set the configuration value under config/options to include <strong>BYPASS_PREAUTH</strong> or <strong>ENFORCE_PREAUTH</strong>.</p>
+
+<p>In all respects, a pre-authorised transaction is the same as a standard authorisation apart from the status field will
+be returned as &#39;P&#39; for &#39;PreAuth&#39;.</p>
+<h2 id='qr-codes'>QR Codes</h2>
+<p>Paylink allows integrators to forward the Url to the user as a generated qr-code. Once the token has been successfully
+created, the url format returned is <code>pl.citypay.com/{mid}/{token}</code> where mid is an encoded version of
+your processing merchant account and token is a randomised token unique to your merchant account. To access a QR code,
+simply take the url and append <code>/qrcode.png</code> after the token. It will also create a gif image if required by
+appending <code>/qrcode.gif</code>.</p>
+
+<p><img src="images/pl-qr-code-5be27ce9.jpg" alt="Paylink QR Code" /></p>
+
+<p>The QR-code Api has some additional functions which can be amended by using http query string parameters. This allows
+you to control the size and format of the barcode.</p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Data Type</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>type</td>
+<td>string</td>
+<td>qrcode</td>
+<td>Specifies the type of barcode to produce. As we are encoding Urls we only support the following types. <br> <ul><li>qrcode.</li><li>datamatrix.</li></ul></td>
+</tr>
+<tr>
+<td>h</td>
+<td>int</td>
+<td>256</td>
+<td>Specifies the height of the image generated a minimum of 32 pixels up to a maximum of 512 pixels.</td>
+</tr>
+<tr>
+<td>w</td>
+<td>int</td>
+<td>256</td>
+<td>Specifies the width of the image generated a minimum of 32 pixels up to a maximum of 512 pixels.</td>
+</tr>
+</tbody></table>
+<h3 id='usage'>Usage</h3>
+<p>QR Codes can be used for printed material such as invoices or advertising material as well as emails and electronic
+marketing. This allows for payments to be accessible from more products not just your website.</p>
+<h3 id='security'>Security</h3>
+<p>The token generated is considered an offer for a cardholder to take payment. No
+card data or sensitive information is linked to this QR code. Should multiple users link to Paylink via the code, they
+will both have independent access to Paylink.</p>
+<h3 id='setting-up'>Setting Up</h3>
+<p>When creating a Paylink token, you are able to specify an expiry time in seconds. It is recommended to set a long
+period of time i.e. 30 days in which the customer has the ability to pay. Paylink will notify a specified post back Url
+when either the customer has paid for the goods or the transaction has timed out. Should the transaction time out and
+the customer then attempt to pay, the transaction will display on screen as expired.</p>
+<h1 id='paylink-integrations'>Paylink Integrations</h1><h2 id='shopping-cart-examples'>Shopping Cart Examples</h2>
+<p>Paylink provides a full integration API however CityPay have plugins available for key shopping carts which allow your site to use Paylink will little or no integration.</p>
+
+<table>
+    <tr>
+        <td>
+            <a href="https://github.com/citypay/citypay-paylink-magento">
+                <img height="100" thumbnail="true" src="images/magento-e704ece1.png" alt="Magento">
+            </a>
+        </td>  
+        <td>
+            <a href="https://github.com/citypay/citypay-paylink-opencart">
+                <img height="100" thumbnail="true" src="images/opencart-de28cea8.png" alt="Opencart">
+            </a>
+        </td> 
+        <td>
+            <a href="https://github.com/citypay/citypay-paylink-woo-commerce">
+                <img height="100" thumbnail="true" src="images/woocommerce-0bde93b4.png" alt="woocommerce">
+            </a>
+        </td> 
+        <td>
+            <a href="https://github.com/citypay/citypay-paylink-wordpress">
+                <img height="100" thumbnail="true" src="images/wordpress-9311c4c2.png" alt="wordpress">
+            </a>
+        </td> 
+    </tr>
+</table>
+<h1 id='alternate-payment-methods'>Alternate Payment Methods</h1>
+<p><img src="images/pl-alt-payments-main-dede8716.png" alt="Paylink Payment Page" /></p>
+
+<p>Merchants have the option to provide their customers with alternate payment methods such as <strong>Apple Pay</strong>, <strong>Google Pay™</strong> and <strong>PayPal</strong>. 
+Merchants will need to request this feature to be enabled by CityPay by providing some extra information depending on which alternate methods are required.</p>
+
+<aside class="notice">This feature is only available on Paylink version 4 and above.</aside>
+<h2 id='apple-pay'>Apple Pay</h2>
+<p>Merchants that opt to provide Apple Pay as a payment option for their customers must request this feature to be enabled by CityPay.<br>
+CityPay will register a merchant with Apple in order to allow for the merchant to take payments via Apple Pay.</p>
+<h2 id='google-pay'>Google Pay™</h2>
+<p>Google Pay is available to all CityPay Clients that integrate  with Paylink v4 hosted form, without additional costs.<br>
+To enable Google Pay please contact your account manager directly or request this feature by emailing <a href='mailto:support@citypay.com'>CityPay Support</a></p>
+<h3 id='sca-and-psd2'>SCA and PSD2</h3>
+<p>Google Pay supports both a tokenized solution, which will always be preferred. Most issuers will accept this as being SCA, and hence not result in the need for completion of 3D-Secure.<br>
+In case it is not the tokenized solution that is used, or the issuer declines the transaction for missing SCA, CityPay will automatically continue with the 3DS flow to ensure the payment can succeed.</p>
+
+<aside class="notice">All merchants must adhere to the Google Pay APIs <a href="https://payments.developers.google.com/terms/aup">Acceptable Use Policy</a> and accept the terms defined in the <a href="https://payments.developers.google.com/terms/sellertos">Google Pay API Terms of Service</a>.<br>
+<em>Google Pay is a trademark of Google LLC.</em>
+</aside>
+<h2 id='paypal'>PayPal</h2>
+<p>In order to take payments via PayPay, merchant will need to register for a PayPal Business account.  </p>
+<h1 id='testing-best-practices'>Testing Best Practices</h1>
+<p>CityPay offer a test facility for client testing and integration development on this API all testing should
+be geared within the sandbox service. This service models an acquirer and produces test transactions for
+testing of post authorisation processes.</p>
+
+<p>Test transactions are available for reporting purposes for up to 3 months.</p>
+
+<p>Our test gateway includes:</p>
+
+<ul>
+<li>Test Authorisation processing</li>
+<li>Test Refund processing</li>
+<li>Test ThreeDSecure ACS for integrating the full authentication process in to your application</li>
+<li>Test Pre-auth processes such as authorisation, completion/capture and cancellation/voids</li>
+<li>Test Charge processing</li>
+</ul>
+<h2 id='authorisation-codes-on-the-test-gateway'>Authorisation Codes on the Test Gateway</h2>
+<p>Authorisation codes are static to allow the integrator to easily identify an actual
+authorisation code and a test code. The returned authorisation codes by the test gateway are:</p>
+
+<table><thead>
+<tr>
+<th>AuthCode</th>
+<th>Behaviour</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>A12345</td>
+<td>Sale transaction.</td>
+</tr>
+<tr>
+<td>B12345</td>
+<td>PreAuth sale transaction.</td>
+</tr>
+<tr>
+<td>C12345</td>
+<td>Completion/Capture call.</td>
+</tr>
+<tr>
+<td>R12345</td>
+<td>Refund transaction.</td>
+</tr>
+<tr>
+<td>V12345</td>
+<td>Void transaction.</td>
+</tr>
+</tbody></table>
+<h2 id='modelling-behaviour'>Modelling behaviour</h2>
+<p>To model different behaviours, we have enabled both an amount mapping and a csc mapping  process which will return
+different responses based on these values, values are:</p>
+
+<table><thead>
+<tr>
+<th>Amount</th>
+<th>CSC</th>
+<th>Behaviour</th>
+<th>Response</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>3333</td>
+<td>333</td>
+<td>Returns a declined transaction</td>
+<td><code>090</code></td>
+</tr>
+<tr>
+<td>3344</td>
+<td>344</td>
+<td>Returns an AVS Address Failure, regardless of configuration for AVS and the address value supplied.</td>
+<td><code>095</code></td>
+</tr>
+<tr>
+<td>3355</td>
+<td>355</td>
+<td>Returns an AVS Postcode Failure, regardless of configuration for AVS and the address value supplied.</td>
+<td><code>096</code></td>
+</tr>
+<tr>
+<td>3366</td>
+<td>366</td>
+<td>Returns a Card Security Failure, regardless of configuration for CSC and the value supplied.</td>
+<td><code>094</code></td>
+</tr>
+<tr>
+<td>3377</td>
+<td>377</td>
+<td>Returns a Fraud decline.</td>
+<td><code>091</code></td>
+</tr>
+<tr>
+<td>4444</td>
+<td>444</td>
+<td>Returns a Referral.</td>
+<td><code>089</code></td>
+</tr>
+<tr>
+<td>6666</td>
+<td>666</td>
+<td>Returns a communication error.</td>
+<td><code>F006</code></td>
+</tr>
+<tr>
+<td>5544</td>
+<td>544</td>
+<td>Returns an AVS Address Failure only if AVS is configured or enforced via the API. A value of 99 will reject the address any other value is accepted.</td>
+<td><code>095</code></td>
+</tr>
+<tr>
+<td>5555</td>
+<td>555</td>
+<td>Returns an AVS Postcode Failure only if AVS is configured or enforced via the API. A value of 99 will reject the postcode, any other value is accepted.</td>
+<td><code>096</code></td>
+</tr>
+<tr>
+<td>5566</td>
+<td>566</td>
+<td>Returns a Card Security Failure only if CSC matching is configured or enforced via the API. A value of 999 will reject the CSC, any other value is accepted.</td>
+<td><code>094</code></td>
+</tr>
+</tbody></table>
+
+<p>For American Express cards requiring 4 digit CSC values, the last 3 digits of the CSC will be considered i.e. <code>0333</code>, <code>1333</code>
+would result in the same behaviour.</p>
+<h2 id='test-card-numbers'>Test Card Numbers</h2>
+<p>The following test card numbers could be used for transaction testing.</p>
+
+<table><thead>
+<tr>
+<th>Card Number</th>
+<th>Scheme</th>
+<th>Type</th>
+<th>CSC Length</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>3743 871880 19714</code></td>
+<td><i class="fa fa-cc-amex" aria-hidden="true"></i> Amex</td>
+<td>Credit</td>
+<td>4</td>
+</tr>
+<tr>
+<td><code>3014 445396 5469</code></td>
+<td><i class="fa fa-cc-diners-club" aria-hidden="true"></i> Diners</td>
+<td>Credit</td>
+<td>3</td>
+</tr>
+<tr>
+<td><code>3528 0000 0000 0007</code></td>
+<td><i class="fa fa-cc-jcb" aria-hidden="true"></i> JCB</td>
+<td>Credit</td>
+<td>3</td>
+</tr>
+<tr>
+<td><code>4000 0000 0000 0002</code></td>
+<td><i class="fa fa-cc-visa" aria-hidden="true"></i> Visa</td>
+<td>Credit</td>
+<td>3</td>
+</tr>
+<tr>
+<td><code>4659 0100 0000 0005</code></td>
+<td><i class="fa fa-cc-visa" aria-hidden="true"></i> Visa</td>
+<td>Debit</td>
+<td>3</td>
+</tr>
+<tr>
+<td><code>5100 0000 0000 0008</code></td>
+<td><i class="fa fa-cc-mastercard" aria-hidden="true"></i> MasterCard</td>
+<td>Credit</td>
+<td>3</td>
+</tr>
+<tr>
+<td><code>5573 4700 0000 0001</code></td>
+<td><i class="fa fa-cc-mastercard" aria-hidden="true"></i> MasterCard</td>
+<td>Debit</td>
+<td>3</td>
+</tr>
+<tr>
+<td><code>6333 1100 0000 0002</code></td>
+<td><i class="fa fa-cc-mastercard" aria-hidden="true"></i> Maestro</td>
+<td>Debit</td>
+<td>3</td>
+</tr>
+<tr>
+<td><code>4508 7500 0000 0009</code></td>
+<td><i class="fa fa-cc-visa" aria-hidden="true"></i> Visa Electron</td>
+<td>Debit</td>
+<td>3</td>
+</tr>
+<tr>
+<td><code>4857 7900 0000 0002</code></td>
+<td><i class="fa fa-cc-visa" aria-hidden="true"></i> Visa Business</td>
+<td>Debit</td>
+<td>3</td>
+</tr>
+</tbody></table>
+<h2 id='avs-checking'>AVS Checking</h2>
+<p>AVS checks the numeric values of the address and postcode via the card issuer and card schemes. Our
+test gateway will only validate whether values are supplied where required. </p>
+<h2 id='test-acs'>Test ACS</h2>
+<p>As part of the test suite, the test ACS provides a simple screen confirmation page similar to an actual ACS page. It will model the response (PaRes) from a standard ACS call using your payment details. To use:</p>
+
+<ol>
+<li>click on Authorise to mimic an authorised response. </li>
+<li>click on Cancel to mimic a failed authorisation response.</li>
+</ol>
+<h1 id='error-codes-reference'>Error Codes Reference</h1>
+<p>When processing a transaction through the CityPay APIs an error code value is returned indicating the result of processing the transaction. Each error code combines a code, an error message and error id parameter.</p>
+
+<p>A CityPay error code is presented in the format of an alpha character followed by a 3 digit numeric. The alpha character represents the error grouping i.e. C001 is a card validation error and the 3 digit numerics the code number of 001. The system group does not contain a character and is therefore the only code that appears as a 3 digit numeric.</p>
+
+<p>An error message is a textual String describing the error. The error message field may include additional information pertaining to the thrown error which will aid in resolving the error.</p>
+
+<p>An error id is also known as a complete error identifier. This code is in the format of error code.system code.location code where the system code and location code are internal codes to CityPay that aid in deciphering the origination of an error message. This identifier should be included with the error message in any support requests.</p>
+<h2 id='system'>System</h2>
+<p>The System group defines a group that determines the outcome of processing transactions. This code is the result of an authorised transaction and defines further details on why a transaction may be authorised or declined. Should a transaction result in a sytem error code, it is expected that this transaction has reached authorisation through to the acquirer or card issuer and the result is determined by the contacted authorisation network.</p>
+
+<table><thead>
+<tr>
+<th>ErrorCode</th>
+<th>Error Message</th>
+<th>Further Information</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>000</td>
+<td>Accepted Transaction</td>
+<td>The transaction was accepted.</td>
+</tr>
+<tr>
+<td>001</td>
+<td>Test Transaction</td>
+<td>The transaction was marked as being a test transaction and was successfully returned.</td>
+</tr>
+<tr>
+<td>002</td>
+<td>Accepted Refund</td>
+<td>The refund was successful.</td>
+</tr>
+<tr>
+<td>003</td>
+<td>Accepted Void Transaction</td>
+<td>The transaction was successfully voided.</td>
+</tr>
+<tr>
+<td>011</td>
+<td>Signature Verification</td>
+<td></td>
+</tr>
+<tr>
+<td>012</td>
+<td>Hold</td>
+<td></td>
+</tr>
+<tr>
+<td>013</td>
+<td>Pin Invalid</td>
+<td></td>
+</tr>
+<tr>
+<td>014</td>
+<td>Pin Retry</td>
+<td></td>
+</tr>
+<tr>
+<td>015</td>
+<td>Pin Tries Exceeded</td>
+<td></td>
+</tr>
+<tr>
+<td>030</td>
+<td>Cannot Authorise</td>
+<td>Invalid Card Number The card number was rejected on authorisation although the card was of a good format.</td>
+</tr>
+<tr>
+<td>031</td>
+<td>Cannot Authorise</td>
+<td>Expired Card The card was rejected on authorisation as the card has been expired by the issuer.</td>
+</tr>
+<tr>
+<td>032</td>
+<td>Processing Server Unavailable</td>
+<td>A delegating processing server was unavailable and failover servers were retried, processing cannot continue Retry the transaction, if the transaction continues to fail, please consult support stating this error code.</td>
+</tr>
+<tr>
+<td>040</td>
+<td>Transaction verification passed</td>
+<td>The transaction returned was verified succesfully.</td>
+</tr>
+<tr>
+<td>041</td>
+<td>Transaction verification failed</td>
+<td>The transaction returned has failed to be verified.</td>
+</tr>
+<tr>
+<td>050</td>
+<td>Waiting Authorisation</td>
+<td>If a transaction requires authentication using 3-D Secure, it will be marked as 050 waiting for authorisation. Should the transaction never be authorised i.e. the user decided not to continue with the transaction then the transaction will remain with the status set. This value will help to define whether authorisation was not fully processed at the time of the transaction.</td>
+</tr>
+<tr>
+<td>071</td>
+<td>Transaction already voided</td>
+<td>The transaction was previously voided.</td>
+</tr>
+<tr>
+<td>072</td>
+<td>Transaction already refunded</td>
+<td>The transaction was previously refunded to the full amount.</td>
+</tr>
+<tr>
+<td>080</td>
+<td>Transaction cancelled</td>
+<td>The transaction was cancelled.</td>
+</tr>
+<tr>
+<td>081</td>
+<td>Transaction timed out</td>
+<td>The transaction timed out while processing Occurs when the transaction queues for processing and the transaction reaches a timeout period before a processing slot becomes free. Increasing the time out period for concurrency processing will lower the likely hood of receiving this type of error.</td>
+</tr>
+<tr>
+<td>082</td>
+<td>Terminal allocation timed out</td>
+<td>The transaction timed out while allocating a terminal id Occurs when the transaction queues for allocation of a terminal id. Tids are unavailable if there are too many concurrent transactions for the number of terminal ids allocated.</td>
+</tr>
+<tr>
+<td>083</td>
+<td>Transaction timed out</td>
+<td>The transaction timed out while connecting to the acquirer Occurs when the transaction processing to the acquirer times out before being able to conect for processing</td>
+</tr>
+<tr>
+<td>084</td>
+<td>Transaction timed out</td>
+<td>The transaction timed out while awaiting a response from the acquirer Occurs when the transaction processing to the acquirer connects however there is no response in the time allocated</td>
+</tr>
+<tr>
+<td>088</td>
+<td>Retain Card</td>
+<td></td>
+</tr>
+<tr>
+<td>089</td>
+<td>Referred</td>
+<td>The bank has referred the transaction, which results in a declined payment on the internet. This is usually caused by the following reason, a request for further information, such as authorised signature or card holder identification, frequent use of the card within the last 24 hours or a random referral.</td>
+</tr>
+<tr>
+<td>090</td>
+<td>Declined Transaction</td>
+<td>The transaction was declined by the card issuer. The customer should consult their card issuer to confirm the reason of the decline.</td>
+</tr>
+<tr>
+<td>091</td>
+<td>Declined Transaction</td>
+<td>The transaction was declined due to the card failing the fraud check The customer should consult their card provider.</td>
+</tr>
+<tr>
+<td>092</td>
+<td>Declined Refund</td>
+<td>The refund was declined</td>
+</tr>
+<tr>
+<td>093</td>
+<td>Declined Void Transaction</td>
+<td>The void transaction was declined</td>
+</tr>
+<tr>
+<td>094</td>
+<td>Declined Transaction</td>
+<td>Transaction Declined. CSC Failure The transaction was declined due to the CSC number not matching that on record.</td>
+</tr>
+<tr>
+<td>095</td>
+<td>Declined Transaction</td>
+<td>Transaction Declined. AVS Failure The transaction was declined due to the AVS numerics of the address not matching.</td>
+</tr>
+<tr>
+<td>096</td>
+<td>Declined Transaction</td>
+<td>Transaction Declined. AVS Failure The transaction was declined due to the AVS numerics of the postcode not matching.</td>
+</tr>
+<tr>
+<td>097</td>
+<td>Declined Transaction</td>
+<td>Transaction Declined. AVS Failure The transaction was declined due to the AVS numerics not matching.</td>
+</tr>
+<tr>
+<td>098</td>
+<td>Declined Transaction</td>
+<td>Transaction Declined. Authentication Failure The transaction was declined due to an authorisation failure.</td>
+</tr>
+</tbody></table>
+<h2 id='card-validation-errors'>Card Validation Errors</h2>
+<p>Card validation errors are caused by invalidity of a card. This is generally related to processing errors when cards are presented for authorisation. Cards are checked against standard specifications and card scheme specifications, therefore you may find errors occur against certain card types than others.</p>
+
+<table><thead>
+<tr>
+<th>ErrorCode</th>
+<th>Error Message</th>
+<th>Further Information</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>C001</td>
+<td>Card number contains non-numeric character.</td>
+<td></td>
+</tr>
+<tr>
+<td>C002</td>
+<td>LUHN Check failure</td>
+<td>Consider the possibility that the card number was keyed incorrectly.</td>
+</tr>
+<tr>
+<td>C003</td>
+<td>Card number missing.</td>
+<td></td>
+</tr>
+<tr>
+<td>C004</td>
+<td>Card number is an invalid length.</td>
+<td></td>
+</tr>
+<tr>
+<td>C005</td>
+<td>Card is not yet valid</td>
+<td>The start date is in the future. Check the validity of the card start date.</td>
+</tr>
+<tr>
+<td>C006</td>
+<td>Card has expired</td>
+<td>The expiry date is in the past. Check the validity of the card expiry date.</td>
+</tr>
+<tr>
+<td>C007</td>
+<td>Card expiry month is not a valid month</td>
+<td>Months should be an integer value between 1 and 12.</td>
+</tr>
+<tr>
+<td>C008</td>
+<td>Card expiry year is not a valid year</td>
+<td>Year values should be either a 2 digit or 4 digit number.</td>
+</tr>
+<tr>
+<td>C009</td>
+<td>Expiry date is not YYMM</td>
+<td>When providing an expiry date as a String the format should be 2 digit YEAR and 2 digit MONTH (YYMM) for example 0412.</td>
+</tr>
+<tr>
+<td>C010</td>
+<td>Expiry data missing</td>
+<td></td>
+</tr>
+<tr>
+<td>C011</td>
+<td>Issue number is not numeric</td>
+<td></td>
+</tr>
+<tr>
+<td>C012</td>
+<td>CSC Not an Integer</td>
+<td></td>
+</tr>
+<tr>
+<td>C013</td>
+<td>CSC is longer than 4 characters</td>
+<td></td>
+</tr>
+<tr>
+<td>C014</td>
+<td>CSC Not Present</td>
+<td></td>
+</tr>
+<tr>
+<td>C015</td>
+<td>Start date is not YYMM</td>
+<td>When providing an expiry date as a String the format should be 2 digit YEAR and 2 digit MONTH (YYMM) for example 0412.</td>
+</tr>
+<tr>
+<td>C016</td>
+<td>Card start date month is not a valid month</td>
+<td>Months should be an integer value between 1 and 12.</td>
+</tr>
+<tr>
+<td>C017</td>
+<td>Card start date year is not a valid year</td>
+<td>Year values should be either a 2 digit or 4 digit number.</td>
+</tr>
+<tr>
+<td>C018</td>
+<td>Card has previously been charged back</td>
+<td></td>
+</tr>
+<tr>
+<td>C019</td>
+<td>Invalid expiry date</td>
+<td>The expiry date is so far in the future that it is considered invalid. By default, this error is logged for expiry dates more than 7 years in the future; this offset may be changed by contacting support. Check the validity of the card expiry date and consider changing the Override Expiration Period.</td>
+</tr>
+<tr>
+<td>C020</td>
+<td>Invalid Start Date</td>
+<td>The card start date contains an invalid date, invalid characters or has not been entered when required. Some card details may contain 2 digits and others 4 digits. Occasionally an invalid issue number may affect the start date.</td>
+</tr>
+<tr>
+<td>C021</td>
+<td>Card number is invalid</td>
+<td>The card number is not a valid number.</td>
+</tr>
+<tr>
+<td>C022</td>
+<td>Bin range not found</td>
+<td>The card number provided cannot be used for this transaction.</td>
+</tr>
+<tr>
+<td>C023</td>
+<td>Unexpected Issue Number</td>
+<td>An unexpected issue number is present in the card details.</td>
+</tr>
+<tr>
+<td>C024</td>
+<td>Expected Issue Number</td>
+<td>An expected issue number is not present in the card details.</td>
+</tr>
+<tr>
+<td>C025</td>
+<td>Invalid Issue Number</td>
+<td>An invalid issue number is present in the card details.</td>
+</tr>
+<tr>
+<td>C026</td>
+<td>CSC Length is invalid for Card</td>
+<td>The length of the card security code (CSC,CV2,CVV2) is invalid for the given card type. Visa and Mastercard, generally require a 3 digit code where as American Express require 4 digits.</td>
+</tr>
+<tr>
+<td>C027</td>
+<td>Card has expired</td>
+<td>The card is recognised as being expired. The cardholder is required to check with the card issuer as the authorisation returned the expiry response.</td>
+</tr>
+<tr>
+<td>C028</td>
+<td>Card holder name is mandatory</td>
+<td>The card holder name is mandatory and is not supplied. The card holder&#39;s name is mandatory by this acquirer and should be supplied before continuing.</td>
+</tr>
+</tbody></table>
+<h2 id='data-error'>Data Error</h2>
+<p>The data error group determines that configuration and variable data is invalid. Commands or actions cannot be completed until data errors are ammended.</p>
+
+<table><thead>
+<tr>
+<th>ErrorCode</th>
+<th>Error Message</th>
+<th>Further Information</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>D001</td>
+<td>Gateway Not Configured Error</td>
+<td>The gateway is not available as there is no configuration data available. Contact CityPay <a href="mailto:support@CityPay.com">support</a>.</td>
+</tr>
+<tr>
+<td>D002</td>
+<td>Gateway Configuration Error</td>
+<td>The gateway is not available as there is a problem with the configuration. Contact CityPay <a href="mailto:support@CityPay.com">support</a>.</td>
+</tr>
+<tr>
+<td>D003</td>
+<td>Fraud Module Configuration Error</td>
+<td>The fraud module is not available as there is a problem with the configuration. Contact CityPay <a href="mailto:support@CityPay.com">support</a>.</td>
+</tr>
+<tr>
+<td>D004</td>
+<td>Class Instantiation Error</td>
+<td>An internal gateway problem. Contact CityPay <a href="mailto:support@CityPay.com">support</a>.</td>
+</tr>
+<tr>
+<td>D005</td>
+<td>Class Illegal Access Error</td>
+<td>An internal gateway problem. Contact CityPay <a href="mailto:support@CityPay.com">support</a>.</td>
+</tr>
+<tr>
+<td>D006</td>
+<td>Unkown Terminal</td>
+<td>The terminal configuration information is invalid. Contact CityPay <a href="mailto:support@CityPay.com">support</a>.</td>
+</tr>
+<tr>
+<td>D007</td>
+<td>Unauthorised to use this Terminal</td>
+<td>The user is not authorised to use this terminal. Contact CityPay <a href="mailto:support@CityPay.com">support</a>.</td>
+</tr>
+<tr>
+<td>D008</td>
+<td>Terminal Inactive</td>
+<td>The terminal being used is currently inactive. Contact CityPay <a href="mailto:support@CityPay.com">support</a>.</td>
+</tr>
+<tr>
+<td>D009</td>
+<td>Password Invalid</td>
+<td>The password being used is invalid. Contact CityPay <a href="mailto:support@CityPay.com">support</a>.</td>
+</tr>
+<tr>
+<td>D010</td>
+<td>User Invalid</td>
+<td>The user is invalid. Contact CityPay <a href="mailto:support@CityPay.com">support</a>.</td>
+</tr>
+<tr>
+<td>D011</td>
+<td>User does not have permission to perform this operation</td>
+<td>User does not have permission to perform this operation. Contact CityPay <a href="mailto:support@CityPay.com">support</a>.</td>
+</tr>
+<tr>
+<td>D012</td>
+<td>Hostile card list is not available</td>
+<td>The system cannot retrieve details from the hostile card list. Contact CityPay <a href="mailto:support@CityPay.com">support</a>.</td>
+</tr>
+<tr>
+<td>D013</td>
+<td>Merchant is not found</td>
+<td>The merchant number is invalid. Contact CityPay <a href="mailto:support@CityPay.com">support</a>.</td>
+</tr>
+<tr>
+<td>D014</td>
+<td>Card holder must be present</td>
+<td>The card holder must be present for this transaction. Contact CityPay <a href="mailto:support@CityPay.com">support</a>.</td>
+</tr>
+<tr>
+<td>D015</td>
+<td>Invalid Currency Code</td>
+<td>The currency code provided is not a valid currency code. Contact CityPay <a href="mailto:support@CityPay.com">support</a>.</td>
+</tr>
+<tr>
+<td>D016</td>
+<td>Card type or currency for merchant not found</td>
+<td>The card bin range or currency code is not valid for the given merchant. Contact CityPay <a href="mailto:support@CityPay.com">support</a>.</td>
+</tr>
+<tr>
+<td>D017</td>
+<td>Cardholder must be present</td>
+<td>The cardholder must be present for this transaction. Contact CityPay <a href="mailto:support@CityPay.com">support</a>.</td>
+</tr>
+<tr>
+<td>D018</td>
+<td>Card must be present</td>
+<td>The card must be present for this transaction. Contact CityPay <a href="mailto:support@CityPay.com">support</a>.</td>
+</tr>
+<tr>
+<td>D019</td>
+<td>Manual entry not allowed for this merchant</td>
+<td>The merchant is not allowed to perform a manual entry. Contact CityPay <a href="mailto:support@CityPay.com">support</a>.</td>
+</tr>
+<tr>
+<td>D020</td>
+<td>Invalid Transaction Type</td>
+<td>The transaction type requested is invalid. Contact CityPay <a href="mailto:support@CityPay.com">support</a>.</td>
+</tr>
+<tr>
+<td>D021</td>
+<td>Transaction not allowed for card</td>
+<td>The transaction is not allowed for the given card. Contact CityPay <a href="mailto:support@CityPay.com">support</a>.</td>
+</tr>
+<tr>
+<td>D022</td>
+<td>Transaction not found for merchant with given transaction number</td>
+<td>A transaction cannot be found for the merchant using the given transaction number. Contact CityPay <a href="mailto:support@CityPay.com">support</a>.</td>
+</tr>
+<tr>
+<td>D023</td>
+<td>Transaction not found for merchant with given identifier</td>
+<td>A transaction cannot be found for the merchant using the given identifier. Contact CityPay <a href="mailto:support@CityPay.com">support</a>.</td>
+</tr>
+<tr>
+<td>D024</td>
+<td>Decryption currently unavailable</td>
+<td>The crypto server cannot be contacted for decryption, decryption requests are unavailable. Contact CityPay <a href="mailto:support@CityPay.com">support</a>.</td>
+</tr>
+<tr>
+<td>D025</td>
+<td>Encryption currently unavailable</td>
+<td>The crypto server cannot be contacted for encryption, encryption requests are unavailable. Contact CityPay <a href="mailto:support@CityPay.com">support</a>.</td>
+</tr>
+<tr>
+<td>D026</td>
+<td>No batch id presented</td>
+<td>A batch id was required to perform the action and was not preset. Batch ids are required when batching transactions for processing and are generally unique. Consult the integration documentation for exact requirements on the data required.</td>
+</tr>
+<tr>
+<td>D027</td>
+<td>No client id presented</td>
+<td>A client id was required to perform the action and was not preset. Client ids are required when batching transactions and should be presented, consult your documentation for details on the requirement.</td>
+</tr>
+<tr>
+<td>D028</td>
+<td>None ASCII characters found in data</td>
+<td>none ASCII encoded data was found when the data is restricted to the ASCII type. Data is restricted to an ASCII character set, ensure that none ASCII characters are not present.</td>
+</tr>
+<tr>
+<td>D029</td>
+<td>Invalid Encoding Error</td>
+<td>The data contains an invalid encoding that is not allowed for the resource. Confirm that the encoding of the data is restricted to the character set required within the specifications documentation. Data should be restricted to the required encoding.</td>
+</tr>
+<tr>
+<td>D030</td>
+<td>Batch does not contain transactions</td>
+<td>The batch presented for processing does not contain any transactions. Check that the batch contains transactions.</td>
+</tr>
+<tr>
+<td>D031</td>
+<td>Store is not found</td>
+<td>The store id is invalid. Contact CityPay <a href="mailto:support@CityPay.com">support</a>.</td>
+</tr>
+<tr>
+<td>D032</td>
+<td>Store is inactive</td>
+<td>The store defined by the store id is inactive. Contact CityPay <a href="mailto:support@CityPay.com">support</a>.</td>
+</tr>
+<tr>
+<td>D033</td>
+<td>Field value is an invalid signed integer value</td>
+<td>The maximum integer value is 0x7fffffff. The provided value is too large. Contact CityPay <a href="mailto:support@CityPay.com">support</a>.</td>
+</tr>
+<tr>
+<td>D034</td>
+<td>Field value is an invalid signed long value</td>
+<td>The maximum integer value is 0x7fffffffffffffff. The provided value is too large. Contact CityPay <a href="mailto:support@CityPay.com">support</a>.</td>
+</tr>
+<tr>
+<td>D035</td>
+<td>Field value is an invalid signed short value</td>
+<td>The maximum integer value is 32767. The provided value is too large. Contact CityPay <a href="mailto:support@CityPay.com">support</a>.</td>
+</tr>
+<tr>
+<td>D036</td>
+<td>The Card Scheme could not be determined</td>
+<td>Check the card pan to confirm that the pan number is correct and that the bin range entry for this card is available. Contact CityPay <a href="mailto:support@CityPay.com">support</a>.</td>
+</tr>
+<tr>
+<td>D037</td>
+<td>Acquirer is unavailable</td>
+<td>The acquirer for this request is currently unavailable Contact CityPay. Contact CityPay <a href="mailto:support@CityPay.com">support</a>.</td>
+</tr>
+<tr>
+<td>D038</td>
+<td>Gateway route is unavailable</td>
+<td>The gateway route for this transaction is currently unavailable. This may be caused by a configuration change, technical fault or planned works. Contact CityPay <a href="mailto:support@CityPay.com">support</a>.</td>
+</tr>
+<tr>
+<td>D039</td>
+<td>No Terminal ID available</td>
+<td>A terminal id is required to process a transaction. Dependant on the acquirer this may be due to a limitation of concurrency in processing against the number of allocation terminal IDs to the account. Contact CityPay <a href="mailto:support@CityPay.com">support</a>.</td>
+</tr>
+<tr>
+<td>D040</td>
+<td>Acquirer Dataset is not found for transaction</td>
+<td>No acquirer dataset is configured to handle this transaction. Contact CityPay <a href="mailto:support@CityPay.com">support</a>.</td>
+</tr>
+<tr>
+<td>D041</td>
+<td>3DSecure Currently Unavailable</td>
+<td>The ecommerce transaction requires 3DSecure for processing and the Merchant Plug In is currently unavailable. Please retry later The MPI is currently unavailable either due to a period of maintenance or a system error. Please contact CityPay support for information.</td>
+</tr>
+<tr>
+<td>D042</td>
+<td>3DSecure Enrollment Error</td>
+<td>The account is not enrolled fully for 3DSecure.</td>
+</tr>
+<tr>
+<td>D043</td>
+<td>3DSecure Configuration Error</td>
+<td>The account contains invalid or no configuration information which prevented a 3DSecure session from continuing.</td>
+</tr>
+<tr>
+<td>D044</td>
+<td>3DSecure Merchant URI Invalid</td>
+<td>The Merchant URI is either blank or invalid for 3DSecure authentication.</td>
+</tr>
+<tr>
+<td>D045</td>
+<td>3DSecure Accept Headers Invalid</td>
+<td>The Accept Headers is either blank or invalid for 3DSecure authentication.</td>
+</tr>
+<tr>
+<td>D046</td>
+<td>3DSecure User Agent Invalid</td>
+<td>The User Agent is either blank or invalid for 3DSecure authentication.</td>
+</tr>
+<tr>
+<td>D047</td>
+<td>3DSecure Directory Server Comms Failure</td>
+<td>A communication failure was realised while contacting the 3dsecure directory server.</td>
+</tr>
+</tbody></table>
+<h2 id='fatal-error'>Fatal Error</h2>
+<p>Fatal errors are errors that have prevented authorisation from occurring such as communications errors or application errors. An engineer will be alerted whenever a fatal error occurs to investigate occurrences of these error types.</p>
+
+<table><thead>
+<tr>
+<th>ErrorCode</th>
+<th>Error Message</th>
+<th>Further Information</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>F001</td>
+<td>Unknown Error</td>
+<td></td>
+</tr>
+<tr>
+<td>F002</td>
+<td>Data Error</td>
+<td></td>
+</tr>
+<tr>
+<td>F003</td>
+<td>System Error</td>
+<td></td>
+</tr>
+<tr>
+<td>F004</td>
+<td>Null error occurred</td>
+<td></td>
+</tr>
+<tr>
+<td>F005</td>
+<td>Unknown Transaction Type</td>
+<td></td>
+</tr>
+<tr>
+<td>F006</td>
+<td>Communication Error</td>
+<td></td>
+</tr>
+</tbody></table>
+<h2 id='request-error'>Request Error</h2>
+<table><thead>
+<tr>
+<th>ErrorCode</th>
+<th>Error Message</th>
+<th>Further Information</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>P001</td>
+<td>Response type not set</td>
+<td></td>
+</tr>
+<tr>
+<td>P002</td>
+<td>Merchant ID Not Supplied</td>
+<td></td>
+</tr>
+<tr>
+<td>P003</td>
+<td>Merchant ID Is Invalid</td>
+<td></td>
+</tr>
+<tr>
+<td>P004</td>
+<td>Amount is not supplied</td>
+<td></td>
+</tr>
+<tr>
+<td>P005</td>
+<td>Amount is invalid</td>
+<td>The transaction amount sent in the transaction request is invalid because it is too long or contains characters other than digits. Check the validity of the amount field.</td>
+</tr>
+<tr>
+<td>P006</td>
+<td>Amount is not supplied in the lowest denomination</td>
+<td></td>
+</tr>
+<tr>
+<td>P007</td>
+<td>The request is not from an accepted source</td>
+<td></td>
+</tr>
+<tr>
+<td>P008</td>
+<td>The referal source is unknown</td>
+<td>This error occurs when the system cannot identify the source of the request (IP or HTTP Header).</td>
+</tr>
+<tr>
+<td>P009</td>
+<td>AVS Postcode is not supplied</td>
+<td></td>
+</tr>
+<tr>
+<td>P010</td>
+<td>AVS Postcode greater than 8 characters</td>
+<td>The AVS value contains too many numeric values.</td>
+</tr>
+<tr>
+<td>P011</td>
+<td>AVS Address is not supplied</td>
+<td></td>
+</tr>
+<tr>
+<td>P012</td>
+<td>AVS Address greater than 8 characters</td>
+<td>The AVS value contains too many numeric values.</td>
+</tr>
+<tr>
+<td>P013</td>
+<td>Transaction Id or Identifier not Present</td>
+<td></td>
+</tr>
+<tr>
+<td>P014</td>
+<td>Transaction Id not Numeric</td>
+<td>The transaction ID should be a numeric value.</td>
+</tr>
+<tr>
+<td>P015</td>
+<td>Ceiling Limit Exceeded</td>
+<td>The transaction amount for this transaction request is above the ceiling limit for the relevant Merchant.</td>
+</tr>
+<tr>
+<td>P016</td>
+<td>Identifier is greater than 50 characters</td>
+<td>The identifier must be an alphanumeric value up to 50 characters in length.</td>
+</tr>
+<tr>
+<td>P017</td>
+<td>LicenceKey is greater than 255 characters</td>
+<td>The licencekey value must be an alphanumeric value up to 255 characters in length.</td>
+</tr>
+<tr>
+<td>P018</td>
+<td>Invalid transaction type</td>
+<td>The transaction type is not allowed for this merchant.</td>
+</tr>
+<tr>
+<td>P019</td>
+<td>Validation Code Error</td>
+<td>The request failed the validation code test and is deemed to be an insecure request.</td>
+</tr>
+<tr>
+<td>P020</td>
+<td>Cashback amount is invalid</td>
+<td>The cash amount sent in the transaction request is invalid because it is too long or contains characters other than digits.</td>
+</tr>
+<tr>
+<td>P021</td>
+<td>Cashback transaction not permitted</td>
+<td>Transaction requested cashback and the Merchant does not allow cashback transactions for the credit/debit card tendered. Establish whether cashback is permitted for this card type in your merchant agreement.</td>
+</tr>
+<tr>
+<td>P022</td>
+<td>Cashback ceiling limit exceeded</td>
+<td>The cash amount for this transaction request is above the ceiling limit for the relevant MerchantID.</td>
+</tr>
+<tr>
+<td>P023</td>
+<td>Invalid transaction type code</td>
+<td>The transaction request does not have a valid Transaction Type code.</td>
+</tr>
+<tr>
+<td>P024</td>
+<td>Void Transaction failed, invalid orginal transaction</td>
+<td>The request for a void transaction failed due to the original transaction not being valid.</td>
+</tr>
+<tr>
+<td>P025</td>
+<td>Void Transaction failed, no valid original authcode</td>
+<td>The request for a void transaction failed due to the original transaction not hvaing a valid authorisation code.</td>
+</tr>
+<tr>
+<td>P026</td>
+<td>Identifier is not supplied</td>
+<td>The transaction identifier was not supplied by the merchant. A valid identifier should be supplied by the merchant.</td>
+</tr>
+<tr>
+<td>P027</td>
+<td>Email address is not supplied</td>
+<td>The email address is required and was not supplied by the merchant. A valid email address should be supplied by the merchant within the request.</td>
+</tr>
+<tr>
+<td>P028</td>
+<td>Product information is not supplied</td>
+<td>Product Information is required for this transaction and was not supplied by the merchant. A valid product information string should be supplied by the merchant within the request.</td>
+</tr>
+<tr>
+<td>P029</td>
+<td>Authorisation key is not supplied</td>
+<td>An authorisation key is required for this request and was not supplied A valid authorisation key string should be supplied by the merchant within the request. If you do not possess this key, please contact support.</td>
+</tr>
+<tr>
+<td>P030</td>
+<td>Authorisation invalid</td>
+<td></td>
+</tr>
+<tr>
+<td>P031</td>
+<td>Unsupported transaction type</td>
+<td>The transaction type requested is not supported by the gateway.</td>
+</tr>
+<tr>
+<td>P032</td>
+<td>Transaction type not available for processing</td>
+<td>The transaction type is not configured for the merchant.</td>
+</tr>
+<tr>
+<td>P033</td>
+<td>Card scheme not available for processing</td>
+<td>The card scheme is not configured for the merchant.</td>
+</tr>
+<tr>
+<td>P034</td>
+<td>Invalid Currency</td>
+<td>The currency specified is invalid.</td>
+</tr>
+<tr>
+<td>P035</td>
+<td>Licence key is not supplied</td>
+<td>The Licence key is required for processing and was not supplied.</td>
+</tr>
+<tr>
+<td>P036</td>
+<td>Licence key does not match</td>
+<td>The Licence key was supplied but did not match the key required for processing.</td>
+</tr>
+<tr>
+<td>P037</td>
+<td>Licence key invalid</td>
+<td>The Licence key was supplied and was not a valid key.</td>
+</tr>
+<tr>
+<td>P038</td>
+<td>Floor limit not reached</td>
+<td>The floor limit was not reached for processing the transaction. Increase the amount charged or reduce the floor limit.</td>
+</tr>
+<tr>
+<td>P039</td>
+<td>Identifier is less than 4 characters</td>
+<td>The identifier must be an alphanumeric value greater than 4 characters in length.</td>
+</tr>
+<tr>
+<td>P040</td>
+<td>Account Number Not Supplied</td>
+<td>A card holder account number was not supplied and therefore the transaction cannot continue.</td>
+</tr>
+<tr>
+<td>P041</td>
+<td>Account Number is an invalid length</td>
+<td>A card holder account number is an invalid length.</td>
+</tr>
+<tr>
+<td>P042</td>
+<td>Account Number contains invalid characters</td>
+<td>A card holder account number contains non ascii characters or contains spaces surrounding the value.</td>
+</tr>
+<tr>
+<td>P043</td>
+<td>Account Number not found</td>
+<td>A card holder account was not found for the given request. Please check the account number and/or password is correct.</td>
+</tr>
+<tr>
+<td>P044</td>
+<td>Field not provided</td>
+<td>The given field was not provided and is required. Please check the documentation provided with your installation instructions.</td>
+</tr>
+<tr>
+<td>P045</td>
+<td>Field value invalid</td>
+<td>The given field value is invalid. Please check the documentation provided with your installation instructions.</td>
+</tr>
+</tbody></table>
+<h2 id='refund-errors'>Refund Errors</h2>
+<table><thead>
+<tr>
+<th>ErrorCode</th>
+<th>Error Message</th>
+<th>Further Information</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>R001</td>
+<td>Could not identify the original transaction.</td>
+<td></td>
+</tr>
+<tr>
+<td>R002</td>
+<td>Transaction Exceeds original value.</td>
+<td></td>
+</tr>
+<tr>
+<td>R003</td>
+<td>Transaction has already been refunded.</td>
+<td></td>
+</tr>
+<tr>
+<td>R004</td>
+<td>Error retrieving original amount.</td>
+<td></td>
+</tr>
+<tr>
+<td>R005</td>
+<td>The amount to refund exceeds the amount available to refund.</td>
+<td></td>
+</tr>
+<tr>
+<td>R006</td>
+<td>Refund not permitted for MerchantID.</td>
+<td>Transaction requested a refund and the Merchant does not allow refunds on the credit/debit card tendered.</td>
+</tr>
+<tr>
+<td>R007</td>
+<td>Transaction number is not a valid number.</td>
+<td>The transaction number provided is invalid for the request and must be a valid integer.</td>
+</tr>
+<tr>
+<td>R008</td>
+<td>Refund Security Code invalid.</td>
+<td>The refund security code was provided but did not match the required security code for the provided merchant id.</td>
+</tr>
+<tr>
+<td>R009</td>
+<td>Refund Security Code Not Provided.</td>
+<td>The refund security code was not provided and is required to perform a refund.</td>
+</tr>
+<tr>
+<td>R010</td>
+<td>Original transaction is not a valid purchase.</td>
+<td>The transaction cannot be refunded because the original transaction is not a valid purchase.</td>
+</tr>
+<tr>
+<td>R011</td>
+<td>Original transaction was not accepted.</td>
+<td>The transaction cannot be refunded because the original transaction was not accepted.</td>
+</tr>
+</tbody></table>
+<h2 id='security-error'>Security Error</h2>
+<table><thead>
+<tr>
+<th>ErrorCode</th>
+<th>Error Message</th>
+<th>Further Information</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>S001</td>
+<td>Invalid Client ID</td>
+<td>The client id provided is invalid Check the client id supplied is the correct CityPay client id.</td>
+</tr>
+<tr>
+<td>S002</td>
+<td>Invalid Merchant ID</td>
+<td>The merchant id provided is invalid Check the merchant id supplied is the correct CityPay merchant id.</td>
+</tr>
+<tr>
+<td>S003</td>
+<td>Invalid Merchant and Client ID Combination</td>
+<td>Either the merchant id or client id provided is invalid for this request Check the client id and merchant id that are supplied are the correct CityPay ids.</td>
+</tr>
+<tr>
+<td>S004</td>
+<td>General Authentication Failure</td>
+<td>The authentication failed for the requested service. Check the authentication requirements of the service and ensure that the values are correct.</td>
+</tr>
+<tr>
+<td>S005</td>
+<td>Not Authorised</td>
+<td>You are not authorised to perform the operation Check your authentication properties and contact CityPay support to ensure that these values are correct</td>
+</tr>
+<tr>
+<td>S006</td>
+<td>Not Licenced</td>
+<td>You are not licenced to perform this operation Contact CityPay support or sales for confirmation on your licencing requirements and provision.</td>
+</tr>
+<tr>
+<td>S007</td>
+<td>Authentication Required</td>
+<td>Authentication is required to perform this operation and no authentication was presented for authorisation. Check the values you are submitting are provided as this error is generally thrown when no data is presented for authorisation.</td>
+</tr>
+<tr>
+<td>S008</td>
+<td>Invalid Licence Key</td>
+<td>The given licence key is invalid. Check the given licence key is the same that was provided by CityPay or that the key has not been superseded by a newer version.</td>
+</tr>
+</tbody></table>
+<h2 id='transaction-error'>Transaction Error</h2>
+<p>The Transaction error group defines a group of codes that identify that an error was found which could be a potential tranactional problem such as duplication. These errors are in place to protect both merchants and card holders from causing invalid processing.</p>
+
+<table><thead>
+<tr>
+<th>ErrorCode</th>
+<th>Error Message</th>
+<th>Further Information</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>T001</td>
+<td>Duplicate Transaction Error</td>
+<td>A transaction with the same transaction reference and card details has been provided.</td>
+</tr>
+<tr>
+<td>T002</td>
+<td>Transaction exceeds required level</td>
+<td></td>
+</tr>
+<tr>
+<td>T003</td>
+<td>Transaction is not a valid capture</td>
+<td>An invalid capture request was requested. Check the request to ensure the capture request matches the documentation.</td>
+</tr>
+<tr>
+<td>T004</td>
+<td>Transaction is not a valid reversal</td>
+<td>An invalid reversal request was requested. Check the request to ensure the reversal request matches the documentation.</td>
+</tr>
+<tr>
+<td>T005</td>
+<td>3D Secure Authentication Error</td>
+<td>Caused when the PARes fails digital signature validation. Cardholders should try another form of payment.</td>
+</tr>
+<tr>
+<td>T006</td>
+<td>3D Secure Authentication Required</td>
+<td>A transaction is required to be fully authorised using 3d secure by returning a valid CAVV and AuthenticationResult=Y Transactions are blocked if the transaction is not fully authenticated, this includes card schemes not participating. To allow this transaction to process, 3d secure must be bypassed or processed using a different coding.</td>
+</tr>
+<tr>
+<td>T007</td>
+<td>Pre-Auth not available for card scheme</td>
+<td>Caused when the card scheme is not able to perform pre-authorisation requests. Cardholders should try another form of payment.</td>
+</tr>
+<tr>
+<td>T008</td>
+<td>Pre-Auth not available for Acquirer</td>
+<td>Caused when the Acquirer is not able to perform pre-authorisation requests. Cardholders should try another form of payment.</td>
+</tr>
+<tr>
+<td>T009</td>
+<td>Transaction already cancelled</td>
+<td>Caused when the transaction has already been cancelled A previous request for cancelling the transaction has been succesfully obtained.</td>
+</tr>
+<tr>
+<td>T010</td>
+<td>Cannot cancel pre-auth transaction</td>
+<td>Caused when the transaction is not available to be cancelled Normally occurs when a transaction is not set as pre-authorised and does not allow for cancellation to occur.</td>
+</tr>
+<tr>
+<td>T011</td>
+<td>Transaction already completed</td>
+<td>Caused when the transaction has already been completed A previous request for completing the transaction has been succesfully obtained.</td>
+</tr>
+<tr>
+<td>T012</td>
+<td>Cannot complete pre-auth transaction</td>
+<td>Caused when the transaction is not available to be completed Normally occurs when a transaction is not set as pre-authorised and does not allow for completions to occur.</td>
+</tr>
+<tr>
+<td>T013</td>
+<td>Transaction was not authorised</td>
+<td>A post authoriation action has found that the original transaction was not authorised and therefore the action cannot be completed The action cannot be completed on a non authorised transaction.</td>
+</tr>
+</tbody></table>
+<h2 id='wallet-error'>Wallet Error</h2>
+<p>The Wallet group defines a group of codes that identify errors related purely to wallet style transactions. These codes identify relationships to processing, generation and loading of wallet accounts.</p>
+
+<table><thead>
+<tr>
+<th>ErrorCode</th>
+<th>Error Message</th>
+<th>Further Information</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>W001</td>
+<td>Tokens amount not present</td>
+<td></td>
+</tr>
+<tr>
+<td>W002</td>
+<td>Tokens Amount Not an Integer</td>
+<td></td>
+</tr>
+<tr>
+<td>W003</td>
+<td>Email Address Not Supplied</td>
+<td></td>
+</tr>
+<tr>
+<td>W004</td>
+<td>PostCode/ZipCode Not Supplied</td>
+<td></td>
+</tr>
+<tr>
+<td>W005</td>
+<td>Country Not Present</td>
+<td></td>
+</tr>
+<tr>
+<td>W006</td>
+<td>Town/City Not Present</td>
+<td></td>
+</tr>
+<tr>
+<td>W007</td>
+<td>First Address Line Not Supplied</td>
+<td></td>
+</tr>
+<tr>
+<td>W008</td>
+<td>Last Name Not Supplied</td>
+<td></td>
+</tr>
+<tr>
+<td>W009</td>
+<td>First Name Not Supplied</td>
+<td></td>
+</tr>
+<tr>
+<td>W010</td>
+<td>Password not supplied</td>
+<td></td>
+</tr>
+<tr>
+<td>W011</td>
+<td>Password Must be at least 8 chars</td>
+<td></td>
+</tr>
+<tr>
+<td>W012</td>
+<td>An error occurred creating the account</td>
+<td></td>
+</tr>
+<tr>
+<td>W013</td>
+<td>Could not find a wallet from the given criteria</td>
+<td></td>
+</tr>
+<tr>
+<td>W014</td>
+<td>An error occurred obtaining the wallet</td>
+<td></td>
+</tr>
+<tr>
+<td>W015</td>
+<td>Wallet is de-activated</td>
+<td></td>
+</tr>
+<tr>
+<td>W016</td>
+<td>Password contains illegal characters</td>
+<td>The password can only contain alphanumeric characters with no spaces</td>
+</tr>
+<tr>
+<td>W017</td>
+<td>Ceiling Limit Exceeded</td>
+<td></td>
+</tr>
+<tr>
+<td>W018</td>
+<td>Error purchasing tokens</td>
+<td></td>
+</tr>
+<tr>
+<td>W019</td>
+<td>Error redeeming tokens</td>
+<td></td>
+</tr>
+<tr>
+<td>W020</td>
+<td>Redirect address is invalid</td>
+<td></td>
+</tr>
+<tr>
+<td>W021</td>
+<td>Merchant ID is invalid</td>
+<td></td>
+</tr>
+<tr>
+<td>W022</td>
+<td>Merchant ID is not supplied</td>
+<td></td>
+</tr>
+<tr>
+<td>W023</td>
+<td>Request was from an invalid source</td>
+<td></td>
+</tr>
+<tr>
+<td>W024</td>
+<td>Terms and conditions were not agreed to</td>
+<td>The customer failed to check the terms and conditions checkbox.</td>
+</tr>
+<tr>
+<td>W025</td>
+<td>Floor limit not reached</td>
+<td>The amount is not greater than the floor limit set for your account.</td>
+</tr>
+</tbody></table>
+
+      </div>
+          <div class="lang-selector">
+                <a href="#" data-language-name="json">json</a>
+                <a href="#" data-language-name="xml">xml</a>
+          </div>
+    </div>
+    <script type="text/javascript">
+        var ls = $('.lang-selector:first');
+        $('pre.highlight').prepend(ls);
+    </script>
+  </body>
+</html>

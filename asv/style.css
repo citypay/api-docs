@@ -1,0 +1,706 @@
+/*! normalize.css v8.0.1 | MIT License | github.com/necolas/normalize.css */
+/* Document
+   ========================================================================== */
+/**
+ * 1. Correct the line height in all browsers.
+ * 2. Prevent adjustments of font size after orientation changes in iOS.
+ */
+
+html {
+    line-height: 1.15; /* 1 */
+    -webkit-text-size-adjust: 100%; /* 2 */
+}
+
+/* Sections
+   ========================================================================== */
+
+/**
+ * Remove the margin in all browsers.
+ */
+
+body {
+    margin: 0;
+}
+
+/**
+ * Render the `main` element consistently in IE.
+ */
+
+main {
+    display: block;
+}
+
+/**
+ * Correct the font size and margin on `h1` elements within `section` and
+ * `article` contexts in Chrome, Firefox, and Safari.
+ */
+
+h1 {
+    font-size: 2em;
+    margin: 0.67em 0;
+}
+
+/* Grouping content
+   ========================================================================== */
+
+/**
+ * 1. Add the correct box sizing in Firefox.
+ * 2. Show the overflow in Edge and IE.
+ */
+
+hr {
+    box-sizing: content-box; /* 1 */
+    height: 0; /* 1 */
+    overflow: visible; /* 2 */
+}
+
+/**
+ * 1. Correct the inheritance and scaling of font size in all browsers.
+ * 2. Correct the odd `em` font sizing in all browsers.
+ */
+
+pre {
+    font-family: monospace, monospace; /* 1 */
+    font-size: 1em; /* 2 */
+}
+
+/* Text-level semantics
+   ========================================================================== */
+
+/**
+ * Remove the gray background on active links in IE 10.
+ */
+
+a {
+    background-color: transparent;
+}
+
+/**
+ * 1. Remove the bottom border in Chrome 57-
+ * 2. Add the correct text decoration in Chrome, Edge, IE, Opera, and Safari.
+ */
+
+abbr[title] {
+    border-bottom: none; /* 1 */
+    text-decoration: underline; /* 2 */
+}
+
+/**
+ * Add the correct font weight in Chrome, Edge, and Safari.
+ */
+
+b,
+strong {
+    font-weight: bolder;
+}
+
+/**
+ * 1. Correct the inheritance and scaling of font size in all browsers.
+ * 2. Correct the odd `em` font sizing in all browsers.
+ */
+
+code,
+kbd,
+samp {
+    font-family: monospace, monospace; /* 1 */
+    font-size: 1em; /* 2 */
+}
+
+/**
+ * Add the correct font size in all browsers.
+ */
+
+small {
+    font-size: 80%;
+}
+
+/**
+ * Prevent `sub` and `sup` elements from affecting the line height in
+ * all browsers.
+ */
+
+sub,
+sup {
+    font-size: 75%;
+    line-height: 0;
+    position: relative;
+    vertical-align: baseline;
+}
+
+sub {
+    bottom: -0.25em;
+}
+
+sup {
+    top: -0.5em;
+}
+
+/* Embedded content
+   ========================================================================== */
+
+/**
+ * Remove the border on images inside links in IE 10.
+ */
+
+img {
+    border-style: none;
+}
+
+/* Forms
+   ========================================================================== */
+
+/**
+ * 1. Change the font styles in all browsers.
+ * 2. Remove the margin in Firefox and Safari.
+ */
+
+button,
+input,
+optgroup,
+select,
+textarea {
+    font-family: inherit; /* 1 */
+    font-size: 100%; /* 1 */
+    line-height: 1.15; /* 1 */
+    margin: 0; /* 2 */
+}
+
+/**
+ * Show the overflow in IE.
+ * 1. Show the overflow in Edge.
+ */
+
+button,
+input { /* 1 */
+    overflow: visible;
+}
+
+/**
+ * Remove the inheritance of text transform in Edge, Firefox, and IE.
+ * 1. Remove the inheritance of text transform in Firefox.
+ */
+
+button,
+select { /* 1 */
+    text-transform: none;
+}
+
+/**
+ * Correct the inability to style clickable types in iOS and Safari.
+ */
+
+button,
+[type="button"],
+[type="reset"],
+[type="submit"] {
+    -webkit-appearance: button;
+}
+
+/**
+ * Remove the inner border and padding in Firefox.
+ */
+
+button::-moz-focus-inner,
+[type="button"]::-moz-focus-inner,
+[type="reset"]::-moz-focus-inner,
+[type="submit"]::-moz-focus-inner {
+    border-style: none;
+    padding: 0;
+}
+
+/**
+ * Restore the focus styles unset by the previous rule.
+ */
+
+button:-moz-focusring,
+[type="button"]:-moz-focusring,
+[type="reset"]:-moz-focusring,
+[type="submit"]:-moz-focusring {
+    outline: 1px dotted ButtonText;
+}
+
+/**
+ * Correct the padding in Firefox.
+ */
+
+fieldset {
+    padding: 0.35em 0.75em 0.625em;
+}
+
+/**
+ * 1. Correct the text wrapping in Edge and IE.
+ * 2. Correct the color inheritance from `fieldset` elements in IE.
+ * 3. Remove the padding so developers are not caught out when they zero out
+ *    `fieldset` elements in all browsers.
+ */
+
+legend {
+    box-sizing: border-box; /* 1 */
+    color: inherit; /* 2 */
+    display: table; /* 1 */
+    max-width: 100%; /* 1 */
+    padding: 0; /* 3 */
+    white-space: normal; /* 1 */
+}
+
+/**
+ * Add the correct vertical alignment in Chrome, Firefox, and Opera.
+ */
+
+progress {
+    vertical-align: baseline;
+}
+
+/**
+ * Remove the default vertical scrollbar in IE 10+.
+ */
+
+textarea {
+    overflow: auto;
+}
+
+/**
+ * 1. Add the correct box sizing in IE 10.
+ * 2. Remove the padding in IE 10.
+ */
+
+[type="checkbox"],
+[type="radio"] {
+    box-sizing: border-box; /* 1 */
+    padding: 0; /* 2 */
+}
+
+/**
+ * Correct the cursor style of increment and decrement buttons in Chrome.
+ */
+
+[type="number"]::-webkit-inner-spin-button,
+[type="number"]::-webkit-outer-spin-button {
+    height: auto;
+}
+
+/**
+ * 1. Correct the odd appearance in Chrome and Safari.
+ * 2. Correct the outline style in Safari.
+ */
+
+[type="search"] {
+    -webkit-appearance: textfield; /* 1 */
+    outline-offset: -2px; /* 2 */
+}
+
+/**
+ * Remove the inner padding in Chrome and Safari on macOS.
+ */
+
+[type="search"]::-webkit-search-decoration {
+    -webkit-appearance: none;
+}
+
+/**
+ * 1. Correct the inability to style clickable types in iOS and Safari.
+ * 2. Change font properties to `inherit` in Safari.
+ */
+
+::-webkit-file-upload-button {
+    -webkit-appearance: button; /* 1 */
+    font: inherit; /* 2 */
+}
+
+/* Interactive
+   ========================================================================== */
+
+/*
+ * Add the correct display in Edge, IE 10+, and Firefox.
+ */
+
+details {
+    display: block;
+}
+
+/*
+ * Add the correct display in all browsers.
+ */
+
+summary {
+    display: list-item;
+}
+
+/* Misc
+   ========================================================================== */
+
+/**
+ * Add the correct display in IE 10+.
+ */
+
+template {
+    display: none;
+}
+
+/**
+ * Add the correct display in IE 10.
+ */
+
+[hidden] {
+    display: none;
+}
+
+
+
+body {
+    margin: 33pt;
+    font-weight: lighter;
+    color: #000000;
+    font-family: 'Nunito Sans', sans-serif;
+}
+
+
+
+body, td, th, p {
+    font-size: 12pt;
+}
+
+div#logos {
+}
+
+div#citypay-logo {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 520.89 113.5'%3E%3Cdefs%3E%3Cstyle%3E.cls-1%7Bfill:%23003b71;%7D.cls-2%7Bfill:%23d7c724;%7D%3C/style%3E%3C/defs%3E%3Ctitle%3Ecitypay-logo%3C/title%3E%3Cg id='Layer_2' data-name='Layer 2'%3E%3Cg id='Standard'%3E%3Cpath class='cls-1' d='M139,27a45.23,45.23,0,0,1,18.67,4L156.33,44.7a39.52,39.52,0,0,0-15.57-3.22c-10.82,0-19.11,5.56-19.11,16.26,0,10.14,7.85,16.44,18.61,16.44a37.32,37.32,0,0,0,16.32-3.89l1.86,14.09a44.68,44.68,0,0,1-19.23,4.39c-19.54,0-33.44-12.61-33.44-31C105.77,38.51,119.86,27,139,27Z'/%3E%3Cpath class='cls-2' d='M168.15,9.15a9.12,9.12,0,1,1,18.24,0,9.12,9.12,0,0,1-18.24,0Z'/%3E%3Crect class='cls-1' x='169.33' y='28.19' width='15.89' height='59.35'/%3E%3Cpath class='cls-1' d='M220.58,41.36V65.78c0,6.18,3.46,8.9,8.78,8.9a40.29,40.29,0,0,0,10.07-1.42l1.49,13.16a44.2,44.2,0,0,1-14.35,2.35c-13,0-21.82-6.74-21.82-20.71V41.36h-10V28.19h10.07v-19h15.4v19h17.18V41.36Z'/%3E%3Cpath class='cls-1' d='M292.17,28.19h17.62l-28,67.45C277,107,269.73,113.5,257,113.5a25.67,25.67,0,0,1-11.32-2.6l2-12.73a20,20,0,0,0,7.48,1.55c6.62,0,11.32-4.64,13.17-12.12L243.77,28.19h17.55L276.84,71.4Z'/%3E%3Cpath class='cls-1' d='M378,58.11c0,17.93-11.93,30.66-28.74,30.66-8.72,0-15.33-3-19.29-7.48v31H314.13V28.19H329.4l.31,7.17c3.9-4.94,10-8.41,19.54-8.41C366.06,27,378,40.06,378,58.11ZM346,74.55c9.4,0,16.08-7.1,16.08-16.5,0-9.58-6.62-16.88-16.08-16.88S329.9,48.59,329.9,58.05,336.7,74.55,346,74.55Z'/%3E%3Cpath class='cls-1' d='M384.35,57.74c0-18,12.3-30.79,28.62-30.79,9.21,0,15.45,3.53,19.35,8.41l.31-7.17h15.51V87.54H432.63l-.31-7.17c-3.9,4.94-10.14,8.4-19.35,8.4C396.65,88.77,384.35,75.73,384.35,57.74Zm31.71-16.63c-9.52,0-15.95,7.17-15.95,16.63s6.43,16.94,15.95,16.94,16.2-7.42,16.2-16.94S425.52,41.11,416.06,41.11Z'/%3E%3Cpath class='cls-1' d='M503.27,28.19h17.62l-28,67.45c-4.76,11.37-12.05,17.86-24.79,17.86a25.62,25.62,0,0,1-11.31-2.6l2-12.73a20,20,0,0,0,7.48,1.55c6.61,0,11.31-4.64,13.17-12.12L454.86,28.19h17.56L487.94,71.4Z'/%3E%3Cpath class='cls-2' d='M51.29,80l1.32-.26a30.92,30.92,0,0,0,0-60.65l-1.32-.27v-16l1.87.27A46.84,46.84,0,0,1,93.53,49.4a46.37,46.37,0,0,1-8.21,26.41A47.05,47.05,0,0,1,64.79,92.52L54.33,108.71l-3,4.79Z'/%3E%3Cpath class='cls-1' d='M40.28,95.68C17.31,92.3,0,72.41,0,49.4A47.13,47.13,0,0,1,40.16,3.13l2.28-.25v16l-1.63.25a30.87,30.87,0,0,0-.07,60.57l1.7.24v16Z'/%3E%3Cpath class='cls-1' d='M46.55,69.05C35.24,69.05,26,60.27,26,49.47S35.24,29.9,46.55,29.9s20.52,8.78,20.52,19.57S57.87,69.05,46.55,69.05Z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    height: 75px;
+    width: 375px;
+    display: block;
+    background-size: contain;
+    margin: auto;
+    margin-bottom: 30px;
+}
+
+div#aws-logo {
+    background-image: url("images/Amazon_Web_Services_Logo.svg");
+    background-repeat: no-repeat;
+    height: 150px;
+    width: 150px;
+    background-size: contain;
+    display: block;
+    margin: auto;
+}
+
+h1 {
+    font-size: 2.5em;
+    text-decoration: underline;
+    counter-reset: h2counter;
+}
+
+
+h2::before {
+    content: counter(h2counter) ". ";
+}
+
+h3::before {
+    content: counter(h2counter) "." counter(h3counter) ". ";
+}
+
+h2 {
+    counter-increment: h2counter;
+    font-size: 2em;
+    margin-top: 3em;
+    display: inline-block;
+}
+
+#toc_header {
+    font-size: 1.2em;
+    margin-top: 3em;
+    display: inline-block;
+}
+
+
+h3 {
+    font-size: 1.5em;
+    margin-top: 2em;
+    counter-increment: h3counter;
+}
+
+h4 {
+    font-size: 1.2em;
+}
+
+a {
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+table {
+    table-layout: auto;
+    width: 100%;
+    border-collapse: collapse;
+}
+
+table.borderless, table.borderless td, table.borderless th, table.borderless tr, table.borderless thead  {
+    border: 0;
+}
+
+th, td {
+    text-align: left;
+}
+
+th {
+    background-color: #f6f6f6;
+    color: #222;
+    font-weight: 100;
+    padding: 0.5em;
+}
+
+td, th{
+    border: 1px solid #555;
+    padding: 0.5em;
+    vertical-align: text-top
+}
+
+td span.Inbound::before, td span.Outbound::before {
+    content: "";
+    background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0Ij48cGF0aCBkPSJNMTIgMGMtNi42MjcgMC0xMiA1LjM3My0xMiAxMnM1LjM3MyAxMiAxMiAxMiAxMi01LjM3MyAxMi0xMi01LjM3My0xMi0xMi0xMnptMSAxN3YtNGgtOHYtMmg4di00bDYgNS02IDV6Ii8+PC9zdmc+");
+    background-repeat: no-repeat;
+    background-size: 1em;
+    padding-left: 1.3em;
+}
+
+td span.Outbound::before {
+    background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0Ij48cGF0aCBkPSJNMTIgMjRjNi42MjcgMCAxMi01LjM3MyAxMi0xMnMtNS4zNzMtMTItMTItMTItMTIgNS4zNzMtMTIgMTIgNS4zNzMgMTIgMTIgMTJ6bS0xLTE3djRoOHYyaC04djRsLTYtNSA2LTV6Ii8+PC9zdmc+");
+}
+
+td.description {
+    width: 70%;
+}
+
+td.cidr, td.port, td.region, td.nowrap, td.group {
+    white-space: nowrap;
+}
+
+
+table.fw tr:nth-child(even) {
+    background-color: #fdfbfb;
+}
+
+table.fw tr:nth-child(odd) {
+    background-color: #eeeeee;
+}
+
+table.fw tr.Inbound:nth-child(even) {
+    background-color: #e8fcff;
+}
+
+table.fw tr.Inbound:nth-child(odd) {
+    background-color: #d6e9ec;
+}
+
+table.fw tr.Outbound:nth-child(even) {
+    background-color: #effce3;
+}
+
+table.fw tr.Outbound:nth-child(odd) {
+    background-color: #dce7d1;
+}
+
+
+span.groupId {
+    margin: 5px;
+    display: inline;
+}
+
+span.region {
+    font-weight: bold;
+    border: 1px solid #333;
+    background-color: #557;
+    color: #EED;
+    padding: 0 5px 0 5px;
+    margin: 5px;
+    display: inline-block;
+}
+
+td.ELB, td.ECS, td.EC2, td.GA, td.LMB {
+    background-repeat: no-repeat;
+    background-size: 1.1em;
+    padding-left: 1.3em;
+}
+
+td.EC2 {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' viewBox='0 0 75 75'%3E%3Cdefs%3E%3Cstyle%3E.cls-1%7Bfill:url(%23OrangeGradient);%7D.cls-2%7Bfill:%23fff;%7D%3C/style%3E%3ClinearGradient id='OrangeGradient' x1='1131.1' y1='-516.48' x2='1131.1' y2='-366.48' gradientTransform='translate(1149.48 525.13) rotate(-135)' gradientUnits='userSpaceOnUse'%3E%3Cstop offset='0' stop-color='%23c8511b'/%3E%3Cstop offset='1' stop-color='%23f90'/%3E%3C/linearGradient%3E%3C/defs%3E%3Ctitle%3EAmazon-EC2%3C/title%3E%3Cg id='Working'%3E%3Crect id='Orange_Gradient' data-name='Orange Gradient' class='cls-1' width='75' height='75'/%3E%3Cg id='Icon_Test' data-name='Icon Test'%3E%3Cpath class='cls-2' d='M60.49,40.5h-5v-2h5v-24h-24v5h-2v-5a2,2,0,0,1,2-2h24a2,2,0,0,1,2,2v24A2,2,0,0,1,60.49,40.5Z'/%3E%3Cpath class='cls-2' d='M38.49,62.5h-24a2,2,0,0,1-2-2v-24a2,2,0,0,1,2-2h5v2h-5v24h24v-5h2v5A2,2,0,0,1,38.49,62.5Z'/%3E%3Cpath class='cls-2' d='M53.5,28.5v-2h-3a2.18,2.18,0,0,0-2-2v-3h-2v3h-3v-3h-2v3h-3v-3h-2v3h-3v-3h-2v3h-3v-3h-2v3a2.18,2.18,0,0,0-2,2h-3v2h3v3h-3v2h3v3h-3v2h3v3h-3v2h3v3h-3v2h3a2.18,2.18,0,0,0,2,2v3h2v-3h3v3h2v-3h3v3h2v-3h3v3h2v-3h3v3h2v-3a2.18,2.18,0,0,0,2-2h3v-2h-3v-3h3v-2h-3v-3h3v-2h-3v-3h3v-2h-3v-3Zm-5,19.82a.18.18,0,0,1-.18.18H26.68a.18.18,0,0,1-.18-.18V26.68a.18.18,0,0,1,.18-.18H48.32a.18.18,0,0,1,.18.18Z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+}
+
+td.ELB {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 50 50'%3E%3Cdefs%3E%3Cstyle%3E.cls-1%7Bfill:%23a166ff;%7D%3C/style%3E%3C/defs%3E%3Ctitle%3EElastic-Load-Balancing-ELB_Application-load-balancer_dark-bg%3C/title%3E%3Cg id='Reference'%3E%3Cpath class='cls-1' d='M25,50A25,25,0,1,1,50,25,25,25,0,0,1,25,50ZM25,2A23,23,0,1,0,48,25,23,23,0,0,0,25,2Z'/%3E%3Cpath class='cls-1' d='M39.9,32H38V28a1,1,0,0,0-1-1H34V23a1,1,0,0,0-1-1H26V19h7a1,1,0,0,0,1-1V9a1,1,0,0,0-1-1H17a1,1,0,0,0-1,1v9a1,1,0,0,0,1,1h7v3H17a1,1,0,0,0-1,1v4H13a1,1,0,0,0-1,1v4H10.1a1,1,0,0,0-1,1v5a1,1,0,0,0,1,1H15a1,1,0,0,0,1-1V33a1,1,0,0,0-1-1H14V29h5v3H18a1,1,0,0,0-1,1v5a1,1,0,0,0,1,1h5a1,1,0,0,0,1-1V33a1,1,0,0,0-1-1H21V28a1,1,0,0,0-1-1H18V24H32v3H30a1,1,0,0,0-1,1v4H27a1,1,0,0,0-1,1v5a1,1,0,0,0,1,1h5a1,1,0,0,0,1-1V33a1,1,0,0,0-1-1H31V29h5v3H34.93a1,1,0,0,0-1,1v5a1,1,0,0,0,1,1h5a1,1,0,0,0,1-1V33A1,1,0,0,0,39.9,32ZM14,37H11.1V34H14Zm8-3v3H19V34ZM18,17V10H32v7ZM31,37H28V34h3Zm7.9,0h-3V34h3Z'/%3E%3C/g%3E%3C/svg%3E");
+}
+
+td.ECS {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 50 50'%3E%3Cdefs%3E%3Cstyle%3E.cls-1%7Bfill:%23f90;%7D%3C/style%3E%3C/defs%3E%3Ctitle%3EAmazon-Elastic-Container-Service_Service_dark-bg%3C/title%3E%3Cg id='Working'%3E%3Cg id='Art'%3E%3Cpath class='cls-1' d='M43.15,48.5h-27a1,1,0,0,1-1-1v-36a1,1,0,0,1,1-1h27a1,1,0,0,1,1,1v36A1,1,0,0,1,43.15,48.5Zm-26-2h25v-34h-25Z'/%3E%3Cpath class='cls-1' d='M24.39,21.5h-4.5a1,1,0,0,1-1-1V16a1,1,0,0,1,1-1h4.5a1,1,0,0,1,1,1v4.5A1,1,0,0,1,24.39,21.5Zm-3.5-2h2.5V17h-2.5Z'/%3E%3Cpath class='cls-1' d='M24.39,32h-4.5a1,1,0,0,1-1-1V26.5a1,1,0,0,1,1-1h4.5a1,1,0,0,1,1,1V31A1,1,0,0,1,24.39,32Zm-3.5-2h2.5V27.5h-2.5Z'/%3E%3Cpath class='cls-1' d='M24.39,42.51h-4.5a1,1,0,0,1-1-1V37a1,1,0,0,1,1-1h4.5a1,1,0,0,1,1,1v4.51A1,1,0,0,1,24.39,42.51Zm-3.5-2h2.5V38h-2.5Z'/%3E%3Crect class='cls-1' x='26.65' y='17.25' width='13.51' height='2'/%3E%3Crect class='cls-1' x='26.65' y='27.74' width='13.51' height='2'/%3E%3Crect class='cls-1' x='26.65' y='38.25' width='13.51' height='2'/%3E%3Cpath class='cls-1' d='M16.15,44h-4.5a1,1,0,0,1-1-1V7a1,1,0,0,1,1-1h27a1,1,0,0,1,1,1v4.5h-2V8h-25V42h3.5Z'/%3E%3Cpath class='cls-1' d='M11.35,39.51H6.85a1,1,0,0,1-1-1V2.5a1,1,0,0,1,1-1h27a1,1,0,0,1,1,1V7h-2V3.5h-25v34h3.5Z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+}
+
+td.GA {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' viewBox='0 0 75 75'%3E%3Cdefs%3E%3Cstyle%3E.cls-1%7Bfill:url(%23PurpleGradient);%7D.cls-2%7Bfill:%23fff;%7D%3C/style%3E%3ClinearGradient id='PurpleGradient' x1='-1370.32' y1='-602.7' x2='-1520.32' y2='-602.7' gradientTransform='translate(-1410.67 633.32) rotate(135)' gradientUnits='userSpaceOnUse'%3E%3Cstop offset='0' stop-color='%234d27a8'/%3E%3Cstop offset='1' stop-color='%23a166ff'/%3E%3C/linearGradient%3E%3C/defs%3E%3Ctitle%3EAWS-Global-Accelerator%3C/title%3E%3Cg id='Reference'%3E%3Crect id='Purple_Gradient' data-name='Purple Gradient' class='cls-1' width='75' height='75'/%3E%3Cg id='Icon_Test' data-name='Icon Test'%3E%3Cpath class='cls-2' d='M37.64,51A16.73,16.73,0,1,1,54.36,34.27,16.74,16.74,0,0,1,37.64,51Zm0-31.45A14.73,14.73,0,1,0,52.36,34.27,14.75,14.75,0,0,0,37.64,19.54Z'/%3E%3Cpath class='cls-2' d='M37.64,27.74A26.52,26.52,0,0,1,25.15,25l1-1.74a24.65,24.65,0,0,0,11.52,2.5,24.61,24.61,0,0,0,11.51-2.5l1,1.74A26.5,26.5,0,0,1,37.64,27.74Z'/%3E%3Cpath class='cls-2' d='M49.15,44.91A24.49,24.49,0,0,0,37.63,42.4a24.51,24.51,0,0,0-11.51,2.51l-1-1.75A26.5,26.5,0,0,1,37.63,40.4a26.64,26.64,0,0,1,12.49,2.76Z'/%3E%3Cpath class='cls-2' d='M37.64,51c-4.74,0-8.45-7.34-8.45-16.72s3.71-16.73,8.45-16.73,8.44,7.35,8.44,16.73S42.37,51,37.64,51Zm0-31.45c-3.12,0-6.45,5.92-6.45,14.73S34.52,49,37.64,49s6.44-5.91,6.44-14.72S40.75,19.54,37.64,19.54Z'/%3E%3Crect class='cls-2' x='36.58' y='37.26' width='2' height='19.47'/%3E%3Cpath class='cls-2' d='M28.28,59.55a3.29,3.29,0,1,1,3.28-3.29A3.3,3.3,0,0,1,28.28,59.55Zm0-4.57a1.29,1.29,0,1,0,1.28,1.28A1.29,1.29,0,0,0,28.28,55Z'/%3E%3Cpath class='cls-2' d='M37.56,62.3A3.29,3.29,0,1,1,40.85,59,3.3,3.3,0,0,1,37.56,62.3Zm0-4.57A1.29,1.29,0,1,0,38.85,59,1.29,1.29,0,0,0,37.56,57.73Z'/%3E%3Cpath class='cls-2' d='M46.88,59.55a3.29,3.29,0,1,1,3.28-3.29A3.29,3.29,0,0,1,46.88,59.55Zm0-4.57a1.29,1.29,0,1,0,1.28,1.28A1.29,1.29,0,0,0,46.88,55Z'/%3E%3Cpath class='cls-2' d='M47.88,53.82h-2v-.88h-8.3v-2h8.28c1.21,0,2,.56,2,1.39Z'/%3E%3Cpath class='cls-2' d='M29.28,53.82h-2V52.33c0-.83.81-1.39,2-1.39h8.28v2h-8.3Z'/%3E%3Cpolygon class='cls-2' points='35.68 40.03 34.26 38.62 37.64 35.25 41.01 38.62 39.59 40.03 37.64 38.08 35.68 40.03'/%3E%3Cpath class='cls-2' d='M52.81,49.65l-1.42-1.42a19.64,19.64,0,1,0-27.78,0l-1.42,1.42a21.65,21.65,0,1,1,30.62,0Z'/%3E%3Crect class='cls-2' x='21.91' y='32.33' width='31.45' height='2'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+}
+
+td.LMB {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 50 50'%3E%3Cdefs%3E%3Cstyle%3E.cls-1%7Bfill:%23d86613;%7D%3C/style%3E%3C/defs%3E%3Ctitle%3EAWS-Lambda_Lambda-Function_light-bg%3C/title%3E%3Cg id='Working'%3E%3Cpath class='cls-1' d='M39.06,39.12H31.47a1,1,0,0,1-.91-.57L19.92,15.69h-4.3a1,1,0,0,1-1-1V8.12a1,1,0,0,1,1-1h9.49A1,1,0,0,1,26,7.7L36.62,30.56h2.44a1,1,0,0,1,1,1v6.56A1,1,0,0,1,39.06,39.12Zm-7-2h6V32.56H36a1,1,0,0,1-.91-.58L24.48,9.12H16.63v4.57h3.93a1,1,0,0,1,.91.58Z'/%3E%3Cpath class='cls-1' d='M18.43,39.12H10.31a1,1,0,0,1-.9-1.43L17.9,19.91a1,1,0,0,1,.9-.57h0a1,1,0,0,1,.9.56l4.07,8.4a1,1,0,0,1,0,.86l-4.44,9.39A1,1,0,0,1,18.43,39.12Zm-6.53-2h5.89l4-8.38-3-6.09Z'/%3E%3Cpath class='cls-1' d='M25,48.5A23.5,23.5,0,1,1,48.5,25,23.52,23.52,0,0,1,25,48.5Zm0-45A21.5,21.5,0,1,0,46.5,25,21.53,21.53,0,0,0,25,3.5Z'/%3E%3C/g%3E%3C/svg%3E");
+}
+
+td.RDS {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='50' height='50' viewBox='0 0 50 50'%3E%3Ctitle%3EAmazon-RDS_Amazon-Aurora_instance_light-bg%3C/title%3E%3Cg id='Working'%3E%3Cpath d='M43.55,0H6.45A6.45,6.45,0,0,0,0,6.45v37.1A6.45,6.45,0,0,0,6.45,50H30V48H6.45A4.46,4.46,0,0,1,2,43.55V6.45A4.46,4.46,0,0,1,6.45,2h37.1A4.46,4.46,0,0,1,48,6.45V21h2V6.45A6.45,6.45,0,0,0,43.55,0Z' style='fill:%233b48cc'/%3E%3Cpath d='M8.9,11.48,8.56,9.91H7l-.34,1.57H5.26L7.08,4.9H8.55l1.81,6.58ZM7.19,9H8.36l-.6-2.72Z' style='fill:%233b48cc'/%3E%3Cpath d='M15.75,11.48V8.28a1.31,1.31,0,0,0-.11-.6.37.37,0,0,0-.36-.19,1.22,1.22,0,0,0-.63.23.31.31,0,0,1,0,.1v3.66h-1.3V8.28a1.19,1.19,0,0,0-.11-.6.37.37,0,0,0-.36-.19,1.22,1.22,0,0,0-.62.23v3.76H11V6.62H12l.1.44a2.48,2.48,0,0,1,1.42-.56,1,1,0,0,1,.95.58A2.52,2.52,0,0,1,16,6.5a.94.94,0,0,1,.81.37,1.66,1.66,0,0,1,.29,1v3.56Z' style='fill:%233b48cc'/%3E%3Cpath d='M20.43,11.48,20.32,11a1.19,1.19,0,0,1-.47.41,1.34,1.34,0,0,1-.61.15,1.21,1.21,0,0,1-.93-.38A1.54,1.54,0,0,1,18,10.16a1.43,1.43,0,0,1,1.54-1.54,3.23,3.23,0,0,1,.73.11V8.3a1.18,1.18,0,0,0-.13-.67.53.53,0,0,0-.47-.18,4.06,4.06,0,0,0-1.4.31V6.89A2.4,2.4,0,0,1,19,6.61a4,4,0,0,1,.91-.11,1.64,1.64,0,0,1,1.2.38,1.69,1.69,0,0,1,.37,1.2v3.4Zm-.81-.79a.92.92,0,0,0,.62-.3V9.46a1.45,1.45,0,0,0-.49-.07.52.52,0,0,0-.42.18.73.73,0,0,0-.15.5.81.81,0,0,0,.12.46A.36.36,0,0,0,19.62,10.69Z' style='fill:%233b48cc'/%3E%3Cpath d='M22.21,11.48v-.92l2-2.94H22.29v-1h3.25v.93l-2,2.93h2v1Z' style='fill:%233b48cc'/%3E%3Cpath d='M28.13,11.6a1.75,1.75,0,0,1-1.46-.66,3,3,0,0,1-.51-1.88,3,3,0,0,1,.51-1.89,1.73,1.73,0,0,1,1.46-.67,1.7,1.7,0,0,1,1.44.67,3,3,0,0,1,.52,1.89,3,3,0,0,1-.52,1.88A1.71,1.71,0,0,1,28.13,11.6Zm0-1a.52.52,0,0,0,.5-.38,3.13,3.13,0,0,0,.16-1.18,3.19,3.19,0,0,0-.16-1.19.53.53,0,0,0-1,0,3.19,3.19,0,0,0-.16,1.19,3.13,3.13,0,0,0,.16,1.18A.53.53,0,0,0,28.13,10.62Z' style='fill:%233b48cc'/%3E%3Cpath d='M33.44,11.48V8.29a1.32,1.32,0,0,0-.11-.61.42.42,0,0,0-.39-.19,1.25,1.25,0,0,0-.65.23v3.76H31V6.62h1.06l.1.44a2.51,2.51,0,0,1,1.45-.56,1,1,0,0,1,.84.36,1.69,1.69,0,0,1,.29,1.06v3.56Z' style='fill:%233b48cc'/%3E%3Cpath d='M8.9,21l-.34-1.57H7L6.65,21H5.26L7.08,14.4H8.55L10.36,21ZM7.19,18.46H8.36l-.6-2.72Z' style='fill:%233b48cc'/%3E%3Cpath d='M13.54,21l-.1-.44a2.31,2.31,0,0,1-1.4.56.93.93,0,0,1-.81-.37A1.78,1.78,0,0,1,11,19.66V16.12h1.29v3.13a1.56,1.56,0,0,0,.11.67.37.37,0,0,0,.35.2,1.11,1.11,0,0,0,.6-.22V16.12H14.6V21Z' style='fill:%233b48cc'/%3E%3Cpath d='M15.72,21V16.12h1.06l.15.63a2.16,2.16,0,0,1,.56-.51,1.14,1.14,0,0,1,.59-.16l.31,0v1.15a2.32,2.32,0,0,0-.51-.05,1.66,1.66,0,0,0-.86.23V21Z' style='fill:%233b48cc'/%3E%3Cpath d='M20.72,21.1a1.71,1.71,0,0,1-1.44-.66,3,3,0,0,1-.52-1.88,3,3,0,0,1,.52-1.89,1.89,1.89,0,0,1,2.89,0,3,3,0,0,1,.52,1.89,3,3,0,0,1-.52,1.88A1.72,1.72,0,0,1,20.72,21.1Zm0-1a.53.53,0,0,0,.51-.38,3.13,3.13,0,0,0,.16-1.18,3.19,3.19,0,0,0-.16-1.19.53.53,0,0,0-1,0,3.19,3.19,0,0,0-.16,1.19,3.13,3.13,0,0,0,.16,1.18A.52.52,0,0,0,20.72,20.12Z' style='fill:%233b48cc'/%3E%3Cpath d='M23.6,21V16.12h1.06l.14.63a2.33,2.33,0,0,1,.56-.51,1.16,1.16,0,0,1,.59-.16,1.55,1.55,0,0,1,.31,0v1.15a2.29,2.29,0,0,0-.5-.05,1.69,1.69,0,0,0-.87.23V21Z' style='fill:%233b48cc'/%3E%3Cpath d='M29.13,21,29,20.54a1.26,1.26,0,0,1-.47.41,1.37,1.37,0,0,1-.61.15,1.18,1.18,0,0,1-.93-.38,1.54,1.54,0,0,1-.34-1.06,1.51,1.51,0,0,1,.41-1.13,1.57,1.57,0,0,1,1.13-.41,3.23,3.23,0,0,1,.73.11V17.8a1.18,1.18,0,0,0-.13-.67.54.54,0,0,0-.48-.18,4,4,0,0,0-1.39.31v-.87a2.21,2.21,0,0,1,.72-.28,4,4,0,0,1,.91-.11,1.6,1.6,0,0,1,1.19.38,1.64,1.64,0,0,1,.37,1.2V21Zm-.82-.79a.93.93,0,0,0,.63-.3V19a1.45,1.45,0,0,0-.49-.07.49.49,0,0,0-.42.18.73.73,0,0,0-.15.5A.81.81,0,0,0,28,20,.36.36,0,0,0,28.31,20.19Z' style='fill:%233b48cc'/%3E%3Cpath d='M40,20.28c-5,0-10,1.56-10,4.55V45.17c0,3,5,4.55,10,4.55s10-1.56,10-4.55V24.83C50,21.84,45,20.28,40,20.28Zm.13,2c5.19,0,8,1.68,8,2.55s-2.83,2.56-8,2.56-8-1.69-8-2.56S34.93,22.28,40.13,22.28Zm0,25.44c-5.2,0-8-1.68-8-2.55V41.75a16.66,16.66,0,0,0,8,1.74,16.65,16.65,0,0,0,8-1.74v3.42C48.15,46,45.32,47.72,40.13,47.72Zm0-6.23c-5.2,0-8-1.69-8-2.56V34.77a16.78,16.78,0,0,0,8,1.73,16.77,16.77,0,0,0,8-1.73v4.16C48.15,39.8,45.32,41.49,40.13,41.49Zm0-7c-5.2,0-8-1.69-8-2.56V27.65a16.66,16.66,0,0,0,8,1.74,16.65,16.65,0,0,0,8-1.74v4.29C48.15,32.81,45.32,34.5,40.13,34.5Z' style='fill:%233b48cc'/%3E%3C/g%3E%3C/svg%3E");
+}
+
+span.cidr_any {
+    font-weight: bold;
+}
+
+@media print {
+    h1 {
+        font-size: 3em;
+    }
+    .page {
+        page-break-before: always;
+    }
+    h3, h4 {
+        page-break-after: avoid;
+    }
+    pre, blockquote {
+        page-break-inside: avoid;
+    }
+    body {
+        margin: 0;
+        padding: 0;
+    }
+    body, td, th, p {
+        font-size: 8pt;
+    }
+}
+
+.row_total {
+    background-color: #effce3;
+    font-weight: 400;
+}
+
+td.levels, th.levels {
+    text-align: right;
+}
+
+td.l_critical {
+    border-left: 2px solid red;
+}
+
+td.l_high {
+    border-left: 2px solid orange;
+}
+
+td.l_med {
+    border-left: 2px solid blueviolet;
+}
+
+td.l_low {
+    border-left: 2px solid blue;
+}
+
+.tag_medium, .tag_high, .tag_critical, .tag_low, .tag_none {
+    background-color: blueviolet;
+    color: #FFF;
+    border: 1px solid blueviolet;
+    padding: 3px;
+    border-radius: 3px;
+    font-size: 80%;
+    display: inline-block;
+    margin: 3px;
+}
+
+.tag_high {
+    background-color: orange;
+    border-color: orange;
+}
+
+.tag_critical {
+    background-color: red;
+    border-color: red;
+}
+
+.tag_low {
+    background-color: blue;
+    border-color: blue;
+}
+
+.tag_none {
+    background-color: #aaa;
+    border-color: #aaa;
+}
+
+.finding_id {
+    color: #111;
+}
+
+.finding_label {
+    color: #888;
+    display: inline;
+    margin: 5px;
+}
+
+em {
+    margin: 0 3px 0 3px;
+}
+
+.divisor-row, .divisor-row td {
+    border: 0;
+}
+
+tr.divisor-row {
+    border-top: 2px solid #555;
+    border-bottom: 1px solid #555;
+}
+
+.row_labels {
+    margin-bottom:20px;
+}
+
+ul {
+    padding-inline-start: 20px;
+}
+
+td.severity {
+    text-align: right;
+    vertical-align: top;
+}
+
+.jira-status {
+    color: #633;
+}
+
+.pci-scope {
+    font-weight: bold;
+    color: red;
+}
+
+table.finding-by-asset {
+    display: block;
+    width: auto;
+    float: right;
+}
+
+div#pci-state-failed {
+    color: red;
+    font-weight: bold;
+}
+
+div#pci-state-passed {
+    color: green;
+    font-weight: bold;
+}
+
+th.center {
+    text-align: center;
+}
+
+
+#toc ul, ul.toc {
+    list-style: none;
+}
+
+#toc > ul {
+    padding-inline-start: 0;
+}
