@@ -257,7 +257,7 @@
               </ul>
           </li>
           <li>
-            <a href="#authorisation-and-payment-api" class="toc-h1 toc-link" data-title="Authorisation and Payment API">Authorisation and Payment API</a>
+            <a href="#authorisation-and-payment-api" class="toc-h1 toc-link" data-title="Authorisation and Payment Api">Authorisation and Payment Api</a>
               <ul class="toc-list-h2">
                   <li>
                     <a href="#authorisation" class="toc-h2 toc-link" data-title="Authorisation">Authorisation</a>
@@ -289,7 +289,7 @@
               </ul>
           </li>
           <li>
-            <a href="#batch-processing-api" class="toc-h1 toc-link" data-title="Batch Processing API">Batch Processing API</a>
+            <a href="#batch-processing-api" class="toc-h1 toc-link" data-title="Batch Processing Api">Batch Processing Api</a>
               <ul class="toc-list-h2">
                   <li>
                     <a href="#batch-process-request" class="toc-h2 toc-link" data-title="Batch Process Request">Batch Process Request</a>
@@ -303,7 +303,7 @@
               </ul>
           </li>
           <li>
-            <a href="#card-holder-account-api" class="toc-h1 toc-link" data-title="Card Holder Account API">Card Holder Account API</a>
+            <a href="#card-holder-account-api" class="toc-h1 toc-link" data-title="Card Holder Account Api">Card Holder Account Api</a>
               <ul class="toc-list-h2">
                   <li>
                     <a href="#account-exists" class="toc-h2 toc-link" data-title="Account Exists">Account Exists</a>
@@ -338,7 +338,7 @@
               </ul>
           </li>
           <li>
-            <a href="#direct-post-api" class="toc-h1 toc-link" data-title="Direct Post API">Direct Post API</a>
+            <a href="#direct-post-api" class="toc-h1 toc-link" data-title="Direct Post Api">Direct Post Api</a>
               <ul class="toc-list-h2">
                   <li>
                     <a href="#direct-post-flow" class="toc-h2 toc-link" data-title="Direct Post Flow">Direct Post Flow</a>
@@ -361,7 +361,7 @@
               </ul>
           </li>
           <li>
-            <a href="#operational-api-functions" class="toc-h1 toc-link" data-title="Operational API Functions">Operational API Functions</a>
+            <a href="#operational-functions-api" class="toc-h1 toc-link" data-title="Operational Functions Api">Operational Functions Api</a>
               <ul class="toc-list-h2">
                   <li>
                     <a href="#domain-key-check-request" class="toc-h2 toc-link" data-title="Domain Key Check Request">Domain Key Check Request</a>
@@ -381,7 +381,7 @@
               </ul>
           </li>
           <li>
-            <a href="#paylink-api" class="toc-h1 toc-link" data-title="Paylink API">Paylink API</a>
+            <a href="#paylink-api" class="toc-h1 toc-link" data-title="Paylink Api">Paylink Api</a>
               <ul class="toc-list-h2">
                   <li>
                     <a href="#create-bill-payment-paylink-token" class="toc-h2 toc-link" data-title="Create Bill Payment Paylink Token">Create Bill Payment Paylink Token</a>
@@ -674,7 +674,7 @@
       </ul>
         <ul class="toc-footer">
             <li><a href='mailto:support@citypay.com'>Any Integration Questions?</a></li>
-            <li>V6.4.7 2022-10-27</li>
+            <li>V6.4.12 2022-11-07</li>
         </ul>
     </div>
     <div class="page-wrapper">
@@ -682,8 +682,8 @@
       <div class="content">
         <img src="images/header-4aeb62fd.png" width="100%" alt="header image" />
         <h1 id='citypay-payment-api'>CityPay Payment API</h1>
-<p>Version: 6.4.7
-Last Updated: 2022-10-27</p>
+<p>Version: 6.4.12
+Last Updated: 2022-11-07</p>
 
 <p>This CityPay API is a HTTP RESTful payment API used for direct server to server transactional processing. It
 provides a number of payment mechanisms including: Internet, MOTO, Continuous Authority transaction processing,
@@ -819,8 +819,10 @@ and attack mitigation.</p>
 <li>your merchant id</li>
 <li>your access/licence key</li>
 </ul>
-<h1 id='authorisation-and-payment-api'>Authorisation and Payment API</h1>
-<p>.</p>
+<h1 id='authorisation-and-payment-api'>Authorisation and Payment Api</h1>
+<p>The Payment Processing API offers standard and enhanced payment processing for MOTO, e-commerce
+and continuous authority transactions that include fraud and risk checking, 3D-Secure flows
+and payment querying.</p>
 <h2 id='authorisation'>Authorisation</h2>
 <div class="route-spec">
 <div class="route-path">
@@ -2279,7 +2281,7 @@ outlining the result of the transaction.</p>
 <td></td>
 </tr>
 </tbody></table>
-<h1 id='batch-processing-api'>Batch Processing API</h1>
+<h1 id='batch-processing-api'>Batch Processing Api</h1>
 <p>Batch processing uses the Batch and Instalment Service (BIS) which allows for transaction processing against cardholder 
 accounts using a dynamic batch file. For merchants who process on schedules and dynamic amounts, the service allows for 
 the presentation of cardholder account references and transaction requirements to run as a scheduled batch.</p>
@@ -2589,7 +2591,7 @@ status.</p>
 <td></td>
 </tr>
 </tbody></table>
-<h1 id='card-holder-account-api'>Card Holder Account API</h1>
+<h1 id='card-holder-account-api'>Card Holder Account Api</h1>
 <p>A cardholder account models a cardholder and can register 1 or more cards for tokenised charging. </p>
 
 <p>The account offers a credential on file option to the CityPay gateway allowing for both cardholder initiated and 
@@ -3808,7 +3810,7 @@ required field with both Visa and MasterCard for risk analysis.</em>.</p>
 <td></td>
 </tr>
 </tbody></table>
-<h1 id='direct-post-api'>Direct Post API</h1>
+<h1 id='direct-post-api'>Direct Post Api</h1>
 <p>The Direct Post Method for e-commerce payment is generally used by merchants that require more control over their
 payment form “look and feel” and can understand and implement the extra PCI DSS security controls that are required to
 protect their systems.</p>
@@ -3872,7 +3874,7 @@ initial direct post call and must be run on a pre-registered host. Our validatio
 
 <p><pre class="inline-code language-bash">
 <code>
-curl https://api.citypay.com/v6/direct?cp-domain-key=n834ytqp84y... \
+curl https://api.citypay.com/direct/auth?cp-domain-key=n834ytqp84y... \
  -d &quot;amount=7500&amp;identifier=example_trans&amp;cardnumber=4000000000000002&amp;expmonth=9&amp;expyear=2028&amp;bill_to_postcode=L1+7ZW
 </code>
 </pre>.</p>
@@ -4683,7 +4685,7 @@ curl https://api.citypay.com/v6/direct?cp-domain-key=n834ytqp84y... \
 <td></td>
 </tr>
 </tbody></table>
-<h1 id='operational-api-functions'>Operational API Functions</h1>
+<h1 id='operational-functions-api'>Operational Functions Api</h1>
 <p>Operations that are for operational purposes only such as checking connectivity to the API.</p>
 <h2 id='domain-key-check-request'>Domain Key Check Request</h2>
 <div class="route-spec">
@@ -5157,7 +5159,7 @@ model is granting access from your source.</p>
 <td></td>
 </tr>
 </tbody></table>
-<h1 id='paylink-api'>Paylink API</h1>
+<h1 id='paylink-api'>Paylink Api</h1>
 <p>CityPay Paylink makes online e-commerce easier to implement by handling the card payment process directly with the cardholder&#39;s browser and CityPay&#39;s payment processing servers, allowing you to concentrate on your business whilst allowing us to manage the payment process.</p>
 
 <ol>
@@ -6556,7 +6558,7 @@ request calls.</p>
 <td><code>ticket_issue_date</code></td>
 <td>string <em>date</em></td>
 <td>true</td>
-<td>The date the ticket was issued in ISO Date format (yyyy-MM-dd).<br/><br/>maxLength: 10</td>
+<td>The date the ticket was issued in ISO Date format (yyyy-MM-dd).</td>
 </tr>
 <tr>
 <td><code>ticket_issue_name</code></td>

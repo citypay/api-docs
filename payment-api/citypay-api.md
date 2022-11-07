@@ -1,12 +1,12 @@
 ---
 title: CityPay Payment API
-version: 6.4.7
+version: 6.4.12
 language_tabs:
   - json
   - xml
 toc_footers:
   - <a href='mailto:support@citypay.com'>Any Integration Questions?</a>
-  - V6.4.7 2022-10-27
+  - V6.4.12 2022-11-07
 includes:
   - errorcodes
   - authresultcodes
@@ -22,8 +22,8 @@ search: true
 
 # CityPay Payment API
 
-Version: 6.4.7
-Last Updated: 2022-10-27
+Version: 6.4.12
+Last Updated: 2022-11-07
 
 
 This CityPay API is a HTTP RESTful payment API used for direct server to server transactional processing. It
@@ -166,9 +166,12 @@ A key has been designed to:
 
 
 
-# Authorisation and Payment API
+# Authorisation and Payment Api
 
-.
+The Payment Processing API offers standard and enhanced payment processing for MOTO, e-commerce
+and continuous authority transactions that include fraud and risk checking, 3D-Secure flows
+and payment querying.
+
 
 
 ## Authorisation
@@ -1205,7 +1208,7 @@ Responses for the VoidRequest operation are
 
 
 
-# Batch Processing API
+# Batch Processing Api
 
 Batch processing uses the Batch and Instalment Service (BIS) which allows for transaction processing against cardholder 
 accounts using a dynamic batch file. For merchants who process on schedules and dynamic amounts, the service allows for 
@@ -1387,7 +1390,7 @@ Responses for the CheckBatchStatusRequest operation are
 
 
 
-# Card Holder Account API
+# Card Holder Account Api
 
 A cardholder account models a cardholder and can register 1 or more cards for tokenised charging. 
 
@@ -2042,7 +2045,7 @@ Responses for the ChargeRequest operation are
 
 
 
-# Direct Post API
+# Direct Post Api
 
 The Direct Post Method for e-commerce payment is generally used by merchants that require more control over their
 payment form “look and feel” and can understand and implement the extra PCI DSS security controls that are required to
@@ -2113,7 +2116,7 @@ Used to initiate a direct post request transaction flow.
 
 <pre class="inline-code language-bash">
 <code>
-curl https://api.citypay.com/v6/direct?cp-domain-key=n834ytqp84y... \
+curl https://api.citypay.com/direct/auth?cp-domain-key=n834ytqp84y... \
  -d "amount=7500&identifier=example_trans&cardnumber=4000000000000002&expmonth=9&expyear=2028&bill_to_postcode=L1+7ZW
 </code>
 </pre>.
@@ -2468,7 +2471,7 @@ Responses for the DirectPostTokeniseRequest operation are
 
 
 
-# Operational API Functions
+# Operational Functions Api
 
 Operations that are for operational purposes only such as checking connectivity to the API.
 
@@ -2763,7 +2766,7 @@ Responses for the PingRequest operation are
 
 
 
-# Paylink API
+# Paylink Api
 
 CityPay Paylink makes online e-commerce easier to implement by handling the card payment process directly with the cardholder's browser and CityPay's payment processing servers, allowing you to concentrate on your business whilst allowing us to manage the payment process.
 
@@ -3601,7 +3604,7 @@ Responses for the TokenStatusRequest operation are
 | `segment3` | object | false | [AirlineSegment](#airlinesegment) Segment 3 of airline data if defined. | 
 | `segment4` | object | false | [AirlineSegment](#airlinesegment) Segment 4 of airline data if defined. | 
 | `ticket_issue_city` | string  | true | The name of the city town or village where the transaction took place.<br/><br/>maxLength: 18 | 
-| `ticket_issue_date` | string *date* | true | The date the ticket was issued in ISO Date format (yyyy-MM-dd).<br/><br/>maxLength: 10 | 
+| `ticket_issue_date` | string *date* | true | The date the ticket was issued in ISO Date format (yyyy-MM-dd). | 
 | `ticket_issue_name` | string  | true | The name of the agency generating the ticket.<br/><br/>maxLength: 26 | 
 | `ticket_no` | string  | true | This must be a valid ticket number, i.e. numeric (the first 3 digits must represent the valid IATA plate carrier code). The final check digit should be validated prior to submission. On credit charges, this field should contain the number of the original ticket, and not of a replacement.<br/><br/> maxLength: 14 | 
 | `transaction_type` | string  | true | This field contains the Transaction Type code assigned to this transaction. Valid codes include:<br/><br/> - `TKT` = Ticket Purchase<br/><br/> - `REF` = Refund<br/><br/> - `EXC` = Exchange Ticket<br/><br/> - `MSC` = Miscellaneous (non-Ticket Purchase- and non-Exchange Ticket-related transactions only).<br/><br/> minLength: 3<br/>maxLength: 3 | 
