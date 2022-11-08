@@ -674,7 +674,7 @@
       </ul>
         <ul class="toc-footer">
             <li><a href='mailto:support@citypay.com'>Any Integration Questions?</a></li>
-            <li>V6.4.12 2022-11-07</li>
+            <li>V6.4.13 2022-11-08</li>
         </ul>
     </div>
     <div class="page-wrapper">
@@ -682,8 +682,8 @@
       <div class="content">
         <img src="images/header-4aeb62fd.png" width="100%" alt="header image" />
         <h1 id='citypay-payment-api'>CityPay Payment API</h1>
-<p>Version: 6.4.12
-Last Updated: 2022-11-07</p>
+<p>Version: 6.4.13
+Last Updated: 2022-11-08</p>
 
 <p>This CityPay API is a HTTP RESTful payment API used for direct server to server transactional processing. It
 provides a number of payment mechanisms including: Internet, MOTO, Continuous Authority transaction processing,
@@ -5218,20 +5218,15 @@ with Field Guards to ensure that sensitive data (such as customer contact detail
 
 <p>To send a notification path, append a <code>notification-path</code> property to the request.</p>
 <div class="highlight"><pre class="highlight json tab-json"><code><span class="w"> </span><span class="p">{</span><span class="w">
-  </span><span class="nl">"notification-path"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
-    </span><span class="p">{</span><span class="w">
-      </span><span class="nl">"channel"</span><span class="p">:</span><span class="w"> </span><span class="s2">"sms"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"sms_notification_path"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
       </span><span class="nl">"to"</span><span class="p">:</span><span class="w"> </span><span class="s2">"+441534884000"</span><span class="w">
-    </span><span class="p">},</span><span class="w">
-    </span><span class="p">{</span><span class="w">
-      </span><span class="nl">"channel"</span><span class="p">:</span><span class="w"> </span><span class="s2">"email"</span><span class="p">,</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="nl">"email_notification_path"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
       </span><span class="nl">"to"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"help-desk@citypay.com"</span><span class="p">],</span><span class="w">
       </span><span class="nl">"cc"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"third-party@citypay.com"</span><span class="p">],</span><span class="w">
       </span><span class="nl">"reply"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"help@my-company.com"</span><span class="p">]</span><span class="w">
-    </span><span class="p">}</span><span class="w">
-  </span><span class="p">]</span><span class="w">
+  </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
-
 </span></code></pre></div>
 <p>Notification paths trigger a number of events which are stored as part of the timeline of events of a Paylink token</p>
 

@@ -1,12 +1,12 @@
 ---
 title: CityPay Payment API
-version: 6.4.12
+version: 6.4.13
 language_tabs:
   - json
   - xml
 toc_footers:
   - <a href='mailto:support@citypay.com'>Any Integration Questions?</a>
-  - V6.4.12 2022-11-07
+  - V6.4.13 2022-11-08
 includes:
   - errorcodes
   - authresultcodes
@@ -22,8 +22,8 @@ search: true
 
 # CityPay Payment API
 
-Version: 6.4.12
-Last Updated: 2022-11-07
+Version: 6.4.13
+Last Updated: 2022-11-08
 
 
 This CityPay API is a HTTP RESTful payment API used for direct server to server transactional processing. It
@@ -2829,20 +2829,15 @@ To send a notification path, append a `notification-path` property to the reques
 
 ```json
  {
-  "notification-path": [
-    {
-      "channel": "sms",
+  "sms_notification_path": {
       "to": "+441534884000"
-    },
-    {
-      "channel": "email",
+  },
+  "email_notification_path": {
       "to": ["help-desk@citypay.com"],
       "cc": ["third-party@citypay.com"],
       "reply": ["help@my-company.com"]
-    }
-  ]
+  }
 }
-
 ```
 
 Notification paths trigger a number of events which are stored as part of the timeline of events of a Paylink token

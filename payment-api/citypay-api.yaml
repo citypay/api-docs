@@ -4,7 +4,7 @@ openapi: 3.0.0
 #                              API Information                                 #
 ################################################################################
 info:
-  version: 6.4.12
+  version: 6.4.13
   title: CityPay Payment API
   description: |
 
@@ -611,20 +611,15 @@ paths:
         
         ```json
          {
-          "notification-path": [
-            {
-              "channel": "sms",
+          "sms_notification_path": {
               "to": "+441534884000"
-            },
-            {
-              "channel": "email",
+          },
+          "email_notification_path": {
               "to": ["help-desk@citypay.com"],
               "cc": ["third-party@citypay.com"],
               "reply": ["help@my-company.com"]
-            }
-          ]
+          }
         }
-        
         ```
         
         Notification paths trigger a number of events which are stored as part of the timeline of events of a Paylink token
