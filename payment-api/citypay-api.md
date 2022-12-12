@@ -1,12 +1,12 @@
 ---
 title: CityPay Payment API
-version: 6.4.19
+version: 6.4.21
 language_tabs:
   - json
   - xml
 toc_footers:
   - <a href='mailto:support@citypay.com'>Any Integration Questions?</a>
-  - V6.4.19 2022-12-09
+  - V6.4.21 2022-12-12
 includes:
   - errorcodes
   - authresultcodes
@@ -22,8 +22,8 @@ search: true
 
 # CityPay Payment API
 
-Version: 6.4.19
-Last Updated: 2022-12-09
+Version: 6.4.21
+Last Updated: 2022-12-12
 
 
 This CityPay API is a HTTP RESTful payment API used for direct server to server transactional processing. It
@@ -3641,7 +3641,7 @@ Responses for the TokenStatusRequest operation are
 | `conjunction_ticket_indicator` | boolean  | false | true if a conjunction ticket (with additional coupons) was issued for an itinerary with more than four segments. Defaults to false. | 
 | `eticket_indicator` | boolean  | false | The Electronic Ticket Indicator, a code that indicates if an electronic ticket was issued.  Defaults to true. | 
 | `no_air_segments` | integer *int32* | false | A value that indicates the number of air travel segments included on this ticket.<br/><br/>Valid entries include the numerals “0” through “4”. Required only if the transaction type is TKT or EXC.<br/><br/> minimum: 0<br/>maximum: 4 | 
-| `number_in_party` | integer *int32* | true | The number of people in the party. | 
+| `number_in_party` | integer *int32* | false | The number of people in the party. | 
 | `original_ticket_no` | string  | false | Required if transaction type is EXC.<br/><br/>maxLength: 14 | 
 | `passenger_name` | string  | false | The name of the passenger when the traveller is not the card member that purchased the ticket. Required only if the transaction type is TKT or EXC.<br/><br/>maxLength: 25 | 
 | `segment1` | object | true | [AirlineSegment](#airlinesegment) Segment 1 of airline data defining the outward leg. | 
