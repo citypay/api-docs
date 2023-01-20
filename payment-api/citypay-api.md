@@ -1,12 +1,12 @@
 ---
 title: CityPay Payment API
-version: 6.4.21
+version: 6.4.22
 language_tabs:
   - json
   - xml
 toc_footers:
   - <a href='mailto:support@citypay.com'>Any Integration Questions?</a>
-  - V6.4.21 2022-12-12
+  - V6.4.22 2023-01-20
 includes:
   - errorcodes
   - authresultcodes
@@ -22,8 +22,8 @@ search: true
 
 # CityPay Payment API
 
-Version: 6.4.21
-Last Updated: 2022-12-12
+Version: 6.4.22
+Last Updated: 2023-01-20
 
 
 This CityPay API is a HTTP RESTful payment API used for direct server to server transactional processing. It
@@ -3799,7 +3799,7 @@ Responses for the TokenStatusRequest operation are
    "duplicate_policy": "",
    "event_management": { ... },
    "expmonth": 9,
-   "expyear": 2025,
+   "expyear": 2026,
    "external_mpi": { ... },
    "identifier": "95b857a1-5955-4b86-963c-5a6dbfc4fb95",
    "match_avsa": "",
@@ -3826,7 +3826,7 @@ Responses for the TokenStatusRequest operation are
  <duplicate_policy></duplicate_policy> 
  <event_management><>...</></event_management> 
  <expmonth>9</expmonth> 
- <expyear>2025</expyear> 
+ <expyear>2026</expyear> 
  <external_mpi><>...</></external_mpi> 
  <identifier>95b857a1-5955-4b86-963c-5a6dbfc4fb95</identifier> 
  <match_avsa></match_avsa> 
@@ -4350,7 +4350,7 @@ Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Addi
    "date_created": "2020-01-02",
    "default": false,
    "expmonth": 9,
-   "expyear": 2025,
+   "expyear": 2026,
    "label": "Visa/0002",
    "label2": "Visa/0002,Exp:2304",
    "last4digits": "2",
@@ -4375,7 +4375,7 @@ Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Addi
  <date_created>2020-01-02</date_created> 
  <default></default> 
  <expmonth>9</expmonth> 
- <expyear>2025</expyear> 
+ <expyear>2026</expyear> 
  <label>Visa/0002</label> 
  <label2>Visa/0002,Exp:2304</label2> 
  <last4digits>2</last4digits> 
@@ -4693,7 +4693,7 @@ Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Addi
    "currency": "GBP",
    "duplicate_policy": "",
    "expmonth": 9,
-   "expyear": 2025,
+   "expyear": 2026,
    "identifier": "95b857a1-5955-4b86-963c-5a6dbfc4fb95",
    "mac": "3896FBC43674AF59478DAF7F546FA4D4CB89981A936E6AAE997E43B55DF6C39D",
    "match_avsa": "",
@@ -4719,7 +4719,7 @@ Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Addi
  <currency>GBP</currency> 
  <duplicate_policy></duplicate_policy> 
  <expmonth>9</expmonth> 
- <expyear>2025</expyear> 
+ <expyear>2026</expyear> 
  <identifier>95b857a1-5955-4b86-963c-5a6dbfc4fb95</identifier> 
  <mac>3896FBC43674AF59478DAF7F546FA4D4CB89981A936E6AAE997E43B55DF6C39D</mac> 
  <match_avsa></match_avsa> 
@@ -6182,7 +6182,7 @@ BPS | `bps` | string  | false | true if BPS has been enabled on this token. |
    "cardnumber": "4000 0000 0000 0002",
    "default": false,
    "expmonth": 9,
-   "expyear": 2025,
+   "expyear": 2026,
    "name_on_card": "MR NE BODY"
 }
 ```
@@ -6192,7 +6192,7 @@ BPS | `bps` | string  | false | true if BPS has been enabled on this token. |
  <cardnumber>4000 0000 0000 0002</cardnumber> 
  <default></default> 
  <expmonth>9</expmonth> 
- <expyear>2025</expyear> 
+ <expyear>2026</expyear> 
  <name_on_card>MR NE BODY</name_on_card> 
 </RegisterCard>
 ```
