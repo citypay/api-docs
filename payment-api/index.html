@@ -677,7 +677,7 @@
       </ul>
         <ul class="toc-footer">
             <li><a href='mailto:support@citypay.com'>Any Integration Questions?</a></li>
-            <li>V6.4.22 2023-01-20</li>
+            <li>V6.4.23 2023-02-20</li>
         </ul>
     </div>
     <div class="page-wrapper">
@@ -685,8 +685,8 @@
       <div class="content">
         <img src="images/header-4aeb62fd.png" width="100%" alt="header image" />
         <h1 id='citypay-payment-api'>CityPay Payment API</h1>
-<p>Version: 6.4.22
-Last Updated: 2023-01-20</p>
+<p>Version: 6.4.23
+Last Updated: 2023-02-20</p>
 
 <p>This CityPay API is a HTTP RESTful payment API used for direct server to server transactional processing. It
 provides a number of payment mechanisms including: Internet, MOTO, Continuous Authority transaction processing,
@@ -12178,6 +12178,36 @@ request calls.</p>
 <td><code>F007</code></td>
 <td>TID Allocation Timeout</td>
 <td></td>
+</tr>
+<tr>
+<td><code>L200</code></td>
+<td>The Paylink Session was Completed</td>
+<td>The Paylink session has already been processed and is now complete</td>
+</tr>
+<tr>
+<td><code>L201</code></td>
+<td>The Paylink Session has expired and can no longer be used</td>
+<td>The paylink session is no longer available and has expired</td>
+</tr>
+<tr>
+<td><code>L204</code></td>
+<td>The Paylink Session was not found</td>
+<td>The session identified by the token appears a valid token but is not found</td>
+</tr>
+<tr>
+<td><code>L401</code></td>
+<td>The Paylink Session has been rejected due to a security failure</td>
+<td>Security checks have found a problem continuing with the session and prevented further access</td>
+</tr>
+<tr>
+<td><code>L402</code></td>
+<td>The requested function on the Paylink Session failed validation</td>
+<td>Validation failed for the request possibly due to the parameters used.</td>
+</tr>
+<tr>
+<td><code>L403</code></td>
+<td>The Paylink Session is locked.</td>
+<td>Field guards reattempts have been breached and may retry later. Field guards have access controls which prevents brute force attacks</td>
 </tr>
 <tr>
 <td><code>P001</code></td>
