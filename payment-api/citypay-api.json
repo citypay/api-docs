@@ -1,7 +1,7 @@
 {
   "openapi" : "3.0.0",
   "info" : {
-    "version" : "6.4.26",
+    "version" : "6.4.27",
     "title" : "CityPay Payment API",
     "description" : "\nThis CityPay API is a HTTP RESTful payment API used for direct server to server transactional processing. It\nprovides a number of payment mechanisms including: Internet, MOTO, Continuous Authority transaction processing,\n3-D Secure decision handling using RFA Secure, Authorisation, Refunding, Pre-Authorisation, Cancellation/Voids and\nCompletion processing. The API is also capable of tokinsed payments using Card Holder Accounts.\n\n## Compliance and Security\nYour application will need to adhere to PCI-DSS standards to operate safely and to meet requirements set out by \nVisa and MasterCard and the PCI Security Standards Council. These include\n\n* Data must be collected using TLS version 1.2 using [strong cryptography](#enabled-tls-ciphers). We will not accept calls to our API at\n  lower grade encryption levels. We regularly scan our TLS endpoints for vulnerabilities and perform TLS assessments\n  as part of our compliance program.\n* The application must not store sensitive card holder data (CHD) such as the card security code (CSC) or\n  primary access number (PAN)\n* The application must not display the full card number on receipts, it is recommended to mask the PAN\n  and show the last 4 digits. The API will return this for you for ease of receipt creation\n* If you are developing a website, you will be required to perform regular scans on the network where you host the\n  application to meet your compliance obligations\n* You will be required to be PCI Compliant and the application must adhere to the security standard. Further information\n  is available from [https://www.pcisecuritystandards.org/](https://www.pcisecuritystandards.org/)\n* The API verifies that the request is for a valid account and originates from a trusted source using the remote IP\n  address. Our application firewalls analyse data that may be an attempt to break a large number of security common\n  security vulnerabilities.\n",
     "contact" : {
@@ -2366,6 +2366,10 @@
                 "$ref" : "#/components/schemas/CaptureRequest"
               },
               "examples" : {
+                "example1" : {
+                  "summary" : "Basic capture call for a merchant with a given identifier",
+                  "externalValue" : "CaptureRequest-example1.json"
+                },
                 "example2" : {
                   "summary" : "Basic capture call for a merchant with a transno and final amount",
                   "externalValue" : "CaptureRequest-example2.json"
@@ -2373,10 +2377,6 @@
                 "example3" : {
                   "summary" : "Capture call for a merchant with identifier and airline data once a ticket has been issued",
                   "externalValue" : "CaptureRequest-example3.json"
-                },
-                "example1" : {
-                  "summary" : "Basic capture call for a merchant with a given identifier",
-                  "externalValue" : "CaptureRequest-example1.json"
                 }
               }
             },
@@ -2385,6 +2385,10 @@
                 "$ref" : "#/components/schemas/CaptureRequest"
               },
               "examples" : {
+                "example1" : {
+                  "summary" : "Basic capture call for a merchant with a given identifier",
+                  "externalValue" : "CaptureRequest-example1.xml"
+                },
                 "example2" : {
                   "summary" : "Basic capture call for a merchant with a transno and final amount",
                   "externalValue" : "CaptureRequest-example2.xml"
@@ -2392,10 +2396,6 @@
                 "example3" : {
                   "summary" : "Capture call for a merchant with identifier and airline data once a ticket has been issued",
                   "externalValue" : "CaptureRequest-example3.xml"
-                },
-                "example1" : {
-                  "summary" : "Basic capture call for a merchant with a given identifier",
-                  "externalValue" : "CaptureRequest-example1.xml"
                 }
               }
             }
@@ -3001,13 +3001,13 @@
                 "$ref" : "#/components/schemas/VoidRequest"
               },
               "examples" : {
-                "example2" : {
-                  "summary" : "Basic capture call for a merchant with a transno and final amount",
-                  "externalValue" : "VoidRequest-example2.json"
-                },
                 "example1" : {
                   "summary" : "Basic capture call for a merchant with a given identifier",
                   "externalValue" : "VoidRequest-example1.json"
+                },
+                "example2" : {
+                  "summary" : "Basic capture call for a merchant with a transno and final amount",
+                  "externalValue" : "VoidRequest-example2.json"
                 }
               }
             },
@@ -3016,13 +3016,13 @@
                 "$ref" : "#/components/schemas/VoidRequest"
               },
               "examples" : {
-                "example2" : {
-                  "summary" : "Basic capture call for a merchant with a transno and final amount",
-                  "externalValue" : "VoidRequest-example2.xml"
-                },
                 "example1" : {
                   "summary" : "Basic capture call for a merchant with a given identifier",
                   "externalValue" : "VoidRequest-example1.xml"
+                },
+                "example2" : {
+                  "summary" : "Basic capture call for a merchant with a transno and final amount",
+                  "externalValue" : "VoidRequest-example2.xml"
                 }
               }
             }
