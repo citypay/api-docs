@@ -1,12 +1,12 @@
 ---
 title: CityPay Payment API
-version: 6.4.28
+version: 6.4.29
 language_tabs:
   - json
   - xml
 toc_footers:
   - <a href='mailto:support@citypay.com'>Any Integration Questions?</a>
-  - V6.4.28 2023-03-08
+  - V6.4.29 2023-03-09
 includes:
   - errorcodes
   - authresultcodes
@@ -22,8 +22,8 @@ search: true
 
 # CityPay Payment API
 
-Version: 6.4.28
-Last Updated: 2023-03-08
+Version: 6.4.29
+Last Updated: 2023-03-09
 
 
 This CityPay API is a HTTP RESTful payment API used for direct server to server transactional processing. It
@@ -3119,7 +3119,7 @@ Field  | Type | Usage | Description |
  `merchantid` | integer *int32* | Required | the merchant id to review tokens for. | 
  `maxResults` | integer *int32* | Optional | the maximum number of results between 5 and 250 to return. Default is 50. | 
  `nextToken` | string  | Optional | the next token value when more results are available. | 
- `orderBy` | array | Optional | an orderBy array should the search require ordering. The following fields may be specified: `token`, `identifier`, `created`. The default order by fields are `created`.<br/><br/>type: string | 
+ `orderBy` | array | Optional | an orderBy array should the search require ordering. The following fields may be specified: `token`, `identifier`, `created`. The default order by fields are ``.<br/><br/>type: string | 
 
 
 
@@ -6001,7 +6001,7 @@ BPS | `bps` | string  | false | true if BPS has been enabled on this token. |
 | `maxResults` | integer *int32* | false | the maximum number of results between 5 and 250 to return. Default is 50. | 
 | `merchantid` | integer *int32* | true | the merchant id to review tokens for. | 
 | `nextToken` | string  | false | the next token value when more results are available. | 
-| `orderBy` | array | false | an orderBy array should the search require ordering. The following fields may be specified: `token`, `identifier`, `created`. The default order by fields are `created`.<br/><br/>type: string | 
+| `orderBy` | array | false | an orderBy array should the search require ordering. The following fields may be specified: `token`, `identifier`, `created`. The default order by fields are ``.<br/><br/>type: string | 
 
 
 
