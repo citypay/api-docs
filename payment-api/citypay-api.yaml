@@ -4,7 +4,7 @@ openapi: 3.0.0
 #                              API Information                                 #
 ################################################################################
 info:
-  version: 6.4.35
+  version: 6.4.36
   title: CityPay Payment API
   description: |
 
