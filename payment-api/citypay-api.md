@@ -1,12 +1,12 @@
 ---
 title: CityPay Payment API
-version: 6.5.5
+version: 6.5.6
 language_tabs:
   - json
   - xml
 toc_footers:
   - <a href='mailto:support@citypay.com'>Any Integration Questions?</a>
-  - V6.5.5 2023-05-22
+  - V6.5.6 2023-05-22
 includes:
   - errorcodes
   - authresultcodes
@@ -22,7 +22,7 @@ search: true
 
 # CityPay Payment API
 
-Version: 6.5.5
+Version: 6.5.6
 Last Updated: 2023-05-22
 
 
