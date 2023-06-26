@@ -348,16 +348,16 @@ template {
 
 
 body {
-    margin: 33pt;
+    margin: 10pt;
     font-weight: lighter;
     color: #000000;
-    font-family: 'Nunito Sans', sans-serif;
+font-family: 'Rubik', sans-serif;
 }
 
 
 
 body, td, th, p {
-    font-size: 12pt;
+    font-size: 10pt;
 }
 
 div#logos {
@@ -403,7 +403,10 @@ h2 {
     counter-increment: h2counter;
     font-size: 2em;
     margin-top: 3em;
-    display: inline-block;
+    border-top: 1px solid #ddd;
+    padding-top: 1em;
+    display: block;
+    break-before: page;
 }
 
 #toc_header {
@@ -447,13 +450,13 @@ th, td {
 
 th {
     background-color: #f6f6f6;
-    color: #222;
+    color: #2c2c2c;
     font-weight: 100;
     padding: 0.5em;
 }
 
 td, th{
-    border: 1px solid #555;
+    border: 1px solid #a8a8a8;
     padding: 0.5em;
     vertical-align: text-top
 }
@@ -576,7 +579,7 @@ span.cidr_any {
 }
 
 .row_total {
-    background-color: #effce3;
+    background-color: rgba(86, 176, 253, 0.27);
     font-weight: 400;
 }
 
@@ -585,7 +588,7 @@ td.levels, th.levels {
 }
 
 td.l_critical {
-    border-left: 2px solid red;
+    border-left: 2px solid #f10000;
 }
 
 td.l_high {
