@@ -1,0 +1,2008 @@
+openapi: 3.0.0
+
+################################################################################
+#                              API Information                                 #
+################################################################################
+info:
+  version: 6.6.24
+  title: CityPay Payment API
+  description: |
+
+    This CityPay API is a HTTP RESTful payment API used for direct server to server transactional processing. It
+    provides a number of payment mechanisms including: Internet, MOTO, Continuous Authority transaction processing,
+    3-D Secure decision handling using RFA Secure, Authorisation, Refunding, Pre-Authorisation, Cancellation/Voids and
+    Completion processing. The API is also capable of tokinsed payments using Card Holder Accounts.
+
+    ## Compliance and Security
+    Your application will need to adhere to PCI-DSS standards to operate safely and to meet requirements set out by 
+    Visa and MasterCard and the PCI Security Standards Council. These include
+
+    * Data must be collected using TLS version 1.2 using [strong cryptography](#enabled-tls-ciphers). We will not accept calls to our API at
+      lower grade encryption levels. We regularly scan our TLS endpoints for vulnerabilities and perform TLS assessments
+      as part of our compliance program.
+    * The application must not store sensitive card holder data (CHD) such as the card security code (CSC) or
+      primary access number (PAN)
+    * The application must not display the full card number on receipts, it is recommended to mask the PAN
+      and show the last 4 digits. The API will return this for you for ease of receipt creation
+    * If you are developing a website, you will be required to perform regular scans on the network where you host the
+      application to meet your compliance obligations
+    * You will be required to be PCI Compliant and the application must adhere to the security standard. Further information
+      is available from [https://www.pcisecuritystandards.org/](https://www.pcisecuritystandards.org/)
+    * The API verifies that the request is for a valid account and originates from a trusted source using the remote IP
+      address. Our application firewalls analyse data that may be an attempt to break a large number of security common
+      security vulnerabilities.
+
+
+  contact:
+    name: CityPay Support
+    url: https://citypay.com/customer-centre/technical-support.html
+    email: support@citypay.com
+
+# during dev, should point to your local machine
+servers:
+- url: https://api.citypay.com
+  description: Production processing endpoint
+- url: https://sandbox.citypay.com
+  description: Testing service returning test results for all transactions
+
+tags:
+  - name: Authorisation and Payment Api
+    description: |
+      The Payment Processing API offers standard and enhanced payment processing for MOTO, e-commerce
+      and continuous authority transactions that include fraud and risk checking, 3D-Secure flows
+      and payment querying.
+  - name: Batch Processing Api
+    description: |
+      Batch processing uses the Batch and Instalment Service (BIS) which allows for transaction processing against cardholder 
+      accounts using a dynamic batch file. For merchants who process on schedules and dynamic amounts, the service allows for 
+      the presentation of cardholder account references and transaction requirements to run as a scheduled batch.
+  - name: Card Holder Account Api
+    description: |
+      A cardholder account models a cardholder and can register 1 or more cards for tokenised charging. 
+      
+      The account offers a credential on file option to the CityPay gateway allowing for both cardholder initiated and 
+      merchant initiated transaction processing.
+      
+      This can include unscheduled or scheduled transactions that can be requested through this API and include batch 
+      processing options.
+  - name: Direct Post Api
+    description: |
+      The Direct Post Method for e-commerce payment is generally used by merchants that require more control over their
+      payment form “look and feel” and can understand and implement the extra PCI DSS security controls that are required to
+      protect their systems.
+      
+      The Direct Post Method uses the merchant’s website to generate the shopping cart and payment web pages. The merchant’s
+      payment form, loaded in the customer’s browser, sends the cardholder data directly to CityPay’s API, ensuring cardholder
+      data is not stored, processed, or transmitted via the merchant systems. The payment form, however, is provided by the
+      merchant. The merchant’s systems are therefore in scope for additional PCI DSS controls, which are necessary to protect
+      the merchant website against malicious individuals changing the form and capturing cardholder data.
+      
+      ### Direct Post Flow
+      
+      #### Simple Authorisation Flow
+      
+      The merchant’s website creates the payment page.
+      
+      1. The customer’s browser displays the payment page and posts the cardholder data directly to CityPay as a url-encoded
+         payment form.
+      2. CityPay receives the cardholder data and sends it for online authorisation, handling any ThreeDSecure authorisation
+         challenges
+      3. The merchant receives a HTTP 303 redirect, containing the result of the transaction as query parameters
+      
+      <img src="../../images/direct-post-flow.png" width="600" />
+      
+      #### Tokenisation Authorisation Flow
+      
+      The merchant’s website creates the payment page.
+      
+      1. The customer’s browser displays the payment page and posts the cardholder data directly to CityPay as a url-encoded
+         payment form.
+      2. CityPay receives the cardholder data and processes any ThreeDSecure authorisation and challenges.
+      3. The merchant receives a HTTP `303` redirect containing the card details tokenised for consequential processing
+      4. Once final confirmation is agreed at checkout, the generated token is forward to CityPay for realtime authorisation.
+         This may by using HTTP redirects in a direct manner, or via an api level call
+      
+      #### Handling Redirects
+      
+      The direct post method uses HTTP `303` redirects to return data to your system. A `303` redirect differs to conventional 301
+      or `302` redirects by telling the browser to not resend data if refresh is pressed.
+      
+      Payments should be developed to cater for failure. Transactions may not complete authorisation at the challenge stage or
+      decline either due to insufficient funds or transient network conditions. To ensure correct payment flow, the direct
+      post API requires
+      
+      1. a `redirectSuccess` url. This is used to forward the result of authorisation.
+      2. a `redirectFailure` url. This is used to forward any errors that are due to invalid requests or payment failures.
+      
+      #### Domain Keys
+      
+      To allow for processing of transactions in a direct manner, CityPay provide domain keys. This value is provided on the
+      initial direct post call and must be run on a pre-registered host. Our validation processes will check the `Origin` or
+      `Referer`   HTTP headers to ensure that the domain keys are valid. A domain key can be registered for 1 or more domains.
+  - name: Operational Functions Api
+    description: Operations that are for operational purposes only such as checking connectivity to the API.
+  - name: Paylink Api
+    description: |
+      CityPay Paylink makes online e-commerce easier to implement by handling the card payment process directly with the cardholder's browser and CityPay's payment processing servers, allowing you to concentrate on your business whilst allowing us to manage the payment process.
+      
+      0. Simplified payment solutions.
+      0. payment processing is handled by our secure web servers adding security and confidence to your shoppers.
+      0. 3D-Secure authentication is available within the application without any difficult MPI integration, allowing for immediate Verified by Visa and MasterCard SecureCode processing.
+      0. customisation may be performed on the secure payment form.
+      0. significantly reduced technical and financial overheads associated with software implementation and PCI compliance.
+      1. reduced time-to-market.
+      
+      The CityPay API offers embedded end-point calls to Paylink offering advanced features of generated tokens.
+      
+      For further information on Paylink see [Paylink Online Documentation](https://citypay.github.io/api-docs/paylink).
+
+#--------------------------------------------------------------------------------
+#                                    Paths                                     
+#--------------------------------------------------------------------------------
+
+paths:
+  /direct/auth: 
+    post: 
+      summary: Direct Post Auth Request
+      tags: 
+        - Direct Post Api
+      operationId: DirectPostAuthRequest
+      description: |
+        Used to initiate a direct post request transaction flow.
+        
+        <pre class="inline-code language-bash">
+        <code>
+        curl https://api.citypay.com/direct/auth?cp-domain-key=n834ytqp84y... \
+         -d "amount=7500&identifier=example_trans&cardnumber=4000000000000002&expmonth=9&expyear=2028&bill_to_postcode=L1+7ZW
+        </code>
+        </pre>.
+      security: 
+      - cp-api-key: []
+      - cp-domain-key: []
+      requestBody: 
+        required: true
+        content: 
+          application/json: 
+            schema: 
+              $ref: '#/components/schemas/DirectPostRequest'
+          application/x-www-form-urlencoded: 
+            schema: 
+              $ref: '#/components/schemas/DirectPostRequest'
+          text/xml: 
+            schema: 
+              $ref: '#/components/schemas/DirectPostRequest'
+      responses: 
+        200: 
+          description: A result of a successful tokenisation or authorisation process if called via an XHR method.
+          content: 
+            application/json: 
+              schema: 
+                $ref: '#/components/schemas/AuthResponse'
+            application/xml: 
+              schema: 
+                $ref: '#/components/schemas/AuthResponse'
+        303: 
+          description: Redirect. A result of a successful tokenisation or authorisation process, redirecting to the success URL.
+          content: 
+            application/x-www-form-urlencoded: 
+              schema: 
+                $ref: '#/components/schemas/AuthResponse'
+        307: 
+          description: Redirect. A result of a non-successful tokenisation or authorisation process, redirecting to the failure URL.
+          content: 
+            application/x-www-form-urlencoded: 
+              schema: 
+                $ref: '#/components/schemas/Error'
+        401: 
+          description: Unauthorized. No domain key has been provided and is required for this operation.
+        403: 
+          description: Forbidden. The domain key was provided and understood but is either incorrect or does not have permission to access the account provided on the request.
+        406: 
+          description: Not Acceptable. Should the incoming data not be validly determined.
+        412: 
+          description: Bad Request. Should the incoming data not be validly determined and an error code results.
+          content: 
+            application/x-www-form-urlencoded: 
+              schema: 
+                $ref: '#/components/schemas/Error'
+            application/json: 
+              schema: 
+                $ref: '#/components/schemas/Error'
+            text/xml: 
+              schema: 
+                $ref: '#/components/schemas/Error'
+        500: 
+          description: Server Error. Server Error. The server was unable to complete the request.
+
+  /direct/cres/auth/{uuid}: 
+    post: 
+      summary: Handles a CRes response from ACS, returning back the result of authorisation
+      tags: 
+        - Direct Post Api
+      operationId: DirectCResAuthRequest
+      parameters: 
+        - name: uuid
+          in: path
+          required: true
+          description: An identifier used to track the CReq/CRes cycle.
+          schema: 
+            type: string
+      description: |
+        Used to post from an ACS during a ThreeDSecure direct flow process. The endpoint requires a valid `threeDSSessionData`
+        value which defines the unique transaction through its workflow. This endpoint may be used by merchants wishing to
+        perform a `Direct Post` integration who wish to handle the challenge flow themselves.
+      requestBody: 
+        required: true
+        content: 
+          application/x-www-form-urlencoded: 
+            schema: 
+              $ref: '#/components/schemas/CResDirect'
+      responses: 
+        200: 
+          description: A result of a successful tokenisation or authorisation process if called via an XHR method.
+          content: 
+            application/json: 
+              schema: 
+                $ref: '#/components/schemas/AuthResponse'
+            application/xml: 
+              schema: 
+                $ref: '#/components/schemas/AuthResponse'
+        303: 
+          description: Redirect. A result of a successful tokenisation or authorisation process, redirecting to the success URL.
+          content: 
+            application/x-www-form-urlencoded: 
+              schema: 
+                $ref: '#/components/schemas/AuthResponse'
+        307: 
+          description: Redirect. A result of a non-successful tokenisation or authorisation process, redirecting to the failure URL.
+          content: 
+            application/x-www-form-urlencoded: 
+              schema: 
+                $ref: '#/components/schemas/Error'
+        401: 
+          description: Unauthorized. No domain key has been provided and is required for this operation.
+        403: 
+          description: Forbidden. The domain key was provided and understood but is either incorrect or does not have permission to access the account provided on the request.
+        406: 
+          description: Not Acceptable. Should the incoming data not be validly determined.
+        412: 
+          description: Bad Request. Should the incoming data not be validly determined and an error code results.
+          content: 
+            application/x-www-form-urlencoded: 
+              schema: 
+                $ref: '#/components/schemas/Error'
+        500: 
+          description: Server Error. Server Error. The server was unable to complete the request.
+
+  /direct/cres/tokenise/{uuid}: 
+    post: 
+      summary: Handles a CRes response from ACS, returning back a token for future authorisation
+      tags: 
+        - Direct Post Api
+      operationId: DirectCResTokeniseRequest
+      parameters: 
+        - name: uuid
+          in: path
+          required: true
+          description: An identifier used to track the CReq/CRes cycle.
+          schema: 
+            type: string
+      description: |
+        Used to post from an ACS during a ThreeDSecure direct flow process. The endpoint requires a valid `threeDSSessionData`
+        value which defines the unique transaction through its workflow. This endpoint may be used by merchants wishing to
+        perform a `Direct Post` integration who wish to handle the challenge flow themselves.
+      requestBody: 
+        required: true
+        content: 
+          application/x-www-form-urlencoded: 
+            schema: 
+              $ref: '#/components/schemas/CResDirect'
+      responses: 
+        200: 
+          description: A result of a successful tokenisation or authorisation process if called via an XHR method.
+          content: 
+            application/json: 
+              schema: 
+                $ref: '#/components/schemas/TokenisationResponseModel'
+            application/xml: 
+              schema: 
+                $ref: '#/components/schemas/TokenisationResponseModel'
+        303: 
+          description: Redirect. A result of a successful tokenisation or authorisation process, redirecting to the success URL.
+          content: 
+            application/x-www-form-urlencoded: 
+              schema: 
+                $ref: '#/components/schemas/TokenisationResponseModel'
+        307: 
+          description: Redirect. A result of a non-successful tokenisation or authorisation process, redirecting to the failure URL.
+          content: 
+            application/x-www-form-urlencoded: 
+              schema: 
+                $ref: '#/components/schemas/Error'
+        401: 
+          description: Unauthorized. No domain key has been provided and is required for this operation.
+        403: 
+          description: Forbidden. The domain key was provided and understood but is either incorrect or does not have permission to access the account provided on the request.
+        406: 
+          description: Not Acceptable. Should the incoming data not be validly determined.
+        412: 
+          description: Bad Request. Should the incoming data not be validly determined and an error code results.
+          content: 
+            application/x-www-form-urlencoded: 
+              schema: 
+                $ref: '#/components/schemas/Error'
+        500: 
+          description: Server Error. Server Error. The server was unable to complete the request.
+
+  /direct/token: 
+    post: 
+      summary: Direct Post Token Request
+      tags: 
+        - Direct Post Api
+      operationId: TokenRequest
+      description: |
+        Perform a request for authorisation for a previously generated token. This flow will return an authorisation
+        response stating that the transaction was approved or declined.
+      security: 
+      - cp-api-key: []
+      - cp-domain-key: []
+      requestBody: 
+        required: true
+        content: 
+          application/json: 
+            schema: 
+              $ref: '#/components/schemas/DirectTokenAuthRequest'
+          application/x-www-form-urlencoded: 
+            schema: 
+              $ref: '#/components/schemas/DirectTokenAuthRequest'
+          text/xml: 
+            schema: 
+              $ref: '#/components/schemas/DirectTokenAuthRequest'
+      responses: 
+        200: 
+          description: A result of an authorisation process if called via an XHR method.
+          content: 
+            application/json: 
+              schema: 
+                $ref: '#/components/schemas/AuthResponse'
+            application/xml: 
+              schema: 
+                $ref: '#/components/schemas/AuthResponse'
+        303: 
+          description: Redirect. A result of a successful tokenisation or authorisation process, redirecting to the success URL.
+          content: 
+            application/x-www-form-urlencoded: 
+              schema: 
+                $ref: '#/components/schemas/AuthResponse'
+        307: 
+          description: Redirect. A result of a non-successful tokenisation or authorisation process, redirecting to the failure URL.
+          content: 
+            application/x-www-form-urlencoded: 
+              schema: 
+                $ref: '#/components/schemas/Error'
+        401: 
+          description: Unauthorized. No domain key has been provided and is required for this operation.
+        403: 
+          description: Forbidden. The domain key was provided and understood but is either incorrect or does not have permission to access the account provided on the request.
+        406: 
+          description: Not Acceptable. Should the incoming data not be validly determined.
+        412: 
+          description: Bad Request. Should the incoming data not be validly determined and an error code results.
+          content: 
+            application/x-www-form-urlencoded: 
+              schema: 
+                $ref: '#/components/schemas/Error'
+            application/json: 
+              schema: 
+                $ref: '#/components/schemas/Error'
+            text/xml: 
+              schema: 
+                $ref: '#/components/schemas/Error'
+
+  /direct/tokenise: 
+    post: 
+      summary: Direct Post Tokenise Request
+      tags: 
+        - Direct Post Api
+      operationId: DirectPostTokeniseRequest
+      description: |
+        Used to initiate a direct post request transaction flow.
+        
+        <pre class="inline-code language-bash">
+        <code>
+        curl https://api.citypay.com/v6/direct?cp-domain-key=n834ytqp84y... \
+         -d "amount=7500&identifier=example_trans&cardnumber=4000000000000002&expmonth=9&expyear=2028&bill_to_postcode=L1+7ZW
+        </code>
+        </pre>.
+      security: 
+      - cp-api-key: []
+      - cp-domain-key: []
+      requestBody: 
+        required: true
+        content: 
+          application/json: 
+            schema: 
+              $ref: '#/components/schemas/DirectPostRequest'
+          application/x-www-form-urlencoded: 
+            schema: 
+              $ref: '#/components/schemas/DirectPostRequest'
+          text/xml: 
+            schema: 
+              $ref: '#/components/schemas/DirectPostRequest'
+      responses: 
+        200: 
+          description: A result of a successful tokenisation or authorisation process if called via an XHR method.
+          content: 
+            application/json: 
+              schema: 
+                $ref: '#/components/schemas/AuthResponse'
+            application/xml: 
+              schema: 
+                $ref: '#/components/schemas/AuthResponse'
+        303: 
+          description: Redirect. A result of a successful tokenisation or authorisation process, redirecting to the success URL.
+          content: 
+            application/x-www-form-urlencoded: 
+              schema: 
+                $ref: '#/components/schemas/AuthResponse'
+        307: 
+          description: Redirect. A result of a non-successful tokenisation or authorisation process, redirecting to the failure URL.
+          content: 
+            application/x-www-form-urlencoded: 
+              schema: 
+                $ref: '#/components/schemas/Error'
+        401: 
+          description: Unauthorized. No domain key has been provided and is required for this operation.
+        403: 
+          description: Forbidden. The domain key was provided and understood but is either incorrect or does not have permission to access the account provided on the request.
+        406: 
+          description: Not Acceptable. Should the incoming data not be validly determined.
+        412: 
+          description: Bad Request. Should the incoming data not be validly determined and an error code results.
+          content: 
+            application/x-www-form-urlencoded: 
+              schema: 
+                $ref: '#/components/schemas/Error'
+            application/json: 
+              schema: 
+                $ref: '#/components/schemas/Error'
+            text/xml: 
+              schema: 
+                $ref: '#/components/schemas/Error'
+        500: 
+          description: Server Error. Server Error. The server was unable to complete the request.
+
+  /dk/check: 
+    post: 
+      summary: Domain Key Check Request
+      tags: 
+        - Operational Functions Api
+      operationId: DomainKeyCheckRequest
+      description: |
+        Checks the contents of a `domain key`. Can be used for operational processes to ensure that the properties of a 
+        domain key meet their expectations.
+      security: 
+      - cp-api-key: []
+      requestBody: 
+        required: true
+        content: 
+          application/json: 
+            schema: 
+              $ref: '#/components/schemas/DomainKeyCheckRequest'
+          text/xml: 
+            schema: 
+              $ref: '#/components/schemas/DomainKeyCheckRequest'
+      responses: 
+        200: 
+          description: A checked domain key.
+          content: 
+            application/json: 
+              schema: 
+                $ref: '#/components/schemas/DomainKeyResponse'
+            text/xml: 
+              schema: 
+                $ref: '#/components/schemas/DomainKeyResponse'
+        400: 
+          description: Bad Request. Should the incoming data not be validly determined.
+        401: 
+          description: Unauthorized. No api key has been provided and is required for this operation.
+        403: 
+          description: Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request.
+        422: 
+          description: Unprocessable Entity. Should a failure occur that prevents processing of the API call.
+          content: 
+            application/json: 
+              schema: 
+                $ref: '#/components/schemas/Error'
+            text/xml: 
+              schema: 
+                $ref: '#/components/schemas/Error'
+        500: 
+          description: Server Error. The server was unable to complete the request.
+
+  /dk/gen: 
+    post: 
+      summary: Domain Key Generation Request
+      tags: 
+        - Operational Functions Api
+      operationId: DomainKeyGenRequest
+      description: |
+        Generates a domain key based on the permissions of the calling `api-key`. Domain keys can be used in _Direct Post_ and
+        `XHR` calls to the API services.
+      security: 
+      - cp-api-key: []
+      requestBody: 
+        required: true
+        content: 
+          application/json: 
+            schema: 
+              $ref: '#/components/schemas/DomainKeyRequest'
+          text/xml: 
+            schema: 
+              $ref: '#/components/schemas/DomainKeyRequest'
+      responses: 
+        200: 
+          description: A generated domain key.
+          content: 
+            application/json: 
+              schema: 
+                $ref: '#/components/schemas/DomainKeyResponse'
+            text/xml: 
+              schema: 
+                $ref: '#/components/schemas/DomainKeyResponse'
+        400: 
+          description: Bad Request. Should the incoming data not be validly determined.
+        401: 
+          description: Unauthorized. No api key has been provided and is required for this operation.
+        403: 
+          description: Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request.
+        422: 
+          description: Unprocessable Entity. Should a failure occur that prevents processing of the API call.
+          content: 
+            application/json: 
+              schema: 
+                $ref: '#/components/schemas/Error'
+            text/xml: 
+              schema: 
+                $ref: '#/components/schemas/Error'
+        500: 
+          description: Server Error. The server was unable to complete the request.
+
+  /paylink/bill-payment: 
+    post: 
+      summary: Create Bill Payment Paylink Token
+      tags: 
+        - Paylink Api
+      operationId: TokenCreateBillPaymentRequest
+      description: |
+        CityPay Paylink supports invoice and bill payment services by allowing merchants to raise an invoice in their systems and
+        associate the invoice with a Paylink checkout token. CityPay will co-ordinate the checkout flow in relationship with
+        your customer. Our bill payment solution may be used to streamline the payment flow with cardholders to allow your
+        invoice to be paid promptly and via multiple payment channels such as Card Payment, Apple Pay or Google Pay.
+        
+        The bill payment service allows
+        
+        1. setting up notification paths to an end customer, such as SMS or Email
+        2. enabling attachments to be included with Paylink tokens
+        3. produce chaser notifications for unpaid invoices
+        4. provide callbacks for notification of the payment of an invoice
+        5. support part payments against an invoice
+        6. support of field guards to protect the payment screen
+        7. support of status reporting on tokens
+        8. URL short codes for SMS notifications
+        
+        <img src="../images/merchant-BPS-workflow.png" alt="Paylink BPSv2 Overview" width="50%"/> 
+        
+        
+        ### Notification Paths
+        
+        Notification paths can be provided which identify the channels for communication of the invoice availability.
+        Up to 3 notification paths may be provided per request.
+        
+        Each notification uses a template to generate the body of the message. This allows for variable text to be sent out and
+        customised for each call.
+        
+        SMS messages use URL Short Codes (USC) as a payment link to the invoice payment page. This allows for a standard payment
+        URL to be shortened for optimised usage in SMS. For instance a URL of `https://checkout.citypay.com/PL1234/s348yb8yna4a48n2f8nq2f3msgyng-psn348ynaw8ynaw/en`
+        becomes `citypay.com/Za48na3x`. Each USC is unique however it is a requirement that each USC generated is protected
+        with Field Guards to ensure that sensitive data (such as customer contact details and GDPR) is protected.
+        
+        To send a notification path, append a `notification-path` property to the request.
+        
+        ```json
+         {
+          "sms_notification_path": {
+              "to": "+441534884000"
+          },
+          "email_notification_path": {
+              "to": ["help-desk@citypay.com"],
+              "cc": ["third-party@citypay.com"],
+              "reply": ["help@my-company.com"]
+          }
+        }
+        ```
+        
+        Notification paths trigger a number of events which are stored as part of the timeline of events of a Paylink token
+        
+        - `BillPaymentSmsNotificationQueued` - identifies when an SMS notification has been queued for delivery
+        - `BillPaymentSmsNotificationSent` - identifies when an SMS notification has been sent to the upstream network
+        - `BillPaymentSmsNotificationDelivered` - identifies when an SMS notification has been delivered as notified by the upstream network
+        - `BillPaymentSmsNotificationUndelivered` - identifies when an SMS notification has undelivered notification is provided by the upstream network
+        - `BillPaymentSmsNotificationFailure` - identifies when an SMS notification has failed
+        - `BillPaymentEmailNotificationQueued` -  identifies when an email notification has been queued for delivery
+        - `BillPaymentEmailNotificationSent` -  identifies when an email notification has been accepted by our SMS forwarder
+        - `BillPaymentEmailNotificationFailure` - identifies when an email notification has failed delivery
+        
+        
+        #### SMS Notification Path
+        
+        SMS originated from a CityPay pool of numbers and by default only sends to country codes where the service is registered.
+        SMSs may contain a From field which is configured as part of you onboarding and have a name associated to identify the service
+        origin. For example if your business is titled `Health Surgery Ltd` the SMS may be sent to originate from `Health Surgery`. 
+        
+        SMS is also configured for a "polite mode". This mode ensures that SMSs aren't sent in the middle of the night when backend
+        services ordinarily run. SMSs will be queued until the time range is deemed as polite. Normally this is between 8am and 9pm.
+        
+        | Field    | Type     | Usage    | Description                                                                                     |
+        |----------|----------|----------|-------------------------------------------------------------------------------------------------|
+        | template | string   | Reserved | An optional template name to use a template other than the default.                             |
+        | to       | string   | Reserved | The phone number in [E.164](https://en.wikipedia.org/wiki/E.164) format to send the message to. |
+        
+        #### Email Notification Paths
+        
+        | Field    | Type     | Usage    | Description                                                                                     |
+        |----------|----------|----------|-------------------------------------------------------------------------------------------------|
+        | template | string   | Reserved | An optional template name to use a template other than the default.                             |
+        | to       | string[] | Required | An array of email addresses to be used for delivery. A maximum of 5 addresses can be added.     |
+        | cc       | string[] | Required | An array of email addresses to be used for cc delivery. A maximum of 5 addresses can be added.  |
+        | bcc      | string[] | Required | An array of email addresses to be used for bcc delivery. A maximum of 5 addresses can be added. |
+        | reply_to | string[] | Required | An array of email addresses to be used for the Reply-To header of an email.     |
+        
+        
+        ### Field Guards
+        
+        To ensure that invoices are paid by the intended recipient, Paylink supports the addition of Field Guards.
+        
+        A Field Guard is an intended field which is to be used as a form of guarded authentication. More than 1 field can be
+        requested.
+        
+        <img src="../images/paylink-field-guards.png" alt="Paylink Field Guards" width="50%"/>
+        
+        To determine the source value of the field, each field name is searched in the order of
+        
+        - identifier
+        - cardholder data such as name
+        - custom parameters
+        - pass through data
+        
+        If no field values are found, the token request returns a D041 validation error.
+        
+        #### Authentication and Validation
+        
+        When values are entered by the user, resultant comparisons are performed by
+        
+        1. Transliteration of both the source value and entered value. For example, names with accents (e.g. é will become e)
+        2. Only Alphanumeric values are retained any whitespace or special characters are ignored
+        3. Case is ignored
+        
+        Should all values match, the user is authenticated and can continue to the payment form rendered by the Paylink server.
+        
+        On successful login, an event will be added to include that the access guard validated access.
+        
+        #### Access-Key
+        
+        To ensure that a user does not need to re-enter these values multiple times, a cookie is pushed to the user’s
+        browser with an access-key digest value. This value will be presented to the server on each refresh therefore
+        allowing the guard to accept the call. Each value is uniquely stored per merchant account and cannot be shared cross
+        merchant. The lifetime of the cookie is set to 24 hours.
+        
+        #### Brute Force Prevention
+        
+        To prevent multiple calls hitting the server, attempting a brute force attack, the login process
+        
+        1. is fronted by a contemporary web application firewall
+        2. creates an event for each token when access was denied
+        3. should the number of failed events breach more than 5 in 30 minutes, the token is locked for an hour
+        4. should the number of events breach more than 20 the token is fully locked
+        
+        ### Attachments
+        
+        Attachments can be included in the request in 2 ways
+        
+        1. Via a data element direct in the request
+        2. Via a URL upload to a provided pre-signed URL
+        
+        The decision of which option is dependent on the size of the attachments. Should the attachment size be greater than
+        32kb a URL upload is required. Small attachments can be included in the JSON request. This is to prevent our web
+        firewall from blocking your request and to also ensure efficiency of larger file uploads.
+        
+        There is a maximum of 3 attachments that can be added to a request.
+        
+        ```json
+            [{
+              "filename": "invoice1.pdf",
+              "mime-type": "application/pdf"
+            },{
+              "filename": "invoice2.pdf",
+              "data": "b4sE64Enc0dEd...=",
+              "mime-type": "application/pdf"
+            }]
+        ```
+        
+        | Field     | Type   | Usage    | Description                                                                                                                                          |
+        |-----------|--------|----------|------------------------------------------------------------------------------------------------------------------------------------------------------|
+        | filename  | string | Required | The name of the attachment normally taken from the filename. You should not include the filename path as appropriate                                 |
+        | data      | string | Optional | base64 encoding of the file if less than 32kb in size                                                                                                |
+        | mime-type | string | Required | The mime type of the attachment as defined in [RFC 9110](https://www.rfc-editor.org/rfc/rfc9110.html). Currently only `application/pdf` is supported |
+        
+        
+        #### Attachment Result
+        
+        A result of an attachment specifies whether the attachment was successfully added or whether a further upload is requried
+        
+        | Field  | Type   | Usage    | Description                                                                                                                                       |
+        |--------|--------|----------|---------------------------------------------------------------------------------------------------------------------------------------------------|
+        | result | string | Required | `OK` should the file have uploaded or `UPLOAD` if the file is required to be uploaded.                                                            |
+        | name   | string | Required | The filename that was specified in the upload process                                                                                             |
+        | url    | string | Optional | Should an upload be required, this URL is available for an upload to be issued. The URL is only available for uploads for 24 hours from creation. |
+      security: 
+      - cp-api-key: []
+      requestBody: 
+        required: true
+        content: 
+          application/json: 
+            schema: 
+              $ref: '#/components/schemas/PaylinkBillPaymentTokenRequest'
+          text/xml: 
+            schema: 
+              $ref: '#/components/schemas/PaylinkBillPaymentTokenRequest'
+      responses: 
+        200: 
+          description: Response defining the result of the token request.
+          content: 
+            application/json: 
+              schema: 
+                $ref: '#/components/schemas/PaylinkTokenCreated'
+            text/xml: 
+              schema: 
+                $ref: '#/components/schemas/PaylinkTokenCreated'
+        400: 
+          description: Bad Request. Should the incoming data not be validly determined.
+        401: 
+          description: Unauthorized. No api key has been provided and is required for this operation.
+        403: 
+          description: Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request.
+        422: 
+          description: Unprocessable Entity. Should a failure occur that prevents processing of the API call.
+          content: 
+            application/json: 
+              schema: 
+                $ref: '#/components/schemas/Error'
+            text/xml: 
+              schema: 
+                $ref: '#/components/schemas/Error'
+        500: 
+          description: Server Error. The server was unable to complete the request.
+
+  /paylink/create: 
+    post: 
+      summary: Create Paylink Token
+      tags: 
+        - Paylink Api
+      operationId: TokenCreateRequest
+      description: Creates a Paylink token from the CityPay API.
+      security: 
+      - cp-api-key: []
+      requestBody: 
+        required: true
+        content: 
+          application/json: 
+            schema: 
+              $ref: '#/components/schemas/PaylinkTokenRequestModel'
+          text/xml: 
+            schema: 
+              $ref: '#/components/schemas/PaylinkTokenRequestModel'
+      responses: 
+        200: 
+          description: Response defining the result of the token request.
+          content: 
+            application/json: 
+              schema: 
+                $ref: '#/components/schemas/PaylinkTokenCreated'
+            text/xml: 
+              schema: 
+                $ref: '#/components/schemas/PaylinkTokenCreated'
+        400: 
+          description: Bad Request. Should the incoming data not be validly determined.
+        401: 
+          description: Unauthorized. No api key has been provided and is required for this operation.
+        403: 
+          description: Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request.
+        422: 
+          description: Unprocessable Entity. Should a failure occur that prevents processing of the API call.
+          content: 
+            application/json: 
+              schema: 
+                $ref: '#/components/schemas/Error'
+            text/xml: 
+              schema: 
+                $ref: '#/components/schemas/Error'
+        500: 
+          description: Server Error. The server was unable to complete the request.
+
+  /paylink/token/changes: 
+    post: 
+      summary: Paylink Token Audit
+      tags: 
+        - Paylink Api
+      operationId: TokenChangesRequest
+      description: Allows for the changes to a pre-existing token.
+      security: 
+      - cp-api-key: []
+      requestBody: 
+        required: true
+        content: 
+          application/json: 
+            schema: 
+              $ref: '#/components/schemas/PaylinkTokenStatusChangeRequest'
+          text/xml: 
+            schema: 
+              $ref: '#/components/schemas/PaylinkTokenStatusChangeRequest'
+      responses: 
+        200: 
+          description: Changes from tokens actioned after the pivotal date provided in the request.
+          content: 
+            application/json: 
+              schema: 
+                $ref: '#/components/schemas/PaylinkTokenStatusChangeResponse'
+            text/xml: 
+              schema: 
+                $ref: '#/components/schemas/PaylinkTokenStatusChangeResponse'
+        400: 
+          description: Bad Request. Should the incoming data not be validly determined.
+        401: 
+          description: Unauthorized. No api key has been provided and is required for this operation.
+        403: 
+          description: Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request.
+        422: 
+          description: Unprocessable Entity. Should a failure occur that prevents processing of the API call.
+          content: 
+            application/json: 
+              schema: 
+                $ref: '#/components/schemas/Error'
+            text/xml: 
+              schema: 
+                $ref: '#/components/schemas/Error'
+        500: 
+          description: Server Error. The server was unable to complete the request.
+
+  /paylink/{token}/adjustment: 
+    post: 
+      summary: Paylink Token Adjustment
+      tags: 
+        - Paylink Api
+      operationId: TokenAdjustmentRequest
+      parameters: 
+        - name: token
+          in: path
+          required: true
+          description: The token returned by the create token process.
+          schema: 
+            type: string
+      description: |
+        Adjusts a TokenRequest's amount value when for instance 
+        
+        1. a Token is created and the shopping cart is updated
+        2. an invoice is adjusted either due to part payment or due to increased incurred costs.
+      security: 
+      - cp-api-key: []
+      requestBody: 
+        required: true
+        content: 
+          application/json: 
+            schema: 
+              $ref: '#/components/schemas/PaylinkAdjustmentRequest'
+          text/xml: 
+            schema: 
+              $ref: '#/components/schemas/PaylinkAdjustmentRequest'
+      responses: 
+        200: 
+          description: Response defining the result of the token request.
+          content: 
+            application/json: 
+              schema: 
+                $ref: '#/components/schemas/Acknowledgement'
+            text/xml: 
+              schema: 
+                $ref: '#/components/schemas/Acknowledgement'
+        400: 
+          description: Bad Request. Should the incoming data not be validly determined.
+        401: 
+          description: Unauthorized. No api key has been provided and is required for this operation.
+        403: 
+          description: Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request.
+        422: 
+          description: Unprocessable Entity. Should a failure occur that prevents processing of the API call.
+          content: 
+            application/json: 
+              schema: 
+                $ref: '#/components/schemas/Error'
+            text/xml: 
+              schema: 
+                $ref: '#/components/schemas/Error'
+        500: 
+          description: Server Error. The server was unable to complete the request.
+
+  /paylink/{token}/close: 
+    put: 
+      summary: Close Paylink Token
+      tags: 
+        - Paylink Api
+      operationId: TokenCloseRequest
+      parameters: 
+        - name: token
+          in: path
+          required: true
+          description: The token returned by the create token process.
+          schema: 
+            type: string
+      description: |
+        Marks a Paylink Token as closed. This closes the Token for any future action and the Token will not appear in any status
+        request calls.
+      security: 
+      - cp-api-key: []
+      responses: 
+        200: 
+          description: Confirms that the token was marked for closure.
+          content: 
+            application/json: 
+              schema: 
+                $ref: '#/components/schemas/Acknowledgement'
+            text/xml: 
+              schema: 
+                $ref: '#/components/schemas/Acknowledgement'
+        400: 
+          description: Bad Request. Should the incoming data not be validly determined.
+        401: 
+          description: Unauthorized. No api key has been provided and is required for this operation.
+        403: 
+          description: Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request.
+        422: 
+          description: Unprocessable Entity. Should a failure occur that prevents processing of the API call.
+          content: 
+            application/json: 
+              schema: 
+                $ref: '#/components/schemas/Error'
+            text/xml: 
+              schema: 
+                $ref: '#/components/schemas/Error'
+        500: 
+          description: Server Error. The server was unable to complete the request.
+
+  /paylink/{token}/purge-attachments: 
+    put: 
+      summary: Purges any attachments for a Paylink Token
+      tags: 
+        - Paylink Api
+      operationId: TokenPurgeAttachmentsRequest
+      parameters: 
+        - name: token
+          in: path
+          required: true
+          description: The token returned by the create token process.
+          schema: 
+            type: string
+      description: Purges any attachments for a token for GDPR or DP reasons.
+      security: 
+      - cp-api-key: []
+      responses: 
+        200: 
+          description: Confirms that the attachments eiither did not exist or were purged.
+          content: 
+            application/json: 
+              schema: 
+                $ref: '#/components/schemas/Acknowledgement'
+            text/xml: 
+              schema: 
+                $ref: '#/components/schemas/Acknowledgement'
+        400: 
+          description: Bad Request. Should the incoming data not be validly determined.
+        401: 
+          description: Unauthorized. No api key has been provided and is required for this operation.
+        403: 
+          description: Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request.
+        422: 
+          description: Unprocessable Entity. Should a failure occur that prevents processing of the API call.
+          content: 
+            application/json: 
+              schema: 
+                $ref: '#/components/schemas/Error'
+            text/xml: 
+              schema: 
+                $ref: '#/components/schemas/Error'
+        500: 
+          description: Server Error. The server was unable to complete the request.
+
+  /paylink/{token}/reconciled: 
+    put: 
+      summary: Reconcile Paylink Token
+      tags: 
+        - Paylink Api
+      operationId: TokenReconciledRequest
+      parameters: 
+        - name: token
+          in: path
+          required: true
+          description: The token returned by the create token process.
+          schema: 
+            type: string
+      description: Marks a Paylink Token as reconciled when reconcilation is performed on the merchant's side.
+      security: 
+      - cp-api-key: []
+      responses: 
+        200: 
+          description: Confirms that the token was marked as reconciled.
+          content: 
+            application/json: 
+              schema: 
+                $ref: '#/components/schemas/Acknowledgement'
+            text/xml: 
+              schema: 
+                $ref: '#/components/schemas/Acknowledgement'
+        400: 
+          description: Bad Request. Should the incoming data not be validly determined.
+        401: 
+          description: Unauthorized. No api key has been provided and is required for this operation.
+        403: 
+          description: Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request.
+        422: 
+          description: Unprocessable Entity. Should a failure occur that prevents processing of the API call.
+          content: 
+            application/json: 
+              schema: 
+                $ref: '#/components/schemas/Error'
+            text/xml: 
+              schema: 
+                $ref: '#/components/schemas/Error'
+        500: 
+          description: Server Error. The server was unable to complete the request.
+
+  /paylink/{token}/reopen: 
+    put: 
+      summary: Reopen Paylink Token
+      tags: 
+        - Paylink Api
+      operationId: TokenReopenRequest
+      parameters: 
+        - name: token
+          in: path
+          required: true
+          description: The token returned by the create token process.
+          schema: 
+            type: string
+      description: Allows for a Paylink Token to be reopened if a Token has been previously closed and payment has not yet been made.
+      security: 
+      - cp-api-key: []
+      responses: 
+        200: 
+          description: Confirms that the token was reopened.
+          content: 
+            application/json: 
+              schema: 
+                $ref: '#/components/schemas/Acknowledgement'
+            text/xml: 
+              schema: 
+                $ref: '#/components/schemas/Acknowledgement'
+        400: 
+          description: Bad Request. Should the incoming data not be validly determined.
+        401: 
+          description: Unauthorized. No api key has been provided and is required for this operation.
+        403: 
+          description: Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request.
+        422: 
+          description: Unprocessable Entity. Should a failure occur that prevents processing of the API call.
+          content: 
+            application/json: 
+              schema: 
+                $ref: '#/components/schemas/Error'
+            text/xml: 
+              schema: 
+                $ref: '#/components/schemas/Error'
+        500: 
+          description: Server Error. The server was unable to complete the request.
+
+  /paylink/{token}/status: 
+    get: 
+      summary: Paylink Token Status
+      tags: 
+        - Paylink Api
+      operationId: TokenStatusRequest
+      parameters: 
+        - name: token
+          in: path
+          required: true
+          description: The token returned by the create token process.
+          schema: 
+            type: string
+      description: Obtains the full status of a given Paylink Token.
+      security: 
+      - cp-api-key: []
+      responses: 
+        200: 
+          description: The current status of the token.
+          content: 
+            application/json: 
+              schema: 
+                $ref: '#/components/schemas/PaylinkTokenStatus'
+            text/xml: 
+              schema: 
+                $ref: '#/components/schemas/PaylinkTokenStatus'
+        400: 
+          description: Bad Request. Should the incoming data not be validly determined.
+        401: 
+          description: Unauthorized. No api key has been provided and is required for this operation.
+        403: 
+          description: Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request.
+        422: 
+          description: Unprocessable Entity. Should a failure occur that prevents processing of the API call.
+          content: 
+            application/json: 
+              schema: 
+                $ref: '#/components/schemas/Error'
+            text/xml: 
+              schema: 
+                $ref: '#/components/schemas/Error'
+        500: 
+          description: Server Error. The server was unable to complete the request.
+
+  /v6/account-exists/{accountid}: 
+    get: 
+      summary: Account Exists
+      tags: 
+        - Card Holder Account Api
+      operationId: AccountExistsRequest
+      parameters: 
+        - name: accountid
+          in: path
+          required: true
+          description: The account id that refers to the customer's account no. This value will have been provided when setting up the card holder account.
+          schema: 
+            type: string
+      description: |
+        Checks that an account exists and is active by providing the account id as a url parameter.
+      security: 
+      - cp-api-key: []
+      responses: 
+        200: 
+          description: A response model determining whether the account exists, if exists is true, a last modified date of the account is also provided.
+          content: 
+            application/json: 
+              schema: 
+                $ref: '#/components/schemas/Exists'
+            text/xml: 
+              schema: 
+                $ref: '#/components/schemas/Exists'
+        400: 
+          description: Bad Request. Should the incoming data not be validly determined.
+        401: 
+          description: Unauthorized. No api key has been provided and is required for this operation.
+        403: 
+          description: Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request.
+        422: 
+          description: Unprocessable Entity. Should a failure occur that prevents processing of the API call.
+          content: 
+            application/json: 
+              schema: 
+                $ref: '#/components/schemas/Error'
+            text/xml: 
+              schema: 
+                $ref: '#/components/schemas/Error'
+        500: 
+          description: Server Error. The server was unable to complete the request.
+
+  /v6/account/create: 
+    post: 
+      summary: Account Create
+      tags: 
+        - Card Holder Account Api
+      operationId: AccountCreate
+      description: Creates a new card holder account and initialises the account ready for adding cards.
+      security: 
+      - cp-api-key: []
+      requestBody: 
+        required: true
+        content: 
+          application/json: 
+            schema: 
+              $ref: '#/components/schemas/AccountCreate'
+          text/xml: 
+            schema: 
+              $ref: '#/components/schemas/AccountCreate'
+      responses: 
+        200: 
+          description: Provides an initialised account.
+          content: 
+            application/json: 
+              schema: 
+                $ref: '#/components/schemas/CardHolderAccount'
+            text/xml: 
+              schema: 
+                $ref: '#/components/schemas/CardHolderAccount'
+        400: 
+          description: Bad Request. Should the incoming data not be validly determined.
+        401: 
+          description: Unauthorized. No api key has been provided and is required for this operation.
+        403: 
+          description: Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request.
+        422: 
+          description: Unprocessable Entity. Should a failure occur that prevents processing of the API call.
+          content: 
+            application/json: 
+              schema: 
+                $ref: '#/components/schemas/Error'
+            text/xml: 
+              schema: 
+                $ref: '#/components/schemas/Error'
+        500: 
+          description: Server Error. The server was unable to complete the request.
+
+  /v6/account/{accountid}: 
+    get: 
+      summary: Account Retrieval
+      tags: 
+        - Card Holder Account Api
+      operationId: AccountRetrieveRequest
+      parameters: 
+        - name: accountid
+          in: path
+          required: true
+          description: The account id that refers to the customer's account no. This value will have been provided when setting up the card holder account.
+          schema: 
+            type: string
+      description: |
+        Allows for the retrieval of a card holder account for the given `id`. Should duplicate accounts exist
+        for the same `id`, the first account created with that `id` will be returned.
+        
+        The account can be used for tokenisation processing by listing all cards assigned to the account.
+        The returned cards will include all `active`, `inactive` and `expired` cards. This can be used to 
+        enable a card holder to view their wallet and make constructive choices on which card to use.
+      security: 
+      - cp-api-key: []
+      responses: 
+        200: 
+          description: A card holder account that matches the account id provided in the request.
+          content: 
+            application/json: 
+              schema: 
+                $ref: '#/components/schemas/CardHolderAccount'
+            text/xml: 
+              schema: 
+                $ref: '#/components/schemas/CardHolderAccount'
+        400: 
+          description: Bad Request. Should the incoming data not be validly determined.
+        401: 
+          description: Unauthorized. No api key has been provided and is required for this operation.
+        403: 
+          description: Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request.
+        422: 
+          description: Unprocessable Entity. Should a failure occur that prevents processing of the API call.
+          content: 
+            application/json: 
+              schema: 
+                $ref: '#/components/schemas/Error'
+            text/xml: 
+              schema: 
+                $ref: '#/components/schemas/Error'
+        500: 
+          description: Server Error. The server was unable to complete the request.
+    delete: 
+      summary: Account Deletion
+      tags: 
+        - Card Holder Account Api
+      operationId: AccountDeleteRequest
+      parameters: 
+        - name: accountid
+          in: path
+          required: true
+          description: The account id that refers to the customer's account no. This value will have been provided when setting up the card holder account.
+          schema: 
+            type: string
+      description: |
+        Allows for the deletion of an account. The account will marked for deletion and subsequent purging. No further
+        transactions will be alowed to be processed or actioned against this account.
+      security: 
+      - cp-api-key: []
+      responses: 
+        200: 
+          description: An acknowledgment code of `001` that the card holder account has been marked for deletion.
+          content: 
+            application/json: 
+              schema: 
+                $ref: '#/components/schemas/Acknowledgement'
+            text/xml: 
+              schema: 
+                $ref: '#/components/schemas/Acknowledgement'
+        400: 
+          description: Bad Request. Should the incoming data not be validly determined.
+        401: 
+          description: Unauthorized. No api key has been provided and is required for this operation.
+        403: 
+          description: Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request.
+        422: 
+          description: Unprocessable Entity. Should a failure occur that prevents processing of the API call.
+          content: 
+            application/json: 
+              schema: 
+                $ref: '#/components/schemas/Error'
+            text/xml: 
+              schema: 
+                $ref: '#/components/schemas/Error'
+        500: 
+          description: Server Error. The server was unable to complete the request.
+
+  /v6/account/{accountid}/card/{cardId}: 
+    delete: 
+      summary: Card Deletion
+      tags: 
+        - Card Holder Account Api
+      operationId: AccountCardDeleteRequest
+      parameters: 
+        - name: accountid
+          in: path
+          required: true
+          description: The account id that refers to the customer's account no. This value will have been provided when setting up the card holder account.
+          schema: 
+            type: string
+        - name: cardId
+          in: path
+          required: true
+          description: The id of the card that is presented by a call to retrieve a card holder account.
+          schema: 
+            type: string
+      description: |
+        Deletes a card from the account. The card will be marked for deletion before a subsequent
+        purge will clear the card permanently.
+      security: 
+      - cp-api-key: []
+      responses: 
+        200: 
+          description: Acknowledges the card has been requested for deletion. A response code of `001` is returned if the account is available for deletion otherwise an error code is returned.
+          content: 
+            application/json: 
+              schema: 
+                $ref: '#/components/schemas/Acknowledgement'
+            text/xml: 
+              schema: 
+                $ref: '#/components/schemas/Acknowledgement'
+        400: 
+          description: Bad Request. Should the incoming data not be validly determined.
+        401: 
+          description: Unauthorized. No api key has been provided and is required for this operation.
+        403: 
+          description: Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request.
+        422: 
+          description: Unprocessable Entity. Should a failure occur that prevents processing of the API call.
+          content: 
+            application/json: 
+              schema: 
+                $ref: '#/components/schemas/Error'
+            text/xml: 
+              schema: 
+                $ref: '#/components/schemas/Error'
+        500: 
+          description: Server Error. The server was unable to complete the request.
+
+  /v6/account/{accountid}/card/{cardId}/status: 
+    post: 
+      summary: Card Status
+      tags: 
+        - Card Holder Account Api
+      operationId: AccountCardStatusRequest
+      parameters: 
+        - name: accountid
+          in: path
+          required: true
+          description: The account id that refers to the customer's account no. This value will have been provided when setting up the card holder account.
+          schema: 
+            type: string
+        - name: cardId
+          in: path
+          required: true
+          description: The id of the card that is presented by a call to retrieve a card holder account.
+          schema: 
+            type: string
+      description: |
+        Updates the status of a card for processing. The following values are available
+        
+        | Status | Description | 
+        |--------|-------------|
+        | Active | The card is active for processing and can be used for charging against with a valid token |
+        | Inactive | The card is inactive for processing and cannot be used for processing, it will require reactivation before being used to charge |
+        | Expired | The card has expired either due to the expiry date no longer being valid or due to a replacement card being issued |
+      security: 
+      - cp-api-key: []
+      requestBody: 
+        required: true
+        content: 
+          application/json: 
+            schema: 
+              $ref: '#/components/schemas/CardStatus'
+          text/xml: 
+            schema: 
+              $ref: '#/components/schemas/CardStatus'
+      responses: 
+        200: 
+          description: Acknowledges the card status has changed, returning a response code of `001` for a valid change or `000` for a non valid change.
+          content: 
+            application/json: 
+              schema: 
+                $ref: '#/components/schemas/Acknowledgement'
+            text/xml: 
+              schema: 
+                $ref: '#/components/schemas/Acknowledgement'
+        400: 
+          description: Bad Request. Should the incoming data not be validly determined.
+        401: 
+          description: Unauthorized. No api key has been provided and is required for this operation.
+        403: 
+          description: Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request.
+        422: 
+          description: Unprocessable Entity. Should a failure occur that prevents processing of the API call.
+          content: 
+            application/json: 
+              schema: 
+                $ref: '#/components/schemas/Error'
+            text/xml: 
+              schema: 
+                $ref: '#/components/schemas/Error'
+        500: 
+          description: Server Error. The server was unable to complete the request.
+
+  /v6/account/{accountid}/contact: 
+    post: 
+      summary: Contact Details Update
+      tags: 
+        - Card Holder Account Api
+      operationId: AccountChangeContactRequest
+      parameters: 
+        - name: accountid
+          in: path
+          required: true
+          description: The account id that refers to the customer's account no. This value will have been provided when setting up the card holder account.
+          schema: 
+            type: string
+      description: Allows for the ability to change the contact details for an account.
+      security: 
+      - cp-api-key: []
+      requestBody: 
+        required: true
+        content: 
+          application/json: 
+            schema: 
+              $ref: '#/components/schemas/ContactDetails'
+          text/xml: 
+            schema: 
+              $ref: '#/components/schemas/ContactDetails'
+      responses: 
+        200: 
+          description: A revised account with the new details set.
+          content: 
+            application/json: 
+              schema: 
+                $ref: '#/components/schemas/CardHolderAccount'
+            text/xml: 
+              schema: 
+                $ref: '#/components/schemas/CardHolderAccount'
+        400: 
+          description: Bad Request. Should the incoming data not be validly determined.
+        401: 
+          description: Unauthorized. No api key has been provided and is required for this operation.
+        403: 
+          description: Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request.
+        422: 
+          description: Unprocessable Entity. Should a failure occur that prevents processing of the API call.
+          content: 
+            application/json: 
+              schema: 
+                $ref: '#/components/schemas/Error'
+            text/xml: 
+              schema: 
+                $ref: '#/components/schemas/Error'
+        500: 
+          description: Server Error. The server was unable to complete the request.
+
+  /v6/account/{accountid}/register: 
+    post: 
+      summary: Card Registration
+      tags: 
+        - Card Holder Account Api
+      operationId: AccountCardRegisterRequest
+      parameters: 
+        - name: accountid
+          in: path
+          required: true
+          description: The account id that refers to the customer's account no. This value will have been provided when setting up the card holder account.
+          schema: 
+            type: string
+      description: |
+        Allows for a card to be registered for the account. The card will be added for future 
+        processing and will be available as a tokenised value for future processing.
+        
+        The card will be validated for
+        
+        0. Being a valid card number (luhn check)
+        0. Having a valid expiry date
+        0. Being a valid bin value.
+      security: 
+      - cp-api-key: []
+      requestBody: 
+        required: true
+        content: 
+          application/json: 
+            schema: 
+              $ref: '#/components/schemas/RegisterCard'
+          text/xml: 
+            schema: 
+              $ref: '#/components/schemas/RegisterCard'
+      responses: 
+        200: 
+          description: A successfully registered card provides a reload of the account including the new card.
+          content: 
+            application/json: 
+              schema: 
+                $ref: '#/components/schemas/CardHolderAccount'
+            text/xml: 
+              schema: 
+                $ref: '#/components/schemas/CardHolderAccount'
+        400: 
+          description: Bad Request. Should the incoming data not be validly determined.
+        401: 
+          description: Unauthorized. No api key has been provided and is required for this operation.
+        403: 
+          description: Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request.
+        422: 
+          description: Unprocessable Entity. Should a failure occur that prevents processing of the API call.
+          content: 
+            application/json: 
+              schema: 
+                $ref: '#/components/schemas/Error'
+            text/xml: 
+              schema: 
+                $ref: '#/components/schemas/Error'
+        500: 
+          description: Server Error. The server was unable to complete the request.
+
+  /v6/account/{accountid}/status: 
+    post: 
+      summary: Account Status
+      tags: 
+        - Card Holder Account Api
+      operationId: AccountStatusRequest
+      parameters: 
+        - name: accountid
+          in: path
+          required: true
+          description: The account id that refers to the customer's account no. This value will have been provided when setting up the card holder account.
+          schema: 
+            type: string
+      description: |
+        Updates the status of an account. An account can have the following statuses applied
+        
+        | Status | Description |
+        |--------|-------------|
+        | Active | The account is active for processing |
+        | Disabled | The account has been disabled and cannot be used for processing. The account will require reactivation to continue procesing |
+      security: 
+      - cp-api-key: []
+      requestBody: 
+        required: true
+        content: 
+          application/json: 
+            schema: 
+              $ref: '#/components/schemas/AccountStatus'
+          text/xml: 
+            schema: 
+              $ref: '#/components/schemas/AccountStatus'
+      responses: 
+        200: 
+          description: An acknowledgment that the card holder account status has been updated.</br></br>A response code of `001` is returned if the request was accepted or no change required.</br></br>A response code of `000` is returned if the request contains invalid data.
+          content: 
+            application/json: 
+              schema: 
+                $ref: '#/components/schemas/Acknowledgement'
+            text/xml: 
+              schema: 
+                $ref: '#/components/schemas/Acknowledgement'
+        400: 
+          description: Bad Request. Should the incoming data not be validly determined.
+        401: 
+          description: Unauthorized. No api key has been provided and is required for this operation.
+        403: 
+          description: Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request.
+        422: 
+          description: Unprocessable Entity. Should a failure occur that prevents processing of the API call.
+          content: 
+            application/json: 
+              schema: 
+                $ref: '#/components/schemas/Error'
+            text/xml: 
+              schema: 
+                $ref: '#/components/schemas/Error'
+        500: 
+          description: Server Error. The server was unable to complete the request.
+
+  /v6/acl/check: 
+    post: 
+      summary: ACL Check Request
+      tags: 
+        - Operational Functions Api
+      operationId: AclCheckRequest
+      description: |
+        Allows the checking of IP addresses against configured ACLs. Requests can perform a lookup of addresses in subnets and
+        services such as AWS or Azure to check that those addresses are listed in the ACLs.
+      security: 
+      - cp-api-key: []
+      requestBody: 
+        required: true
+        content: 
+          application/json: 
+            schema: 
+              $ref: '#/components/schemas/AclCheckRequest'
+          text/xml: 
+            schema: 
+              $ref: '#/components/schemas/AclCheckRequest'
+      responses: 
+        200: 
+          description: Response to the ACL Check request.
+          content: 
+            application/json: 
+              schema: 
+                $ref: '#/components/schemas/AclCheckResponseModel'
+            text/xml: 
+              schema: 
+                $ref: '#/components/schemas/AclCheckResponseModel'
+        400: 
+          description: Bad Request. Should the incoming data not be validly determined.
+        401: 
+          description: Unauthorized. No api key has been provided and is required for this operation.
+        403: 
+          description: Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request.
+        422: 
+          description: Unprocessable Entity. Should a failure occur that prevents processing of the API call.
+          content: 
+            application/json: 
+              schema: 
+                $ref: '#/components/schemas/Error'
+            text/xml: 
+              schema: 
+                $ref: '#/components/schemas/Error'
+        500: 
+          description: Server Error. The server was unable to complete the request.
+
+  /v6/authorise: 
+    post: 
+      summary: Authorisation
+      tags: 
+        - Authorisation and Payment Api
+      operationId: AuthorisationRequest
+      description: |
+        An authorisation process performs a standard transaction authorisation based on the provided parameters of its request.
+        The CityPay gateway will route your transaction via an Acquiring bank for subsequent authorisation to the appropriate card 
+        schemes such as Visa or MasterCard.
+        
+        The authorisation API should be used for server environments to process transactions on demand and in realtime. 
+        
+        The authorisation API can be used for multiple types of transactions including E-commerce, mail order, telephone order,
+        customer present (keyed), continuous authority, pre-authorisation and others. CityPay will configure your account for 
+        the appropriate coding and this will perform transparently by the gateway. 
+        
+        Data properties that are required, may depend on the environment you are conducting payment for. Our API aims to be
+         flexible enough to cater for these structures. Our integration team will aid you in providing the necessary data to 
+         transact. 
+         
+         
+        ## E-commerce workflows
+         
+        For E-commerce transactions requiring 3DS, the API contains a fully accredited in built mechanism to handle authentication.
+        
+        The Api and gateway has been accredited extensively with both Acquirers and Card Schemes to simplify the nature of these calls
+        into a simple structure for authentication, preventing integrators from performing lengthy and a costly accreditations with
+        Visa and MasterCard.
+        
+        3D-secure has been around for a number of years and aims to shift the liability of a transaction away from a merchant back
+        to the card holder. A *liability shift* determines whether a card holder can charge back a transaction as unknown. Effectively
+        the process asks for a card holder to authenticate the transaction prior to authorisation producing a Cardholder 
+        verification value (CAVV) and ecommerce indicator (ECI) as evidence of authorisation.
+        
+        3DS version 1 has now been replaced by 3DS version 2 to provide secure customer authentication (SCA) in line with EU regulation.
+        3DSv2 is being phased out and any accounts using version 1 of the protocol is expected to be migrated by March 2022. 
+        
+        Any new integrations should only consider 3DSv2 flows. 
+        
+        ### 3DSv2
+        
+        ```json
+        { 
+          "RequestChallenged": {
+            "acsurl": "https://bank.com/3DS/ACS",
+            "creq": "SXQgd2FzIHRoZSBiZXN0IG9mIHRpbWVzLCBpdCB3YXMgdGhlIHdvcnN00...",
+            "merchantid": 12345,
+            "transno": 1,
+            "threedserver_trans_id": "d652d8d2-d74a-4264-a051-a7862b10d5d6"
+          }               
+        }
+        ```
+        
+        ```xml
+        <RequestChallenged>
+          <acsurl>https://bank.com/3DS/ACS</acsurl>
+          <creq>SXQgd2FzIHRoZSBiZXN0IG9mIHRpbWVzLCBpdCB3YXMgdGhlIHdvcnN00...</creq>
+          <merchantid>12345</merchantid>
+          <transno>1</transno>
+          <threedserver_trans_id>d652d8d2-d74a-4264-a051-a7862b10d5d6</threedserver_trans_id>
+        </RequestChallenged>
+        ```
+        
+        CityPay support 3DS version 2.1 for Verified by Visa, MasterCard Identity Check and American Express SafeKey 2.1. Version
+        2.2 is currently in development however this will be a seamless upgrade for all integrations.
+        
+        #### 3-D Secure - None
+        
+        ![3DSv2 Frctionless Flow](/images/3dsv2-no3d.png)
+        
+        A basic flow may involve no 3-D secure processing. This could happen if there is no ability to perform authentication.
+        An enrollment check may apply an "attempted" resolution to processing. In this instance a transaction may not meet any
+        liability shift. A transaction may result in a decline due to this. We are also able to prevent from transactions being
+        presented for authorisation if this occurs. 
+        
+        #### 3-D Secure - Frictionless
+        
+        ![3DSv2 Frctionless Flow](/images/3dsv2-frictionless.png)
+        
+        E-commerce transactions supporting 3DSv2 can benefit from seamlessly authenticated transactions which may perform a 
+        "frictionless" flow. This method will authenticate low risk transactions with minimal impact to a 
+        standard authorisation flow. Our API simply performs this on behalf of you the developer, the merchant and cardholder.
+        
+        No redirection occurs and hence the flow is called frictionless and will appear as though a simple transaction 
+        authorisation has occurred.
+        
+        #### 3-D Secure - Challenge
+        
+        ![3DSv2 Frctionless Flow](/images/3dsv2-challenge.png)
+        
+        A transaction that is deemed as higher risk my be "challenged". In this instance, the API will return a
+        [request challenge](#requestchallenged) which will require your integration to forward the cardholder's browser to the 
+        given [ACS url](#acsurl). This should be performed by posting the [creq](#creq) value (the challenge request value). 
+        
+        Once complete, the ACS will have already been in touch with our servers by sending us a result of the authentication
+        known as `RReq`.
+        
+        To maintain session state, a parameter `threeDSSessionData` can be posted to the ACS url and will be returned alongside 
+        the `CRes` value. This will ensure that any controller code will be able to isolate state between calls. This field
+        is to be used by your own systems rather than ours and may be any value which can uniquely identify your cardholder's
+        session. As an option, we do provide a `threedserver_trans_id` value in the `RequestChallenged` packet which can be used
+        for the `threeDSSessionData` value as it is used to uniquely identify the 3D-Secure session. 
+        
+        A common method of maintaining state is to provide a session related query string value in the `merchant_termurl` value
+        (also known as the `notificationUrl`). For example providing a url of `https://mystore.com/checkout?token=asny2348w4561..`
+        could return the user directly back to their session with your environment.
+        
+        Once you have received a `cres` post from the ACS authentication service, this should be POSTed to the [cres](#cres) 
+        endpoint to perform full authorisation processing. 
+        
+        Please note that the CRes returned to us is purely a mechanism of acknowledging that transactions should be committed for
+        authorisation. The ACS by this point will have sent us the verification value (CAVV) to perform a liability shift. The CRes
+        value will be validated for receipt of the CAVV and subsequently may return response codes illustrating this. 
+        
+        To forward the user to the ACS, we recommend a simple auto submit HTML form.
+        
+        > Simple auto submit HTML form
+        
+        ```html
+        <html lang="en">
+        	<head>
+                <title>Forward to ACS</title>
+        		<script type="text/javascript">
+                function onLoadEvent() { 
+                    document.acs.submit(); 
+                }
+                </script>
+                <noscript>You will require JavaScript to be enabled to complete this transaction</noscript>
+            </head>
+            <body onload="onLoadEvent();">
+                <form name="acs" action="{{ACSURL from Response}}" method="POST">
+                    <input type="hidden" name="creq" value="{{CReq Packet from Response}}" />
+                    <input type="hidden" name="threeDSSessionData" value="{{session-identifier}}" />
+                </form>
+            </body>
+        </html>
+        ```
+        
+        A full ACS test suite is available for 3DSv2 testing.
+                
+        ### Testing 3DSv2 Integrations
+        
+        The API provides a mock 3dsV2 handler which performs a number of scenarios based on the value of the CSC in the request.
+        
+        | CSC Value | Behaviour |
+        |-----------|-----------|
+        | 731       | Frictionless processing - Not authenticated |
+        | 732       | Frictionless processing - Account verification count not be performed |        
+        | 733       | Frictionless processing - Verification Rejected |        
+        | 741       | Frictionless processing - Attempts Processing |        
+        | 750       | Frictionless processing - Authenticated  |        
+        | 761       | Triggers an error message |  
+        | Any       | Challenge Request |       
+        
+        
+        #### 3DSv1
+        
+        **Please note that 3DSv1 should now be considered as deprecated.**
+        
+        ```json
+        { 
+          "AuthenticationRequired": {
+            "acsurl": "https://bank.com/3DS/ACS",
+            "pareq": "SXQgd2FzIHRoZSBiZXN0IG9mIHRpbWVzLCBpdCB3YXMgdGhlIHdvcnN00...",
+            "md": "WQgZXZlcnl0aGluZyBiZW"
+          }               
+        }
+        ```
+        
+        ```xml
+        <AuthenticationRequired>
+         <acsurl>https://bank.com/3DS/ACS</acsurl>
+         <pareq>SXQgd2FzIHRoZSBiZXN0IG9mIHRpbWVzLCBpdCB3YXMgdGhlIHdvcnN00...</pareq>
+         <md>WQgZXZlcnl0aGluZyBiZW</md>
+        </AuthenticationRequired>
+        ```
+        
+        For E-commerce transactions requiring 3DSv1, the API contains a built in MPI which will be called to check whether the
+        card is participating in 3DSv1 with Verified by Visa or MasterCard SecureCode. We only support Amex SafeKey with 3DSv2. Should the card be enrolled, a payer
+        request (PAReq) value will be created and returned back as an [authentication required](#authenticationrequired) response object.
+        
+        Your system will need to process this authentication packet and forward the user's browser to an authentication server (ACS)
+        to gain the user's authentication. Once complete, the ACS will produce a HTTP `POST` call back to the URL supplied in
+        the authentication request as `merchant_termurl`. This URL should behave as a controller and handle the post data from the
+        ACS and on a forked server to server HTTP request, forward this data to the [pares authentication url](#pares) for
+        subsequent authorisation processing. You may prefer to provide a processing page whilst this is being processed.
+        Processing with our systems should be relatively quick and be between 500ms - 3000ms however it is desirable to let
+        the user see that something is happening rather than a pending browser.
+        
+        The main reason for ensuring that this controller is two fold:
+        
+        1. We are never in control of the user's browser in a server API call
+        2. The controller is actioned on your site to ensure that any post actions from authorisation can be executed in real time
+        
+        To forward the user to the ACS, we recommend a simple auto submit HTML form.
+        
+        > Simple auto submit HTML form
+        
+        ```html
+        <html lang="en">
+        	<head>
+                <title>Forward to ACS</title>
+        		<script type="text/javascript">
+                function onLoadEvent() { 
+                    document.acs.submit(); 
+                }
+                </script>
+                <noscript>You will require JavaScript to be enabled to complete this transaction</noscript>
+            </head>
+            <body onload="onLoadEvent();">
+                <form name="acs" action="{{ACSURL from Response}}" method="POST">
+                    <input type="hidden" name="PaReq" value="{{PaReq Packet from Response}}" />
+                    <input type="hidden" name="TermUrl" value="{{Your Controller}}" />
+                    <input type="hidden" name="MD" value="{{MD From Response}}" />
+                </form>
+            </body>
+        </html>
+        ```
+        
+        Please note that 3DSv1 is being phased out due to changes to strong customer authentication mechanisms. 3DSv2 addresses
+        this and will solidify the authorisation and confirmation process.
+        
+        We provide a Test ACS for full 3DSv1 integration testing that simulates an ACS.
+      security: 
+      - cp-api-key: []
+      requestBody: 
+        required: true
+        content: 
+          application/json: 
+            schema: 
+              $ref: '#/components/schemas/AuthRequest'
+            examples: 
+              example1: 
+                summary: Basic capture call for a merchant with a given identifier
+                externalValue: 'AuthorisationRequest-example1.json'
+          text/xml: 
+            schema: 
+              $ref: '#/components/schemas/AuthRequest'
+            examples: 
+              example1: 
+                summary: Basic capture call for a merchant with a given identifier
+                externalValue: 'AuthorisationRequest-example1.xml'
+      responses: 
+        200: 
+          description: A decision made by the result of processing.
+          content: 
+            application/json: 
+              schema: 
+                $ref: '#/components/schemas/Decision'
+            text/xml: 
+              schema: 
+                $ref: '#/components/schemas/Decision'
+        400: 
+          description: Bad Request. Should the incoming data not be validly determined.
+        401: 
+          description: Unauthorized. No api key has been provided and is required for this operation.
+        403: 
+          description: Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request.
+        422: 
+          description: Unprocessable Entity. Should a failure occur that prevents processing of the API call.
+          content: 
+            application/json: 
+              schema: 
+                $ref: '#/components/schemas/Error'
+            text/xml: 
+              schema: 
+                $ref: '#/components/schemas/Error'
+        500: 
+          description: Server Error. The server was unable to complete the request.
+
+  /v6/batch/process: 
+    post: 
+      summary: Batch Process Request
+      tags: 
+        - Batch Processing Api
+      operationId: BatchProcessRequest
+      description: |
+        A batch process request is used to start the batch process workflow by uploading batch
+        data and initialising a new batch for processing. Once validated the batch will be queued
+        for processing and further updates can be received by a subsequent call to retrieve the batch
+        status.
+      security: 
+      - cp-api-key: []
+      requestBody: 
+        required: true
+        content: 
+          application/json: 
+            schema: 
+              $ref: '#/components/schemas/ProcessBatchRequest'
+          text/xml: 
+            schema: 
+              $ref: '#/components/schemas/ProcessBatchRequest'
+      responses: 
+        200: 
+          description: Request to process a batch provided in the request.
+          content: 
+            application/json: 
+              schema: 
+                $ref: '#/components/schemas/ProcessBatchResponse'
+            text/xml: 
+              schema: 
+                $ref: '#/components/schemas/ProcessBatchResponse'
+        400: 
+          description: Bad Request. Should the incoming data not be validly determined.
+        401: 
+          description: Unauthorized. No api key has been provided and is required for this operation.
+        403: 
+          description: Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request.
+        422: 
+          description: Unprocessable Entity. Should a failure occur that prevents processing of the API call.
+          content: 
+            application/json: 
+              schema: 
+                $ref: '#/components/schemas/Error'
+            text/xml: 
+              schema: 
+                $ref: '#/components/schemas/Error'
+        500: 
+          description: Server Error. The server was unable to complete the request.
+
+  /v6/batch/retrieve: 
+    post: 
+      summary: BatchReportRequest
+      tags: 
+        - Batch Processing Api
+      operationId: BatchRetrieveRequest
