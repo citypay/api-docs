@@ -4,38 +4,45 @@ openapi: 3.0.0
 #                              API Information                                 #
 ################################################################################
 info:
-  version: 6.4.18
+  version: 6.6.32
   title: CityPay Payment API
   description: |
 
-    This CityPay API is a HTTP RESTful payment API used for direct server to server transactional processing. It
-    provides a number of payment mechanisms including: Internet, MOTO, Continuous Authority transaction processing,
-    3-D Secure decision handling using RFA Secure, Authorisation, Refunding, Pre-Authorisation, Cancellation/Voids and
-    Completion processing. The API is also capable of tokinsed payments using Card Holder Accounts.
+    Welcome to the CityPay API, a robust HTTP API payment solution designed for seamless server-to-server 
+    transactional processing. Our API facilitates a wide array of payment operations, catering to diverse business needs. 
+    Whether you're integrating Internet payments, handling Mail Order/Telephone Order (MOTO) transactions, managing 
+    Subscriptions with Recurring and Continuous Authority payments, or navigating the complexities of 3-D Secure 
+    authentication, our API is equipped to support your requirements. Additionally, we offer functionalities for 
+    Authorisation, Refunding, Pre-Authorisation, Cancellation/Voids, and Completion processing, alongside the capability 
+    for tokenised payments.
 
-    ## Compliance and Security
-    Your application will need to adhere to PCI-DSS standards to operate safely and to meet requirements set out by 
-    Visa and MasterCard and the PCI Security Standards Council. These include
+    ## Compliance and Security Overview
+    <aside class="notice">
+      Ensuring the security of payment transactions and compliance with industry standards is paramount. Our API is 
+      designed with stringent security measures and compliance protocols to safeguard sensitive information and meet 
+      the rigorous requirements of Visa, MasterCard, and the PCI Security Standards Council.
+    </aside>
+    
+    ### Key Compliance and Security Measures
 
-    * Data must be collected using TLS version 1.2 using [strong cryptography](#enabled-tls-ciphers). We will not accept calls to our API at
-      lower grade encryption levels. We regularly scan our TLS endpoints for vulnerabilities and perform TLS assessments
-      as part of our compliance program.
-    * The application must not store sensitive card holder data (CHD) such as the card security code (CSC) or
-      primary access number (PAN)
-    * The application must not display the full card number on receipts, it is recommended to mask the PAN
-      and show the last 4 digits. The API will return this for you for ease of receipt creation
-    * If you are developing a website, you will be required to perform regular scans on the network where you host the
-      application to meet your compliance obligations
-    * You will be required to be PCI Compliant and the application must adhere to the security standard. Further information
-      is available from [https://www.pcisecuritystandards.org/](https://www.pcisecuritystandards.org/)
-    * The API verifies that the request is for a valid account and originates from a trusted source using the remote IP
-      address. Our application firewalls analyse data that may be an attempt to break a large number of security common
-      security vulnerabilities.
+    * **TLS Encryption**: All data transmissions must utilise TLS version 1.2 or higher, employing [strong cryptography](#enabled-tls-ciphers). Our infrastructure strictly enforces this requirement to maintain the integrity and confidentiality of data in transit. We conduct regular scans and assessments of our TLS endpoints to identify and mitigate vulnerabilities.
+    * **Data Storage Prohibitions**: Storing sensitive cardholder data (CHD), such as the card security code (CSC) or primary account number (PAN), is strictly prohibited. Our API is designed to minimize your exposure to sensitive data, thereby reducing your compliance burden.
+    * **Data Masking**: For consumer protection and compliance, full card numbers must not be displayed on receipts or any customer-facing materials. Our API automatically masks PANs, displaying only the last four digits to facilitate safe receipt generation.
+    * **Network Scans**: If your application is web-based, regular scans of your hosting environment are mandatory to identify and rectify potential vulnerabilities. This proactive measure is crucial for maintaining a secure and compliant online presence.
+    * **PCI Compliance**: Adherence to PCI DSS standards is not optional; it's a requirement for operating securely and legally in the payments ecosystem. For detailed information on compliance requirements and resources, please visit the PCI Security Standards Council website [https://www.pcisecuritystandards.org/](https://www.pcisecuritystandards.org/).
+    * **Request Validation**: Our API includes mechanisms to verify the legitimacy of each request, ensuring it pertains to a valid account and originates from a trusted source. We leverage remote IP address verification alongside sophisticated application firewall technologies to thwart a wide array of common security threats.
+
+    ## Getting Started
+    Before integrating with the CityPay API, ensure your application and development practices align with the outlined compliance and security measures. This preparatory step is crucial for a smooth integration process and the long-term success of your payment processing operations.
+    
+    For further details on API endpoints, request/response formats, and code examples, proceed to the subsequent sections of our documentation. Our aim is to provide you with all the necessary tools and information to integrate our payment processing capabilities seamlessly into your application.
+    
+    Thank you for choosing CityPay API. We look forward to supporting your payment processing needs with our secure, compliant, and versatile API solution.
 
 
   contact:
     name: CityPay Support
-    url: https://citypay.com/customer-centre/technical-support.html
+    url: https://www.citypay.com/contacts/
     email: support@citypay.com
 
 # during dev, should point to your local machine
@@ -54,8 +61,9 @@ tags:
   - name: Batch Processing Api
     description: |
       Batch processing uses the Batch and Instalment Service (BIS) which allows for transaction processing against cardholder 
-      accounts using a dynamic batch file. For merchants who process on schedules and dynamic amounts, the service allows for 
-      the presentation of cardholder account references and transaction requirements to run as a scheduled batch.
+      accounts using a dynamic batch file. For merchants who process on their own schedules with dynamic or fixed amounts, 
+      the service allows for the presentation of cardholder account references and transaction requirements to run as a 
+      scheduled batch.
   - name: Card Holder Account Api
     description: |
       A cardholder account models a cardholder and can register 1 or more cards for tokenised charging. 
@@ -89,7 +97,7 @@ tags:
          challenges
       3. The merchant receives a HTTP 303 redirect, containing the result of the transaction as query parameters
       
-      <img src="../../images/direct-post-flow.png" width="600" />
+      <img src="images/direct-post-flow.png" width="600" />
       
       #### Tokenisation Authorisation Flow
       
@@ -123,18 +131,18 @@ tags:
     description: Operations that are for operational purposes only such as checking connectivity to the API.
   - name: Paylink Api
     description: |
-      CityPay Paylink makes online e-commerce easier to implement by handling the card payment process directly with the cardholder's browser and CityPay's payment processing servers, allowing you to concentrate on your business whilst allowing us to manage the payment process.
+      CityPay Paylink makes online e-commerce easier to implement by providing a hosted form to handle the card payment 
+      process directly with the cardholder's browser, allowing you to concentrate on your business whilst allowing CityPay 
+      to manage the payment process on your behalf.
       
-      0. Simplified payment solutions.
-      0. payment processing is handled by our secure web servers adding security and confidence to your shoppers.
-      0. 3D-Secure authentication is available within the application without any difficult MPI integration, allowing for immediate Verified by Visa and MasterCard SecureCode processing.
-      0. customisation may be performed on the secure payment form.
-      0. significantly reduced technical and financial overheads associated with software implementation and PCI compliance.
-      1. reduced time-to-market.
-      
-      The CityPay API offers embedded end-point calls to Paylink offering advanced features of generated tokens.
-      
-      For further information on Paylink see [Paylink Online Documentation](https://citypay.github.io/api-docs/paylink).
+      1. Simplified payment solutions.
+      2. payment processing is handled by our secure web servers adding security and confidence to your shoppers.
+      3. 3D-Secure authentication is available within the application without any difficult MPI integration, allowing for immediate Verified by Visa and MasterCard SecureCode processing.
+      4. customisation may be performed on the secure payment form.
+      5. significantly reduced technical and financial overheads associated with software implementation and PCI compliance.
+      6. reduced time-to-market.
+  - name: Reporting Api
+    description: Reporting functions that return data based on payment processing services.
 
 #--------------------------------------------------------------------------------
 #                                    Paths                                     
@@ -591,7 +599,7 @@ paths:
         7. support of status reporting on tokens
         8. URL short codes for SMS notifications
         
-        <img src="../images/merchant-BPS-workflow.png" alt="Paylink BPSv2 Overview" width="50%"/> 
+        <img src="images/merchant-BPS-workflow.png" alt="Paylink BPSv2 Overview" width="50%"/> 
         
         
         ### Notification Paths
@@ -666,7 +674,7 @@ paths:
         A Field Guard is an intended field which is to be used as a form of guarded authentication. More than 1 field can be
         requested.
         
-        <img src="../images/paylink-field-guards.png" alt="Paylink Field Guards" width="50%"/>
+        <img src="images/paylink-field-guards.png" alt="Paylink Field Guards" width="50%"/>
         
         To determine the source value of the field, each field name is searched in the order of
         
@@ -835,13 +843,8 @@ paths:
       summary: Paylink Token Audit
       tags: 
         - Paylink Api
-      operationId: TokenStatusChangesRequest
-      description: |
-        Obtains any changes on Paylink Tokens since a given date and time. This allows for a merchant to regularly check on 
-        activity over a collection of Paylink Tokens and to check on any events that may have occurred. If a Token is `Closed` 
-        it is not considered.
-        
-        Only statuses that have been appended since the given date and time is returned.
+      operationId: TokenChangesRequest
+      description: Allows for the changes to a pre-existing token.
       security: 
       - cp-api-key: []
       requestBody: 
@@ -1041,7 +1044,7 @@ paths:
           description: The token returned by the create token process.
           schema: 
             type: string
-      description: Marks a Paylink Token as reconciled when reconcilation is performed on the merchant's side.
+      description: Marks a Paylink Token as reconciled when reconciliation is performed on the merchant's side.
       security: 
       - cp-api-key: []
       responses: 
@@ -1091,6 +1094,59 @@ paths:
       responses: 
         200: 
           description: Confirms that the token was reopened.
+          content: 
+            application/json: 
+              schema: 
+                $ref: '#/components/schemas/Acknowledgement'
+            text/xml: 
+              schema: 
+                $ref: '#/components/schemas/Acknowledgement'
+        400: 
+          description: Bad Request. Should the incoming data not be validly determined.
+        401: 
+          description: Unauthorized. No api key has been provided and is required for this operation.
+        403: 
+          description: Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request.
+        422: 
+          description: Unprocessable Entity. Should a failure occur that prevents processing of the API call.
+          content: 
+            application/json: 
+              schema: 
+                $ref: '#/components/schemas/Error'
+            text/xml: 
+              schema: 
+                $ref: '#/components/schemas/Error'
+        500: 
+          description: Server Error. The server was unable to complete the request.
+
+  /paylink/{token}/resend-notification: 
+    post: 
+      summary: Resend a notification for Paylink Token
+      tags: 
+        - Paylink Api
+      operationId: TokenResendNotificationRequest
+      parameters: 
+        - name: token
+          in: path
+          required: true
+          description: The token returned by the create token process.
+          schema: 
+            type: string
+      description: Resend a notification for Paylink Token.
+      security: 
+      - cp-api-key: []
+      requestBody: 
+        required: true
+        content: 
+          application/json: 
+            schema: 
+              $ref: '#/components/schemas/PaylinkResendNotificationRequest'
+          text/xml: 
+            schema: 
+              $ref: '#/components/schemas/PaylinkResendNotificationRequest'
+      responses: 
+        200: 
+          description: Confirms that the notification was sent.
           content: 
             application/json: 
               schema: 
@@ -1691,93 +1747,74 @@ paths:
         - Authorisation and Payment Api
       operationId: AuthorisationRequest
       description: |
-        An authorisation process performs a standard transaction authorisation based on the provided parameters of its request.
-        The CityPay gateway will route your transaction via an Acquiring bank for subsequent authorisation to the appropriate card 
-        schemes such as Visa or MasterCard.
+        ## Authorization API Overview
         
-        The authorisation API should be used for server environments to process transactions on demand and in realtime. 
+        The authoriSation process is a critical component in payment processing, enabling standard transaction authoriSation 
+        based on the parameters provided in its request. The CityPay gateway facilitates this by routing your transaction 
+        through an Acquiring bank, which then seeks authorisation from the appropriate card schemes, such as Visa or MasterCard.
         
-        The authorisation API can be used for multiple types of transactions including E-commerce, mail order, telephone order,
-        customer present (keyed), continuous authority, pre-authorisation and others. CityPay will configure your account for 
-        the appropriate coding and this will perform transparently by the gateway. 
+        This API is designed for server environments that require the processing of transactions on demand and in real-time. It 
+        supports a wide range of transaction types, including E-commerce, mail order, telephone order, customer present (keyed), 
+        continuous authority, pre-authorisation, and others. CityPay will configure your account for the appropriate acquirer 
+        coding, ensuring seamless operation through the gateway.
         
-        Data properties that are required, may depend on the environment you are conducting payment for. Our API aims to be
-         flexible enough to cater for these structures. Our integration team will aid you in providing the necessary data to 
-         transact. 
-         
-         
-        ## E-commerce workflows
-         
-        For E-commerce transactions requiring 3DS, the API contains a fully accredited in built mechanism to handle authentication.
+        Depending on the payment environment, specific data properties are required. Our API is flexible enough to accommodate 
+        these requirements, and our integration team is available to assist you in providing the necessary data for transaction 
+        processing.
         
-        The Api and gateway has been accredited extensively with both Acquirers and Card Schemes to simplify the nature of these calls
-        into a simple structure for authentication, preventing integrators from performing lengthy and a costly accreditations with
-        Visa and MasterCard.
-        
-        3D-secure has been around for a number of years and aims to shift the liability of a transaction away from a merchant back
-        to the card holder. A *liability shift* determines whether a card holder can charge back a transaction as unknown. Effectively
-        the process asks for a card holder to authenticate the transaction prior to authorisation producing a Cardholder 
-        verification value (CAVV) and ecommerce indicator (ECI) as evidence of authorisation.
-        
-        3DS version 1 has now been replaced by 3DS version 2 to provide secure customer authentication (SCA) in line with EU regulation.
-        3DSv2 is being phased out and any accounts using version 1 of the protocol is expected to be migrated by March 2022. 
-        
-        Any new integrations should only consider 3DSv2 flows. 
-        
-        ### 3DSv2
+        ### Example JSON Request
         
         ```json
-        { 
-          "RequestChallenged": {
-            "acsurl": "https://bank.com/3DS/ACS",
-            "creq": "SXQgd2FzIHRoZSBiZXN0IG9mIHRpbWVzLCBpdCB3YXMgdGhlIHdvcnN00...",
-            "merchantid": 12345,
-            "transno": 1,
-            "threedserver_trans_id": "d652d8d2-d74a-4264-a051-a7862b10d5d6"
-          }               
+        {
+         "RequestChallenged": {
+          "acsurl": "https://bank.com/3DS/ACS",
+          "creq": "SXQgd2FzIHRoZSBiZXN0IG9mIHRpbWVzLCBpdCB3YXMgdGhlIHdvcnN00...",
+          "merchantid": 12345,
+          "transno": 1,
+          "threedserver_trans_id": "d652d8d2-d74a-4264-a051-a7862b10d5d6"
+         }
         }
         ```
         
-        ```xml
-        <RequestChallenged>
-          <acsurl>https://bank.com/3DS/ACS</acsurl>
-          <creq>SXQgd2FzIHRoZSBiZXN0IG9mIHRpbWVzLCBpdCB3YXMgdGhlIHdvcnN00...</creq>
-          <merchantid>12345</merchantid>
-          <transno>1</transno>
-          <threedserver_trans_id>d652d8d2-d74a-4264-a051-a7862b10d5d6</threedserver_trans_id>
-        </RequestChallenged>
-        ```
+        ## E-commerce workflows
         
-        CityPay support 3DS version 2.1 for Verified by Visa, MasterCard Identity Check and American Express SafeKey 2.1. Version
-        2.2 is currently in development however this will be a seamless upgrade for all integrations.
+        For E-commerce transactions requiring 3DS, our API includes a fully accredited built-in mechanism to handle 
+        authentication, simplifying the integration process and eliminating the need for lengthy and costly accreditations with 
+        Visa and MasterCard.
+        
+        3D Secure aims to shift the liability of a transaction away from the merchant and back to the cardholder. This 
+        "liability shift" determines whether a cardholder can charge back a transaction. The process requires the cardholder 
+        to authenticate the transaction prior to authorisation, producing a Cardholder Verification Value (CAVV) and 
+        E-commerce Indicator (ECI) as evidence.
+        
+        3DS version 2 to provide secure customer authentication (SCA) in line with EU regulation.
+        
+        CityPay support 3DS version 2.2 for Verified by Visa, MasterCard Identity Check and American Express SafeKey 2.2. Version
+        2.3 is currently in development however this will be a seamless upgrade for all integrations.
         
         #### 3-D Secure - None
         
-        ![3DSv2 Frctionless Flow](/images/3dsv2-no3d.png)
+        ![3DSv2 Frctionless Flow](images/3dsv2-no3d.png)
         
-        A basic flow may involve no 3-D secure processing. This could happen if there is no ability to perform authentication.
-        An enrollment check may apply an "attempted" resolution to processing. In this instance a transaction may not meet any
-        liability shift. A transaction may result in a decline due to this. We are also able to prevent from transactions being
-        presented for authorisation if this occurs. 
+        Some transactions may not involve 3-D Secure processing, either due to the inability to perform authentication or an 
+        "attempted" resolution. These transactions may not benefit from a liability shift and could result in a decline.
         
         #### 3-D Secure - Frictionless
         
-        ![3DSv2 Frctionless Flow](/images/3dsv2-frictionless.png)
+        ![3DSv2 Frctionless Flow](images/3dsv2-frictionless.png)
         
-        E-commerce transactions supporting 3DSv2 can benefit from seamlessly authenticated transactions which may perform a 
-        "frictionless" flow. This method will authenticate low risk transactions with minimal impact to a 
-        standard authorisation flow. Our API simply performs this on behalf of you the developer, the merchant and cardholder.
-        
-        No redirection occurs and hence the flow is called frictionless and will appear as though a simple transaction 
-        authorisation has occurred.
+        3DSv2 supports "frictionless" authentication for low-risk transactions, minimizing impact on the standard 
+        authorisation flow. This process is handled seamlessly by our API, requiring no redirection and maintaining a smooth 
+        transaction experience.
         
         #### 3-D Secure - Challenge
         
-        ![3DSv2 Frctionless Flow](/images/3dsv2-challenge.png)
+        ![3DSv2 Frctionless Flow](images/3dsv2-challenge.png)
         
-        A transaction that is deemed as higher risk my be "challenged". In this instance, the API will return a
-        [request challenge](#requestchallenged) which will require your integration to forward the cardholder's browser to the 
-        given [ACS url](#acsurl). This should be performed by posting the [creq](#creq) value (the challenge request value). 
+        Higher-risk transactions may be "challenged," requiring the cardholder to authenticate the transaction. In such cases,  
+        the API will return a [request challenge](#requestchallenged) which will require your integration to forward the 
+        cardholder's browser to the given [ACS url](#acsurl). This should be performed by posting the [creq](#creq) value 
+        (the challenge request value). 
         
         Once complete, the ACS will have already been in touch with our servers by sending us a result of the authentication
         known as `RReq`.
@@ -1829,85 +1866,15 @@ paths:
         
         The API provides a mock 3dsV2 handler which performs a number of scenarios based on the value of the CSC in the request.
         
-        | CSC Value | Behaviour |
-        |-----------|-----------|
-        | 731       | Frictionless processing - Not authenticated |
+        | CSC Value | Behaviour                                                             |
+        |-----------|-----------------------------------------------------------------------|
+        | 731       | Frictionless processing - Not authenticated                           |
         | 732       | Frictionless processing - Account verification count not be performed |        
-        | 733       | Frictionless processing - Verification Rejected |        
-        | 741       | Frictionless processing - Attempts Processing |        
-        | 750       | Frictionless processing - Authenticated  |        
-        | 761       | Triggers an error message |  
-        | Any       | Challenge Request |       
-        
-        
-        #### 3DSv1
-        
-        **Please note that 3DSv1 should now be considered as deprecated.**
-        
-        ```json
-        { 
-          "AuthenticationRequired": {
-            "acsurl": "https://bank.com/3DS/ACS",
-            "pareq": "SXQgd2FzIHRoZSBiZXN0IG9mIHRpbWVzLCBpdCB3YXMgdGhlIHdvcnN00...",
-            "md": "WQgZXZlcnl0aGluZyBiZW"
-          }               
-        }
-        ```
-        
-        ```xml
-        <AuthenticationRequired>
-         <acsurl>https://bank.com/3DS/ACS</acsurl>
-         <pareq>SXQgd2FzIHRoZSBiZXN0IG9mIHRpbWVzLCBpdCB3YXMgdGhlIHdvcnN00...</pareq>
-         <md>WQgZXZlcnl0aGluZyBiZW</md>
-        </AuthenticationRequired>
-        ```
-        
-        For E-commerce transactions requiring 3DSv1, the API contains a built in MPI which will be called to check whether the
-        card is participating in 3DSv1 with Verified by Visa or MasterCard SecureCode. We only support Amex SafeKey with 3DSv2. Should the card be enrolled, a payer
-        request (PAReq) value will be created and returned back as an [authentication required](#authenticationrequired) response object.
-        
-        Your system will need to process this authentication packet and forward the user's browser to an authentication server (ACS)
-        to gain the user's authentication. Once complete, the ACS will produce a HTTP `POST` call back to the URL supplied in
-        the authentication request as `merchant_termurl`. This URL should behave as a controller and handle the post data from the
-        ACS and on a forked server to server HTTP request, forward this data to the [pares authentication url](#pares) for
-        subsequent authorisation processing. You may prefer to provide a processing page whilst this is being processed.
-        Processing with our systems should be relatively quick and be between 500ms - 3000ms however it is desirable to let
-        the user see that something is happening rather than a pending browser.
-        
-        The main reason for ensuring that this controller is two fold:
-        
-        1. We are never in control of the user's browser in a server API call
-        2. The controller is actioned on your site to ensure that any post actions from authorisation can be executed in real time
-        
-        To forward the user to the ACS, we recommend a simple auto submit HTML form.
-        
-        > Simple auto submit HTML form
-        
-        ```html
-        <html lang="en">
-        	<head>
-                <title>Forward to ACS</title>
-        		<script type="text/javascript">
-                function onLoadEvent() { 
-                    document.acs.submit(); 
-                }
-                </script>
-                <noscript>You will require JavaScript to be enabled to complete this transaction</noscript>
-            </head>
-            <body onload="onLoadEvent();">
-                <form name="acs" action="{{ACSURL from Response}}" method="POST">
-                    <input type="hidden" name="PaReq" value="{{PaReq Packet from Response}}" />
-                    <input type="hidden" name="TermUrl" value="{{Your Controller}}" />
-                    <input type="hidden" name="MD" value="{{MD From Response}}" />
-                </form>
-            </body>
-        </html>
-        ```
-        
-        Please note that 3DSv1 is being phased out due to changes to strong customer authentication mechanisms. 3DSv2 addresses
-        this and will solidify the authorisation and confirmation process.
-        
-        We provide a Test ACS for full 3DSv1 integration testing that simulates an ACS.
+        | 733       | Frictionless processing - Verification Rejected                       |        
+        | 741       | Frictionless processing - Attempts Processing                         |        
+        | 750       | Frictionless processing - Authenticated                               |        
+        | 761       | Triggers an error message                                             |  
+        | Any       | Challenge Request                                                     |
       security: 
       - cp-api-key: []
       requestBody: 
@@ -2007,11 +1974,11 @@ paths:
 
   /v6/batch/retrieve: 
     post: 
-      summary: BatchReportRequest
+      summary: Batch Retrieve Request
       tags: 
         - Batch Processing Api
-      operationId: BatchReportRequest
-      description: The operation is used to retrieve a report of the result of a batch process.
+      operationId: BatchRetrieveRequest
+      description: Obtains a batch and installment (BIS) report for a given batch id.
       security: 
       - cp-api-key: []
       requestBody: 
@@ -2053,7 +2020,7 @@ paths:
 
   /v6/batch/status: 
     post: 
-      summary: CheckBatchStatus
+      summary: Check Batch Status
       tags: 
         - Batch Processing Api
       operationId: CheckBatchStatusRequest
@@ -2187,28 +2154,28 @@ paths:
             schema: 
               $ref: '#/components/schemas/CaptureRequest'
             examples: 
+              example1: 
+                summary: Basic capture call for a merchant with a given identifier
+                externalValue: 'CaptureRequest-example1.json'
               example2: 
                 summary: Basic capture call for a merchant with a transno and final amount
                 externalValue: 'CaptureRequest-example2.json'
               example3: 
                 summary: Capture call for a merchant with identifier and airline data once a ticket has been issued
                 externalValue: 'CaptureRequest-example3.json'
-              example1: 
-                summary: Basic capture call for a merchant with a given identifier
-                externalValue: 'CaptureRequest-example1.json'
           text/xml: 
             schema: 
               $ref: '#/components/schemas/CaptureRequest'
             examples: 
+              example1: 
+                summary: Basic capture call for a merchant with a given identifier
+                externalValue: 'CaptureRequest-example1.xml'
               example2: 
                 summary: Basic capture call for a merchant with a transno and final amount
                 externalValue: 'CaptureRequest-example2.xml'
               example3: 
                 summary: Capture call for a merchant with identifier and airline data once a ticket has been issued
                 externalValue: 'CaptureRequest-example3.xml'
-              example1: 
-                summary: Basic capture call for a merchant with a given identifier
-                externalValue: 'CaptureRequest-example1.xml'
       responses: 
         200: 
           description: A result and acknowledgement of the capture request. The response will return a `000/001` response on a successful capture otherwise an error code response explaining the error.
@@ -2349,6 +2316,223 @@ paths:
             text/xml: 
               schema: 
                 $ref: '#/components/schemas/AuthResponse'
+        400: 
+          description: Bad Request. Should the incoming data not be validly determined.
+        401: 
+          description: Unauthorized. No api key has been provided and is required for this operation.
+        403: 
+          description: Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request.
+        422: 
+          description: Unprocessable Entity. Should a failure occur that prevents processing of the API call.
+          content: 
+            application/json: 
+              schema: 
+                $ref: '#/components/schemas/Error'
+            text/xml: 
+              schema: 
+                $ref: '#/components/schemas/Error'
+        500: 
+          description: Server Error. The server was unable to complete the request.
+
+  /v6/intent/create: 
+    post: 
+      summary: Create a Payment Intent
+      tags: 
+        - Authorisation and Payment Api
+      operationId: CreatePaymentIntent
+      x-beta: true
+      description: |
+        This endpoint initiates the creation of a payment intent, which is a precursor to processing a payment. A payment intent
+        captures the details of a prospective payment transaction, including the payment amount, currency, and associated
+        billing and shipping information.
+      security: 
+      - cp-api-key: []
+      requestBody: 
+        required: true
+        content: 
+          application/json: 
+            schema: 
+              $ref: '#/components/schemas/PaymentIntent'
+          text/xml: 
+            schema: 
+              $ref: '#/components/schemas/PaymentIntent'
+      responses: 
+        200: 
+          description: Returns the id of the payment intent.
+          content: 
+            application/json: 
+              schema: 
+                $ref: '#/components/schemas/PaymentIntentReference'
+            text/xml: 
+              schema: 
+                $ref: '#/components/schemas/PaymentIntentReference'
+        400: 
+          description: Bad Request. Should the incoming data not be validly determined.
+        401: 
+          description: Unauthorized. No api key has been provided and is required for this operation.
+        403: 
+          description: Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request.
+        422: 
+          description: Unprocessable Entity. Should a failure occur that prevents processing of the API call.
+          content: 
+            application/json: 
+              schema: 
+                $ref: '#/components/schemas/Error'
+            text/xml: 
+              schema: 
+                $ref: '#/components/schemas/Error'
+        500: 
+          description: Server Error. The server was unable to complete the request.
+
+  /v6/merchant-batch/report: 
+    post: 
+      summary: Merchant Batch Report Request
+      tags: 
+        - Reporting Api
+      operationId: MerchantBatchReportRequest
+      description: |
+        Retrieves a report of merchant batches within a specified date range. 
+        Batches, which aggregate daily processing activities, are typically generated at `00:00` each day. 
+        These batches play a crucial role in the settlement of funds by summarising daily transactions.
+      security: 
+      - cp-api-key: []
+      requestBody: 
+        required: true
+        content: 
+          application/json: 
+            schema: 
+              $ref: '#/components/schemas/MerchantBatchRequest'
+          text/xml: 
+            schema: 
+              $ref: '#/components/schemas/MerchantBatchRequest'
+      responses: 
+        200: 
+          description: A report of the batches generated.
+          content: 
+            application/json: 
+              schema: 
+                $ref: '#/components/schemas/MerchantBatchReportResponse'
+            text/xml: 
+              schema: 
+                $ref: '#/components/schemas/MerchantBatchReportResponse'
+        400: 
+          description: Bad Request. Should the incoming data not be validly determined.
+        401: 
+          description: Unauthorized. No api key has been provided and is required for this operation.
+        403: 
+          description: Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request.
+        422: 
+          description: Unprocessable Entity. Should a failure occur that prevents processing of the API call.
+          content: 
+            application/json: 
+              schema: 
+                $ref: '#/components/schemas/Error'
+            text/xml: 
+              schema: 
+                $ref: '#/components/schemas/Error'
+        500: 
+          description: Server Error. The server was unable to complete the request.
+
+  /v6/merchant-batch/{merchantid}/{batch_no}: 
+    get: 
+      summary: Merchant Batch Report Request
+      tags: 
+        - Reporting Api
+      operationId: MerchantBatchRequest
+      parameters: 
+        - name: merchantid
+          in: path
+          required: true
+          description: A merchant ID (MID) for which data is requested. This field allows for filtering of the request by a specific merchant account.
+          schema: 
+            type: integer
+        - name: batch_no
+          in: path
+          required: true
+          description: The batch number that is being requested.
+          schema: 
+            type: string
+      description: Retrieves a report of merchant a merchant batch for a specified batch number.
+      security: 
+      - cp-api-key: []
+      responses: 
+        200: 
+          description: A report of a single batch.
+          content: 
+            application/json: 
+              schema: 
+                $ref: '#/components/schemas/MerchantBatchResponse'
+            text/xml: 
+              schema: 
+                $ref: '#/components/schemas/MerchantBatchResponse'
+        400: 
+          description: Bad Request. Should the incoming data not be validly determined.
+        401: 
+          description: Unauthorized. No api key has been provided and is required for this operation.
+        403: 
+          description: Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request.
+        422: 
+          description: Unprocessable Entity. Should a failure occur that prevents processing of the API call.
+          content: 
+            application/json: 
+              schema: 
+                $ref: '#/components/schemas/Error'
+            text/xml: 
+              schema: 
+                $ref: '#/components/schemas/Error'
+        500: 
+          description: Server Error. The server was unable to complete the request.
+
+  /v6/merchant-batch/{merchantid}/{batch_no}/transactions: 
+    get: 
+      summary: Batch Transaction Report Request
+      tags: 
+        - Reporting Api
+      operationId: BatchedTransactionReportRequest
+      parameters: 
+        - name: merchantid
+          in: path
+          required: true
+          description: A merchant ID (MID) for which data is requested. This field allows for filtering of the request by a specific merchant account.
+          schema: 
+            type: integer
+        - name: batch_no
+          in: path
+          required: true
+          description: The batch number that is being requested.
+          schema: 
+            type: string
+        - name: maxResults
+          in: query
+          required: false
+          description: The maximum number of results to return in a single response. This value is used to limit the size of data returned by the API, enhancing performance and manageability. Values should be between 5 and 250. Will default to 50.
+          schema: 
+            type: integer
+        - name: nextToken
+          in: query
+          required: false
+          description: A token that identifies the starting point of the page of results to be returned. An empty value indicates the start of the dataset. When supplied, it is validated and used to fetch the subsequent page of results. This token is typically obtained from the response of a previous pagination request.
+          schema: 
+            type: string
+        - name: orderBy
+          in: query
+          required: false
+          description: Specifies the field by which results are ordered. Available fields are [trans_no,date_when,amount]. By default, fields are ordered by OrderByExpression(trans_no,ASC). To order in descending order, prefix with '-' or suffix with ' DESC'.
+          schema: 
+            type: string
+      description: Retrieves transactions available on a given batch.
+      security: 
+      - cp-api-key: []
+      responses: 
+        200: 
+          description: A report of the transactions listed on batches.
+          content: 
+            application/json: 
+              schema: 
+                $ref: '#/components/schemas/BatchTransactionReportResponse'
+            text/xml: 
+              schema: 
+                $ref: '#/components/schemas/BatchTransactionReportResponse'
         400: 
           description: Bad Request. Should the incoming data not be validly determined.
         401: 
@@ -2591,6 +2775,113 @@ paths:
         500: 
           description: Server Error. The server was unable to complete the request.
 
+  /v6/remittance/report/{clientid}: 
+    get: 
+      summary: Remittance Report Request
+      tags: 
+        - Reporting Api
+      operationId: RemittanceRangeReport
+      parameters: 
+        - name: clientid
+          in: path
+          required: true
+          description: A client Id for which data is requested.
+          schema: 
+            type: string
+      description: |
+        Fetches remittance reports for financial transactions within a specified date range,
+        covering all client-related activities. This report consolidates all batches disbursed to a
+        client, with each remittance summarising the aggregation of batches leading up to settlement.
+        Additionally, the net remittance amount presented in the final settlement will reflect any
+        deductions made by the acquirer.
+      security: 
+      - cp-api-key: []
+      responses: 
+        200: 
+          description: A report of financial remittance data for a range of dates.
+          content: 
+            application/json: 
+              schema: 
+                $ref: '#/components/schemas/RemittanceReportResponse'
+            text/xml: 
+              schema: 
+                $ref: '#/components/schemas/RemittanceReportResponse'
+        400: 
+          description: Bad Request. Should the incoming data not be validly determined.
+        401: 
+          description: Unauthorized. No api key has been provided and is required for this operation.
+        403: 
+          description: Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request.
+        422: 
+          description: Unprocessable Entity. Should a failure occur that prevents processing of the API call.
+          content: 
+            application/json: 
+              schema: 
+                $ref: '#/components/schemas/Error'
+            text/xml: 
+              schema: 
+                $ref: '#/components/schemas/Error'
+        500: 
+          description: Server Error. The server was unable to complete the request.
+
+  /v6/remittance/report/{clientid}/{date}: 
+    get: 
+      summary: Remittance Date Report Request
+      tags: 
+        - Reporting Api
+      operationId: RemittanceReportRequest
+      parameters: 
+        - name: clientid
+          in: path
+          required: true
+          description: A client Id for which data is requested.
+          schema: 
+            type: string
+        - name: date
+          in: path
+          required: true
+          description: Date (YYYY-MM-DD) to filter the request for.
+          schema: 
+            type: string
+      description: |
+        Fetches remittance reports for financial transactions for a given date, 
+        covering all client-related activities. This report consolidates all batches disbursed to a 
+        client, with each remittance summarising the aggregation of batches leading up to settlement. 
+        Additionally, the net remittance amount presented in the final settlement will reflect any 
+        deductions made by the acquirer.
+        
+        The process also supports the notion of *today* deferring the date to today's date or *latest* reflecting the
+        latest remittance date available.
+      security: 
+      - cp-api-key: []
+      responses: 
+        200: 
+          description: A report of the financial remittance data for a given date.
+          content: 
+            application/json: 
+              schema: 
+                $ref: '#/components/schemas/RemittedClientData'
+            text/xml: 
+              schema: 
+                $ref: '#/components/schemas/RemittedClientData'
+        400: 
+          description: Bad Request. Should the incoming data not be validly determined.
+        401: 
+          description: Unauthorized. No api key has been provided and is required for this operation.
+        403: 
+          description: Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request.
+        422: 
+          description: Unprocessable Entity. Should a failure occur that prevents processing of the API call.
+          content: 
+            application/json: 
+              schema: 
+                $ref: '#/components/schemas/Error'
+            text/xml: 
+              schema: 
+                $ref: '#/components/schemas/Error'
+        500: 
+          description: Server Error. The server was unable to complete the request.
+
   /v6/retrieve: 
     post: 
       summary: Retrieval
@@ -2679,22 +2970,22 @@ paths:
             schema: 
               $ref: '#/components/schemas/VoidRequest'
             examples: 
-              example2: 
-                summary: Basic capture call for a merchant with a transno and final amount
-                externalValue: 'VoidRequest-example2.json'
               example1: 
                 summary: Basic capture call for a merchant with a given identifier
                 externalValue: 'VoidRequest-example1.json'
+              example2: 
+                summary: Basic capture call for a merchant with a transno and final amount
+                externalValue: 'VoidRequest-example2.json'
           text/xml: 
             schema: 
               $ref: '#/components/schemas/VoidRequest'
             examples: 
-              example2: 
-                summary: Basic capture call for a merchant with a transno and final amount
-                externalValue: 'VoidRequest-example2.xml'
               example1: 
                 summary: Basic capture call for a merchant with a given identifier
                 externalValue: 'VoidRequest-example1.xml'
+              example2: 
+                summary: Basic capture call for a merchant with a transno and final amount
+                externalValue: 'VoidRequest-example2.xml'
       responses: 
         200: 
           description: </br>A result and acknowledgement of the void request, returning an `080/003` response code on successful void/cancellation of the transaction.</br></br>If an error occurs an error code will be returned explaining the failure.
@@ -2809,7 +3100,6 @@ components:
       type: object
       required: 
         - carrier_name
-        - number_in_party
         - segment1
         - ticket_issue_city
         - ticket_issue_date
@@ -3186,7 +3476,7 @@ components:
           format: int32
           minimum: 2000
           maximum: 2100
-          example: 2025
+          example: 2027
           description: |
             The year of expiry of the card.
         external_mpi: 
@@ -3241,6 +3531,32 @@ components:
         ship_to: 
           $ref: '#/components/schemas/ContactDetails'
           x-description: Shipping details of the card holder making the payment. These details may be used for 3DS and for future referencing of the transaction.
+        tag: 
+          type: string
+          description: |
+            A "tag" is a label that you can attach to a payment authorization.
+            Tags can help you group transactions together based on certain criteria, like a work job or a ticket number.
+            They can also assist in filtering transactions when you're generating reports.
+            
+            Multiple Tags
+            You can add more than one tag to a transaction by separating them with commas.
+            
+            Limitations
+            There is a maximum limit of 3 tags that can be added to a single transaction. Each tag can be no longer than 20
+            characters and alphanumeric with no spaces.
+            
+            Example:
+            Let's say you're a software company and you have different teams working on various projects. When a team makes
+            a purchase or incurs an expense, they can tag the transaction with the project name, the team name, and the
+            type of expense.
+            
+            Project Name: Project_X
+            Team Name: Team_A
+            Type of Expense: Hardware
+            So, the tag for a transaction might look like: Project_X,Team_A,Hardware
+            
+            This way, when you're looking at your financial reports, you can easily filter transactions based on these
+            tags to see how much each project or team is spending on different types of expenses.
         threedsecure: 
           $ref: '#/components/schemas/ThreeDSecure'
           x-description: |
@@ -3473,7 +3789,18 @@ components:
           type: string
           example: Visa
           description: |
-            A name of the card scheme of the transaction that processed the transaction such as Visa or MasterCard.
+            The name of the card scheme of the transaction that processed the transaction such as Visa or MasterCard.
+        scheme_id: 
+          type: string
+          example: MC
+          description: |
+            The name of the card scheme of the transaction such as VI or MC.
+        scheme_logo: 
+          type: string
+          format: url
+          example: https://cdn.citypay.com/img/cs/visa-logo.svg
+          description: |
+            A url containing a logo of the card scheme.
         sha256: 
           type: string
           example: 
@@ -3709,6 +4036,29 @@ components:
           format: int32
           example: 11223344
           description: The CityPay merchant id used to process the transaction.
+    BatchTransactionReportResponse: 
+      type: object
+      required: 
+        - data
+      properties: 
+        count: 
+          type: integer
+          format: int32
+          example: 25
+          description: The count of items returned in this page.
+        data: 
+          type: array
+          x-description: Transaction data based on the batch request.
+          items: 
+            $ref: '#/components/schemas/AuthReference'
+        maxResults: 
+          type: integer
+          format: int32
+          example: 50
+          description: The max results requested in this page.
+        nextToken: 
+          type: string
+          description: A token that identifies the starting point of the page of results to be returned. An empty value indicates the start of the dataset. When supplied, it is validated and used to fetch the subsequent page of results. This token is typically obtained from the response of a previous pagination request.
     BatchTransactionResultModel: 
       type: object
       required: 
@@ -3807,7 +4157,18 @@ components:
           type: string
           example: Visa
           description: |
-            A name of the card scheme of the transaction that processed the transaction such as Visa or MasterCard.
+            The name of the card scheme of the transaction that processed the transaction such as Visa or MasterCard.
+        scheme_id: 
+          type: string
+          example: MC
+          description: |
+            The name of the card scheme of the transaction such as VI or MC.
+        scheme_logo: 
+          type: string
+          format: url
+          example: https://cdn.citypay.com/img/cs/visa-logo.svg
+          description: |
+            A url containing a logo of the card scheme.
         transno: 
           type: integer
           format: int32
@@ -3984,7 +4345,7 @@ components:
           format: int32
           minimum: 2000
           maximum: 2100
-          example: 2025
+          example: 2027
           description: The expiry year of the card.
         label: 
           type: string
@@ -4254,6 +4615,32 @@ components:
           format: int32
           example: 11223344
           description: Identifies the merchant account to perform processing for.
+        tag: 
+          type: string
+          description: |
+            A "tag" is a label that you can attach to a payment authorization.
+            Tags can help you group transactions together based on certain criteria, like a work job or a ticket number.
+            They can also assist in filtering transactions when you're generating reports.
+            
+            Multiple Tags
+            You can add more than one tag to a transaction by separating them with commas.
+            
+            Limitations
+            There is a maximum limit of 3 tags that can be added to a single transaction. Each tag can be no longer than 20
+            characters and alphanumeric with no spaces.
+            
+            Example:
+            Let's say you're a software company and you have different teams working on various projects. When a team makes
+            a purchase or incurs an expense, they can tag the transaction with the project name, the team name, and the
+            type of expense.
+            
+            Project Name: Project_X
+            Team Name: Team_A
+            Type of Expense: Hardware
+            So, the tag for a transaction might look like: Project_X,Team_A,Hardware
+            
+            This way, when you're looking at your financial reports, you can easily filter transactions based on these
+            tags to see how much each project or team is spending on different types of expenses.
         threedsecure: 
           $ref: '#/components/schemas/ThreeDSecure'
           x-description: |
@@ -4319,27 +4706,27 @@ components:
           type: string
           maxLength: 50
           example: 79 Parliament St
-          description: The first line of the address for the shipping contact.
+          description: The first line of the address for the card holder.
         address2: 
           type: string
           maxLength: 50
           example: Westminster
-          description: The second line of the address for the shipping contact.
+          description: The second line of the address for the card holder.
         address3: 
           type: string
           maxLength: 50
           example: 
-          description: The third line of the address for the shipping contact.
+          description: The third line of the address for the card holder.
         area: 
           type: string
           maxLength: 50
           example: London
-          description: The area such as city, department, parish for the shipping contact.
+          description: The area such as city, department, parish for the card holder.
         company: 
           type: string
           maxLength: 50
           example: Acme Ltd
-          description: The company name for the shipping contact if the contact is a corporate contact.
+          description: The company name for the card holder if the contact is a corporate contact.
         country: 
           type: string
           minLength: 2
@@ -4352,20 +4739,20 @@ components:
           type: string
           maxLength: 254
           example: card.holder@citypay.com
-          description: An email address for the shipping contact which may be used for correspondence.
+          description: An email address for the card holder which may be used for correspondence.
         firstname: 
           type: string
           example: John
-          description: The first name  of the shipping contact.
+          description: The first name  of the card holder.
         lastname: 
           type: string
           example: Smith
-          description: The last name or surname of the shipping contact.
+          description: The last name or surname of the card holder.
         mobile_no: 
           type: string
           maxLength: 20
           example: +447790123456
-          description: A mobile number for the shipping contact the mobile number is often required by delivery companies to ensure they are able to be in contact when required.
+          description: A mobile number for the card holder the mobile number is often required by delivery companies to ensure they are able to be in contact when required.
         postcode: 
           type: string
           maxLength: 16
@@ -4375,11 +4762,11 @@ components:
           type: string
           maxLength: 20
           example: +442030123456
-          description: A telephone number for the shipping contact.
+          description: A telephone number for the card holder.
         title: 
           type: string
           example: Mr
-          description: A title for the shipping contact such as Mr, Mrs, Ms, M. Mme. etc.
+          description: A title for the card holder such as Mr, Mrs, Ms, M. Mme. etc.
     Decision: 
       type: object
       properties: 
@@ -4532,7 +4919,7 @@ components:
           format: int32
           minimum: 2000
           maximum: 2100
-          example: 2025
+          example: 2027
           description: |
             The year of expiry of the card.
         identifier: 
@@ -4607,6 +4994,32 @@ components:
         ship_to: 
           $ref: '#/components/schemas/ContactDetails'
           x-description: Shipping details of the card holder making the payment. These details may be used for 3DS and for future referencing of the transaction.
+        tag: 
+          type: string
+          description: |
+            A "tag" is a label that you can attach to a payment authorization.
+            Tags can help you group transactions together based on certain criteria, like a work job or a ticket number.
+            They can also assist in filtering transactions when you're generating reports.
+            
+            Multiple Tags
+            You can add more than one tag to a transaction by separating them with commas.
+            
+            Limitations
+            There is a maximum limit of 3 tags that can be added to a single transaction. Each tag can be no longer than 20
+            characters and alphanumeric with no spaces.
+            
+            Example:
+            Let's say you're a software company and you have different teams working on various projects. When a team makes
+            a purchase or incurs an expense, they can tag the transaction with the project name, the team name, and the
+            type of expense.
+            
+            Project Name: Project_X
+            Team Name: Team_A
+            Type of Expense: Hardware
+            So, the tag for a transaction might look like: Project_X,Team_A,Hardware
+            
+            This way, when you're looking at your financial reports, you can easily filter transactions based on these
+            tags to see how much each project or team is spending on different types of expenses.
         threedsecure: 
           $ref: '#/components/schemas/ThreeDSecure'
           x-description: |
@@ -4865,6 +5278,157 @@ components:
           type: string
           example: Active
           description: The status label of the account.
+    MerchantBatchReportResponse: 
+      type: object
+      required: 
+        - batches
+      properties: 
+        batches: 
+          type: array
+          x-description: Batch data based on the request.
+          items: 
+            $ref: '#/components/schemas/MerchantBatchResponse'
+        count: 
+          type: integer
+          format: int32
+          example: 25
+          description: The count of items returned in this page.
+        maxResults: 
+          type: integer
+          format: int32
+          example: 50
+          description: The max results requested in this page.
+        nextToken: 
+          type: string
+          description: A token that identifies the starting point of the page of results to be returned. An empty value indicates the start of the dataset. When supplied, it is validated and used to fetch the subsequent page of results. This token is typically obtained from the response of a previous pagination request.
+    MerchantBatchRequest: 
+      type: object
+      properties: 
+        date_from: 
+          type: string
+          format: date
+          example: 2024-01-24
+          description: Start date (YYYY-MM-DD) for batch retrieval range, inclusive. Maximum value is 3 years ago.
+        date_until: 
+          type: string
+          format: date
+          example: 2024-01-31
+          description: End date (YYYY-MM-DD) for batch retrieval range, inclusive.
+        maxResults: 
+          type: integer
+          format: int32
+          example: 50
+          description: The maximum number of results to return in a single response. This value is used to limit the size of data returned by the API, enhancing performance and manageability. Values should be between 5 and 250.
+        merchant_id: 
+          type: array
+          items:
+            type: integer
+            format: int32
+            maxLength: 8
+            minimum: 1
+            example: [ 11223344, 5667788 ]
+            description: An array of merchant IDs (MIDs) for which the batch processing data is requested. This field allows for filtering the batches by specific merchant accounts.
+        nextToken: 
+          type: string
+          description: A token that identifies the starting point of the page of results to be returned. An empty value indicates the start of the dataset. When supplied, it is validated and used to fetch the subsequent page of results. This token is typically obtained from the response of a previous pagination request.
+        orderBy: 
+          type: string
+          example: date
+          description: Specifies the field by which results are ordered. Available fields are [merchant_id,batch_no,net_amount]. By default, fields are ordered by OrderByExpression(merchant_id,ASC),OrderByExpression(batch_no,ASC). To order in descending order, prefix with '-' or suffix with ' DESC'.
+    MerchantBatchResponse: 
+      type: object
+      properties: 
+        batch_closed: 
+          type: string
+          format: date-time
+          description: The date and time when the batch was closed. This is represented in ISO 8601 format (e.g., YYYY-MM-DDTHH:MM:SSZ) and indicates when the batch processing was completed.
+        batch_no: 
+          type: string
+          description: The incremental identifier of the batch. This number is used to track and reference the batch in subsequent operations or inquiries.
+        batch_status: 
+          type: string
+          description: A descriptive string detailing the current status of the batch. This status provides a human-readable explanation of the batch's processing state.
+        batch_status_code: 
+          type: string
+          description: |
+            A batch status code that represents the processing state of the batch. Batches will be one of
+             - 'O' defining the batch is open for settlement and not yet settled
+             - 'X' defines that the batch is external to our systems and managed elsewhere
+             - 'C' defines that the batch is cancelled and not settled
+             - 'S' defines that the batch has been settled and remitted.
+        currency: 
+          type: string
+          minLength: 3
+          maxLength: 3
+          example: GBP
+          description: The currency of the batch.
+        merchantid: 
+          type: integer
+          format: int32
+          example: 11223344
+          description: The Merchant ID (MID) associated with the batch. This identifier specifies which merchant account the batch was processed for, linking transactions to the merchant.
+        net_summary: 
+          $ref: '#/components/schemas/NetSummaryResponse'
+          x-description: A comprehensive summary of the batch's net transactions, including the total counts and values of credits and debits. This summary provides insights into the financial outcome of the batch processing.
+    NetSummaryResponse: 
+      type: object
+      properties: 
+        credit_items_amount: 
+          type: string
+          format: amount
+          minimum: £0.00
+          maximum: 999999999
+          example: £75.89
+          description: The total value of refund (credit) transaction items. Represents the sum of funds returned to customers.
+        credit_items_count: 
+          type: integer
+          format: int32
+          minimum: 0
+          maximum: 999999
+          example: 12345
+          description: The count of refund (credit) transaction items. Reflects the number of refund transactions processed.
+        credit_items_value: 
+          type: integer
+          format: int32
+          minimum: 0
+          maximum: 999999999
+          example: 11874500
+          description: The total value of refund (credit) transaction items. Represents the sum of funds returned to customers.
+        debit_items_amount: 
+          type: string
+          format: amount
+          minimum: £0.00
+          maximum: 999999999
+          example: £75.89
+          description: The total value of charge (debit) transaction items. Represents the sum of funds received from charges.
+        debit_items_count: 
+          type: integer
+          format: int32
+          minimum: 0
+          maximum: 999999
+          example: 12345
+          description: The count of charge (debit) transaction items. Indicates the number of charge transactions processed.
+        debit_items_value: 
+          type: integer
+          format: int32
+          minimum: 0
+          maximum: 999999999
+          example: 11874500
+          description: The total value of charge (debit) transaction items. Represents the sum of funds received from charges.
+        net_amount: 
+          type: integer
+          format: int32
+          minimum: 0
+          maximum: 999999999
+          example: 11874500
+          description: The absolute net value, reflecting the net gain or loss from transactions.
+        total_count: 
+          type: integer
+          format: int32
+          minimum: 0
+          maximum: 999999
+          example: 12345
+          description: The total count of all transaction items.
     PaResAuthRequest: 
       type: object
       required: 
@@ -5230,9 +5794,12 @@ components:
       required: 
         - name
       properties: 
+        entry_mode: 
+          type: string
+          description: The type of entry mode. A value of 'pre' will pre-render the custom parameter before the payment screen. Any other value will result in the custom parameter being displayed on the payment screen.
         field_type: 
           type: string
-          description: the type of html5 field, defaults to 'text'.
+          description: the type of html5 field, defaults to 'text'. Other options are 'dob' for a date of birth series of select list entry.
         group: 
           type: string
           description: a group the parameter is linked with, allows for grouping with a title.
@@ -5306,7 +5873,11 @@ components:
       properties: 
         field_type: 
           type: string
-          description: A type of HTML element that should be displayed such as text, password, url. Any HTML5 input type value may be supplied.
+          description: |
+            A type of HTML element that should be displayed such as text, password, url. Any HTML5 input type value may be supplied.
+            
+            If a value of `date` is supplied the value format should be an ISO format YYYY-MM-DD format date i.e. 2024-03-01
+            If a value of `datetime-local` is supplied, the value format should be an ISO format YYYY-MM-DDTHH:mm i.e. 2024-06-01T19:30.
         label: 
           type: string
           description: A label for the field guard to display on the authentication page.
@@ -5348,6 +5919,17 @@ components:
         min_rate: 
           type: string
           description: a rate as fixed or percentage.
+    PaylinkResendNotificationRequest: 
+      type: object
+      properties: 
+        email: 
+          type: boolean
+          description: Resends the bill payment email provided on the Paylink create token notification path. Emails can be sent up to 5 times per token.
+        sms: 
+          type: boolean
+          description: |
+            Resends the bill payment SMS provided on the Paylink create token notification path. An SMS cannot be resent if it was
+            previously sent less than 1 minute ago. There is a limit of 3 retries per token.
     PaylinkSMSNotificationPath: 
       type: object
       required: 
@@ -5406,7 +5988,7 @@ components:
         mode: 
           type: string
           description: Determines whether the token is `live` or `test`.
-        qr_code: 
+        qrcode: 
           type: string
           description: A URL of a qrcode which can be used to refer to the token URL.
         result: 
@@ -5456,6 +6038,12 @@ components:
         config: 
           $ref: '#/components/schemas/PaylinkConfig'
           x-description: The config element, allowing for tailoring the Paylink user experience and for providing integration parameters to enhance with your integration.
+        currency: 
+          type: string
+          minLength: 3
+          maxLength: 3
+          example: GBP
+          description: A currency for the token. This value should be only used on multi-currency accounts and be an appropriate currency which the account is configured for.
         email: 
           type: string
           maxLength: 254
@@ -5475,6 +6063,9 @@ components:
           format: int32
           example: 11223344
           description: The merchant id you wish to process this transaction with.
+        recurring: 
+          type: boolean
+          description: True if the intent of this cardholder initiated transaction is to establish a recurring payment model, processable as merchant initiated transactions.
         subscription_id: 
           type: string
           description: an id associated with a subscription to link the token request against.
@@ -5589,7 +6180,8 @@ components:
         maxResults: 
           type: integer
           format: int32
-          description: the maximum number of results between 5 and 250 to return. Default is 50.
+          example: 50
+          description: The maximum number of results to return in a single response. This value is used to limit the size of data returned by the API, enhancing performance and manageability. Values should be between 5 and 250.
         merchantid: 
           type: integer
           format: int32
@@ -5597,26 +6189,29 @@ components:
           description: the merchant id to review tokens for.
         nextToken: 
           type: string
-          description: the next token value when more results are available.
+          description: A token that identifies the starting point of the page of results to be returned. An empty value indicates the start of the dataset. When supplied, it is validated and used to fetch the subsequent page of results. This token is typically obtained from the response of a previous pagination request.
         orderBy: 
-          type: array
-          x-description: |
-            an orderBy array should the search require ordering. The following fields may be specified:
-            `token`, `identifier`, `created`.
-            The default order by fields are `created`.
-          items: 
-            type: string
+          type: string
+          example: date
+          description: Specifies the field by which results are ordered. Available fields are [p.id]. By default, fields are ordered by OrderByExpression(p.id,ASC). To order in descending order, prefix with '-' or suffix with ' DESC'.
     PaylinkTokenStatusChangeResponse: 
       type: object
       required: 
         - tokens
       properties: 
+        count: 
+          type: integer
+          format: int32
+          example: 25
+          description: The count of items returned in this page.
+        maxResults: 
+          type: integer
+          format: int32
+          example: 50
+          description: The max results requested in this page.
         nextToken: 
           type: string
-          description: |
-            If nextToken is returned, there are more results available. The value of nextToken is a unique pagination
-            token for each page. Make the call again using the returned token to retrieve the next page.
-            Keep all other arguments unchanged.
+          description: A token that identifies the starting point of the page of results to be returned. An empty value indicates the start of the dataset. When supplied, it is validated and used to fetch the subsequent page of results. This token is typically obtained from the response of a previous pagination request.
         tokens: 
           type: array
           x-description: Tokens which have changed since the date presented.
@@ -5639,6 +6234,183 @@ components:
         postcode_mandatory: 
           type: boolean
           description: whether the postcode is forced as mandatory.
+    PaymentIntent: 
+      type: object
+      required: 
+        - amount
+        - identifier
+      properties: 
+        amount: 
+          type: integer
+          format: int32
+          minLength: 1
+          maxLength: 9
+          example: 3600
+          description: |
+            The amount to authorise in the lowest unit of currency with a variable length to a maximum of 12 digits.
+            
+            No decimal points are to be included and no divisional characters such as 1,024.
+            
+            The amount should be the total amount required for the transaction.
+            
+            For example with GBP £1,021.95 the amount value is 102195.
+        avs_postcode_policy: 
+          type: string
+          description: |
+            A policy value which determines whether an AVS postcode policy is enforced or bypassed.
+            
+            Values are
+             `0` for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.
+            
+             `1` for an enforced policy. Transactions that are enforced will be rejected if the AVS postcode numeric value does not match.
+            
+             `2` to bypass. Transactions that are bypassed will be allowed through even if the postcode did not match.
+            
+             `3` to ignore. Transactions that are ignored will bypass the result and not send postcode details for authorisation.
+        bill_to: 
+          $ref: '#/components/schemas/ContactDetails'
+          x-description: |
+            Billing details of the card holder making the payment.
+            These details may be used for AVS fraud analysis, 3DS and for future referencing of the transaction.
+            
+            For AVS to work correctly, the billing details should be the registered address of the card holder
+            as it appears on the statement with their card issuer. The numeric details will be passed through
+            for analysis and may result in a decline if incorrectly provided.
+        csc: 
+          type: string
+          minLength: 3
+          maxLength: 4
+          example: 012
+          description: |
+            The Card Security Code (CSC) (also known as CV2/CVV2) is normally found on the back of the card
+            (American Express has it on the front). The value helps to identify posession of the card as it is not
+            available within the chip or magnetic swipe.
+            
+            When forwarding the CSC, please ensure the value is a string as some values start with 0 and this will be stripped
+            out by any integer parsing.
+            
+            The CSC number aids fraud prevention in Mail Order and Internet payments.
+            
+            Business rules are available on your account to identify whether to accept
+            or decline transactions based on mismatched results of the CSC.
+            
+            The Payment Card Industry (PCI) requires that at no stage of a transaction should the CSC be stored.
+            
+            This applies to all entities handling card data.
+            
+            It should also not be used in any hashing process.
+            
+            CityPay do not store the value and have no method of retrieving the value once the transaction has been processed.
+            For this reason, duplicate checking is unable to determine the CSC in its duplication check algorithm.
+        csc_policy: 
+          type: string
+          description: |
+            A policy value which determines whether a CSC policy is enforced or bypassed.
+            
+            Values are
+             `0` for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.
+            
+             `1` for an enforced policy. Transactions that are enforced will be rejected if the CSC value does not match.
+            
+             `2` to bypass. Transactions that are bypassed will be allowed through even if the CSC did not match.
+            
+             `3` to ignore. Transactions that are ignored will bypass the result and not send the CSC details for authorisation.
+        currency: 
+          type: string
+          minLength: 3
+          maxLength: 3
+          example: GBP
+          description: The processing currency for the transaction. Will default to the merchant account currency.
+        duplicate_policy: 
+          type: string
+          description: |
+            A policy value which determines whether a duplication policy is enforced or bypassed. A duplication check has a window
+            of time set against your account within which it can action. If a previous transaction with matching values occurred within
+            the window, any subsequent transaction will result in a T001 result.
+            
+            Values are
+             `0` for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.
+            
+             `1` for an enforced policy. Transactions that are enforced will be checked for duplication within the duplication window.
+            
+             `2` to bypass. Transactions that are bypassed will not be checked for duplication within the duplication window.
+            
+             `3` to ignore. Transactions that are ignored will have the same affect as bypass.
+        identifier: 
+          type: string
+          minLength: 4
+          maxLength: 50
+          example: 95b857a1-5955-4b86-963c-5a6dbfc4fb95
+          description: |
+            The identifier of the transaction to process. The value should be a valid reference and may be used to perform
+             post processing actions and to aid in reconciliation of transactions.
+            
+            The value should be a valid printable string with ASCII character ranges from 0x32 to 0x127.
+            
+            The identifier is recommended to be distinct for each transaction such as a [random unique identifier](https://en.wikipedia.org/wiki/Universally_unique_identifier)
+            this will aid in ensuring each transaction is identifiable.
+            
+            When transactions are processed they are also checked for duplicate requests. Changing the identifier on a subsequent
+            request will ensure that a transaction is considered as different.
+        match_avsa: 
+          type: string
+          description: |
+            A policy value which determines whether an AVS address policy is enforced, bypassed or ignored.
+            
+            Values are
+             `0` for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.
+            
+             `1` for an enforced policy. Transactions that are enforced will be rejected if the AVS address numeric value does not match.
+            
+             `2` to bypass. Transactions that are bypassed will be allowed through even if the address did not match.
+            
+             `3` to ignore. Transactions that are ignored will bypass the result and not send address numeric details for authorisation.
+        ship_to: 
+          $ref: '#/components/schemas/ContactDetails'
+          x-description: Shipping details of the card holder making the payment. These details may be used for 3DS and for future referencing of the transaction.
+        tag: 
+          type: string
+          description: |
+            A "tag" is a label that you can attach to a payment authorization.
+            Tags can help you group transactions together based on certain criteria, like a work job or a ticket number.
+            They can also assist in filtering transactions when you're generating reports.
+            
+            Multiple Tags
+            You can add more than one tag to a transaction by separating them with commas.
+            
+            Limitations
+            There is a maximum limit of 3 tags that can be added to a single transaction. Each tag can be no longer than 20
+            characters and alphanumeric with no spaces.
+            
+            Example:
+            Let's say you're a software company and you have different teams working on various projects. When a team makes
+            a purchase or incurs an expense, they can tag the transaction with the project name, the team name, and the
+            type of expense.
+            
+            Project Name: Project_X
+            Team Name: Team_A
+            Type of Expense: Hardware
+            So, the tag for a transaction might look like: Project_X,Team_A,Hardware
+            
+            This way, when you're looking at your financial reports, you can easily filter transactions based on these
+            tags to see how much each project or team is spending on different types of expenses.
+        trans_info: 
+          type: string
+          maxLength: 50
+          description: Further information that can be added to the transaction will display in reporting. Can be used for flexible values such as operator id.
+        trans_type: 
+          type: string
+          maxLength: 1
+          description: The type of transaction being submitted. Normally this value is not required and your account manager may request that you set this field.
+    PaymentIntentReference: 
+      type: object
+      required: 
+        - payment_intent_id
+      properties: 
+        payment_intent_id: 
+          type: string
+          example: p13t1111222233334444
+          description: The intent id used for future referencing of the intent.
     Ping: 
       type: object
       properties: 
@@ -5778,7 +6550,7 @@ components:
           format: int32
           minimum: 2000
           maximum: 2100
-          example: 2025
+          example: 2027
           description: The expiry year of the card.
         name_on_card: 
           type: string
@@ -5786,6 +6558,163 @@ components:
           maxLength: 45
           example: MR NE BODY
           description: The card holder name as it appears on the card. The value is required if the account is to be used for 3dsv2 processing, otherwise it is optional.
+    RemittanceData: 
+      type: object
+      properties: 
+        date_created: 
+          type: string
+          format: date-time
+          example: 2020-01-02T18:32:28Z
+          description: Represents the date and time when the remittance was processed. This timestamp follows the ISO 8601 format for datetime representation.
+        net_amount: 
+          type: integer
+          format: int32
+          minimum: 0
+          maximum: 999999999
+          example: 11874500
+          description: Represents the net amount after accounting for refunds. This is calculated as SalesAmount - RefundAmount and expressed in the smallest currency unit.
+        refund_amount: 
+          type: integer
+          format: int32
+          minimum: 0
+          maximum: 999999999
+          example: 11874500
+          description: The total amount refunded to customers.
+        refund_count: 
+          type: integer
+          format: int32
+          minimum: 0
+          maximum: 999999999
+          example: 11874500
+          description: The total number of refund transactions processed. This figure helps in understanding the frequency of refunds relative to sales.
+        sales_amount: 
+          type: integer
+          format: int32
+          minimum: 0
+          maximum: 999999999
+          example: 11874500
+          description: The total monetary amount of sales transactions.
+        sales_count: 
+          type: integer
+          format: int32
+          minimum: 0
+          maximum: 999999999
+          example: 11874500
+          description: Indicates the total number of sales transactions that occurred. This count provides insight into the volume of sales.
+    RemittanceReportResponse: 
+      type: object
+      required: 
+        - data
+      properties: 
+        count: 
+          type: integer
+          format: int32
+          example: 25
+          description: The count of items returned in this page.
+        data: 
+          type: array
+          x-description: Transaction data based on the batch request.
+          items: 
+            $ref: '#/components/schemas/RemittedClientData'
+        maxResults: 
+          type: integer
+          format: int32
+          example: 50
+          description: The max results requested in this page.
+        nextToken: 
+          type: string
+          description: A token that identifies the starting point of the page of results to be returned. An empty value indicates the start of the dataset. When supplied, it is validated and used to fetch the subsequent page of results. This token is typically obtained from the response of a previous pagination request.
+    RemittedClientData: 
+      type: object
+      required: 
+        - batches
+        - remittances
+      properties: 
+        batches: 
+          type: array
+          x-description: Batch data based on the request.
+          items: 
+            $ref: '#/components/schemas/MerchantBatchResponse'
+        clientid: 
+          type: string
+          minLength: 3
+          maxLength: 10
+          example: PC12345
+          description: The client id that the remittance data is for.
+        date: 
+          type: string
+          format: date
+          example: 2020-01-02
+          description: The date of the remittance.
+        date_created: 
+          type: string
+          format: date-time
+          example: 2020-01-02T18:32:28Z
+          description: The date time that the remittance was created.
+        net_amount: 
+          type: integer
+          format: int32
+          minimum: 0
+          maximum: 999999999
+          example: 11874500
+          description: Represents the net amount after accounting for refunds. This is calculated as SalesAmount - RefundAmount and expressed in the smallest currency unit.
+        processed_amount: 
+          type: integer
+          format: int32
+          minimum: 0
+          maximum: 999999999
+          example: 11874500
+          description: The total monetary amount processed consisting of sale and refund transactions.
+        processed_count: 
+          type: integer
+          format: int32
+          minimum: 0
+          maximum: 999999999
+          example: 11874500
+          description: Indicates the total number of sales and refund transactions that occurred. This count provides insight into the volume of processing.
+        refund_amount: 
+          type: integer
+          format: int32
+          minimum: 0
+          maximum: 999999999
+          example: 11874500
+          description: The total amount refunded to customers.
+        refund_count: 
+          type: integer
+          format: int32
+          minimum: 0
+          maximum: 999999999
+          example: 11874500
+          description: The total number of refund transactions processed. This figure helps in understanding the frequency of refunds relative to sales.
+        remittances: 
+          type: array
+          x-description: Remittance data.
+          items: 
+            $ref: '#/components/schemas/RemittanceData'
+        sales_amount: 
+          type: integer
+          format: int32
+          minimum: 0
+          maximum: 999999999
+          example: 11874500
+          description: The total monetary amount of sales transactions.
+        sales_count: 
+          type: integer
+          format: int32
+          minimum: 0
+          maximum: 999999999
+          example: 11874500
+          description: Indicates the total number of sales transactions that occurred. This count provides insight into the volume of sales.
+        settlement_implementation: 
+          type: string
+          description: The name of the implementation.
+        uuid: 
+          type: string
+          format: uuid
+          minLength: 36
+          maxLength: 36
+          example: 123e4567-e89b-12d3-a456-426614174000
+          description: The uuid of the settlement file processed on.
     RequestChallenged: 
       type: object
       properties: 
@@ -5869,7 +6798,7 @@ components:
           description: BrowserScreenWidth field used for 3DSv2 browser enablement. Recommendation is to use citypay.js and the `bx` function to gather this value.
         browserTZ: 
           type: string
-          description: BrowserTZ field used for 3DSv2 browser enablement. Recommendation is to use citypay.js and the `bx` function to gather this value.
+          description: BrowserTZ offset field used for 3DSv2 browser enablement. Recommendation is to use citypay.js and the `bx` function to gather this value.
         cp_bx: 
           type: string
           example: FjaW50b3NoOyBJbnRlbCBNYWMgT1MgWCAx...
@@ -5981,7 +6910,7 @@ components:
           type: string
           example: Visa
           description: |
-            A name of the card scheme of the transaction that processed the transaction such as Visa or MasterCard.
+            The name of the card scheme of the transaction that processed the transaction such as Visa or MasterCard.
         sig_id: 
           type: string
           example: YWV3ZmF3ZWZhd2VmYXdmMmZhZWYzYWVn
@@ -5990,7 +6919,7 @@ components:
           type: string
           format: base58
           example: ctPCAPyNyCkx3Ry8wGyv8khC3ch2hUSB3Db..Qzr
-          description: The token used for presentment to authorisation later in the procsesing flow.
+          description: The token used for presentment to authorisation later in the processing flow.
     VoidRequest: 
       type: object
       required: 

@@ -1,21 +1,22 @@
-<h3 id='api-key'>API Key</h3>
-<p><strong>cp-domain-key</strong></p>
-
-<p>path <code>cp-domain-key</code></p>
-
-<p>The <code>cp-domain-key</code> authentication is required for host based authentication where integrations
-are over direct HTTPS calls.
-Calls using this key will be validated against a prefixed list of host addresses and the <code>Origin</code> or <code>Referer</code>
-header of the HTTP call checked.
-All calls are scrutinised by the CityPay application firewall for security protection
-and attack mitigation.</p>
-
-<p>A key has been designed to:
-- be added to a HTML Form as an authentication token for a pre-registered domain.
-- Allow for the registration of multiple domains
-- Only calls which are host based may use a domain key</p>
+<h3 id='api-key-authentication-cp-domain-key'>API Key Authentication: <code>cp-domain-key</code></h3>
+<p>The <code>cp-domain-key</code> serves as a crucial component for host-based authentication in scenarios where integrations occur 
+via direct HTTPS calls. This authentication method is specifically designed to ensure secure communication between
+pre-registered domains and our API.</p>
+<h4 id='key-features-and-usage'>Key Features and Usage</h4>
+<ul>
+<li><strong>Host-Based Authentication</strong>: The <code>cp-domain-key</code> is essential for authenticating HTTP requests originating from registered host domains. This method provides an additional layer of security by verifying that the request comes from a trusted source.</li>
+<li><strong>Domain Validation</strong>: Each request made using the <code>cp-domain-key</code> undergoes validation against a prefixed list of host addresses. Furthermore, the <code>Origin</code> or <code>Referer</code> header within the HTTP request is meticulously checked to confirm the request&#39;s legitimacy.</li>
+<li><strong>Application Firewall</strong>: To safeguard against potential security threats and ensure robust attack mitigation, all calls authenticated with the <code>cp-domain-key</code> are scrutinized by the CityPay application firewall. This comprehensive security measure is in place to protect your transactions and data from unauthorized access and various forms of cyber attacks.</li>
+<li><strong>Integration with HTML Forms</strong>: The <code>cp-domain-key</code> can be seamlessly integrated into HTML forms as an authentication token. This feature is particularly useful for applications requiring secure form submissions from pre-registered domains.</li>
+<li><strong>Multiple Domain Registration</strong>: Our system supports the registration of multiple domains under a single <code>cp-domain-key</code>. This flexibility allows for the secure management of various domains, facilitating host-based calls across your digital ecosystem.</li>
+<li><strong>Exclusive to Host-Based Calls</strong>: It&#39;s important to note that the <code>cp-domain-key</code> is exclusively designed for host-based authentication. Only calls originating from registered domains are permitted to use this authentication method, ensuring a high level of security and integrity for your API interactions.</li>
+</ul>
+<h4 id='requirements-for-use'>Requirements for Use</h4>
+<p>To utilise the <code>cp-domain-key</code> authentication, you must have:</p>
 
 <ul>
-<li>your merchant id</li>
-<li>your access/licence key</li>
+<li><strong>Merchant ID</strong>: Your unique identifier as a merchant within our system.</li>
+<li><strong>Access/Licence Key</strong>: A secure key provided to you for API access and operations.</li>
 </ul>
+
+<p>By adhering to these guidelines and requirements, you can ensure secure and efficient host-based authentication for your HTTPS calls, leveraging the <code>cp-domain-key</code> to protect your data and transactions.</p>
