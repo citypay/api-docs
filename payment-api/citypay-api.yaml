@@ -4,7 +4,7 @@ openapi: 3.0.0
 #                              API Information                                 #
 ################################################################################
 info:
-  version: 6.6.33
+  version: 6.6.34
   title: CityPay Payment API
   description: |
 
@@ -2154,28 +2154,28 @@ paths:
             schema: 
               $ref: '#/components/schemas/CaptureRequest'
             examples: 
-              example3: 
-                summary: Capture call for a merchant with identifier and airline data once a ticket has been issued
-                externalValue: 'CaptureRequest-example3.json'
               example1: 
                 summary: Basic capture call for a merchant with a given identifier
                 externalValue: 'CaptureRequest-example1.json'
               example2: 
                 summary: Basic capture call for a merchant with a transno and final amount
                 externalValue: 'CaptureRequest-example2.json'
+              example3: 
+                summary: Capture call for a merchant with identifier and airline data once a ticket has been issued
+                externalValue: 'CaptureRequest-example3.json'
           text/xml: 
             schema: 
               $ref: '#/components/schemas/CaptureRequest'
             examples: 
-              example3: 
-                summary: Capture call for a merchant with identifier and airline data once a ticket has been issued
-                externalValue: 'CaptureRequest-example3.xml'
               example1: 
                 summary: Basic capture call for a merchant with a given identifier
                 externalValue: 'CaptureRequest-example1.xml'
               example2: 
                 summary: Basic capture call for a merchant with a transno and final amount
                 externalValue: 'CaptureRequest-example2.xml'
+              example3: 
+                summary: Capture call for a merchant with identifier and airline data once a ticket has been issued
+                externalValue: 'CaptureRequest-example3.xml'
       responses: 
         200: 
           description: A result and acknowledgement of the capture request. The response will return a `000/001` response on a successful capture otherwise an error code response explaining the error.
@@ -2435,7 +2435,7 @@ paths:
 
   /v6/merchant-batch/{merchantid}/{batch_no}: 
     get: 
-      summary: Merchant Batch Report Request
+      summary: Merchant Batch Request
       tags: 
         - Reporting Api
       operationId: MerchantBatchRequest
@@ -2484,7 +2484,7 @@ paths:
           description: Server Error. The server was unable to complete the request.
 
   /v6/merchant-batch/{merchantid}/{batch_no}/transactions: 
-    get: 
+    post: 
       summary: Batch Transaction Report Request
       tags: 
         - Reporting Api
@@ -2502,27 +2502,18 @@ paths:
           description: The batch number that is being requested.
           schema: 
             type: string
-        - name: maxResults
-          in: query
-          required: false
-          description: The maximum number of results to return in a single response. This value is used to limit the size of data returned by the API, enhancing performance and manageability. Values should be between 5 and 250. Will default to 50.
-          schema: 
-            type: integer
-        - name: nextToken
-          in: query
-          required: false
-          description: A token that identifies the starting point of the page of results to be returned. An empty value indicates the start of the dataset. When supplied, it is validated and used to fetch the subsequent page of results. This token is typically obtained from the response of a previous pagination request.
-          schema: 
-            type: string
-        - name: orderBy
-          in: query
-          required: false
-          description: Specifies the field by which results are ordered. Available fields are [trans_no,date_when,amount]. By default, fields are ordered by OrderByExpression(trans_no,ASC). To order in descending order, prefix with '-' or suffix with ' DESC'.
-          schema: 
-            type: string
       description: Retrieves transactions available on a given batch.
       security: 
       - cp-api-key: []
+      requestBody: 
+        required: true
+        content: 
+          application/json: 
+            schema: 
+              $ref: '#/components/schemas/BatchTransactionReportRequest'
+          text/xml: 
+            schema: 
+              $ref: '#/components/schemas/BatchTransactionReportRequest'
       responses: 
         200: 
           description: A report of the transactions listed on batches.
@@ -2776,7 +2767,7 @@ paths:
           description: Server Error. The server was unable to complete the request.
 
   /v6/remittance/report/{clientid}: 
-    get: 
+    post: 
       summary: Remittance Report Request
       tags: 
         - Reporting Api
@@ -2796,6 +2787,15 @@ paths:
         deductions made by the acquirer.
       security: 
       - cp-api-key: []
+      requestBody: 
+        required: true
+        content: 
+          application/json: 
+            schema: 
+              $ref: '#/components/schemas/RemittanceReportRequest'
+          text/xml: 
+            schema: 
+              $ref: '#/components/schemas/RemittanceReportRequest'
       responses: 
         200: 
           description: A report of financial remittance data for a range of dates.
@@ -4036,6 +4036,21 @@ components:
           format: int32
           example: 11223344
           description: The CityPay merchant id used to process the transaction.
+    BatchTransactionReportRequest: 
+      type: object
+      properties: 
+        maxResults: 
+          type: integer
+          format: int32
+          example: 50
+          description: The maximum number of results to return in a single response. This value is used to limit the size of data returned by the API, enhancing performance and manageability. Values should be between 5 and 250.
+        nextToken: 
+          type: string
+          description: A token that identifies the starting point of the page of results to be returned. An empty value indicates the start of the dataset. When supplied, it is validated and used to fetch the subsequent page of results. This token is typically obtained from the response of a previous pagination request.
+        orderBy: 
+          type: string
+          example: date
+          description: Specifies the field by which results are ordered. Available fields are [trans_no,date_when,amount]. By default, fields are ordered by OrderByExpression(trans_no,ASC). To order in descending order, prefix with '-' or suffix with ' DESC'.
     BatchTransactionReportResponse: 
       type: object
       required: 
@@ -6601,6 +6616,40 @@ components:
           maximum: 999999999
           example: 11874500
           description: Indicates the total number of sales transactions that occurred. This count provides insight into the volume of sales.
+    RemittanceReportRequest: 
+      type: object
+      properties: 
+        date_from: 
+          type: string
+          format: date
+          example: 2024-01-24
+          description: Start date (YYYY-MM-DD) for batch Retrieval range, inclusive. Maximum value is 3 years ago.
+        date_until: 
+          type: string
+          format: date
+          example: 2024-01-31
+          description: End date (YYYY-MM-DD) for batch Retrieval range, inclusive.
+        maxResults: 
+          type: integer
+          format: int32
+          example: 50
+          description: The maximum number of results to return in a single response. This value is used to limit the size of data returned by the API, enhancing performance and manageability. Values should be between 5 and 250.
+        merchant_id: 
+          type: array
+          items:
+            type: integer
+            format: int32
+            maxLength: 8
+            minimum: 1
+            example: [ 11223344, 5667788 ]
+            description: An array of merchant IDs (MIDs) for which the batch processing data is requested. This field allows for filtering the batches by specific merchant accounts.
+        nextToken: 
+          type: string
+          description: A token that identifies the starting point of the page of results to be returned. An empty value indicates the start of the dataset. When supplied, it is validated and used to fetch the subsequent page of results. This token is typically obtained from the response of a previous pagination request.
+        orderBy: 
+          type: string
+          example: date
+          description: Specifies the field by which results are ordered. Available fields are [trans_no,date_when,amount]. By default, fields are ordered by OrderByExpression(trans_no,ASC). To order in descending order, prefix with '-' or suffix with ' DESC'.
     RemittanceReportResponse: 
       type: object
       required: 
