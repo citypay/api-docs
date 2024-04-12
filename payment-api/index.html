@@ -431,7 +431,7 @@
                     <a href="#merchant-batch-report-request" class="toc-h2 toc-link" data-title="Merchant Batch Report Request">Merchant Batch Report Request</a>
                   </li>
                   <li>
-                    <a href="#merchant-batch-report-request-2" class="toc-h2 toc-link" data-title="Merchant Batch Report Request">Merchant Batch Report Request</a>
+                    <a href="#merchant-batch-request" class="toc-h2 toc-link" data-title="Merchant Batch Request">Merchant Batch Request</a>
                   </li>
                   <li>
                     <a href="#batch-transaction-report-request" class="toc-h2 toc-link" data-title="Batch Transaction Report Request">Batch Transaction Report Request</a>
@@ -494,6 +494,9 @@
                   </li>
                   <li>
                     <a href="#batchtransaction" class="toc-h2 toc-link" data-title="BatchTransaction">BatchTransaction</a>
+                  </li>
+                  <li>
+                    <a href="#batchtransactionreportrequest" class="toc-h2 toc-link" data-title="BatchTransactionReportRequest">BatchTransactionReportRequest</a>
                   </li>
                   <li>
                     <a href="#batchtransactionreportresponse" class="toc-h2 toc-link" data-title="BatchTransactionReportResponse">BatchTransactionReportResponse</a>
@@ -685,6 +688,9 @@
                     <a href="#remittancedata" class="toc-h2 toc-link" data-title="RemittanceData">RemittanceData</a>
                   </li>
                   <li>
+                    <a href="#remittancereportrequest" class="toc-h2 toc-link" data-title="RemittanceReportRequest">RemittanceReportRequest</a>
+                  </li>
+                  <li>
                     <a href="#remittancereportresponse" class="toc-h2 toc-link" data-title="RemittanceReportResponse">RemittanceReportResponse</a>
                   </li>
                   <li>
@@ -742,7 +748,7 @@
       </ul>
         <ul class="toc-footer">
             <li><a href='mailto:support@citypay.com'>Any Integration Questions?</a></li>
-            <li>V6.6.32 2024-04-10</li>
+            <li>V6.6.34 2024-04-12</li>
         </ul>
     </div>
     <div class="page-wrapper">
@@ -750,8 +756,8 @@
       <div class="content">
         <img src="images/header-4aeb62fd.png" width="100%" alt="header image" />
         <h1 id='citypay-payment-api'>CityPay Payment API</h1>
-<p>Version: 6.6.32
-Last Updated: 2024-04-10</p>
+<p>Version: 6.6.34
+Last Updated: 2024-04-12</p>
 
 <p>Welcome to the CityPay API, a robust HTTP API payment solution designed for seamless server-to-server 
 transactional processing. Our API facilitates a wide array of payment operations, catering to diverse business needs. 
@@ -6780,7 +6786,7 @@ These batches play a crucial role in the settlement of funds by summarising dail
 <td></td>
 </tr>
 </tbody></table>
-<h2 id='merchant-batch-report-request-2'>Merchant Batch Report Request</h2>
+<h2 id='merchant-batch-request'>Merchant Batch Request</h2>
 <div class="route-spec">
 <div class="route-path">
  <span class="http-method http-method-get">GET</span>
@@ -6871,7 +6877,7 @@ These batches play a crucial role in the settlement of funds by summarising dail
 <h2 id='batch-transaction-report-request'>Batch Transaction Report Request</h2>
 <div class="route-spec">
 <div class="route-path">
- <span class="http-method http-method-get">GET</span>
+ <span class="http-method http-method-post">POST</span>
  <span class="path">/v6/merchant-batch/{merchantid}/{batch_no}/transactions</span>
 </div>
 
@@ -6902,6 +6908,40 @@ These batches play a crucial role in the settlement of funds by summarising dail
 <td><code>batch_no</code></td>
 <td>true</td>
 <td>The batch number that is being requested.</td>
+</tr>
+</tbody></table>
+
+<p><a id="requestModel-BatchedTransactionReportRequest"></a></p>
+<h3 id='model-batchtransactionreportrequest'>Model BatchTransactionReportRequest</h3>
+<p>Request body for the BatchedTransactionReportRequest operation contains the following properties</p>
+
+<div class="requestModel"></div>
+
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Usage</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>maxResults</code></td>
+<td>integer <em>int32</em></td>
+<td>Optional</td>
+<td>The maximum number of results to return in a single response. This value is used to limit the size of data returned by the API, enhancing performance and manageability. Values should be between 5 and 250.</td>
+</tr>
+<tr>
+<td><code>nextToken</code></td>
+<td>string</td>
+<td>Optional</td>
+<td>A token that identifies the starting point of the page of results to be returned. An empty value indicates the start of the dataset. When supplied, it is validated and used to fetch the subsequent page of results. This token is typically obtained from the response of a previous pagination request.</td>
+</tr>
+<tr>
+<td><code>orderBy</code></td>
+<td>string</td>
+<td>Optional</td>
+<td>Specifies the field by which results are ordered. Available fields are [trans_no,date_when,amount]. By default, fields are ordered by OrderByExpression(trans_no,ASC). To order in descending order, prefix with &#39;-&#39; or suffix with &#39; DESC&#39;.</td>
 </tr>
 </tbody></table>
 
@@ -6959,7 +6999,7 @@ These batches play a crucial role in the settlement of funds by summarising dail
 <h2 id='remittance-report-request'>Remittance Report Request</h2>
 <div class="route-spec">
 <div class="route-path">
- <span class="http-method http-method-get">GET</span>
+ <span class="http-method http-method-post">POST</span>
  <span class="path">/v6/remittance/report/{clientid}</span>
 </div>
 
@@ -6989,6 +7029,58 @@ deductions made by the acquirer.</p>
 <td><code>clientid</code></td>
 <td>true</td>
 <td>A client Id for which data is requested.</td>
+</tr>
+</tbody></table>
+
+<p><a id="requestModel-RemittanceRangeReport"></a></p>
+<h3 id='model-remittancereportrequest'>Model RemittanceReportRequest</h3>
+<p>Request body for the RemittanceRangeReport operation contains the following properties</p>
+
+<div class="requestModel"></div>
+
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Usage</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>date_from</code></td>
+<td>string <em>date</em></td>
+<td>Optional</td>
+<td>Start date (YYYY-MM-DD) for batch Retrieval range, inclusive. Maximum value is 3 years ago.</td>
+</tr>
+<tr>
+<td><code>date_until</code></td>
+<td>string <em>date</em></td>
+<td>Optional</td>
+<td>End date (YYYY-MM-DD) for batch Retrieval range, inclusive.</td>
+</tr>
+<tr>
+<td><code>maxResults</code></td>
+<td>integer <em>int32</em></td>
+<td>Optional</td>
+<td>The maximum number of results to return in a single response. This value is used to limit the size of data returned by the API, enhancing performance and manageability. Values should be between 5 and 250.</td>
+</tr>
+<tr>
+<td><code>merchant_id</code></td>
+<td>array</td>
+<td>Optional</td>
+<td>type: integer</td>
+</tr>
+<tr>
+<td><code>nextToken</code></td>
+<td>string</td>
+<td>Optional</td>
+<td>A token that identifies the starting point of the page of results to be returned. An empty value indicates the start of the dataset. When supplied, it is validated and used to fetch the subsequent page of results. This token is typically obtained from the response of a previous pagination request.</td>
+</tr>
+<tr>
+<td><code>orderBy</code></td>
+<td>string</td>
+<td>Optional</td>
+<td>Specifies the field by which results are ordered. Available fields are [trans_no,date_when,amount]. By default, fields are ordered by OrderByExpression(trans_no,ASC). To order in descending order, prefix with &#39;-&#39; or suffix with &#39; DESC&#39;.</td>
 </tr>
 </tbody></table>
 
@@ -8340,6 +8432,44 @@ latest remittance date available.</p>
 <td>integer <em>int32</em></td>
 <td>false</td>
 <td>The CityPay merchant id used to process the transaction.</td>
+</tr>
+</tbody></table>
+<h2 id='batchtransactionreportrequest'>BatchTransactionReportRequest</h2><div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+   </span><span class="nl">"maxResults"</span><span class="p">:</span><span class="w"> </span><span class="mi">50</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"nextToken"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"orderBy"</span><span class="p">:</span><span class="w"> </span><span class="s2">"date"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div><div class="highlight"><pre class="highlight xml tab-xml"><code><span class="nt">&lt;BatchTransactionReportRequest&gt;</span>
+ <span class="nt">&lt;maxResults&gt;</span>50<span class="nt">&lt;/maxResults&gt;</span> 
+ <span class="nt">&lt;nextToken&gt;&lt;/nextToken&gt;</span> 
+ <span class="nt">&lt;orderBy&gt;</span>date<span class="nt">&lt;/orderBy&gt;</span> 
+<span class="nt">&lt;/BatchTransactionReportRequest&gt;</span>
+</code></pre></div>
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>maxResults</code></td>
+<td>integer <em>int32</em></td>
+<td>false</td>
+<td>The maximum number of results to return in a single response. This value is used to limit the size of data returned by the API, enhancing performance and manageability. Values should be between 5 and 250.</td>
+</tr>
+<tr>
+<td><code>nextToken</code></td>
+<td>string</td>
+<td>false</td>
+<td>A token that identifies the starting point of the page of results to be returned. An empty value indicates the start of the dataset. When supplied, it is validated and used to fetch the subsequent page of results. This token is typically obtained from the response of a previous pagination request.</td>
+</tr>
+<tr>
+<td><code>orderBy</code></td>
+<td>string</td>
+<td>false</td>
+<td>Specifies the field by which results are ordered. Available fields are [trans_no,date_when,amount]. By default, fields are ordered by OrderByExpression(trans_no,ASC). To order in descending order, prefix with &#39;-&#39; or suffix with &#39; DESC&#39;.</td>
 </tr>
 </tbody></table>
 <h2 id='batchtransactionreportresponse'>BatchTransactionReportResponse</h2><div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
@@ -12535,6 +12665,68 @@ latest remittance date available.</p>
 <td>integer <em>int32</em></td>
 <td>false</td>
 <td>Indicates the total number of sales transactions that occurred. This count provides insight into the volume of sales.<br/><br/>minimum: 0<br/>maximum: 999999999</td>
+</tr>
+</tbody></table>
+<h2 id='remittancereportrequest'>RemittanceReportRequest</h2><div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+   </span><span class="nl">"date_from"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2024-01-24"</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"date_until"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2024-01-31"</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"maxResults"</span><span class="p">:</span><span class="w"> </span><span class="mi">50</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"merchant_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"nextToken"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"orderBy"</span><span class="p">:</span><span class="w"> </span><span class="s2">"date"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div><div class="highlight"><pre class="highlight xml tab-xml"><code><span class="nt">&lt;RemittanceReportRequest&gt;</span>
+ <span class="nt">&lt;date_from&gt;</span>2024-01-24<span class="nt">&lt;/date_from&gt;</span> 
+ <span class="nt">&lt;date_until&gt;</span>2024-01-31<span class="nt">&lt;/date_until&gt;</span> 
+ <span class="nt">&lt;maxResults&gt;</span>50<span class="nt">&lt;/maxResults&gt;</span> 
+ <span class="nt">&lt;merchant_id&gt;&lt;/merchant_id&gt;</span> 
+ <span class="nt">&lt;nextToken&gt;&lt;/nextToken&gt;</span> 
+ <span class="nt">&lt;orderBy&gt;</span>date<span class="nt">&lt;/orderBy&gt;</span> 
+<span class="nt">&lt;/RemittanceReportRequest&gt;</span>
+</code></pre></div>
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>date_from</code></td>
+<td>string <em>date</em></td>
+<td>false</td>
+<td>Start date (YYYY-MM-DD) for batch Retrieval range, inclusive. Maximum value is 3 years ago.</td>
+</tr>
+<tr>
+<td><code>date_until</code></td>
+<td>string <em>date</em></td>
+<td>false</td>
+<td>End date (YYYY-MM-DD) for batch Retrieval range, inclusive.</td>
+</tr>
+<tr>
+<td><code>maxResults</code></td>
+<td>integer <em>int32</em></td>
+<td>false</td>
+<td>The maximum number of results to return in a single response. This value is used to limit the size of data returned by the API, enhancing performance and manageability. Values should be between 5 and 250.</td>
+</tr>
+<tr>
+<td><code>merchant_id</code></td>
+<td>array</td>
+<td>false</td>
+<td>type: integer</td>
+</tr>
+<tr>
+<td><code>nextToken</code></td>
+<td>string</td>
+<td>false</td>
+<td>A token that identifies the starting point of the page of results to be returned. An empty value indicates the start of the dataset. When supplied, it is validated and used to fetch the subsequent page of results. This token is typically obtained from the response of a previous pagination request.</td>
+</tr>
+<tr>
+<td><code>orderBy</code></td>
+<td>string</td>
+<td>false</td>
+<td>Specifies the field by which results are ordered. Available fields are [trans_no,date_when,amount]. By default, fields are ordered by OrderByExpression(trans_no,ASC). To order in descending order, prefix with &#39;-&#39; or suffix with &#39; DESC&#39;.</td>
 </tr>
 </tbody></table>
 <h2 id='remittancereportresponse'>RemittanceReportResponse</h2><div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
