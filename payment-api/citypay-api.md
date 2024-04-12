@@ -1,12 +1,12 @@
 ---
 title: CityPay Payment API
-version: 6.6.34
+version: 6.x
 language_tabs:
   - json
   - xml
 toc_footers:
   - <a href='mailto:support@citypay.com'>Any Integration Questions?</a>
-  - V6.6.34 2024-04-12
+  - V6.x 2024-04-08
 includes:
   - errorcodes
   - authresultcodes
@@ -22,8 +22,8 @@ search: true
 
 # CityPay Payment API
 
-Version: 6.6.34
-Last Updated: 2024-04-12
+Version: 6.x
+Last Updated: 2024-04-08
 
 
 Welcome to the CityPay API, a robust HTTP API payment solution designed for seamless server-to-server 
@@ -3103,9 +3103,9 @@ Field  | Type | Usage | Description |
 ---------|------|------|-------------|
  `after` | string *date-time* | Required | identifies the date and time to lookup changes after. | 
  `merchantid` | integer *int32* | Required | the merchant id to review tokens for. | 
- `maxResults` | integer *int32* | Optional | The maximum number of results to return in a single response. This value is used to limit the size of data returned by the API, enhancing performance and manageability. Values should be between 5 and 250. | 
- `nextToken` | string  | Optional | A token that identifies the starting point of the page of results to be returned. An empty value indicates the start of the dataset. When supplied, it is validated and used to fetch the subsequent page of results. This token is typically obtained from the response of a previous pagination request. | 
- `orderBy` | string  | Optional | Specifies the field by which results are ordered. Available fields are [p.id]. By default, fields are ordered by OrderByExpression(p.id,ASC). To order in descending order, prefix with '-' or suffix with ' DESC'. | 
+ `maxResults` | integer *int32* | Optional | the maximum number of results between 5 and 250 to return. Default is 50. | 
+ `nextToken` | string  | Optional | the next token value when more results are available. | 
+ `orderBy` | array | Optional | an orderBy array should the search require ordering. The following fields may be specified: `created`. The default order by fields are `created`.<br/><br/>type: string | 
 
 
 
@@ -3545,10 +3545,10 @@ Field  | Type | Usage | Description |
 ---------|------|------|-------------|
  `date_from` | string *date* | Optional | Start date (YYYY-MM-DD) for batch retrieval range, inclusive. Maximum value is 3 years ago. | 
  `date_until` | string *date* | Optional | End date (YYYY-MM-DD) for batch retrieval range, inclusive. | 
- `maxResults` | integer *int32* | Optional | The maximum number of results to return in a single response. This value is used to limit the size of data returned by the API, enhancing performance and manageability. Values should be between 5 and 250. | 
+ `max_results` | integer *int32* | Optional | The maximum number of results to return in a single response. This value is used to limit the size of data returned by the API, enhancing performance and manageability. Values should be between 5 and 250. | 
  `merchant_id` | array | Optional | type: integer | 
- `nextToken` | string  | Optional | A token that identifies the starting point of the page of results to be returned. An empty value indicates the start of the dataset. When supplied, it is validated and used to fetch the subsequent page of results. This token is typically obtained from the response of a previous pagination request. | 
- `orderBy` | string  | Optional | Specifies the field by which results are ordered. Available fields are [merchant_id,batch_no,net_amount]. By default, fields are ordered by OrderByExpression(merchant_id,ASC),OrderByExpression(batch_no,ASC). To order in descending order, prefix with '-' or suffix with ' DESC'. | 
+ `next_token` | string  | Optional | A token that identifies the starting point of the page of results to be returned. An empty value indicates the start of the dataset. When supplied, it is validated and used to fetch the subsequent page of results. This token is typically obtained from the response of a previous pagination request. | 
+ `order_by` | string  | Optional | Specifies the field by which results are ordered. Available fields are [merchant_id,batch_no,net_amount]. By default, fields are ordered by OrderByExpression(merchant_id,ASC),OrderByExpression(batch_no,ASC). To order in descending order, prefix with '-' or suffix with ' DESC'. | 
 
 
 
@@ -3573,12 +3573,12 @@ Responses for the MerchantBatchReportRequest operation are
 
 
 
-## Merchant Batch Request
+## Merchant Batch Report Request
 
 <div class="route-spec">
 <div class="route-path">
  <span class="http-method http-method-get">GET</span>
- <span class="path">/v6/merchant-batch/{merchantid}/{batch_no}</span>
+ <span class="path">/v6/merchant-batch/{merchantId}/{batchNo}</span>
 </div>
 <div class="security-methods"><span class="key sec-cp-api-key">cp-api-key</span> </div>
 </div>
@@ -3626,8 +3626,8 @@ Responses for the MerchantBatchRequest operation are
 
 <div class="route-spec">
 <div class="route-path">
- <span class="http-method http-method-post">POST</span>
- <span class="path">/v6/merchant-batch/{merchantid}/{batch_no}/transactions</span>
+ <span class="http-method http-method-get">GET</span>
+ <span class="path">/v6/merchant-batch/{merchantId}/{batchNo}/transactions</span>
 </div>
 <div class="security-methods"><span class="key sec-cp-api-key">cp-api-key</span> </div>
 </div>
@@ -3647,23 +3647,6 @@ Name | Required | Description |
  `merchantid` | true | A merchant ID (MID) for which data is requested. This field allows for filtering of the request by a specific merchant account. | 
  `batch_no` | true | The batch number that is being requested. | 
 
-
-
-
-
-
-<a id="requestModel-BatchedTransactionReportRequest"></a>
-### Model BatchTransactionReportRequest
-
-Request body for the BatchedTransactionReportRequest operation contains the following properties
-
-<div class="requestModel"></div>
-
-Field  | Type | Usage | Description |
----------|------|------|-------------|
- `maxResults` | integer *int32* | Optional | The maximum number of results to return in a single response. This value is used to limit the size of data returned by the API, enhancing performance and manageability. Values should be between 5 and 250. | 
- `nextToken` | string  | Optional | A token that identifies the starting point of the page of results to be returned. An empty value indicates the start of the dataset. When supplied, it is validated and used to fetch the subsequent page of results. This token is typically obtained from the response of a previous pagination request. | 
- `orderBy` | string  | Optional | Specifies the field by which results are ordered. Available fields are [trans_no,date_when,amount]. By default, fields are ordered by OrderByExpression(trans_no,ASC). To order in descending order, prefix with '-' or suffix with ' DESC'. | 
 
 
 
@@ -3692,8 +3675,8 @@ Responses for the BatchedTransactionReportRequest operation are
 
 <div class="route-spec">
 <div class="route-path">
- <span class="http-method http-method-post">POST</span>
- <span class="path">/v6/remittance/report/{clientid}</span>
+ <span class="http-method http-method-get">GET</span>
+ <span class="path">/v6/remittance/report/{clientId}</span>
 </div>
 <div class="security-methods"><span class="key sec-cp-api-key">cp-api-key</span> </div>
 </div>
@@ -3717,26 +3700,6 @@ Name | Required | Description |
 -----|----------|-------------|
  `clientid` | true | A client Id for which data is requested. | 
 
-
-
-
-
-
-<a id="requestModel-RemittanceRangeReport"></a>
-### Model RemittanceReportRequest
-
-Request body for the RemittanceRangeReport operation contains the following properties
-
-<div class="requestModel"></div>
-
-Field  | Type | Usage | Description |
----------|------|------|-------------|
- `date_from` | string *date* | Optional | Start date (YYYY-MM-DD) for batch Retrieval range, inclusive. Maximum value is 3 years ago. | 
- `date_until` | string *date* | Optional | End date (YYYY-MM-DD) for batch Retrieval range, inclusive. | 
- `maxResults` | integer *int32* | Optional | The maximum number of results to return in a single response. This value is used to limit the size of data returned by the API, enhancing performance and manageability. Values should be between 5 and 250. | 
- `merchant_id` | array | Optional | type: integer | 
- `nextToken` | string  | Optional | A token that identifies the starting point of the page of results to be returned. An empty value indicates the start of the dataset. When supplied, it is validated and used to fetch the subsequent page of results. This token is typically obtained from the response of a previous pagination request. | 
- `orderBy` | string  | Optional | Specifies the field by which results are ordered. Available fields are [trans_no,date_when,amount]. By default, fields are ordered by OrderByExpression(trans_no,ASC). To order in descending order, prefix with '-' or suffix with ' DESC'. | 
 
 
 
@@ -3766,7 +3729,7 @@ Responses for the RemittanceRangeReport operation are
 <div class="route-spec">
 <div class="route-path">
  <span class="http-method http-method-get">GET</span>
- <span class="path">/v6/remittance/report/{clientid}/{date}</span>
+ <span class="path">/v6/remittance/report/{clientId}/{date}</span>
 </div>
 <div class="security-methods"><span class="key sec-cp-api-key">cp-api-key</span> </div>
 </div>
@@ -3807,7 +3770,7 @@ Responses for the RemittanceReportRequest operation are
 
  StatusCode | Description | Content-Type | Model |
 ------------|-------------|--------------|-------|
- `200` | A report of the financial remittance data for a given date. | `application/json` <br/>`text/xml` | [RemittedClientData](#remittedclientdata) |  
+ `200` | A report of the financial remittance data for a given date. | `application/json` <br/>`text/xml` | [RemittanceData](#remittancedata) |  
  `400` | Bad Request. Should the incoming data not be validly determined. |  |  
  `401` | Unauthorized. No api key has been provided and is required for this operation. |  |  
  `403` | Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request. |  |  
@@ -4494,42 +4457,15 @@ Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Addi
 
 
 
-## BatchTransactionReportRequest
-
-```json
-{
-   "maxResults": 50,
-   "nextToken": "",
-   "orderBy": "date"
-}
-```
-
-```xml
-<BatchTransactionReportRequest>
- <maxResults>50</maxResults> 
- <nextToken></nextToken> 
- <orderBy>date</orderBy> 
-</BatchTransactionReportRequest>
-```
-
-| Field | Type | Required | Description |
-|-------|------|----------|-------------|
-| `maxResults` | integer *int32* | false | The maximum number of results to return in a single response. This value is used to limit the size of data returned by the API, enhancing performance and manageability. Values should be between 5 and 250. | 
-| `nextToken` | string  | false | A token that identifies the starting point of the page of results to be returned. An empty value indicates the start of the dataset. When supplied, it is validated and used to fetch the subsequent page of results. This token is typically obtained from the response of a previous pagination request. | 
-| `orderBy` | string  | false | Specifies the field by which results are ordered. Available fields are [trans_no,date_when,amount]. By default, fields are ordered by OrderByExpression(trans_no,ASC). To order in descending order, prefix with '-' or suffix with ' DESC'. | 
-
-
-
-
-
 ## BatchTransactionReportResponse
 
 ```json
 {
    "count": 25,
    "data": "",
-   "maxResults": 50,
-   "nextToken": ""
+   "max_results": 50,
+   "next_token": "",
+   "order_by": ""
 }
 ```
 
@@ -4537,8 +4473,9 @@ Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Addi
 <BatchTransactionReportResponse>
  <count>25</count> 
  <data></data> 
- <maxResults>50</maxResults> 
- <nextToken></nextToken> 
+ <max_results>50</max_results> 
+ <next_token></next_token> 
+ <order_by></order_by> 
 </BatchTransactionReportResponse>
 ```
 
@@ -4546,8 +4483,9 @@ Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Addi
 |-------|------|----------|-------------|
 | `count` | integer *int32* | false | The count of items returned in this page. | 
 | `data` | array | true | Transaction data based on the batch request. [AuthReference](#authreference) | 
-| `maxResults` | integer *int32* | false | The max results requested in this page. | 
-| `nextToken` | string  | false | A token that identifies the starting point of the page of results to be returned. An empty value indicates the start of the dataset. When supplied, it is validated and used to fetch the subsequent page of results. This token is typically obtained from the response of a previous pagination request. | 
+| `max_results` | integer *int32* | false | The max results requested in this page. | 
+| `next_token` | string  | false | A token that identifies the starting point of the page of results to be returned. An empty value indicates the start of the dataset. When supplied, it is validated and used to fetch the subsequent page of results. This token is typically obtained from the response of a previous pagination request. | 
+| `order_by` | array | false | The order by requested in this page. type: string | 
 
 
 
@@ -5549,8 +5487,9 @@ Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Addi
 {
    "batches": "",
    "count": 25,
-   "maxResults": 50,
-   "nextToken": ""
+   "max_results": 50,
+   "next_token": "",
+   "order_by": ""
 }
 ```
 
@@ -5558,8 +5497,9 @@ Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Addi
 <MerchantBatchReportResponse>
  <batches></batches> 
  <count>25</count> 
- <maxResults>50</maxResults> 
- <nextToken></nextToken> 
+ <max_results>50</max_results> 
+ <next_token></next_token> 
+ <order_by></order_by> 
 </MerchantBatchReportResponse>
 ```
 
@@ -5567,8 +5507,9 @@ Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Addi
 |-------|------|----------|-------------|
 | `batches` | array | true | Batch data based on the request. [MerchantBatchResponse](#merchantbatchresponse) | 
 | `count` | integer *int32* | false | The count of items returned in this page. | 
-| `maxResults` | integer *int32* | false | The max results requested in this page. | 
-| `nextToken` | string  | false | A token that identifies the starting point of the page of results to be returned. An empty value indicates the start of the dataset. When supplied, it is validated and used to fetch the subsequent page of results. This token is typically obtained from the response of a previous pagination request. | 
+| `max_results` | integer *int32* | false | The max results requested in this page. | 
+| `next_token` | string  | false | A token that identifies the starting point of the page of results to be returned. An empty value indicates the start of the dataset. When supplied, it is validated and used to fetch the subsequent page of results. This token is typically obtained from the response of a previous pagination request. | 
+| `order_by` | array | false | The order by requested in this page. type: string | 
 
 
 
@@ -5580,10 +5521,10 @@ Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Addi
 {
    "date_from": "2024-01-24",
    "date_until": "2024-01-31",
-   "maxResults": 50,
+   "max_results": 50,
    "merchant_id": "",
-   "nextToken": "",
-   "orderBy": "date"
+   "next_token": "",
+   "order_by": "date"
 }
 ```
 
@@ -5591,10 +5532,10 @@ Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Addi
 <MerchantBatchRequest>
  <date_from>2024-01-24</date_from> 
  <date_until>2024-01-31</date_until> 
- <maxResults>50</maxResults> 
+ <max_results>50</max_results> 
  <merchant_id></merchant_id> 
- <nextToken></nextToken> 
- <orderBy>date</orderBy> 
+ <next_token></next_token> 
+ <order_by>date</order_by> 
 </MerchantBatchRequest>
 ```
 
@@ -5602,10 +5543,10 @@ Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Addi
 |-------|------|----------|-------------|
 | `date_from` | string *date* | false | Start date (YYYY-MM-DD) for batch retrieval range, inclusive. Maximum value is 3 years ago. | 
 | `date_until` | string *date* | false | End date (YYYY-MM-DD) for batch retrieval range, inclusive. | 
-| `maxResults` | integer *int32* | false | The maximum number of results to return in a single response. This value is used to limit the size of data returned by the API, enhancing performance and manageability. Values should be between 5 and 250. | 
+| `max_results` | integer *int32* | false | The maximum number of results to return in a single response. This value is used to limit the size of data returned by the API, enhancing performance and manageability. Values should be between 5 and 250. | 
 | `merchant_id` | array | false | type: integer | 
-| `nextToken` | string  | false | A token that identifies the starting point of the page of results to be returned. An empty value indicates the start of the dataset. When supplied, it is validated and used to fetch the subsequent page of results. This token is typically obtained from the response of a previous pagination request. | 
-| `orderBy` | string  | false | Specifies the field by which results are ordered. Available fields are [merchant_id,batch_no,net_amount]. By default, fields are ordered by OrderByExpression(merchant_id,ASC),OrderByExpression(batch_no,ASC). To order in descending order, prefix with '-' or suffix with ' DESC'. | 
+| `next_token` | string  | false | A token that identifies the starting point of the page of results to be returned. An empty value indicates the start of the dataset. When supplied, it is validated and used to fetch the subsequent page of results. This token is typically obtained from the response of a previous pagination request. | 
+| `order_by` | string  | false | Specifies the field by which results are ordered. Available fields are [merchant_id,batch_no,net_amount]. By default, fields are ordered by OrderByExpression(merchant_id,ASC),OrderByExpression(batch_no,ASC). To order in descending order, prefix with '-' or suffix with ' DESC'. | 
 
 
 
@@ -5639,7 +5580,7 @@ Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Addi
 
 | Field | Type | Required | Description |
 |-------|------|----------|-------------|
-| `batch_closed` | string *date-time* | false | The date and time when the batch was closed. This is represented in ISO 8601 format (e.g., YYYY-MM-DDTHH:MM:SSZ) and indicates when the batch processing was completed. | 
+| `batch_closed` | string *date* | false | The date and time when the batch was closed. This is represented in ISO 8601 format (e.g., YYYY-MM-DDTHH:MM:SSZ) and indicates when the batch processing was completed. | 
 | `batch_no` | string  | false | The incremental identifier of the batch. This number is used to track and reference the batch in subsequent operations or inquiries. | 
 | `batch_status` | string  | false | A descriptive string detailing the current status of the batch. This status provides a human-readable explanation of the batch's processing state. | 
 | `batch_status_code` | string  | false | A batch status code that represents the processing state of the batch. Batches will be one of  - 'O' defining the batch is open for settlement and not yet settled  - 'X' defines that the batch is external to our systems and managed elsewhere  - 'C' defines that the batch is cancelled and not settled  - 'S' defines that the batch has been settled and remitted. | 
@@ -6606,30 +6547,30 @@ BPS | `bps` | string  | false | true if BPS has been enabled on this token. |
 ```json
 {
    "after": "",
-   "maxResults": 50,
+   "maxResults": 0,
    "merchantid": 11223344,
    "nextToken": "",
-   "orderBy": "date"
+   "orderBy": ""
 }
 ```
 
 ```xml
 <PaylinkTokenStatusChangeRequest>
  <after></after> 
- <maxResults>50</maxResults> 
+ <maxResults></maxResults> 
  <merchantid>11223344</merchantid> 
  <nextToken></nextToken> 
- <orderBy>date</orderBy> 
+ <orderBy></orderBy> 
 </PaylinkTokenStatusChangeRequest>
 ```
 
 | Field | Type | Required | Description |
 |-------|------|----------|-------------|
 | `after` | string *date-time* | true | identifies the date and time to lookup changes after. | 
-| `maxResults` | integer *int32* | false | The maximum number of results to return in a single response. This value is used to limit the size of data returned by the API, enhancing performance and manageability. Values should be between 5 and 250. | 
+| `maxResults` | integer *int32* | false | the maximum number of results between 5 and 250 to return. Default is 50. | 
 | `merchantid` | integer *int32* | true | the merchant id to review tokens for. | 
-| `nextToken` | string  | false | A token that identifies the starting point of the page of results to be returned. An empty value indicates the start of the dataset. When supplied, it is validated and used to fetch the subsequent page of results. This token is typically obtained from the response of a previous pagination request. | 
-| `orderBy` | string  | false | Specifies the field by which results are ordered. Available fields are [p.id]. By default, fields are ordered by OrderByExpression(p.id,ASC). To order in descending order, prefix with '-' or suffix with ' DESC'. | 
+| `nextToken` | string  | false | the next token value when more results are available. | 
+| `orderBy` | array | false | an orderBy array should the search require ordering. The following fields may be specified: `created`. The default order by fields are `created`.<br/><br/>type: string | 
 
 
 
@@ -6639,8 +6580,6 @@ BPS | `bps` | string  | false | true if BPS has been enabled on this token. |
 
 ```json
 {
-   "count": 25,
-   "maxResults": 50,
    "nextToken": "",
    "tokens": ""
 }
@@ -6648,8 +6587,6 @@ BPS | `bps` | string  | false | true if BPS has been enabled on this token. |
 
 ```xml
 <PaylinkTokenStatusChangeResponse>
- <count>25</count> 
- <maxResults>50</maxResults> 
  <nextToken></nextToken> 
  <tokens></tokens> 
 </PaylinkTokenStatusChangeResponse>
@@ -6657,9 +6594,7 @@ BPS | `bps` | string  | false | true if BPS has been enabled on this token. |
 
 | Field | Type | Required | Description |
 |-------|------|----------|-------------|
-| `count` | integer *int32* | false | The count of items returned in this page. | 
-| `maxResults` | integer *int32* | false | The max results requested in this page. | 
-| `nextToken` | string  | false | A token that identifies the starting point of the page of results to be returned. An empty value indicates the start of the dataset. When supplied, it is validated and used to fetch the subsequent page of results. This token is typically obtained from the response of a previous pagination request. | 
+| `nextToken` | string  | false | If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. | 
 | `tokens` | array | true | Tokens which have changed since the date presented. [PaylinkTokenStatus](#paylinktokenstatus) | 
 
 
@@ -6927,111 +6862,6 @@ BPS | `bps` | string  | false | true if BPS has been enabled on this token. |
 
 ```json
 {
-   "date_created": "2020-01-02",
-   "net_amount": 11874500,
-   "refund_amount": 11874500,
-   "refund_count": 11874500,
-   "sales_amount": 11874500,
-   "sales_count": 11874500
-}
-```
-
-```xml
-<RemittanceData>
- <date_created>2020-01-02</date_created> 
- <net_amount>11874500</net_amount> 
- <refund_amount>11874500</refund_amount> 
- <refund_count>11874500</refund_count> 
- <sales_amount>11874500</sales_amount> 
- <sales_count>11874500</sales_count> 
-</RemittanceData>
-```
-
-| Field | Type | Required | Description |
-|-------|------|----------|-------------|
-| `date_created` | string *date-time* | false | Represents the date and time when the remittance was processed. This timestamp follows the ISO 8601 format for datetime representation. | 
-| `net_amount` | integer *int32* | false | Represents the net amount after accounting for refunds. This is calculated as SalesAmount - RefundAmount and expressed in the smallest currency unit.<br/><br/>minimum: 0<br/>maximum: 999999999 | 
-| `refund_amount` | integer *int32* | false | The total amount refunded to customers.<br/><br/>minimum: 0<br/>maximum: 999999999 | 
-| `refund_count` | integer *int32* | false | The total number of refund transactions processed. This figure helps in understanding the frequency of refunds relative to sales.<br/><br/>minimum: 0<br/>maximum: 999999999 | 
-| `sales_amount` | integer *int32* | false | The total monetary amount of sales transactions.<br/><br/>minimum: 0<br/>maximum: 999999999 | 
-| `sales_count` | integer *int32* | false | Indicates the total number of sales transactions that occurred. This count provides insight into the volume of sales.<br/><br/>minimum: 0<br/>maximum: 999999999 | 
-
-
-
-
-
-## RemittanceReportRequest
-
-```json
-{
-   "date_from": "2024-01-24",
-   "date_until": "2024-01-31",
-   "maxResults": 50,
-   "merchant_id": "",
-   "nextToken": "",
-   "orderBy": "date"
-}
-```
-
-```xml
-<RemittanceReportRequest>
- <date_from>2024-01-24</date_from> 
- <date_until>2024-01-31</date_until> 
- <maxResults>50</maxResults> 
- <merchant_id></merchant_id> 
- <nextToken></nextToken> 
- <orderBy>date</orderBy> 
-</RemittanceReportRequest>
-```
-
-| Field | Type | Required | Description |
-|-------|------|----------|-------------|
-| `date_from` | string *date* | false | Start date (YYYY-MM-DD) for batch Retrieval range, inclusive. Maximum value is 3 years ago. | 
-| `date_until` | string *date* | false | End date (YYYY-MM-DD) for batch Retrieval range, inclusive. | 
-| `maxResults` | integer *int32* | false | The maximum number of results to return in a single response. This value is used to limit the size of data returned by the API, enhancing performance and manageability. Values should be between 5 and 250. | 
-| `merchant_id` | array | false | type: integer | 
-| `nextToken` | string  | false | A token that identifies the starting point of the page of results to be returned. An empty value indicates the start of the dataset. When supplied, it is validated and used to fetch the subsequent page of results. This token is typically obtained from the response of a previous pagination request. | 
-| `orderBy` | string  | false | Specifies the field by which results are ordered. Available fields are [trans_no,date_when,amount]. By default, fields are ordered by OrderByExpression(trans_no,ASC). To order in descending order, prefix with '-' or suffix with ' DESC'. | 
-
-
-
-
-
-## RemittanceReportResponse
-
-```json
-{
-   "count": 25,
-   "data": "",
-   "maxResults": 50,
-   "nextToken": ""
-}
-```
-
-```xml
-<RemittanceReportResponse>
- <count>25</count> 
- <data></data> 
- <maxResults>50</maxResults> 
- <nextToken></nextToken> 
-</RemittanceReportResponse>
-```
-
-| Field | Type | Required | Description |
-|-------|------|----------|-------------|
-| `count` | integer *int32* | false | The count of items returned in this page. | 
-| `data` | array | true | Transaction data based on the batch request. [RemittedClientData](#remittedclientdata) | 
-| `maxResults` | integer *int32* | false | The max results requested in this page. | 
-| `nextToken` | string  | false | A token that identifies the starting point of the page of results to be returned. An empty value indicates the start of the dataset. When supplied, it is validated and used to fetch the subsequent page of results. This token is typically obtained from the response of a previous pagination request. | 
-
-
-
-
-
-## RemittedClientData
-
-```json
-{
    "batches": "",
    "clientid": "PC12345",
    "date": "2020-01-02",
@@ -7050,7 +6880,7 @@ BPS | `bps` | string  | false | true if BPS has been enabled on this token. |
 ```
 
 ```xml
-<RemittedClientData>
+<RemittanceData>
  <batches></batches> 
  <clientid>PC12345</clientid> 
  <date>2020-01-02</date> 
@@ -7065,7 +6895,7 @@ BPS | `bps` | string  | false | true if BPS has been enabled on this token. |
  <sales_count>11874500</sales_count> 
  <settlement_implementation></settlement_implementation> 
  <uuid>123e4567-e89b-12d3-a456-426614174000</uuid> 
-</RemittedClientData>
+</RemittanceData>
 ```
 
 | Field | Type | Required | Description |
@@ -7084,6 +6914,40 @@ BPS | `bps` | string  | false | true if BPS has been enabled on this token. |
 | `sales_count` | integer *int32* | false | Indicates the total number of sales transactions that occurred. This count provides insight into the volume of sales.<br/><br/>minimum: 0<br/>maximum: 999999999 | 
 | `settlement_implementation` | string  | false | The name of the implementation. | 
 | `uuid` | string *uuid* | false | The uuid of the settlement file processed on.<br/><br/>minLength: 36<br/>maxLength: 36 | 
+
+
+
+
+
+## RemittanceReportResponse
+
+```json
+{
+   "count": 25,
+   "data": "",
+   "max_results": 50,
+   "next_token": "",
+   "order_by": ""
+}
+```
+
+```xml
+<RemittanceReportResponse>
+ <count>25</count> 
+ <data></data> 
+ <max_results>50</max_results> 
+ <next_token></next_token> 
+ <order_by></order_by> 
+</RemittanceReportResponse>
+```
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `count` | integer *int32* | false | The count of items returned in this page. | 
+| `data` | array | true | Transaction data based on the batch request. [RemittanceData](#remittancedata) | 
+| `max_results` | integer *int32* | false | The max results requested in this page. | 
+| `next_token` | string  | false | A token that identifies the starting point of the page of results to be returned. An empty value indicates the start of the dataset. When supplied, it is validated and used to fetch the subsequent page of results. This token is typically obtained from the response of a previous pagination request. | 
+| `order_by` | array | false | The order by requested in this page. type: string | 
 
 
 
