@@ -1,12 +1,12 @@
 ---
 title: CityPay Payment API
-version: 6.x
+version: 6.6.36
 language_tabs:
   - json
   - xml
 toc_footers:
   - <a href='mailto:support@citypay.com'>Any Integration Questions?</a>
-  - V6.x 2024-04-08
+  - V6.6.36 2024-04-17
 includes:
   - errorcodes
   - authresultcodes
@@ -22,8 +22,8 @@ search: true
 
 # CityPay Payment API
 
-Version: 6.x
-Last Updated: 2024-04-08
+Version: 6.6.36
+Last Updated: 2024-04-17
 
 
 Welcome to the CityPay API, a robust HTTP API payment solution designed for seamless server-to-server 
@@ -190,98 +190,59 @@ and payment querying.
 </div>
 
 ## Authorization API Overview
-
-The authoriSation process is a critical component in payment processing, enabling standard transaction authoriSation 
+The authorisation process is a critical component in payment processing, enabling standard transaction authorisation 
 based on the parameters provided in its request. The CityPay gateway facilitates this by routing your transaction 
 through an Acquiring bank, which then seeks authorisation from the appropriate card schemes, such as Visa or MasterCard.
-
 This API is designed for server environments that require the processing of transactions on demand and in real-time. It 
 supports a wide range of transaction types, including E-commerce, mail order, telephone order, customer present (keyed), 
 continuous authority, pre-authorisation, and others. CityPay will configure your account for the appropriate acquirer 
 coding, ensuring seamless operation through the gateway.
-
 Depending on the payment environment, specific data properties are required. Our API is flexible enough to accommodate 
 these requirements, and our integration team is available to assist you in providing the necessary data for transaction 
 processing.
-
-### Example JSON Request
-
-```json
-{
- "RequestChallenged": {
-  "acsurl": "https://bank.com/3DS/ACS",
-  "creq": "SXQgd2FzIHRoZSBiZXN0IG9mIHRpbWVzLCBpdCB3YXMgdGhlIHdvcnN00...",
-  "merchantid": 12345,
-  "transno": 1,
-  "threedserver_trans_id": "d652d8d2-d74a-4264-a051-a7862b10d5d6"
- }
-}
-```
-
 ## E-commerce workflows
-
 For E-commerce transactions requiring 3DS, our API includes a fully accredited built-in mechanism to handle 
 authentication, simplifying the integration process and eliminating the need for lengthy and costly accreditations with 
 Visa and MasterCard.
-
 3D Secure aims to shift the liability of a transaction away from the merchant and back to the cardholder. This 
 "liability shift" determines whether a cardholder can charge back a transaction. The process requires the cardholder 
 to authenticate the transaction prior to authorisation, producing a Cardholder Verification Value (CAVV) and 
 E-commerce Indicator (ECI) as evidence.
-
 3DS version 2 to provide secure customer authentication (SCA) in line with EU regulation.
-
 CityPay support 3DS version 2.2 for Verified by Visa, MasterCard Identity Check and American Express SafeKey 2.2. Version
 2.3 is currently in development however this will be a seamless upgrade for all integrations.
-
 #### 3-D Secure - None
-
 ![3DSv2 Frctionless Flow](images/3dsv2-no3d.png)
-
 Some transactions may not involve 3-D Secure processing, either due to the inability to perform authentication or an 
 "attempted" resolution. These transactions may not benefit from a liability shift and could result in a decline.
-
 #### 3-D Secure - Frictionless
-
 ![3DSv2 Frctionless Flow](images/3dsv2-frictionless.png)
-
 3DSv2 supports "frictionless" authentication for low-risk transactions, minimizing impact on the standard 
 authorisation flow. This process is handled seamlessly by our API, requiring no redirection and maintaining a smooth 
 transaction experience.
-
 #### 3-D Secure - Challenge
-
 ![3DSv2 Frctionless Flow](images/3dsv2-challenge.png)
-
 Higher-risk transactions may be "challenged," requiring the cardholder to authenticate the transaction. In such cases,  
 the API will return a [request challenge](#requestchallenged) which will require your integration to forward the 
 cardholder's browser to the given [ACS url](#acsurl). This should be performed by posting the [creq](#creq) value 
 (the challenge request value). 
-
 Once complete, the ACS will have already been in touch with our servers by sending us a result of the authentication
 known as `RReq`.
-
 To maintain session state, a parameter `threeDSSessionData` can be posted to the ACS url and will be returned alongside 
 the `CRes` value. This will ensure that any controller code will be able to isolate state between calls. This field
 is to be used by your own systems rather than ours and may be any value which can uniquely identify your cardholder's
 session. As an option, we do provide a `threedserver_trans_id` value in the `RequestChallenged` packet which can be used
 for the `threeDSSessionData` value as it is used to uniquely identify the 3D-Secure session. 
-
 A common method of maintaining state is to provide a session related query string value in the `merchant_termurl` value
 (also known as the `notificationUrl`). For example providing a url of `https://mystore.com/checkout?token=asny2348w4561..`
 could return the user directly back to their session with your environment.
-
 Once you have received a `cres` post from the ACS authentication service, this should be POSTed to the [cres](#cres) 
 endpoint to perform full authorisation processing. 
-
 Please note that the CRes returned to us is purely a mechanism of acknowledging that transactions should be committed for
 authorisation. The ACS by this point will have sent us the verification value (CAVV) to perform a liability shift. The CRes
 value will be validated for receipt of the CAVV and subsequently may return response codes illustrating this. 
-
 To forward the user to the ACS, we recommend a simple auto submit HTML form.
-
 > Simple auto submit HTML form
-
 ```html
 <html lang="en">
 	<head>
@@ -301,13 +262,10 @@ To forward the user to the ACS, we recommend a simple auto submit HTML form.
     </body>
 </html>
 ```
-
 A full ACS test suite is available for 3DSv2 testing.
         
 ### Testing 3DSv2 Integrations
-
 The API provides a mock 3dsV2 handler which performs a number of scenarios based on the value of the CSC in the request.
-
  CSC Value | Behaviour                                                             |
 -----------|-----------------------------------------------------------------------|
  731       | Frictionless processing - Not authenticated                           |
@@ -395,22 +353,22 @@ Request body for the AuthorisationRequest operation contains the following prope
 
 Field  | Type | Usage | Description |
 ---------|------|------|-------------|
- `amount` | integer *int32* | Required | The amount to authorise in the lowest unit of currency with a variable length to a maximum of 12 digits.<br/><br/>No decimal points are to be included and no divisional characters such as 1,024.<br/><br/>The amount should be the total amount required for the transaction.<br/><br/>For example with GBP £1,021.95 the amount value is 102195.<br/><br/> minLength: 1<br/>maxLength: 9 | 
- `cardnumber` | string  | Required | The card number (PAN) with a variable length to a maximum of 21 digits in numerical form. Any non numeric characters will be stripped out of the card number, this includes whitespace or separators internal of the provided value.<br/><br/>The card number must be treated as sensitive data. We only provide an obfuscated value in logging and reporting.  The plaintext value is encrypted in our database using AES 256 GMC bit encryption for settlement or refund purposes.<br/><br/>When providing the card number to our gateway through the authorisation API you will be handling the card data on your application. This will require further PCI controls to be in place and this value must never be stored.<br/><br/> minLength: 12<br/>maxLength: 22 | 
+ `amount` | integer *int32* | Required | The amount to authorise in the lowest unit of currency with a variable length to a maximum of 12 digits. No decimal points are to be included and no divisional characters such as 1,024. The amount should be the total amount required for the transaction. For example with GBP £1,021.95 the amount value is 102195.<br/><br/> minLength: 1<br/>maxLength: 9 | 
+ `cardnumber` | string  | Required | The card number (PAN) with a variable length to a maximum of 21 digits in numerical form. Any non numeric characters will be stripped out of the card number, this includes whitespace or separators internal of the provided value. The card number must be treated as sensitive data. We only provide an obfuscated value in logging and reporting.  The plaintext value is encrypted in our database using AES 256 GMC bit encryption for settlement or refund purposes. When providing the card number to our gateway through the authorisation API you will be handling the card data on your application. This will require further PCI controls to be in place and this value must never be stored.<br/><br/> minLength: 12<br/>maxLength: 22 | 
  `expmonth` | integer *int32* | Required | The month of expiry of the card. The month value should be a numerical value between 1 and 12.<br/><br/> minimum: 1<br/>maximum: 12 | 
  `expyear` | integer *int32* | Required | The year of expiry of the card.<br/><br/> minimum: 2000<br/>maximum: 2100 | 
- `identifier` | string  | Required | The identifier of the transaction to process. The value should be a valid reference and may be used to perform  post processing actions and to aid in reconciliation of transactions.<br/><br/>The value should be a valid printable string with ASCII character ranges from 0x32 to 0x127.<br/><br/>The identifier is recommended to be distinct for each transaction such as a [random unique identifier](https://en.wikipedia.org/wiki/Universally_unique_identifier) this will aid in ensuring each transaction is identifiable.<br/><br/>When transactions are processed they are also checked for duplicate requests. Changing the identifier on a subsequent request will ensure that a transaction is considered as different.<br/><br/> minLength: 4<br/>maxLength: 50 | 
+ `identifier` | string  | Required | The identifier of the transaction to process. The value should be a valid reference and may be used to perform  post processing actions and to aid in reconciliation of transactions. The value should be a valid printable string with ASCII character ranges from 0x32 to 0x127. The identifier is recommended to be distinct for each transaction such as a [random unique identifier](https://en.wikipedia.org/wiki/Universally_unique_identifier) this will aid in ensuring each transaction is identifiable. When transactions are processed they are also checked for duplicate requests. Changing the identifier on a subsequent request will ensure that a transaction is considered as different.<br/><br/> minLength: 4<br/>maxLength: 50 | 
  `merchantid` | integer *int32* | Required | Identifies the merchant account to perform processing for. | 
- `avs_postcode_policy` | string  | Optional | A policy value which determines whether an AVS postcode policy is enforced or bypassed.<br/><br/>Values are  `0` for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.<br/><br/> `1` for an enforced policy. Transactions that are enforced will be rejected if the AVS postcode numeric value does not match.<br/><br/> `2` to bypass. Transactions that are bypassed will be allowed through even if the postcode did not match.<br/><br/> `3` to ignore. Transactions that are ignored will bypass the result and not send postcode details for authorisation. | 
- `bill_to` | object | Optional | [ContactDetails](#contactdetails) Billing details of the card holder making the payment. These details may be used for AVS fraud analysis, 3DS and for future referencing of the transaction.<br/><br/>For AVS to work correctly, the billing details should be the registered address of the card holder as it appears on the statement with their card issuer. The numeric details will be passed through for analysis and may result in a decline if incorrectly provided. | 
- `csc` | string  | Optional | The Card Security Code (CSC) (also known as CV2/CVV2) is normally found on the back of the card (American Express has it on the front). The value helps to identify posession of the card as it is not available within the chip or magnetic swipe.<br/><br/>When forwarding the CSC, please ensure the value is a string as some values start with 0 and this will be stripped out by any integer parsing.<br/><br/>The CSC number aids fraud prevention in Mail Order and Internet payments.<br/><br/>Business rules are available on your account to identify whether to accept or decline transactions based on mismatched results of the CSC.<br/><br/>The Payment Card Industry (PCI) requires that at no stage of a transaction should the CSC be stored.<br/><br/>This applies to all entities handling card data.<br/><br/>It should also not be used in any hashing process.<br/><br/>CityPay do not store the value and have no method of retrieving the value once the transaction has been processed. For this reason, duplicate checking is unable to determine the CSC in its duplication check algorithm.<br/><br/> minLength: 3<br/>maxLength: 4 | 
- `csc_policy` | string  | Optional | A policy value which determines whether a CSC policy is enforced or bypassed.<br/><br/>Values are  `0` for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.<br/><br/> `1` for an enforced policy. Transactions that are enforced will be rejected if the CSC value does not match.<br/><br/> `2` to bypass. Transactions that are bypassed will be allowed through even if the CSC did not match.<br/><br/> `3` to ignore. Transactions that are ignored will bypass the result and not send the CSC details for authorisation. | 
+ `avs_postcode_policy` | string  | Optional | A policy value which determines whether an AVS postcode policy is enforced or bypassed. Values are  `0` for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.  `1` for an enforced policy. Transactions that are enforced will be rejected if the AVS postcode numeric value does not match.  `2` to bypass. Transactions that are bypassed will be allowed through even if the postcode did not match.  `3` to ignore. Transactions that are ignored will bypass the result and not send postcode details for authorisation. | 
+ `bill_to` | object | Optional | [ContactDetails](#contactdetails) Billing details of the card holder making the payment. These details may be used for AVS fraud analysis, 3DS and for future referencing of the transaction. For AVS to work correctly, the billing details should be the registered address of the card holder as it appears on the statement with their card issuer. The numeric details will be passed through for analysis and may result in a decline if incorrectly provided. | 
+ `csc` | string  | Optional | The Card Security Code (CSC) (also known as CV2/CVV2) is normally found on the back of the card (American Express has it on the front). The value helps to identify posession of the card as it is not available within the chip or magnetic swipe. When forwarding the CSC, please ensure the value is a string as some values start with 0 and this will be stripped out by any integer parsing. The CSC number aids fraud prevention in Mail Order and Internet payments. Business rules are available on your account to identify whether to accept or decline transactions based on mismatched results of the CSC. The Payment Card Industry (PCI) requires that at no stage of a transaction should the CSC be stored. This applies to all entities handling card data. It should also not be used in any hashing process. CityPay do not store the value and have no method of retrieving the value once the transaction has been processed. For this reason, duplicate checking is unable to determine the CSC in its duplication check algorithm.<br/><br/> minLength: 3<br/>maxLength: 4 | 
+ `csc_policy` | string  | Optional | A policy value which determines whether a CSC policy is enforced or bypassed. Values are  `0` for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.  `1` for an enforced policy. Transactions that are enforced will be rejected if the CSC value does not match.  `2` to bypass. Transactions that are bypassed will be allowed through even if the CSC did not match.  `3` to ignore. Transactions that are ignored will bypass the result and not send the CSC details for authorisation. | 
  `currency` | string  | Optional | The processing currency for the transaction. Will default to the merchant account currency.<br/><br/>minLength: 3<br/>maxLength: 3 | 
- `duplicate_policy` | string  | Optional | A policy value which determines whether a duplication policy is enforced or bypassed. A duplication check has a window of time set against your account within which it can action. If a previous transaction with matching values occurred within the window, any subsequent transaction will result in a T001 result.<br/><br/>Values are  `0` for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.<br/><br/> `1` for an enforced policy. Transactions that are enforced will be checked for duplication within the duplication window.<br/><br/> `2` to bypass. Transactions that are bypassed will not be checked for duplication within the duplication window.<br/><br/> `3` to ignore. Transactions that are ignored will have the same affect as bypass. | 
- `match_avsa` | string  | Optional | A policy value which determines whether an AVS address policy is enforced, bypassed or ignored.<br/><br/>Values are  `0` for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.<br/><br/> `1` for an enforced policy. Transactions that are enforced will be rejected if the AVS address numeric value does not match.<br/><br/> `2` to bypass. Transactions that are bypassed will be allowed through even if the address did not match.<br/><br/> `3` to ignore. Transactions that are ignored will bypass the result and not send address numeric details for authorisation. | 
+ `duplicate_policy` | string  | Optional | A policy value which determines whether a duplication policy is enforced or bypassed. A duplication check has a window of time set against your account within which it can action. If a previous transaction with matching values occurred within the window, any subsequent transaction will result in a T001 result. Values are  `0` for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.  `1` for an enforced policy. Transactions that are enforced will be checked for duplication within the duplication window.  `2` to bypass. Transactions that are bypassed will not be checked for duplication within the duplication window.  `3` to ignore. Transactions that are ignored will have the same affect as bypass. | 
+ `match_avsa` | string  | Optional | A policy value which determines whether an AVS address policy is enforced, bypassed or ignored. Values are  `0` for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.  `1` for an enforced policy. Transactions that are enforced will be rejected if the AVS address numeric value does not match.  `2` to bypass. Transactions that are bypassed will be allowed through even if the address did not match.  `3` to ignore. Transactions that are ignored will bypass the result and not send address numeric details for authorisation. | 
  `name_on_card` | string  | Optional | The card holder name as appears on the card such as MR N E BODY. Required for some acquirers.<br/><br/> minLength: 2<br/>maxLength: 45 | 
  `ship_to` | object | Optional | [ContactDetails](#contactdetails) Shipping details of the card holder making the payment. These details may be used for 3DS and for future referencing of the transaction. | 
- `tag` | string  | Optional | A "tag" is a label that you can attach to a payment authorization. Tags can help you group transactions together based on certain criteria, like a work job or a ticket number. They can also assist in filtering transactions when you're generating reports.<br/><br/>Multiple Tags You can add more than one tag to a transaction by separating them with commas.<br/><br/>Limitations There is a maximum limit of 3 tags that can be added to a single transaction. Each tag can be no longer than 20 characters and alphanumeric with no spaces.<br/><br/>Example: Let's say you're a software company and you have different teams working on various projects. When a team makes a purchase or incurs an expense, they can tag the transaction with the project name, the team name, and the type of expense.<br/><br/>Project Name: Project_X Team Name: Team_A Type of Expense: Hardware So, the tag for a transaction might look like: Project_X,Team_A,Hardware<br/><br/>This way, when you're looking at your financial reports, you can easily filter transactions based on these tags to see how much each project or team is spending on different types of expenses. | 
+ `tag` | string  | Optional | A "tag" is a label that you can attach to a payment authorization. Tags can help you group transactions together based on certain criteria, like a work job or a ticket number. They can also assist in filtering transactions when you're generating reports. Multiple Tags You can add more than one tag to a transaction by separating them with commas. Limitations There is a maximum limit of 3 tags that can be added to a single transaction. Each tag can be no longer than 20 characters and alphanumeric with no spaces. Example: Let's say you're a software company and you have different teams working on various projects. When a team makes a purchase or incurs an expense, they can tag the transaction with the project name, the team name, and the type of expense. Project Name: Project_X Team Name: Team_A Type of Expense: Hardware So, the tag for a transaction might look like: Project_X,Team_A,Hardware This way, when you're looking at your financial reports, you can easily filter transactions based on these tags to see how much each project or team is spending on different types of expenses. | 
  `threedsecure` | object | Optional | [ThreeDSecure](#threedsecure) ThreeDSecure element, providing values to enable full 3DS processing flows. | 
  `trans_info` | string  | Optional | Further information that can be added to the transaction will display in reporting. Can be used for flexible values such as operator id.<br/><br/>maxLength: 50 | 
  `trans_type` | string  | Optional | The type of transaction being submitted. Normally this value is not required and your account manager may request that you set this field.<br/><br/>maxLength: 1 | 
@@ -432,7 +390,7 @@ Supports the airline business extension by adding the following parameters to th
 
 Field	| Type| Description |
 -----|------|-------------|
-`airline_data` | object | [AirlineAdvice](#airlineadvice) Additional advice for airline integration that can be applied on an authorisation request.<br/><br/>As tickets are normally not allocated until successful payment it is normal for a transaction to be pre-authorised  and the airline advice supplied on a capture request instead. Should the data already exist and an auth and  capture is preferred. This data may be supplied. | 
+`airline_data` | object | [AirlineAdvice](#airlineadvice) Additional advice for airline integration that can be applied on an authorisation request. As tickets are normally not allocated until successful payment it is normal for a transaction to be pre-authorised  and the airline advice supplied on a capture request instead. Should the data already exist and an auth and  capture is preferred. This data may be supplied. | 
 
 
 
@@ -489,12 +447,10 @@ Responses for the AuthorisationRequest operation are
 
 A bin range lookup service can be used to check what a card is, as seen by the gateway. Each card number's 
 leading digits help to identify who
-
 0. the card scheme is such as Visa, MasterCard or American Express 
 1. the issuer of the card, such as the bank
 2. it's country of origin
 3. it's currency of origin
-
 Our gateway has 450 thousand possible bin ranges and uses a number of algorithms to determine the likelihood of the bin
 data. The request requires a bin value of between 6 and 12 digits. The more digits provided may ensure a more accurate
 result.
@@ -554,19 +510,15 @@ Responses for the BinRangeLookupRequest operation are
 </div>
 
 _The capture process only applies to transactions which have been pre-authorised only._ 
-
 The capture process will ensure
 that a transaction will now settle. It is expected that a capture call will be provided within 3 days or
 a maximum of 7 days.
-
 A capture request is provided to confirm that you wish the transaction to be settled. This request can
 contain a final amount for the transaction which is different to the original authorisation amount. This
 may be useful in a delayed system process such as waiting for stock to be ordered, confirmed, or services
 provided before the final cost is known.
-
 When a transaction is completed, a new authorisation code may be created and a new confirmation
 can be sent online to the acquiring bank.
-
 Once the transaction has been processed. A standard [`Acknowledgement`](#acknowledgement) will be returned,
 outlining the result of the transaction. On a successful completion process, the transaction will
 be available for the settlement and completed at the end of the day.
@@ -671,7 +623,7 @@ Request body for the CaptureRequest operation contains the following properties
 Field  | Type | Usage | Description |
 ---------|------|------|-------------|
  `merchantid` | integer *int32* | Required | Identifies the merchant account to perform the capture for. | 
- `amount` | integer *int32* | Optional | The completion amount provided in the lowest unit of currency for the specific currency of the merchant, with a variable length to a maximum of 12 digits. No decimal points to be included. For example with GBP 75.45 use the value 7545. Please check that you do not supply divisional characters such as 1,024 in the request which may be caused by some number formatters.<br/><br/>If no amount is supplied, the original processing amount is used.<br/><br/> minLength: 1<br/>maxLength: 9 | 
+ `amount` | integer *int32* | Optional | The completion amount provided in the lowest unit of currency for the specific currency of the merchant, with a variable length to a maximum of 12 digits. No decimal points to be included. For example with GBP 75.45 use the value 7545. Please check that you do not supply divisional characters such as 1,024 in the request which may be caused by some number formatters. If no amount is supplied, the original processing amount is used.<br/><br/> minLength: 1<br/>maxLength: 9 | 
  `identifier` | string  | Optional | The identifier of the transaction to capture. If an empty value is supplied then a `trans_no` value must be supplied.<br/><br/>minLength: 4<br/>maxLength: 50 | 
  `transno` | integer *int32* | Optional | The transaction number of the transaction to look up and capture. If an empty value is supplied then an identifier value must be supplied. | 
 
@@ -731,7 +683,6 @@ The CRes request performs authorisation processing once a challenge request has 
 with an Authentication Server (ACS). This challenge response contains confirmation that will
 allow the API systems to return an authorisation response based on the result. Our systems will 
 know out of band via an `RReq` call by the ACS to notify us if the liability shift has been issued.
-
 Any call to the CRes operation will require a previous authorisation request and cannot be called 
 on its own without a previous [request challenge](#requestchallenged) being obtained.
 
@@ -828,17 +779,17 @@ Request body for the CreatePaymentIntent operation contains the following proper
 
 Field  | Type | Usage | Description |
 ---------|------|------|-------------|
- `amount` | integer *int32* | Required | The amount to authorise in the lowest unit of currency with a variable length to a maximum of 12 digits.<br/><br/>No decimal points are to be included and no divisional characters such as 1,024.<br/><br/>The amount should be the total amount required for the transaction.<br/><br/>For example with GBP £1,021.95 the amount value is 102195.<br/><br/> minLength: 1<br/>maxLength: 9 | 
- `identifier` | string  | Required | The identifier of the transaction to process. The value should be a valid reference and may be used to perform  post processing actions and to aid in reconciliation of transactions.<br/><br/>The value should be a valid printable string with ASCII character ranges from 0x32 to 0x127.<br/><br/>The identifier is recommended to be distinct for each transaction such as a [random unique identifier](https://en.wikipedia.org/wiki/Universally_unique_identifier) this will aid in ensuring each transaction is identifiable.<br/><br/>When transactions are processed they are also checked for duplicate requests. Changing the identifier on a subsequent request will ensure that a transaction is considered as different.<br/><br/> minLength: 4<br/>maxLength: 50 | 
- `avs_postcode_policy` | string  | Optional | A policy value which determines whether an AVS postcode policy is enforced or bypassed.<br/><br/>Values are  `0` for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.<br/><br/> `1` for an enforced policy. Transactions that are enforced will be rejected if the AVS postcode numeric value does not match.<br/><br/> `2` to bypass. Transactions that are bypassed will be allowed through even if the postcode did not match.<br/><br/> `3` to ignore. Transactions that are ignored will bypass the result and not send postcode details for authorisation. | 
- `bill_to` | object | Optional | [ContactDetails](#contactdetails) Billing details of the card holder making the payment. These details may be used for AVS fraud analysis, 3DS and for future referencing of the transaction.<br/><br/>For AVS to work correctly, the billing details should be the registered address of the card holder as it appears on the statement with their card issuer. The numeric details will be passed through for analysis and may result in a decline if incorrectly provided. | 
- `csc` | string  | Optional | The Card Security Code (CSC) (also known as CV2/CVV2) is normally found on the back of the card (American Express has it on the front). The value helps to identify posession of the card as it is not available within the chip or magnetic swipe.<br/><br/>When forwarding the CSC, please ensure the value is a string as some values start with 0 and this will be stripped out by any integer parsing.<br/><br/>The CSC number aids fraud prevention in Mail Order and Internet payments.<br/><br/>Business rules are available on your account to identify whether to accept or decline transactions based on mismatched results of the CSC.<br/><br/>The Payment Card Industry (PCI) requires that at no stage of a transaction should the CSC be stored.<br/><br/>This applies to all entities handling card data.<br/><br/>It should also not be used in any hashing process.<br/><br/>CityPay do not store the value and have no method of retrieving the value once the transaction has been processed. For this reason, duplicate checking is unable to determine the CSC in its duplication check algorithm.<br/><br/> minLength: 3<br/>maxLength: 4 | 
- `csc_policy` | string  | Optional | A policy value which determines whether a CSC policy is enforced or bypassed.<br/><br/>Values are  `0` for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.<br/><br/> `1` for an enforced policy. Transactions that are enforced will be rejected if the CSC value does not match.<br/><br/> `2` to bypass. Transactions that are bypassed will be allowed through even if the CSC did not match.<br/><br/> `3` to ignore. Transactions that are ignored will bypass the result and not send the CSC details for authorisation. | 
+ `amount` | integer *int32* | Required | The amount to authorise in the lowest unit of currency with a variable length to a maximum of 12 digits. No decimal points are to be included and no divisional characters such as 1,024. The amount should be the total amount required for the transaction. For example with GBP £1,021.95 the amount value is 102195.<br/><br/> minLength: 1<br/>maxLength: 9 | 
+ `identifier` | string  | Required | The identifier of the transaction to process. The value should be a valid reference and may be used to perform  post processing actions and to aid in reconciliation of transactions. The value should be a valid printable string with ASCII character ranges from 0x32 to 0x127. The identifier is recommended to be distinct for each transaction such as a [random unique identifier](https://en.wikipedia.org/wiki/Universally_unique_identifier) this will aid in ensuring each transaction is identifiable. When transactions are processed they are also checked for duplicate requests. Changing the identifier on a subsequent request will ensure that a transaction is considered as different.<br/><br/> minLength: 4<br/>maxLength: 50 | 
+ `avs_postcode_policy` | string  | Optional | A policy value which determines whether an AVS postcode policy is enforced or bypassed. Values are  `0` for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.  `1` for an enforced policy. Transactions that are enforced will be rejected if the AVS postcode numeric value does not match.  `2` to bypass. Transactions that are bypassed will be allowed through even if the postcode did not match.  `3` to ignore. Transactions that are ignored will bypass the result and not send postcode details for authorisation. | 
+ `bill_to` | object | Optional | [ContactDetails](#contactdetails) Billing details of the card holder making the payment. These details may be used for AVS fraud analysis, 3DS and for future referencing of the transaction. For AVS to work correctly, the billing details should be the registered address of the card holder as it appears on the statement with their card issuer. The numeric details will be passed through for analysis and may result in a decline if incorrectly provided. | 
+ `csc` | string  | Optional | The Card Security Code (CSC) (also known as CV2/CVV2) is normally found on the back of the card (American Express has it on the front). The value helps to identify posession of the card as it is not available within the chip or magnetic swipe. When forwarding the CSC, please ensure the value is a string as some values start with 0 and this will be stripped out by any integer parsing. The CSC number aids fraud prevention in Mail Order and Internet payments. Business rules are available on your account to identify whether to accept or decline transactions based on mismatched results of the CSC. The Payment Card Industry (PCI) requires that at no stage of a transaction should the CSC be stored. This applies to all entities handling card data. It should also not be used in any hashing process. CityPay do not store the value and have no method of retrieving the value once the transaction has been processed. For this reason, duplicate checking is unable to determine the CSC in its duplication check algorithm.<br/><br/> minLength: 3<br/>maxLength: 4 | 
+ `csc_policy` | string  | Optional | A policy value which determines whether a CSC policy is enforced or bypassed. Values are  `0` for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.  `1` for an enforced policy. Transactions that are enforced will be rejected if the CSC value does not match.  `2` to bypass. Transactions that are bypassed will be allowed through even if the CSC did not match.  `3` to ignore. Transactions that are ignored will bypass the result and not send the CSC details for authorisation. | 
  `currency` | string  | Optional | The processing currency for the transaction. Will default to the merchant account currency.<br/><br/>minLength: 3<br/>maxLength: 3 | 
- `duplicate_policy` | string  | Optional | A policy value which determines whether a duplication policy is enforced or bypassed. A duplication check has a window of time set against your account within which it can action. If a previous transaction with matching values occurred within the window, any subsequent transaction will result in a T001 result.<br/><br/>Values are  `0` for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.<br/><br/> `1` for an enforced policy. Transactions that are enforced will be checked for duplication within the duplication window.<br/><br/> `2` to bypass. Transactions that are bypassed will not be checked for duplication within the duplication window.<br/><br/> `3` to ignore. Transactions that are ignored will have the same affect as bypass. | 
- `match_avsa` | string  | Optional | A policy value which determines whether an AVS address policy is enforced, bypassed or ignored.<br/><br/>Values are  `0` for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.<br/><br/> `1` for an enforced policy. Transactions that are enforced will be rejected if the AVS address numeric value does not match.<br/><br/> `2` to bypass. Transactions that are bypassed will be allowed through even if the address did not match.<br/><br/> `3` to ignore. Transactions that are ignored will bypass the result and not send address numeric details for authorisation. | 
+ `duplicate_policy` | string  | Optional | A policy value which determines whether a duplication policy is enforced or bypassed. A duplication check has a window of time set against your account within which it can action. If a previous transaction with matching values occurred within the window, any subsequent transaction will result in a T001 result. Values are  `0` for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.  `1` for an enforced policy. Transactions that are enforced will be checked for duplication within the duplication window.  `2` to bypass. Transactions that are bypassed will not be checked for duplication within the duplication window.  `3` to ignore. Transactions that are ignored will have the same affect as bypass. | 
+ `match_avsa` | string  | Optional | A policy value which determines whether an AVS address policy is enforced, bypassed or ignored. Values are  `0` for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.  `1` for an enforced policy. Transactions that are enforced will be rejected if the AVS address numeric value does not match.  `2` to bypass. Transactions that are bypassed will be allowed through even if the address did not match.  `3` to ignore. Transactions that are ignored will bypass the result and not send address numeric details for authorisation. | 
  `ship_to` | object | Optional | [ContactDetails](#contactdetails) Shipping details of the card holder making the payment. These details may be used for 3DS and for future referencing of the transaction. | 
- `tag` | string  | Optional | A "tag" is a label that you can attach to a payment authorization. Tags can help you group transactions together based on certain criteria, like a work job or a ticket number. They can also assist in filtering transactions when you're generating reports.<br/><br/>Multiple Tags You can add more than one tag to a transaction by separating them with commas.<br/><br/>Limitations There is a maximum limit of 3 tags that can be added to a single transaction. Each tag can be no longer than 20 characters and alphanumeric with no spaces.<br/><br/>Example: Let's say you're a software company and you have different teams working on various projects. When a team makes a purchase or incurs an expense, they can tag the transaction with the project name, the team name, and the type of expense.<br/><br/>Project Name: Project_X Team Name: Team_A Type of Expense: Hardware So, the tag for a transaction might look like: Project_X,Team_A,Hardware<br/><br/>This way, when you're looking at your financial reports, you can easily filter transactions based on these tags to see how much each project or team is spending on different types of expenses. | 
+ `tag` | string  | Optional | A "tag" is a label that you can attach to a payment authorization. Tags can help you group transactions together based on certain criteria, like a work job or a ticket number. They can also assist in filtering transactions when you're generating reports. Multiple Tags You can add more than one tag to a transaction by separating them with commas. Limitations There is a maximum limit of 3 tags that can be added to a single transaction. Each tag can be no longer than 20 characters and alphanumeric with no spaces. Example: Let's say you're a software company and you have different teams working on various projects. When a team makes a purchase or incurs an expense, they can tag the transaction with the project name, the team name, and the type of expense. Project Name: Project_X Team Name: Team_A Type of Expense: Hardware So, the tag for a transaction might look like: Project_X,Team_A,Hardware This way, when you're looking at your financial reports, you can easily filter transactions based on these tags to see how much each project or team is spending on different types of expenses. | 
  `trans_info` | string  | Optional | Further information that can be added to the transaction will display in reporting. Can be used for flexible values such as operator id.<br/><br/>maxLength: 50 | 
  `trans_type` | string  | Optional | The type of transaction being submitted. Normally this value is not required and your account manager may request that you set this field.<br/><br/>maxLength: 1 | 
 
@@ -879,7 +830,6 @@ The Payer Authentication Response (PaRes) is an operation after the result of au
  being performed. The request uses an encoded packet of authentication data to 
 notify us of the completion of the liability shift. Once this value has been unpacked and its
 signature is checked, our systems will proceed to authorisation processing.  
-
 Any call to the PaRes operation will require a previous authorisation request and cannot be called 
 on its own without a previous [authentication required](#authenticationrequired)  being obtained.
 
@@ -920,7 +870,7 @@ Request body for the PaResRequest operation contains the following properties
 
 Field  | Type | Usage | Description |
 ---------|------|------|-------------|
- `md` | string  | Required | The Merchant Data (MD) which is a unique ID to reference the authentication session.<br/><br/>This value will be created by CityPay when required. When responding from the ACS, this value will be returned by the ACS. | 
+ `md` | string  | Required | The Merchant Data (MD) which is a unique ID to reference the authentication session. This value will be created by CityPay when required. When responding from the ACS, this value will be returned by the ACS. | 
  `pares` | string *base64* | Required | The Payer Authentication Response packet which is returned by the ACS containing the  response of the authentication session including verification values. The response  is a base64 encoded packet and should be forwarded to CityPay untouched. | 
 
 
@@ -979,8 +929,8 @@ Request body for the RefundRequest operation contains the following properties
 
 Field  | Type | Usage | Description |
 ---------|------|------|-------------|
- `amount` | integer *int32* | Required | The amount to refund in the lowest unit of currency with a variable length to a maximum of 12 digits.<br/><br/>The amount should be the total amount required to refund for the transaction up to the original processed amount.<br/><br/>No decimal points are to be included and no divisional characters such as 1,024.<br/><br/>For example with GBP £1,021.95 the amount value is 102195.<br/><br/> minLength: 1<br/>maxLength: 9 | 
- `identifier` | string  | Required | The identifier of the refund to process. The value should be a valid reference and may be used to perform  post processing actions and to aid in reconciliation of transactions.<br/><br/>The value should be a valid printable string with ASCII character ranges from 0x32 to 0x127.<br/><br/>The identifier is recommended to be distinct for each transaction such as a [random unique identifier](https://en.wikipedia.org/wiki/Universally_unique_identifier) this will aid in ensuring each transaction is identifiable.<br/><br/>When transactions are processed they are also checked for duplicate requests. Changing the identifier on a subsequent request will ensure that a transaction is considered as different.<br/><br/> minLength: 4<br/>maxLength: 50 | 
+ `amount` | integer *int32* | Required | The amount to refund in the lowest unit of currency with a variable length to a maximum of 12 digits. The amount should be the total amount required to refund for the transaction up to the original processed amount. No decimal points are to be included and no divisional characters such as 1,024. For example with GBP £1,021.95 the amount value is 102195.<br/><br/> minLength: 1<br/>maxLength: 9 | 
+ `identifier` | string  | Required | The identifier of the refund to process. The value should be a valid reference and may be used to perform  post processing actions and to aid in reconciliation of transactions. The value should be a valid printable string with ASCII character ranges from 0x32 to 0x127. The identifier is recommended to be distinct for each transaction such as a [random unique identifier](https://en.wikipedia.org/wiki/Universally_unique_identifier) this will aid in ensuring each transaction is identifiable. When transactions are processed they are also checked for duplicate requests. Changing the identifier on a subsequent request will ensure that a transaction is considered as different.<br/><br/> minLength: 4<br/>maxLength: 50 | 
  `merchantid` | integer *int32* | Required | Identifies the merchant account to perform the refund for. | 
  `refund_ref` | integer *int32* | Required | A reference to the original transaction number that is wanting to be refunded. The original  transaction must be on the same merchant id, previously authorised. | 
  `trans_info` | string  | Optional | Further information that can be added to the transaction will display in reporting. Can be used for flexible values such as operator id.<br/><br/>maxLength: 50 | 
@@ -1021,11 +971,9 @@ Responses for the RefundRequest operation are
 A retrieval request which allows an integration to obtain the result of a transaction processed
 in the last 90 days. The request allows for retrieval based on the identifier or transaction 
 number. 
-
 The process may return multiple results in particular where a transaction was processed multiple
 times against the same identifier. This can happen if errors were first received. The API therefore
 returns up to the first 5 transactions in the latest date time order.
-
 It is not intended for this operation to be a replacement for reporting and only allows for base transaction
 information to be returned.
 
@@ -1105,10 +1053,8 @@ Responses for the RetrievalRequest operation are
 
 _The void process generally applies to transactions which have been pre-authorised only however voids can occur 
 on the same day if performed before batching and settlement._ 
-
 The void process will ensure that a transaction will now settle. It is expected that a void call will be 
 provided on the same day before batching and settlement or within 3 days or within a maximum of 7 days.
-
 Once the transaction has been processed as a void, an [`Acknowledgement`](#acknowledgement) will be returned,
 outlining the result of the transaction.
 
@@ -1381,10 +1327,8 @@ Responses for the CheckBatchStatusRequest operation are
 # Card Holder Account Api
 
 A cardholder account models a cardholder and can register 1 or more cards for tokenised charging. 
-
 The account offers a credential on file option to the CityPay gateway allowing for both cardholder initiated and 
 merchant initiated transaction processing.
-
 This can include unscheduled or scheduled transactions that can be requested through this API and include batch 
 processing options.
 
@@ -1507,7 +1451,6 @@ Responses for the AccountCreate operation are
 
 Allows for the retrieval of a card holder account for the given `id`. Should duplicate accounts exist
 for the same `id`, the first account created with that `id` will be returned.
-
 The account can be used for tokenisation processing by listing all cards assigned to the account.
 The returned cards will include all `active`, `inactive` and `expired` cards. This can be used to 
 enable a card holder to view their wallet and make constructive choices on which card to use.
@@ -1661,7 +1604,6 @@ Responses for the AccountCardDeleteRequest operation are
 </div>
 
 Updates the status of a card for processing. The following values are available
-
  Status | Description | 
 --------|-------------|
  Active | The card is active for processing and can be used for charging against with a valid token |
@@ -1809,9 +1751,7 @@ Responses for the AccountChangeContactRequest operation are
 
 Allows for a card to be registered for the account. The card will be added for future 
 processing and will be available as a tokenised value for future processing.
-
 The card will be validated for
-
 0. Being a valid card number (luhn check)
 0. Having a valid expiry date
 0. Being a valid bin value.
@@ -1883,7 +1823,6 @@ Responses for the AccountCardRegisterRequest operation are
 </div>
 
 Updates the status of an account. An account can have the following statuses applied
-
  Status | Description |
 --------|-------------|
  Active | The account is active for processing |
@@ -1955,12 +1894,10 @@ A charge process obtains an authorisation using a tokenised value which represen
 on a card holder account. 
 A card must previously be registered by calling `/account-register-card` with the card details 
 or retrieved using `/account-retrieve`
-
 Tokens are generated whenever a previously registered list of cards are retrieved. Each token has, by design a 
 relatively short time to live of 30 minutes. This is both to safe guard the merchant and card holder from 
 replay attacks. Tokens are also restricted to your account, preventing malicious actors from stealing details
 for use elsewhere.  
-
 If a token is reused after it has expired it will be rejected and a new token will be required.
  
 Tokenisation can be used for
@@ -1971,7 +1908,6 @@ Tokenisation can be used for
 - can require full 3-D Secure authentication to retain the liability shift
 - wallet style usage
  
-
 _Should an account be used with 3DSv2, the card holder name should also be stored alongside the card as this is a
 required field with both Visa and MasterCard for risk analysis._.
 
@@ -1994,19 +1930,19 @@ Request body for the ChargeRequest operation contains the following properties
 
 Field  | Type | Usage | Description |
 ---------|------|------|-------------|
- `amount` | integer *int32* | Required | The amount to authorise in the lowest unit of currency with a variable length to a maximum of 12 digits.<br/><br/>No decimal points are to be included and no divisional characters such as 1,024.<br/><br/>The amount should be the total amount required for the transaction.<br/><br/>For example with GBP £1,021.95 the amount value is 102195.<br/><br/> minLength: 1<br/>maxLength: 9 | 
- `identifier` | string  | Required | The identifier of the transaction to process. The value should be a valid reference and may be used to perform  post processing actions and to aid in reconciliation of transactions.<br/><br/>The value should be a valid printable string with ASCII character ranges from 0x32 to 0x127.<br/><br/>The identifier is recommended to be distinct for each transaction such as a [random unique identifier](https://en.wikipedia.org/wiki/Universally_unique_identifier) this will aid in ensuring each transaction is identifiable.<br/><br/>When transactions are processed they are also checked for duplicate requests. Changing the identifier on a subsequent request will ensure that a transaction is considered as different.<br/><br/> minLength: 4<br/>maxLength: 50 | 
+ `amount` | integer *int32* | Required | The amount to authorise in the lowest unit of currency with a variable length to a maximum of 12 digits. No decimal points are to be included and no divisional characters such as 1,024. The amount should be the total amount required for the transaction. For example with GBP £1,021.95 the amount value is 102195.<br/><br/> minLength: 1<br/>maxLength: 9 | 
+ `identifier` | string  | Required | The identifier of the transaction to process. The value should be a valid reference and may be used to perform  post processing actions and to aid in reconciliation of transactions. The value should be a valid printable string with ASCII character ranges from 0x32 to 0x127. The identifier is recommended to be distinct for each transaction such as a [random unique identifier](https://en.wikipedia.org/wiki/Universally_unique_identifier) this will aid in ensuring each transaction is identifiable. When transactions are processed they are also checked for duplicate requests. Changing the identifier on a subsequent request will ensure that a transaction is considered as different.<br/><br/> minLength: 4<br/>maxLength: 50 | 
  `merchantid` | integer *int32* | Required | Identifies the merchant account to perform processing for. | 
- `token` | string *base58* | Required | A tokenised form of a card that belongs to a card holder's account and that has been previously registered. The token is time based and will only be active for a short duration. The value is therefore designed not to be stored remotely for future use.<br/><br/> Tokens will start with ct and are resiliently tamper proof using HMacSHA-256. No sensitive card data is stored internally within the token.<br/><br/> Each card will contain a different token and the value may be different on any retrieval call.<br/><br/> The value can be presented for payment as a selection value to an end user in a web application. | 
- `avs_postcode_policy` | string  | Optional | A policy value which determines whether an AVS postcode policy is enforced or bypassed.<br/><br/>Values are  `0` for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.<br/><br/> `1` for an enforced policy. Transactions that are enforced will be rejected if the AVS postcode numeric value does not match.<br/><br/> `2` to bypass. Transactions that are bypassed will be allowed through even if the postcode did not match.<br/><br/> `3` to ignore. Transactions that are ignored will bypass the result and not send postcode details for authorisation. | 
- `cardholder_agreement` | string  | Optional | Merchant-initiated transactions (MITs) are payments you trigger, where the cardholder has previously consented to you carrying out such payments. These may be scheduled (such as recurring payments and installments) or unscheduled (like account top-ups triggered by balance thresholds and no-show charges).<br/><br/>Scheduled --- These are regular payments using stored card details, like installments or a monthly subscription fee.<br/><br/>- `I` Instalment - A single purchase of goods or services billed to a cardholder in multiple transactions, over a period of time agreed by the cardholder and you.<br/><br/>- `R` Recurring - Transactions processed at fixed, regular intervals not to exceed one year between transactions, representing an agreement between a cardholder and you to purchase goods or services provided over a period of time.<br/><br/>Unscheduled --- These are payments using stored card details that do not occur on a regular schedule, like top-ups for a digital wallet triggered by the balance falling below a certain threshold.<br/><br/>- `A` Reauthorisation - a purchase made after the original purchase. A common scenario is delayed/split shipments.<br/><br/>- `C` Unscheduled Payment - A transaction using a stored credential for a fixed or variable amount that does not occur on a scheduled or regularly occurring transaction date. This includes account top-ups triggered by balance thresholds.<br/><br/>- `D` Delayed Charge - A delayed charge is typically used in hotel, cruise lines and vehicle rental environments to perform a supplemental account charge after original services are rendered.<br/><br/>- `L` Incremental - An incremental authorisation is typically found in hotel and car rental environments, where the cardholder has agreed to pay for any service incurred during the duration of the contract. An incremental authorisation is where you need to seek authorisation of further funds in addition to what you have originally requested. A common scenario is additional services charged to the contract, such as extending a stay in a hotel.<br/><br/>- `S` Resubmission - When the original purchase occurred, but you were not able to get authorisation at the time the goods or services were provided. It should be only used where the goods or services have already been provided, but the authorisation request is declined for insufficient funds.<br/><br/>- `X` No-show - A no-show is a transaction where you are enabled to charge for services which the cardholder entered into an agreement to purchase, but the cardholder did not meet the terms of the agreement.<br/><br/> maxLength: 1 | 
- `csc` | string  | Optional | The Card Security Code (CSC) (also known as CV2/CVV2) is normally found on the back of the card (American Express has it on the front). The value helps to identify posession of the card as it is not available within the chip or magnetic swipe.<br/><br/>When forwarding the CSC, please ensure the value is a string as some values start with 0 and this will be stripped out by any integer parsing.<br/><br/>The CSC number aids fraud prevention in Mail Order and Internet payments.<br/><br/>Business rules are available on your account to identify whether to accept or decline transactions based on mismatched results of the CSC.<br/><br/>The Payment Card Industry (PCI) requires that at no stage of a transaction should the CSC be stored.<br/><br/>This applies to all entities handling card data.<br/><br/>It should also not be used in any hashing process.<br/><br/>CityPay do not store the value and have no method of retrieving the value once the transaction has been processed. For this reason, duplicate checking is unable to determine the CSC in its duplication check algorithm.<br/><br/> minLength: 3<br/>maxLength: 4 | 
- `csc_policy` | string  | Optional | A policy value which determines whether a CSC policy is enforced or bypassed.<br/><br/>Values are  `0` for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.<br/><br/> `1` for an enforced policy. Transactions that are enforced will be rejected if the CSC value does not match.<br/><br/> `2` to bypass. Transactions that are bypassed will be allowed through even if the CSC did not match.<br/><br/> `3` to ignore. Transactions that are ignored will bypass the result and not send the CSC details for authorisation. | 
+ `token` | string *base58* | Required | A tokenised form of a card that belongs to a card holder's account and that has been previously registered. The token is time based and will only be active for a short duration. The value is therefore designed not to be stored remotely for future use.<br/><br/>Tokens will start with ct and are resiliently tamper proof using HMacSHA-256. No sensitive card data is stored internally within the token.<br/><br/>Each card will contain a different token and the value may be different on any retrieval call.<br/><br/>The value can be presented for payment as a selection value to an end user in a web application. | 
+ `avs_postcode_policy` | string  | Optional | A policy value which determines whether an AVS postcode policy is enforced or bypassed. Values are  `0` for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.  `1` for an enforced policy. Transactions that are enforced will be rejected if the AVS postcode numeric value does not match.  `2` to bypass. Transactions that are bypassed will be allowed through even if the postcode did not match.  `3` to ignore. Transactions that are ignored will bypass the result and not send postcode details for authorisation. | 
+ `cardholder_agreement` | string  | Optional | Merchant-initiated transactions (MITs) are payments you trigger, where the cardholder has previously consented to you carrying out such payments. These may be scheduled (such as recurring payments and installments) or unscheduled (like account top-ups triggered by balance thresholds and no-show charges). Scheduled --- These are regular payments using stored card details, like installments or a monthly subscription fee. - `I` Instalment - A single purchase of goods or services billed to a cardholder in multiple transactions, over a period of time agreed by the cardholder and you. - `R` Recurring - Transactions processed at fixed, regular intervals not to exceed one year between transactions, representing an agreement between a cardholder and you to purchase goods or services provided over a period of time. Unscheduled --- These are payments using stored card details that do not occur on a regular schedule, like top-ups for a digital wallet triggered by the balance falling below a certain threshold. - `A` Reauthorisation - a purchase made after the original purchase. A common scenario is delayed/split shipments. - `C` Unscheduled Payment - A transaction using a stored credential for a fixed or variable amount that does not occur on a scheduled or regularly occurring transaction date. This includes account top-ups triggered by balance thresholds. - `D` Delayed Charge - A delayed charge is typically used in hotel, cruise lines and vehicle rental environments to perform a supplemental account charge after original services are rendered. - `L` Incremental - An incremental authorisation is typically found in hotel and car rental environments, where the cardholder has agreed to pay for any service incurred during the duration of the contract. An incremental authorisation is where you need to seek authorisation of further funds in addition to what you have originally requested. A common scenario is additional services charged to the contract, such as extending a stay in a hotel. - `S` Resubmission - When the original purchase occurred, but you were not able to get authorisation at the time the goods or services were provided. It should be only used where the goods or services have already been provided, but the authorisation request is declined for insufficient funds. - `X` No-show - A no-show is a transaction where you are enabled to charge for services which the cardholder entered into an agreement to purchase, but the cardholder did not meet the terms of the agreement.<br/><br/> maxLength: 1 | 
+ `csc` | string  | Optional | The Card Security Code (CSC) (also known as CV2/CVV2) is normally found on the back of the card (American Express has it on the front). The value helps to identify posession of the card as it is not available within the chip or magnetic swipe. When forwarding the CSC, please ensure the value is a string as some values start with 0 and this will be stripped out by any integer parsing. The CSC number aids fraud prevention in Mail Order and Internet payments. Business rules are available on your account to identify whether to accept or decline transactions based on mismatched results of the CSC. The Payment Card Industry (PCI) requires that at no stage of a transaction should the CSC be stored. This applies to all entities handling card data. It should also not be used in any hashing process. CityPay do not store the value and have no method of retrieving the value once the transaction has been processed. For this reason, duplicate checking is unable to determine the CSC in its duplication check algorithm.<br/><br/> minLength: 3<br/>maxLength: 4 | 
+ `csc_policy` | string  | Optional | A policy value which determines whether a CSC policy is enforced or bypassed. Values are  `0` for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.  `1` for an enforced policy. Transactions that are enforced will be rejected if the CSC value does not match.  `2` to bypass. Transactions that are bypassed will be allowed through even if the CSC did not match.  `3` to ignore. Transactions that are ignored will bypass the result and not send the CSC details for authorisation. | 
  `currency` | string  | Optional | The processing currency for the transaction. Will default to the merchant account currency.<br/><br/>minLength: 3<br/>maxLength: 3 | 
- `duplicate_policy` | string  | Optional | A policy value which determines whether a duplication policy is enforced or bypassed. A duplication check has a window of time set against your account within which it can action. If a previous transaction with matching values occurred within the window, any subsequent transaction will result in a T001 result.<br/><br/>Values are  `0` for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.<br/><br/> `1` for an enforced policy. Transactions that are enforced will be checked for duplication within the duplication window.<br/><br/> `2` to bypass. Transactions that are bypassed will not be checked for duplication within the duplication window.<br/><br/> `3` to ignore. Transactions that are ignored will have the same affect as bypass. | 
- `initiation` | string  | Optional | Transactions charged using the API are defined as:<br/><br/>**Cardholder Initiated**: A _cardholder initiated transaction_ (CIT) is where the cardholder selects the card for use for a purchase using previously stored details. An example would be a customer buying an item from your website after being present with their saved card details at checkout.<br/><br/>**Merchant Intiated**: A _merchant initiated transaction_ (MIT) is an authorisation initiated where you as the  merchant submit a cardholders previously stored details without the cardholder's participation. An example would  be a subscription to a membership scheme to debit their card monthly.<br/><br/>MITs have different reasons such as reauthorisation, delayed, unscheduled, incremental, recurring, instalment, no-show or resubmission.<br/><br/>The following values apply<br/><br/> - `M` - specifies that the transaction is initiated by the merchant<br/><br/> - `C` - specifies that the transaction is initiated by the cardholder<br/><br/>Where transactions are merchant initiated, a valid cardholder agreement must be defined.<br/><br/> maxLength: 1 | 
- `match_avsa` | string  | Optional | A policy value which determines whether an AVS address policy is enforced, bypassed or ignored.<br/><br/>Values are  `0` for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.<br/><br/> `1` for an enforced policy. Transactions that are enforced will be rejected if the AVS address numeric value does not match.<br/><br/> `2` to bypass. Transactions that are bypassed will be allowed through even if the address did not match.<br/><br/> `3` to ignore. Transactions that are ignored will bypass the result and not send address numeric details for authorisation. | 
- `tag` | string  | Optional | A "tag" is a label that you can attach to a payment authorization. Tags can help you group transactions together based on certain criteria, like a work job or a ticket number. They can also assist in filtering transactions when you're generating reports.<br/><br/>Multiple Tags You can add more than one tag to a transaction by separating them with commas.<br/><br/>Limitations There is a maximum limit of 3 tags that can be added to a single transaction. Each tag can be no longer than 20 characters and alphanumeric with no spaces.<br/><br/>Example: Let's say you're a software company and you have different teams working on various projects. When a team makes a purchase or incurs an expense, they can tag the transaction with the project name, the team name, and the type of expense.<br/><br/>Project Name: Project_X Team Name: Team_A Type of Expense: Hardware So, the tag for a transaction might look like: Project_X,Team_A,Hardware<br/><br/>This way, when you're looking at your financial reports, you can easily filter transactions based on these tags to see how much each project or team is spending on different types of expenses. | 
+ `duplicate_policy` | string  | Optional | A policy value which determines whether a duplication policy is enforced or bypassed. A duplication check has a window of time set against your account within which it can action. If a previous transaction with matching values occurred within the window, any subsequent transaction will result in a T001 result. Values are  `0` for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.  `1` for an enforced policy. Transactions that are enforced will be checked for duplication within the duplication window.  `2` to bypass. Transactions that are bypassed will not be checked for duplication within the duplication window.  `3` to ignore. Transactions that are ignored will have the same affect as bypass. | 
+ `initiation` | string  | Optional | Transactions charged using the API are defined as: **Cardholder Initiated**: A _cardholder initiated transaction_ (CIT) is where the cardholder selects the card for use for a purchase using previously stored details. An example would be a customer buying an item from your website after being present with their saved card details at checkout. **Merchant Intiated**: A _merchant initiated transaction_ (MIT) is an authorisation initiated where you as the  merchant submit a cardholders previously stored details without the cardholder's participation. An example would  be a subscription to a membership scheme to debit their card monthly. MITs have different reasons such as reauthorisation, delayed, unscheduled, incremental, recurring, instalment, no-show or resubmission. The following values apply  - `M` - specifies that the transaction is initiated by the merchant  - `C` - specifies that the transaction is initiated by the cardholder Where transactions are merchant initiated, a valid cardholder agreement must be defined.<br/><br/> maxLength: 1 | 
+ `match_avsa` | string  | Optional | A policy value which determines whether an AVS address policy is enforced, bypassed or ignored. Values are  `0` for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.  `1` for an enforced policy. Transactions that are enforced will be rejected if the AVS address numeric value does not match.  `2` to bypass. Transactions that are bypassed will be allowed through even if the address did not match.  `3` to ignore. Transactions that are ignored will bypass the result and not send address numeric details for authorisation. | 
+ `tag` | string  | Optional | A "tag" is a label that you can attach to a payment authorization. Tags can help you group transactions together based on certain criteria, like a work job or a ticket number. They can also assist in filtering transactions when you're generating reports. Multiple Tags You can add more than one tag to a transaction by separating them with commas. Limitations There is a maximum limit of 3 tags that can be added to a single transaction. Each tag can be no longer than 20 characters and alphanumeric with no spaces. Example: Let's say you're a software company and you have different teams working on various projects. When a team makes a purchase or incurs an expense, they can tag the transaction with the project name, the team name, and the type of expense. Project Name: Project_X Team Name: Team_A Type of Expense: Hardware So, the tag for a transaction might look like: Project_X,Team_A,Hardware This way, when you're looking at your financial reports, you can easily filter transactions based on these tags to see how much each project or team is spending on different types of expenses. | 
  `threedsecure` | object | Optional | [ThreeDSecure](#threedsecure) ThreeDSecure element, providing values to enable full 3DS processing flows. | 
  `trans_info` | string  | Optional | Further information that can be added to the transaction will display in reporting. Can be used for flexible values such as operator id.<br/><br/>maxLength: 50 | 
  `trans_type` | string  | Optional | The type of transaction being submitted. Normally this value is not required and your account manager may request that you set this field.<br/><br/>maxLength: 1 | 
@@ -2039,52 +1975,37 @@ Responses for the ChargeRequest operation are
 The Direct Post Method for e-commerce payment is generally used by merchants that require more control over their
 payment form “look and feel” and can understand and implement the extra PCI DSS security controls that are required to
 protect their systems.
-
 The Direct Post Method uses the merchant’s website to generate the shopping cart and payment web pages. The merchant’s
 payment form, loaded in the customer’s browser, sends the cardholder data directly to CityPay’s API, ensuring cardholder
 data is not stored, processed, or transmitted via the merchant systems. The payment form, however, is provided by the
 merchant. The merchant’s systems are therefore in scope for additional PCI DSS controls, which are necessary to protect
 the merchant website against malicious individuals changing the form and capturing cardholder data.
-
 ### Direct Post Flow
-
 #### Simple Authorisation Flow
-
 The merchant’s website creates the payment page.
-
 1. The customer’s browser displays the payment page and posts the cardholder data directly to CityPay as a url-encoded
    payment form.
 2. CityPay receives the cardholder data and sends it for online authorisation, handling any ThreeDSecure authorisation
    challenges
 3. The merchant receives a HTTP 303 redirect, containing the result of the transaction as query parameters
-
 <img src="images/direct-post-flow.png" width="600" />
-
 #### Tokenisation Authorisation Flow
-
 The merchant’s website creates the payment page.
-
 1. The customer’s browser displays the payment page and posts the cardholder data directly to CityPay as a url-encoded
    payment form.
 2. CityPay receives the cardholder data and processes any ThreeDSecure authorisation and challenges.
 3. The merchant receives a HTTP `303` redirect containing the card details tokenised for consequential processing
 4. Once final confirmation is agreed at checkout, the generated token is forward to CityPay for realtime authorisation.
    This may by using HTTP redirects in a direct manner, or via an api level call
-
 #### Handling Redirects
-
 The direct post method uses HTTP `303` redirects to return data to your system. A `303` redirect differs to conventional 301
 or `302` redirects by telling the browser to not resend data if refresh is pressed.
-
 Payments should be developed to cater for failure. Transactions may not complete authorisation at the challenge stage or
 decline either due to insufficient funds or transient network conditions. To ensure correct payment flow, the direct
 post API requires
-
 1. a `redirectSuccess` url. This is used to forward the result of authorisation.
 2. a `redirectFailure` url. This is used to forward any errors that are due to invalid requests or payment failures.
-
 #### Domain Keys
-
 To allow for processing of transactions in a direct manner, CityPay provide domain keys. This value is provided on the
 initial direct post call and must be run on a pre-registered host. Our validation processes will check the `Origin` or
 `Referer`   HTTP headers to ensure that the domain keys are valid. A domain key can be registered for 1 or more domains.
@@ -2102,13 +2023,6 @@ initial direct post call and must be run on a pre-registered host. Our validatio
 </div>
 
 Used to initiate a direct post request transaction flow.
-
-<pre class="inline-code language-bash">
-<code>
-curl https://api.citypay.com/direct/auth?cp-domain-key=n834ytqp84y... \
- -d "amount=7500&identifier=example_trans&cardnumber=4000000000000002&expmonth=9&expyear=2028&bill_to_postcode=L1+7ZW
-</code>
-</pre>.
 
 
 <div class="model-links">
@@ -2129,25 +2043,25 @@ Request body for the DirectPostAuthRequest operation contains the following prop
 
 Field  | Type | Usage | Description |
 ---------|------|------|-------------|
- `amount` | integer *int32* | Required | The amount to authorise in the lowest unit of currency with a variable length to a maximum of 12 digits.<br/><br/>No decimal points are to be included and no divisional characters such as 1,024.<br/><br/>The amount should be the total amount required for the transaction.<br/><br/>For example with GBP £1,021.95 the amount value is 102195.<br/><br/> minLength: 1<br/>maxLength: 9 | 
- `cardnumber` | string  | Required | The card number (PAN) with a variable length to a maximum of 21 digits in numerical form. Any non numeric characters will be stripped out of the card number, this includes whitespace or separators internal of the provided value.<br/><br/>The card number must be treated as sensitive data. We only provide an obfuscated value in logging and reporting.  The plaintext value is encrypted in our database using AES 256 GMC bit encryption for settlement or refund purposes.<br/><br/>When providing the card number to our gateway through the authorisation API you will be handling the card data on your application. This will require further PCI controls to be in place and this value must never be stored.<br/><br/> minLength: 12<br/>maxLength: 22 | 
+ `amount` | integer *int32* | Required | The amount to authorise in the lowest unit of currency with a variable length to a maximum of 12 digits. No decimal points are to be included and no divisional characters such as 1,024. The amount should be the total amount required for the transaction. For example with GBP £1,021.95 the amount value is 102195.<br/><br/> minLength: 1<br/>maxLength: 9 | 
+ `cardnumber` | string  | Required | The card number (PAN) with a variable length to a maximum of 21 digits in numerical form. Any non numeric characters will be stripped out of the card number, this includes whitespace or separators internal of the provided value. The card number must be treated as sensitive data. We only provide an obfuscated value in logging and reporting.  The plaintext value is encrypted in our database using AES 256 GMC bit encryption for settlement or refund purposes. When providing the card number to our gateway through the authorisation API you will be handling the card data on your application. This will require further PCI controls to be in place and this value must never be stored.<br/><br/> minLength: 12<br/>maxLength: 22 | 
  `expmonth` | integer *int32* | Required | The month of expiry of the card. The month value should be a numerical value between 1 and 12.<br/><br/> minimum: 1<br/>maximum: 12 | 
  `expyear` | integer *int32* | Required | The year of expiry of the card.<br/><br/> minimum: 2000<br/>maximum: 2100 | 
- `identifier` | string  | Required | The identifier of the transaction to process. The value should be a valid reference and may be used to perform  post processing actions and to aid in reconciliation of transactions.<br/><br/>The value should be a valid printable string with ASCII character ranges from 0x32 to 0x127.<br/><br/>The identifier is recommended to be distinct for each transaction such as a [random unique identifier](https://en.wikipedia.org/wiki/Universally_unique_identifier) this will aid in ensuring each transaction is identifiable.<br/><br/>When transactions are processed they are also checked for duplicate requests. Changing the identifier on a subsequent request will ensure that a transaction is considered as different.<br/><br/> minLength: 4<br/>maxLength: 50 | 
+ `identifier` | string  | Required | The identifier of the transaction to process. The value should be a valid reference and may be used to perform  post processing actions and to aid in reconciliation of transactions. The value should be a valid printable string with ASCII character ranges from 0x32 to 0x127. The identifier is recommended to be distinct for each transaction such as a [random unique identifier](https://en.wikipedia.org/wiki/Universally_unique_identifier) this will aid in ensuring each transaction is identifiable. When transactions are processed they are also checked for duplicate requests. Changing the identifier on a subsequent request will ensure that a transaction is considered as different.<br/><br/> minLength: 4<br/>maxLength: 50 | 
  `mac` | string *hex* | Required | A message authentication code ensures the data is authentic and that the intended amount has not been tampered with. The mac value is generated using a hash-based mac value. The following algorithm is used. - A key (k) is derived from your licence key - A value (v) is produced by concatenating the nonce, amount value and identifier, such as a purchase   with nonce `0123456789ABCDEF` an amount of £275.95 and an identifier of OD-12345678 would become   `0123456789ABCDEF27595OD-12345678` and extracting the UTF-8 byte values - The result from HMAC_SHA256(k, v) is hex-encoded (upper-case) - For instance, a licence key of `LK123456789`, a nonce of `0123456789ABCDEF`, an amount of `27595` and an identifier of `OD-12345678`  would generate a MAC of `163DBAB194D743866A9BCC7FC9C8A88FCD99C6BBBF08D619291212D1B91EE12E`. | 
- `avs_postcode_policy` | string  | Optional | A policy value which determines whether an AVS postcode policy is enforced or bypassed.<br/><br/>Values are  `0` for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.<br/><br/> `1` for an enforced policy. Transactions that are enforced will be rejected if the AVS postcode numeric value does not match.<br/><br/> `2` to bypass. Transactions that are bypassed will be allowed through even if the postcode did not match.<br/><br/> `3` to ignore. Transactions that are ignored will bypass the result and not send postcode details for authorisation. | 
- `bill_to` | object | Optional | [ContactDetails](#contactdetails) Billing details of the card holder making the payment. These details may be used for AVS fraud analysis, 3DS and for future referencing of the transaction.<br/><br/>For AVS to work correctly, the billing details should be the registered address of the card holder as it appears on the statement with their card issuer. The numeric details will be passed through for analysis and may result in a decline if incorrectly provided.<br/><br/>If using url-encoded format requests properties should be prefixed with `bill_to_` for example a postcode  value should be `bill_to_postcode`. | 
- `csc` | string  | Optional | The Card Security Code (CSC) (also known as CV2/CVV2) is normally found on the back of the card (American Express has it on the front). The value helps to identify posession of the card as it is not available within the chip or magnetic swipe.<br/><br/>When forwarding the CSC, please ensure the value is a string as some values start with 0 and this will be stripped out by any integer parsing.<br/><br/>The CSC number aids fraud prevention in Mail Order and Internet payments.<br/><br/>Business rules are available on your account to identify whether to accept or decline transactions based on mismatched results of the CSC.<br/><br/>The Payment Card Industry (PCI) requires that at no stage of a transaction should the CSC be stored.<br/><br/>This applies to all entities handling card data.<br/><br/>It should also not be used in any hashing process.<br/><br/>CityPay do not store the value and have no method of retrieving the value once the transaction has been processed. For this reason, duplicate checking is unable to determine the CSC in its duplication check algorithm.<br/><br/> minLength: 3<br/>maxLength: 4 | 
- `csc_policy` | string  | Optional | A policy value which determines whether a CSC policy is enforced or bypassed.<br/><br/>Values are  `0` for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.<br/><br/> `1` for an enforced policy. Transactions that are enforced will be rejected if the CSC value does not match.<br/><br/> `2` to bypass. Transactions that are bypassed will be allowed through even if the CSC did not match.<br/><br/> `3` to ignore. Transactions that are ignored will bypass the result and not send the CSC details for authorisation. | 
+ `avs_postcode_policy` | string  | Optional | A policy value which determines whether an AVS postcode policy is enforced or bypassed. Values are  `0` for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.  `1` for an enforced policy. Transactions that are enforced will be rejected if the AVS postcode numeric value does not match.  `2` to bypass. Transactions that are bypassed will be allowed through even if the postcode did not match.  `3` to ignore. Transactions that are ignored will bypass the result and not send postcode details for authorisation. | 
+ `bill_to` | object | Optional | [ContactDetails](#contactdetails) Billing details of the card holder making the payment. These details may be used for AVS fraud analysis, 3DS and for future referencing of the transaction. For AVS to work correctly, the billing details should be the registered address of the card holder as it appears on the statement with their card issuer. The numeric details will be passed through for analysis and may result in a decline if incorrectly provided. If using url-encoded format requests properties should be prefixed with `bill_to_` for example a postcode  value should be `bill_to_postcode`. | 
+ `csc` | string  | Optional | The Card Security Code (CSC) (also known as CV2/CVV2) is normally found on the back of the card (American Express has it on the front). The value helps to identify posession of the card as it is not available within the chip or magnetic swipe. When forwarding the CSC, please ensure the value is a string as some values start with 0 and this will be stripped out by any integer parsing. The CSC number aids fraud prevention in Mail Order and Internet payments. Business rules are available on your account to identify whether to accept or decline transactions based on mismatched results of the CSC. The Payment Card Industry (PCI) requires that at no stage of a transaction should the CSC be stored. This applies to all entities handling card data. It should also not be used in any hashing process. CityPay do not store the value and have no method of retrieving the value once the transaction has been processed. For this reason, duplicate checking is unable to determine the CSC in its duplication check algorithm.<br/><br/> minLength: 3<br/>maxLength: 4 | 
+ `csc_policy` | string  | Optional | A policy value which determines whether a CSC policy is enforced or bypassed. Values are  `0` for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.  `1` for an enforced policy. Transactions that are enforced will be rejected if the CSC value does not match.  `2` to bypass. Transactions that are bypassed will be allowed through even if the CSC did not match.  `3` to ignore. Transactions that are ignored will bypass the result and not send the CSC details for authorisation. | 
  `currency` | string  | Optional | The processing currency for the transaction. Will default to the merchant account currency.<br/><br/>minLength: 3<br/>maxLength: 3 | 
- `duplicate_policy` | string  | Optional | A policy value which determines whether a duplication policy is enforced or bypassed. A duplication check has a window of time set against your account within which it can action. If a previous transaction with matching values occurred within the window, any subsequent transaction will result in a T001 result.<br/><br/>Values are  `0` for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.<br/><br/> `1` for an enforced policy. Transactions that are enforced will be checked for duplication within the duplication window.<br/><br/> `2` to bypass. Transactions that are bypassed will not be checked for duplication within the duplication window.<br/><br/> `3` to ignore. Transactions that are ignored will have the same affect as bypass. | 
- `match_avsa` | string  | Optional | A policy value which determines whether an AVS address policy is enforced, bypassed or ignored.<br/><br/>Values are  `0` for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.<br/><br/> `1` for an enforced policy. Transactions that are enforced will be rejected if the AVS address numeric value does not match.<br/><br/> `2` to bypass. Transactions that are bypassed will be allowed through even if the address did not match.<br/><br/> `3` to ignore. Transactions that are ignored will bypass the result and not send address numeric details for authorisation. | 
+ `duplicate_policy` | string  | Optional | A policy value which determines whether a duplication policy is enforced or bypassed. A duplication check has a window of time set against your account within which it can action. If a previous transaction with matching values occurred within the window, any subsequent transaction will result in a T001 result. Values are  `0` for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.  `1` for an enforced policy. Transactions that are enforced will be checked for duplication within the duplication window.  `2` to bypass. Transactions that are bypassed will not be checked for duplication within the duplication window.  `3` to ignore. Transactions that are ignored will have the same affect as bypass. | 
+ `match_avsa` | string  | Optional | A policy value which determines whether an AVS address policy is enforced, bypassed or ignored. Values are  `0` for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.  `1` for an enforced policy. Transactions that are enforced will be rejected if the AVS address numeric value does not match.  `2` to bypass. Transactions that are bypassed will be allowed through even if the address did not match.  `3` to ignore. Transactions that are ignored will bypass the result and not send address numeric details for authorisation. | 
  `name_on_card` | string  | Optional | The card holder name as appears on the card such as MR N E BODY. Required for some acquirers.<br/><br/> minLength: 2<br/>maxLength: 45 | 
  `nonce` | string *hex* | Optional | A random value Hex string (uppercase) which is provided to the API to perform a digest. The value will be used in any digest function. | 
  `redirect_failure` | string *url* | Optional | The URL used to redirect back to your site when a transaction has been rejected or declined. Required if a url-encoded request. | 
  `redirect_success` | string *url* | Optional | The URL used to redirect back to your site when a transaction has been tokenised or authorised. Required if a url-encoded request. | 
  `ship_to` | object | Optional | [ContactDetails](#contactdetails) Shipping details of the card holder making the payment. These details may be used for 3DS and for future referencing of the transaction. | 
- `tag` | string  | Optional | A "tag" is a label that you can attach to a payment authorization. Tags can help you group transactions together based on certain criteria, like a work job or a ticket number. They can also assist in filtering transactions when you're generating reports.<br/><br/>Multiple Tags You can add more than one tag to a transaction by separating them with commas.<br/><br/>Limitations There is a maximum limit of 3 tags that can be added to a single transaction. Each tag can be no longer than 20 characters and alphanumeric with no spaces.<br/><br/>Example: Let's say you're a software company and you have different teams working on various projects. When a team makes a purchase or incurs an expense, they can tag the transaction with the project name, the team name, and the type of expense.<br/><br/>Project Name: Project_X Team Name: Team_A Type of Expense: Hardware So, the tag for a transaction might look like: Project_X,Team_A,Hardware<br/><br/>This way, when you're looking at your financial reports, you can easily filter transactions based on these tags to see how much each project or team is spending on different types of expenses. | 
+ `tag` | string  | Optional | A "tag" is a label that you can attach to a payment authorization. Tags can help you group transactions together based on certain criteria, like a work job or a ticket number. They can also assist in filtering transactions when you're generating reports. Multiple Tags You can add more than one tag to a transaction by separating them with commas. Limitations There is a maximum limit of 3 tags that can be added to a single transaction. Each tag can be no longer than 20 characters and alphanumeric with no spaces. Example: Let's say you're a software company and you have different teams working on various projects. When a team makes a purchase or incurs an expense, they can tag the transaction with the project name, the team name, and the type of expense. Project Name: Project_X Team Name: Team_A Type of Expense: Hardware So, the tag for a transaction might look like: Project_X,Team_A,Hardware This way, when you're looking at your financial reports, you can easily filter transactions based on these tags to see how much each project or team is spending on different types of expenses. | 
  `threedsecure` | object | Optional | [ThreeDSecure](#threedsecure) ThreeDSecure element, providing values to enable full 3DS processing flows. | 
  `trans_info` | string  | Optional | Further information that can be added to the transaction will display in reporting. Can be used for flexible values such as operator id.<br/><br/>maxLength: 50 | 
  `trans_type` | string  | Optional | The type of transaction being submitted. Normally this value is not required and your account manager may request that you set this field.<br/><br/>maxLength: 1 | 
@@ -2388,13 +2302,6 @@ Responses for the TokenRequest operation are
 
 Used to initiate a direct post request transaction flow.
 
-<pre class="inline-code language-bash">
-<code>
-curl https://api.citypay.com/v6/direct?cp-domain-key=n834ytqp84y... \
- -d "amount=7500&identifier=example_trans&cardnumber=4000000000000002&expmonth=9&expyear=2028&bill_to_postcode=L1+7ZW
-</code>
-</pre>.
-
 
 <div class="model-links">
  <a href="#requestModel-DirectPostTokeniseRequest">Request Model</a>
@@ -2414,25 +2321,25 @@ Request body for the DirectPostTokeniseRequest operation contains the following 
 
 Field  | Type | Usage | Description |
 ---------|------|------|-------------|
- `amount` | integer *int32* | Required | The amount to authorise in the lowest unit of currency with a variable length to a maximum of 12 digits.<br/><br/>No decimal points are to be included and no divisional characters such as 1,024.<br/><br/>The amount should be the total amount required for the transaction.<br/><br/>For example with GBP £1,021.95 the amount value is 102195.<br/><br/> minLength: 1<br/>maxLength: 9 | 
- `cardnumber` | string  | Required | The card number (PAN) with a variable length to a maximum of 21 digits in numerical form. Any non numeric characters will be stripped out of the card number, this includes whitespace or separators internal of the provided value.<br/><br/>The card number must be treated as sensitive data. We only provide an obfuscated value in logging and reporting.  The plaintext value is encrypted in our database using AES 256 GMC bit encryption for settlement or refund purposes.<br/><br/>When providing the card number to our gateway through the authorisation API you will be handling the card data on your application. This will require further PCI controls to be in place and this value must never be stored.<br/><br/> minLength: 12<br/>maxLength: 22 | 
+ `amount` | integer *int32* | Required | The amount to authorise in the lowest unit of currency with a variable length to a maximum of 12 digits. No decimal points are to be included and no divisional characters such as 1,024. The amount should be the total amount required for the transaction. For example with GBP £1,021.95 the amount value is 102195.<br/><br/> minLength: 1<br/>maxLength: 9 | 
+ `cardnumber` | string  | Required | The card number (PAN) with a variable length to a maximum of 21 digits in numerical form. Any non numeric characters will be stripped out of the card number, this includes whitespace or separators internal of the provided value. The card number must be treated as sensitive data. We only provide an obfuscated value in logging and reporting.  The plaintext value is encrypted in our database using AES 256 GMC bit encryption for settlement or refund purposes. When providing the card number to our gateway through the authorisation API you will be handling the card data on your application. This will require further PCI controls to be in place and this value must never be stored.<br/><br/> minLength: 12<br/>maxLength: 22 | 
  `expmonth` | integer *int32* | Required | The month of expiry of the card. The month value should be a numerical value between 1 and 12.<br/><br/> minimum: 1<br/>maximum: 12 | 
  `expyear` | integer *int32* | Required | The year of expiry of the card.<br/><br/> minimum: 2000<br/>maximum: 2100 | 
- `identifier` | string  | Required | The identifier of the transaction to process. The value should be a valid reference and may be used to perform  post processing actions and to aid in reconciliation of transactions.<br/><br/>The value should be a valid printable string with ASCII character ranges from 0x32 to 0x127.<br/><br/>The identifier is recommended to be distinct for each transaction such as a [random unique identifier](https://en.wikipedia.org/wiki/Universally_unique_identifier) this will aid in ensuring each transaction is identifiable.<br/><br/>When transactions are processed they are also checked for duplicate requests. Changing the identifier on a subsequent request will ensure that a transaction is considered as different.<br/><br/> minLength: 4<br/>maxLength: 50 | 
+ `identifier` | string  | Required | The identifier of the transaction to process. The value should be a valid reference and may be used to perform  post processing actions and to aid in reconciliation of transactions. The value should be a valid printable string with ASCII character ranges from 0x32 to 0x127. The identifier is recommended to be distinct for each transaction such as a [random unique identifier](https://en.wikipedia.org/wiki/Universally_unique_identifier) this will aid in ensuring each transaction is identifiable. When transactions are processed they are also checked for duplicate requests. Changing the identifier on a subsequent request will ensure that a transaction is considered as different.<br/><br/> minLength: 4<br/>maxLength: 50 | 
  `mac` | string *hex* | Required | A message authentication code ensures the data is authentic and that the intended amount has not been tampered with. The mac value is generated using a hash-based mac value. The following algorithm is used. - A key (k) is derived from your licence key - A value (v) is produced by concatenating the nonce, amount value and identifier, such as a purchase   with nonce `0123456789ABCDEF` an amount of £275.95 and an identifier of OD-12345678 would become   `0123456789ABCDEF27595OD-12345678` and extracting the UTF-8 byte values - The result from HMAC_SHA256(k, v) is hex-encoded (upper-case) - For instance, a licence key of `LK123456789`, a nonce of `0123456789ABCDEF`, an amount of `27595` and an identifier of `OD-12345678`  would generate a MAC of `163DBAB194D743866A9BCC7FC9C8A88FCD99C6BBBF08D619291212D1B91EE12E`. | 
- `avs_postcode_policy` | string  | Optional | A policy value which determines whether an AVS postcode policy is enforced or bypassed.<br/><br/>Values are  `0` for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.<br/><br/> `1` for an enforced policy. Transactions that are enforced will be rejected if the AVS postcode numeric value does not match.<br/><br/> `2` to bypass. Transactions that are bypassed will be allowed through even if the postcode did not match.<br/><br/> `3` to ignore. Transactions that are ignored will bypass the result and not send postcode details for authorisation. | 
- `bill_to` | object | Optional | [ContactDetails](#contactdetails) Billing details of the card holder making the payment. These details may be used for AVS fraud analysis, 3DS and for future referencing of the transaction.<br/><br/>For AVS to work correctly, the billing details should be the registered address of the card holder as it appears on the statement with their card issuer. The numeric details will be passed through for analysis and may result in a decline if incorrectly provided.<br/><br/>If using url-encoded format requests properties should be prefixed with `bill_to_` for example a postcode  value should be `bill_to_postcode`. | 
- `csc` | string  | Optional | The Card Security Code (CSC) (also known as CV2/CVV2) is normally found on the back of the card (American Express has it on the front). The value helps to identify posession of the card as it is not available within the chip or magnetic swipe.<br/><br/>When forwarding the CSC, please ensure the value is a string as some values start with 0 and this will be stripped out by any integer parsing.<br/><br/>The CSC number aids fraud prevention in Mail Order and Internet payments.<br/><br/>Business rules are available on your account to identify whether to accept or decline transactions based on mismatched results of the CSC.<br/><br/>The Payment Card Industry (PCI) requires that at no stage of a transaction should the CSC be stored.<br/><br/>This applies to all entities handling card data.<br/><br/>It should also not be used in any hashing process.<br/><br/>CityPay do not store the value and have no method of retrieving the value once the transaction has been processed. For this reason, duplicate checking is unable to determine the CSC in its duplication check algorithm.<br/><br/> minLength: 3<br/>maxLength: 4 | 
- `csc_policy` | string  | Optional | A policy value which determines whether a CSC policy is enforced or bypassed.<br/><br/>Values are  `0` for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.<br/><br/> `1` for an enforced policy. Transactions that are enforced will be rejected if the CSC value does not match.<br/><br/> `2` to bypass. Transactions that are bypassed will be allowed through even if the CSC did not match.<br/><br/> `3` to ignore. Transactions that are ignored will bypass the result and not send the CSC details for authorisation. | 
+ `avs_postcode_policy` | string  | Optional | A policy value which determines whether an AVS postcode policy is enforced or bypassed. Values are  `0` for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.  `1` for an enforced policy. Transactions that are enforced will be rejected if the AVS postcode numeric value does not match.  `2` to bypass. Transactions that are bypassed will be allowed through even if the postcode did not match.  `3` to ignore. Transactions that are ignored will bypass the result and not send postcode details for authorisation. | 
+ `bill_to` | object | Optional | [ContactDetails](#contactdetails) Billing details of the card holder making the payment. These details may be used for AVS fraud analysis, 3DS and for future referencing of the transaction. For AVS to work correctly, the billing details should be the registered address of the card holder as it appears on the statement with their card issuer. The numeric details will be passed through for analysis and may result in a decline if incorrectly provided. If using url-encoded format requests properties should be prefixed with `bill_to_` for example a postcode  value should be `bill_to_postcode`. | 
+ `csc` | string  | Optional | The Card Security Code (CSC) (also known as CV2/CVV2) is normally found on the back of the card (American Express has it on the front). The value helps to identify posession of the card as it is not available within the chip or magnetic swipe. When forwarding the CSC, please ensure the value is a string as some values start with 0 and this will be stripped out by any integer parsing. The CSC number aids fraud prevention in Mail Order and Internet payments. Business rules are available on your account to identify whether to accept or decline transactions based on mismatched results of the CSC. The Payment Card Industry (PCI) requires that at no stage of a transaction should the CSC be stored. This applies to all entities handling card data. It should also not be used in any hashing process. CityPay do not store the value and have no method of retrieving the value once the transaction has been processed. For this reason, duplicate checking is unable to determine the CSC in its duplication check algorithm.<br/><br/> minLength: 3<br/>maxLength: 4 | 
+ `csc_policy` | string  | Optional | A policy value which determines whether a CSC policy is enforced or bypassed. Values are  `0` for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.  `1` for an enforced policy. Transactions that are enforced will be rejected if the CSC value does not match.  `2` to bypass. Transactions that are bypassed will be allowed through even if the CSC did not match.  `3` to ignore. Transactions that are ignored will bypass the result and not send the CSC details for authorisation. | 
  `currency` | string  | Optional | The processing currency for the transaction. Will default to the merchant account currency.<br/><br/>minLength: 3<br/>maxLength: 3 | 
- `duplicate_policy` | string  | Optional | A policy value which determines whether a duplication policy is enforced or bypassed. A duplication check has a window of time set against your account within which it can action. If a previous transaction with matching values occurred within the window, any subsequent transaction will result in a T001 result.<br/><br/>Values are  `0` for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.<br/><br/> `1` for an enforced policy. Transactions that are enforced will be checked for duplication within the duplication window.<br/><br/> `2` to bypass. Transactions that are bypassed will not be checked for duplication within the duplication window.<br/><br/> `3` to ignore. Transactions that are ignored will have the same affect as bypass. | 
- `match_avsa` | string  | Optional | A policy value which determines whether an AVS address policy is enforced, bypassed or ignored.<br/><br/>Values are  `0` for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.<br/><br/> `1` for an enforced policy. Transactions that are enforced will be rejected if the AVS address numeric value does not match.<br/><br/> `2` to bypass. Transactions that are bypassed will be allowed through even if the address did not match.<br/><br/> `3` to ignore. Transactions that are ignored will bypass the result and not send address numeric details for authorisation. | 
+ `duplicate_policy` | string  | Optional | A policy value which determines whether a duplication policy is enforced or bypassed. A duplication check has a window of time set against your account within which it can action. If a previous transaction with matching values occurred within the window, any subsequent transaction will result in a T001 result. Values are  `0` for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.  `1` for an enforced policy. Transactions that are enforced will be checked for duplication within the duplication window.  `2` to bypass. Transactions that are bypassed will not be checked for duplication within the duplication window.  `3` to ignore. Transactions that are ignored will have the same affect as bypass. | 
+ `match_avsa` | string  | Optional | A policy value which determines whether an AVS address policy is enforced, bypassed or ignored. Values are  `0` for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.  `1` for an enforced policy. Transactions that are enforced will be rejected if the AVS address numeric value does not match.  `2` to bypass. Transactions that are bypassed will be allowed through even if the address did not match.  `3` to ignore. Transactions that are ignored will bypass the result and not send address numeric details for authorisation. | 
  `name_on_card` | string  | Optional | The card holder name as appears on the card such as MR N E BODY. Required for some acquirers.<br/><br/> minLength: 2<br/>maxLength: 45 | 
  `nonce` | string *hex* | Optional | A random value Hex string (uppercase) which is provided to the API to perform a digest. The value will be used in any digest function. | 
  `redirect_failure` | string *url* | Optional | The URL used to redirect back to your site when a transaction has been rejected or declined. Required if a url-encoded request. | 
  `redirect_success` | string *url* | Optional | The URL used to redirect back to your site when a transaction has been tokenised or authorised. Required if a url-encoded request. | 
  `ship_to` | object | Optional | [ContactDetails](#contactdetails) Shipping details of the card holder making the payment. These details may be used for 3DS and for future referencing of the transaction. | 
- `tag` | string  | Optional | A "tag" is a label that you can attach to a payment authorization. Tags can help you group transactions together based on certain criteria, like a work job or a ticket number. They can also assist in filtering transactions when you're generating reports.<br/><br/>Multiple Tags You can add more than one tag to a transaction by separating them with commas.<br/><br/>Limitations There is a maximum limit of 3 tags that can be added to a single transaction. Each tag can be no longer than 20 characters and alphanumeric with no spaces.<br/><br/>Example: Let's say you're a software company and you have different teams working on various projects. When a team makes a purchase or incurs an expense, they can tag the transaction with the project name, the team name, and the type of expense.<br/><br/>Project Name: Project_X Team Name: Team_A Type of Expense: Hardware So, the tag for a transaction might look like: Project_X,Team_A,Hardware<br/><br/>This way, when you're looking at your financial reports, you can easily filter transactions based on these tags to see how much each project or team is spending on different types of expenses. | 
+ `tag` | string  | Optional | A "tag" is a label that you can attach to a payment authorization. Tags can help you group transactions together based on certain criteria, like a work job or a ticket number. They can also assist in filtering transactions when you're generating reports. Multiple Tags You can add more than one tag to a transaction by separating them with commas. Limitations There is a maximum limit of 3 tags that can be added to a single transaction. Each tag can be no longer than 20 characters and alphanumeric with no spaces. Example: Let's say you're a software company and you have different teams working on various projects. When a team makes a purchase or incurs an expense, they can tag the transaction with the project name, the team name, and the type of expense. Project Name: Project_X Team Name: Team_A Type of Expense: Hardware So, the tag for a transaction might look like: Project_X,Team_A,Hardware This way, when you're looking at your financial reports, you can easily filter transactions based on these tags to see how much each project or team is spending on different types of expenses. | 
  `threedsecure` | object | Optional | [ThreeDSecure](#threedsecure) ThreeDSecure element, providing values to enable full 3DS processing flows. | 
  `trans_info` | string  | Optional | Further information that can be added to the transaction will display in reporting. Can be used for flexible values such as operator id.<br/><br/>maxLength: 50 | 
  `trans_type` | string  | Optional | The type of transaction being submitted. Normally this value is not required and your account manager may request that you set this field.<br/><br/>maxLength: 1 | 
@@ -2651,11 +2558,8 @@ Responses for the AclCheckRequest operation are
 </div>
 
 An operational request to list current merchants for a client.
-
 ### Sorting
-
 Sorting can be performed by include a query parameter i.e. `/merchants/?sort=merchantid`
-
 Fields that can be sorted are `merchantid` or `name`.
 
 
@@ -2708,7 +2612,6 @@ Responses for the ListMerchantsRequest operation are
 A ping request which performs a connection and authentication test to the CityPay API server. The request
 will return a standard Acknowledgement with a response code `044` to signify a successful
 ping.
-
 The ping call is useful to confirm that you will be able to access 
 the API from behind any firewalls and that the permission
 model is granting access from your source.
@@ -2762,7 +2665,6 @@ Responses for the PingRequest operation are
 CityPay Paylink makes online e-commerce easier to implement by providing a hosted form to handle the card payment 
 process directly with the cardholder's browser, allowing you to concentrate on your business whilst allowing CityPay 
 to manage the payment process on your behalf.
-
 1. Simplified payment solutions.
 2. payment processing is handled by our secure web servers adding security and confidence to your shoppers.
 3. 3D-Secure authentication is available within the application without any difficult MPI integration, allowing for immediate Verified by Visa and MasterCard SecureCode processing.
@@ -2786,9 +2688,7 @@ CityPay Paylink supports invoice and bill payment services by allowing merchants
 associate the invoice with a Paylink checkout token. CityPay will co-ordinate the checkout flow in relationship with
 your customer. Our bill payment solution may be used to streamline the payment flow with cardholders to allow your
 invoice to be paid promptly and via multiple payment channels such as Card Payment, Apple Pay or Google Pay.
-
 The bill payment service allows
-
 1. setting up notification paths to an end customer, such as SMS or Email
 2. enabling attachments to be included with Paylink tokens
 3. produce chaser notifications for unpaid invoices
@@ -2797,25 +2697,18 @@ The bill payment service allows
 6. support of field guards to protect the payment screen
 7. support of status reporting on tokens
 8. URL short codes for SMS notifications
-
 <img src="images/merchant-BPS-workflow.png" alt="Paylink BPSv2 Overview" width="50%"/> 
 
-
 ### Notification Paths
-
 Notification paths can be provided which identify the channels for communication of the invoice availability.
 Up to 3 notification paths may be provided per request.
-
 Each notification uses a template to generate the body of the message. This allows for variable text to be sent out and
 customised for each call.
-
 SMS messages use URL Short Codes (USC) as a payment link to the invoice payment page. This allows for a standard payment
 URL to be shortened for optimised usage in SMS. For instance a URL of `https://checkout.citypay.com/PL1234/s348yb8yna4a48n2f8nq2f3msgyng-psn348ynaw8ynaw/en`
 becomes `citypay.com/Za48na3x`. Each USC is unique however it is a requirement that each USC generated is protected
 with Field Guards to ensure that sensitive data (such as customer contact details and GDPR) is protected.
-
 To send a notification path, append a `notification-path` property to the request.
-
 ```json
  {
   "sms_notification_path": {
@@ -2828,9 +2721,7 @@ To send a notification path, append a `notification-path` property to the reques
   }
 }
 ```
-
 Notification paths trigger a number of events which are stored as part of the timeline of events of a Paylink token
-
 - `BillPaymentSmsNotificationQueued` - identifies when an SMS notification has been queued for delivery
 - `BillPaymentSmsNotificationSent` - identifies when an SMS notification has been sent to the upstream network
 - `BillPaymentSmsNotificationDelivered` - identifies when an SMS notification has been delivered as notified by the upstream network
@@ -2840,23 +2731,17 @@ Notification paths trigger a number of events which are stored as part of the ti
 - `BillPaymentEmailNotificationSent` -  identifies when an email notification has been accepted by our SMS forwarder
 - `BillPaymentEmailNotificationFailure` - identifies when an email notification has failed delivery
 
-
 #### SMS Notification Path
-
 SMS originated from a CityPay pool of numbers and by default only sends to country codes where the service is registered.
 SMSs may contain a From field which is configured as part of you onboarding and have a name associated to identify the service
 origin. For example if your business is titled `Health Surgery Ltd` the SMS may be sent to originate from `Health Surgery`. 
-
 SMS is also configured for a "polite mode". This mode ensures that SMSs aren't sent in the middle of the night when backend
 services ordinarily run. SMSs will be queued until the time range is deemed as polite. Normally this is between 8am and 9pm.
-
  Field    | Type     | Usage    | Description                                                                                     |
 ----------|----------|----------|-------------------------------------------------------------------------------------------------|
  template | string   | Reserved | An optional template name to use a template other than the default.                             |
  to       | string   | Reserved | The phone number in [E.164](https://en.wikipedia.org/wiki/E.164) format to send the message to. |
-
 #### Email Notification Paths
-
  Field    | Type     | Usage    | Description                                                                                     |
 ----------|----------|----------|-------------------------------------------------------------------------------------------------|
  template | string   | Reserved | An optional template name to use a template other than the default.                             |
@@ -2865,66 +2750,43 @@ services ordinarily run. SMSs will be queued until the time range is deemed as p
  bcc      | string[] | Required | An array of email addresses to be used for bcc delivery. A maximum of 5 addresses can be added. |
  reply_to | string[] | Required | An array of email addresses to be used for the Reply-To header of an email.     |
 
-
 ### Field Guards
-
 To ensure that invoices are paid by the intended recipient, Paylink supports the addition of Field Guards.
-
 A Field Guard is an intended field which is to be used as a form of guarded authentication. More than 1 field can be
 requested.
-
 <img src="images/paylink-field-guards.png" alt="Paylink Field Guards" width="50%"/>
-
 To determine the source value of the field, each field name is searched in the order of
-
 - identifier
 - cardholder data such as name
 - custom parameters
 - pass through data
-
 If no field values are found, the token request returns a D041 validation error.
-
 #### Authentication and Validation
-
 When values are entered by the user, resultant comparisons are performed by
-
 1. Transliteration of both the source value and entered value. For example, names with accents (e.g. é will become e)
 2. Only Alphanumeric values are retained any whitespace or special characters are ignored
 3. Case is ignored
-
 Should all values match, the user is authenticated and can continue to the payment form rendered by the Paylink server.
-
 On successful login, an event will be added to include that the access guard validated access.
-
 #### Access-Key
-
 To ensure that a user does not need to re-enter these values multiple times, a cookie is pushed to the user’s
 browser with an access-key digest value. This value will be presented to the server on each refresh therefore
 allowing the guard to accept the call. Each value is uniquely stored per merchant account and cannot be shared cross
 merchant. The lifetime of the cookie is set to 24 hours.
-
 #### Brute Force Prevention
-
 To prevent multiple calls hitting the server, attempting a brute force attack, the login process
-
 1. is fronted by a contemporary web application firewall
 2. creates an event for each token when access was denied
 3. should the number of failed events breach more than 5 in 30 minutes, the token is locked for an hour
 4. should the number of events breach more than 20 the token is fully locked
-
 ### Attachments
-
 Attachments can be included in the request in 2 ways
-
 1. Via a data element direct in the request
 2. Via a URL upload to a provided pre-signed URL
-
 The decision of which option is dependent on the size of the attachments. Should the attachment size be greater than
 32kb a URL upload is required. Small attachments can be included in the JSON request. This is to prevent our web
 firewall from blocking your request and to also ensure efficiency of larger file uploads.
-
 There is a maximum of 3 attachments that can be added to a request.
-
 ```json
     [{
       "filename": "invoice1.pdf",
@@ -2935,18 +2797,14 @@ There is a maximum of 3 attachments that can be added to a request.
       "mime-type": "application/pdf"
     }]
 ```
-
  Field     | Type   | Usage    | Description                                                                                                                                          |
 -----------|--------|----------|------------------------------------------------------------------------------------------------------------------------------------------------------|
  filename  | string | Required | The name of the attachment normally taken from the filename. You should not include the filename path as appropriate                                 |
  data      | string | Optional | base64 encoding of the file if less than 32kb in size                                                                                                |
  mime-type | string | Required | The mime type of the attachment as defined in [RFC 9110](https://www.rfc-editor.org/rfc/rfc9110.html). Currently only `application/pdf` is supported |
 
-
 #### Attachment Result
-
 A result of an attachment specifies whether the attachment was successfully added or whether a further upload is requried
-
  Field  | Type   | Usage    | Description                                                                                                                                       |
 --------|--------|----------|---------------------------------------------------------------------------------------------------------------------------------------------------|
  result | string | Required | `OK` should the file have uploaded or `UPLOAD` if the file is required to be uploaded.                                                            |
@@ -2975,7 +2833,7 @@ Field  | Type | Usage | Description |
  `request` | object | Required | [PaylinkTokenRequestModel](#paylinktokenrequestmodel) The token request to generate for the bill payment. | 
  `addressee` | string  | Optional | Who the bill payment request intended for. This should be a readable name such as a person or company. | 
  `attachments` | array | Optional | An array of attachments for the request such as invoices or statements. [PaylinkAttachmentRequest](#paylinkattachmentrequest) | 
- `descriptor` | string  | Optional | A descriptor for the bill payment used to describe what the payment request is for for instance "Invoice".<br/><br/>The descriptor can be used as descriptive text on emails or the payment page. For instance an invoice may have a button saying "View Invoice" or an email may say "to pay your Invoice online". | 
+ `descriptor` | string  | Optional | A descriptor for the bill payment used to describe what the payment request is for for instance "Invoice". The descriptor can be used as descriptive text on emails or the payment page. For instance an invoice may have a button saying "View Invoice" or an email may say "to pay your Invoice online". | 
  `due` | string *date* | Optional | A date that the invoice is due. This can be displayed on the payment page. | 
  `email_notification_path` | object | Optional | [PaylinkEmailNotificationPath](#paylinkemailnotificationpath) Email notification path for this bill payment to be executed. | 
  `memo` | string  | Optional | A memo that can be added to the payment page and email to provide to the customer. | 
@@ -3103,9 +2961,9 @@ Field  | Type | Usage | Description |
 ---------|------|------|-------------|
  `after` | string *date-time* | Required | identifies the date and time to lookup changes after. | 
  `merchantid` | integer *int32* | Required | the merchant id to review tokens for. | 
- `maxResults` | integer *int32* | Optional | the maximum number of results between 5 and 250 to return. Default is 50. | 
- `nextToken` | string  | Optional | the next token value when more results are available. | 
- `orderBy` | array | Optional | an orderBy array should the search require ordering. The following fields may be specified: `created`. The default order by fields are `created`.<br/><br/>type: string | 
+ `maxResults` | integer *int32* | Optional | The maximum number of results to return in a single response. This value is used to limit the size of data returned by the API, enhancing performance and manageability. Values should be between 5 and 250. | 
+ `nextToken` | string  | Optional | A token that identifies the starting point of the page of results to be returned. An empty value indicates the start of the dataset. When supplied, it is validated and used to fetch the subsequent page of results. This token is typically obtained from the response of a previous pagination request. | 
+ `orderBy` | string  | Optional | Specifies the field by which results are ordered. Available fields are [p.id]. By default, fields are ordered by OrderByExpression(p.id,ASC). To order in descending order, prefix with '-' or suffix with ' DESC'. | 
 
 
 
@@ -3141,7 +2999,6 @@ Responses for the TokenChangesRequest operation are
 </div>
 
 Adjusts a TokenRequest's amount value when for instance 
-
 1. a Token is created and the shopping cart is updated
 2. an invoice is adjusted either due to part payment or due to increased incurred costs.
 
@@ -3189,6 +3046,54 @@ Responses for the TokenAdjustmentRequest operation are
  StatusCode | Description | Content-Type | Model |
 ------------|-------------|--------------|-------|
  `200` | Response defining the result of the token request. | `application/json` <br/>`text/xml` | [Acknowledgement](#acknowledgement) |  
+ `400` | Bad Request. Should the incoming data not be validly determined. |  |  
+ `401` | Unauthorized. No api key has been provided and is required for this operation. |  |  
+ `403` | Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request. |  |  
+ `422` | Unprocessable Entity. Should a failure occur that prevents processing of the API call. | `application/json` <br/>`text/xml` | [Error](#error) |  
+ `500` | Server Error. The server was unable to complete the request. |  |  
+
+
+
+
+
+## Cancels a Paylink Token
+
+<div class="route-spec">
+<div class="route-path">
+ <span class="http-method http-method-put">PUT</span>
+ <span class="path">/paylink/{token}/cancel</span>
+</div>
+<div class="security-methods"><span class="key sec-cp-api-key">cp-api-key</span> </div>
+</div>
+
+Marks a Paylink Token as cancelled. This cancels the Token for any future request for processing.
+
+<div class="model-links">
+ <a href="#requestModel-TokenCancelRequest">Request Model</a>
+ <a href="#responseModel-TokenCancelRequest">Response Model</a>
+</div>
+
+
+### Path Parameters
+
+Name | Required | Description |
+-----|----------|-------------|
+ `token` | true | The token returned by the create token process. | 
+
+
+
+
+
+<a id="responseModel-TokenCancelRequest"></a>
+### Response
+
+Responses for the TokenCancelRequest operation are
+
+<div class="responseModel"></div>
+
+ StatusCode | Description | Content-Type | Model |
+------------|-------------|--------------|-------|
+ `200` | Confirms that the token was marked as cancelled. | `application/json` <br/>`text/xml` | [Acknowledgement](#acknowledgement) |  
  `400` | Bad Request. Should the incoming data not be validly determined. |  |  
  `401` | Unauthorized. No api key has been provided and is required for this operation. |  |  
  `403` | Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request. |  |  
@@ -3535,7 +3440,7 @@ These batches play a crucial role in the settlement of funds by summarising dail
 
 
 <a id="requestModel-MerchantBatchReportRequest"></a>
-### Model MerchantBatchRequest
+### Model MerchantBatchReportRequest
 
 Request body for the MerchantBatchReportRequest operation contains the following properties
 
@@ -3545,10 +3450,10 @@ Field  | Type | Usage | Description |
 ---------|------|------|-------------|
  `date_from` | string *date* | Optional | Start date (YYYY-MM-DD) for batch retrieval range, inclusive. Maximum value is 3 years ago. | 
  `date_until` | string *date* | Optional | End date (YYYY-MM-DD) for batch retrieval range, inclusive. | 
- `max_results` | integer *int32* | Optional | The maximum number of results to return in a single response. This value is used to limit the size of data returned by the API, enhancing performance and manageability. Values should be between 5 and 250. | 
+ `maxResults` | integer *int32* | Optional | The maximum number of results to return in a single response. This value is used to limit the size of data returned by the API, enhancing performance and manageability. Values should be between 5 and 250. | 
  `merchant_id` | array | Optional | type: integer | 
- `next_token` | string  | Optional | A token that identifies the starting point of the page of results to be returned. An empty value indicates the start of the dataset. When supplied, it is validated and used to fetch the subsequent page of results. This token is typically obtained from the response of a previous pagination request. | 
- `order_by` | string  | Optional | Specifies the field by which results are ordered. Available fields are [merchant_id,batch_no,net_amount]. By default, fields are ordered by OrderByExpression(merchant_id,ASC),OrderByExpression(batch_no,ASC). To order in descending order, prefix with '-' or suffix with ' DESC'. | 
+ `nextToken` | string  | Optional | A token that identifies the starting point of the page of results to be returned. An empty value indicates the start of the dataset. When supplied, it is validated and used to fetch the subsequent page of results. This token is typically obtained from the response of a previous pagination request. | 
+ `orderBy` | string  | Optional | Specifies the field by which results are ordered. Available fields are [merchant_id,batch_no,net_amount]. By default, fields are ordered by OrderByExpression(merchant_id,ASC),OrderByExpression(batch_no,ASC). To order in descending order, prefix with '-' or suffix with ' DESC'. | 
 
 
 
@@ -3573,12 +3478,12 @@ Responses for the MerchantBatchReportRequest operation are
 
 
 
-## Merchant Batch Report Request
+## Merchant Batch Request
 
 <div class="route-spec">
 <div class="route-path">
  <span class="http-method http-method-get">GET</span>
- <span class="path">/v6/merchant-batch/{merchantId}/{batchNo}</span>
+ <span class="path">/v6/merchant-batch/{merchantid}/{batch_no}</span>
 </div>
 <div class="security-methods"><span class="key sec-cp-api-key">cp-api-key</span> </div>
 </div>
@@ -3626,8 +3531,8 @@ Responses for the MerchantBatchRequest operation are
 
 <div class="route-spec">
 <div class="route-path">
- <span class="http-method http-method-get">GET</span>
- <span class="path">/v6/merchant-batch/{merchantId}/{batchNo}/transactions</span>
+ <span class="http-method http-method-post">POST</span>
+ <span class="path">/v6/merchant-batch/{merchantid}/{batch_no}/transactions</span>
 </div>
 <div class="security-methods"><span class="key sec-cp-api-key">cp-api-key</span> </div>
 </div>
@@ -3647,6 +3552,23 @@ Name | Required | Description |
  `merchantid` | true | A merchant ID (MID) for which data is requested. This field allows for filtering of the request by a specific merchant account. | 
  `batch_no` | true | The batch number that is being requested. | 
 
+
+
+
+
+
+<a id="requestModel-BatchedTransactionReportRequest"></a>
+### Model BatchTransactionReportRequest
+
+Request body for the BatchedTransactionReportRequest operation contains the following properties
+
+<div class="requestModel"></div>
+
+Field  | Type | Usage | Description |
+---------|------|------|-------------|
+ `maxResults` | integer *int32* | Optional | The maximum number of results to return in a single response. This value is used to limit the size of data returned by the API, enhancing performance and manageability. Values should be between 5 and 250. | 
+ `nextToken` | string  | Optional | A token that identifies the starting point of the page of results to be returned. An empty value indicates the start of the dataset. When supplied, it is validated and used to fetch the subsequent page of results. This token is typically obtained from the response of a previous pagination request. | 
+ `orderBy` | string  | Optional | Specifies the field by which results are ordered. Available fields are [trans_no,date_when,amount]. By default, fields are ordered by OrderByExpression(trans_no,ASC). To order in descending order, prefix with '-' or suffix with ' DESC'. | 
 
 
 
@@ -3675,8 +3597,8 @@ Responses for the BatchedTransactionReportRequest operation are
 
 <div class="route-spec">
 <div class="route-path">
- <span class="http-method http-method-get">GET</span>
- <span class="path">/v6/remittance/report/{clientId}</span>
+ <span class="http-method http-method-post">POST</span>
+ <span class="path">/v6/remittance/report/{clientid}</span>
 </div>
 <div class="security-methods"><span class="key sec-cp-api-key">cp-api-key</span> </div>
 </div>
@@ -3700,6 +3622,26 @@ Name | Required | Description |
 -----|----------|-------------|
  `clientid` | true | A client Id for which data is requested. | 
 
+
+
+
+
+
+<a id="requestModel-RemittanceRangeReport"></a>
+### Model RemittanceReportRequest
+
+Request body for the RemittanceRangeReport operation contains the following properties
+
+<div class="requestModel"></div>
+
+Field  | Type | Usage | Description |
+---------|------|------|-------------|
+ `date_from` | string *date* | Optional | Start date (YYYY-MM-DD) for batch Retrieval range, inclusive. Maximum value is 3 years ago. | 
+ `date_until` | string *date* | Optional | End date (YYYY-MM-DD) for batch Retrieval range, inclusive. | 
+ `maxResults` | integer *int32* | Optional | The maximum number of results to return in a single response. This value is used to limit the size of data returned by the API, enhancing performance and manageability. Values should be between 5 and 250. | 
+ `merchant_id` | array | Optional | type: integer | 
+ `nextToken` | string  | Optional | A token that identifies the starting point of the page of results to be returned. An empty value indicates the start of the dataset. When supplied, it is validated and used to fetch the subsequent page of results. This token is typically obtained from the response of a previous pagination request. | 
+ `orderBy` | string  | Optional | Specifies the field by which results are ordered. Available fields are [trans_no,date_when,amount]. By default, fields are ordered by OrderByExpression(trans_no,ASC). To order in descending order, prefix with '-' or suffix with ' DESC'. | 
 
 
 
@@ -3729,7 +3671,7 @@ Responses for the RemittanceRangeReport operation are
 <div class="route-spec">
 <div class="route-path">
  <span class="http-method http-method-get">GET</span>
- <span class="path">/v6/remittance/report/{clientId}/{date}</span>
+ <span class="path">/v6/remittance/report/{clientid}/{date}</span>
 </div>
 <div class="security-methods"><span class="key sec-cp-api-key">cp-api-key</span> </div>
 </div>
@@ -3739,7 +3681,6 @@ covering all client-related activities. This report consolidates all batches dis
 client, with each remittance summarising the aggregation of batches leading up to settlement. 
 Additionally, the net remittance amount presented in the final settlement will reflect any 
 deductions made by the acquirer.
-
 The process also supports the notion of *today* deferring the date to today's date or *latest* reflecting the
 latest remittance date available.
 
@@ -3770,7 +3711,7 @@ Responses for the RemittanceReportRequest operation are
 
  StatusCode | Description | Content-Type | Model |
 ------------|-------------|--------------|-------|
- `200` | A report of the financial remittance data for a given date. | `application/json` <br/>`text/xml` | [RemittanceData](#remittancedata) |  
+ `200` | A report of the financial remittance data for a given date. | `application/json` <br/>`text/xml` | [RemittedClientData](#remittedclientdata) |  
  `400` | Bad Request. Should the incoming data not be validly determined. |  |  
  `401` | Unauthorized. No api key has been provided and is required for this operation. |  |  
  `403` | Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request. |  |  
@@ -3966,7 +3907,7 @@ Responses for the RemittanceReportRequest operation are
 | `carrier_name` | string  | true | The name of the airline carrier that generated the tickets for airline travel.<br/><br/>maxLength: 25 | 
 | `conjunction_ticket_indicator` | boolean  | false | true if a conjunction ticket (with additional coupons) was issued for an itinerary with more than four segments. Defaults to false. | 
 | `eticket_indicator` | boolean  | false | The Electronic Ticket Indicator, a code that indicates if an electronic ticket was issued.  Defaults to true. | 
-| `no_air_segments` | integer *int32* | false | A value that indicates the number of air travel segments included on this ticket.<br/><br/>Valid entries include the numerals “0” through “4”. Required only if the transaction type is TKT or EXC.<br/><br/> minimum: 0<br/>maximum: 4 | 
+| `no_air_segments` | integer *int32* | false | A value that indicates the number of air travel segments included on this ticket. Valid entries include the numerals “0” through “4”. Required only if the transaction type is TKT or EXC.<br/><br/> minimum: 0<br/>maximum: 4 | 
 | `number_in_party` | integer *int32* | false | The number of people in the party. | 
 | `original_ticket_no` | string  | false | Required if transaction type is EXC.<br/><br/>maxLength: 14 | 
 | `passenger_name` | string  | false | The name of the passenger when the traveller is not the card member that purchased the ticket. Required only if the transaction type is TKT or EXC.<br/><br/>maxLength: 25 | 
@@ -3978,7 +3919,7 @@ Responses for the RemittanceReportRequest operation are
 | `ticket_issue_date` | string *date* | true | The date the ticket was issued in ISO Date format (yyyy-MM-dd). | 
 | `ticket_issue_name` | string  | true | The name of the agency generating the ticket.<br/><br/>maxLength: 26 | 
 | `ticket_no` | string  | true | This must be a valid ticket number, i.e. numeric (the first 3 digits must represent the valid IATA plate carrier code). The final check digit should be validated prior to submission. On credit charges, this field should contain the number of the original ticket, and not of a replacement.<br/><br/> maxLength: 14 | 
-| `transaction_type` | string  | true | This field contains the Transaction Type code assigned to this transaction. Valid codes include:<br/><br/> - `TKT` = Ticket Purchase<br/><br/> - `REF` = Refund<br/><br/> - `EXC` = Exchange Ticket<br/><br/> - `MSC` = Miscellaneous (non-Ticket Purchase- and non-Exchange Ticket-related transactions only).<br/><br/> minLength: 3<br/>maxLength: 3 | 
+| `transaction_type` | string  | true | This field contains the Transaction Type code assigned to this transaction. Valid codes include:  - `TKT` = Ticket Purchase  - `REF` = Refund  - `EXC` = Exchange Ticket  - `MSC` = Miscellaneous (non-Ticket Purchase- and non-Exchange Ticket-related transactions only).<br/><br/> minLength: 3<br/>maxLength: 3 | 
 
 
 
@@ -4170,25 +4111,25 @@ Responses for the RemittanceReportRequest operation are
 
 | Field | Type | Required | Description |
 |-------|------|----------|-------------|
-| `amount` | integer *int32* | true | The amount to authorise in the lowest unit of currency with a variable length to a maximum of 12 digits.<br/><br/>No decimal points are to be included and no divisional characters such as 1,024.<br/><br/>The amount should be the total amount required for the transaction.<br/><br/>For example with GBP £1,021.95 the amount value is 102195.<br/><br/> minLength: 1<br/>maxLength: 9 | 
-| `avs_postcode_policy` | string  | false | A policy value which determines whether an AVS postcode policy is enforced or bypassed.<br/><br/>Values are  `0` for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.<br/><br/> `1` for an enforced policy. Transactions that are enforced will be rejected if the AVS postcode numeric value does not match.<br/><br/> `2` to bypass. Transactions that are bypassed will be allowed through even if the postcode did not match.<br/><br/> `3` to ignore. Transactions that are ignored will bypass the result and not send postcode details for authorisation. | 
-| `bill_to` | object | false | [ContactDetails](#contactdetails) Billing details of the card holder making the payment. These details may be used for AVS fraud analysis, 3DS and for future referencing of the transaction.<br/><br/>For AVS to work correctly, the billing details should be the registered address of the card holder as it appears on the statement with their card issuer. The numeric details will be passed through for analysis and may result in a decline if incorrectly provided. | 
-| `cardnumber` | string  | true | The card number (PAN) with a variable length to a maximum of 21 digits in numerical form. Any non numeric characters will be stripped out of the card number, this includes whitespace or separators internal of the provided value.<br/><br/>The card number must be treated as sensitive data. We only provide an obfuscated value in logging and reporting.  The plaintext value is encrypted in our database using AES 256 GMC bit encryption for settlement or refund purposes.<br/><br/>When providing the card number to our gateway through the authorisation API you will be handling the card data on your application. This will require further PCI controls to be in place and this value must never be stored.<br/><br/> minLength: 12<br/>maxLength: 22 | 
-| `csc` | string  | false | The Card Security Code (CSC) (also known as CV2/CVV2) is normally found on the back of the card (American Express has it on the front). The value helps to identify posession of the card as it is not available within the chip or magnetic swipe.<br/><br/>When forwarding the CSC, please ensure the value is a string as some values start with 0 and this will be stripped out by any integer parsing.<br/><br/>The CSC number aids fraud prevention in Mail Order and Internet payments.<br/><br/>Business rules are available on your account to identify whether to accept or decline transactions based on mismatched results of the CSC.<br/><br/>The Payment Card Industry (PCI) requires that at no stage of a transaction should the CSC be stored.<br/><br/>This applies to all entities handling card data.<br/><br/>It should also not be used in any hashing process.<br/><br/>CityPay do not store the value and have no method of retrieving the value once the transaction has been processed. For this reason, duplicate checking is unable to determine the CSC in its duplication check algorithm.<br/><br/> minLength: 3<br/>maxLength: 4 | 
-| `csc_policy` | string  | false | A policy value which determines whether a CSC policy is enforced or bypassed.<br/><br/>Values are  `0` for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.<br/><br/> `1` for an enforced policy. Transactions that are enforced will be rejected if the CSC value does not match.<br/><br/> `2` to bypass. Transactions that are bypassed will be allowed through even if the CSC did not match.<br/><br/> `3` to ignore. Transactions that are ignored will bypass the result and not send the CSC details for authorisation. | 
+| `amount` | integer *int32* | true | The amount to authorise in the lowest unit of currency with a variable length to a maximum of 12 digits. No decimal points are to be included and no divisional characters such as 1,024. The amount should be the total amount required for the transaction. For example with GBP £1,021.95 the amount value is 102195.<br/><br/> minLength: 1<br/>maxLength: 9 | 
+| `avs_postcode_policy` | string  | false | A policy value which determines whether an AVS postcode policy is enforced or bypassed. Values are  `0` for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.  `1` for an enforced policy. Transactions that are enforced will be rejected if the AVS postcode numeric value does not match.  `2` to bypass. Transactions that are bypassed will be allowed through even if the postcode did not match.  `3` to ignore. Transactions that are ignored will bypass the result and not send postcode details for authorisation. | 
+| `bill_to` | object | false | [ContactDetails](#contactdetails) Billing details of the card holder making the payment. These details may be used for AVS fraud analysis, 3DS and for future referencing of the transaction. For AVS to work correctly, the billing details should be the registered address of the card holder as it appears on the statement with their card issuer. The numeric details will be passed through for analysis and may result in a decline if incorrectly provided. | 
+| `cardnumber` | string  | true | The card number (PAN) with a variable length to a maximum of 21 digits in numerical form. Any non numeric characters will be stripped out of the card number, this includes whitespace or separators internal of the provided value. The card number must be treated as sensitive data. We only provide an obfuscated value in logging and reporting.  The plaintext value is encrypted in our database using AES 256 GMC bit encryption for settlement or refund purposes. When providing the card number to our gateway through the authorisation API you will be handling the card data on your application. This will require further PCI controls to be in place and this value must never be stored.<br/><br/> minLength: 12<br/>maxLength: 22 | 
+| `csc` | string  | false | The Card Security Code (CSC) (also known as CV2/CVV2) is normally found on the back of the card (American Express has it on the front). The value helps to identify posession of the card as it is not available within the chip or magnetic swipe. When forwarding the CSC, please ensure the value is a string as some values start with 0 and this will be stripped out by any integer parsing. The CSC number aids fraud prevention in Mail Order and Internet payments. Business rules are available on your account to identify whether to accept or decline transactions based on mismatched results of the CSC. The Payment Card Industry (PCI) requires that at no stage of a transaction should the CSC be stored. This applies to all entities handling card data. It should also not be used in any hashing process. CityPay do not store the value and have no method of retrieving the value once the transaction has been processed. For this reason, duplicate checking is unable to determine the CSC in its duplication check algorithm.<br/><br/> minLength: 3<br/>maxLength: 4 | 
+| `csc_policy` | string  | false | A policy value which determines whether a CSC policy is enforced or bypassed. Values are  `0` for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.  `1` for an enforced policy. Transactions that are enforced will be rejected if the CSC value does not match.  `2` to bypass. Transactions that are bypassed will be allowed through even if the CSC did not match.  `3` to ignore. Transactions that are ignored will bypass the result and not send the CSC details for authorisation. | 
 | `currency` | string  | false | The processing currency for the transaction. Will default to the merchant account currency.<br/><br/>minLength: 3<br/>maxLength: 3 | 
-| `duplicate_policy` | string  | false | A policy value which determines whether a duplication policy is enforced or bypassed. A duplication check has a window of time set against your account within which it can action. If a previous transaction with matching values occurred within the window, any subsequent transaction will result in a T001 result.<br/><br/>Values are  `0` for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.<br/><br/> `1` for an enforced policy. Transactions that are enforced will be checked for duplication within the duplication window.<br/><br/> `2` to bypass. Transactions that are bypassed will not be checked for duplication within the duplication window.<br/><br/> `3` to ignore. Transactions that are ignored will have the same affect as bypass. | 
+| `duplicate_policy` | string  | false | A policy value which determines whether a duplication policy is enforced or bypassed. A duplication check has a window of time set against your account within which it can action. If a previous transaction with matching values occurred within the window, any subsequent transaction will result in a T001 result. Values are  `0` for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.  `1` for an enforced policy. Transactions that are enforced will be checked for duplication within the duplication window.  `2` to bypass. Transactions that are bypassed will not be checked for duplication within the duplication window.  `3` to ignore. Transactions that are ignored will have the same affect as bypass. | 
 | `event_management` | object | false | [EventDataModel](#eventdatamodel) Additional advice data for event management integration that can be applied to an authorisation request. | 
 | `expmonth` | integer *int32* | true | The month of expiry of the card. The month value should be a numerical value between 1 and 12.<br/><br/> minimum: 1<br/>maximum: 12 | 
 | `expyear` | integer *int32* | true | The year of expiry of the card.<br/><br/> minimum: 2000<br/>maximum: 2100 | 
 | `external_mpi` | object | false | [ExternalMPI](#externalmpi) If an external 3DSv1 MPI is used for authentication, values provided can be supplied in this element. | 
-| `identifier` | string  | true | The identifier of the transaction to process. The value should be a valid reference and may be used to perform  post processing actions and to aid in reconciliation of transactions.<br/><br/>The value should be a valid printable string with ASCII character ranges from 0x32 to 0x127.<br/><br/>The identifier is recommended to be distinct for each transaction such as a [random unique identifier](https://en.wikipedia.org/wiki/Universally_unique_identifier) this will aid in ensuring each transaction is identifiable.<br/><br/>When transactions are processed they are also checked for duplicate requests. Changing the identifier on a subsequent request will ensure that a transaction is considered as different.<br/><br/> minLength: 4<br/>maxLength: 50 | 
-| `match_avsa` | string  | false | A policy value which determines whether an AVS address policy is enforced, bypassed or ignored.<br/><br/>Values are  `0` for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.<br/><br/> `1` for an enforced policy. Transactions that are enforced will be rejected if the AVS address numeric value does not match.<br/><br/> `2` to bypass. Transactions that are bypassed will be allowed through even if the address did not match.<br/><br/> `3` to ignore. Transactions that are ignored will bypass the result and not send address numeric details for authorisation. | 
+| `identifier` | string  | true | The identifier of the transaction to process. The value should be a valid reference and may be used to perform  post processing actions and to aid in reconciliation of transactions. The value should be a valid printable string with ASCII character ranges from 0x32 to 0x127. The identifier is recommended to be distinct for each transaction such as a [random unique identifier](https://en.wikipedia.org/wiki/Universally_unique_identifier) this will aid in ensuring each transaction is identifiable. When transactions are processed they are also checked for duplicate requests. Changing the identifier on a subsequent request will ensure that a transaction is considered as different.<br/><br/> minLength: 4<br/>maxLength: 50 | 
+| `match_avsa` | string  | false | A policy value which determines whether an AVS address policy is enforced, bypassed or ignored. Values are  `0` for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.  `1` for an enforced policy. Transactions that are enforced will be rejected if the AVS address numeric value does not match.  `2` to bypass. Transactions that are bypassed will be allowed through even if the address did not match.  `3` to ignore. Transactions that are ignored will bypass the result and not send address numeric details for authorisation. | 
 | `mcc6012` | object | false | [MCC6012](#mcc6012) If the merchant is MCC coded as 6012, additional values are required for authorisation. | 
 | `merchantid` | integer *int32* | true | Identifies the merchant account to perform processing for. | 
 | `name_on_card` | string  | false | The card holder name as appears on the card such as MR N E BODY. Required for some acquirers.<br/><br/> minLength: 2<br/>maxLength: 45 | 
 | `ship_to` | object | false | [ContactDetails](#contactdetails) Shipping details of the card holder making the payment. These details may be used for 3DS and for future referencing of the transaction. | 
-| `tag` | string  | false | A "tag" is a label that you can attach to a payment authorization. Tags can help you group transactions together based on certain criteria, like a work job or a ticket number. They can also assist in filtering transactions when you're generating reports.<br/><br/>Multiple Tags You can add more than one tag to a transaction by separating them with commas.<br/><br/>Limitations There is a maximum limit of 3 tags that can be added to a single transaction. Each tag can be no longer than 20 characters and alphanumeric with no spaces.<br/><br/>Example: Let's say you're a software company and you have different teams working on various projects. When a team makes a purchase or incurs an expense, they can tag the transaction with the project name, the team name, and the type of expense.<br/><br/>Project Name: Project_X Team Name: Team_A Type of Expense: Hardware So, the tag for a transaction might look like: Project_X,Team_A,Hardware<br/><br/>This way, when you're looking at your financial reports, you can easily filter transactions based on these tags to see how much each project or team is spending on different types of expenses. | 
+| `tag` | string  | false | A "tag" is a label that you can attach to a payment authorization. Tags can help you group transactions together based on certain criteria, like a work job or a ticket number. They can also assist in filtering transactions when you're generating reports. Multiple Tags You can add more than one tag to a transaction by separating them with commas. Limitations There is a maximum limit of 3 tags that can be added to a single transaction. Each tag can be no longer than 20 characters and alphanumeric with no spaces. Example: Let's say you're a software company and you have different teams working on various projects. When a team makes a purchase or incurs an expense, they can tag the transaction with the project name, the team name, and the type of expense. Project Name: Project_X Team Name: Team_A Type of Expense: Hardware So, the tag for a transaction might look like: Project_X,Team_A,Hardware This way, when you're looking at your financial reports, you can easily filter transactions based on these tags to see how much each project or team is spending on different types of expenses. | 
 | `threedsecure` | object | false | [ThreeDSecure](#threedsecure) ThreeDSecure element, providing values to enable full 3DS processing flows. | 
 | `trans_info` | string  | false | Further information that can be added to the transaction will display in reporting. Can be used for flexible values such as operator id.<br/><br/>maxLength: 50 | 
 | `trans_type` | string  | false | The type of transaction being submitted. Normally this value is not required and your account manager may request that you set this field.<br/><br/>maxLength: 1 | 
@@ -4197,7 +4138,7 @@ Responses for the RemittanceReportRequest operation are
 
 | Extension | Field | Type | Required | Description |
 |-----------|-------|------|----------|-------------|
-Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Additional advice for airline integration that can be applied on an authorisation request.<br/><br/>As tickets are normally not allocated until successful payment it is normal for a transaction to be pre-authorised  and the airline advice supplied on a capture request instead. Should the data already exist and an auth and  capture is preferred. This data may be supplied. |
+Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Additional advice for airline integration that can be applied on an authorisation request. As tickets are normally not allocated until successful payment it is normal for a transaction to be pre-authorised  and the airline advice supplied on a capture request instead. Should the data already exist and an auth and  capture is preferred. This data may be supplied. |
 
 
 
@@ -4278,15 +4219,15 @@ Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Addi
 | `atrn` | string  | false | A reference number provided by the acquirer for a transaction it can be used to cross reference transactions with an Acquirers reporting panel. | 
 | `atsd` | string  | false | Additional Transaction Security Data used for ecommerce transactions to decipher security capabilities and attempts against a transaction. | 
 | `authcode` | string  | false | The authorisation code as returned by the card issuer or acquiring bank when a transaction has successfully   been authorised. Authorisation codes contain alphanumeric values. Whilst the code confirms authorisation it   should not be used to determine whether a transaction was successfully processed. For instance an auth code   may be returned when a transaction has been subsequently declined due to a CSC mismatch. | 
-| `authen_result` | string  | false | The result of any authentication using 3d_secure authorisation against ecommerce transactions. Values are:<br/><br/><table> <tr> <th>Value</th> <th>Description</th> </tr> <tr> <td>Y</td> <td>Authentication Successful. The Cardholder's password was successfully validated.</td> </tr> <tr> <td>N</td> <td>Authentication Failed. Customer failed or cancelled authentication, transaction denied.</td> </tr> <tr> <td>A</td> <td>Attempts Processing Performed Authentication could not be completed but a proof of authentication attempt (CAVV) was generated.</td> </tr> <tr> <td>U</td> <td>Authentication Could Not Be Performed Authentication could not be completed, due to technical or other problem.</td> </tr> </table> | 
-| `authorised` | boolean  | false | A boolean definition that indicates that the transaction was authorised. It will return false if the transaction  was declined, rejected or cancelled due to CSC matching failures.<br/><br/>Attention should be referenced to the AuthResult and Response code for accurate determination of the result. | 
-| `avs_result` | string  | false | The AVS result codes determine the result of checking the AVS values within the Address Verification fraud system. If a transaction is declined due to the AVS code not matching, this value can help determine the reason for the decline.<br/><br/><table> <tr> <th>Code</th> <th>Description</th> </tr> <tr><td>Y</td><td>Address and 5 digit post code match</td></tr> <tr><td>M</td><td>Street address and Postal codes match for international transaction</td></tr> <tr><td>U</td><td>No AVS data available from issuer auth system</td></tr> <tr><td>A</td><td>Addres matches, post code does not</td></tr> <tr><td>I</td><td>Address information verified for international transaction</td></tr> <tr><td>Z</td><td>5 digit post code matches, Address does not</td></tr> <tr><td>W</td><td>9 digit post code matches, Address does not</td></tr> <tr><td>X</td><td>Postcode and address match</td></tr> <tr><td>B</td><td>Postal code not verified due to incompatible formats</td></tr> <tr><td>P</td><td>Postal codes match. Street address not verified due to to incompatible formats</td></tr> <tr><td>E</td><td>AVS Error</td></tr> <tr><td>C</td><td>Street address and Postal code not verified due to incompatible formats</td></tr> <tr><td>D</td><td>Street address and postal codes match</td></tr> <tr><td> </td><td>No information</td></tr> <tr><td>N</td><td>Neither postcode nor address match</td></tr> <tr><td>R</td><td>Retry, System unavailble or Timed Out</td></tr> <tr><td>S</td><td>AVS Service not supported by issuer or processor</td></tr> <tr><td>G</td><td>Issuer does not participate in AVS</td></tr> </table> | 
+| `authen_result` | string  | false | The result of any authentication using 3d_secure authorisation against ecommerce transactions. Values are: <table> <tr> <th>Value</th> <th>Description</th> </tr> <tr> <td>Y</td> <td>Authentication Successful. The Cardholder's password was successfully validated.</td> </tr> <tr> <td>N</td> <td>Authentication Failed. Customer failed or cancelled authentication, transaction denied.</td> </tr> <tr> <td>A</td> <td>Attempts Processing Performed Authentication could not be completed but a proof of authentication attempt (CAVV) was generated.</td> </tr> <tr> <td>U</td> <td>Authentication Could Not Be Performed Authentication could not be completed, due to technical or other problem.</td> </tr> </table> | 
+| `authorised` | boolean  | false | A boolean definition that indicates that the transaction was authorised. It will return false if the transaction  was declined, rejected or cancelled due to CSC matching failures. Attention should be referenced to the AuthResult and Response code for accurate determination of the result. | 
+| `avs_result` | string  | false | The AVS result codes determine the result of checking the AVS values within the Address Verification fraud system. If a transaction is declined due to the AVS code not matching, this value can help determine the reason for the decline. <table> <tr> <th>Code</th> <th>Description</th> </tr> <tr><td>Y</td><td>Address and 5 digit post code match</td></tr> <tr><td>M</td><td>Street address and Postal codes match for international transaction</td></tr> <tr><td>U</td><td>No AVS data available from issuer auth system</td></tr> <tr><td>A</td><td>Addres matches, post code does not</td></tr> <tr><td>I</td><td>Address information verified for international transaction</td></tr> <tr><td>Z</td><td>5 digit post code matches, Address does not</td></tr> <tr><td>W</td><td>9 digit post code matches, Address does not</td></tr> <tr><td>X</td><td>Postcode and address match</td></tr> <tr><td>B</td><td>Postal code not verified due to incompatible formats</td></tr> <tr><td>P</td><td>Postal codes match. Street address not verified due to to incompatible formats</td></tr> <tr><td>E</td><td>AVS Error</td></tr> <tr><td>C</td><td>Street address and Postal code not verified due to incompatible formats</td></tr> <tr><td>D</td><td>Street address and postal codes match</td></tr> <tr><td> </td><td>No information</td></tr> <tr><td>N</td><td>Neither postcode nor address match</td></tr> <tr><td>R</td><td>Retry, System unavailble or Timed Out</td></tr> <tr><td>S</td><td>AVS Service not supported by issuer or processor</td></tr> <tr><td>G</td><td>Issuer does not participate in AVS</td></tr> </table> | 
 | `bin_commercial` | boolean  | false | Determines whether the bin range was found to be a commercial or business card. | 
 | `bin_debit` | boolean  | false | Determines whether the bin range was found to be a debit card. If false the card was considered as a credit card. | 
 | `bin_description` | string  | false | A description of the bin range found for the card. | 
 | `cavv` | string  | false | The cardholder authentication verification value which can be returned for verification purposes of the authenticated  transaction for dispute realisation. | 
 | `context` | string  | false | The context which processed the transaction, can be used for support purposes to trace transactions. | 
-| `csc_result` | string  | false | The CSC rseult codes determine the result of checking the provided CSC value within the Card Security Code fraud system. If a transaction is declined due to the CSC code not matching, this value can help determine the reason for the decline.<br/><br/><table> <tr> <th>Code</th> <th>Description</th> </tr> <tr><td> </td><td>No information</td></tr> <tr><td>M</td><td>Card verification data matches</td></tr> <tr><td>N</td><td>Card verification data was checked but did not match</td></tr> <tr><td>P</td><td>Card verification was not processed</td></tr> <tr><td>S</td><td>The card verification data should be on the card but the merchant indicates that it is not</td></tr> <tr><td>U</td><td>The card issuer is not certified</td></tr> </table> | 
+| `csc_result` | string  | false | The CSC rseult codes determine the result of checking the provided CSC value within the Card Security Code fraud system. If a transaction is declined due to the CSC code not matching, this value can help determine the reason for the decline. <table> <tr> <th>Code</th> <th>Description</th> </tr> <tr><td> </td><td>No information</td></tr> <tr><td>M</td><td>Card verification data matches</td></tr> <tr><td>N</td><td>Card verification data was checked but did not match</td></tr> <tr><td>P</td><td>Card verification was not processed</td></tr> <tr><td>S</td><td>The card verification data should be on the card but the merchant indicates that it is not</td></tr> <tr><td>U</td><td>The card issuer is not certified</td></tr> </table> | 
 | `currency` | string  | false | The currency the transaction was processed in. This is an `ISO4217` alpha currency value. | 
 | `datetime` | string *date-time* | false | The UTC date time of the transaction in ISO data time format. | 
 | `eci` | string  | false | An Electronic Commerce Indicator (ECI) used to identify the result of authentication using 3DSecure. | 
@@ -4294,14 +4235,14 @@ Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Addi
 | `live` | boolean  | false | Used to identify that a transaction was processed on a live authorisation platform. | 
 | `maskedpan` | string  | false | A masked value of the card number used for processing displaying limited values that can be used on a receipt. | 
 | `merchantid` | integer *int32* | true | The merchant id that processed this transaction. | 
-| `result` | integer *int32* | true | An integer result that indicates the outcome of the transaction. The Code value below maps to the result value<br/><br/><table> <tr> <th>Code</th> <th>Abbrev</th> <th>Description</th> </tr> <tr><td>0</td><td>Declined</td><td>Declined</td></tr> <tr><td>1</td><td>Accepted</td><td>Accepted</td></tr> <tr><td>2</td><td>Rejected</td><td>Rejected</td></tr> <tr><td>3</td><td>Not Attempted</td><td>Not Attempted</td></tr> <tr><td>4</td><td>Referred</td><td>Referred</td></tr> <tr><td>5</td><td>PinRetry</td><td>Perform PIN Retry</td></tr> <tr><td>6</td><td>ForSigVer</td><td>Force Signature Verification</td></tr> <tr><td>7</td><td>Hold</td><td>Hold</td></tr> <tr><td>8</td><td>SecErr</td><td>Security Error</td></tr> <tr><td>9</td><td>CallAcq</td><td>Call Acquirer</td></tr> <tr><td>10</td><td>DNH</td><td>Do Not Honour</td></tr> <tr><td>11</td><td>RtnCrd</td><td>Retain Card</td></tr> <tr><td>12</td><td>ExprdCrd</td><td>Expired Card</td></tr> <tr><td>13</td><td>InvldCrd</td><td>Invalid Card No</td></tr> <tr><td>14</td><td>PinExcd</td><td>Pin Tries Exceeded</td></tr> <tr><td>15</td><td>PinInvld</td><td>Pin Invalid</td></tr> <tr><td>16</td><td>AuthReq</td><td>Authentication Required</td></tr> <tr><td>17</td><td>AuthenFail</td><td>Authentication Failed</td></tr> <tr><td>18</td><td>Verified</td><td>Card Verified</td></tr> <tr><td>19</td><td>Cancelled</td><td>Cancelled</td></tr> <tr><td>20</td><td>Un</td><td>Unknown</td></tr> <tr><td>21</td><td>Challenged</td><td>Challenged</td></tr> <tr><td>22</td><td>Decoupled</td><td>Decoupled</td></tr> <tr><td>23</td><td>Denied</td><td>Permission Denied</td></tr> </table> | 
-| `result_code` | string  | true | The result code as defined in the Response Codes Reference for example 000 is an accepted live transaction whilst 001 is an accepted test transaction. Result codes identify the source of success and failure.<br/><br/>Codes may start with an alpha character i.e. C001 indicating a type of error such as a card validation error. | 
+| `result` | integer *int32* | true | An integer result that indicates the outcome of the transaction. The Code value below maps to the result value <table> <tr> <th>Code</th> <th>Abbrev</th> <th>Description</th> </tr> <tr><td>0</td><td>Declined</td><td>Declined</td></tr> <tr><td>1</td><td>Accepted</td><td>Accepted</td></tr> <tr><td>2</td><td>Rejected</td><td>Rejected</td></tr> <tr><td>3</td><td>Not Attempted</td><td>Not Attempted</td></tr> <tr><td>4</td><td>Referred</td><td>Referred</td></tr> <tr><td>5</td><td>PinRetry</td><td>Perform PIN Retry</td></tr> <tr><td>6</td><td>ForSigVer</td><td>Force Signature Verification</td></tr> <tr><td>7</td><td>Hold</td><td>Hold</td></tr> <tr><td>8</td><td>SecErr</td><td>Security Error</td></tr> <tr><td>9</td><td>CallAcq</td><td>Call Acquirer</td></tr> <tr><td>10</td><td>DNH</td><td>Do Not Honour</td></tr> <tr><td>11</td><td>RtnCrd</td><td>Retain Card</td></tr> <tr><td>12</td><td>ExprdCrd</td><td>Expired Card</td></tr> <tr><td>13</td><td>InvldCrd</td><td>Invalid Card No</td></tr> <tr><td>14</td><td>PinExcd</td><td>Pin Tries Exceeded</td></tr> <tr><td>15</td><td>PinInvld</td><td>Pin Invalid</td></tr> <tr><td>16</td><td>AuthReq</td><td>Authentication Required</td></tr> <tr><td>17</td><td>AuthenFail</td><td>Authentication Failed</td></tr> <tr><td>18</td><td>Verified</td><td>Card Verified</td></tr> <tr><td>19</td><td>Cancelled</td><td>Cancelled</td></tr> <tr><td>20</td><td>Un</td><td>Unknown</td></tr> <tr><td>21</td><td>Challenged</td><td>Challenged</td></tr> <tr><td>22</td><td>Decoupled</td><td>Decoupled</td></tr> <tr><td>23</td><td>Denied</td><td>Permission Denied</td></tr> </table> | 
+| `result_code` | string  | true | The result code as defined in the Response Codes Reference for example 000 is an accepted live transaction whilst 001 is an accepted test transaction. Result codes identify the source of success and failure. Codes may start with an alpha character i.e. C001 indicating a type of error such as a card validation error. | 
 | `result_message` | string  | true | The message regarding the result which provides further narrative to the result code. | 
 | `scheme` | string  | false | The name of the card scheme of the transaction that processed the transaction such as Visa or MasterCard. | 
 | `scheme_id` | string  | false | The name of the card scheme of the transaction such as VI or MC. | 
 | `scheme_logo` | string *url* | false | A url containing a logo of the card scheme. | 
-| `sha256` | string  | false | A SHA256 digest value of the transaction used to validate the response data The digest is calculated by concatenating<br/><br/> * authcode<br/><br/> * amount<br/><br/> * response_code<br/><br/> * merchant_id<br/><br/> * trans_no<br/><br/> * identifier<br/><br/> * licence_key - which is not provided in the response. | 
-| `trans_status` | string  | false | Used to identify the status of a transaction. The status is used to track a transaction through its life cycle.<br/><br/><table> <tr> <th>Id</th> <th>Description</th> </tr> <tr> <td>O</td> <td>Transaction is open for settlement</td> </tr> <tr> <td>A</td> <td>Transaction is assigned for settlement and can no longer be voided</td> </tr> <tr> <td>S</td> <td>Transaction has been settled</td> </tr> <tr> <td>D</td> <td>Transaction has been declined</td> </tr> <tr> <td>R</td> <td>Transaction has been rejected</td> </tr> <tr> <td>P</td> <td>Transaction has been authorised only and awaiting a capture. Used in pre-auth situations</td> </tr> <tr> <td>C</td> <td>Transaction has been cancelled</td> </tr> <tr> <td>E</td> <td>Transaction has expired</td> </tr> <tr> <td>I</td> <td>Transaction has been initialised but no action was able to be carried out</td> </tr> <tr> <td>H</td> <td>Transaction is awaiting authorisation</td> </tr> <tr> <td>.</td> <td>Transaction is on hold</td> </tr> <tr> <td>V</td> <td>Transaction has been verified</td> </tr> </table> | 
+| `sha256` | string  | false | A SHA256 digest value of the transaction used to validate the response data The digest is calculated by concatenating  * authcode  * amount  * response_code  * merchant_id  * trans_no  * identifier  * licence_key - which is not provided in the response. | 
+| `trans_status` | string  | false | Used to identify the status of a transaction. The status is used to track a transaction through its life cycle. <table> <tr> <th>Id</th> <th>Description</th> </tr> <tr> <td>O</td> <td>Transaction is open for settlement</td> </tr> <tr> <td>A</td> <td>Transaction is assigned for settlement and can no longer be voided</td> </tr> <tr> <td>S</td> <td>Transaction has been settled</td> </tr> <tr> <td>D</td> <td>Transaction has been declined</td> </tr> <tr> <td>R</td> <td>Transaction has been rejected</td> </tr> <tr> <td>P</td> <td>Transaction has been authorised only and awaiting a capture. Used in pre-auth situations</td> </tr> <tr> <td>C</td> <td>Transaction has been cancelled</td> </tr> <tr> <td>E</td> <td>Transaction has expired</td> </tr> <tr> <td>I</td> <td>Transaction has been initialised but no action was able to be carried out</td> </tr> <tr> <td>H</td> <td>Transaction is awaiting authorisation</td> </tr> <tr> <td>.</td> <td>Transaction is on hold</td> </tr> <tr> <td>V</td> <td>Transaction has been verified</td> </tr> </table> | 
 | `transno` | integer *int32* | false | The resulting transaction number, ordered incrementally from 1 for every merchant_id. The value will default to less than 1 for transactions that do not have a transaction number issued. | 
 
 
@@ -4457,15 +4398,42 @@ Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Addi
 
 
 
+## BatchTransactionReportRequest
+
+```json
+{
+   "maxResults": 50,
+   "nextToken": "n34liuwn435tUAGFNg34yn...",
+   "orderBy": "date"
+}
+```
+
+```xml
+<BatchTransactionReportRequest>
+ <maxResults>50</maxResults> 
+ <nextToken>n34liuwn435tUAGFNg34yn...</nextToken> 
+ <orderBy>date</orderBy> 
+</BatchTransactionReportRequest>
+```
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `maxResults` | integer *int32* | false | The maximum number of results to return in a single response. This value is used to limit the size of data returned by the API, enhancing performance and manageability. Values should be between 5 and 250. | 
+| `nextToken` | string  | false | A token that identifies the starting point of the page of results to be returned. An empty value indicates the start of the dataset. When supplied, it is validated and used to fetch the subsequent page of results. This token is typically obtained from the response of a previous pagination request. | 
+| `orderBy` | string  | false | Specifies the field by which results are ordered. Available fields are [trans_no,date_when,amount]. By default, fields are ordered by OrderByExpression(trans_no,ASC). To order in descending order, prefix with '-' or suffix with ' DESC'. | 
+
+
+
+
+
 ## BatchTransactionReportResponse
 
 ```json
 {
    "count": 25,
    "data": "",
-   "max_results": 50,
-   "next_token": "",
-   "order_by": ""
+   "maxResults": 50,
+   "nextToken": "n34liuwn435tUAGFNg34yn..."
 }
 ```
 
@@ -4473,9 +4441,8 @@ Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Addi
 <BatchTransactionReportResponse>
  <count>25</count> 
  <data></data> 
- <max_results>50</max_results> 
- <next_token></next_token> 
- <order_by></order_by> 
+ <maxResults>50</maxResults> 
+ <nextToken>n34liuwn435tUAGFNg34yn...</nextToken> 
 </BatchTransactionReportResponse>
 ```
 
@@ -4483,9 +4450,8 @@ Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Addi
 |-------|------|----------|-------------|
 | `count` | integer *int32* | false | The count of items returned in this page. | 
 | `data` | array | true | Transaction data based on the batch request. [AuthReference](#authreference) | 
-| `max_results` | integer *int32* | false | The max results requested in this page. | 
-| `next_token` | string  | false | A token that identifies the starting point of the page of results to be returned. An empty value indicates the start of the dataset. When supplied, it is validated and used to fetch the subsequent page of results. This token is typically obtained from the response of a previous pagination request. | 
-| `order_by` | array | false | The order by requested in this page. type: string | 
+| `maxResults` | integer *int32* | false | The max results requested in this page. | 
+| `nextToken` | string  | false | A token that identifies the starting point of the page of results to be returned. An empty value indicates the start of the dataset. When supplied, it is validated and used to fetch the subsequent page of results. This token is typically obtained from the response of a previous pagination request. | 
 
 
 
@@ -4541,7 +4507,7 @@ Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Addi
 | `maskedpan` | string  | false | A masked value of the card number used for processing displaying limited values that can be used on a receipt. | 
 | `merchantid` | integer *int32* | true | The merchant id of the transaction. | 
 | `message` | string  | true | A response message pertaining to the transaction. | 
-| `result` | integer *int32* | true | An integer result that indicates the outcome of the transaction. The Code value below maps to the result value<br/><br/><table> <tr> <th>Code</th> <th>Abbrev</th> <th>Description</th> </tr> <tr><td>0</td><td>Declined</td><td>Declined</td></tr> <tr><td>1</td><td>Accepted</td><td>Accepted</td></tr> <tr><td>2</td><td>Rejected</td><td>Rejected</td></tr> <tr><td>3</td><td>Not Attempted</td><td>Not Attempted</td></tr> <tr><td>4</td><td>Referred</td><td>Referred</td></tr> <tr><td>5</td><td>PinRetry</td><td>Perform PIN Retry</td></tr> <tr><td>6</td><td>ForSigVer</td><td>Force Signature Verification</td></tr> <tr><td>7</td><td>Hold</td><td>Hold</td></tr> <tr><td>8</td><td>SecErr</td><td>Security Error</td></tr> <tr><td>9</td><td>CallAcq</td><td>Call Acquirer</td></tr> <tr><td>10</td><td>DNH</td><td>Do Not Honour</td></tr> <tr><td>11</td><td>RtnCrd</td><td>Retain Card</td></tr> <tr><td>12</td><td>ExprdCrd</td><td>Expired Card</td></tr> <tr><td>13</td><td>InvldCrd</td><td>Invalid Card No</td></tr> <tr><td>14</td><td>PinExcd</td><td>Pin Tries Exceeded</td></tr> <tr><td>15</td><td>PinInvld</td><td>Pin Invalid</td></tr> <tr><td>16</td><td>AuthReq</td><td>Authentication Required</td></tr> <tr><td>17</td><td>AuthenFail</td><td>Authentication Failed</td></tr> <tr><td>18</td><td>Verified</td><td>Card Verified</td></tr> <tr><td>19</td><td>Cancelled</td><td>Cancelled</td></tr> <tr><td>20</td><td>Un</td><td>Unknown</td></tr> <tr><td>21</td><td>Challenged</td><td>Challenged</td></tr> <tr><td>22</td><td>Decoupled</td><td>Decoupled</td></tr> <tr><td>23</td><td>Denied</td><td>Permission Denied</td></tr> </table> | 
+| `result` | integer *int32* | true | An integer result that indicates the outcome of the transaction. The Code value below maps to the result value <table> <tr> <th>Code</th> <th>Abbrev</th> <th>Description</th> </tr> <tr><td>0</td><td>Declined</td><td>Declined</td></tr> <tr><td>1</td><td>Accepted</td><td>Accepted</td></tr> <tr><td>2</td><td>Rejected</td><td>Rejected</td></tr> <tr><td>3</td><td>Not Attempted</td><td>Not Attempted</td></tr> <tr><td>4</td><td>Referred</td><td>Referred</td></tr> <tr><td>5</td><td>PinRetry</td><td>Perform PIN Retry</td></tr> <tr><td>6</td><td>ForSigVer</td><td>Force Signature Verification</td></tr> <tr><td>7</td><td>Hold</td><td>Hold</td></tr> <tr><td>8</td><td>SecErr</td><td>Security Error</td></tr> <tr><td>9</td><td>CallAcq</td><td>Call Acquirer</td></tr> <tr><td>10</td><td>DNH</td><td>Do Not Honour</td></tr> <tr><td>11</td><td>RtnCrd</td><td>Retain Card</td></tr> <tr><td>12</td><td>ExprdCrd</td><td>Expired Card</td></tr> <tr><td>13</td><td>InvldCrd</td><td>Invalid Card No</td></tr> <tr><td>14</td><td>PinExcd</td><td>Pin Tries Exceeded</td></tr> <tr><td>15</td><td>PinInvld</td><td>Pin Invalid</td></tr> <tr><td>16</td><td>AuthReq</td><td>Authentication Required</td></tr> <tr><td>17</td><td>AuthenFail</td><td>Authentication Failed</td></tr> <tr><td>18</td><td>Verified</td><td>Card Verified</td></tr> <tr><td>19</td><td>Cancelled</td><td>Cancelled</td></tr> <tr><td>20</td><td>Un</td><td>Unknown</td></tr> <tr><td>21</td><td>Challenged</td><td>Challenged</td></tr> <tr><td>22</td><td>Decoupled</td><td>Decoupled</td></tr> <tr><td>23</td><td>Denied</td><td>Permission Denied</td></tr> </table> | 
 | `result_code` | string  | true | A result code of the transaction identifying the result of the transaction for success, rejection or decline. | 
 | `scheme` | string  | false | The name of the card scheme of the transaction that processed the transaction such as Visa or MasterCard. | 
 | `scheme_id` | string  | false | The name of the card scheme of the transaction such as VI or MC. | 
@@ -4693,7 +4659,7 @@ Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Addi
 
 | Field | Type | Required | Description |
 |-------|------|----------|-------------|
-| `amount` | integer *int32* | false | The completion amount provided in the lowest unit of currency for the specific currency of the merchant, with a variable length to a maximum of 12 digits. No decimal points to be included. For example with GBP 75.45 use the value 7545. Please check that you do not supply divisional characters such as 1,024 in the request which may be caused by some number formatters.<br/><br/>If no amount is supplied, the original processing amount is used.<br/><br/> minLength: 1<br/>maxLength: 9 | 
+| `amount` | integer *int32* | false | The completion amount provided in the lowest unit of currency for the specific currency of the merchant, with a variable length to a maximum of 12 digits. No decimal points to be included. For example with GBP 75.45 use the value 7545. Please check that you do not supply divisional characters such as 1,024 in the request which may be caused by some number formatters. If no amount is supplied, the original processing amount is used.<br/><br/> minLength: 1<br/>maxLength: 9 | 
 | `event_management` | object | false | [EventDataModel](#eventdatamodel) Additional advice data for event management integration for the capture request. | 
 | `identifier` | string  | false | The identifier of the transaction to capture. If an empty value is supplied then a `trans_no` value must be supplied.<br/><br/>minLength: 4<br/>maxLength: 50 | 
 | `merchantid` | integer *int32* | true | Identifies the merchant account to perform the capture for. | 
@@ -4771,7 +4737,7 @@ Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Addi
 | `bin_description` | string  | false | A description of the bin on the card to identify what type of product the card is. | 
 | `bin_eu` | boolean  | false | Defines whether the card is regulated within the EU. | 
 | `card_id` | string  | false | The id of the card that is returned. Should be used for referencing the card when perform any changes. | 
-| `card_status` | string  | false | The status of the card such, valid values are<br/><br/> - ACTIVE the card is active for processing<br/><br/> - INACTIVE the card is not active for processing<br/><br/> - EXPIRED for cards that have passed their expiry date. | 
+| `card_status` | string  | false | The status of the card such, valid values are  - ACTIVE the card is active for processing  - INACTIVE the card is not active for processing  - EXPIRED for cards that have passed their expiry date. | 
 | `date_created` | string *date-time* | false | The date time of when the card was created. | 
 | `default` | boolean  | false | Determines if the card is the default card for the account and should be regarded as the first option to be used for processing. | 
 | `expmonth` | integer *int32* | false | The expiry month of the card.<br/><br/>minimum: 1<br/>maximum: 12 | 
@@ -4826,7 +4792,7 @@ Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Addi
 | `default_card_id` | string  | false | The id of the default card. | 
 | `default_card_index` | integer *int32* | false | The index in the array of the default card. | 
 | `last_modified` | string *date-time* | false | The date and time the account was last modified. | 
-| `status` | string  | false | Defines the status of the account for processing valid values are<br/><br/> - ACTIVE for active accounts that are able to process<br/><br/> - DISABLED for accounts that are currently disabled for processing. | 
+| `status` | string  | false | Defines the status of the account for processing valid values are  - ACTIVE for active accounts that are able to process  - DISABLED for accounts that are currently disabled for processing. | 
 | `unique_id` | string  | false | A unique id of the card holder account which uniquely identifies the stored account. This value is not searchable. | 
 
 
@@ -4904,20 +4870,20 @@ Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Addi
 
 | Field | Type | Required | Description |
 |-------|------|----------|-------------|
-| `amount` | integer *int32* | true | The amount to authorise in the lowest unit of currency with a variable length to a maximum of 12 digits.<br/><br/>No decimal points are to be included and no divisional characters such as 1,024.<br/><br/>The amount should be the total amount required for the transaction.<br/><br/>For example with GBP £1,021.95 the amount value is 102195.<br/><br/> minLength: 1<br/>maxLength: 9 | 
-| `avs_postcode_policy` | string  | false | A policy value which determines whether an AVS postcode policy is enforced or bypassed.<br/><br/>Values are  `0` for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.<br/><br/> `1` for an enforced policy. Transactions that are enforced will be rejected if the AVS postcode numeric value does not match.<br/><br/> `2` to bypass. Transactions that are bypassed will be allowed through even if the postcode did not match.<br/><br/> `3` to ignore. Transactions that are ignored will bypass the result and not send postcode details for authorisation. | 
-| `cardholder_agreement` | string  | false | Merchant-initiated transactions (MITs) are payments you trigger, where the cardholder has previously consented to you carrying out such payments. These may be scheduled (such as recurring payments and installments) or unscheduled (like account top-ups triggered by balance thresholds and no-show charges).<br/><br/>Scheduled --- These are regular payments using stored card details, like installments or a monthly subscription fee.<br/><br/>- `I` Instalment - A single purchase of goods or services billed to a cardholder in multiple transactions, over a period of time agreed by the cardholder and you.<br/><br/>- `R` Recurring - Transactions processed at fixed, regular intervals not to exceed one year between transactions, representing an agreement between a cardholder and you to purchase goods or services provided over a period of time.<br/><br/>Unscheduled --- These are payments using stored card details that do not occur on a regular schedule, like top-ups for a digital wallet triggered by the balance falling below a certain threshold.<br/><br/>- `A` Reauthorisation - a purchase made after the original purchase. A common scenario is delayed/split shipments.<br/><br/>- `C` Unscheduled Payment - A transaction using a stored credential for a fixed or variable amount that does not occur on a scheduled or regularly occurring transaction date. This includes account top-ups triggered by balance thresholds.<br/><br/>- `D` Delayed Charge - A delayed charge is typically used in hotel, cruise lines and vehicle rental environments to perform a supplemental account charge after original services are rendered.<br/><br/>- `L` Incremental - An incremental authorisation is typically found in hotel and car rental environments, where the cardholder has agreed to pay for any service incurred during the duration of the contract. An incremental authorisation is where you need to seek authorisation of further funds in addition to what you have originally requested. A common scenario is additional services charged to the contract, such as extending a stay in a hotel.<br/><br/>- `S` Resubmission - When the original purchase occurred, but you were not able to get authorisation at the time the goods or services were provided. It should be only used where the goods or services have already been provided, but the authorisation request is declined for insufficient funds.<br/><br/>- `X` No-show - A no-show is a transaction where you are enabled to charge for services which the cardholder entered into an agreement to purchase, but the cardholder did not meet the terms of the agreement.<br/><br/> maxLength: 1 | 
-| `csc` | string  | false | The Card Security Code (CSC) (also known as CV2/CVV2) is normally found on the back of the card (American Express has it on the front). The value helps to identify posession of the card as it is not available within the chip or magnetic swipe.<br/><br/>When forwarding the CSC, please ensure the value is a string as some values start with 0 and this will be stripped out by any integer parsing.<br/><br/>The CSC number aids fraud prevention in Mail Order and Internet payments.<br/><br/>Business rules are available on your account to identify whether to accept or decline transactions based on mismatched results of the CSC.<br/><br/>The Payment Card Industry (PCI) requires that at no stage of a transaction should the CSC be stored.<br/><br/>This applies to all entities handling card data.<br/><br/>It should also not be used in any hashing process.<br/><br/>CityPay do not store the value and have no method of retrieving the value once the transaction has been processed. For this reason, duplicate checking is unable to determine the CSC in its duplication check algorithm.<br/><br/> minLength: 3<br/>maxLength: 4 | 
-| `csc_policy` | string  | false | A policy value which determines whether a CSC policy is enforced or bypassed.<br/><br/>Values are  `0` for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.<br/><br/> `1` for an enforced policy. Transactions that are enforced will be rejected if the CSC value does not match.<br/><br/> `2` to bypass. Transactions that are bypassed will be allowed through even if the CSC did not match.<br/><br/> `3` to ignore. Transactions that are ignored will bypass the result and not send the CSC details for authorisation. | 
+| `amount` | integer *int32* | true | The amount to authorise in the lowest unit of currency with a variable length to a maximum of 12 digits. No decimal points are to be included and no divisional characters such as 1,024. The amount should be the total amount required for the transaction. For example with GBP £1,021.95 the amount value is 102195.<br/><br/> minLength: 1<br/>maxLength: 9 | 
+| `avs_postcode_policy` | string  | false | A policy value which determines whether an AVS postcode policy is enforced or bypassed. Values are  `0` for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.  `1` for an enforced policy. Transactions that are enforced will be rejected if the AVS postcode numeric value does not match.  `2` to bypass. Transactions that are bypassed will be allowed through even if the postcode did not match.  `3` to ignore. Transactions that are ignored will bypass the result and not send postcode details for authorisation. | 
+| `cardholder_agreement` | string  | false | Merchant-initiated transactions (MITs) are payments you trigger, where the cardholder has previously consented to you carrying out such payments. These may be scheduled (such as recurring payments and installments) or unscheduled (like account top-ups triggered by balance thresholds and no-show charges). Scheduled --- These are regular payments using stored card details, like installments or a monthly subscription fee. - `I` Instalment - A single purchase of goods or services billed to a cardholder in multiple transactions, over a period of time agreed by the cardholder and you. - `R` Recurring - Transactions processed at fixed, regular intervals not to exceed one year between transactions, representing an agreement between a cardholder and you to purchase goods or services provided over a period of time. Unscheduled --- These are payments using stored card details that do not occur on a regular schedule, like top-ups for a digital wallet triggered by the balance falling below a certain threshold. - `A` Reauthorisation - a purchase made after the original purchase. A common scenario is delayed/split shipments. - `C` Unscheduled Payment - A transaction using a stored credential for a fixed or variable amount that does not occur on a scheduled or regularly occurring transaction date. This includes account top-ups triggered by balance thresholds. - `D` Delayed Charge - A delayed charge is typically used in hotel, cruise lines and vehicle rental environments to perform a supplemental account charge after original services are rendered. - `L` Incremental - An incremental authorisation is typically found in hotel and car rental environments, where the cardholder has agreed to pay for any service incurred during the duration of the contract. An incremental authorisation is where you need to seek authorisation of further funds in addition to what you have originally requested. A common scenario is additional services charged to the contract, such as extending a stay in a hotel. - `S` Resubmission - When the original purchase occurred, but you were not able to get authorisation at the time the goods or services were provided. It should be only used where the goods or services have already been provided, but the authorisation request is declined for insufficient funds. - `X` No-show - A no-show is a transaction where you are enabled to charge for services which the cardholder entered into an agreement to purchase, but the cardholder did not meet the terms of the agreement.<br/><br/> maxLength: 1 | 
+| `csc` | string  | false | The Card Security Code (CSC) (also known as CV2/CVV2) is normally found on the back of the card (American Express has it on the front). The value helps to identify posession of the card as it is not available within the chip or magnetic swipe. When forwarding the CSC, please ensure the value is a string as some values start with 0 and this will be stripped out by any integer parsing. The CSC number aids fraud prevention in Mail Order and Internet payments. Business rules are available on your account to identify whether to accept or decline transactions based on mismatched results of the CSC. The Payment Card Industry (PCI) requires that at no stage of a transaction should the CSC be stored. This applies to all entities handling card data. It should also not be used in any hashing process. CityPay do not store the value and have no method of retrieving the value once the transaction has been processed. For this reason, duplicate checking is unable to determine the CSC in its duplication check algorithm.<br/><br/> minLength: 3<br/>maxLength: 4 | 
+| `csc_policy` | string  | false | A policy value which determines whether a CSC policy is enforced or bypassed. Values are  `0` for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.  `1` for an enforced policy. Transactions that are enforced will be rejected if the CSC value does not match.  `2` to bypass. Transactions that are bypassed will be allowed through even if the CSC did not match.  `3` to ignore. Transactions that are ignored will bypass the result and not send the CSC details for authorisation. | 
 | `currency` | string  | false | The processing currency for the transaction. Will default to the merchant account currency.<br/><br/>minLength: 3<br/>maxLength: 3 | 
-| `duplicate_policy` | string  | false | A policy value which determines whether a duplication policy is enforced or bypassed. A duplication check has a window of time set against your account within which it can action. If a previous transaction with matching values occurred within the window, any subsequent transaction will result in a T001 result.<br/><br/>Values are  `0` for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.<br/><br/> `1` for an enforced policy. Transactions that are enforced will be checked for duplication within the duplication window.<br/><br/> `2` to bypass. Transactions that are bypassed will not be checked for duplication within the duplication window.<br/><br/> `3` to ignore. Transactions that are ignored will have the same affect as bypass. | 
-| `identifier` | string  | true | The identifier of the transaction to process. The value should be a valid reference and may be used to perform  post processing actions and to aid in reconciliation of transactions.<br/><br/>The value should be a valid printable string with ASCII character ranges from 0x32 to 0x127.<br/><br/>The identifier is recommended to be distinct for each transaction such as a [random unique identifier](https://en.wikipedia.org/wiki/Universally_unique_identifier) this will aid in ensuring each transaction is identifiable.<br/><br/>When transactions are processed they are also checked for duplicate requests. Changing the identifier on a subsequent request will ensure that a transaction is considered as different.<br/><br/> minLength: 4<br/>maxLength: 50 | 
-| `initiation` | string  | false | Transactions charged using the API are defined as:<br/><br/>**Cardholder Initiated**: A _cardholder initiated transaction_ (CIT) is where the cardholder selects the card for use for a purchase using previously stored details. An example would be a customer buying an item from your website after being present with their saved card details at checkout.<br/><br/>**Merchant Intiated**: A _merchant initiated transaction_ (MIT) is an authorisation initiated where you as the  merchant submit a cardholders previously stored details without the cardholder's participation. An example would  be a subscription to a membership scheme to debit their card monthly.<br/><br/>MITs have different reasons such as reauthorisation, delayed, unscheduled, incremental, recurring, instalment, no-show or resubmission.<br/><br/>The following values apply<br/><br/> - `M` - specifies that the transaction is initiated by the merchant<br/><br/> - `C` - specifies that the transaction is initiated by the cardholder<br/><br/>Where transactions are merchant initiated, a valid cardholder agreement must be defined.<br/><br/> maxLength: 1 | 
-| `match_avsa` | string  | false | A policy value which determines whether an AVS address policy is enforced, bypassed or ignored.<br/><br/>Values are  `0` for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.<br/><br/> `1` for an enforced policy. Transactions that are enforced will be rejected if the AVS address numeric value does not match.<br/><br/> `2` to bypass. Transactions that are bypassed will be allowed through even if the address did not match.<br/><br/> `3` to ignore. Transactions that are ignored will bypass the result and not send address numeric details for authorisation. | 
+| `duplicate_policy` | string  | false | A policy value which determines whether a duplication policy is enforced or bypassed. A duplication check has a window of time set against your account within which it can action. If a previous transaction with matching values occurred within the window, any subsequent transaction will result in a T001 result. Values are  `0` for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.  `1` for an enforced policy. Transactions that are enforced will be checked for duplication within the duplication window.  `2` to bypass. Transactions that are bypassed will not be checked for duplication within the duplication window.  `3` to ignore. Transactions that are ignored will have the same affect as bypass. | 
+| `identifier` | string  | true | The identifier of the transaction to process. The value should be a valid reference and may be used to perform  post processing actions and to aid in reconciliation of transactions. The value should be a valid printable string with ASCII character ranges from 0x32 to 0x127. The identifier is recommended to be distinct for each transaction such as a [random unique identifier](https://en.wikipedia.org/wiki/Universally_unique_identifier) this will aid in ensuring each transaction is identifiable. When transactions are processed they are also checked for duplicate requests. Changing the identifier on a subsequent request will ensure that a transaction is considered as different.<br/><br/> minLength: 4<br/>maxLength: 50 | 
+| `initiation` | string  | false | Transactions charged using the API are defined as: **Cardholder Initiated**: A _cardholder initiated transaction_ (CIT) is where the cardholder selects the card for use for a purchase using previously stored details. An example would be a customer buying an item from your website after being present with their saved card details at checkout. **Merchant Intiated**: A _merchant initiated transaction_ (MIT) is an authorisation initiated where you as the  merchant submit a cardholders previously stored details without the cardholder's participation. An example would  be a subscription to a membership scheme to debit their card monthly. MITs have different reasons such as reauthorisation, delayed, unscheduled, incremental, recurring, instalment, no-show or resubmission. The following values apply  - `M` - specifies that the transaction is initiated by the merchant  - `C` - specifies that the transaction is initiated by the cardholder Where transactions are merchant initiated, a valid cardholder agreement must be defined.<br/><br/> maxLength: 1 | 
+| `match_avsa` | string  | false | A policy value which determines whether an AVS address policy is enforced, bypassed or ignored. Values are  `0` for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.  `1` for an enforced policy. Transactions that are enforced will be rejected if the AVS address numeric value does not match.  `2` to bypass. Transactions that are bypassed will be allowed through even if the address did not match.  `3` to ignore. Transactions that are ignored will bypass the result and not send address numeric details for authorisation. | 
 | `merchantid` | integer *int32* | true | Identifies the merchant account to perform processing for. | 
-| `tag` | string  | false | A "tag" is a label that you can attach to a payment authorization. Tags can help you group transactions together based on certain criteria, like a work job or a ticket number. They can also assist in filtering transactions when you're generating reports.<br/><br/>Multiple Tags You can add more than one tag to a transaction by separating them with commas.<br/><br/>Limitations There is a maximum limit of 3 tags that can be added to a single transaction. Each tag can be no longer than 20 characters and alphanumeric with no spaces.<br/><br/>Example: Let's say you're a software company and you have different teams working on various projects. When a team makes a purchase or incurs an expense, they can tag the transaction with the project name, the team name, and the type of expense.<br/><br/>Project Name: Project_X Team Name: Team_A Type of Expense: Hardware So, the tag for a transaction might look like: Project_X,Team_A,Hardware<br/><br/>This way, when you're looking at your financial reports, you can easily filter transactions based on these tags to see how much each project or team is spending on different types of expenses. | 
+| `tag` | string  | false | A "tag" is a label that you can attach to a payment authorization. Tags can help you group transactions together based on certain criteria, like a work job or a ticket number. They can also assist in filtering transactions when you're generating reports. Multiple Tags You can add more than one tag to a transaction by separating them with commas. Limitations There is a maximum limit of 3 tags that can be added to a single transaction. Each tag can be no longer than 20 characters and alphanumeric with no spaces. Example: Let's say you're a software company and you have different teams working on various projects. When a team makes a purchase or incurs an expense, they can tag the transaction with the project name, the team name, and the type of expense. Project Name: Project_X Team Name: Team_A Type of Expense: Hardware So, the tag for a transaction might look like: Project_X,Team_A,Hardware This way, when you're looking at your financial reports, you can easily filter transactions based on these tags to see how much each project or team is spending on different types of expenses. | 
 | `threedsecure` | object | false | [ThreeDSecure](#threedsecure) ThreeDSecure element, providing values to enable full 3DS processing flows. | 
-| `token` | string *base58* | true | A tokenised form of a card that belongs to a card holder's account and that has been previously registered. The token is time based and will only be active for a short duration. The value is therefore designed not to be stored remotely for future use.<br/><br/> Tokens will start with ct and are resiliently tamper proof using HMacSHA-256. No sensitive card data is stored internally within the token.<br/><br/> Each card will contain a different token and the value may be different on any retrieval call.<br/><br/> The value can be presented for payment as a selection value to an end user in a web application. | 
+| `token` | string *base58* | true | A tokenised form of a card that belongs to a card holder's account and that has been previously registered. The token is time based and will only be active for a short duration. The value is therefore designed not to be stored remotely for future use.<br/><br/>Tokens will start with ct and are resiliently tamper proof using HMacSHA-256. No sensitive card data is stored internally within the token.<br/><br/>Each card will contain a different token and the value may be different on any retrieval call.<br/><br/>The value can be presented for payment as a selection value to an end user in a web application. | 
 | `trans_info` | string  | false | Further information that can be added to the transaction will display in reporting. Can be used for flexible values such as operator id.<br/><br/>maxLength: 50 | 
 | `trans_type` | string  | false | The type of transaction being submitted. Normally this value is not required and your account manager may request that you set this field.<br/><br/>maxLength: 1 | 
 
@@ -4954,19 +4920,19 @@ Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Addi
 
 ```json
 {
-   "batches": ""
+   "batches": { ... }
 }
 ```
 
 ```xml
 <CheckBatchStatusResponse>
- <batches></batches> 
+ <batches><>...</></batches> 
 </CheckBatchStatusResponse>
 ```
 
 | Field | Type | Required | Description |
 |-------|------|----------|-------------|
-| `batches` | array | false | [Batch](#batch) | 
+| `batches` | object | false | [Batch](#batch) The collection of batches. | 
 
 
 
@@ -5116,25 +5082,25 @@ Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Addi
 
 | Field | Type | Required | Description |
 |-------|------|----------|-------------|
-| `amount` | integer *int32* | true | The amount to authorise in the lowest unit of currency with a variable length to a maximum of 12 digits.<br/><br/>No decimal points are to be included and no divisional characters such as 1,024.<br/><br/>The amount should be the total amount required for the transaction.<br/><br/>For example with GBP £1,021.95 the amount value is 102195.<br/><br/> minLength: 1<br/>maxLength: 9 | 
-| `avs_postcode_policy` | string  | false | A policy value which determines whether an AVS postcode policy is enforced or bypassed.<br/><br/>Values are  `0` for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.<br/><br/> `1` for an enforced policy. Transactions that are enforced will be rejected if the AVS postcode numeric value does not match.<br/><br/> `2` to bypass. Transactions that are bypassed will be allowed through even if the postcode did not match.<br/><br/> `3` to ignore. Transactions that are ignored will bypass the result and not send postcode details for authorisation. | 
-| `bill_to` | object | false | [ContactDetails](#contactdetails) Billing details of the card holder making the payment. These details may be used for AVS fraud analysis, 3DS and for future referencing of the transaction.<br/><br/>For AVS to work correctly, the billing details should be the registered address of the card holder as it appears on the statement with their card issuer. The numeric details will be passed through for analysis and may result in a decline if incorrectly provided.<br/><br/>If using url-encoded format requests properties should be prefixed with `bill_to_` for example a postcode  value should be `bill_to_postcode`. | 
-| `cardnumber` | string  | true | The card number (PAN) with a variable length to a maximum of 21 digits in numerical form. Any non numeric characters will be stripped out of the card number, this includes whitespace or separators internal of the provided value.<br/><br/>The card number must be treated as sensitive data. We only provide an obfuscated value in logging and reporting.  The plaintext value is encrypted in our database using AES 256 GMC bit encryption for settlement or refund purposes.<br/><br/>When providing the card number to our gateway through the authorisation API you will be handling the card data on your application. This will require further PCI controls to be in place and this value must never be stored.<br/><br/> minLength: 12<br/>maxLength: 22 | 
-| `csc` | string  | false | The Card Security Code (CSC) (also known as CV2/CVV2) is normally found on the back of the card (American Express has it on the front). The value helps to identify posession of the card as it is not available within the chip or magnetic swipe.<br/><br/>When forwarding the CSC, please ensure the value is a string as some values start with 0 and this will be stripped out by any integer parsing.<br/><br/>The CSC number aids fraud prevention in Mail Order and Internet payments.<br/><br/>Business rules are available on your account to identify whether to accept or decline transactions based on mismatched results of the CSC.<br/><br/>The Payment Card Industry (PCI) requires that at no stage of a transaction should the CSC be stored.<br/><br/>This applies to all entities handling card data.<br/><br/>It should also not be used in any hashing process.<br/><br/>CityPay do not store the value and have no method of retrieving the value once the transaction has been processed. For this reason, duplicate checking is unable to determine the CSC in its duplication check algorithm.<br/><br/> minLength: 3<br/>maxLength: 4 | 
-| `csc_policy` | string  | false | A policy value which determines whether a CSC policy is enforced or bypassed.<br/><br/>Values are  `0` for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.<br/><br/> `1` for an enforced policy. Transactions that are enforced will be rejected if the CSC value does not match.<br/><br/> `2` to bypass. Transactions that are bypassed will be allowed through even if the CSC did not match.<br/><br/> `3` to ignore. Transactions that are ignored will bypass the result and not send the CSC details for authorisation. | 
+| `amount` | integer *int32* | true | The amount to authorise in the lowest unit of currency with a variable length to a maximum of 12 digits. No decimal points are to be included and no divisional characters such as 1,024. The amount should be the total amount required for the transaction. For example with GBP £1,021.95 the amount value is 102195.<br/><br/> minLength: 1<br/>maxLength: 9 | 
+| `avs_postcode_policy` | string  | false | A policy value which determines whether an AVS postcode policy is enforced or bypassed. Values are  `0` for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.  `1` for an enforced policy. Transactions that are enforced will be rejected if the AVS postcode numeric value does not match.  `2` to bypass. Transactions that are bypassed will be allowed through even if the postcode did not match.  `3` to ignore. Transactions that are ignored will bypass the result and not send postcode details for authorisation. | 
+| `bill_to` | object | false | [ContactDetails](#contactdetails) Billing details of the card holder making the payment. These details may be used for AVS fraud analysis, 3DS and for future referencing of the transaction. For AVS to work correctly, the billing details should be the registered address of the card holder as it appears on the statement with their card issuer. The numeric details will be passed through for analysis and may result in a decline if incorrectly provided. If using url-encoded format requests properties should be prefixed with `bill_to_` for example a postcode  value should be `bill_to_postcode`. | 
+| `cardnumber` | string  | true | The card number (PAN) with a variable length to a maximum of 21 digits in numerical form. Any non numeric characters will be stripped out of the card number, this includes whitespace or separators internal of the provided value. The card number must be treated as sensitive data. We only provide an obfuscated value in logging and reporting.  The plaintext value is encrypted in our database using AES 256 GMC bit encryption for settlement or refund purposes. When providing the card number to our gateway through the authorisation API you will be handling the card data on your application. This will require further PCI controls to be in place and this value must never be stored.<br/><br/> minLength: 12<br/>maxLength: 22 | 
+| `csc` | string  | false | The Card Security Code (CSC) (also known as CV2/CVV2) is normally found on the back of the card (American Express has it on the front). The value helps to identify posession of the card as it is not available within the chip or magnetic swipe. When forwarding the CSC, please ensure the value is a string as some values start with 0 and this will be stripped out by any integer parsing. The CSC number aids fraud prevention in Mail Order and Internet payments. Business rules are available on your account to identify whether to accept or decline transactions based on mismatched results of the CSC. The Payment Card Industry (PCI) requires that at no stage of a transaction should the CSC be stored. This applies to all entities handling card data. It should also not be used in any hashing process. CityPay do not store the value and have no method of retrieving the value once the transaction has been processed. For this reason, duplicate checking is unable to determine the CSC in its duplication check algorithm.<br/><br/> minLength: 3<br/>maxLength: 4 | 
+| `csc_policy` | string  | false | A policy value which determines whether a CSC policy is enforced or bypassed. Values are  `0` for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.  `1` for an enforced policy. Transactions that are enforced will be rejected if the CSC value does not match.  `2` to bypass. Transactions that are bypassed will be allowed through even if the CSC did not match.  `3` to ignore. Transactions that are ignored will bypass the result and not send the CSC details for authorisation. | 
 | `currency` | string  | false | The processing currency for the transaction. Will default to the merchant account currency.<br/><br/>minLength: 3<br/>maxLength: 3 | 
-| `duplicate_policy` | string  | false | A policy value which determines whether a duplication policy is enforced or bypassed. A duplication check has a window of time set against your account within which it can action. If a previous transaction with matching values occurred within the window, any subsequent transaction will result in a T001 result.<br/><br/>Values are  `0` for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.<br/><br/> `1` for an enforced policy. Transactions that are enforced will be checked for duplication within the duplication window.<br/><br/> `2` to bypass. Transactions that are bypassed will not be checked for duplication within the duplication window.<br/><br/> `3` to ignore. Transactions that are ignored will have the same affect as bypass. | 
+| `duplicate_policy` | string  | false | A policy value which determines whether a duplication policy is enforced or bypassed. A duplication check has a window of time set against your account within which it can action. If a previous transaction with matching values occurred within the window, any subsequent transaction will result in a T001 result. Values are  `0` for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.  `1` for an enforced policy. Transactions that are enforced will be checked for duplication within the duplication window.  `2` to bypass. Transactions that are bypassed will not be checked for duplication within the duplication window.  `3` to ignore. Transactions that are ignored will have the same affect as bypass. | 
 | `expmonth` | integer *int32* | true | The month of expiry of the card. The month value should be a numerical value between 1 and 12.<br/><br/> minimum: 1<br/>maximum: 12 | 
 | `expyear` | integer *int32* | true | The year of expiry of the card.<br/><br/> minimum: 2000<br/>maximum: 2100 | 
-| `identifier` | string  | true | The identifier of the transaction to process. The value should be a valid reference and may be used to perform  post processing actions and to aid in reconciliation of transactions.<br/><br/>The value should be a valid printable string with ASCII character ranges from 0x32 to 0x127.<br/><br/>The identifier is recommended to be distinct for each transaction such as a [random unique identifier](https://en.wikipedia.org/wiki/Universally_unique_identifier) this will aid in ensuring each transaction is identifiable.<br/><br/>When transactions are processed they are also checked for duplicate requests. Changing the identifier on a subsequent request will ensure that a transaction is considered as different.<br/><br/> minLength: 4<br/>maxLength: 50 | 
+| `identifier` | string  | true | The identifier of the transaction to process. The value should be a valid reference and may be used to perform  post processing actions and to aid in reconciliation of transactions. The value should be a valid printable string with ASCII character ranges from 0x32 to 0x127. The identifier is recommended to be distinct for each transaction such as a [random unique identifier](https://en.wikipedia.org/wiki/Universally_unique_identifier) this will aid in ensuring each transaction is identifiable. When transactions are processed they are also checked for duplicate requests. Changing the identifier on a subsequent request will ensure that a transaction is considered as different.<br/><br/> minLength: 4<br/>maxLength: 50 | 
 | `mac` | string *hex* | true | A message authentication code ensures the data is authentic and that the intended amount has not been tampered with. The mac value is generated using a hash-based mac value. The following algorithm is used. - A key (k) is derived from your licence key - A value (v) is produced by concatenating the nonce, amount value and identifier, such as a purchase   with nonce `0123456789ABCDEF` an amount of £275.95 and an identifier of OD-12345678 would become   `0123456789ABCDEF27595OD-12345678` and extracting the UTF-8 byte values - The result from HMAC_SHA256(k, v) is hex-encoded (upper-case) - For instance, a licence key of `LK123456789`, a nonce of `0123456789ABCDEF`, an amount of `27595` and an identifier of `OD-12345678`  would generate a MAC of `163DBAB194D743866A9BCC7FC9C8A88FCD99C6BBBF08D619291212D1B91EE12E`. | 
-| `match_avsa` | string  | false | A policy value which determines whether an AVS address policy is enforced, bypassed or ignored.<br/><br/>Values are  `0` for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.<br/><br/> `1` for an enforced policy. Transactions that are enforced will be rejected if the AVS address numeric value does not match.<br/><br/> `2` to bypass. Transactions that are bypassed will be allowed through even if the address did not match.<br/><br/> `3` to ignore. Transactions that are ignored will bypass the result and not send address numeric details for authorisation. | 
+| `match_avsa` | string  | false | A policy value which determines whether an AVS address policy is enforced, bypassed or ignored. Values are  `0` for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.  `1` for an enforced policy. Transactions that are enforced will be rejected if the AVS address numeric value does not match.  `2` to bypass. Transactions that are bypassed will be allowed through even if the address did not match.  `3` to ignore. Transactions that are ignored will bypass the result and not send address numeric details for authorisation. | 
 | `name_on_card` | string  | false | The card holder name as appears on the card such as MR N E BODY. Required for some acquirers.<br/><br/> minLength: 2<br/>maxLength: 45 | 
 | `nonce` | string *hex* | false | A random value Hex string (uppercase) which is provided to the API to perform a digest. The value will be used in any digest function. | 
 | `redirect_failure` | string *url* | false | The URL used to redirect back to your site when a transaction has been rejected or declined. Required if a url-encoded request. | 
 | `redirect_success` | string *url* | false | The URL used to redirect back to your site when a transaction has been tokenised or authorised. Required if a url-encoded request. | 
 | `ship_to` | object | false | [ContactDetails](#contactdetails) Shipping details of the card holder making the payment. These details may be used for 3DS and for future referencing of the transaction. | 
-| `tag` | string  | false | A "tag" is a label that you can attach to a payment authorization. Tags can help you group transactions together based on certain criteria, like a work job or a ticket number. They can also assist in filtering transactions when you're generating reports.<br/><br/>Multiple Tags You can add more than one tag to a transaction by separating them with commas.<br/><br/>Limitations There is a maximum limit of 3 tags that can be added to a single transaction. Each tag can be no longer than 20 characters and alphanumeric with no spaces.<br/><br/>Example: Let's say you're a software company and you have different teams working on various projects. When a team makes a purchase or incurs an expense, they can tag the transaction with the project name, the team name, and the type of expense.<br/><br/>Project Name: Project_X Team Name: Team_A Type of Expense: Hardware So, the tag for a transaction might look like: Project_X,Team_A,Hardware<br/><br/>This way, when you're looking at your financial reports, you can easily filter transactions based on these tags to see how much each project or team is spending on different types of expenses. | 
+| `tag` | string  | false | A "tag" is a label that you can attach to a payment authorization. Tags can help you group transactions together based on certain criteria, like a work job or a ticket number. They can also assist in filtering transactions when you're generating reports. Multiple Tags You can add more than one tag to a transaction by separating them with commas. Limitations There is a maximum limit of 3 tags that can be added to a single transaction. Each tag can be no longer than 20 characters and alphanumeric with no spaces. Example: Let's say you're a software company and you have different teams working on various projects. When a team makes a purchase or incurs an expense, they can tag the transaction with the project name, the team name, and the type of expense. Project Name: Project_X Team Name: Team_A Type of Expense: Hardware So, the tag for a transaction might look like: Project_X,Team_A,Hardware This way, when you're looking at your financial reports, you can easily filter transactions based on these tags to see how much each project or team is spending on different types of expenses. | 
 | `threedsecure` | object | false | [ThreeDSecure](#threedsecure) ThreeDSecure element, providing values to enable full 3DS processing flows. | 
 | `trans_info` | string  | false | Further information that can be added to the transaction will display in reporting. Can be used for flexible values such as operator id.<br/><br/>maxLength: 50 | 
 | `trans_type` | string  | false | The type of transaction being submitted. Normally this value is not required and your account manager may request that you set this field.<br/><br/>maxLength: 1 | 
@@ -5481,15 +5447,51 @@ Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Addi
 
 
 
+## MerchantBatchReportRequest
+
+```json
+{
+   "date_from": "2024-01-24",
+   "date_until": "2024-01-31",
+   "maxResults": 50,
+   "merchant_id": "",
+   "nextToken": "n34liuwn435tUAGFNg34yn...",
+   "orderBy": "date"
+}
+```
+
+```xml
+<MerchantBatchReportRequest>
+ <date_from>2024-01-24</date_from> 
+ <date_until>2024-01-31</date_until> 
+ <maxResults>50</maxResults> 
+ <merchant_id></merchant_id> 
+ <nextToken>n34liuwn435tUAGFNg34yn...</nextToken> 
+ <orderBy>date</orderBy> 
+</MerchantBatchReportRequest>
+```
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `date_from` | string *date* | false | Start date (YYYY-MM-DD) for batch retrieval range, inclusive. Maximum value is 3 years ago. | 
+| `date_until` | string *date* | false | End date (YYYY-MM-DD) for batch retrieval range, inclusive. | 
+| `maxResults` | integer *int32* | false | The maximum number of results to return in a single response. This value is used to limit the size of data returned by the API, enhancing performance and manageability. Values should be between 5 and 250. | 
+| `merchant_id` | array | false | type: integer | 
+| `nextToken` | string  | false | A token that identifies the starting point of the page of results to be returned. An empty value indicates the start of the dataset. When supplied, it is validated and used to fetch the subsequent page of results. This token is typically obtained from the response of a previous pagination request. | 
+| `orderBy` | string  | false | Specifies the field by which results are ordered. Available fields are [merchant_id,batch_no,net_amount]. By default, fields are ordered by OrderByExpression(merchant_id,ASC),OrderByExpression(batch_no,ASC). To order in descending order, prefix with '-' or suffix with ' DESC'. | 
+
+
+
+
+
 ## MerchantBatchReportResponse
 
 ```json
 {
    "batches": "",
    "count": 25,
-   "max_results": 50,
-   "next_token": "",
-   "order_by": ""
+   "maxResults": 50,
+   "nextToken": "n34liuwn435tUAGFNg34yn..."
 }
 ```
 
@@ -5497,9 +5499,8 @@ Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Addi
 <MerchantBatchReportResponse>
  <batches></batches> 
  <count>25</count> 
- <max_results>50</max_results> 
- <next_token></next_token> 
- <order_by></order_by> 
+ <maxResults>50</maxResults> 
+ <nextToken>n34liuwn435tUAGFNg34yn...</nextToken> 
 </MerchantBatchReportResponse>
 ```
 
@@ -5507,46 +5508,8 @@ Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Addi
 |-------|------|----------|-------------|
 | `batches` | array | true | Batch data based on the request. [MerchantBatchResponse](#merchantbatchresponse) | 
 | `count` | integer *int32* | false | The count of items returned in this page. | 
-| `max_results` | integer *int32* | false | The max results requested in this page. | 
-| `next_token` | string  | false | A token that identifies the starting point of the page of results to be returned. An empty value indicates the start of the dataset. When supplied, it is validated and used to fetch the subsequent page of results. This token is typically obtained from the response of a previous pagination request. | 
-| `order_by` | array | false | The order by requested in this page. type: string | 
-
-
-
-
-
-## MerchantBatchRequest
-
-```json
-{
-   "date_from": "2024-01-24",
-   "date_until": "2024-01-31",
-   "max_results": 50,
-   "merchant_id": "",
-   "next_token": "",
-   "order_by": "date"
-}
-```
-
-```xml
-<MerchantBatchRequest>
- <date_from>2024-01-24</date_from> 
- <date_until>2024-01-31</date_until> 
- <max_results>50</max_results> 
- <merchant_id></merchant_id> 
- <next_token></next_token> 
- <order_by>date</order_by> 
-</MerchantBatchRequest>
-```
-
-| Field | Type | Required | Description |
-|-------|------|----------|-------------|
-| `date_from` | string *date* | false | Start date (YYYY-MM-DD) for batch retrieval range, inclusive. Maximum value is 3 years ago. | 
-| `date_until` | string *date* | false | End date (YYYY-MM-DD) for batch retrieval range, inclusive. | 
-| `max_results` | integer *int32* | false | The maximum number of results to return in a single response. This value is used to limit the size of data returned by the API, enhancing performance and manageability. Values should be between 5 and 250. | 
-| `merchant_id` | array | false | type: integer | 
-| `next_token` | string  | false | A token that identifies the starting point of the page of results to be returned. An empty value indicates the start of the dataset. When supplied, it is validated and used to fetch the subsequent page of results. This token is typically obtained from the response of a previous pagination request. | 
-| `order_by` | string  | false | Specifies the field by which results are ordered. Available fields are [merchant_id,batch_no,net_amount]. By default, fields are ordered by OrderByExpression(merchant_id,ASC),OrderByExpression(batch_no,ASC). To order in descending order, prefix with '-' or suffix with ' DESC'. | 
+| `maxResults` | integer *int32* | false | The max results requested in this page. | 
+| `nextToken` | string  | false | A token that identifies the starting point of the page of results to be returned. An empty value indicates the start of the dataset. When supplied, it is validated and used to fetch the subsequent page of results. This token is typically obtained from the response of a previous pagination request. | 
 
 
 
@@ -5580,7 +5543,7 @@ Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Addi
 
 | Field | Type | Required | Description |
 |-------|------|----------|-------------|
-| `batch_closed` | string *date* | false | The date and time when the batch was closed. This is represented in ISO 8601 format (e.g., YYYY-MM-DDTHH:MM:SSZ) and indicates when the batch processing was completed. | 
+| `batch_closed` | string *date-time* | false | The date and time when the batch was closed. This is represented in ISO 8601 format (e.g., YYYY-MM-DDTHH:MM:SSZ) and indicates when the batch processing was completed. | 
 | `batch_no` | string  | false | The incremental identifier of the batch. This number is used to track and reference the batch in subsequent operations or inquiries. | 
 | `batch_status` | string  | false | A descriptive string detailing the current status of the batch. This status provides a human-readable explanation of the batch's processing state. | 
 | `batch_status_code` | string  | false | A batch status code that represents the processing state of the batch. Batches will be one of  - 'O' defining the batch is open for settlement and not yet settled  - 'X' defines that the batch is external to our systems and managed elsewhere  - 'C' defines that the batch is cancelled and not settled  - 'S' defines that the batch has been settled and remitted. | 
@@ -5653,7 +5616,7 @@ Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Addi
 
 | Field | Type | Required | Description |
 |-------|------|----------|-------------|
-| `md` | string  | true | The Merchant Data (MD) which is a unique ID to reference the authentication session.<br/><br/>This value will be created by CityPay when required. When responding from the ACS, this value will be returned by the ACS. | 
+| `md` | string  | true | The Merchant Data (MD) which is a unique ID to reference the authentication session. This value will be created by CityPay when required. When responding from the ACS, this value will be returned by the ACS. | 
 | `pares` | string *base64* | true | The Payer Authentication Response packet which is returned by the ACS containing the  response of the authentication session including verification values. The response  is a base64 encoded packet and should be forwarded to CityPay untouched. | 
 
 
@@ -5822,7 +5785,7 @@ Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Addi
 |-------|------|----------|-------------|
 | `addressee` | string  | false | Who the bill payment request intended for. This should be a readable name such as a person or company. | 
 | `attachments` | array | false | An array of attachments for the request such as invoices or statements. [PaylinkAttachmentRequest](#paylinkattachmentrequest) | 
-| `descriptor` | string  | false | A descriptor for the bill payment used to describe what the payment request is for for instance "Invoice".<br/><br/>The descriptor can be used as descriptive text on emails or the payment page. For instance an invoice may have a button saying "View Invoice" or an email may say "to pay your Invoice online". | 
+| `descriptor` | string  | false | A descriptor for the bill payment used to describe what the payment request is for for instance "Invoice". The descriptor can be used as descriptive text on emails or the payment page. For instance an invoice may have a button saying "View Invoice" or an email may say "to pay your Invoice online". | 
 | `due` | string *date* | false | A date that the invoice is due. This can be displayed on the payment page. | 
 | `email_notification_path` | object | false | [PaylinkEmailNotificationPath](#paylinkemailnotificationpath) Email notification path for this bill payment to be executed. | 
 | `memo` | string  | false | A memo that can be added to the payment page and email to provide to the customer. | 
@@ -5912,7 +5875,7 @@ Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Addi
 |-------|------|----------|-------------|
 | `contents` | array | false | Any cart items to list against the cart. [PaylinkCartItemModel](#paylinkcartitemmodel) | 
 | `coupon` | string  | false | A coupon redeemed with the transaction. | 
-| `mode` | integer *int32* | false | The mode field specifies the behaviour or functionality of the cart.<br/><br/>Valid values are:<br/><br/> 0 - No cart - No cart is shown  1 - Read-only - The cart is shown with a breakdown of the item details provided by objects in the contents array.  2 - Selection cart - The cart is shown as a drop-down box of available cart items that the customer can a single item select from.  3 - Dynamic cart - a text box is rendered to enable the operator to input an amount.  4 - Multi cart - The cart is displayed with items rendered with selectable quantities. | 
+| `mode` | integer *int32* | false | The mode field specifies the behaviour or functionality of the cart. Valid values are:  0 - No cart - No cart is shown  1 - Read-only - The cart is shown with a breakdown of the item details provided by objects in the contents array.  2 - Selection cart - The cart is shown as a drop-down box of available cart items that the customer can a single item select from.  3 - Dynamic cart - a text box is rendered to enable the operator to input an amount.  4 - Multi cart - The cart is displayed with items rendered with selectable quantities. | 
 | `product_description` | string  | false | Specifies a description about the product or service that is the subject of the transaction. It will be rendered in the header of the page with no labels. | 
 | `product_information` | string  | false | Specifies information about the product or service that is the subject of the transaction. It will be rendered in the header of the page. | 
 | `shipping` | integer *int32* | false | The shipping amount of the transaction in the lowest denomination of currency. | 
@@ -6189,7 +6152,7 @@ Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Addi
 
 | Field | Type | Required | Description |
 |-------|------|----------|-------------|
-| `field_type` | string  | false | A type of HTML element that should be displayed such as text, password, url. Any HTML5 input type value may be supplied.<br/><br/>If a value of `date` is supplied the value format should be an ISO format YYYY-MM-DD format date i.e. 2024-03-01 If a value of `datetime-local` is supplied, the value format should be an ISO format YYYY-MM-DDTHH:mm i.e. 2024-06-01T19:30. | 
+| `field_type` | string  | false | A type of HTML element that should be displayed such as text, password, url. Any HTML5 input type value may be supplied. If a value of `date` is supplied the value format should be an ISO format YYYY-MM-DD format date i.e. 2024-03-01 If a value of `datetime-local` is supplied, the value format should be an ISO format YYYY-MM-DDTHH:mm i.e. 2024-06-01T19:30. | 
 | `label` | string  | false | A label for the field guard to display on the authentication page. | 
 | `maxlen` | integer *int32* | false | A maximum length of any value supplied in the field guard form. Used for validating entry. | 
 | `minlen` | integer *int32* | false | A minimum length of any value supplied in the field guard form. Used for validating entry. | 
@@ -6547,30 +6510,30 @@ BPS | `bps` | string  | false | true if BPS has been enabled on this token. |
 ```json
 {
    "after": "",
-   "maxResults": 0,
+   "maxResults": 50,
    "merchantid": 11223344,
-   "nextToken": "",
-   "orderBy": ""
+   "nextToken": "n34liuwn435tUAGFNg34yn...",
+   "orderBy": "date"
 }
 ```
 
 ```xml
 <PaylinkTokenStatusChangeRequest>
  <after></after> 
- <maxResults></maxResults> 
+ <maxResults>50</maxResults> 
  <merchantid>11223344</merchantid> 
- <nextToken></nextToken> 
- <orderBy></orderBy> 
+ <nextToken>n34liuwn435tUAGFNg34yn...</nextToken> 
+ <orderBy>date</orderBy> 
 </PaylinkTokenStatusChangeRequest>
 ```
 
 | Field | Type | Required | Description |
 |-------|------|----------|-------------|
 | `after` | string *date-time* | true | identifies the date and time to lookup changes after. | 
-| `maxResults` | integer *int32* | false | the maximum number of results between 5 and 250 to return. Default is 50. | 
+| `maxResults` | integer *int32* | false | The maximum number of results to return in a single response. This value is used to limit the size of data returned by the API, enhancing performance and manageability. Values should be between 5 and 250. | 
 | `merchantid` | integer *int32* | true | the merchant id to review tokens for. | 
-| `nextToken` | string  | false | the next token value when more results are available. | 
-| `orderBy` | array | false | an orderBy array should the search require ordering. The following fields may be specified: `created`. The default order by fields are `created`.<br/><br/>type: string | 
+| `nextToken` | string  | false | A token that identifies the starting point of the page of results to be returned. An empty value indicates the start of the dataset. When supplied, it is validated and used to fetch the subsequent page of results. This token is typically obtained from the response of a previous pagination request. | 
+| `orderBy` | string  | false | Specifies the field by which results are ordered. Available fields are [p.id]. By default, fields are ordered by OrderByExpression(p.id,ASC). To order in descending order, prefix with '-' or suffix with ' DESC'. | 
 
 
 
@@ -6580,21 +6543,27 @@ BPS | `bps` | string  | false | true if BPS has been enabled on this token. |
 
 ```json
 {
-   "nextToken": "",
+   "count": 25,
+   "maxResults": 50,
+   "nextToken": "n34liuwn435tUAGFNg34yn...",
    "tokens": ""
 }
 ```
 
 ```xml
 <PaylinkTokenStatusChangeResponse>
- <nextToken></nextToken> 
+ <count>25</count> 
+ <maxResults>50</maxResults> 
+ <nextToken>n34liuwn435tUAGFNg34yn...</nextToken> 
  <tokens></tokens> 
 </PaylinkTokenStatusChangeResponse>
 ```
 
 | Field | Type | Required | Description |
 |-------|------|----------|-------------|
-| `nextToken` | string  | false | If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. | 
+| `count` | integer *int32* | false | The count of items returned in this page. | 
+| `maxResults` | integer *int32* | false | The max results requested in this page. | 
+| `nextToken` | string  | false | A token that identifies the starting point of the page of results to be returned. An empty value indicates the start of the dataset. When supplied, it is validated and used to fetch the subsequent page of results. This token is typically obtained from the response of a previous pagination request. | 
 | `tokens` | array | true | Tokens which have changed since the date presented. [PaylinkTokenStatus](#paylinktokenstatus) | 
 
 
@@ -6672,17 +6641,17 @@ BPS | `bps` | string  | false | true if BPS has been enabled on this token. |
 
 | Field | Type | Required | Description |
 |-------|------|----------|-------------|
-| `amount` | integer *int32* | true | The amount to authorise in the lowest unit of currency with a variable length to a maximum of 12 digits.<br/><br/>No decimal points are to be included and no divisional characters such as 1,024.<br/><br/>The amount should be the total amount required for the transaction.<br/><br/>For example with GBP £1,021.95 the amount value is 102195.<br/><br/> minLength: 1<br/>maxLength: 9 | 
-| `avs_postcode_policy` | string  | false | A policy value which determines whether an AVS postcode policy is enforced or bypassed.<br/><br/>Values are  `0` for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.<br/><br/> `1` for an enforced policy. Transactions that are enforced will be rejected if the AVS postcode numeric value does not match.<br/><br/> `2` to bypass. Transactions that are bypassed will be allowed through even if the postcode did not match.<br/><br/> `3` to ignore. Transactions that are ignored will bypass the result and not send postcode details for authorisation. | 
-| `bill_to` | object | false | [ContactDetails](#contactdetails) Billing details of the card holder making the payment. These details may be used for AVS fraud analysis, 3DS and for future referencing of the transaction.<br/><br/>For AVS to work correctly, the billing details should be the registered address of the card holder as it appears on the statement with their card issuer. The numeric details will be passed through for analysis and may result in a decline if incorrectly provided. | 
-| `csc` | string  | false | The Card Security Code (CSC) (also known as CV2/CVV2) is normally found on the back of the card (American Express has it on the front). The value helps to identify posession of the card as it is not available within the chip or magnetic swipe.<br/><br/>When forwarding the CSC, please ensure the value is a string as some values start with 0 and this will be stripped out by any integer parsing.<br/><br/>The CSC number aids fraud prevention in Mail Order and Internet payments.<br/><br/>Business rules are available on your account to identify whether to accept or decline transactions based on mismatched results of the CSC.<br/><br/>The Payment Card Industry (PCI) requires that at no stage of a transaction should the CSC be stored.<br/><br/>This applies to all entities handling card data.<br/><br/>It should also not be used in any hashing process.<br/><br/>CityPay do not store the value and have no method of retrieving the value once the transaction has been processed. For this reason, duplicate checking is unable to determine the CSC in its duplication check algorithm.<br/><br/> minLength: 3<br/>maxLength: 4 | 
-| `csc_policy` | string  | false | A policy value which determines whether a CSC policy is enforced or bypassed.<br/><br/>Values are  `0` for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.<br/><br/> `1` for an enforced policy. Transactions that are enforced will be rejected if the CSC value does not match.<br/><br/> `2` to bypass. Transactions that are bypassed will be allowed through even if the CSC did not match.<br/><br/> `3` to ignore. Transactions that are ignored will bypass the result and not send the CSC details for authorisation. | 
+| `amount` | integer *int32* | true | The amount to authorise in the lowest unit of currency with a variable length to a maximum of 12 digits. No decimal points are to be included and no divisional characters such as 1,024. The amount should be the total amount required for the transaction. For example with GBP £1,021.95 the amount value is 102195.<br/><br/> minLength: 1<br/>maxLength: 9 | 
+| `avs_postcode_policy` | string  | false | A policy value which determines whether an AVS postcode policy is enforced or bypassed. Values are  `0` for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.  `1` for an enforced policy. Transactions that are enforced will be rejected if the AVS postcode numeric value does not match.  `2` to bypass. Transactions that are bypassed will be allowed through even if the postcode did not match.  `3` to ignore. Transactions that are ignored will bypass the result and not send postcode details for authorisation. | 
+| `bill_to` | object | false | [ContactDetails](#contactdetails) Billing details of the card holder making the payment. These details may be used for AVS fraud analysis, 3DS and for future referencing of the transaction. For AVS to work correctly, the billing details should be the registered address of the card holder as it appears on the statement with their card issuer. The numeric details will be passed through for analysis and may result in a decline if incorrectly provided. | 
+| `csc` | string  | false | The Card Security Code (CSC) (also known as CV2/CVV2) is normally found on the back of the card (American Express has it on the front). The value helps to identify posession of the card as it is not available within the chip or magnetic swipe. When forwarding the CSC, please ensure the value is a string as some values start with 0 and this will be stripped out by any integer parsing. The CSC number aids fraud prevention in Mail Order and Internet payments. Business rules are available on your account to identify whether to accept or decline transactions based on mismatched results of the CSC. The Payment Card Industry (PCI) requires that at no stage of a transaction should the CSC be stored. This applies to all entities handling card data. It should also not be used in any hashing process. CityPay do not store the value and have no method of retrieving the value once the transaction has been processed. For this reason, duplicate checking is unable to determine the CSC in its duplication check algorithm.<br/><br/> minLength: 3<br/>maxLength: 4 | 
+| `csc_policy` | string  | false | A policy value which determines whether a CSC policy is enforced or bypassed. Values are  `0` for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.  `1` for an enforced policy. Transactions that are enforced will be rejected if the CSC value does not match.  `2` to bypass. Transactions that are bypassed will be allowed through even if the CSC did not match.  `3` to ignore. Transactions that are ignored will bypass the result and not send the CSC details for authorisation. | 
 | `currency` | string  | false | The processing currency for the transaction. Will default to the merchant account currency.<br/><br/>minLength: 3<br/>maxLength: 3 | 
-| `duplicate_policy` | string  | false | A policy value which determines whether a duplication policy is enforced or bypassed. A duplication check has a window of time set against your account within which it can action. If a previous transaction with matching values occurred within the window, any subsequent transaction will result in a T001 result.<br/><br/>Values are  `0` for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.<br/><br/> `1` for an enforced policy. Transactions that are enforced will be checked for duplication within the duplication window.<br/><br/> `2` to bypass. Transactions that are bypassed will not be checked for duplication within the duplication window.<br/><br/> `3` to ignore. Transactions that are ignored will have the same affect as bypass. | 
-| `identifier` | string  | true | The identifier of the transaction to process. The value should be a valid reference and may be used to perform  post processing actions and to aid in reconciliation of transactions.<br/><br/>The value should be a valid printable string with ASCII character ranges from 0x32 to 0x127.<br/><br/>The identifier is recommended to be distinct for each transaction such as a [random unique identifier](https://en.wikipedia.org/wiki/Universally_unique_identifier) this will aid in ensuring each transaction is identifiable.<br/><br/>When transactions are processed they are also checked for duplicate requests. Changing the identifier on a subsequent request will ensure that a transaction is considered as different.<br/><br/> minLength: 4<br/>maxLength: 50 | 
-| `match_avsa` | string  | false | A policy value which determines whether an AVS address policy is enforced, bypassed or ignored.<br/><br/>Values are  `0` for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.<br/><br/> `1` for an enforced policy. Transactions that are enforced will be rejected if the AVS address numeric value does not match.<br/><br/> `2` to bypass. Transactions that are bypassed will be allowed through even if the address did not match.<br/><br/> `3` to ignore. Transactions that are ignored will bypass the result and not send address numeric details for authorisation. | 
+| `duplicate_policy` | string  | false | A policy value which determines whether a duplication policy is enforced or bypassed. A duplication check has a window of time set against your account within which it can action. If a previous transaction with matching values occurred within the window, any subsequent transaction will result in a T001 result. Values are  `0` for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.  `1` for an enforced policy. Transactions that are enforced will be checked for duplication within the duplication window.  `2` to bypass. Transactions that are bypassed will not be checked for duplication within the duplication window.  `3` to ignore. Transactions that are ignored will have the same affect as bypass. | 
+| `identifier` | string  | true | The identifier of the transaction to process. The value should be a valid reference and may be used to perform  post processing actions and to aid in reconciliation of transactions. The value should be a valid printable string with ASCII character ranges from 0x32 to 0x127. The identifier is recommended to be distinct for each transaction such as a [random unique identifier](https://en.wikipedia.org/wiki/Universally_unique_identifier) this will aid in ensuring each transaction is identifiable. When transactions are processed they are also checked for duplicate requests. Changing the identifier on a subsequent request will ensure that a transaction is considered as different.<br/><br/> minLength: 4<br/>maxLength: 50 | 
+| `match_avsa` | string  | false | A policy value which determines whether an AVS address policy is enforced, bypassed or ignored. Values are  `0` for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.  `1` for an enforced policy. Transactions that are enforced will be rejected if the AVS address numeric value does not match.  `2` to bypass. Transactions that are bypassed will be allowed through even if the address did not match.  `3` to ignore. Transactions that are ignored will bypass the result and not send address numeric details for authorisation. | 
 | `ship_to` | object | false | [ContactDetails](#contactdetails) Shipping details of the card holder making the payment. These details may be used for 3DS and for future referencing of the transaction. | 
-| `tag` | string  | false | A "tag" is a label that you can attach to a payment authorization. Tags can help you group transactions together based on certain criteria, like a work job or a ticket number. They can also assist in filtering transactions when you're generating reports.<br/><br/>Multiple Tags You can add more than one tag to a transaction by separating them with commas.<br/><br/>Limitations There is a maximum limit of 3 tags that can be added to a single transaction. Each tag can be no longer than 20 characters and alphanumeric with no spaces.<br/><br/>Example: Let's say you're a software company and you have different teams working on various projects. When a team makes a purchase or incurs an expense, they can tag the transaction with the project name, the team name, and the type of expense.<br/><br/>Project Name: Project_X Team Name: Team_A Type of Expense: Hardware So, the tag for a transaction might look like: Project_X,Team_A,Hardware<br/><br/>This way, when you're looking at your financial reports, you can easily filter transactions based on these tags to see how much each project or team is spending on different types of expenses. | 
+| `tag` | string  | false | A "tag" is a label that you can attach to a payment authorization. Tags can help you group transactions together based on certain criteria, like a work job or a ticket number. They can also assist in filtering transactions when you're generating reports. Multiple Tags You can add more than one tag to a transaction by separating them with commas. Limitations There is a maximum limit of 3 tags that can be added to a single transaction. Each tag can be no longer than 20 characters and alphanumeric with no spaces. Example: Let's say you're a software company and you have different teams working on various projects. When a team makes a purchase or incurs an expense, they can tag the transaction with the project name, the team name, and the type of expense. Project Name: Project_X Team Name: Team_A Type of Expense: Hardware So, the tag for a transaction might look like: Project_X,Team_A,Hardware This way, when you're looking at your financial reports, you can easily filter transactions based on these tags to see how much each project or team is spending on different types of expenses. | 
 | `trans_info` | string  | false | Further information that can be added to the transaction will display in reporting. Can be used for flexible values such as operator id.<br/><br/>maxLength: 50 | 
 | `trans_type` | string  | false | The type of transaction being submitted. Normally this value is not required and your account manager may request that you set this field.<br/><br/>maxLength: 1 | 
 
@@ -6814,8 +6783,8 @@ BPS | `bps` | string  | false | true if BPS has been enabled on this token. |
 
 | Field | Type | Required | Description |
 |-------|------|----------|-------------|
-| `amount` | integer *int32* | true | The amount to refund in the lowest unit of currency with a variable length to a maximum of 12 digits.<br/><br/>The amount should be the total amount required to refund for the transaction up to the original processed amount.<br/><br/>No decimal points are to be included and no divisional characters such as 1,024.<br/><br/>For example with GBP £1,021.95 the amount value is 102195.<br/><br/> minLength: 1<br/>maxLength: 9 | 
-| `identifier` | string  | true | The identifier of the refund to process. The value should be a valid reference and may be used to perform  post processing actions and to aid in reconciliation of transactions.<br/><br/>The value should be a valid printable string with ASCII character ranges from 0x32 to 0x127.<br/><br/>The identifier is recommended to be distinct for each transaction such as a [random unique identifier](https://en.wikipedia.org/wiki/Universally_unique_identifier) this will aid in ensuring each transaction is identifiable.<br/><br/>When transactions are processed they are also checked for duplicate requests. Changing the identifier on a subsequent request will ensure that a transaction is considered as different.<br/><br/> minLength: 4<br/>maxLength: 50 | 
+| `amount` | integer *int32* | true | The amount to refund in the lowest unit of currency with a variable length to a maximum of 12 digits. The amount should be the total amount required to refund for the transaction up to the original processed amount. No decimal points are to be included and no divisional characters such as 1,024. For example with GBP £1,021.95 the amount value is 102195.<br/><br/> minLength: 1<br/>maxLength: 9 | 
+| `identifier` | string  | true | The identifier of the refund to process. The value should be a valid reference and may be used to perform  post processing actions and to aid in reconciliation of transactions. The value should be a valid printable string with ASCII character ranges from 0x32 to 0x127. The identifier is recommended to be distinct for each transaction such as a [random unique identifier](https://en.wikipedia.org/wiki/Universally_unique_identifier) this will aid in ensuring each transaction is identifiable. When transactions are processed they are also checked for duplicate requests. Changing the identifier on a subsequent request will ensure that a transaction is considered as different.<br/><br/> minLength: 4<br/>maxLength: 50 | 
 | `merchantid` | integer *int32* | true | Identifies the merchant account to perform the refund for. | 
 | `refund_ref` | integer *int32* | true | A reference to the original transaction number that is wanting to be refunded. The original  transaction must be on the same merchant id, previously authorised. | 
 | `trans_info` | string  | false | Further information that can be added to the transaction will display in reporting. Can be used for flexible values such as operator id.<br/><br/>maxLength: 50 | 
@@ -6862,6 +6831,111 @@ BPS | `bps` | string  | false | true if BPS has been enabled on this token. |
 
 ```json
 {
+   "date_created": "2020-01-02",
+   "net_amount": 11874500,
+   "refund_amount": 11874500,
+   "refund_count": 11874500,
+   "sales_amount": 11874500,
+   "sales_count": 11874500
+}
+```
+
+```xml
+<RemittanceData>
+ <date_created>2020-01-02</date_created> 
+ <net_amount>11874500</net_amount> 
+ <refund_amount>11874500</refund_amount> 
+ <refund_count>11874500</refund_count> 
+ <sales_amount>11874500</sales_amount> 
+ <sales_count>11874500</sales_count> 
+</RemittanceData>
+```
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `date_created` | string *date-time* | false | Represents the date and time when the remittance was processed. This timestamp follows the ISO 8601 format for datetime representation. | 
+| `net_amount` | integer *int32* | false | Represents the net amount after accounting for refunds. This is calculated as SalesAmount - RefundAmount and expressed in the smallest currency unit.<br/><br/>minimum: 0<br/>maximum: 999999999 | 
+| `refund_amount` | integer *int32* | false | The total amount refunded to customers.<br/><br/>minimum: 0<br/>maximum: 999999999 | 
+| `refund_count` | integer *int32* | false | The total number of refund transactions processed. This figure helps in understanding the frequency of refunds relative to sales.<br/><br/>minimum: 0<br/>maximum: 999999999 | 
+| `sales_amount` | integer *int32* | false | The total monetary amount of sales transactions.<br/><br/>minimum: 0<br/>maximum: 999999999 | 
+| `sales_count` | integer *int32* | false | Indicates the total number of sales transactions that occurred. This count provides insight into the volume of sales.<br/><br/>minimum: 0<br/>maximum: 999999999 | 
+
+
+
+
+
+## RemittanceReportRequest
+
+```json
+{
+   "date_from": "2024-01-24",
+   "date_until": "2024-01-31",
+   "maxResults": 50,
+   "merchant_id": "",
+   "nextToken": "n34liuwn435tUAGFNg34yn...",
+   "orderBy": "date"
+}
+```
+
+```xml
+<RemittanceReportRequest>
+ <date_from>2024-01-24</date_from> 
+ <date_until>2024-01-31</date_until> 
+ <maxResults>50</maxResults> 
+ <merchant_id></merchant_id> 
+ <nextToken>n34liuwn435tUAGFNg34yn...</nextToken> 
+ <orderBy>date</orderBy> 
+</RemittanceReportRequest>
+```
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `date_from` | string *date* | false | Start date (YYYY-MM-DD) for batch Retrieval range, inclusive. Maximum value is 3 years ago. | 
+| `date_until` | string *date* | false | End date (YYYY-MM-DD) for batch Retrieval range, inclusive. | 
+| `maxResults` | integer *int32* | false | The maximum number of results to return in a single response. This value is used to limit the size of data returned by the API, enhancing performance and manageability. Values should be between 5 and 250. | 
+| `merchant_id` | array | false | type: integer | 
+| `nextToken` | string  | false | A token that identifies the starting point of the page of results to be returned. An empty value indicates the start of the dataset. When supplied, it is validated and used to fetch the subsequent page of results. This token is typically obtained from the response of a previous pagination request. | 
+| `orderBy` | string  | false | Specifies the field by which results are ordered. Available fields are [trans_no,date_when,amount]. By default, fields are ordered by OrderByExpression(trans_no,ASC). To order in descending order, prefix with '-' or suffix with ' DESC'. | 
+
+
+
+
+
+## RemittanceReportResponse
+
+```json
+{
+   "count": 25,
+   "data": "",
+   "maxResults": 50,
+   "nextToken": "n34liuwn435tUAGFNg34yn..."
+}
+```
+
+```xml
+<RemittanceReportResponse>
+ <count>25</count> 
+ <data></data> 
+ <maxResults>50</maxResults> 
+ <nextToken>n34liuwn435tUAGFNg34yn...</nextToken> 
+</RemittanceReportResponse>
+```
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `count` | integer *int32* | false | The count of items returned in this page. | 
+| `data` | array | true | Transaction data based on the batch request. [RemittedClientData](#remittedclientdata) | 
+| `maxResults` | integer *int32* | false | The max results requested in this page. | 
+| `nextToken` | string  | false | A token that identifies the starting point of the page of results to be returned. An empty value indicates the start of the dataset. When supplied, it is validated and used to fetch the subsequent page of results. This token is typically obtained from the response of a previous pagination request. | 
+
+
+
+
+
+## RemittedClientData
+
+```json
+{
    "batches": "",
    "clientid": "PC12345",
    "date": "2020-01-02",
@@ -6880,7 +6954,7 @@ BPS | `bps` | string  | false | true if BPS has been enabled on this token. |
 ```
 
 ```xml
-<RemittanceData>
+<RemittedClientData>
  <batches></batches> 
  <clientid>PC12345</clientid> 
  <date>2020-01-02</date> 
@@ -6895,7 +6969,7 @@ BPS | `bps` | string  | false | true if BPS has been enabled on this token. |
  <sales_count>11874500</sales_count> 
  <settlement_implementation></settlement_implementation> 
  <uuid>123e4567-e89b-12d3-a456-426614174000</uuid> 
-</RemittanceData>
+</RemittedClientData>
 ```
 
 | Field | Type | Required | Description |
@@ -6914,40 +6988,6 @@ BPS | `bps` | string  | false | true if BPS has been enabled on this token. |
 | `sales_count` | integer *int32* | false | Indicates the total number of sales transactions that occurred. This count provides insight into the volume of sales.<br/><br/>minimum: 0<br/>maximum: 999999999 | 
 | `settlement_implementation` | string  | false | The name of the implementation. | 
 | `uuid` | string *uuid* | false | The uuid of the settlement file processed on.<br/><br/>minLength: 36<br/>maxLength: 36 | 
-
-
-
-
-
-## RemittanceReportResponse
-
-```json
-{
-   "count": 25,
-   "data": "",
-   "max_results": 50,
-   "next_token": "",
-   "order_by": ""
-}
-```
-
-```xml
-<RemittanceReportResponse>
- <count>25</count> 
- <data></data> 
- <max_results>50</max_results> 
- <next_token></next_token> 
- <order_by></order_by> 
-</RemittanceReportResponse>
-```
-
-| Field | Type | Required | Description |
-|-------|------|----------|-------------|
-| `count` | integer *int32* | false | The count of items returned in this page. | 
-| `data` | array | true | Transaction data based on the batch request. [RemittanceData](#remittancedata) | 
-| `max_results` | integer *int32* | false | The max results requested in this page. | 
-| `next_token` | string  | false | A token that identifies the starting point of the page of results to be returned. An empty value indicates the start of the dataset. When supplied, it is validated and used to fetch the subsequent page of results. This token is typically obtained from the response of a previous pagination request. | 
-| `order_by` | array | false | The order by requested in this page. type: string | 
 
 
 
@@ -7055,7 +7095,7 @@ BPS | `bps` | string  | false | true if BPS has been enabled on this token. |
 
 | Field | Type | Required | Description |
 |-------|------|----------|-------------|
-| `accept_headers` | string  | false | Required for 3DSv1. Optional if the `cp_bx` value is provided otherwise required for 3Dv2 processing operating in browser authentication mode.<br/><br/>The `cp_bx` value will override any value supplied to this field.<br/><br/>The content of the HTTP accept header as sent to the merchant from the cardholder's user agent.<br/><br/>This value will be validated by the ACS when the card holder authenticates themselves to verify that no intermediary is performing this action. Required for 3DSv1. | 
+| `accept_headers` | string  | false | Required for 3DSv1. Optional if the `cp_bx` value is provided otherwise required for 3Dv2 processing operating in browser authentication mode. The `cp_bx` value will override any value supplied to this field. The content of the HTTP accept header as sent to the merchant from the cardholder's user agent. This value will be validated by the ACS when the card holder authenticates themselves to verify that no intermediary is performing this action. Required for 3DSv1. | 
 | `browserColorDepth` | string  | false | BrowserColorDepth field used for 3DSv2 browser enablement. Recommendation is to use citypay.js and the `bx` function to gather this value. | 
 | `browserIP` | string  | false | BrowserIP field used for 3DSv2 browser enablement. Recommendation is to use citypay.js and the `bx` function to gather this value. | 
 | `browserJavaEnabled` | string  | false | BrowserJavaEnabled field used for 3DSv2 browser enablement. Recommendation is to use citypay.js and the `bx` function to gather this value. | 
@@ -7063,11 +7103,11 @@ BPS | `bps` | string  | false | true if BPS has been enabled on this token. |
 | `browserScreenHeight` | string  | false | BrowserScreenHeight field used for 3DSv2 browser enablement. Recommendation is to use citypay.js and the `bx` function to gather this value. | 
 | `browserScreenWidth` | string  | false | BrowserScreenWidth field used for 3DSv2 browser enablement. Recommendation is to use citypay.js and the `bx` function to gather this value. | 
 | `browserTZ` | string  | false | BrowserTZ offset field used for 3DSv2 browser enablement. Recommendation is to use citypay.js and the `bx` function to gather this value. | 
-| `cp_bx` | string  | false | Required for 3DSv2.<br/><br/>Browser extension value produced by the citypay.js `bx` function. See [https://sandbox.citypay.com/3dsv2/bx](https://sandbox.citypay.com/3dsv2/bx) for  details. | 
+| `cp_bx` | string  | false | Required for 3DSv2. Browser extension value produced by the citypay.js `bx` function. See [https://sandbox.citypay.com/3dsv2/bx](https://sandbox.citypay.com/3dsv2/bx) for  details. | 
 | `downgrade1` | boolean  | false | Where a merchant is configured for 3DSv2, setting this option will attempt to downgrade the transaction to  3DSv1. | 
-| `merchant_termurl` | string  | false | A controller URL for 3D-Secure processing that any response from an authentication request or challenge request should be sent to.<br/><br/>The controller should forward on the response from the URL back via this API for subsequent processing. | 
-| `tds_policy` | string  | false | A policy value which determines whether ThreeDSecure is enforced or bypassed. Note that this will only work for e-commerce transactions and accounts that have 3DSecure enabled and fully registered with Visa, MasterCard or American Express. It is useful when transactions may be wanted to bypass processing rules.<br/><br/>Note that this may affect the liability shift of transactions and may occur a higher fee with the acquiring bank.<br/><br/>Values are<br/><br/> `0` for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.<br/><br/> `1` for an enforced policy. Transactions will be enabled for 3DS processing<br/><br/> `2` to bypass. Transactions that are bypassed will switch off 3DS processing. | 
-| `user_agent` | string  | false | Required for 3DSv1.<br/><br/>Optional if the `cp_bx` value is provided otherwise required 3Dv2 processing operating in browser authentication mode.<br/><br/>The `cp_bx` value will override any value supplied to this field.<br/><br/>The content of the HTTP user-agent header as sent to the merchant from the cardholder's user agent.<br/><br/>This value will be validated by the ACS when the card holder authenticates themselves to verify that no intermediary is performing this action. Required for 3DSv1. | 
+| `merchant_termurl` | string  | false | A controller URL for 3D-Secure processing that any response from an authentication request or challenge request should be sent to. The controller should forward on the response from the URL back via this API for subsequent processing. | 
+| `tds_policy` | string  | false | A policy value which determines whether ThreeDSecure is enforced or bypassed. Note that this will only work for e-commerce transactions and accounts that have 3DSecure enabled and fully registered with Visa, MasterCard or American Express. It is useful when transactions may be wanted to bypass processing rules. Note that this may affect the liability shift of transactions and may occur a higher fee with the acquiring bank. Values are  `0` for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.  `1` for an enforced policy. Transactions will be enabled for 3DS processing  `2` to bypass. Transactions that are bypassed will switch off 3DS processing. | 
+| `user_agent` | string  | false | Required for 3DSv1. Optional if the `cp_bx` value is provided otherwise required 3Dv2 processing operating in browser authentication mode. The `cp_bx` value will override any value supplied to this field. The content of the HTTP user-agent header as sent to the merchant from the cardholder's user agent. This value will be validated by the ACS when the card holder authenticates themselves to verify that no intermediary is performing this action. Required for 3DSv1. | 
 
 
 
@@ -7107,7 +7147,7 @@ BPS | `bps` | string  | false | true if BPS has been enabled on this token. |
 
 | Field | Type | Required | Description |
 |-------|------|----------|-------------|
-| `authen_result` | string  | false | The result of any authentication using 3d_secure authorisation against ecommerce transactions. Values are:<br/><br/><table> <tr> <th>Value</th> <th>Description</th> </tr> <tr> <td>Y</td> <td>Authentication Successful. The Cardholder's password was successfully validated.</td> </tr> <tr> <td>N</td> <td>Authentication Failed. Customer failed or cancelled authentication, transaction denied.</td> </tr> <tr> <td>A</td> <td>Attempts Processing Performed Authentication could not be completed but a proof of authentication attempt (CAVV) was generated.</td> </tr> <tr> <td>U</td> <td>Authentication Could Not Be Performed Authentication could not be completed, due to technical or other problem.</td> </tr> </table> | 
+| `authen_result` | string  | false | The result of any authentication using 3d_secure authorisation against ecommerce transactions. Values are: <table> <tr> <th>Value</th> <th>Description</th> </tr> <tr> <td>Y</td> <td>Authentication Successful. The Cardholder's password was successfully validated.</td> </tr> <tr> <td>N</td> <td>Authentication Failed. Customer failed or cancelled authentication, transaction denied.</td> </tr> <tr> <td>A</td> <td>Attempts Processing Performed Authentication could not be completed but a proof of authentication attempt (CAVV) was generated.</td> </tr> <tr> <td>U</td> <td>Authentication Could Not Be Performed Authentication could not be completed, due to technical or other problem.</td> </tr> </table> | 
 | `bin_commercial` | boolean  | false | Determines whether the bin range was found to be a commercial or business card. | 
 | `bin_debit` | boolean  | false | Determines whether the bin range was found to be a debit card. If false the card was considered as a credit card. | 
 | `bin_description` | string  | false | A description of the bin range found for the card. | 
