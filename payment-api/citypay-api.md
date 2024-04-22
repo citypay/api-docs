@@ -1,12 +1,12 @@
 ---
 title: CityPay Payment API
-version: 6.6.39
+version: 6.6.40
 language_tabs:
   - json
   - xml
 toc_footers:
   - <a href='mailto:support@citypay.com'>Any Integration Questions?</a>
-  - V6.6.39 2024-04-22
+  - V6.6.40 2024-04-22
 includes:
   - errorcodes
   - authresultcodes
@@ -22,7 +22,7 @@ search: true
 
 # CityPay Payment API
 
-Version: 6.6.39
+Version: 6.6.40
 Last Updated: 2024-04-22
 
 
@@ -5001,19 +5001,19 @@ Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Addi
 
 ```json
 {
-   "batches": { ... }
+   "batches": ""
 }
 ```
 
 ```xml
 <CheckBatchStatusResponse>
- <batches><>...</></batches> 
+ <batches></batches> 
 </CheckBatchStatusResponse>
 ```
 
 | Field | Type | Required | Description |
 |-------|------|----------|-------------|
-| `batches` | object | false | [Batch](#batch) The collection of batches. | 
+| `batches` | array | false | The collection of batches. [Batch](#batch) | 
 
 
 
