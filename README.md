@@ -1,4 +1,4 @@
-# api-docs
+# [DEPRECATED] api-docs
 
 CityPay Online API Docs
 
