@@ -1,7 +1,7 @@
 {
   "openapi" : "3.0.0",
   "info" : {
-    "version" : "6.6.40",
+    "version" : "6.6.41",
     "title" : "CityPay Payment API",
     "description" : "\nWelcome to the CityPay API, a robust HTTP API payment solution designed for seamless server-to-server \ntransactional processing. Our API facilitates a wide array of payment operations, catering to diverse business needs. \nWhether you're integrating Internet payments, handling Mail Order/Telephone Order (MOTO) transactions, managing \nSubscriptions with Recurring and Continuous Authority payments, or navigating the complexities of 3-D Secure \nauthentication, our API is equipped to support your requirements. Additionally, we offer functionalities for \nAuthorisation, Refunding, Pre-Authorisation, Cancellation/Voids, and Completion processing, alongside the capability \nfor tokenised payments.\n\n## Compliance and Security Overview\n<aside class=\"notice\">\n  Ensuring the security of payment transactions and compliance with industry standards is paramount. Our API is \n  designed with stringent security measures and compliance protocols to safeguard sensitive information and meet \n  the rigorous requirements of Visa, MasterCard, and the PCI Security Standards Council.\n</aside>\n\n### Key Compliance and Security Measures\n\n* **TLS Encryption**: All data transmissions must utilise TLS version 1.2 or higher, employing [strong cryptography](#enabled-tls-ciphers). Our infrastructure strictly enforces this requirement to maintain the integrity and confidentiality of data in transit. We conduct regular scans and assessments of our TLS endpoints to identify and mitigate vulnerabilities.\n* **Data Storage Prohibitions**: Storing sensitive cardholder data (CHD), such as the card security code (CSC) or primary account number (PAN), is strictly prohibited. Our API is designed to minimize your exposure to sensitive data, thereby reducing your compliance burden.\n* **Data Masking**: For consumer protection and compliance, full card numbers must not be displayed on receipts or any customer-facing materials. Our API automatically masks PANs, displaying only the last four digits to facilitate safe receipt generation.\n* **Network Scans**: If your application is web-based, regular scans of your hosting environment are mandatory to identify and rectify potential vulnerabilities. This proactive measure is crucial for maintaining a secure and compliant online presence.\n* **PCI Compliance**: Adherence to PCI DSS standards is not optional; it's a requirement for operating securely and legally in the payments ecosystem. For detailed information on compliance requirements and resources, please visit the PCI Security Standards Council website [https://www.pcisecuritystandards.org/](https://www.pcisecuritystandards.org/).\n* **Request Validation**: Our API includes mechanisms to verify the legitimacy of each request, ensuring it pertains to a valid account and originates from a trusted source. We leverage remote IP address verification alongside sophisticated application firewall technologies to thwart a wide array of common security threats.\n\n## Getting Started\nBefore integrating with the CityPay API, ensure your application and development practices align with the outlined compliance and security measures. This preparatory step is crucial for a smooth integration process and the long-term success of your payment processing operations.\n\nFor further details on API endpoints, request/response formats, and code examples, proceed to the subsequent sections of our documentation. Our aim is to provide you with all the necessary tools and information to integrate our payment processing capabilities seamlessly into your application.\n\nThank you for choosing CityPay API. We look forward to supporting your payment processing needs with our secure, compliant, and versatile API solution.\n",
     "contact" : {
@@ -2520,17 +2520,17 @@
                 "$ref" : "#/components/schemas/CaptureRequest"
               },
               "examples" : {
-                "example2" : {
-                  "summary" : "Basic capture call for a merchant with a transno and final amount",
-                  "externalValue" : "CaptureRequest-example2.json"
+                "example3" : {
+                  "summary" : "Capture call for a merchant with identifier and airline data once a ticket has been issued",
+                  "externalValue" : "CaptureRequest-example3.json"
                 },
                 "example1" : {
                   "summary" : "Basic capture call for a merchant with a given identifier",
                   "externalValue" : "CaptureRequest-example1.json"
                 },
-                "example3" : {
-                  "summary" : "Capture call for a merchant with identifier and airline data once a ticket has been issued",
-                  "externalValue" : "CaptureRequest-example3.json"
+                "example2" : {
+                  "summary" : "Basic capture call for a merchant with a transno and final amount",
+                  "externalValue" : "CaptureRequest-example2.json"
                 }
               }
             },
@@ -2539,17 +2539,17 @@
                 "$ref" : "#/components/schemas/CaptureRequest"
               },
               "examples" : {
-                "example2" : {
-                  "summary" : "Basic capture call for a merchant with a transno and final amount",
-                  "externalValue" : "CaptureRequest-example2.xml"
+                "example3" : {
+                  "summary" : "Capture call for a merchant with identifier and airline data once a ticket has been issued",
+                  "externalValue" : "CaptureRequest-example3.xml"
                 },
                 "example1" : {
                   "summary" : "Basic capture call for a merchant with a given identifier",
                   "externalValue" : "CaptureRequest-example1.xml"
                 },
-                "example3" : {
-                  "summary" : "Capture call for a merchant with identifier and airline data once a ticket has been issued",
-                  "externalValue" : "CaptureRequest-example3.xml"
+                "example2" : {
+                  "summary" : "Basic capture call for a merchant with a transno and final amount",
+                  "externalValue" : "CaptureRequest-example2.xml"
                 }
               }
             }
@@ -3606,13 +3606,13 @@
                 "$ref" : "#/components/schemas/VoidRequest"
               },
               "examples" : {
-                "example2" : {
-                  "summary" : "Basic capture call for a merchant with a transno and final amount",
-                  "externalValue" : "VoidRequest-example2.json"
-                },
                 "example1" : {
                   "summary" : "Basic capture call for a merchant with a given identifier",
                   "externalValue" : "VoidRequest-example1.json"
+                },
+                "example2" : {
+                  "summary" : "Basic capture call for a merchant with a transno and final amount",
+                  "externalValue" : "VoidRequest-example2.json"
                 }
               }
             },
@@ -3621,13 +3621,13 @@
                 "$ref" : "#/components/schemas/VoidRequest"
               },
               "examples" : {
-                "example2" : {
-                  "summary" : "Basic capture call for a merchant with a transno and final amount",
-                  "externalValue" : "VoidRequest-example2.xml"
-                },
                 "example1" : {
                   "summary" : "Basic capture call for a merchant with a given identifier",
                   "externalValue" : "VoidRequest-example1.xml"
+                },
+                "example2" : {
+                  "summary" : "Basic capture call for a merchant with a transno and final amount",
+                  "externalValue" : "VoidRequest-example2.xml"
                 }
               }
             }
@@ -5367,7 +5367,7 @@
           "event_end_date" : {
             "type" : "string",
             "format" : "date",
-            "example" : "2024-04-22",
+            "example" : "2024-04-30",
             "description" : "The date when the event ends in ISO format (yyyy-MM-dd)."
           },
           "event_id" : {
@@ -5381,7 +5381,7 @@
           "event_start_date" : {
             "type" : "string",
             "format" : "date",
-            "example" : "2024-04-22",
+            "example" : "2024-04-30",
             "description" : "The date when the event starts in ISO format (yyyy-MM-dd)."
           },
           "payment_type" : {
@@ -5597,7 +5597,7 @@
           "batch_closed" : {
             "type" : "string",
             "format" : "date-time",
-            "example" : "2024-04-22T13:29:14Z",
+            "example" : "2024-04-30T10:16:18Z",
             "description" : "The date and time when the batch was closed. This is represented in ISO 8601 format (e.g., YYYY-MM-DDTHH:MM:SSZ) and indicates when the batch processing was completed."
           },
           "batch_no" : {
@@ -5856,7 +5856,7 @@
           "due" : {
             "type" : "string",
             "format" : "date",
-            "example" : "2024-04-22",
+            "example" : "2024-04-30",
             "description" : "A date that the invoice is due. This can be displayed on the payment page."
           },
           "email_notification_path" : {
@@ -5948,24 +5948,29 @@
           "mode" : {
             "type" : "integer",
             "format" : "int32",
-            "description" : "The mode field specifies the behaviour or functionality of the cart.\n\nValid values are:\n\n 0 - No cart - No cart is shown\n 1 - Read-only - The cart is shown with a breakdown of the item details provided by objects in the contents array.\n 2 - Selection cart - The cart is shown as a drop-down box of available cart items that the customer can a single item select from.\n 3 - Dynamic cart - a text box is rendered to enable the operator to input an amount.\n 4 - Multi cart - The cart is displayed with items rendered with selectable quantities.\n"
+            "example" : 2,
+            "description" : "The mode field specifies the behaviour or functionality of the cart.\n\nValid values are:\n\n- `0` No cart - No cart is shown\n- `1` Read-only - The cart is shown with a breakdown of the item details provided by objects in the contents array.\n- `2` Selection cart - The cart is shown as a drop-down box of available cart items that the customer can a single item select from.\n- `3` Dynamic cart - a text box is rendered to enable the operator to input an amount.\n- `4` Multi cart - The cart is displayed with items rendered with selectable quantities.\n"
           },
           "product_description" : {
             "type" : "string",
+            "example" : "Book Order",
             "description" : "Specifies a description about the product or service that is the subject of the transaction. It will be rendered in the header of the page with no labels."
           },
           "product_information" : {
             "type" : "string",
+            "example" : "Book Order",
             "description" : "Specifies information about the product or service that is the subject of the transaction. It will be rendered in the header of the page."
           },
           "shipping" : {
             "type" : "integer",
             "format" : "int32",
+            "example" : 1500,
             "description" : "The shipping amount of the transaction in the lowest denomination of currency."
           },
           "tax" : {
             "type" : "integer",
             "format" : "int32",
+            "example" : 1200,
             "description" : "The tax amount of the transaction in the lowest denomination of currency."
           }
         }
@@ -5976,6 +5981,7 @@
           "amount" : {
             "type" : "integer",
             "format" : "int32",
+            "example" : 1200,
             "description" : "The net amount of the item. The Paylink Payment Form does not multiply this figure by the value provided by the count value for the cart item, this is principally to avoid rounding errors to introduce discrepancies between the value of the goods charged for and the total amount represented by the collection of cart items."
           },
           "brand" : {
@@ -5984,15 +5990,18 @@
           },
           "category" : {
             "type" : "string",
+            "example" : "Fiction",
             "description" : "The category of the item such as shoes."
           },
           "count" : {
             "type" : "integer",
             "format" : "int32",
+            "example" : 1,
             "description" : "The count of how many of this item is being purchased, should the cart be editable, this value should be the default count required. The Paylink Payment Form assumes a count of 1 in the event that no value for the count field is provided for a cart item."
           },
           "label" : {
             "type" : "string",
+            "example" : "Percy Hotter",
             "description" : "The label which describes the item."
           },
           "max" : {
@@ -6002,6 +6011,7 @@
           },
           "sku" : {
             "type" : "string",
+            "example" : "AO12345678",
             "description" : "The stock control unit value."
           },
           "variant" : {
@@ -6015,11 +6025,12 @@
         "properties" : {
           "acs_mode" : {
             "type" : "string",
-            "description" : "Specifies the approach to be adopted by the Paylink form when displaying a 3-D Secure challenge window. The values may be\n iframe: shows the 3-D Secure ACS in an iframe dialog, neatly embedding it in Paylink. This provides a more seamless flow for the cardholder who is able to validate and authenticate their card using a dialog provided by their card issuer.\n inline: an inline mode transfers the full browser window to the authentication server, allowing the payment cardholder to see their payment card issuer's URL and the certificate status in the browser.\nIf you request an iframe mode and the browser width is deemed as being small (< 768px) then an inline mode will be enforced. This is to ensure that mobile users have an improved user experience.\n"
+            "example" : "iframe",
+            "description" : "Specifies the approach to be adopted by the Paylink form when displaying a 3-D Secure challenge window. The values may be\n\n - `iframe` shows the 3-D Secure ACS in an iframe dialog, neatly embedding it in Paylink. This provides a more seamless flow for the cardholder who is able to validate and authenticate their card using a dialog provided by their card issuer.\n - `inline` an inline mode transfers the full browser window to the authentication server, allowing the payment cardholder to see their payment card issuer's URL and the certificate status in the browser.\n\nIf you request an iframe mode and the browser width is deemed as being small (< 768px) then an inline mode will be enforced. This is to ensure that mobile users have an appropriate user experience.\n\nThe default type if not supplied is **iframe**.\n"
           },
           "custom_params" : {
             "type" : "array",
-            "x-description" : "Defines custom parameters to add to the request.",
+            "x-description" : "Any custom parameters that are included in the request.",
             "items" : {
               "$ref" : "#/components/schemas/PaylinkCustomParam"
             }
@@ -6030,7 +6041,8 @@
           },
           "expire_in" : {
             "type" : "string",
-            "description" : "Specifies a period of time in seconds after which the token cannot be used. A value of 0 defines that the token will never expire. The API will convert an expiry time based on a string value. For instance:\n  s - Time in seconds, for example 90s.\n  m - Time in minutes, for example 20m.\n  h - Time in hours, for example 4h.\n  w - Time in weeks, for example 4w.\n  M - Time in months, for example 6M.\n  y - Time in years, for example 1y.\n  Defaults to 30 minutes.\n"
+            "example" : "1d",
+            "description" : "Specifies a period of time in seconds after which the token cannot be used. A value of 0 defines that the token will never expire. The API will convert an expiry time based on a string value.\n\nFor instance:\n-  s - Time in seconds, for example 90s.\n-  m - Time in minutes, for example 20m.\n-  h - Time in hours, for example 4h.\n-  w - Time in weeks, for example 4w.\n-  M - Time in months, for example 6M.\n-  y - Time in years, for example 1y.\n-  Defaults to 30 minutes.\n"
           },
           "field_guard" : {
             "type" : "array",
@@ -6131,48 +6143,56 @@
         "properties" : {
           "entry_mode" : {
             "type" : "string",
-            "description" : "The type of entry mode. A value of 'pre' will pre-render the custom parameter before the payment screen. Any other value will result in the custom parameter being displayed on the payment screen."
+            "description" : "The type of entry mode. A value of `pre` will pre-render the custom parameter before the payment screen. Any other value will result in the custom parameter being displayed on the payment screen."
           },
           "field_type" : {
             "type" : "string",
-            "description" : "the type of html5 field, defaults to 'text'. Other options are 'dob' for a date of birth series of select list entry."
+            "example" : "text",
+            "description" : "The type of html field, defaulting to `text`. Options are:\n\n - `dob`      A date of birth field as a series of select list entries\n - `text`     Allows the user to enter any text.\n - `password` A field where the characters are masked to protect the input, typically used for passwords.\n - `email`    Used for input fields that should contain an email address.\n - `number`   For numeric input, can include controls for incrementing or decrementing the number.\n - `tel`      For telephone numbers.\n - `url`      A text field for entering a URL.\n - `hidden`   Not visible to the user, but its value is sent when the form is submitted.\n - `checkbox` A check box allowing single values to be selected/deselected.\n - `radio`    Allows the user to select one of a limited number of choices.\n - `select`   Renders as select items\n\nSelect Options:\n\nSelect options are constructed by providing a list of values in the value custom parameter field.\nEach value is delimited by a pipe character `|`.\nValue items can also be delimited with `:` as a value label pair.\n\nFor instance, a sports club requires identifying it's age group for membership entry:\n\n<CodeGroup title=\"Select Examples\" label=\"ProcessBatchRequest\">\n   ```json {{ title: 'Basic Values' }}\n     { \"label\" : \"Age Group\",\n       \"fieldType\": \"select\",\n       \"value\" : \"Under 18|18-30|30-50|50+\" }...\n\n     <select>\n         <option value=\"Under 18\">Under 18</option>\n         <option value=\"18-30\">18-30</option>\n         <option value=\"30-50\">30-50</option>\n         <option value=\"50+\">50+</option>\n     </select>\n   ```\n   ```json {{ title: 'Label and Values' }}\n     { \"label\" : \"Age Group\",\n       \"fieldType\": \"select\",\n       \"value\" : \"0:Under 18|1:18-30|2:30-50|3:50+\" }...\n\n     <select>\n         <option value=\"0\">Under 18</option>\n         <option value=\"1\">18-30</option>\n         <option value=\"2\">30-50</option>\n         <option value=\"3\">50+</option>\n     </select>\n   ```\n</CodeGroup>\n\nFields may be requested as optional. If a select is required to be optional, provide a value such as\n`:Select an Option|options...` at the front of the list.\n"
           },
           "group" : {
             "type" : "string",
-            "description" : "a group the parameter is linked with, allows for grouping with a title."
+            "example" : "Extra Information",
+            "description" : "A value which groups items for layout. The value should be a string title for rendering such as \"Your Account Info\". If no value is provided, the parameter is added to a default parameter group. Group names are ordered alphabetically when rendered."
           },
           "label" : {
             "type" : "string",
-            "description" : "a label to show alongside the input."
+            "example" : "Custom Field 1",
+            "description" : "A label to show alongside the input. If this value is not supplied, the name value will be used."
           },
           "locked" : {
             "type" : "boolean",
-            "description" : "whether the parameter is locked from entry."
+            "description" : "States whether the field is locked, preventing entry or amendment by the person completing the form."
           },
           "name" : {
             "type" : "string",
-            "description" : "the name of the custom parameter used to converse with the submitter."
+            "example" : "custom_field_1",
+            "description" : "Refers to the rendered HTML form element name. The value of this field is used in the postback and redirect dataset."
           },
           "order" : {
             "type" : "integer",
             "format" : "int32",
-            "description" : "an index order for the parameter."
+            "example" : 1,
+            "description" : "A value which allows you to order the position of elements in a grouping. Values will order in ascending order. Negative values are possible."
           },
           "pattern" : {
             "type" : "string",
-            "description" : "a regex pattern to validate the custom parameter with."
+            "description" : "A string value which specifies the validation logic of the form element, for example a value of QA[0-9]{3,4} will require a value such as QA221 or QA4433."
           },
           "placeholder" : {
             "type" : "string",
-            "description" : "a placehold value to display in the input."
+            "example" : "Enter a Custom Value",
+            "description" : "A value to set as the placeholder attribute which will render in the browser."
           },
           "required" : {
             "type" : "boolean",
-            "description" : "whether the field is required."
+            "example" : true,
+            "description" : "A boolean value that states whether the field is required or optional. When an element is required, validation will be performed on the end user's input form."
           },
           "value" : {
             "type" : "string",
-            "description" : "a default value for the field."
+            "example" : "initial-value",
+            "description" : "An initial value for the parameter as it appears on the Form. If your parameter is hidden, the value will be required."
           }
         }
       },
@@ -6243,7 +6263,7 @@
         "properties" : {
           "field_type" : {
             "type" : "string",
-            "description" : "A type of HTML element that should be displayed such as text, password, url. Any HTML5 input type value may be supplied.\n\nIf a value of `date` is supplied the value format should be an ISO format YYYY-MM-DD format date i.e. 2024-03-01\nIf a value of `datetime-local` is supplied, the value format should be an ISO format YYYY-MM-DDTHH:mm i.e. 2024-06-01T19:30.\n"
+            "description" : "A type of HTML element that should be displayed such as text, password, url. Any HTML5 input type value may be supplied.\n\n- If a value of `date` is supplied the value format should be an ISO format YYYY-MM-DD format date i.e. 2024-03-01\n- If a value of `datetime-local` is supplied, the value format should be an ISO format YYYY-MM-DDTHH:mm i.e. 2024-06-01T19:30.\n"
           },
           "label" : {
             "type" : "string",
@@ -6335,7 +6355,7 @@
           "datetime" : {
             "type" : "string",
             "format" : "date-time",
-            "example" : "2024-04-22T13:29:14Z",
+            "example" : "2024-04-30T10:16:18Z",
             "description" : "the date and time of the event."
           },
           "message" : {
@@ -6367,7 +6387,7 @@
           "date_created" : {
             "type" : "string",
             "format" : "date-time",
-            "example" : "2024-04-22T13:29:14Z",
+            "example" : "2024-04-30T10:16:18Z",
             "description" : "Date and time the token was generated."
           },
           "errors" : {
@@ -6439,7 +6459,7 @@
         "properties" : {
           "accountno" : {
             "type" : "string",
-            "description" : "Specifies an alpha-numeric account number that the Paylink service uses when creating a Cardholder Account. The value should be no longer than 20 characters in length."
+            "description" : "To be able to use credential on file (COF) services. A cardholder account may be created once the payment has\nbeen authorised, this is then stored \"on file\" for subsequent charging for example re-authorisation,\nunscheduled payment, delayed charges, incremental authorisation, recurring payments,\nresubmission or no-show style agreements.\n\nSpecifies an alpha-numeric account number that the Paylink service uses when creating a Cardholder Account.\nThe value should be no longer than 20 characters in length.\n"
           },
           "amount" : {
             "type" : "integer",
@@ -6522,13 +6542,13 @@
           "created" : {
             "type" : "string",
             "format" : "date-time",
-            "example" : "2024-04-22T13:29:14Z",
+            "example" : "2024-04-30T10:16:18Z",
             "description" : "the date and time that the session was created."
           },
           "datetime" : {
             "type" : "string",
             "format" : "date-time",
-            "example" : "2024-04-22T13:29:14Z",
+            "example" : "2024-04-30T10:16:18Z",
             "description" : "the date and time of the current status."
           },
           "identifier" : {
@@ -6601,7 +6621,7 @@
           "last_event_date_time" : {
             "type" : "string",
             "format" : "date-time",
-            "example" : "2024-04-22T13:29:14Z",
+            "example" : "2024-04-30T10:16:18Z",
             "description" : "the date and time that the session last had an event actioned against it."
           },
           "last_payment_result" : {
@@ -6644,7 +6664,7 @@
           "after" : {
             "type" : "string",
             "format" : "date-time",
-            "example" : "2024-04-22T13:29:14Z",
+            "example" : "2024-04-30T10:16:18Z",
             "description" : "identifies the date and time to lookup changes after."
           },
           "maxResults" : {

@@ -718,18 +718,15 @@
           </li>
           <li>
             <a href="#api-client-sdks" class="toc-h1 toc-link" data-title="API Client SDKs">API Client SDKs</a>
-          </li>
-          <li>
-            <a href="#api-definitions" class="toc-h1 toc-link" data-title="API Definitions">API Definitions</a>
               <ul class="toc-list-h2">
                   <li>
-                    <a href="#response-codes" class="toc-h2 toc-link" data-title="Response Codes">Response Codes</a>
+                    <a href="#response-and-error-codes" class="toc-h2 toc-link" data-title="Response and Error Codes">Response and Error Codes</a>
                   </li>
                   <li>
                     <a href="#auth-result-codes" class="toc-h2 toc-link" data-title="Auth Result Codes">Auth Result Codes</a>
                   </li>
                   <li>
-                    <a href="#avs-result-codes" class="toc-h2 toc-link" data-title="AVS Result Codes">AVS Result Codes</a>
+                    <a href="#address-verification-system-avs-result-codes" class="toc-h2 toc-link" data-title="Address Verification System (AVS) Result Codes">Address Verification System (AVS) Result Codes</a>
                   </li>
                   <li>
                     <a href="#csc-result-codes" class="toc-h2 toc-link" data-title="CSC Result Codes">CSC Result Codes</a>
@@ -751,7 +748,7 @@
       </ul>
         <ul class="toc-footer">
             <li><a href='mailto:support@citypay.com'>Any Integration Questions?</a></li>
-            <li>V6.6.40 2024-04-22</li>
+            <li>V6.6.41 2024-04-30</li>
         </ul>
     </div>
     <div class="page-wrapper">
@@ -759,8 +756,12 @@
       <div class="content">
         <img src="images/header-4aeb62fd.png" width="100%" alt="header image" />
         <h1 id='citypay-payment-api'>CityPay Payment API</h1>
-<p>Version: 6.6.40
-Last Updated: 2024-04-22</p>
+<aside class="notice">
+ Our latest documentation is available on <a href="https://docs.citypay.com">CityPay Docs</a>
+</aside>
+
+<p>Version: 6.6.41
+Last Updated: 2024-04-30</p>
 
 <p>Welcome to the CityPay API, a robust HTTP API payment solution designed for seamless server-to-server 
 transactional processing. Our API facilitates a wide array of payment operations, catering to diverse business needs. 
@@ -5761,7 +5762,7 @@ firewall from blocking your request and to also ensure efficiency of larger file
 <td><code>accountno</code></td>
 <td>string</td>
 <td>Optional</td>
-<td>Specifies an alpha-numeric account number that the Paylink service uses when creating a Cardholder Account. The value should be no longer than 20 characters in length.</td>
+<td>To be able to use credential on file (COF) services. A cardholder account may be created once the payment has been authorised, this is then stored &quot;on file&quot; for subsequent charging for example re-authorisation, unscheduled payment, delayed charges, incremental authorisation, recurring payments, resubmission or no-show style agreements.<br/><br/>Specifies an alpha-numeric account number that the Paylink service uses when creating a Cardholder Account. The value should be no longer than 20 characters in length.</td>
 </tr>
 <tr>
 <td><code>cardholder</code></td>
@@ -9933,17 +9934,17 @@ latest remittance date available.</p>
 </tr>
 </tbody></table>
 <h2 id='eventdatamodel'>EventDataModel</h2><div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-   </span><span class="nl">"event_end_date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2024-04-22"</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"event_end_date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2024-04-30"</span><span class="p">,</span><span class="w">
    </span><span class="nl">"event_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
    </span><span class="nl">"event_organiser_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
-   </span><span class="nl">"event_start_date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2024-04-22"</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"event_start_date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2024-04-30"</span><span class="p">,</span><span class="w">
    </span><span class="nl">"payment_type"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre></div><div class="highlight"><pre class="highlight xml tab-xml"><code><span class="nt">&lt;EventDataModel&gt;</span>
- <span class="nt">&lt;event_end_date&gt;</span>2024-04-22<span class="nt">&lt;/event_end_date&gt;</span> 
+ <span class="nt">&lt;event_end_date&gt;</span>2024-04-30<span class="nt">&lt;/event_end_date&gt;</span> 
  <span class="nt">&lt;event_id&gt;&lt;/event_id&gt;</span> 
  <span class="nt">&lt;event_organiser_id&gt;&lt;/event_organiser_id&gt;</span> 
- <span class="nt">&lt;event_start_date&gt;</span>2024-04-22<span class="nt">&lt;/event_start_date&gt;</span> 
+ <span class="nt">&lt;event_start_date&gt;</span>2024-04-30<span class="nt">&lt;/event_start_date&gt;</span> 
  <span class="nt">&lt;payment_type&gt;&lt;/payment_type&gt;</span> 
 <span class="nt">&lt;/EventDataModel&gt;</span>
 </code></pre></div>
@@ -10325,7 +10326,7 @@ latest remittance date available.</p>
 </tr>
 </tbody></table>
 <h2 id='merchantbatchresponse'>MerchantBatchResponse</h2><div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-   </span><span class="nl">"batch_closed"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2024-04-22"</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"batch_closed"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2024-04-30"</span><span class="p">,</span><span class="w">
    </span><span class="nl">"batch_no"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
    </span><span class="nl">"batch_status"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
    </span><span class="nl">"batch_status_code"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
@@ -10334,7 +10335,7 @@ latest remittance date available.</p>
    </span><span class="nl">"net_summary"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="err">...</span><span class="w"> </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre></div><div class="highlight"><pre class="highlight xml tab-xml"><code><span class="nt">&lt;MerchantBatchResponse&gt;</span>
- <span class="nt">&lt;batch_closed&gt;</span>2024-04-22<span class="nt">&lt;/batch_closed&gt;</span> 
+ <span class="nt">&lt;batch_closed&gt;</span>2024-04-30<span class="nt">&lt;/batch_closed&gt;</span> 
  <span class="nt">&lt;batch_no&gt;&lt;/batch_no&gt;</span> 
  <span class="nt">&lt;batch_status&gt;&lt;/batch_status&gt;</span> 
  <span class="nt">&lt;batch_status_code&gt;&lt;/batch_status_code&gt;</span> 
@@ -10706,7 +10707,7 @@ latest remittance date available.</p>
    </span><span class="nl">"addressee"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
    </span><span class="nl">"attachments"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
    </span><span class="nl">"descriptor"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
-   </span><span class="nl">"due"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2024-04-22"</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"due"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2024-04-30"</span><span class="p">,</span><span class="w">
    </span><span class="nl">"email_notification_path"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="err">...</span><span class="w"> </span><span class="p">},</span><span class="w">
    </span><span class="nl">"memo"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
    </span><span class="nl">"request"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="err">...</span><span class="w"> </span><span class="p">},</span><span class="w">
@@ -10716,7 +10717,7 @@ latest remittance date available.</p>
  <span class="nt">&lt;addressee&gt;&lt;/addressee&gt;</span> 
  <span class="nt">&lt;attachments&gt;&lt;/attachments&gt;</span> 
  <span class="nt">&lt;descriptor&gt;&lt;/descriptor&gt;</span> 
- <span class="nt">&lt;due&gt;</span>2024-04-22<span class="nt">&lt;/due&gt;</span> 
+ <span class="nt">&lt;due&gt;</span>2024-04-30<span class="nt">&lt;/due&gt;</span> 
  <span class="nt">&lt;email_notification_path&gt;</span><span class="err">&lt;</span>&gt;...<span class="err">&lt;</span>/&gt;<span class="nt">&lt;/email_notification_path&gt;</span> 
  <span class="nt">&lt;memo&gt;&lt;/memo&gt;</span> 
  <span class="nt">&lt;request&gt;</span><span class="err">&lt;</span>&gt;...<span class="err">&lt;</span>/&gt;<span class="nt">&lt;/request&gt;</span> 
@@ -10877,20 +10878,20 @@ latest remittance date available.</p>
 <h2 id='paylinkcart'>PaylinkCart</h2><div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
    </span><span class="nl">"contents"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
    </span><span class="nl">"coupon"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
-   </span><span class="nl">"mode"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
-   </span><span class="nl">"product_description"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
-   </span><span class="nl">"product_information"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
-   </span><span class="nl">"shipping"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
-   </span><span class="nl">"tax"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="w">
+   </span><span class="nl">"mode"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"product_description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Book Order"</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"product_information"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Book Order"</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"shipping"</span><span class="p">:</span><span class="w"> </span><span class="mi">1500</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"tax"</span><span class="p">:</span><span class="w"> </span><span class="mi">1200</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre></div><div class="highlight"><pre class="highlight xml tab-xml"><code><span class="nt">&lt;PaylinkCart&gt;</span>
  <span class="nt">&lt;contents&gt;&lt;/contents&gt;</span> 
  <span class="nt">&lt;coupon&gt;&lt;/coupon&gt;</span> 
- <span class="nt">&lt;mode&gt;&lt;/mode&gt;</span> 
- <span class="nt">&lt;product_description&gt;&lt;/product_description&gt;</span> 
- <span class="nt">&lt;product_information&gt;&lt;/product_information&gt;</span> 
- <span class="nt">&lt;shipping&gt;&lt;/shipping&gt;</span> 
- <span class="nt">&lt;tax&gt;&lt;/tax&gt;</span> 
+ <span class="nt">&lt;mode&gt;</span>2<span class="nt">&lt;/mode&gt;</span> 
+ <span class="nt">&lt;product_description&gt;</span>Book Order<span class="nt">&lt;/product_description&gt;</span> 
+ <span class="nt">&lt;product_information&gt;</span>Book Order<span class="nt">&lt;/product_information&gt;</span> 
+ <span class="nt">&lt;shipping&gt;</span>1500<span class="nt">&lt;/shipping&gt;</span> 
+ <span class="nt">&lt;tax&gt;</span>1200<span class="nt">&lt;/tax&gt;</span> 
 <span class="nt">&lt;/PaylinkCart&gt;</span>
 </code></pre></div>
 <table><thead>
@@ -10917,7 +10918,7 @@ latest remittance date available.</p>
 <td><code>mode</code></td>
 <td>integer <em>int32</em></td>
 <td>false</td>
-<td>The mode field specifies the behaviour or functionality of the cart.<br/><br/>Valid values are:<br/><br/> 0 - No cart - No cart is shown  1 - Read-only - The cart is shown with a breakdown of the item details provided by objects in the contents array.  2 - Selection cart - The cart is shown as a drop-down box of available cart items that the customer can a single item select from.  3 - Dynamic cart - a text box is rendered to enable the operator to input an amount.  4 - Multi cart - The cart is displayed with items rendered with selectable quantities.</td>
+<td>The mode field specifies the behaviour or functionality of the cart.<br/><br/>Valid values are:<br/><br/>- <code>0</code> No cart - No cart is shown - <code>1</code> Read-only - The cart is shown with a breakdown of the item details provided by objects in the contents array. - <code>2</code> Selection cart - The cart is shown as a drop-down box of available cart items that the customer can a single item select from. - <code>3</code> Dynamic cart - a text box is rendered to enable the operator to input an amount. - <code>4</code> Multi cart - The cart is displayed with items rendered with selectable quantities.</td>
 </tr>
 <tr>
 <td><code>product_description</code></td>
@@ -10945,23 +10946,23 @@ latest remittance date available.</p>
 </tr>
 </tbody></table>
 <h2 id='paylinkcartitemmodel'>PaylinkCartItemModel</h2><div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-   </span><span class="nl">"amount"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"amount"</span><span class="p">:</span><span class="w"> </span><span class="mi">1200</span><span class="p">,</span><span class="w">
    </span><span class="nl">"brand"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
-   </span><span class="nl">"category"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
-   </span><span class="nl">"count"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
-   </span><span class="nl">"label"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"category"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Fiction"</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"count"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"label"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Percy Hotter"</span><span class="p">,</span><span class="w">
    </span><span class="nl">"max"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
-   </span><span class="nl">"sku"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"sku"</span><span class="p">:</span><span class="w"> </span><span class="s2">"AO12345678"</span><span class="p">,</span><span class="w">
    </span><span class="nl">"variant"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre></div><div class="highlight"><pre class="highlight xml tab-xml"><code><span class="nt">&lt;PaylinkCartItemModel&gt;</span>
- <span class="nt">&lt;amount&gt;&lt;/amount&gt;</span> 
+ <span class="nt">&lt;amount&gt;</span>1200<span class="nt">&lt;/amount&gt;</span> 
  <span class="nt">&lt;brand&gt;&lt;/brand&gt;</span> 
- <span class="nt">&lt;category&gt;&lt;/category&gt;</span> 
- <span class="nt">&lt;count&gt;&lt;/count&gt;</span> 
- <span class="nt">&lt;label&gt;&lt;/label&gt;</span> 
+ <span class="nt">&lt;category&gt;</span>Fiction<span class="nt">&lt;/category&gt;</span> 
+ <span class="nt">&lt;count&gt;</span>1<span class="nt">&lt;/count&gt;</span> 
+ <span class="nt">&lt;label&gt;</span>Percy Hotter<span class="nt">&lt;/label&gt;</span> 
  <span class="nt">&lt;max&gt;&lt;/max&gt;</span> 
- <span class="nt">&lt;sku&gt;&lt;/sku&gt;</span> 
+ <span class="nt">&lt;sku&gt;</span>AO12345678<span class="nt">&lt;/sku&gt;</span> 
  <span class="nt">&lt;variant&gt;&lt;/variant&gt;</span> 
 <span class="nt">&lt;/PaylinkCartItemModel&gt;</span>
 </code></pre></div>
@@ -11023,10 +11024,10 @@ latest remittance date available.</p>
 </tr>
 </tbody></table>
 <h2 id='paylinkconfig'>PaylinkConfig</h2><div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-   </span><span class="nl">"acs_mode"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"acs_mode"</span><span class="p">:</span><span class="w"> </span><span class="s2">"iframe"</span><span class="p">,</span><span class="w">
    </span><span class="nl">"custom_params"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
    </span><span class="nl">"descriptor"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
-   </span><span class="nl">"expire_in"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"expire_in"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1d"</span><span class="p">,</span><span class="w">
    </span><span class="nl">"field_guard"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
    </span><span class="nl">"lock_params"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
    </span><span class="nl">"merch_logo"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
@@ -11047,10 +11048,10 @@ latest remittance date available.</p>
    </span><span class="nl">"ui"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="err">...</span><span class="w"> </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre></div><div class="highlight"><pre class="highlight xml tab-xml"><code><span class="nt">&lt;PaylinkConfig&gt;</span>
- <span class="nt">&lt;acs_mode&gt;&lt;/acs_mode&gt;</span> 
+ <span class="nt">&lt;acs_mode&gt;</span>iframe<span class="nt">&lt;/acs_mode&gt;</span> 
  <span class="nt">&lt;custom_params&gt;&lt;/custom_params&gt;</span> 
  <span class="nt">&lt;descriptor&gt;&lt;/descriptor&gt;</span> 
- <span class="nt">&lt;expire_in&gt;&lt;/expire_in&gt;</span> 
+ <span class="nt">&lt;expire_in&gt;</span>1d<span class="nt">&lt;/expire_in&gt;</span> 
  <span class="nt">&lt;field_guard&gt;&lt;/field_guard&gt;</span> 
  <span class="nt">&lt;lock_params&gt;&lt;/lock_params&gt;</span> 
  <span class="nt">&lt;merch_logo&gt;&lt;/merch_logo&gt;</span> 
@@ -11083,13 +11084,13 @@ latest remittance date available.</p>
 <td><code>acs_mode</code></td>
 <td>string</td>
 <td>false</td>
-<td>Specifies the approach to be adopted by the Paylink form when displaying a 3-D Secure challenge window. The values may be  iframe: shows the 3-D Secure ACS in an iframe dialog, neatly embedding it in Paylink. This provides a more seamless flow for the cardholder who is able to validate and authenticate their card using a dialog provided by their card issuer.  inline: an inline mode transfers the full browser window to the authentication server, allowing the payment cardholder to see their payment card issuer&#39;s URL and the certificate status in the browser. If you request an iframe mode and the browser width is deemed as being small (&lt; 768px) then an inline mode will be enforced. This is to ensure that mobile users have an improved user experience.</td>
+<td>Specifies the approach to be adopted by the Paylink form when displaying a 3-D Secure challenge window. The values may be<br/><br/> - <code>iframe</code> shows the 3-D Secure ACS in an iframe dialog, neatly embedding it in Paylink. This provides a more seamless flow for the cardholder who is able to validate and authenticate their card using a dialog provided by their card issuer.  - <code>inline</code> an inline mode transfers the full browser window to the authentication server, allowing the payment cardholder to see their payment card issuer&#39;s URL and the certificate status in the browser.<br/><br/>If you request an iframe mode and the browser width is deemed as being small (&lt; 768px) then an inline mode will be enforced. This is to ensure that mobile users have an appropriate user experience.<br/><br/>The default type if not supplied is <strong>iframe</strong>.</td>
 </tr>
 <tr>
 <td><code>custom_params</code></td>
 <td>array</td>
 <td>false</td>
-<td>Defines custom parameters to add to the request. <a href="#paylinkcustomparam">PaylinkCustomParam</a></td>
+<td>Any custom parameters that are included in the request. <a href="#paylinkcustomparam">PaylinkCustomParam</a></td>
 </tr>
 <tr>
 <td><code>descriptor</code></td>
@@ -11101,7 +11102,7 @@ latest remittance date available.</p>
 <td><code>expire_in</code></td>
 <td>string</td>
 <td>false</td>
-<td>Specifies a period of time in seconds after which the token cannot be used. A value of 0 defines that the token will never expire. The API will convert an expiry time based on a string value. For instance:   s - Time in seconds, for example 90s.   m - Time in minutes, for example 20m.   h - Time in hours, for example 4h.   w - Time in weeks, for example 4w.   M - Time in months, for example 6M.   y - Time in years, for example 1y.   Defaults to 30 minutes.</td>
+<td>Specifies a period of time in seconds after which the token cannot be used. A value of 0 defines that the token will never expire. The API will convert an expiry time based on a string value.<br/><br/>For instance: -  s - Time in seconds, for example 90s. -  m - Time in minutes, for example 20m. -  h - Time in hours, for example 4h. -  w - Time in weeks, for example 4w. -  M - Time in months, for example 6M. -  y - Time in years, for example 1y. -  Defaults to 30 minutes.</td>
 </tr>
 <tr>
 <td><code>field_guard</code></td>
@@ -11214,29 +11215,29 @@ latest remittance date available.</p>
 </tbody></table>
 <h2 id='paylinkcustomparam'>PaylinkCustomParam</h2><div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
    </span><span class="nl">"entry_mode"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
-   </span><span class="nl">"field_type"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
-   </span><span class="nl">"group"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
-   </span><span class="nl">"label"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"field_type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"text"</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"group"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Extra Information"</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"label"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Custom Field 1"</span><span class="p">,</span><span class="w">
    </span><span class="nl">"locked"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
-   </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
-   </span><span class="nl">"order"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"custom_field_1"</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"order"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
    </span><span class="nl">"pattern"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
-   </span><span class="nl">"placeholder"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
-   </span><span class="nl">"required"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
-   </span><span class="nl">"value"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="w">
+   </span><span class="nl">"placeholder"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Enter a Custom Value"</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"required"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"value"</span><span class="p">:</span><span class="w"> </span><span class="s2">"initial-value"</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre></div><div class="highlight"><pre class="highlight xml tab-xml"><code><span class="nt">&lt;PaylinkCustomParam&gt;</span>
  <span class="nt">&lt;entry_mode&gt;&lt;/entry_mode&gt;</span> 
- <span class="nt">&lt;field_type&gt;&lt;/field_type&gt;</span> 
- <span class="nt">&lt;group&gt;&lt;/group&gt;</span> 
- <span class="nt">&lt;label&gt;&lt;/label&gt;</span> 
+ <span class="nt">&lt;field_type&gt;</span>text<span class="nt">&lt;/field_type&gt;</span> 
+ <span class="nt">&lt;group&gt;</span>Extra Information<span class="nt">&lt;/group&gt;</span> 
+ <span class="nt">&lt;label&gt;</span>Custom Field 1<span class="nt">&lt;/label&gt;</span> 
  <span class="nt">&lt;locked&gt;&lt;/locked&gt;</span> 
- <span class="nt">&lt;name&gt;&lt;/name&gt;</span> 
- <span class="nt">&lt;order&gt;&lt;/order&gt;</span> 
+ <span class="nt">&lt;name&gt;</span>custom_field_1<span class="nt">&lt;/name&gt;</span> 
+ <span class="nt">&lt;order&gt;</span>1<span class="nt">&lt;/order&gt;</span> 
  <span class="nt">&lt;pattern&gt;&lt;/pattern&gt;</span> 
- <span class="nt">&lt;placeholder&gt;&lt;/placeholder&gt;</span> 
- <span class="nt">&lt;required&gt;&lt;/required&gt;</span> 
- <span class="nt">&lt;value&gt;&lt;/value&gt;</span> 
+ <span class="nt">&lt;placeholder&gt;</span>Enter a Custom Value<span class="nt">&lt;/placeholder&gt;</span> 
+ <span class="nt">&lt;required&gt;</span>true<span class="nt">&lt;/required&gt;</span> 
+ <span class="nt">&lt;value&gt;</span>initial-value<span class="nt">&lt;/value&gt;</span> 
 <span class="nt">&lt;/PaylinkCustomParam&gt;</span>
 </code></pre></div>
 <table><thead>
@@ -11251,67 +11252,67 @@ latest remittance date available.</p>
 <td><code>entry_mode</code></td>
 <td>string</td>
 <td>false</td>
-<td>The type of entry mode. A value of &#39;pre&#39; will pre-render the custom parameter before the payment screen. Any other value will result in the custom parameter being displayed on the payment screen.</td>
+<td>The type of entry mode. A value of <code>pre</code> will pre-render the custom parameter before the payment screen. Any other value will result in the custom parameter being displayed on the payment screen.</td>
 </tr>
 <tr>
 <td><code>field_type</code></td>
 <td>string</td>
 <td>false</td>
-<td>the type of html5 field, defaults to &#39;text&#39;. Other options are &#39;dob&#39; for a date of birth series of select list entry.</td>
+<td>The type of html field, defaulting to <code>text</code>. Options are:<br/><br/> - <code>dob</code>      A date of birth field as a series of select list entries  - <code>text</code>     Allows the user to enter any text.  - <code>password</code> A field where the characters are masked to protect the input, typically used for passwords.  - <code>email</code>    Used for input fields that should contain an email address.  - <code>number</code>   For numeric input, can include controls for incrementing or decrementing the number.  - <code>tel</code>      For telephone numbers.  - <code>url</code>      A text field for entering a URL.  - <code>hidden</code>   Not visible to the user, but its value is sent when the form is submitted.  - <code>checkbox</code> A check box allowing single values to be selected/deselected.  - <code>radio</code>    Allows the user to select one of a limited number of choices.  - <code>select</code>   Renders as select items<br/><br/>Select Options:<br/><br/>Select options are constructed by providing a list of values in the value custom parameter field. Each value is delimited by a pipe character `</td>
 </tr>
 <tr>
 <td><code>group</code></td>
 <td>string</td>
 <td>false</td>
-<td>a group the parameter is linked with, allows for grouping with a title.</td>
+<td>A value which groups items for layout. The value should be a string title for rendering such as &quot;Your Account Info&quot;. If no value is provided, the parameter is added to a default parameter group. Group names are ordered alphabetically when rendered.</td>
 </tr>
 <tr>
 <td><code>label</code></td>
 <td>string</td>
 <td>false</td>
-<td>a label to show alongside the input.</td>
+<td>A label to show alongside the input. If this value is not supplied, the name value will be used.</td>
 </tr>
 <tr>
 <td><code>locked</code></td>
 <td>boolean</td>
 <td>false</td>
-<td>whether the parameter is locked from entry.</td>
+<td>States whether the field is locked, preventing entry or amendment by the person completing the form.</td>
 </tr>
 <tr>
 <td><code>name</code></td>
 <td>string</td>
 <td>true</td>
-<td>the name of the custom parameter used to converse with the submitter.</td>
+<td>Refers to the rendered HTML form element name. The value of this field is used in the postback and redirect dataset.</td>
 </tr>
 <tr>
 <td><code>order</code></td>
 <td>integer <em>int32</em></td>
 <td>false</td>
-<td>an index order for the parameter.</td>
+<td>A value which allows you to order the position of elements in a grouping. Values will order in ascending order. Negative values are possible.</td>
 </tr>
 <tr>
 <td><code>pattern</code></td>
 <td>string</td>
 <td>false</td>
-<td>a regex pattern to validate the custom parameter with.</td>
+<td>A string value which specifies the validation logic of the form element, for example a value of QA[0-9]{3,4} will require a value such as QA221 or QA4433.</td>
 </tr>
 <tr>
 <td><code>placeholder</code></td>
 <td>string</td>
 <td>false</td>
-<td>a placehold value to display in the input.</td>
+<td>A value to set as the placeholder attribute which will render in the browser.</td>
 </tr>
 <tr>
 <td><code>required</code></td>
 <td>boolean</td>
 <td>false</td>
-<td>whether the field is required.</td>
+<td>A boolean value that states whether the field is required or optional. When an element is required, validation will be performed on the end user&#39;s input form.</td>
 </tr>
 <tr>
 <td><code>value</code></td>
 <td>string</td>
 <td>false</td>
-<td>a default value for the field.</td>
+<td>An initial value for the parameter as it appears on the Form. If your parameter is hidden, the value will be required.</td>
 </tr>
 </tbody></table>
 <h2 id='paylinkemailnotificationpath'>PaylinkEmailNotificationPath</h2><div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
@@ -11429,7 +11430,7 @@ latest remittance date available.</p>
 <td><code>field_type</code></td>
 <td>string</td>
 <td>false</td>
-<td>A type of HTML element that should be displayed such as text, password, url. Any HTML5 input type value may be supplied.<br/><br/>If a value of <code>date</code> is supplied the value format should be an ISO format YYYY-MM-DD format date i.e. 2024-03-01 If a value of <code>datetime-local</code> is supplied, the value format should be an ISO format YYYY-MM-DDTHH:mm i.e. 2024-06-01T19:30.</td>
+<td>A type of HTML element that should be displayed such as text, password, url. Any HTML5 input type value may be supplied.<br/><br/>- If a value of <code>date</code> is supplied the value format should be an ISO format YYYY-MM-DD format date i.e. 2024-03-01 - If a value of <code>datetime-local</code> is supplied, the value format should be an ISO format YYYY-MM-DDTHH:mm i.e. 2024-06-01T19:30.</td>
 </tr>
 <tr>
 <td><code>label</code></td>
@@ -11591,12 +11592,12 @@ latest remittance date available.</p>
 </tr>
 </tbody></table>
 <h2 id='paylinkstateevent'>PaylinkStateEvent</h2><div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-   </span><span class="nl">"datetime"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2024-04-22"</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"datetime"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2024-04-30"</span><span class="p">,</span><span class="w">
    </span><span class="nl">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"message on this state"</span><span class="p">,</span><span class="w">
    </span><span class="nl">"state"</span><span class="p">:</span><span class="w"> </span><span class="s2">"FormInput"</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre></div><div class="highlight"><pre class="highlight xml tab-xml"><code><span class="nt">&lt;PaylinkStateEvent&gt;</span>
- <span class="nt">&lt;datetime&gt;</span>2024-04-22<span class="nt">&lt;/datetime&gt;</span> 
+ <span class="nt">&lt;datetime&gt;</span>2024-04-30<span class="nt">&lt;/datetime&gt;</span> 
  <span class="nt">&lt;message&gt;</span>message on this state<span class="nt">&lt;/message&gt;</span> 
  <span class="nt">&lt;state&gt;</span>FormInput<span class="nt">&lt;/state&gt;</span> 
 <span class="nt">&lt;/PaylinkStateEvent&gt;</span>
@@ -11631,7 +11632,7 @@ latest remittance date available.</p>
 <h2 id='paylinktokencreated'>PaylinkTokenCreated</h2><div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
    </span><span class="nl">"attachments"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="err">...</span><span class="w"> </span><span class="p">},</span><span class="w">
    </span><span class="nl">"bps"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
-   </span><span class="nl">"date_created"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2024-04-22"</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"date_created"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2024-04-30"</span><span class="p">,</span><span class="w">
    </span><span class="nl">"errors"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
    </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"00000000-0000-0000-0000-000000000000"</span><span class="p">,</span><span class="w">
    </span><span class="nl">"identifier"</span><span class="p">:</span><span class="w"> </span><span class="s2">"95b857a1-5955-4b86-963c-5a6dbfc4fb95"</span><span class="p">,</span><span class="w">
@@ -11647,7 +11648,7 @@ latest remittance date available.</p>
 </span></code></pre></div><div class="highlight"><pre class="highlight xml tab-xml"><code><span class="nt">&lt;PaylinkTokenCreated&gt;</span>
  <span class="nt">&lt;attachments&gt;</span><span class="err">&lt;</span>&gt;...<span class="err">&lt;</span>/&gt;<span class="nt">&lt;/attachments&gt;</span> 
  <span class="nt">&lt;bps&gt;&lt;/bps&gt;</span> 
- <span class="nt">&lt;date_created&gt;</span>2024-04-22<span class="nt">&lt;/date_created&gt;</span> 
+ <span class="nt">&lt;date_created&gt;</span>2024-04-30<span class="nt">&lt;/date_created&gt;</span> 
  <span class="nt">&lt;errors&gt;&lt;/errors&gt;</span> 
  <span class="nt">&lt;id&gt;</span>00000000-0000-0000-0000-000000000000<span class="nt">&lt;/id&gt;</span> 
  <span class="nt">&lt;identifier&gt;</span>95b857a1-5955-4b86-963c-5a6dbfc4fb95<span class="nt">&lt;/identifier&gt;</span> 
@@ -11810,7 +11811,7 @@ latest remittance date available.</p>
 <td><code>accountno</code></td>
 <td>string</td>
 <td>false</td>
-<td>Specifies an alpha-numeric account number that the Paylink service uses when creating a Cardholder Account. The value should be no longer than 20 characters in length.</td>
+<td>To be able to use credential on file (COF) services. A cardholder account may be created once the payment has been authorised, this is then stored &quot;on file&quot; for subsequent charging for example re-authorisation, unscheduled payment, delayed charges, incremental authorisation, recurring payments, resubmission or no-show style agreements.<br/><br/>Specifies an alpha-numeric account number that the Paylink service uses when creating a Cardholder Account. The value should be no longer than 20 characters in length.</td>
 </tr>
 <tr>
 <td><code>amount</code></td>
@@ -11889,8 +11890,8 @@ latest remittance date available.</p>
    </span><span class="nl">"amount_paid"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
    </span><span class="nl">"auth_code"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
    </span><span class="nl">"card"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Visa/0002"</span><span class="p">,</span><span class="w">
-   </span><span class="nl">"created"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2024-04-22"</span><span class="p">,</span><span class="w">
-   </span><span class="nl">"datetime"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2024-04-22"</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"created"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2024-04-30"</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"datetime"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2024-04-30"</span><span class="p">,</span><span class="w">
    </span><span class="nl">"identifier"</span><span class="p">:</span><span class="w"> </span><span class="s2">"95b857a1-5955-4b86-963c-5a6dbfc4fb95"</span><span class="p">,</span><span class="w">
    </span><span class="nl">"is_attachment"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
    </span><span class="nl">"is_cancelled"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
@@ -11907,7 +11908,7 @@ latest remittance date available.</p>
    </span><span class="nl">"is_request_challenged"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
    </span><span class="nl">"is_sms_sent"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
    </span><span class="nl">"is_validated"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
-   </span><span class="nl">"last_event_date_time"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2024-04-22"</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"last_event_date_time"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2024-04-30"</span><span class="p">,</span><span class="w">
    </span><span class="nl">"last_payment_result"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
    </span><span class="nl">"mid"</span><span class="p">:</span><span class="w"> </span><span class="mi">11223344</span><span class="p">,</span><span class="w">
    </span><span class="nl">"payment_attempts_count"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
@@ -11919,8 +11920,8 @@ latest remittance date available.</p>
  <span class="nt">&lt;amount_paid&gt;&lt;/amount_paid&gt;</span> 
  <span class="nt">&lt;auth_code&gt;&lt;/auth_code&gt;</span> 
  <span class="nt">&lt;card&gt;</span>Visa/0002<span class="nt">&lt;/card&gt;</span> 
- <span class="nt">&lt;created&gt;</span>2024-04-22<span class="nt">&lt;/created&gt;</span> 
- <span class="nt">&lt;datetime&gt;</span>2024-04-22<span class="nt">&lt;/datetime&gt;</span> 
+ <span class="nt">&lt;created&gt;</span>2024-04-30<span class="nt">&lt;/created&gt;</span> 
+ <span class="nt">&lt;datetime&gt;</span>2024-04-30<span class="nt">&lt;/datetime&gt;</span> 
  <span class="nt">&lt;identifier&gt;</span>95b857a1-5955-4b86-963c-5a6dbfc4fb95<span class="nt">&lt;/identifier&gt;</span> 
  <span class="nt">&lt;is_attachment&gt;&lt;/is_attachment&gt;</span> 
  <span class="nt">&lt;is_cancelled&gt;&lt;/is_cancelled&gt;</span> 
@@ -11937,7 +11938,7 @@ latest remittance date available.</p>
  <span class="nt">&lt;is_request_challenged&gt;&lt;/is_request_challenged&gt;</span> 
  <span class="nt">&lt;is_sms_sent&gt;&lt;/is_sms_sent&gt;</span> 
  <span class="nt">&lt;is_validated&gt;&lt;/is_validated&gt;</span> 
- <span class="nt">&lt;last_event_date_time&gt;</span>2024-04-22<span class="nt">&lt;/last_event_date_time&gt;</span> 
+ <span class="nt">&lt;last_event_date_time&gt;</span>2024-04-30<span class="nt">&lt;/last_event_date_time&gt;</span> 
  <span class="nt">&lt;last_payment_result&gt;&lt;/last_payment_result&gt;</span> 
  <span class="nt">&lt;mid&gt;</span>11223344<span class="nt">&lt;/mid&gt;</span> 
  <span class="nt">&lt;payment_attempts_count&gt;&lt;/payment_attempts_count&gt;</span> 
@@ -12124,14 +12125,14 @@ latest remittance date available.</p>
 </tr>
 </tbody></table>
 <h2 id='paylinktokenstatuschangerequest'>PaylinkTokenStatusChangeRequest</h2><div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-   </span><span class="nl">"after"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2024-04-22"</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"after"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2024-04-30"</span><span class="p">,</span><span class="w">
    </span><span class="nl">"maxResults"</span><span class="p">:</span><span class="w"> </span><span class="mi">50</span><span class="p">,</span><span class="w">
    </span><span class="nl">"merchantid"</span><span class="p">:</span><span class="w"> </span><span class="mi">11223344</span><span class="p">,</span><span class="w">
    </span><span class="nl">"nextToken"</span><span class="p">:</span><span class="w"> </span><span class="s2">"n34liuwn435tUAGFNg34yn..."</span><span class="p">,</span><span class="w">
    </span><span class="nl">"orderBy"</span><span class="p">:</span><span class="w"> </span><span class="s2">"date"</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre></div><div class="highlight"><pre class="highlight xml tab-xml"><code><span class="nt">&lt;PaylinkTokenStatusChangeRequest&gt;</span>
- <span class="nt">&lt;after&gt;</span>2024-04-22<span class="nt">&lt;/after&gt;</span> 
+ <span class="nt">&lt;after&gt;</span>2024-04-30<span class="nt">&lt;/after&gt;</span> 
  <span class="nt">&lt;maxResults&gt;</span>50<span class="nt">&lt;/maxResults&gt;</span> 
  <span class="nt">&lt;merchantid&gt;</span>11223344<span class="nt">&lt;/merchantid&gt;</span> 
  <span class="nt">&lt;nextToken&gt;</span>n34liuwn435tUAGFNg34yn...<span class="nt">&lt;/nextToken&gt;</span> 
@@ -13287,7 +13288,7 @@ latest remittance date available.</p>
 <td><a href="https://github.com/citypay/citypay-api-client-ruby">https://github.com/citypay/citypay-api-client-ruby</a></td>
 </tr>
 </tbody></table>
-<h1 id='api-definitions'>API Definitions</h1><h2 id='response-codes'>Response Codes</h2>
+<h2 id='response-and-error-codes'>Response and Error Codes</h2>
 <p>The CityPay Payment API uses the following response codes in its response messages:</p>
 
 <table><thead>
@@ -14679,7 +14680,7 @@ latest remittance date available.</p>
 <td>PermissionDenied</td>
 </tr>
 </tbody></table>
-<h2 id='avs-result-codes'>AVS Result Codes</h2>
+<h2 id='address-verification-system-avs-result-codes'>Address Verification System (AVS) Result Codes</h2>
 <p>The CityPay Payment API uses the following AVS result codes in its response messages:</p>
 
 <table><thead>

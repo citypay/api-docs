@@ -1,12 +1,12 @@
 ---
 title: CityPay Payment API
-version: 6.6.40
+version: 6.6.41
 language_tabs:
   - json
   - xml
 toc_footers:
   - <a href='mailto:support@citypay.com'>Any Integration Questions?</a>
-  - V6.6.40 2024-04-22
+  - V6.6.41 2024-04-30
 includes:
   - errorcodes
   - authresultcodes
@@ -22,8 +22,12 @@ search: true
 
 # CityPay Payment API
 
-Version: 6.6.40
-Last Updated: 2024-04-22
+<aside class="notice">
+ Our latest documentation is available on <a href="https://docs.citypay.com">CityPay Docs</a>
+</aside>
+
+Version: 6.6.41
+Last Updated: 2024-04-30
 
 
 Welcome to the CityPay API, a robust HTTP API payment solution designed for seamless server-to-server 
@@ -3002,7 +3006,7 @@ Field  | Type | Usage | Description |
  `amount` | integer *int32* | Required | Specifies the intended value of the transaction in the lowest denomination with no spacing characters or decimal point. This is the net total to be processed. An example of £74.95 would be presented as 7495. | 
  `identifier` | string  | Required | Identifies a particular transaction linked to a Merchant account. It enables accurate duplicate checking within a pre-configured time period, as well as transaction reporting and tracing. The identifier should be unique to prevent payment card processing attempts from being rejected due to duplication.<br/><br/> minLength: 4<br/>maxLength: 50 | 
  `merchantid` | integer *int32* | Required | The merchant id you wish to process this transaction with. | 
- `accountno` | string  | Optional | Specifies an alpha-numeric account number that the Paylink service uses when creating a Cardholder Account. The value should be no longer than 20 characters in length. | 
+ `accountno` | string  | Optional | To be able to use credential on file (COF) services. A cardholder account may be created once the payment has been authorised, this is then stored "on file" for subsequent charging for example re-authorisation, unscheduled payment, delayed charges, incremental authorisation, recurring payments, resubmission or no-show style agreements.<br/><br/>Specifies an alpha-numeric account number that the Paylink service uses when creating a Cardholder Account. The value should be no longer than 20 characters in length. | 
  `cardholder` | object | Optional | [PaylinkCardHolder](#paylinkcardholder) Cardholder fields are used to identify the underlying cardholder processing the transaction. These values are optional and the user can complete these values on the online form or may be pre-populated in the initial create request. | 
  `cart` | object | Optional | [PaylinkCart](#paylinkcart) The cart element. | 
  `client_version` | string  | Optional | The clientVersion field is used to specify the version of your application that has invoked the Paylink payment process. This feature is typically used for tracing issues relating to application deployments, or any Paylink integration module or plugin. | 
@@ -5340,20 +5344,20 @@ Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Addi
 
 ```json
 {
-   "event_end_date": "2024-04-22",
+   "event_end_date": "2024-04-30",
    "event_id": "",
    "event_organiser_id": "",
-   "event_start_date": "2024-04-22",
+   "event_start_date": "2024-04-30",
    "payment_type": ""
 }
 ```
 
 ```xml
 <EventDataModel>
- <event_end_date>2024-04-22</event_end_date> 
+ <event_end_date>2024-04-30</event_end_date> 
  <event_id></event_id> 
  <event_organiser_id></event_organiser_id> 
- <event_start_date>2024-04-22</event_start_date> 
+ <event_start_date>2024-04-30</event_start_date> 
  <payment_type></payment_type> 
 </EventDataModel>
 ```
@@ -5597,7 +5601,7 @@ Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Addi
 
 ```json
 {
-   "batch_closed": "2024-04-22",
+   "batch_closed": "2024-04-30",
    "batch_no": "",
    "batch_status": "",
    "batch_status_code": "",
@@ -5609,7 +5613,7 @@ Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Addi
 
 ```xml
 <MerchantBatchResponse>
- <batch_closed>2024-04-22</batch_closed> 
+ <batch_closed>2024-04-30</batch_closed> 
  <batch_no></batch_no> 
  <batch_status></batch_status> 
  <batch_status_code></batch_status_code> 
@@ -5838,7 +5842,7 @@ Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Addi
    "addressee": "",
    "attachments": "",
    "descriptor": "",
-   "due": "2024-04-22",
+   "due": "2024-04-30",
    "email_notification_path": { ... },
    "memo": "",
    "request": { ... },
@@ -5851,7 +5855,7 @@ Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Addi
  <addressee></addressee> 
  <attachments></attachments> 
  <descriptor></descriptor> 
- <due>2024-04-22</due> 
+ <due>2024-04-30</due> 
  <email_notification_path><>...</></email_notification_path> 
  <memo></memo> 
  <request><>...</></request> 
@@ -5929,11 +5933,11 @@ Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Addi
 {
    "contents": "",
    "coupon": "",
-   "mode": 0,
-   "product_description": "",
-   "product_information": "",
-   "shipping": 0,
-   "tax": 0
+   "mode": 2,
+   "product_description": "Book Order",
+   "product_information": "Book Order",
+   "shipping": 1500,
+   "tax": 1200
 }
 ```
 
@@ -5941,11 +5945,11 @@ Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Addi
 <PaylinkCart>
  <contents></contents> 
  <coupon></coupon> 
- <mode></mode> 
- <product_description></product_description> 
- <product_information></product_information> 
- <shipping></shipping> 
- <tax></tax> 
+ <mode>2</mode> 
+ <product_description>Book Order</product_description> 
+ <product_information>Book Order</product_information> 
+ <shipping>1500</shipping> 
+ <tax>1200</tax> 
 </PaylinkCart>
 ```
 
@@ -5953,7 +5957,7 @@ Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Addi
 |-------|------|----------|-------------|
 | `contents` | array | false | Any cart items to list against the cart. [PaylinkCartItemModel](#paylinkcartitemmodel) | 
 | `coupon` | string  | false | A coupon redeemed with the transaction. | 
-| `mode` | integer *int32* | false | The mode field specifies the behaviour or functionality of the cart.<br/><br/>Valid values are:<br/><br/> 0 - No cart - No cart is shown  1 - Read-only - The cart is shown with a breakdown of the item details provided by objects in the contents array.  2 - Selection cart - The cart is shown as a drop-down box of available cart items that the customer can a single item select from.  3 - Dynamic cart - a text box is rendered to enable the operator to input an amount.  4 - Multi cart - The cart is displayed with items rendered with selectable quantities. | 
+| `mode` | integer *int32* | false | The mode field specifies the behaviour or functionality of the cart.<br/><br/>Valid values are:<br/><br/>- `0` No cart - No cart is shown - `1` Read-only - The cart is shown with a breakdown of the item details provided by objects in the contents array. - `2` Selection cart - The cart is shown as a drop-down box of available cart items that the customer can a single item select from. - `3` Dynamic cart - a text box is rendered to enable the operator to input an amount. - `4` Multi cart - The cart is displayed with items rendered with selectable quantities. | 
 | `product_description` | string  | false | Specifies a description about the product or service that is the subject of the transaction. It will be rendered in the header of the page with no labels. | 
 | `product_information` | string  | false | Specifies information about the product or service that is the subject of the transaction. It will be rendered in the header of the page. | 
 | `shipping` | integer *int32* | false | The shipping amount of the transaction in the lowest denomination of currency. | 
@@ -5967,26 +5971,26 @@ Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Addi
 
 ```json
 {
-   "amount": 0,
+   "amount": 1200,
    "brand": "",
-   "category": "",
-   "count": 0,
-   "label": "",
+   "category": "Fiction",
+   "count": 1,
+   "label": "Percy Hotter",
    "max": 0,
-   "sku": "",
+   "sku": "AO12345678",
    "variant": ""
 }
 ```
 
 ```xml
 <PaylinkCartItemModel>
- <amount></amount> 
+ <amount>1200</amount> 
  <brand></brand> 
- <category></category> 
- <count></count> 
- <label></label> 
+ <category>Fiction</category> 
+ <count>1</count> 
+ <label>Percy Hotter</label> 
  <max></max> 
- <sku></sku> 
+ <sku>AO12345678</sku> 
  <variant></variant> 
 </PaylinkCartItemModel>
 ```
@@ -6010,10 +6014,10 @@ Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Addi
 
 ```json
 {
-   "acs_mode": "",
+   "acs_mode": "iframe",
    "custom_params": "",
    "descriptor": "",
-   "expire_in": "",
+   "expire_in": "1d",
    "field_guard": "",
    "lock_params": "",
    "merch_logo": "",
@@ -6037,10 +6041,10 @@ Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Addi
 
 ```xml
 <PaylinkConfig>
- <acs_mode></acs_mode> 
+ <acs_mode>iframe</acs_mode> 
  <custom_params></custom_params> 
  <descriptor></descriptor> 
- <expire_in></expire_in> 
+ <expire_in>1d</expire_in> 
  <field_guard></field_guard> 
  <lock_params></lock_params> 
  <merch_logo></merch_logo> 
@@ -6064,10 +6068,10 @@ Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Addi
 
 | Field | Type | Required | Description |
 |-------|------|----------|-------------|
-| `acs_mode` | string  | false | Specifies the approach to be adopted by the Paylink form when displaying a 3-D Secure challenge window. The values may be  iframe: shows the 3-D Secure ACS in an iframe dialog, neatly embedding it in Paylink. This provides a more seamless flow for the cardholder who is able to validate and authenticate their card using a dialog provided by their card issuer.  inline: an inline mode transfers the full browser window to the authentication server, allowing the payment cardholder to see their payment card issuer's URL and the certificate status in the browser. If you request an iframe mode and the browser width is deemed as being small (< 768px) then an inline mode will be enforced. This is to ensure that mobile users have an improved user experience. | 
-| `custom_params` | array | false | Defines custom parameters to add to the request. [PaylinkCustomParam](#paylinkcustomparam) | 
+| `acs_mode` | string  | false | Specifies the approach to be adopted by the Paylink form when displaying a 3-D Secure challenge window. The values may be<br/><br/> - `iframe` shows the 3-D Secure ACS in an iframe dialog, neatly embedding it in Paylink. This provides a more seamless flow for the cardholder who is able to validate and authenticate their card using a dialog provided by their card issuer.  - `inline` an inline mode transfers the full browser window to the authentication server, allowing the payment cardholder to see their payment card issuer's URL and the certificate status in the browser.<br/><br/>If you request an iframe mode and the browser width is deemed as being small (< 768px) then an inline mode will be enforced. This is to ensure that mobile users have an appropriate user experience.<br/><br/>The default type if not supplied is **iframe**. | 
+| `custom_params` | array | false | Any custom parameters that are included in the request. [PaylinkCustomParam](#paylinkcustomparam) | 
 | `descriptor` | string  | false | Directly specify the merchant descriptor used for the transaction to be displayed on the payment page. | 
-| `expire_in` | string  | false | Specifies a period of time in seconds after which the token cannot be used. A value of 0 defines that the token will never expire. The API will convert an expiry time based on a string value. For instance:   s - Time in seconds, for example 90s.   m - Time in minutes, for example 20m.   h - Time in hours, for example 4h.   w - Time in weeks, for example 4w.   M - Time in months, for example 6M.   y - Time in years, for example 1y.   Defaults to 30 minutes. | 
+| `expire_in` | string  | false | Specifies a period of time in seconds after which the token cannot be used. A value of 0 defines that the token will never expire. The API will convert an expiry time based on a string value.<br/><br/>For instance: -  s - Time in seconds, for example 90s. -  m - Time in minutes, for example 20m. -  h - Time in hours, for example 4h. -  w - Time in weeks, for example 4w. -  M - Time in months, for example 6M. -  y - Time in years, for example 1y. -  Defaults to 30 minutes. | 
 | `field_guard` | array | false | Configuration object for field guards. [PaylinkFieldGuardModel](#paylinkfieldguardmodel) | 
 | `lock_params` | array | false | string[]	Optional	May be used to lock fields which are displayed in the form. For example, if the cardholder.address.postcode field were to be specified this would will prevent the customer amending the postal code for the cardholder postcode field. type: string | 
 | `merch_logo` | string *url* | false | A URL of a logo to include in the form. The URL should be delivered using HTTPS. | 
@@ -6096,48 +6100,48 @@ Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Addi
 ```json
 {
    "entry_mode": "",
-   "field_type": "",
-   "group": "",
-   "label": "",
+   "field_type": "text",
+   "group": "Extra Information",
+   "label": "Custom Field 1",
    "locked": false,
-   "name": "",
-   "order": 0,
+   "name": "custom_field_1",
+   "order": 1,
    "pattern": "",
-   "placeholder": "",
-   "required": false,
-   "value": ""
+   "placeholder": "Enter a Custom Value",
+   "required": true,
+   "value": "initial-value"
 }
 ```
 
 ```xml
 <PaylinkCustomParam>
  <entry_mode></entry_mode> 
- <field_type></field_type> 
- <group></group> 
- <label></label> 
+ <field_type>text</field_type> 
+ <group>Extra Information</group> 
+ <label>Custom Field 1</label> 
  <locked></locked> 
- <name></name> 
- <order></order> 
+ <name>custom_field_1</name> 
+ <order>1</order> 
  <pattern></pattern> 
- <placeholder></placeholder> 
- <required></required> 
- <value></value> 
+ <placeholder>Enter a Custom Value</placeholder> 
+ <required>true</required> 
+ <value>initial-value</value> 
 </PaylinkCustomParam>
 ```
 
 | Field | Type | Required | Description |
 |-------|------|----------|-------------|
-| `entry_mode` | string  | false | The type of entry mode. A value of 'pre' will pre-render the custom parameter before the payment screen. Any other value will result in the custom parameter being displayed on the payment screen. | 
-| `field_type` | string  | false | the type of html5 field, defaults to 'text'. Other options are 'dob' for a date of birth series of select list entry. | 
-| `group` | string  | false | a group the parameter is linked with, allows for grouping with a title. | 
-| `label` | string  | false | a label to show alongside the input. | 
-| `locked` | boolean  | false | whether the parameter is locked from entry. | 
-| `name` | string  | true | the name of the custom parameter used to converse with the submitter. | 
-| `order` | integer *int32* | false | an index order for the parameter. | 
-| `pattern` | string  | false | a regex pattern to validate the custom parameter with. | 
-| `placeholder` | string  | false | a placehold value to display in the input. | 
-| `required` | boolean  | false | whether the field is required. | 
-| `value` | string  | false | a default value for the field. | 
+| `entry_mode` | string  | false | The type of entry mode. A value of `pre` will pre-render the custom parameter before the payment screen. Any other value will result in the custom parameter being displayed on the payment screen. | 
+| `field_type` | string  | false | The type of html field, defaulting to `text`. Options are:<br/><br/> - `dob`      A date of birth field as a series of select list entries  - `text`     Allows the user to enter any text.  - `password` A field where the characters are masked to protect the input, typically used for passwords.  - `email`    Used for input fields that should contain an email address.  - `number`   For numeric input, can include controls for incrementing or decrementing the number.  - `tel`      For telephone numbers.  - `url`      A text field for entering a URL.  - `hidden`   Not visible to the user, but its value is sent when the form is submitted.  - `checkbox` A check box allowing single values to be selected/deselected.  - `radio`    Allows the user to select one of a limited number of choices.  - `select`   Renders as select items<br/><br/>Select Options:<br/><br/>Select options are constructed by providing a list of values in the value custom parameter field. Each value is delimited by a pipe character `|`. Value items can also be delimited with `:` as a value label pair.<br/><br/>For instance, a sports club requires identifying it's age group for membership entry:<br/><br/><CodeGroup title="Select Examples" label="ProcessBatchRequest">    ```json {{ title: 'Basic Values' }}      { "label" : "Age Group",        "fieldType": "select",        "value" : "Under 18|18-30|30-50|50+" }...<br/><br/>     <select>          <option value="Under 18">Under 18</option>          <option value="18-30">18-30</option>          <option value="30-50">30-50</option>          <option value="50+">50+</option>      </select>    ```    ```json {{ title: 'Label and Values' }}      { "label" : "Age Group",        "fieldType": "select",        "value" : "0:Under 18|1:18-30|2:30-50|3:50+" }...<br/><br/>     <select>          <option value="0">Under 18</option>          <option value="1">18-30</option>          <option value="2">30-50</option>          <option value="3">50+</option>      </select>    ``` </CodeGroup><br/><br/>Fields may be requested as optional. If a select is required to be optional, provide a value such as `:Select an Option|options...` at the front of the list. | 
+| `group` | string  | false | A value which groups items for layout. The value should be a string title for rendering such as "Your Account Info". If no value is provided, the parameter is added to a default parameter group. Group names are ordered alphabetically when rendered. | 
+| `label` | string  | false | A label to show alongside the input. If this value is not supplied, the name value will be used. | 
+| `locked` | boolean  | false | States whether the field is locked, preventing entry or amendment by the person completing the form. | 
+| `name` | string  | true | Refers to the rendered HTML form element name. The value of this field is used in the postback and redirect dataset. | 
+| `order` | integer *int32* | false | A value which allows you to order the position of elements in a grouping. Values will order in ascending order. Negative values are possible. | 
+| `pattern` | string  | false | A string value which specifies the validation logic of the form element, for example a value of QA[0-9]{3,4} will require a value such as QA221 or QA4433. | 
+| `placeholder` | string  | false | A value to set as the placeholder attribute which will render in the browser. | 
+| `required` | boolean  | false | A boolean value that states whether the field is required or optional. When an element is required, validation will be performed on the end user's input form. | 
+| `value` | string  | false | An initial value for the parameter as it appears on the Form. If your parameter is hidden, the value will be required. | 
 
 
 
@@ -6230,7 +6234,7 @@ Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Addi
 
 | Field | Type | Required | Description |
 |-------|------|----------|-------------|
-| `field_type` | string  | false | A type of HTML element that should be displayed such as text, password, url. Any HTML5 input type value may be supplied.<br/><br/>If a value of `date` is supplied the value format should be an ISO format YYYY-MM-DD format date i.e. 2024-03-01 If a value of `datetime-local` is supplied, the value format should be an ISO format YYYY-MM-DDTHH:mm i.e. 2024-06-01T19:30. | 
+| `field_type` | string  | false | A type of HTML element that should be displayed such as text, password, url. Any HTML5 input type value may be supplied.<br/><br/>- If a value of `date` is supplied the value format should be an ISO format YYYY-MM-DD format date i.e. 2024-03-01 - If a value of `datetime-local` is supplied, the value format should be an ISO format YYYY-MM-DDTHH:mm i.e. 2024-06-01T19:30. | 
 | `label` | string  | false | A label for the field guard to display on the authentication page. | 
 | `maxlen` | integer *int32* | false | A maximum length of any value supplied in the field guard form. Used for validating entry. | 
 | `minlen` | integer *int32* | false | A minimum length of any value supplied in the field guard form. Used for validating entry. | 
@@ -6333,7 +6337,7 @@ Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Addi
 
 ```json
 {
-   "datetime": "2024-04-22",
+   "datetime": "2024-04-30",
    "message": "message on this state",
    "state": "FormInput"
 }
@@ -6341,7 +6345,7 @@ Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Addi
 
 ```xml
 <PaylinkStateEvent>
- <datetime>2024-04-22</datetime> 
+ <datetime>2024-04-30</datetime> 
  <message>message on this state</message> 
  <state>FormInput</state> 
 </PaylinkStateEvent>
@@ -6363,7 +6367,7 @@ Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Addi
 {
    "attachments": { ... },
    "bps": "",
-   "date_created": "2024-04-22",
+   "date_created": "2024-04-30",
    "errors": "",
    "id": "00000000-0000-0000-0000-000000000000",
    "identifier": "95b857a1-5955-4b86-963c-5a6dbfc4fb95",
@@ -6382,7 +6386,7 @@ Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Addi
 <PaylinkTokenCreated>
  <attachments><>...</></attachments> 
  <bps></bps> 
- <date_created>2024-04-22</date_created> 
+ <date_created>2024-04-30</date_created> 
  <errors></errors> 
  <id>00000000-0000-0000-0000-000000000000</id> 
  <identifier>95b857a1-5955-4b86-963c-5a6dbfc4fb95</identifier> 
@@ -6462,7 +6466,7 @@ BPS | `bps` | string  | false | true if BPS has been enabled on this token. |
 
 | Field | Type | Required | Description |
 |-------|------|----------|-------------|
-| `accountno` | string  | false | Specifies an alpha-numeric account number that the Paylink service uses when creating a Cardholder Account. The value should be no longer than 20 characters in length. | 
+| `accountno` | string  | false | To be able to use credential on file (COF) services. A cardholder account may be created once the payment has been authorised, this is then stored "on file" for subsequent charging for example re-authorisation, unscheduled payment, delayed charges, incremental authorisation, recurring payments, resubmission or no-show style agreements.<br/><br/>Specifies an alpha-numeric account number that the Paylink service uses when creating a Cardholder Account. The value should be no longer than 20 characters in length. | 
 | `amount` | integer *int32* | true | Specifies the intended value of the transaction in the lowest denomination with no spacing characters or decimal point. This is the net total to be processed. An example of £74.95 would be presented as 7495. | 
 | `cardholder` | object | false | [PaylinkCardHolder](#paylinkcardholder) Cardholder fields are used to identify the underlying cardholder processing the transaction. These values are optional and the user can complete these values on the online form or may be pre-populated in the initial create request. | 
 | `cart` | object | false | [PaylinkCart](#paylinkcart) The cart element. | 
@@ -6487,8 +6491,8 @@ BPS | `bps` | string  | false | true if BPS has been enabled on this token. |
    "amount_paid": 0,
    "auth_code": "",
    "card": "Visa/0002",
-   "created": "2024-04-22",
-   "datetime": "2024-04-22",
+   "created": "2024-04-30",
+   "datetime": "2024-04-30",
    "identifier": "95b857a1-5955-4b86-963c-5a6dbfc4fb95",
    "is_attachment": false,
    "is_cancelled": false,
@@ -6505,7 +6509,7 @@ BPS | `bps` | string  | false | true if BPS has been enabled on this token. |
    "is_request_challenged": false,
    "is_sms_sent": false,
    "is_validated": false,
-   "last_event_date_time": "2024-04-22",
+   "last_event_date_time": "2024-04-30",
    "last_payment_result": "",
    "mid": 11223344,
    "payment_attempts_count": 0,
@@ -6520,8 +6524,8 @@ BPS | `bps` | string  | false | true if BPS has been enabled on this token. |
  <amount_paid></amount_paid> 
  <auth_code></auth_code> 
  <card>Visa/0002</card> 
- <created>2024-04-22</created> 
- <datetime>2024-04-22</datetime> 
+ <created>2024-04-30</created> 
+ <datetime>2024-04-30</datetime> 
  <identifier>95b857a1-5955-4b86-963c-5a6dbfc4fb95</identifier> 
  <is_attachment></is_attachment> 
  <is_cancelled></is_cancelled> 
@@ -6538,7 +6542,7 @@ BPS | `bps` | string  | false | true if BPS has been enabled on this token. |
  <is_request_challenged></is_request_challenged> 
  <is_sms_sent></is_sms_sent> 
  <is_validated></is_validated> 
- <last_event_date_time>2024-04-22</last_event_date_time> 
+ <last_event_date_time>2024-04-30</last_event_date_time> 
  <last_payment_result></last_payment_result> 
  <mid>11223344</mid> 
  <payment_attempts_count></payment_attempts_count> 
@@ -6587,7 +6591,7 @@ BPS | `bps` | string  | false | true if BPS has been enabled on this token. |
 
 ```json
 {
-   "after": "2024-04-22",
+   "after": "2024-04-30",
    "maxResults": 50,
    "merchantid": 11223344,
    "nextToken": "n34liuwn435tUAGFNg34yn...",
@@ -6597,7 +6601,7 @@ BPS | `bps` | string  | false | true if BPS has been enabled on this token. |
 
 ```xml
 <PaylinkTokenStatusChangeRequest>
- <after>2024-04-22</after> 
+ <after>2024-04-30</after> 
  <maxResults>50</maxResults> 
  <merchantid>11223344</merchantid> 
  <nextToken>n34liuwn435tUAGFNg34yn...</nextToken> 
