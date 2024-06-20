@@ -4,7 +4,7 @@ openapi: 3.0.0
 #                              API Information                                 #
 ################################################################################
 info:
-  version: 6.6.41
+  version: 6.6.42
   title: CityPay Payment API
   description: |
 
@@ -3060,6 +3060,7 @@ components:
       properties: 
         status: 
           type: string
+          example: ACTIVE
           description: The status of the account to set, valid values are ACTIVE or DISABLED.
     Acknowledgement: 
       type: object
@@ -4436,6 +4437,7 @@ components:
           description: The date and time the account was last modified.
         status: 
           type: string
+          example: ACTIVE
           description: |
             Defines the status of the account for processing valid values are
             
@@ -5191,7 +5193,7 @@ components:
         event_end_date: 
           type: string
           format: date
-          example: 2024-04-30
+          example: 2024-06-20
           description: The date when the event ends in ISO format (yyyy-MM-dd).
         event_id: 
           type: string
@@ -5202,7 +5204,7 @@ components:
         event_start_date: 
           type: string
           format: date
-          example: 2024-04-30
+          example: 2024-06-20
           description: The date when the event starts in ISO format (yyyy-MM-dd).
         payment_type: 
           type: string
@@ -5369,7 +5371,7 @@ components:
         batch_closed: 
           type: string
           format: date-time
-          example: 2024-04-30T10:16:18Z
+          example: 2024-06-20T12:54:47Z
           description: The date and time when the batch was closed. This is represented in ISO 8601 format (e.g., YYYY-MM-DDTHH:MM:SSZ) and indicates when the batch processing was completed.
         batch_no: 
           type: string
@@ -5598,7 +5600,7 @@ components:
         due: 
           type: string
           format: date
-          example: 2024-04-30
+          example: 2024-06-20
           description: A date that the invoice is due. This can be displayed on the payment page.
         email_notification_path: 
           $ref: '#/components/schemas/PaylinkEmailNotificationPath'
@@ -6064,7 +6066,7 @@ components:
         datetime: 
           type: string
           format: date-time
-          example: 2024-04-30T10:16:18Z
+          example: 2024-06-20T12:54:47Z
           description: the date and time of the event.
         message: 
           type: string
@@ -6092,7 +6094,7 @@ components:
         date_created: 
           type: string
           format: date-time
-          example: 2024-04-30T10:16:18Z
+          example: 2024-06-20T12:54:47Z
           description: Date and time the token was generated.
         errors: 
           type: array
@@ -6227,12 +6229,12 @@ components:
         created: 
           type: string
           format: date-time
-          example: 2024-04-30T10:16:18Z
+          example: 2024-06-20T12:54:47Z
           description: the date and time that the session was created.
         datetime: 
           type: string
           format: date-time
-          example: 2024-04-30T10:16:18Z
+          example: 2024-06-20T12:54:47Z
           description: the date and time of the current status.
         identifier: 
           type: string
@@ -6288,7 +6290,7 @@ components:
         last_event_date_time: 
           type: string
           format: date-time
-          example: 2024-04-30T10:16:18Z
+          example: 2024-06-20T12:54:47Z
           description: the date and time that the session last had an event actioned against it.
         last_payment_result: 
           type: string
@@ -6323,7 +6325,7 @@ components:
         after: 
           type: string
           format: date-time
-          example: 2024-04-30T10:16:18Z
+          example: 2024-06-20T12:54:47Z
           description: identifies the date and time to lookup changes after.
         maxResults: 
           type: integer
@@ -6427,32 +6429,6 @@ components:
             For AVS to work correctly, the billing details should be the registered address of the card holder
             as it appears on the statement with their card issuer. The numeric details will be passed through
             for analysis and may result in a decline if incorrectly provided.
-        csc: 
-          type: string
-          minLength: 3
-          maxLength: 4
-          example: 012
-          description: |
-            The Card Security Code (CSC) (also known as CV2/CVV2) is normally found on the back of the card
-            (American Express has it on the front). The value helps to identify possession of the card as it is not
-            available within the chip or magnetic swipe.
-            
-            When forwarding the CSC, please ensure the value is a string as some values start with 0 and this will be stripped
-            out by any integer parsing.
-            
-            The CSC number aids fraud prevention in Mail Order and Internet payments.
-            
-            Business rules are available on your account to identify whether to accept
-            or decline transactions based on mismatched results of the CSC.
-            
-            The Payment Card Industry (PCI) requires that at no stage of a transaction should the CSC be stored.
-            
-            This applies to all entities handling card data.
-            
-            It should also not be used in any hashing process.
-            
-            CityPay do not store the value and have no method of retrieving the value once the transaction has been processed.
-            For this reason, duplicate checking is unable to determine the CSC in its duplication check algorithm.
         csc_policy: 
           type: string
           description: |

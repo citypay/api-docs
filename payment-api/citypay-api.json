@@ -1,7 +1,7 @@
 {
   "openapi" : "3.0.0",
   "info" : {
-    "version" : "6.6.41",
+    "version" : "6.6.42",
     "title" : "CityPay Payment API",
     "description" : "\nWelcome to the CityPay API, a robust HTTP API payment solution designed for seamless server-to-server \ntransactional processing. Our API facilitates a wide array of payment operations, catering to diverse business needs. \nWhether you're integrating Internet payments, handling Mail Order/Telephone Order (MOTO) transactions, managing \nSubscriptions with Recurring and Continuous Authority payments, or navigating the complexities of 3-D Secure \nauthentication, our API is equipped to support your requirements. Additionally, we offer functionalities for \nAuthorisation, Refunding, Pre-Authorisation, Cancellation/Voids, and Completion processing, alongside the capability \nfor tokenised payments.\n\n## Compliance and Security Overview\n<aside class=\"notice\">\n  Ensuring the security of payment transactions and compliance with industry standards is paramount. Our API is \n  designed with stringent security measures and compliance protocols to safeguard sensitive information and meet \n  the rigorous requirements of Visa, MasterCard, and the PCI Security Standards Council.\n</aside>\n\n### Key Compliance and Security Measures\n\n* **TLS Encryption**: All data transmissions must utilise TLS version 1.2 or higher, employing [strong cryptography](#enabled-tls-ciphers). Our infrastructure strictly enforces this requirement to maintain the integrity and confidentiality of data in transit. We conduct regular scans and assessments of our TLS endpoints to identify and mitigate vulnerabilities.\n* **Data Storage Prohibitions**: Storing sensitive cardholder data (CHD), such as the card security code (CSC) or primary account number (PAN), is strictly prohibited. Our API is designed to minimize your exposure to sensitive data, thereby reducing your compliance burden.\n* **Data Masking**: For consumer protection and compliance, full card numbers must not be displayed on receipts or any customer-facing materials. Our API automatically masks PANs, displaying only the last four digits to facilitate safe receipt generation.\n* **Network Scans**: If your application is web-based, regular scans of your hosting environment are mandatory to identify and rectify potential vulnerabilities. This proactive measure is crucial for maintaining a secure and compliant online presence.\n* **PCI Compliance**: Adherence to PCI DSS standards is not optional; it's a requirement for operating securely and legally in the payments ecosystem. For detailed information on compliance requirements and resources, please visit the PCI Security Standards Council website [https://www.pcisecuritystandards.org/](https://www.pcisecuritystandards.org/).\n* **Request Validation**: Our API includes mechanisms to verify the legitimacy of each request, ensuring it pertains to a valid account and originates from a trusted source. We leverage remote IP address verification alongside sophisticated application firewall technologies to thwart a wide array of common security threats.\n\n## Getting Started\nBefore integrating with the CityPay API, ensure your application and development practices align with the outlined compliance and security measures. This preparatory step is crucial for a smooth integration process and the long-term success of your payment processing operations.\n\nFor further details on API endpoints, request/response formats, and code examples, proceed to the subsequent sections of our documentation. Our aim is to provide you with all the necessary tools and information to integrate our payment processing capabilities seamlessly into your application.\n\nThank you for choosing CityPay API. We look forward to supporting your payment processing needs with our secure, compliant, and versatile API solution.\n",
     "contact" : {
@@ -3704,6 +3704,7 @@
         "properties" : {
           "status" : {
             "type" : "string",
+            "example" : "ACTIVE",
             "description" : "The status of the account to set, valid values are ACTIVE or DISABLED."
           }
         }
@@ -4844,6 +4845,7 @@
           },
           "status" : {
             "type" : "string",
+            "example" : "ACTIVE",
             "description" : "Defines the status of the account for processing valid values are\n\n - ACTIVE for active accounts that are able to process\n\n - DISABLED for accounts that are currently disabled for processing.\n"
           },
           "unique_id" : {
@@ -5367,7 +5369,7 @@
           "event_end_date" : {
             "type" : "string",
             "format" : "date",
-            "example" : "2024-04-30",
+            "example" : "2024-06-20",
             "description" : "The date when the event ends in ISO format (yyyy-MM-dd)."
           },
           "event_id" : {
@@ -5381,7 +5383,7 @@
           "event_start_date" : {
             "type" : "string",
             "format" : "date",
-            "example" : "2024-04-30",
+            "example" : "2024-06-20",
             "description" : "The date when the event starts in ISO format (yyyy-MM-dd)."
           },
           "payment_type" : {
@@ -5597,7 +5599,7 @@
           "batch_closed" : {
             "type" : "string",
             "format" : "date-time",
-            "example" : "2024-04-30T10:16:18Z",
+            "example" : "2024-06-20T12:54:47Z",
             "description" : "The date and time when the batch was closed. This is represented in ISO 8601 format (e.g., YYYY-MM-DDTHH:MM:SSZ) and indicates when the batch processing was completed."
           },
           "batch_no" : {
@@ -5856,7 +5858,7 @@
           "due" : {
             "type" : "string",
             "format" : "date",
-            "example" : "2024-04-30",
+            "example" : "2024-06-20",
             "description" : "A date that the invoice is due. This can be displayed on the payment page."
           },
           "email_notification_path" : {
@@ -6355,7 +6357,7 @@
           "datetime" : {
             "type" : "string",
             "format" : "date-time",
-            "example" : "2024-04-30T10:16:18Z",
+            "example" : "2024-06-20T12:54:47Z",
             "description" : "the date and time of the event."
           },
           "message" : {
@@ -6387,7 +6389,7 @@
           "date_created" : {
             "type" : "string",
             "format" : "date-time",
-            "example" : "2024-04-30T10:16:18Z",
+            "example" : "2024-06-20T12:54:47Z",
             "description" : "Date and time the token was generated."
           },
           "errors" : {
@@ -6542,13 +6544,13 @@
           "created" : {
             "type" : "string",
             "format" : "date-time",
-            "example" : "2024-04-30T10:16:18Z",
+            "example" : "2024-06-20T12:54:47Z",
             "description" : "the date and time that the session was created."
           },
           "datetime" : {
             "type" : "string",
             "format" : "date-time",
-            "example" : "2024-04-30T10:16:18Z",
+            "example" : "2024-06-20T12:54:47Z",
             "description" : "the date and time of the current status."
           },
           "identifier" : {
@@ -6621,7 +6623,7 @@
           "last_event_date_time" : {
             "type" : "string",
             "format" : "date-time",
-            "example" : "2024-04-30T10:16:18Z",
+            "example" : "2024-06-20T12:54:47Z",
             "description" : "the date and time that the session last had an event actioned against it."
           },
           "last_payment_result" : {
@@ -6664,7 +6666,7 @@
           "after" : {
             "type" : "string",
             "format" : "date-time",
-            "example" : "2024-04-30T10:16:18Z",
+            "example" : "2024-06-20T12:54:47Z",
             "description" : "identifies the date and time to lookup changes after."
           },
           "maxResults" : {
@@ -6763,13 +6765,6 @@
           "bill_to" : {
             "$ref" : "#/components/schemas/ContactDetails",
             "x-description" : "Billing details of the card holder making the payment.\nThese details may be used for AVS fraud analysis, 3DS and for future referencing of the transaction.\n\nFor AVS to work correctly, the billing details should be the registered address of the card holder\nas it appears on the statement with their card issuer. The numeric details will be passed through\nfor analysis and may result in a decline if incorrectly provided.\n"
-          },
-          "csc" : {
-            "type" : "string",
-            "minLength" : 3,
-            "maxLength" : 4,
-            "example" : 10,
-            "description" : "The Card Security Code (CSC) (also known as CV2/CVV2) is normally found on the back of the card\n(American Express has it on the front). The value helps to identify possession of the card as it is not\navailable within the chip or magnetic swipe.\n\nWhen forwarding the CSC, please ensure the value is a string as some values start with 0 and this will be stripped\nout by any integer parsing.\n\nThe CSC number aids fraud prevention in Mail Order and Internet payments.\n\nBusiness rules are available on your account to identify whether to accept\nor decline transactions based on mismatched results of the CSC.\n\nThe Payment Card Industry (PCI) requires that at no stage of a transaction should the CSC be stored.\n\nThis applies to all entities handling card data.\n\nIt should also not be used in any hashing process.\n\nCityPay do not store the value and have no method of retrieving the value once the transaction has been processed.\nFor this reason, duplicate checking is unable to determine the CSC in its duplication check algorithm.\n"
           },
           "csc_policy" : {
             "type" : "string",
