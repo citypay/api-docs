@@ -1,12 +1,12 @@
 ---
 title: CityPay Payment API
-version: 6.6.46
+version: 6.x
 language_tabs:
   - json
   - xml
 toc_footers:
   - <a href='mailto:support@citypay.com'>Any Integration Questions?</a>
-  - V6.6.46 2024-08-03
+  - V6.x 2024-08-17
 includes:
   - errorcodes
   - authresultcodes
@@ -26,8 +26,8 @@ search: true
  Our latest documentation is available on <a href="https://docs.citypay.com">CityPay Docs</a>
 </aside>
 
-Version: 6.6.46
-Last Updated: 2024-08-03
+Version: 6.x
+Last Updated: 2024-08-17
 
 
 Welcome to the CityPay API, a robust HTTP API payment solution designed for seamless server-to-server 
@@ -5343,20 +5343,20 @@ Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Addi
 
 ```json
 {
-   "event_end_date": "2024-08-03",
+   "event_end_date": "2024-08-17",
    "event_id": "",
    "event_organiser_id": "",
-   "event_start_date": "2024-08-03",
+   "event_start_date": "2024-08-17",
    "payment_type": ""
 }
 ```
 
 ```xml
 <EventDataModel>
- <event_end_date>2024-08-03</event_end_date> 
+ <event_end_date>2024-08-17</event_end_date> 
  <event_id></event_id> 
  <event_organiser_id></event_organiser_id> 
- <event_start_date>2024-08-03</event_start_date> 
+ <event_start_date>2024-08-17</event_start_date> 
  <payment_type></payment_type> 
 </EventDataModel>
 ```
@@ -5600,7 +5600,7 @@ Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Addi
 
 ```json
 {
-   "batch_closed": "2024-08-03",
+   "batch_closed": "2024-08-17",
    "batch_no": "",
    "batch_status": "",
    "batch_status_code": "",
@@ -5612,7 +5612,7 @@ Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Addi
 
 ```xml
 <MerchantBatchResponse>
- <batch_closed>2024-08-03</batch_closed> 
+ <batch_closed>2024-08-17</batch_closed> 
  <batch_no></batch_no> 
  <batch_status></batch_status> 
  <batch_status_code></batch_status_code> 
@@ -5841,7 +5841,7 @@ Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Addi
    "addressee": "",
    "attachments": "",
    "descriptor": "",
-   "due": "2024-08-03",
+   "due": "2024-08-17",
    "email_notification_path": { ... },
    "memo": "",
    "request": { ... },
@@ -5854,7 +5854,7 @@ Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Addi
  <addressee></addressee> 
  <attachments></attachments> 
  <descriptor></descriptor> 
- <due>2024-08-03</due> 
+ <due>2024-08-17</due> 
  <email_notification_path><>...</></email_notification_path> 
  <memo></memo> 
  <request><>...</></request> 
@@ -6336,7 +6336,7 @@ Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Addi
 
 ```json
 {
-   "datetime": "2024-08-03",
+   "datetime": "2024-08-17",
    "message": "message on this state",
    "state": "FormInput"
 }
@@ -6344,7 +6344,7 @@ Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Addi
 
 ```xml
 <PaylinkStateEvent>
- <datetime>2024-08-03</datetime> 
+ <datetime>2024-08-17</datetime> 
  <message>message on this state</message> 
  <state>FormInput</state> 
 </PaylinkStateEvent>
@@ -6366,7 +6366,7 @@ Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Addi
 {
    "attachments": { ... },
    "bps": "",
-   "date_created": "2024-08-03",
+   "date_created": "2024-08-17",
    "errors": "",
    "id": "00000000-0000-0000-0000-000000000000",
    "identifier": "95b857a1-5955-4b86-963c-5a6dbfc4fb95",
@@ -6385,7 +6385,7 @@ Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Addi
 <PaylinkTokenCreated>
  <attachments><>...</></attachments> 
  <bps></bps> 
- <date_created>2024-08-03</date_created> 
+ <date_created>2024-08-17</date_created> 
  <errors></errors> 
  <id>00000000-0000-0000-0000-000000000000</id> 
  <identifier>95b857a1-5955-4b86-963c-5a6dbfc4fb95</identifier> 
@@ -6490,8 +6490,8 @@ BPS | `bps` | string  | false | true if BPS has been enabled on this token. |
    "amount_paid": 0,
    "auth_code": "",
    "card": "Visa/0002",
-   "created": "2024-08-03",
-   "datetime": "2024-08-03",
+   "created": "2024-08-17",
+   "datetime": "2024-08-17",
    "identifier": "95b857a1-5955-4b86-963c-5a6dbfc4fb95",
    "is_attachment": false,
    "is_cancelled": false,
@@ -6508,7 +6508,7 @@ BPS | `bps` | string  | false | true if BPS has been enabled on this token. |
    "is_request_challenged": false,
    "is_sms_sent": false,
    "is_validated": false,
-   "last_event_date_time": "2024-08-03",
+   "last_event_date_time": "2024-08-17",
    "last_payment_result": "",
    "mid": 11223344,
    "payment_attempts_count": 0,
@@ -6523,8 +6523,8 @@ BPS | `bps` | string  | false | true if BPS has been enabled on this token. |
  <amount_paid></amount_paid> 
  <auth_code></auth_code> 
  <card>Visa/0002</card> 
- <created>2024-08-03</created> 
- <datetime>2024-08-03</datetime> 
+ <created>2024-08-17</created> 
+ <datetime>2024-08-17</datetime> 
  <identifier>95b857a1-5955-4b86-963c-5a6dbfc4fb95</identifier> 
  <is_attachment></is_attachment> 
  <is_cancelled></is_cancelled> 
@@ -6541,7 +6541,7 @@ BPS | `bps` | string  | false | true if BPS has been enabled on this token. |
  <is_request_challenged></is_request_challenged> 
  <is_sms_sent></is_sms_sent> 
  <is_validated></is_validated> 
- <last_event_date_time>2024-08-03</last_event_date_time> 
+ <last_event_date_time>2024-08-17</last_event_date_time> 
  <last_payment_result></last_payment_result> 
  <mid>11223344</mid> 
  <payment_attempts_count></payment_attempts_count> 
@@ -6590,7 +6590,7 @@ BPS | `bps` | string  | false | true if BPS has been enabled on this token. |
 
 ```json
 {
-   "after": "2024-08-03",
+   "after": "2024-08-17",
    "maxResults": 50,
    "merchantid": 11223344,
    "nextToken": "n34liuwn435tUAGFNg34yn...",
@@ -6600,7 +6600,7 @@ BPS | `bps` | string  | false | true if BPS has been enabled on this token. |
 
 ```xml
 <PaylinkTokenStatusChangeRequest>
- <after>2024-08-03</after> 
+ <after>2024-08-17</after> 
  <maxResults>50</maxResults> 
  <merchantid>11223344</merchantid> 
  <nextToken>n34liuwn435tUAGFNg34yn...</nextToken> 
