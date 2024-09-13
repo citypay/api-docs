@@ -1,7 +1,7 @@
 {
   "openapi" : "3.0.0",
   "info" : {
-    "version" : "6.x",
+    "version" : "6.6.50",
     "title" : "CityPay Payment API",
     "description" : "\nWelcome to the CityPay API, a robust HTTP API payment solution designed for seamless server-to-server \ntransactional processing. Our API facilitates a wide array of payment operations, catering to diverse business needs. \nWhether you're integrating Internet payments, handling Mail Order/Telephone Order (MOTO) transactions, managing \nSubscriptions with Recurring and Continuous Authority payments, or navigating the complexities of 3-D Secure \nauthentication, our API is equipped to support your requirements. Additionally, we offer functionalities for \nAuthorisation, Refunding, Pre-Authorisation, Cancellation/Voids, and Completion processing, alongside the capability \nfor tokenised payments.\n\n## Compliance and Security Overview\n<aside class=\"notice\">\n  Ensuring the security of payment transactions and compliance with industry standards is paramount. Our API is \n  designed with stringent security measures and compliance protocols to safeguard sensitive information and meet \n  the rigorous requirements of Visa, MasterCard, and the PCI Security Standards Council.\n</aside>\n\n### Key Compliance and Security Measures\n\n* **TLS Encryption**: All data transmissions must utilise TLS version 1.2 or higher, employing [strong cryptography](#enabled-tls-ciphers). Our infrastructure strictly enforces this requirement to maintain the integrity and confidentiality of data in transit. We conduct regular scans and assessments of our TLS endpoints to identify and mitigate vulnerabilities.\n* **Data Storage Prohibitions**: Storing sensitive cardholder data (CHD), such as the card security code (CSC) or primary account number (PAN), is strictly prohibited. Our API is designed to minimize your exposure to sensitive data, thereby reducing your compliance burden.\n* **Data Masking**: For consumer protection and compliance, full card numbers must not be displayed on receipts or any customer-facing materials. Our API automatically masks PANs, displaying only the last four digits to facilitate safe receipt generation.\n* **Network Scans**: If your application is web-based, regular scans of your hosting environment are mandatory to identify and rectify potential vulnerabilities. This proactive measure is crucial for maintaining a secure and compliant online presence.\n* **PCI Compliance**: Adherence to PCI DSS standards is not optional; it's a requirement for operating securely and legally in the payments ecosystem. For detailed information on compliance requirements and resources, please visit the PCI Security Standards Council website [https://www.pcisecuritystandards.org/](https://www.pcisecuritystandards.org/).\n* **Request Validation**: Our API includes mechanisms to verify the legitimacy of each request, ensuring it pertains to a valid account and originates from a trusted source. We leverage remote IP address verification alongside sophisticated application firewall technologies to thwart a wide array of common security threats.\n\n## Getting Started\nBefore integrating with the CityPay API, ensure your application and development practices align with the outlined compliance and security measures. This preparatory step is crucial for a smooth integration process and the long-term success of your payment processing operations.\n\nFor further details on API endpoints, request/response formats, and code examples, proceed to the subsequent sections of our documentation. Our aim is to provide you with all the necessary tools and information to integrate our payment processing capabilities seamlessly into your application.\n\nThank you for choosing CityPay API. We look forward to supporting your payment processing needs with our secure, compliant, and versatile API solution.\n",
     "contact" : {
@@ -38,6 +38,9 @@
   }, {
     "name" : "Reporting Api",
     "description" : "Reporting functions that return data based on payment processing services."
+  }, {
+    "name" : "Web Hooks",
+    "description" : "."
   } ],
   "paths" : {
     "/direct/auth" : {
@@ -621,6 +624,286 @@
               "text/xml" : {
                 "schema" : {
                   "$ref" : "#/components/schemas/DomainKeyResponse"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Bad Request. Should the incoming data not be validly determined."
+          },
+          "401" : {
+            "description" : "Unauthorized. No api key has been provided and is required for this operation."
+          },
+          "403" : {
+            "description" : "Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request."
+          },
+          "422" : {
+            "description" : "Unprocessable Entity. Should a failure occur that prevents processing of the API call.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Error"
+                }
+              },
+              "text/xml" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Server Error. The server was unable to complete the request."
+          }
+        }
+      }
+    },
+    "/hooks/channel/create" : {
+      "post" : {
+        "summary" : "Web Hook Channel Create Request",
+        "tags" : [ "Web Hooks" ],
+        "operationId" : "WebHookChannelCreateRequest$",
+        "description" : "A WebHookChannel is required to establish a connection with our event notification system. The channel serves as the \ncommunication link between your application and the events generated by the payment gateway. When you register a \nWebHookChannel, you're defining the endpoint where we will deliver notifications, such as payment events.\n\nThe WebHookChannel encapsulates important configuration details like the endpoint type (e.g., HTTP), the client ID, \nand security parameters. However, the channel itself does not specify which events will \nbe sent but should be considered as the pipeline for receiving those events. After registering a channel, you can then \nconfigure triggers separately using a subscription request to define which specific payment events \nshould flow through this channel.\n",
+        "security" : [ {
+          "cp-api-key" : [ ]
+        } ],
+        "requestBody" : {
+          "required" : true,
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/WebHookChannelCreateRequest"
+              }
+            },
+            "text/xml" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/WebHookChannelCreateRequest"
+              }
+            }
+          }
+        },
+        "responses" : {
+          "200" : {
+            "description" : "Created a new web hook channel.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/WebHookChannelCreateResponse"
+                }
+              },
+              "text/xml" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/WebHookChannelCreateResponse"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Bad Request. Should the incoming data not be validly determined."
+          },
+          "401" : {
+            "description" : "Unauthorized. No api key has been provided and is required for this operation."
+          },
+          "403" : {
+            "description" : "Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request."
+          },
+          "422" : {
+            "description" : "Unprocessable Entity. Should a failure occur that prevents processing of the API call.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Error"
+                }
+              },
+              "text/xml" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Server Error. The server was unable to complete the request."
+          }
+        }
+      }
+    },
+    "/hooks/channel/delete" : {
+      "post" : {
+        "summary" : "Web Hook Channel Delete Request",
+        "tags" : [ "Web Hooks" ],
+        "operationId" : "WebHookChannelDeleteRequest$",
+        "description" : "The WebHookChannelDeleteRequest allows you to remove an existing WebHookChannel from the event notification system. \nBy specifying the channel ID, you can deactivate the communication link between your application and the payment \ngateway’s event system. Deleting a channel effectively halts any further notifications being sent to the associated \nendpoint, ensuring that no additional events are processed through that channel.\n",
+        "security" : [ {
+          "cp-api-key" : [ ]
+        } ],
+        "requestBody" : {
+          "required" : true,
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/WebHookChannelDeleteRequest"
+              }
+            },
+            "text/xml" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/WebHookChannelDeleteRequest"
+              }
+            }
+          }
+        },
+        "responses" : {
+          "200" : {
+            "description" : "Result of deleting the web hook channel.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Acknowledgement"
+                }
+              },
+              "text/xml" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Acknowledgement"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Bad Request. Should the incoming data not be validly determined."
+          },
+          "401" : {
+            "description" : "Unauthorized. No api key has been provided and is required for this operation."
+          },
+          "403" : {
+            "description" : "Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request."
+          },
+          "422" : {
+            "description" : "Unprocessable Entity. Should a failure occur that prevents processing of the API call.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Error"
+                }
+              },
+              "text/xml" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Server Error. The server was unable to complete the request."
+          }
+        }
+      }
+    },
+    "/hooks/subscribe" : {
+      "post" : {
+        "summary" : "Web Hook Subscription Request",
+        "tags" : [ "Web Hooks" ],
+        "operationId" : "WebHookSubscriptionRequest$",
+        "description" : "The WebHookSubscriptionRequest is used to define and activate event triggers for an existing WebHookChannel. This \nrequest specifies the events or conditions that your application wants to be notified about, ensuring that only \nrelevant event data flows through the channel.\n",
+        "security" : [ {
+          "cp-api-key" : [ ]
+        } ],
+        "requestBody" : {
+          "required" : true,
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/WebHookSubscriptionRequest"
+              }
+            },
+            "text/xml" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/WebHookSubscriptionRequest"
+              }
+            }
+          }
+        },
+        "responses" : {
+          "200" : {
+            "description" : "Subscribe a new web hook.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/WebHookSubscriptionResponse"
+                }
+              },
+              "text/xml" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/WebHookSubscriptionResponse"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Bad Request. Should the incoming data not be validly determined."
+          },
+          "401" : {
+            "description" : "Unauthorized. No api key has been provided and is required for this operation."
+          },
+          "403" : {
+            "description" : "Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request."
+          },
+          "422" : {
+            "description" : "Unprocessable Entity. Should a failure occur that prevents processing of the API call.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Error"
+                }
+              },
+              "text/xml" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Server Error. The server was unable to complete the request."
+          }
+        }
+      }
+    },
+    "/hooks/unsubscribe" : {
+      "post" : {
+        "summary" : "Web Hook Unsubscribe Request",
+        "tags" : [ "Web Hooks" ],
+        "operationId" : "WebHookUnsubscribeRequest$",
+        "description" : "The WebHookUnsubscribeRequest is used to remove an existing webhook subscription from the system. This allows clients \nto stop receiving event notifications for specific webhook subscriptions that are no longer needed.\n",
+        "security" : [ {
+          "cp-api-key" : [ ]
+        } ],
+        "requestBody" : {
+          "required" : true,
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/WebHookUnsubscribeRequest"
+              }
+            },
+            "text/xml" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/WebHookUnsubscribeRequest"
+              }
+            }
+          }
+        },
+        "responses" : {
+          "200" : {
+            "description" : "Unsubscribes a web hook.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Acknowledgement"
+                }
+              },
+              "text/xml" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Acknowledgement"
                 }
               }
             }
@@ -2520,6 +2803,10 @@
                 "$ref" : "#/components/schemas/CaptureRequest"
               },
               "examples" : {
+                "example2" : {
+                  "summary" : "Basic capture call for a merchant with a transno and final amount",
+                  "externalValue" : "CaptureRequest-example2.json"
+                },
                 "example1" : {
                   "summary" : "Basic capture call for a merchant with a given identifier",
                   "externalValue" : "CaptureRequest-example1.json"
@@ -2527,10 +2814,6 @@
                 "example3" : {
                   "summary" : "Capture call for a merchant with identifier and airline data once a ticket has been issued",
                   "externalValue" : "CaptureRequest-example3.json"
-                },
-                "example2" : {
-                  "summary" : "Basic capture call for a merchant with a transno and final amount",
-                  "externalValue" : "CaptureRequest-example2.json"
                 }
               }
             },
@@ -2539,6 +2822,10 @@
                 "$ref" : "#/components/schemas/CaptureRequest"
               },
               "examples" : {
+                "example2" : {
+                  "summary" : "Basic capture call for a merchant with a transno and final amount",
+                  "externalValue" : "CaptureRequest-example2.xml"
+                },
                 "example1" : {
                   "summary" : "Basic capture call for a merchant with a given identifier",
                   "externalValue" : "CaptureRequest-example1.xml"
@@ -2546,10 +2833,6 @@
                 "example3" : {
                   "summary" : "Capture call for a merchant with identifier and airline data once a ticket has been issued",
                   "externalValue" : "CaptureRequest-example3.xml"
-                },
-                "example2" : {
-                  "summary" : "Basic capture call for a merchant with a transno and final amount",
-                  "externalValue" : "CaptureRequest-example2.xml"
                 }
               }
             }
@@ -3606,13 +3889,13 @@
                 "$ref" : "#/components/schemas/VoidRequest"
               },
               "examples" : {
-                "example1" : {
-                  "summary" : "Basic capture call for a merchant with a given identifier",
-                  "externalValue" : "VoidRequest-example1.json"
-                },
                 "example2" : {
                   "summary" : "Basic capture call for a merchant with a transno and final amount",
                   "externalValue" : "VoidRequest-example2.json"
+                },
+                "example1" : {
+                  "summary" : "Basic capture call for a merchant with a given identifier",
+                  "externalValue" : "VoidRequest-example1.json"
                 }
               }
             },
@@ -3621,13 +3904,13 @@
                 "$ref" : "#/components/schemas/VoidRequest"
               },
               "examples" : {
-                "example1" : {
-                  "summary" : "Basic capture call for a merchant with a given identifier",
-                  "externalValue" : "VoidRequest-example1.xml"
-                },
                 "example2" : {
                   "summary" : "Basic capture call for a merchant with a transno and final amount",
                   "externalValue" : "VoidRequest-example2.xml"
+                },
+                "example1" : {
+                  "summary" : "Basic capture call for a merchant with a given identifier",
+                  "externalValue" : "VoidRequest-example1.xml"
                 }
               }
             }
@@ -3770,6 +4053,74 @@
             "type" : "string",
             "example" : "AWS",
             "description" : "The source provider of the ACL such as cloud, subnet, country or IP based."
+          }
+        }
+      },
+      "AdjustmentCondition" : {
+        "type" : "object",
+        "properties" : {
+          "anchor" : {
+            "type" : "string",
+            "description" : "The anchor is the reference point from which the condition is evaluated. It determines\nwhen the adjustment should be considered based on a specific event or timeline related\nto the intent.\n\nFor example:\n\nafter_creation: The adjustment is applied after a specified number of days following the date of the creation of the payment intent.\nafter_due_date: The adjustment is applied after a specified number of days following the due date.\nbefore_due_date: The adjustment is applied within a specified number of days before the due date.\nbefore_expiry: The adjustment is applied within a specified number of days before the date the payment intent expires.\non_due_date: The adjustment is applied on the due date\n\nyyyy-MM-dd: A specific ISO date value can be supplied to apply the adjustment on a given date.\n"
+          },
+          "discount_code" : {
+            "type" : "string",
+            "description" : "The discount code condition ensures that an adjustment is only applied if the correct promotional code is provided during the transaction.\n\nExample:\nA 10% discount might only apply if the customer enters the discount code SEP24.\n"
+          },
+          "duration" : {
+            "type" : "integer",
+            "format" : "int32",
+            "example" : 7,
+            "description" : "The duration specifies the time frame in days relative to the anchor point when the adjustment should be applied."
+          },
+          "end_date" : {
+            "type" : "string",
+            "format" : "date",
+            "example" : "2024-08-31",
+            "description" : "Define the exact date range within which an adjustment is valid, useful for promotional periods or specific events."
+          },
+          "start_date" : {
+            "type" : "string",
+            "format" : "date",
+            "example" : "2024-08-01",
+            "description" : "Define the exact date range within which an adjustment is valid, useful for promotional periods or specific events."
+          }
+        }
+      },
+      "Adjustments" : {
+        "type" : "object",
+        "required" : [ "adjustment" ],
+        "properties" : {
+          "accumulate" : {
+            "type" : "string",
+            "description" : "How adjustments are accumulated and therefore applied.\n\n**None (Default)**:\nOnly the last applicable adjustment is applied. The system ignores previous adjustments, and only the effect of the final adjustment is considered.\nUse Case: Use this mode when you want the final transaction amount to reflect only the last adjustment in the sequence, without any cumulative effect from prior adjustments.\n\n**AccumulateBase**:\nApplies each adjustment independently to the original base amount of the transaction, regardless of any previous adjustments. The effects of all adjustments are then combined to produce the final amount.\nUse Case: This mode is useful when each adjustment should be applied as if it were the only adjustment, but their effects are accumulated together.\n\n**AccumulatePrevious**:\nApplies each adjustment sequentially based on the amount resulting from the previous adjustment. This creates a cumulative effect where each adjustment builds upon the last one.\nUse Case: This mode is ideal when you need the final amount to reflect the cumulative effect of all adjustments in the order they are applied.\n\n**AccumulateBaseOver**:\nThe AccumulateBaseOver mode compares the effect of applying an adjustment to the original base amount with the result of the previously accumulated adjustments. The system then applies whichever adjustment produces a greater final amount.\nUse Case: This mode is useful when you want to ensure that the most impactful adjustment is applied, whether it comes from the base or the accumulated amount.\n"
+          },
+          "adjustment" : {
+            "type" : "string",
+            "description" : "The type of adjustment, valid values are `surcharge` or `discount`."
+          },
+          "amount" : {
+            "type" : "integer",
+            "format" : "int32",
+            "minLength" : 1,
+            "maxLength" : 9,
+            "example" : 19995,
+            "description" : "For fixed-amount adjustments, an amount to be discounted or surcharged."
+          },
+          "conditions" : {
+            "$ref" : "#/components/schemas/AdjustmentCondition",
+            "x-description" : "Defines specific conditions under which a surcharge or discount is applied.\nThe conditions are crucial for ensuring that adjustments are only triggered when\nthe relevant criteria are met, allowing for dynamic modifications to the transaction amount.\n"
+          },
+          "description" : {
+            "type" : "string",
+            "example" : "10% discount for loyalty program members",
+            "description" : "A brief description of the adjustment, explaining its purpose or the conditions under which it is applied.\nFor example.\n- Late Payment Fee\n- £15 fee for expedited processing on the same day\n- 5% discount for payments made within 5 days\n- 15% discount for first-time customers\n- 10% discount for loyalty program members.\n"
+          },
+          "percentage" : {
+            "type" : "number",
+            "format" : "double",
+            "example" : 17.5,
+            "description" : "For percentage-based adjustments, the percentage amount to be discounted or surcharged."
           }
         }
       },
@@ -5369,7 +5720,7 @@
           "event_end_date" : {
             "type" : "string",
             "format" : "date",
-            "example" : "2024-08-17",
+            "example" : "2024-09-13",
             "description" : "The date when the event ends in ISO format (yyyy-MM-dd)."
           },
           "event_id" : {
@@ -5383,7 +5734,7 @@
           "event_start_date" : {
             "type" : "string",
             "format" : "date",
-            "example" : "2024-08-17",
+            "example" : "2024-09-13",
             "description" : "The date when the event starts in ISO format (yyyy-MM-dd)."
           },
           "payment_type" : {
@@ -5442,6 +5793,22 @@
             "type" : "string",
             "maxLength" : 20,
             "description" : "The XID used for processing with the MPI."
+          }
+        }
+      },
+      "HttpConfig" : {
+        "type" : "object",
+        "required" : [ "url" ],
+        "properties" : {
+          "headers" : {
+            "type" : "object",
+            "description" : "Http headers to add to the configuration."
+          },
+          "url" : {
+            "type" : "string",
+            "format" : "url",
+            "example" : "https://yoursite.com/path",
+            "description" : "The url of the endpoint to contact. The value should be https."
           }
         }
       },
@@ -5599,7 +5966,7 @@
           "batch_closed" : {
             "type" : "string",
             "format" : "date-time",
-            "example" : "2024-08-17T07:57:15Z",
+            "example" : "2024-09-13T08:56:27Z",
             "description" : "The date and time when the batch was closed. This is represented in ISO 8601 format (e.g., YYYY-MM-DDTHH:MM:SSZ) and indicates when the batch processing was completed."
           },
           "batch_no" : {
@@ -5842,7 +6209,12 @@
         "properties" : {
           "addressee" : {
             "type" : "string",
+            "example" : "Jack Sparrow",
             "description" : "Who the bill payment request intended for. This should be a readable name such as a person or company."
+          },
+          "adjustments" : {
+            "$ref" : "#/components/schemas/Adjustments",
+            "x-description" : "Adjustments refer to the modifications applied to the base amount of a transaction, including surcharges,\ndiscounts, or other financial alterations. These adjustments are critical in calculating the final amount due,\nbased on specific conditions such as payment timing, discount codes, or business rules.\n\nEach adjustment is processed according to predefined criteria, ensuring that the final transaction amount\naccurately reflects any applicable financial rules or incentives. It is important to configure adjustments\ncorrectly, as they directly influence the payment amount and may impact the acceptance or rejection of a\ntransaction.\n"
           },
           "attachments" : {
             "type" : "array",
@@ -5858,7 +6230,7 @@
           "due" : {
             "type" : "string",
             "format" : "date",
-            "example" : "2024-08-17",
+            "example" : "2024-09-13",
             "description" : "A date that the invoice is due. This can be displayed on the payment page."
           },
           "email_notification_path" : {
@@ -5867,6 +6239,7 @@
           },
           "memo" : {
             "type" : "string",
+            "example" : "Invoice",
             "description" : "A memo that can be added to the payment page and email to provide to the customer."
           },
           "request" : {
@@ -6357,7 +6730,7 @@
           "datetime" : {
             "type" : "string",
             "format" : "date-time",
-            "example" : "2024-08-17T07:57:15Z",
+            "example" : "2024-09-13T08:56:27Z",
             "description" : "the date and time of the event."
           },
           "message" : {
@@ -6389,7 +6762,7 @@
           "date_created" : {
             "type" : "string",
             "format" : "date-time",
-            "example" : "2024-08-17T07:57:15Z",
+            "example" : "2024-09-13T08:56:27Z",
             "description" : "Date and time the token was generated."
           },
           "errors" : {
@@ -6544,13 +6917,13 @@
           "created" : {
             "type" : "string",
             "format" : "date-time",
-            "example" : "2024-08-17T07:57:15Z",
+            "example" : "2024-09-13T08:56:27Z",
             "description" : "the date and time that the session was created."
           },
           "datetime" : {
             "type" : "string",
             "format" : "date-time",
-            "example" : "2024-08-17T07:57:15Z",
+            "example" : "2024-09-13T08:56:27Z",
             "description" : "the date and time of the current status."
           },
           "identifier" : {
@@ -6623,7 +6996,7 @@
           "last_event_date_time" : {
             "type" : "string",
             "format" : "date-time",
-            "example" : "2024-08-17T07:57:15Z",
+            "example" : "2024-09-13T08:56:27Z",
             "description" : "the date and time that the session last had an event actioned against it."
           },
           "last_payment_result" : {
@@ -6666,7 +7039,7 @@
           "after" : {
             "type" : "string",
             "format" : "date-time",
-            "example" : "2024-08-17T07:57:15Z",
+            "example" : "2024-09-13T08:56:27Z",
             "description" : "identifies the date and time to lookup changes after."
           },
           "maxResults" : {
@@ -6750,6 +7123,10 @@
         "type" : "object",
         "required" : [ "amount", "identifier" ],
         "properties" : {
+          "adjustments" : {
+            "$ref" : "#/components/schemas/Adjustments",
+            "x-description" : "Adjustments refer to the modifications applied to the base amount of a transaction, including surcharges,\ndiscounts, or other financial alterations. These adjustments are critical in calculating the final amount due,\nbased on specific conditions such as payment timing, discount codes, or business rules.\n\nEach adjustment is processed according to predefined criteria, ensuring that the final transaction amount\naccurately reflects any applicable financial rules or incentives. It is important to configure adjustments\ncorrectly, as they directly influence the payment amount and may impact the acceptance or rejection of a\ntransaction.\n"
+          },
           "amount" : {
             "type" : "integer",
             "format" : "int32",
@@ -7392,6 +7769,127 @@
             "format" : "int32",
             "example" : 78416,
             "description" : "The transaction number of the transaction to look up and void. If an empty value is supplied then an identifier value must be supplied."
+          }
+        }
+      },
+      "WebHookChannelCreateRequest" : {
+        "type" : "object",
+        "required" : [ "channel_name", "clientid", "config", "endpoint_id" ],
+        "properties" : {
+          "channel_name" : {
+            "type" : "string",
+            "description" : "The name of the channel we are creating.\n"
+          },
+          "clientid" : {
+            "type" : "string",
+            "minLength" : 3,
+            "maxLength" : 10,
+            "example" : "PC12345",
+            "description" : "The client id that the hook is being registered for.\n"
+          },
+          "config" : {
+            "$ref" : "#/components/schemas/Choice",
+            "x-description" : "The configuration for the endpoint specified."
+          },
+          "endpoint_id" : {
+            "type" : "string",
+            "description" : "The id of the endpoint being used. The channel configuration is dependant upon the endpoint type.\n"
+          }
+        }
+      },
+      "WebHookChannelCreateResponse" : {
+        "type" : "object",
+        "properties" : {
+          "config" : {
+            "type" : "string",
+            "description" : "The resultant config object."
+          },
+          "endpoint_id" : {
+            "type" : "string",
+            "description" : "The id of the endpoint being used."
+          },
+          "web_channel_id" : {
+            "type" : "string",
+            "description" : "The id returned for the generated channel."
+          }
+        }
+      },
+      "WebHookChannelDeleteRequest" : {
+        "type" : "object",
+        "required" : [ "channel_id" ],
+        "properties" : {
+          "channel_id" : {
+            "type" : "string",
+            "description" : "The id of the channel to be deleted.\n"
+          }
+        }
+      },
+      "WebHookSubscriptionRequest" : {
+        "type" : "object",
+        "required" : [ "clientid" ],
+        "properties" : {
+          "channels" : {
+            "type" : "array",
+            "items" : {
+              "type" : "string",
+              "description" : "The channels to register the subscription request to. The channel must be pre-registered."
+            }
+          },
+          "clientid" : {
+            "type" : "string",
+            "minLength" : 3,
+            "maxLength" : 10,
+            "example" : "PC12345",
+            "description" : "The client id that the hook is being registered for.\n"
+          },
+          "live" : {
+            "type" : "boolean",
+            "example" : true,
+            "description" : "Specifies if the key is to be used for production. Defaults to false.\n"
+          },
+          "merchant_id" : {
+            "type" : "array",
+            "items" : {
+              "type" : "integer",
+              "format" : "int32",
+              "maxLength" : 8,
+              "minimum" : 1,
+              "example" : [ 11223344, 5667788 ],
+              "description" : "Merchant ids used to filter the hook result by."
+            }
+          },
+          "triggers" : {
+            "type" : "array",
+            "items" : {
+              "type" : "string",
+              "description" : "The hook triggers to register the subscription request to."
+            }
+          }
+        }
+      },
+      "WebHookSubscriptionResponse" : {
+        "type" : "object",
+        "properties" : {
+          "web_hook_id" : {
+            "type" : "string",
+            "description" : "The id returned for the generated web hook subscription."
+          }
+        }
+      },
+      "WebHookUnsubscribeRequest" : {
+        "type" : "object",
+        "required" : [ "clientid", "web_hook_id" ],
+        "properties" : {
+          "clientid" : {
+            "type" : "string",
+            "minLength" : 3,
+            "maxLength" : 10,
+            "example" : "PC12345",
+            "description" : "The client id that the hook is registered for.\n"
+          },
+          "web_hook_id" : {
+            "type" : "string",
+            "description" : "The webhook id that is to be removed.\n"
           }
         }
       }
