@@ -4,7 +4,7 @@ openapi: 3.0.0
 #                              API Information                                 #
 ################################################################################
 info:
-  version: 6.6.51
+  version: 6.6.52
   title: CityPay Payment API
   description: |
 
@@ -251,7 +251,21 @@ tags:
   - name: Reporting Api
     description: Reporting functions that return data based on payment processing services.
   - name: Web Hooks
-    description: .
+    description: |
+      A webhook is a mechanism that allows applications to send real-time data or notifications to other systems or services 
+      whenever specific events occur. Instead of polling or manually requesting updates, webhooks push data to a designated 
+      URL (endpoint) as soon as an event is triggered.
+      
+      By registering a webhook, you can configure your system to listen for events and automatically process the notifications, 
+      such as updating your database, triggering workflows, or sending alerts.
+      
+      Webhooks consist of the following key components:
+      
+      - Event Trigger: A specific event (e.g., payment success, refund issued) that initiates the webhook call.
+      - Endpoint URL: The destination where the webhook payload (event data) is sent.
+      - Payload: The data related to the event, which is delivered in the webhook call.
+      
+      Webhooks are a powerful tool for integrating our services with your own applications, enabling automation, real-time synchronization, and streamlined communication between systems.
 
 #--------------------------------------------------------------------------------
 #                                    Paths                                     
@@ -2373,28 +2387,28 @@ paths:
             schema: 
               $ref: '#/components/schemas/CaptureRequest'
             examples: 
+              example1: 
+                summary: Basic capture call for a merchant with a given identifier
+                externalValue: 'CaptureRequest-example1.json'
               example3: 
                 summary: Capture call for a merchant with identifier and airline data once a ticket has been issued
                 externalValue: 'CaptureRequest-example3.json'
               example2: 
                 summary: Basic capture call for a merchant with a transno and final amount
                 externalValue: 'CaptureRequest-example2.json'
-              example1: 
-                summary: Basic capture call for a merchant with a given identifier
-                externalValue: 'CaptureRequest-example1.json'
           text/xml: 
             schema: 
               $ref: '#/components/schemas/CaptureRequest'
             examples: 
+              example1: 
+                summary: Basic capture call for a merchant with a given identifier
+                externalValue: 'CaptureRequest-example1.xml'
               example3: 
                 summary: Capture call for a merchant with identifier and airline data once a ticket has been issued
                 externalValue: 'CaptureRequest-example3.xml'
               example2: 
                 summary: Basic capture call for a merchant with a transno and final amount
                 externalValue: 'CaptureRequest-example2.xml'
-              example1: 
-                summary: Basic capture call for a merchant with a given identifier
-                externalValue: 'CaptureRequest-example1.xml'
       responses: 
         200: 
           description: A result and acknowledgement of the capture request. The response will return a `000/001` response on a successful capture otherwise an error code response explaining the error.
@@ -3189,22 +3203,22 @@ paths:
             schema: 
               $ref: '#/components/schemas/VoidRequest'
             examples: 
-              example2: 
-                summary: Basic capture call for a merchant with a transno and final amount
-                externalValue: 'VoidRequest-example2.json'
               example1: 
                 summary: Basic capture call for a merchant with a given identifier
                 externalValue: 'VoidRequest-example1.json'
+              example2: 
+                summary: Basic capture call for a merchant with a transno and final amount
+                externalValue: 'VoidRequest-example2.json'
           text/xml: 
             schema: 
               $ref: '#/components/schemas/VoidRequest'
             examples: 
-              example2: 
-                summary: Basic capture call for a merchant with a transno and final amount
-                externalValue: 'VoidRequest-example2.xml'
               example1: 
                 summary: Basic capture call for a merchant with a given identifier
                 externalValue: 'VoidRequest-example1.xml'
+              example2: 
+                summary: Basic capture call for a merchant with a transno and final amount
+                externalValue: 'VoidRequest-example2.xml'
       responses: 
         200: 
           description: </br>A result and acknowledgement of the void request, returning an `080/003` response code on successful void/cancellation of the transaction.</br></br>If an error occurs an error code will be returned explaining the failure.
@@ -5495,7 +5509,7 @@ components:
         event_end_date: 
           type: string
           format: date
-          example: 2024-09-13
+          example: 2024-09-16
           description: The date when the event ends in ISO format (yyyy-MM-dd).
         event_id: 
           type: string
@@ -5506,7 +5520,7 @@ components:
         event_start_date: 
           type: string
           format: date
-          example: 2024-09-13
+          example: 2024-09-16
           description: The date when the event starts in ISO format (yyyy-MM-dd).
         payment_type: 
           type: string
@@ -5686,7 +5700,7 @@ components:
         batch_closed: 
           type: string
           format: date-time
-          example: 2024-09-13T14:20:05Z
+          example: 2024-09-16T08:54:48Z
           description: The date and time when the batch was closed. This is represented in ISO 8601 format (e.g., YYYY-MM-DDTHH:MM:SSZ) and indicates when the batch processing was completed.
         batch_no: 
           type: string
@@ -5927,7 +5941,7 @@ components:
         due: 
           type: string
           format: date
-          example: 2024-09-13
+          example: 2024-09-16
           description: A date that the invoice is due. This can be displayed on the payment page.
         email_notification_path: 
           $ref: '#/components/schemas/PaylinkEmailNotificationPath'
@@ -6394,7 +6408,7 @@ components:
         datetime: 
           type: string
           format: date-time
-          example: 2024-09-13T14:20:05Z
+          example: 2024-09-16T08:54:49Z
           description: the date and time of the event.
         message: 
           type: string
@@ -6422,7 +6436,7 @@ components:
         date_created: 
           type: string
           format: date-time
-          example: 2024-09-13T14:20:05Z
+          example: 2024-09-16T08:54:49Z
           description: Date and time the token was generated.
         errors: 
           type: array
@@ -6557,12 +6571,12 @@ components:
         created: 
           type: string
           format: date-time
-          example: 2024-09-13T14:20:05Z
+          example: 2024-09-16T08:54:49Z
           description: the date and time that the session was created.
         datetime: 
           type: string
           format: date-time
-          example: 2024-09-13T14:20:05Z
+          example: 2024-09-16T08:54:49Z
           description: the date and time of the current status.
         identifier: 
           type: string
@@ -6618,7 +6632,7 @@ components:
         last_event_date_time: 
           type: string
           format: date-time
-          example: 2024-09-13T14:20:05Z
+          example: 2024-09-16T08:54:49Z
           description: the date and time that the session last had an event actioned against it.
         last_payment_result: 
           type: string
@@ -6653,7 +6667,7 @@ components:
         after: 
           type: string
           format: date-time
-          example: 2024-09-13T14:20:05Z
+          example: 2024-09-16T08:54:48Z
           description: identifies the date and time to lookup changes after.
         maxResults: 
           type: integer
