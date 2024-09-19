@@ -4,7 +4,7 @@ openapi: 3.0.0
 #                              API Information                                 #
 ################################################################################
 info:
-  version: 6.6.56
+  version: 6.6.57
   title: CityPay Payment API
   description: |
 
@@ -5509,7 +5509,7 @@ components:
         event_end_date: 
           type: string
           format: date
-          example: 2024-09-18
+          example: 2024-09-19
           description: The date when the event ends in ISO format (yyyy-MM-dd).
         event_id: 
           type: string
@@ -5520,7 +5520,7 @@ components:
         event_start_date: 
           type: string
           format: date
-          example: 2024-09-18
+          example: 2024-09-19
           description: The date when the event starts in ISO format (yyyy-MM-dd).
         payment_type: 
           type: string
@@ -5700,7 +5700,7 @@ components:
         batch_closed: 
           type: string
           format: date-time
-          example: 2024-09-18T15:53:52Z
+          example: 2024-09-19T10:40:53Z
           description: The date and time when the batch was closed. This is represented in ISO 8601 format (e.g., YYYY-MM-DDTHH:MM:SSZ) and indicates when the batch processing was completed.
         batch_no: 
           type: string
@@ -5941,7 +5941,7 @@ components:
         due: 
           type: string
           format: date
-          example: 2024-09-18
+          example: 2024-09-19
           description: A date that the invoice is due. This can be displayed on the payment page.
         email_notification_path: 
           $ref: '#/components/schemas/PaylinkEmailNotificationPath'
@@ -6408,7 +6408,7 @@ components:
         datetime: 
           type: string
           format: date-time
-          example: 2024-09-18T15:53:52Z
+          example: 2024-09-19T10:40:53Z
           description: the date and time of the event.
         message: 
           type: string
@@ -6436,7 +6436,7 @@ components:
         date_created: 
           type: string
           format: date-time
-          example: 2024-09-18T15:53:52Z
+          example: 2024-09-19T10:40:53Z
           description: Date and time the token was generated.
         errors: 
           type: array
@@ -6571,12 +6571,12 @@ components:
         created: 
           type: string
           format: date-time
-          example: 2024-09-18T15:53:52Z
+          example: 2024-09-19T10:40:53Z
           description: the date and time that the session was created.
         datetime: 
           type: string
           format: date-time
-          example: 2024-09-18T15:53:52Z
+          example: 2024-09-19T10:40:53Z
           description: the date and time of the current status.
         identifier: 
           type: string
@@ -6632,7 +6632,7 @@ components:
         last_event_date_time: 
           type: string
           format: date-time
-          example: 2024-09-18T15:53:52Z
+          example: 2024-09-19T10:40:53Z
           description: the date and time that the session last had an event actioned against it.
         last_payment_result: 
           type: string
@@ -6667,7 +6667,7 @@ components:
         after: 
           type: string
           format: date-time
-          example: 2024-09-18T15:53:52Z
+          example: 2024-09-19T10:40:53Z
           description: identifies the date and time to lookup changes after.
         maxResults: 
           type: integer
