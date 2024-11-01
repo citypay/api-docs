@@ -1,12 +1,12 @@
 ---
 title: CityPay Payment API
-version: 6.6.62
+version: 6.6.65
 language_tabs:
   - json
   - xml
 toc_footers:
   - <a href='mailto:support@citypay.com'>Any Integration Questions?</a>
-  - V6.6.62 2024-09-26
+  - V6.6.65 2024-11-01
 includes:
   - errorcodes
   - authresultcodes
@@ -26,8 +26,8 @@ search: true
  Our latest documentation is available on <a href="https://docs.citypay.com">CityPay Docs</a>
 </aside>
 
-Version: 6.6.62
-Last Updated: 2024-09-26
+Version: 6.6.65
+Last Updated: 2024-11-01
 
 
 Welcome to the CityPay API, a robust HTTP API payment solution designed for seamless server-to-server 
@@ -207,19 +207,19 @@ CityPay supports 3DS version 2.2, aligned with EU regulations for Secure Custome
 
 #### Non-3D Secure Transactions
 
-![3DSv2 Frctionless Flow](images/3dsv2-no3d.png)
+![Non-3D Secure Transactions Flow](images/3dsv2-no3d.png)
 
 Some transactions may bypass 3D Secure processing due to authentication issues or deliberate "attempted" checks. These transactions will not qualify for a liability shift and could be declined.
 
 #### Frictionless 3D Secure
 
-![3DSv2 Frctionless Flow](images/3dsv2-frictionless.png)
+![Frictionless 3D Secure Flow](images/3dsv2-frictionless.png)
 
 For low-risk transactions, our API supports a frictionless 3D Secure process. It allows for authentication without disrupting the user experience, requiring no redirection or additional interaction from the cardholder.
 
 #### Challenged 3D Secure
 
-![3DSv2 Frctionless Flow](images/3dsv2-challenge.png)
+![Challenged 3D Secure Flow](images/3dsv2-challenge.png)
 
 Higher-risk transactions may be "challenged," requiring the cardholder to authenticate the transaction. In such cases,  
 the API will return a [request challenge](#requestchallenged) which will require your integration to forward the
@@ -803,7 +803,7 @@ billing and shipping information.
 
 
 <a id="requestModel-CreatePaymentIntent"></a>
-### Model PaymentIntent
+### Model PaymentIntentRequestModel
 
 Request body for the CreatePaymentIntent operation contains the following properties
 
@@ -819,7 +819,10 @@ Field  | Type | Usage | Description |
  `csc_policy` | string  | Optional | A policy value which determines whether a CSC policy is enforced or bypassed.<br/><br/>Values are:<br/><br/> `0` for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.<br/><br/> `1` for an enforced policy. Transactions that are enforced will be rejected if the CSC value does not match.<br/><br/> `2` to bypass. Transactions that are bypassed will be allowed through even if the CSC did not match.<br/><br/> `3` to ignore. Transactions that are ignored will bypass the result and not send the CSC details for authorisation. | 
  `currency` | string  | Optional | The processing currency for the transaction. Will default to the merchant account currency.<br/><br/>minLength: 3<br/>maxLength: 3 | 
  `duplicate_policy` | string  | Optional | A policy value which determines whether a duplication policy is enforced or bypassed. A duplication check has a window of time set against your account within which it can action. If a previous transaction with matching values occurred within the window, any subsequent transaction will result in a T001 result.<br/><br/>Values are<br/><br/> `0` for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.<br/><br/> `1` for an enforced policy. Transactions that are enforced will be checked for duplication within the duplication window.<br/><br/> `2` to bypass. Transactions that are bypassed will not be checked for duplication within the duplication window.<br/><br/> `3` to ignore. Transactions that are ignored will have the same affect as bypass. | 
+ `external-ref` | string  | Optional | A unique identifier, such as an order ID or invoice number, provided by your accounting or billing system to link the payment intent with an external system reference. This ensures traceability across systems for audits and transaction validation.<br/><br/>maxLength: 256 | 
+ `external-ref-source` | string  | Optional | Specifies the originating source or system of the external reference, helping to categorise and trace the context of the external identifier, whether it comes from an internal system, third-party vendor, or external financial platform. | 
  `match_avsa` | string  | Optional | A policy value which determines whether an AVS address policy is enforced, bypassed or ignored.<br/><br/>Values are:<br/><br/> `0` for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.<br/><br/> `1` for an enforced policy. Transactions that are enforced will be rejected if the AVS address numeric value does not match.<br/><br/> `2` to bypass. Transactions that are bypassed will be allowed through even if the address did not match.<br/><br/> `3` to ignore. Transactions that are ignored will bypass the result and not send address numeric details for authorisation. | 
+ `merchantid` | integer *int32* | Optional | The merchant id of the intent, required if using the API key or not required if using a domain key. | 
  `ship_to` | object | Optional | [ContactDetails](#contactdetails) Shipping details of the card holder making the payment. These details may be used for 3DS and for future referencing of the transaction. | 
  `tag` | array | Optional | type: string | 
  `trans_info` | string  | Optional | Further information that can be added to the transaction will display in reporting. Can be used for flexible values such as operator id.<br/><br/>maxLength: 50 | 
@@ -838,6 +841,63 @@ Responses for the CreatePaymentIntent operation are
  StatusCode | Description | Content-Type | Model |
 ------------|-------------|--------------|-------|
  `200` | Returns the id of the payment intent. | `application/json` <br/>`text/xml` | [PaymentIntentReference](#paymentintentreference) |  
+ `400` | Bad Request. Should the incoming data not be validly determined. |  |  
+ `401` | Unauthorized. No api key has been provided and is required for this operation. |  |  
+ `403` | Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request. |  |  
+ `422` | Unprocessable Entity. Should a failure occur that prevents processing of the API call. | `application/json` <br/>`text/xml` | [Error](#error) |  
+ `500` | Server Error. The server was unable to complete the request. |  |  
+
+
+
+
+
+## Retrieves a Payment Intent
+
+<div class="route-spec">
+<div class="route-path">
+ <span class="http-method http-method-post">POST</span>
+ <span class="path">/v6/intent/retrieve</span>
+</div>
+<div class="security-methods"><span class="key sec-cp-api-key">cp-api-key</span> </div>
+</div>
+
+Obtains a payment intent.
+
+<div class="model-links">
+ <a href="#requestModel-GetPaymentIntent">Request Model</a>
+ <a href="#responseModel-GetPaymentIntent">Response Model</a>
+</div>
+
+
+
+
+
+<a id="requestModel-GetPaymentIntent"></a>
+### Model FindPaymentIntentRequest
+
+Request body for the GetPaymentIntent operation contains the following properties
+
+<div class="requestModel"></div>
+
+Field  | Type | Usage | Description |
+---------|------|------|-------------|
+ `external-ref` | string  | Optional | An external reference to lookup.<br/><br/>maxLength: 256 | 
+ `external-ref-source` | string  | Optional | An external reference source to lookup. | 
+ `payment_intent_id` | string  | Optional | The payment intent id, if known. | 
+
+
+
+
+<a id="responseModel-GetPaymentIntent"></a>
+### Response
+
+Responses for the GetPaymentIntent operation are
+
+<div class="responseModel"></div>
+
+ StatusCode | Description | Content-Type | Model |
+------------|-------------|--------------|-------|
+ `200` | Returns a payment intent and optionally any transactions associated to the intent. | `application/json` <br/>`text/xml` | [PaymentIntentResponseModel](#paymentintentresponsemodel) |  
  `400` | Bad Request. Should the incoming data not be validly determined. |  |  
  `401` | Unauthorized. No api key has been provided and is required for this operation. |  |  
  `403` | Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request. |  |  
@@ -1066,6 +1126,65 @@ Responses for the RetrievalRequest operation are
  StatusCode | Description | Content-Type | Model |
 ------------|-------------|--------------|-------|
  `200` | A result of the retrieval request. | `application/json` <br/>`text/xml` | [AuthReferences](#authreferences) |  
+ `400` | Bad Request. Should the incoming data not be validly determined. |  |  
+ `401` | Unauthorized. No api key has been provided and is required for this operation. |  |  
+ `403` | Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request. |  |  
+ `422` | Unprocessable Entity. Should a failure occur that prevents processing of the API call. | `application/json` <br/>`text/xml` | [Error](#error) |  
+ `500` | Server Error. The server was unable to complete the request. |  |  
+
+
+
+
+
+## Card Tokenisation Request
+
+<div class="route-spec">
+<div class="route-path">
+ <span class="http-method http-method-post">POST</span>
+ <span class="path">/v6/tokenise</span>
+</div>
+<div class="security-methods"><span class="key sec-cp-api-key">cp-api-key</span> </div>
+</div>
+
+Performs a tokenisation request for card details.
+
+<div class="model-links">
+ <a href="#requestModel-CardTokenisationRequest">Request Model</a>
+ <a href="#responseModel-CardTokenisationRequest">Response Model</a>
+</div>
+
+
+
+
+
+<a id="requestModel-CardTokenisationRequest"></a>
+### Model CardTokenisationRequest
+
+Request body for the CardTokenisationRequest operation contains the following properties
+
+<div class="requestModel"></div>
+
+Field  | Type | Usage | Description |
+---------|------|------|-------------|
+ `cardnumber` | string  | Required | The card number (PAN) with a variable length to a maximum of 21 digits in numerical form. Any non numeric characters will be stripped out of the card number, this includes whitespace or separators internal of the provided value.<br/><br/>The card number must be treated as sensitive data. We only provide an obfuscated value in logging and reporting.  The plaintext value is encrypted in our database using AES 256 GMC bit encryption for settlement or refund purposes.<br/><br/>When providing the card number to our gateway through the authorisation API you will be handling the card data on your application. This will require further PCI controls to be in place and this value must never be stored.<br/><br/> minLength: 12<br/>maxLength: 22 | 
+ `expmonth` | integer *int32* | Required | The month of expiry of the card. The month value should be a numerical value between 1 and 12.<br/><br/> minimum: 1<br/>maximum: 12 | 
+ `expyear` | integer *int32* | Required | The year of expiry of the card.<br/><br/> minimum: 2000<br/>maximum: 2100 | 
+ `csc` | string  | Optional | The Card Security Code (CSC) (also known as CV2/CVV2) is normally found on the back of the card (American Express has it on the front). The value helps to identify possession of the card as it is not available within the chip or magnetic swipe.<br/><br/>When forwarding the CSC, please ensure the value is a string as some values start with 0 and this will be stripped out by any integer parsing.<br/><br/>The CSC number aids fraud prevention in Mail Order and Internet payments.<br/><br/>Business rules are available on your account to identify whether to accept or decline transactions based on mismatched results of the CSC.<br/><br/>The Payment Card Industry (PCI) requires that at no stage of a transaction should the CSC be stored.<br/><br/>This applies to all entities handling card data.<br/><br/>It should also not be used in any hashing process.<br/><br/>CityPay do not store the value and have no method of retrieving the value once the transaction has been processed. For this reason, duplicate checking is unable to determine the CSC in its duplication check algorithm.<br/><br/> minLength: 3<br/>maxLength: 4 | 
+ `name_on_card` | string  | Optional | The card holder name as appears on the card such as MR N E BODY. Required for some acquirers.<br/><br/> minLength: 2<br/>maxLength: 45 | 
+
+
+
+
+<a id="responseModel-CardTokenisationRequest"></a>
+### Response
+
+Responses for the CardTokenisationRequest operation are
+
+<div class="responseModel"></div>
+
+ StatusCode | Description | Content-Type | Model |
+------------|-------------|--------------|-------|
+ `200` | A result of the tokenisation request. | `application/json` <br/>`text/xml` | [CardTokenisationResponse](#cardtokenisationresponse) |  
  `400` | Bad Request. Should the incoming data not be validly determined. |  |  
  `401` | Unauthorized. No api key has been provided and is required for this operation. |  |  
  `403` | Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request. |  |  
@@ -1982,7 +2101,7 @@ Field  | Type | Usage | Description |
  `merchantid` | integer *int32* | Required | Identifies the merchant account to perform processing for. | 
  `token` | string *base58* | Required | A tokenised form of a card that belongs to a card holder's account and that has been previously registered. The token is time based and will only be active for a short duration. The value is therefore designed not to be stored remotely for future use.<br/><br/> Tokens will start with ct and are resiliently tamper proof using HMacSHA-256. No sensitive card data is stored internally within the token.<br/><br/> Each card will contain a different token and the value may be different on any retrieval call.<br/><br/> The value can be presented for payment as a selection value to an end user in a web application. | 
  `avs_postcode_policy` | string  | Optional | A policy value which determines whether an AVS postcode policy is enforced or bypassed.<br/><br/>Values are:<br/><br/> `0` for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.<br/><br/> `1` for an enforced policy. Transactions that are enforced will be rejected if the AVS postcode numeric value does not match.<br/><br/> `2` to bypass. Transactions that are bypassed will be allowed through even if the postcode did not match.<br/><br/> `3` to ignore. Transactions that are ignored will bypass the result and not send postcode details for authorisation. | 
- `cardholder_agreement` | string  | Optional | Merchant-initiated transactions (MITs) are payments you trigger, where the cardholder has previously consented to you carrying out such payments. These may be scheduled (such as recurring payments and installments) or unscheduled (like account top-ups triggered by balance thresholds and no-show charges).<br/><br/>Scheduled --- These are regular payments using stored card details, like installments or a monthly subscription fee.<br/><br/>- `I` Instalment - A single purchase of goods or services billed to a cardholder in multiple transactions, over a period of time agreed by the cardholder and you.<br/><br/>- `R` Recurring - Transactions processed at fixed, regular intervals not to exceed one year between transactions, representing an agreement between a cardholder and you to purchase goods or services provided over a period of time.<br/><br/>Unscheduled --- These are payments using stored card details that do not occur on a regular schedule, like top-ups for a digital wallet triggered by the balance falling below a certain threshold.<br/><br/>- `A` Reauthorisation - a purchase made after the original purchase. A common scenario is delayed/split shipments.<br/><br/>- `C` Unscheduled Payment - A transaction using a stored credential for a fixed or variable amount that does not occur on a scheduled or regularly occurring transaction date. This includes account top-ups triggered by balance thresholds.<br/><br/>- `D` Delayed Charge - A delayed charge is typically used in hotel, cruise lines and vehicle rental environments to perform a supplemental account charge after original services are rendered.<br/><br/>- `L` Incremental - An incremental authorisation is typically found in hotel and car rental environments, where the cardholder has agreed to pay for any service incurred during the duration of the contract. An incremental authorisation is where you need to seek authorisation of further funds in addition to what you have originally requested. A common scenario is additional services charged to the contract, such as extending a stay in a hotel.<br/><br/>- `S` Resubmission - When the original purchase occurred, but you were not able to get authorisation at the time the goods or services were provided. It should be only used where the goods or services have already been provided, but the authorisation request is declined for insufficient funds.<br/><br/>- `X` No-show - A no-show is a transaction where you are enabled to charge for services which the cardholder entered into an agreement to purchase, but the cardholder did not meet the terms of the agreement.<br/><br/> maxLength: 1 | 
+ `cardholder_agreement` | string  | Optional | Merchant-initiated transactions (MITs) are payments you trigger, where the cardholder has previously consented to you carrying out such payments. These may be scheduled (such as recurring payments and installments) or unscheduled (like account top-ups triggered by balance thresholds and no-show charges).<br/><br/>Scheduled --- These are regular payments using stored card details, like installments or a monthly subscription fee.<br/><br/>- `I` Instalment - A single purchase of goods or services billed to a cardholder in multiple transactions, over a period of time agreed by the cardholder and you.<br/><br/>- `R` Recurring - Transactions processed at fixed, regular intervals not to exceed one year between transactions, representing an agreement between a cardholder and you to purchase goods or services provided over a period of time.<br/><br/>Unscheduled --- These are payments using stored card details that do not occur on a regular schedule, like top-ups for a digital wallet triggered by the balance falling below a certain threshold.<br/><br/>- `A` Reauthorisation - a purchase made after the original purchase. A common scenario is delayed/split shipments.<br/><br/>- `C` Unscheduled Payment - A transaction using a stored credential for a fixed or variable amount that does not occur on a scheduled or regularly occurring transaction date. This includes account top-ups triggered by balance thresholds.<br/><br/>- `D` Delayed Charge - A delayed charge is typically used in hotel, cruise lines and vehicle rental environments to perform a supplemental account charge after original services are rendered.<br/><br/>- `L` Incremental - An incremental authorisation is typically found in hotel and car rental environments, where the cardholder has agreed to pay for any service incurred during the duration of the contract. An incremental authorisation is where you need to seek authorisation of further funds in addition to what you have originally requested. A common scenario is additional services charged to the contract, such as extending a stay in a hotel.<br/><br/>- `S` Resubmission - When the original purchase occurred, but you were not able to get authorisation at the time the goods or services were provided. It should be only used where the goods or services have already been provided, but the authorisation request is declined for insufficient funds.<br/><br/>- `X` No-show - A no-show is a transaction where you are enabled to charge for services which the cardholder entered into an agreement to purchase, but the cardholder did not meet the terms of the agreement.<br/><br/>- `N` Not Applicable - For all other transactions the value will be not applicable.<br/><br/> maxLength: 1 | 
  `csc` | string  | Optional | The Card Security Code (CSC) (also known as CV2/CVV2) is normally found on the back of the card (American Express has it on the front). The value helps to identify possession of the card as it is not available within the chip or magnetic swipe.<br/><br/>When forwarding the CSC, please ensure the value is a string as some values start with 0 and this will be stripped out by any integer parsing.<br/><br/>The CSC number aids fraud prevention in Mail Order and Internet payments.<br/><br/>Business rules are available on your account to identify whether to accept or decline transactions based on mismatched results of the CSC.<br/><br/>The Payment Card Industry (PCI) requires that at no stage of a transaction should the CSC be stored.<br/><br/>This applies to all entities handling card data.<br/><br/>It should also not be used in any hashing process.<br/><br/>CityPay do not store the value and have no method of retrieving the value once the transaction has been processed. For this reason, duplicate checking is unable to determine the CSC in its duplication check algorithm.<br/><br/> minLength: 3<br/>maxLength: 4 | 
  `csc_policy` | string  | Optional | A policy value which determines whether a CSC policy is enforced or bypassed.<br/><br/>Values are:<br/><br/> `0` for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.<br/><br/> `1` for an enforced policy. Transactions that are enforced will be rejected if the CSC value does not match.<br/><br/> `2` to bypass. Transactions that are bypassed will be allowed through even if the CSC did not match.<br/><br/> `3` to ignore. Transactions that are ignored will bypass the result and not send the CSC details for authorisation. | 
  `currency` | string  | Optional | The processing currency for the transaction. Will default to the merchant account currency.<br/><br/>minLength: 3<br/>maxLength: 3 | 
@@ -2528,6 +2647,7 @@ Field  | Type | Usage | Description |
  `domain` | array | Required | The domains the domain key is registered for. you should only provide the host and no ports.<br/><br/>type: string | 
  `merchantid` | integer *int32* | Required | The merchant id the domain key is to be used for. | 
  `live` | boolean  | Optional | Specifies if the key is to be used for production. Defaults to false. | 
+ `nonce` | string *hex* | Optional | Specifies a random value for integrity. The value is used to generate the domain key to provide further integrity to the key. | 
 
 
 
@@ -2943,7 +3063,6 @@ Field  | Type | Usage | Description |
 ---------|------|------|-------------|
  `request` | object | Required | [PaylinkTokenRequestModel](#paylinktokenrequestmodel) The token request to generate for the bill payment. | 
  `addressee` | string  | Optional | Who the bill payment request intended for. This should be a readable name such as a person or company. | 
- `adjustments` | object | Optional | [Adjustments](#adjustments) Adjustments refer to the modifications applied to the base amount of a transaction, including surcharges, discounts, or other financial alterations. These adjustments are critical in calculating the final amount due, based on specific conditions such as payment timing, discount codes, or business rules.<br/><br/>Each adjustment is processed according to predefined criteria, ensuring that the final transaction amount accurately reflects any applicable financial rules or incentives. It is important to configure adjustments correctly, as they directly influence the payment amount and may impact the acceptance or rejection of a transaction. | 
  `attachments` | array | Optional | An array of attachments for the request such as invoices or statements. [PaylinkAttachmentRequest](#paylinkattachmentrequest) | 
  `descriptor` | string  | Optional | A descriptor for the bill payment used to describe what the payment request is for for instance "Invoice".<br/><br/>The descriptor can be used as descriptive text on emails or the payment page. For instance an invoice may have a button saying "View Invoice" or an email may say "to pay your Invoice online". | 
  `due` | string *date* | Optional | A date that the invoice is due. This can be displayed on the payment page. | 
@@ -3014,6 +3133,7 @@ Field  | Type | Usage | Description |
  `config` | object | Optional | [PaylinkConfig](#paylinkconfig) The config element, allowing for tailoring the Paylink user experience and for providing integration parameters to enhance with your integration. | 
  `currency` | string  | Optional | A currency for the token. This value should be only used on multi-currency accounts and be an appropriate currency which the account is configured for.<br/><br/>minLength: 3<br/>maxLength: 3 | 
  `email` | string  | Optional | The email field is used for the Merchant to be notified on completion of the transaction . The value may be supplied to override the default stored value. Emails sent to this address by the Paylink service should not be forwarded on to the cardholder as it may contain certain information that is used by the Paylink service to validate and authenticate Paylink Token Requests: for example, the Merchant ID and the licence key.<br/><br/> maxLength: 254 | 
+ `payment_intent_id` | string  | Optional | A payment intent id already previoulsy registered for this token. | 
  `recurring` | boolean  | Optional | True if the intent of this cardholder initiated transaction is to establish a recurring payment model, processable as merchant initiated transactions. | 
  `subscription_id` | string  | Optional | an id associated with a subscription to link the token request against. | 
  `tx_type` | string  | Optional | A value to override the transaction type if requested by your account manager. | 
@@ -3865,30 +3985,30 @@ Webhooks are a powerful tool for integrating our services with your own applicat
 <div class="security-methods"><span class="key sec-cp-api-key">cp-api-key</span> </div>
 </div>
 
-A WebHookChannel is required to establish a connection with our event notification system. The channel serves as the 
-communication link between your application and the events generated by the payment gateway. When you register a 
+A WebHookChannel is required to establish a connection with our event notification system. The channel serves as the
+communication link between your application and the events generated by the payment gateway. When you register a
 WebHookChannel, you're defining the endpoint where we will deliver notifications, such as payment events.
 
-The WebHookChannel encapsulates important configuration details like the endpoint type (e.g., HTTP), the client ID, 
-and security parameters. However, the channel itself does not specify which events will 
-be sent but should be considered as the pipeline for receiving those events. After registering a channel, you can then 
-configure triggers separately using a subscription request to define which specific payment events 
+The WebHookChannel encapsulates important configuration details like the endpoint type (e.g., HTTP), the client ID,
+and security parameters. However, the channel itself does not specify which events will
+be sent but should be considered as the pipeline for receiving those events. After registering a channel, you can then
+configure triggers separately using a subscription request to define which specific payment events
 should flow through this channel.
 
 
 <div class="model-links">
- <a href="#requestModel-WebHookChannelCreateRequest$">Request Model</a>
- <a href="#responseModel-WebHookChannelCreateRequest$">Response Model</a>
+ <a href="#requestModel-WebHookChannelCreateRequest">Request Model</a>
+ <a href="#responseModel-WebHookChannelCreateRequest">Response Model</a>
 </div>
 
 
 
 
 
-<a id="requestModel-WebHookChannelCreateRequest$"></a>
+<a id="requestModel-WebHookChannelCreateRequest"></a>
 ### Model WebHookChannelCreateRequest
 
-Request body for the WebHookChannelCreateRequest$ operation contains the following properties
+Request body for the WebHookChannelCreateRequest operation contains the following properties
 
 <div class="requestModel"></div>
 
@@ -3902,10 +4022,10 @@ Field  | Type | Usage | Description |
 
 
 
-<a id="responseModel-WebHookChannelCreateRequest$"></a>
+<a id="responseModel-WebHookChannelCreateRequest"></a>
 ### Response
 
-Responses for the WebHookChannelCreateRequest$ operation are
+Responses for the WebHookChannelCreateRequest operation are
 
 <div class="responseModel"></div>
 
@@ -3939,18 +4059,18 @@ endpoint, ensuring that no additional events are processed through that channel.
 
 
 <div class="model-links">
- <a href="#requestModel-WebHookChannelDeleteRequest$">Request Model</a>
- <a href="#responseModel-WebHookChannelDeleteRequest$">Response Model</a>
+ <a href="#requestModel-WebHookChannelDeleteRequest">Request Model</a>
+ <a href="#responseModel-WebHookChannelDeleteRequest">Response Model</a>
 </div>
 
 
 
 
 
-<a id="requestModel-WebHookChannelDeleteRequest$"></a>
+<a id="requestModel-WebHookChannelDeleteRequest"></a>
 ### Model WebHookChannelDeleteRequest
 
-Request body for the WebHookChannelDeleteRequest$ operation contains the following properties
+Request body for the WebHookChannelDeleteRequest operation contains the following properties
 
 <div class="requestModel"></div>
 
@@ -3961,10 +4081,10 @@ Field  | Type | Usage | Description |
 
 
 
-<a id="responseModel-WebHookChannelDeleteRequest$"></a>
+<a id="responseModel-WebHookChannelDeleteRequest"></a>
 ### Response
 
-Responses for the WebHookChannelDeleteRequest$ operation are
+Responses for the WebHookChannelDeleteRequest operation are
 
 <div class="responseModel"></div>
 
@@ -3997,18 +4117,18 @@ relevant event data flows through the channel.
 
 
 <div class="model-links">
- <a href="#requestModel-WebHookSubscriptionRequest$">Request Model</a>
- <a href="#responseModel-WebHookSubscriptionRequest$">Response Model</a>
+ <a href="#requestModel-WebHookSubscriptionRequest">Request Model</a>
+ <a href="#responseModel-WebHookSubscriptionRequest">Response Model</a>
 </div>
 
 
 
 
 
-<a id="requestModel-WebHookSubscriptionRequest$"></a>
+<a id="requestModel-WebHookSubscriptionRequest"></a>
 ### Model WebHookSubscriptionRequest
 
-Request body for the WebHookSubscriptionRequest$ operation contains the following properties
+Request body for the WebHookSubscriptionRequest operation contains the following properties
 
 <div class="requestModel"></div>
 
@@ -4023,10 +4143,10 @@ Field  | Type | Usage | Description |
 
 
 
-<a id="responseModel-WebHookSubscriptionRequest$"></a>
+<a id="responseModel-WebHookSubscriptionRequest"></a>
 ### Response
 
-Responses for the WebHookSubscriptionRequest$ operation are
+Responses for the WebHookSubscriptionRequest operation are
 
 <div class="responseModel"></div>
 
@@ -4058,18 +4178,18 @@ to stop receiving event notifications for specific webhook subscriptions that ar
 
 
 <div class="model-links">
- <a href="#requestModel-WebHookUnsubscribeRequest$">Request Model</a>
- <a href="#responseModel-WebHookUnsubscribeRequest$">Response Model</a>
+ <a href="#requestModel-WebHookUnsubscribeRequest">Request Model</a>
+ <a href="#responseModel-WebHookUnsubscribeRequest">Response Model</a>
 </div>
 
 
 
 
 
-<a id="requestModel-WebHookUnsubscribeRequest$"></a>
+<a id="requestModel-WebHookUnsubscribeRequest"></a>
 ### Model WebHookUnsubscribeRequest
 
-Request body for the WebHookUnsubscribeRequest$ operation contains the following properties
+Request body for the WebHookUnsubscribeRequest operation contains the following properties
 
 <div class="requestModel"></div>
 
@@ -4081,10 +4201,10 @@ Field  | Type | Usage | Description |
 
 
 
-<a id="responseModel-WebHookUnsubscribeRequest$"></a>
+<a id="responseModel-WebHookUnsubscribeRequest"></a>
 ### Response
 
-Responses for the WebHookUnsubscribeRequest$ operation are
+Responses for the WebHookUnsubscribeRequest operation are
 
 <div class="responseModel"></div>
 
@@ -4427,6 +4547,7 @@ Responses for the WebHookUnsubscribeRequest$ operation are
    "atrn": "",
    "authcode": "001245A",
    "batchno": "",
+   "cardholder_agreement": "",
    "currency": "GBP",
    "datetime": "2020-01-02",
    "identifier": "95b857a1-5955-4b86-963c-5a6dbfc4fb95",
@@ -4446,6 +4567,7 @@ Responses for the WebHookUnsubscribeRequest$ operation are
  <atrn></atrn> 
  <authcode>001245A</authcode> 
  <batchno></batchno> 
+ <cardholder_agreement></cardholder_agreement> 
  <currency>GBP</currency> 
  <datetime>2020-01-02</datetime> 
  <identifier>95b857a1-5955-4b86-963c-5a6dbfc4fb95</identifier> 
@@ -4465,6 +4587,7 @@ Responses for the WebHookUnsubscribeRequest$ operation are
 | `atrn` | string  | false | A reference number provided by the acquiring services. | 
 | `authcode` | string  | false | The authorisation code of the transaction returned by the acquirer or card issuer. | 
 | `batchno` | string  | false | A batch number which the transaction has been end of day batched towards. | 
+| `cardholder_agreement` | string  | false | Merchant-initiated transactions (MITs) are payments you trigger, where the cardholder has previously consented to you carrying out such payments. These may be scheduled (such as recurring payments and installments) or unscheduled (like account top-ups triggered by balance thresholds and no-show charges).<br/><br/>Scheduled --- These are regular payments using stored card details, like installments or a monthly subscription fee.<br/><br/>- `I` Instalment - A single purchase of goods or services billed to a cardholder in multiple transactions, over a period of time agreed by the cardholder and you.<br/><br/>- `R` Recurring - Transactions processed at fixed, regular intervals not to exceed one year between transactions, representing an agreement between a cardholder and you to purchase goods or services provided over a period of time.<br/><br/>Unscheduled --- These are payments using stored card details that do not occur on a regular schedule, like top-ups for a digital wallet triggered by the balance falling below a certain threshold.<br/><br/>- `A` Reauthorisation - a purchase made after the original purchase. A common scenario is delayed/split shipments.<br/><br/>- `C` Unscheduled Payment - A transaction using a stored credential for a fixed or variable amount that does not occur on a scheduled or regularly occurring transaction date. This includes account top-ups triggered by balance thresholds.<br/><br/>- `D` Delayed Charge - A delayed charge is typically used in hotel, cruise lines and vehicle rental environments to perform a supplemental account charge after original services are rendered.<br/><br/>- `L` Incremental - An incremental authorisation is typically found in hotel and car rental environments, where the cardholder has agreed to pay for any service incurred during the duration of the contract. An incremental authorisation is where you need to seek authorisation of further funds in addition to what you have originally requested. A common scenario is additional services charged to the contract, such as extending a stay in a hotel.<br/><br/>- `S` Resubmission - When the original purchase occurred, but you were not able to get authorisation at the time the goods or services were provided. It should be only used where the goods or services have already been provided, but the authorisation request is declined for insufficient funds.<br/><br/>- `X` No-show - A no-show is a transaction where you are enabled to charge for services which the cardholder entered into an agreement to purchase, but the cardholder did not meet the terms of the agreement.<br/><br/>- `N` Not Applicable - For all other transactions the value will be not applicable.<br/><br/> maxLength: 1 | 
 | `currency` | string  | false | The currency of the transaction in ISO 4217 code format.<br/><br/>minLength: 3<br/>maxLength: 3 | 
 | `datetime` | string *date-time* | false | The date and time of the transaction. | 
 | `identifier` | string  | false | The identifier of the transaction used to process the transaction.<br/><br/>minLength: 4<br/>maxLength: 50 | 
@@ -5246,6 +5369,74 @@ Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Addi
 
 
 
+## CardTokenisationRequest
+
+```json
+{
+   "cardnumber": "4000 0000 0000 0002",
+   "csc": "10",
+   "expmonth": 9,
+   "expyear": 2027,
+   "name_on_card": "MR NE BODY"
+}
+```
+
+```xml
+<CardTokenisationRequest>
+ <cardnumber>4000 0000 0000 0002</cardnumber> 
+ <csc>10</csc> 
+ <expmonth>9</expmonth> 
+ <expyear>2027</expyear> 
+ <name_on_card>MR NE BODY</name_on_card> 
+</CardTokenisationRequest>
+```
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `cardnumber` | string  | true | The card number (PAN) with a variable length to a maximum of 21 digits in numerical form. Any non numeric characters will be stripped out of the card number, this includes whitespace or separators internal of the provided value.<br/><br/>The card number must be treated as sensitive data. We only provide an obfuscated value in logging and reporting.  The plaintext value is encrypted in our database using AES 256 GMC bit encryption for settlement or refund purposes.<br/><br/>When providing the card number to our gateway through the authorisation API you will be handling the card data on your application. This will require further PCI controls to be in place and this value must never be stored.<br/><br/> minLength: 12<br/>maxLength: 22 | 
+| `csc` | string  | false | The Card Security Code (CSC) (also known as CV2/CVV2) is normally found on the back of the card (American Express has it on the front). The value helps to identify possession of the card as it is not available within the chip or magnetic swipe.<br/><br/>When forwarding the CSC, please ensure the value is a string as some values start with 0 and this will be stripped out by any integer parsing.<br/><br/>The CSC number aids fraud prevention in Mail Order and Internet payments.<br/><br/>Business rules are available on your account to identify whether to accept or decline transactions based on mismatched results of the CSC.<br/><br/>The Payment Card Industry (PCI) requires that at no stage of a transaction should the CSC be stored.<br/><br/>This applies to all entities handling card data.<br/><br/>It should also not be used in any hashing process.<br/><br/>CityPay do not store the value and have no method of retrieving the value once the transaction has been processed. For this reason, duplicate checking is unable to determine the CSC in its duplication check algorithm.<br/><br/> minLength: 3<br/>maxLength: 4 | 
+| `expmonth` | integer *int32* | true | The month of expiry of the card. The month value should be a numerical value between 1 and 12.<br/><br/> minimum: 1<br/>maximum: 12 | 
+| `expyear` | integer *int32* | true | The year of expiry of the card.<br/><br/> minimum: 2000<br/>maximum: 2100 | 
+| `name_on_card` | string  | false | The card holder name as appears on the card such as MR N E BODY. Required for some acquirers.<br/><br/> minLength: 2<br/>maxLength: 45 | 
+
+
+
+
+
+## CardTokenisationResponse
+
+```json
+{
+   "cp-card-security-token": "",
+   "cp-card-token": "",
+   "last4digits": "2",
+   "scheme": "Visa",
+   "scheme_logo": "https://cdn.citypay.com/img/cs/visa-logo.svg"
+}
+```
+
+```xml
+<CardTokenisationResponse>
+ <cp-card-security-token></cp-card-security-token> 
+ <cp-card-token></cp-card-token> 
+ <last4digits>2</last4digits> 
+ <scheme>Visa</scheme> 
+ <scheme_logo>https://cdn.citypay.com/img/cs/visa-logo.svg</scheme_logo> 
+</CardTokenisationResponse>
+```
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `cp-card-security-token` | string  | false | The tokenised card security code value, the csc value is encrypted and can only be decrypted within the CityPay PCI data centre within 6 hours of generation. It is intended to pass the value through as a session value for the purpose of authorisation and then being dropped. It can only be decrypted with the presentation of a valid cp-card-token. | 
+| `cp-card-token` | string  | true | The tokenised card value. The token is encrypted with integrity checks and scoped to a client id only allowing for the card value to be used.  The value may be used up and until the expiry date of the card. | 
+| `last4digits` | string  | false | The last 4 digits of the card. | 
+| `scheme` | string  | false | The card scheme of the card. | 
+| `scheme_logo` | string *url* | false | The url of the logo card scheme of the card. | 
+
+
+
+
+
 ## ChargeRequest
 
 ```json
@@ -5294,7 +5485,7 @@ Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Addi
 |-------|------|----------|-------------|
 | `amount` | integer *int32* | true | The amount to authorise in the lowest unit of currency with a variable length to a maximum of 12 digits.<br/><br/>No decimal points are to be included and no divisional characters such as 1,024.<br/><br/>The amount should be the total amount required for the transaction.<br/><br/>For example with GBP £1,021.95 the amount value is 102195.<br/><br/> minLength: 1<br/>maxLength: 9 | 
 | `avs_postcode_policy` | string  | false | A policy value which determines whether an AVS postcode policy is enforced or bypassed.<br/><br/>Values are:<br/><br/> `0` for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.<br/><br/> `1` for an enforced policy. Transactions that are enforced will be rejected if the AVS postcode numeric value does not match.<br/><br/> `2` to bypass. Transactions that are bypassed will be allowed through even if the postcode did not match.<br/><br/> `3` to ignore. Transactions that are ignored will bypass the result and not send postcode details for authorisation. | 
-| `cardholder_agreement` | string  | false | Merchant-initiated transactions (MITs) are payments you trigger, where the cardholder has previously consented to you carrying out such payments. These may be scheduled (such as recurring payments and installments) or unscheduled (like account top-ups triggered by balance thresholds and no-show charges).<br/><br/>Scheduled --- These are regular payments using stored card details, like installments or a monthly subscription fee.<br/><br/>- `I` Instalment - A single purchase of goods or services billed to a cardholder in multiple transactions, over a period of time agreed by the cardholder and you.<br/><br/>- `R` Recurring - Transactions processed at fixed, regular intervals not to exceed one year between transactions, representing an agreement between a cardholder and you to purchase goods or services provided over a period of time.<br/><br/>Unscheduled --- These are payments using stored card details that do not occur on a regular schedule, like top-ups for a digital wallet triggered by the balance falling below a certain threshold.<br/><br/>- `A` Reauthorisation - a purchase made after the original purchase. A common scenario is delayed/split shipments.<br/><br/>- `C` Unscheduled Payment - A transaction using a stored credential for a fixed or variable amount that does not occur on a scheduled or regularly occurring transaction date. This includes account top-ups triggered by balance thresholds.<br/><br/>- `D` Delayed Charge - A delayed charge is typically used in hotel, cruise lines and vehicle rental environments to perform a supplemental account charge after original services are rendered.<br/><br/>- `L` Incremental - An incremental authorisation is typically found in hotel and car rental environments, where the cardholder has agreed to pay for any service incurred during the duration of the contract. An incremental authorisation is where you need to seek authorisation of further funds in addition to what you have originally requested. A common scenario is additional services charged to the contract, such as extending a stay in a hotel.<br/><br/>- `S` Resubmission - When the original purchase occurred, but you were not able to get authorisation at the time the goods or services were provided. It should be only used where the goods or services have already been provided, but the authorisation request is declined for insufficient funds.<br/><br/>- `X` No-show - A no-show is a transaction where you are enabled to charge for services which the cardholder entered into an agreement to purchase, but the cardholder did not meet the terms of the agreement.<br/><br/> maxLength: 1 | 
+| `cardholder_agreement` | string  | false | Merchant-initiated transactions (MITs) are payments you trigger, where the cardholder has previously consented to you carrying out such payments. These may be scheduled (such as recurring payments and installments) or unscheduled (like account top-ups triggered by balance thresholds and no-show charges).<br/><br/>Scheduled --- These are regular payments using stored card details, like installments or a monthly subscription fee.<br/><br/>- `I` Instalment - A single purchase of goods or services billed to a cardholder in multiple transactions, over a period of time agreed by the cardholder and you.<br/><br/>- `R` Recurring - Transactions processed at fixed, regular intervals not to exceed one year between transactions, representing an agreement between a cardholder and you to purchase goods or services provided over a period of time.<br/><br/>Unscheduled --- These are payments using stored card details that do not occur on a regular schedule, like top-ups for a digital wallet triggered by the balance falling below a certain threshold.<br/><br/>- `A` Reauthorisation - a purchase made after the original purchase. A common scenario is delayed/split shipments.<br/><br/>- `C` Unscheduled Payment - A transaction using a stored credential for a fixed or variable amount that does not occur on a scheduled or regularly occurring transaction date. This includes account top-ups triggered by balance thresholds.<br/><br/>- `D` Delayed Charge - A delayed charge is typically used in hotel, cruise lines and vehicle rental environments to perform a supplemental account charge after original services are rendered.<br/><br/>- `L` Incremental - An incremental authorisation is typically found in hotel and car rental environments, where the cardholder has agreed to pay for any service incurred during the duration of the contract. An incremental authorisation is where you need to seek authorisation of further funds in addition to what you have originally requested. A common scenario is additional services charged to the contract, such as extending a stay in a hotel.<br/><br/>- `S` Resubmission - When the original purchase occurred, but you were not able to get authorisation at the time the goods or services were provided. It should be only used where the goods or services have already been provided, but the authorisation request is declined for insufficient funds.<br/><br/>- `X` No-show - A no-show is a transaction where you are enabled to charge for services which the cardholder entered into an agreement to purchase, but the cardholder did not meet the terms of the agreement.<br/><br/>- `N` Not Applicable - For all other transactions the value will be not applicable.<br/><br/> maxLength: 1 | 
 | `csc` | string  | false | The Card Security Code (CSC) (also known as CV2/CVV2) is normally found on the back of the card (American Express has it on the front). The value helps to identify possession of the card as it is not available within the chip or magnetic swipe.<br/><br/>When forwarding the CSC, please ensure the value is a string as some values start with 0 and this will be stripped out by any integer parsing.<br/><br/>The CSC number aids fraud prevention in Mail Order and Internet payments.<br/><br/>Business rules are available on your account to identify whether to accept or decline transactions based on mismatched results of the CSC.<br/><br/>The Payment Card Industry (PCI) requires that at no stage of a transaction should the CSC be stored.<br/><br/>This applies to all entities handling card data.<br/><br/>It should also not be used in any hashing process.<br/><br/>CityPay do not store the value and have no method of retrieving the value once the transaction has been processed. For this reason, duplicate checking is unable to determine the CSC in its duplication check algorithm.<br/><br/> minLength: 3<br/>maxLength: 4 | 
 | `csc_policy` | string  | false | A policy value which determines whether a CSC policy is enforced or bypassed.<br/><br/>Values are:<br/><br/> `0` for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.<br/><br/> `1` for an enforced policy. Transactions that are enforced will be rejected if the CSC value does not match.<br/><br/> `2` to bypass. Transactions that are bypassed will be allowed through even if the CSC did not match.<br/><br/> `3` to ignore. Transactions that are ignored will bypass the result and not send the CSC details for authorisation. | 
 | `currency` | string  | false | The processing currency for the transaction. Will default to the merchant account currency.<br/><br/>minLength: 3<br/>maxLength: 3 | 
@@ -5355,6 +5546,28 @@ Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Addi
 | Field | Type | Required | Description |
 |-------|------|----------|-------------|
 | `batches` | array | false | The collection of batches. [Batch](#batch) | 
+
+
+
+
+
+## Choice
+
+```json
+{
+  
+}
+```
+
+```xml
+<Choice>
+
+</Choice>
+```
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+
 
 
 
@@ -5587,7 +5800,8 @@ Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Addi
 {
    "domain": "",
    "live": true,
-   "merchantid": 11223344
+   "merchantid": 11223344,
+   "nonce": "0123456789ABCDEF"
 }
 ```
 
@@ -5596,6 +5810,7 @@ Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Addi
  <domain></domain> 
  <live>true</live> 
  <merchantid>11223344</merchantid> 
+ <nonce>0123456789ABCDEF</nonce> 
 </DomainKeyRequest>
 ```
 
@@ -5604,6 +5819,7 @@ Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Addi
 | `domain` | array | true | The domains the domain key is registered for. you should only provide the host and no ports.<br/><br/>type: string | 
 | `live` | boolean  | false | Specifies if the key is to be used for production. Defaults to false. | 
 | `merchantid` | integer *int32* | true | The merchant id the domain key is to be used for. | 
+| `nonce` | string *hex* | false | Specifies a random value for integrity. The value is used to generate the domain key to provide further integrity to the key. | 
 
 
 
@@ -5681,20 +5897,20 @@ Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Addi
 
 ```json
 {
-   "event_end_date": "2024-09-26",
+   "event_end_date": "2024-11-01",
    "event_id": "",
    "event_organiser_id": "",
-   "event_start_date": "2024-09-26",
+   "event_start_date": "2024-11-01",
    "payment_type": ""
 }
 ```
 
 ```xml
 <EventDataModel>
- <event_end_date>2024-09-26</event_end_date> 
+ <event_end_date>2024-11-01</event_end_date> 
  <event_id></event_id> 
  <event_organiser_id></event_organiser_id> 
- <event_start_date>2024-09-26</event_start_date> 
+ <event_start_date>2024-11-01</event_start_date> 
  <payment_type></payment_type> 
 </EventDataModel>
 ```
@@ -5773,26 +5989,29 @@ Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Addi
 
 
 
-## HttpConfig
+## FindPaymentIntentRequest
 
 ```json
 {
-   "headers": { ... },
-   "url": "https://yoursite.com/path"
+   "external-ref": "ABC123",
+   "external-ref-source": "xero",
+   "payment_intent_id": "p13t1111222233334444"
 }
 ```
 
 ```xml
-<HttpConfig>
- <headers><>...</></headers> 
- <url>https://yoursite.com/path</url> 
-</HttpConfig>
+<FindPaymentIntentRequest>
+ <external-ref>ABC123</external-ref> 
+ <external-ref-source>xero</external-ref-source> 
+ <payment_intent_id>p13t1111222233334444</payment_intent_id> 
+</FindPaymentIntentRequest>
 ```
 
 | Field | Type | Required | Description |
 |-------|------|----------|-------------|
-| `headers` | object  | false | Http headers to add to the configuration. | 
-| `url` | string *url* | true | The url of the endpoint to contact. The value should be https. | 
+| `external-ref` | string  | false | An external reference to lookup.<br/><br/>maxLength: 256 | 
+| `external-ref-source` | string  | false | An external reference source to lookup. | 
+| `payment_intent_id` | string  | false | The payment intent id, if known. | 
 
 
 
@@ -5963,7 +6182,7 @@ Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Addi
 
 ```json
 {
-   "batch_closed": "2024-09-26",
+   "batch_closed": "2024-11-01",
    "batch_no": "",
    "batch_status": "",
    "batch_status_code": "",
@@ -5975,7 +6194,7 @@ Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Addi
 
 ```xml
 <MerchantBatchResponse>
- <batch_closed>2024-09-26</batch_closed> 
+ <batch_closed>2024-11-01</batch_closed> 
  <batch_no></batch_no> 
  <batch_status></batch_status> 
  <batch_status_code></batch_status_code> 
@@ -6202,10 +6421,9 @@ Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Addi
 ```json
 {
    "addressee": "Jack Sparrow",
-   "adjustments": { ... },
    "attachments": "",
    "descriptor": "",
-   "due": "2024-09-26",
+   "due": "2024-11-01",
    "email_notification_path": { ... },
    "memo": "Invoice",
    "request": { ... },
@@ -6216,10 +6434,9 @@ Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Addi
 ```xml
 <PaylinkBillPaymentTokenRequest>
  <addressee>Jack Sparrow</addressee> 
- <adjustments><>...</></adjustments> 
  <attachments></attachments> 
  <descriptor></descriptor> 
- <due>2024-09-26</due> 
+ <due>2024-11-01</due> 
  <email_notification_path><>...</></email_notification_path> 
  <memo>Invoice</memo> 
  <request><>...</></request> 
@@ -6230,7 +6447,6 @@ Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Addi
 | Field | Type | Required | Description |
 |-------|------|----------|-------------|
 | `addressee` | string  | false | Who the bill payment request intended for. This should be a readable name such as a person or company. | 
-| `adjustments` | object | false | [Adjustments](#adjustments) Adjustments refer to the modifications applied to the base amount of a transaction, including surcharges, discounts, or other financial alterations. These adjustments are critical in calculating the final amount due, based on specific conditions such as payment timing, discount codes, or business rules.<br/><br/>Each adjustment is processed according to predefined criteria, ensuring that the final transaction amount accurately reflects any applicable financial rules or incentives. It is important to configure adjustments correctly, as they directly influence the payment amount and may impact the acceptance or rejection of a transaction. | 
 | `attachments` | array | false | An array of attachments for the request such as invoices or statements. [PaylinkAttachmentRequest](#paylinkattachmentrequest) | 
 | `descriptor` | string  | false | A descriptor for the bill payment used to describe what the payment request is for for instance "Invoice".<br/><br/>The descriptor can be used as descriptive text on emails or the payment page. For instance an invoice may have a button saying "View Invoice" or an email may say "to pay your Invoice online". | 
 | `due` | string *date* | false | A date that the invoice is due. This can be displayed on the payment page. | 
@@ -6702,7 +6918,7 @@ Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Addi
 
 ```json
 {
-   "datetime": "2024-09-26",
+   "datetime": "2024-11-01",
    "message": "message on this state",
    "state": "FormInput"
 }
@@ -6710,7 +6926,7 @@ Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Addi
 
 ```xml
 <PaylinkStateEvent>
- <datetime>2024-09-26</datetime> 
+ <datetime>2024-11-01</datetime> 
  <message>message on this state</message> 
  <state>FormInput</state> 
 </PaylinkStateEvent>
@@ -6732,7 +6948,7 @@ Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Addi
 {
    "attachments": { ... },
    "bps": "",
-   "date_created": "2024-09-26",
+   "date_created": "2024-11-01",
    "errors": "",
    "id": "00000000-0000-0000-0000-000000000000",
    "identifier": "95b857a1-5955-4b86-963c-5a6dbfc4fb95",
@@ -6751,7 +6967,7 @@ Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Addi
 <PaylinkTokenCreated>
  <attachments><>...</></attachments> 
  <bps></bps> 
- <date_created>2024-09-26</date_created> 
+ <date_created>2024-11-01</date_created> 
  <errors></errors> 
  <id>00000000-0000-0000-0000-000000000000</id> 
  <identifier>95b857a1-5955-4b86-963c-5a6dbfc4fb95</identifier> 
@@ -6805,6 +7021,7 @@ BPS | `bps` | string  | false | true if BPS has been enabled on this token. |
    "email": "card.holder@citypay.com",
    "identifier": "95b857a1-5955-4b86-963c-5a6dbfc4fb95",
    "merchantid": 11223344,
+   "payment_intent_id": "p13t1111222233334444",
    "recurring": false,
    "subscription_id": "",
    "tx_type": ""
@@ -6823,6 +7040,7 @@ BPS | `bps` | string  | false | true if BPS has been enabled on this token. |
  <email>card.holder@citypay.com</email> 
  <identifier>95b857a1-5955-4b86-963c-5a6dbfc4fb95</identifier> 
  <merchantid>11223344</merchantid> 
+ <payment_intent_id>p13t1111222233334444</payment_intent_id> 
  <recurring></recurring> 
  <subscription_id></subscription_id> 
  <tx_type></tx_type> 
@@ -6841,6 +7059,7 @@ BPS | `bps` | string  | false | true if BPS has been enabled on this token. |
 | `email` | string  | false | The email field is used for the Merchant to be notified on completion of the transaction . The value may be supplied to override the default stored value. Emails sent to this address by the Paylink service should not be forwarded on to the cardholder as it may contain certain information that is used by the Paylink service to validate and authenticate Paylink Token Requests: for example, the Merchant ID and the licence key.<br/><br/> maxLength: 254 | 
 | `identifier` | string  | true | Identifies a particular transaction linked to a Merchant account. It enables accurate duplicate checking within a pre-configured time period, as well as transaction reporting and tracing. The identifier should be unique to prevent payment card processing attempts from being rejected due to duplication.<br/><br/> minLength: 4<br/>maxLength: 50 | 
 | `merchantid` | integer *int32* | true | The merchant id you wish to process this transaction with. | 
+| `payment_intent_id` | string  | false | A payment intent id already previoulsy registered for this token. | 
 | `recurring` | boolean  | false | True if the intent of this cardholder initiated transaction is to establish a recurring payment model, processable as merchant initiated transactions. | 
 | `subscription_id` | string  | false | an id associated with a subscription to link the token request against. | 
 | `tx_type` | string  | false | A value to override the transaction type if requested by your account manager. | 
@@ -6856,8 +7075,8 @@ BPS | `bps` | string  | false | true if BPS has been enabled on this token. |
    "amount_paid": 0,
    "auth_code": "",
    "card": "Visa/0002",
-   "created": "2024-09-26",
-   "datetime": "2024-09-26",
+   "created": "2024-11-01",
+   "datetime": "2024-11-01",
    "identifier": "95b857a1-5955-4b86-963c-5a6dbfc4fb95",
    "is_attachment": false,
    "is_cancelled": false,
@@ -6874,7 +7093,7 @@ BPS | `bps` | string  | false | true if BPS has been enabled on this token. |
    "is_request_challenged": false,
    "is_sms_sent": false,
    "is_validated": false,
-   "last_event_date_time": "2024-09-26",
+   "last_event_date_time": "2024-11-01",
    "last_payment_result": "",
    "mid": 11223344,
    "payment_attempts_count": 0,
@@ -6889,8 +7108,8 @@ BPS | `bps` | string  | false | true if BPS has been enabled on this token. |
  <amount_paid></amount_paid> 
  <auth_code></auth_code> 
  <card>Visa/0002</card> 
- <created>2024-09-26</created> 
- <datetime>2024-09-26</datetime> 
+ <created>2024-11-01</created> 
+ <datetime>2024-11-01</datetime> 
  <identifier>95b857a1-5955-4b86-963c-5a6dbfc4fb95</identifier> 
  <is_attachment></is_attachment> 
  <is_cancelled></is_cancelled> 
@@ -6907,7 +7126,7 @@ BPS | `bps` | string  | false | true if BPS has been enabled on this token. |
  <is_request_challenged></is_request_challenged> 
  <is_sms_sent></is_sms_sent> 
  <is_validated></is_validated> 
- <last_event_date_time>2024-09-26</last_event_date_time> 
+ <last_event_date_time>2024-11-01</last_event_date_time> 
  <last_payment_result></last_payment_result> 
  <mid>11223344</mid> 
  <payment_attempts_count></payment_attempts_count> 
@@ -6956,7 +7175,7 @@ BPS | `bps` | string  | false | true if BPS has been enabled on this token. |
 
 ```json
 {
-   "after": "2024-09-26",
+   "after": "2024-11-01",
    "maxResults": 50,
    "merchantid": 11223344,
    "nextToken": "n34liuwn435tUAGFNg34yn...",
@@ -6966,7 +7185,7 @@ BPS | `bps` | string  | false | true if BPS has been enabled on this token. |
 
 ```xml
 <PaylinkTokenStatusChangeRequest>
- <after>2024-09-26</after> 
+ <after>2024-11-01</after> 
  <maxResults>50</maxResults> 
  <merchantid>11223344</merchantid> 
  <nextToken>n34liuwn435tUAGFNg34yn...</nextToken> 
@@ -7048,64 +7267,6 @@ BPS | `bps` | string  | false | true if BPS has been enabled on this token. |
 
 
 
-## PaymentIntent
-
-```json
-{
-   "adjustments": { ... },
-   "amount": 19995,
-   "avs_postcode_policy": "",
-   "bill_to": { ... },
-   "csc_policy": "",
-   "currency": "GBP",
-   "duplicate_policy": "",
-   "identifier": "95b857a1-5955-4b86-963c-5a6dbfc4fb95",
-   "match_avsa": "",
-   "ship_to": { ... },
-   "tag": "",
-   "trans_info": "",
-   "trans_type": ""
-}
-```
-
-```xml
-<PaymentIntent>
- <adjustments><>...</></adjustments> 
- <amount>19995</amount> 
- <avs_postcode_policy></avs_postcode_policy> 
- <bill_to><>...</></bill_to> 
- <csc_policy></csc_policy> 
- <currency>GBP</currency> 
- <duplicate_policy></duplicate_policy> 
- <identifier>95b857a1-5955-4b86-963c-5a6dbfc4fb95</identifier> 
- <match_avsa></match_avsa> 
- <ship_to><>...</></ship_to> 
- <tag></tag> 
- <trans_info></trans_info> 
- <trans_type></trans_type> 
-</PaymentIntent>
-```
-
-| Field | Type | Required | Description |
-|-------|------|----------|-------------|
-| `adjustments` | object | false | [Adjustments](#adjustments) Adjustments refer to the modifications applied to the base amount of a transaction, including surcharges, discounts, or other financial alterations. These adjustments are critical in calculating the final amount due, based on specific conditions such as payment timing, discount codes, or business rules.<br/><br/>Each adjustment is processed according to predefined criteria, ensuring that the final transaction amount accurately reflects any applicable financial rules or incentives. It is important to configure adjustments correctly, as they directly influence the payment amount and may impact the acceptance or rejection of a transaction. | 
-| `amount` | integer *int32* | true | The amount to authorise in the lowest unit of currency with a variable length to a maximum of 12 digits.<br/><br/>No decimal points are to be included and no divisional characters such as 1,024.<br/><br/>The amount should be the total amount required for the transaction.<br/><br/>For example with GBP £1,021.95 the amount value is 102195.<br/><br/> minLength: 1<br/>maxLength: 9 | 
-| `avs_postcode_policy` | string  | false | A policy value which determines whether an AVS postcode policy is enforced or bypassed.<br/><br/>Values are:<br/><br/> `0` for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.<br/><br/> `1` for an enforced policy. Transactions that are enforced will be rejected if the AVS postcode numeric value does not match.<br/><br/> `2` to bypass. Transactions that are bypassed will be allowed through even if the postcode did not match.<br/><br/> `3` to ignore. Transactions that are ignored will bypass the result and not send postcode details for authorisation. | 
-| `bill_to` | object | false | [ContactDetails](#contactdetails) Billing details of the card holder making the payment. These details may be used for AVS fraud analysis, 3DS and for future referencing of the transaction.<br/><br/>For AVS to work correctly, the billing details should be the registered address of the card holder as it appears on the statement with their card issuer. The numeric details will be passed through for analysis and may result in a decline if incorrectly provided. | 
-| `csc_policy` | string  | false | A policy value which determines whether a CSC policy is enforced or bypassed.<br/><br/>Values are:<br/><br/> `0` for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.<br/><br/> `1` for an enforced policy. Transactions that are enforced will be rejected if the CSC value does not match.<br/><br/> `2` to bypass. Transactions that are bypassed will be allowed through even if the CSC did not match.<br/><br/> `3` to ignore. Transactions that are ignored will bypass the result and not send the CSC details for authorisation. | 
-| `currency` | string  | false | The processing currency for the transaction. Will default to the merchant account currency.<br/><br/>minLength: 3<br/>maxLength: 3 | 
-| `duplicate_policy` | string  | false | A policy value which determines whether a duplication policy is enforced or bypassed. A duplication check has a window of time set against your account within which it can action. If a previous transaction with matching values occurred within the window, any subsequent transaction will result in a T001 result.<br/><br/>Values are<br/><br/> `0` for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.<br/><br/> `1` for an enforced policy. Transactions that are enforced will be checked for duplication within the duplication window.<br/><br/> `2` to bypass. Transactions that are bypassed will not be checked for duplication within the duplication window.<br/><br/> `3` to ignore. Transactions that are ignored will have the same affect as bypass. | 
-| `identifier` | string  | true | The identifier of the transaction to process. The value should be a valid reference and may be used to perform  post processing actions and to aid in reconciliation of transactions.<br/><br/>The value should be a valid printable string with ASCII character ranges from 0x32 to 0x127.<br/><br/>The identifier is recommended to be distinct for each transaction such as a [random unique identifier](https://en.wikipedia.org/wiki/Universally_unique_identifier) this will aid in ensuring each transaction is identifiable.<br/><br/>When transactions are processed they are also checked for duplicate requests. Changing the identifier on a subsequent request will ensure that a transaction is considered as different.<br/><br/> minLength: 4<br/>maxLength: 50 | 
-| `match_avsa` | string  | false | A policy value which determines whether an AVS address policy is enforced, bypassed or ignored.<br/><br/>Values are:<br/><br/> `0` for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.<br/><br/> `1` for an enforced policy. Transactions that are enforced will be rejected if the AVS address numeric value does not match.<br/><br/> `2` to bypass. Transactions that are bypassed will be allowed through even if the address did not match.<br/><br/> `3` to ignore. Transactions that are ignored will bypass the result and not send address numeric details for authorisation. | 
-| `ship_to` | object | false | [ContactDetails](#contactdetails) Shipping details of the card holder making the payment. These details may be used for 3DS and for future referencing of the transaction. | 
-| `tag` | array | false | type: string | 
-| `trans_info` | string  | false | Further information that can be added to the transaction will display in reporting. Can be used for flexible values such as operator id.<br/><br/>maxLength: 50 | 
-| `trans_type` | string  | false | The type of transaction being submitted. Normally this value is not required and your account manager may request that you set this field.<br/><br/>maxLength: 1 | 
-
-
-
-
-
 ## PaymentIntentReference
 
 ```json
@@ -7123,6 +7284,134 @@ BPS | `bps` | string  | false | true if BPS has been enabled on this token. |
 | Field | Type | Required | Description |
 |-------|------|----------|-------------|
 | `payment_intent_id` | string  | true | The intent id used for future referencing of the intent. | 
+
+
+
+
+
+## PaymentIntentRequestModel
+
+```json
+{
+   "adjustments": { ... },
+   "amount": 19995,
+   "avs_postcode_policy": "",
+   "bill_to": { ... },
+   "csc_policy": "",
+   "currency": "GBP",
+   "duplicate_policy": "",
+   "external-ref": "ABC123",
+   "external-ref-source": "xero",
+   "identifier": "95b857a1-5955-4b86-963c-5a6dbfc4fb95",
+   "match_avsa": "",
+   "merchantid": 11223344,
+   "ship_to": { ... },
+   "tag": "",
+   "trans_info": "",
+   "trans_type": ""
+}
+```
+
+```xml
+<PaymentIntentRequestModel>
+ <adjustments><>...</></adjustments> 
+ <amount>19995</amount> 
+ <avs_postcode_policy></avs_postcode_policy> 
+ <bill_to><>...</></bill_to> 
+ <csc_policy></csc_policy> 
+ <currency>GBP</currency> 
+ <duplicate_policy></duplicate_policy> 
+ <external-ref>ABC123</external-ref> 
+ <external-ref-source>xero</external-ref-source> 
+ <identifier>95b857a1-5955-4b86-963c-5a6dbfc4fb95</identifier> 
+ <match_avsa></match_avsa> 
+ <merchantid>11223344</merchantid> 
+ <ship_to><>...</></ship_to> 
+ <tag></tag> 
+ <trans_info></trans_info> 
+ <trans_type></trans_type> 
+</PaymentIntentRequestModel>
+```
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `adjustments` | object | false | [Adjustments](#adjustments) Adjustments refer to the modifications applied to the base amount of a transaction, including surcharges, discounts, or other financial alterations. These adjustments are critical in calculating the final amount due, based on specific conditions such as payment timing, discount codes, or business rules.<br/><br/>Each adjustment is processed according to predefined criteria, ensuring that the final transaction amount accurately reflects any applicable financial rules or incentives. It is important to configure adjustments correctly, as they directly influence the payment amount and may impact the acceptance or rejection of a transaction. | 
+| `amount` | integer *int32* | true | The amount to authorise in the lowest unit of currency with a variable length to a maximum of 12 digits.<br/><br/>No decimal points are to be included and no divisional characters such as 1,024.<br/><br/>The amount should be the total amount required for the transaction.<br/><br/>For example with GBP £1,021.95 the amount value is 102195.<br/><br/> minLength: 1<br/>maxLength: 9 | 
+| `avs_postcode_policy` | string  | false | A policy value which determines whether an AVS postcode policy is enforced or bypassed.<br/><br/>Values are:<br/><br/> `0` for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.<br/><br/> `1` for an enforced policy. Transactions that are enforced will be rejected if the AVS postcode numeric value does not match.<br/><br/> `2` to bypass. Transactions that are bypassed will be allowed through even if the postcode did not match.<br/><br/> `3` to ignore. Transactions that are ignored will bypass the result and not send postcode details for authorisation. | 
+| `bill_to` | object | false | [ContactDetails](#contactdetails) Billing details of the card holder making the payment. These details may be used for AVS fraud analysis, 3DS and for future referencing of the transaction.<br/><br/>For AVS to work correctly, the billing details should be the registered address of the card holder as it appears on the statement with their card issuer. The numeric details will be passed through for analysis and may result in a decline if incorrectly provided. | 
+| `csc_policy` | string  | false | A policy value which determines whether a CSC policy is enforced or bypassed.<br/><br/>Values are:<br/><br/> `0` for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.<br/><br/> `1` for an enforced policy. Transactions that are enforced will be rejected if the CSC value does not match.<br/><br/> `2` to bypass. Transactions that are bypassed will be allowed through even if the CSC did not match.<br/><br/> `3` to ignore. Transactions that are ignored will bypass the result and not send the CSC details for authorisation. | 
+| `currency` | string  | false | The processing currency for the transaction. Will default to the merchant account currency.<br/><br/>minLength: 3<br/>maxLength: 3 | 
+| `duplicate_policy` | string  | false | A policy value which determines whether a duplication policy is enforced or bypassed. A duplication check has a window of time set against your account within which it can action. If a previous transaction with matching values occurred within the window, any subsequent transaction will result in a T001 result.<br/><br/>Values are<br/><br/> `0` for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.<br/><br/> `1` for an enforced policy. Transactions that are enforced will be checked for duplication within the duplication window.<br/><br/> `2` to bypass. Transactions that are bypassed will not be checked for duplication within the duplication window.<br/><br/> `3` to ignore. Transactions that are ignored will have the same affect as bypass. | 
+| `external-ref` | string  | false | A unique identifier, such as an order ID or invoice number, provided by your accounting or billing system to link the payment intent with an external system reference. This ensures traceability across systems for audits and transaction validation.<br/><br/>maxLength: 256 | 
+| `external-ref-source` | string  | false | Specifies the originating source or system of the external reference, helping to categorise and trace the context of the external identifier, whether it comes from an internal system, third-party vendor, or external financial platform. | 
+| `identifier` | string  | true | The identifier of the transaction to process. The value should be a valid reference and may be used to perform  post processing actions and to aid in reconciliation of transactions.<br/><br/>The value should be a valid printable string with ASCII character ranges from 0x32 to 0x127.<br/><br/>The identifier is recommended to be distinct for each transaction such as a [random unique identifier](https://en.wikipedia.org/wiki/Universally_unique_identifier) this will aid in ensuring each transaction is identifiable.<br/><br/>When transactions are processed they are also checked for duplicate requests. Changing the identifier on a subsequent request will ensure that a transaction is considered as different.<br/><br/> minLength: 4<br/>maxLength: 50 | 
+| `match_avsa` | string  | false | A policy value which determines whether an AVS address policy is enforced, bypassed or ignored.<br/><br/>Values are:<br/><br/> `0` for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.<br/><br/> `1` for an enforced policy. Transactions that are enforced will be rejected if the AVS address numeric value does not match.<br/><br/> `2` to bypass. Transactions that are bypassed will be allowed through even if the address did not match.<br/><br/> `3` to ignore. Transactions that are ignored will bypass the result and not send address numeric details for authorisation. | 
+| `merchantid` | integer *int32* | false | The merchant id of the intent, required if using the API key or not required if using a domain key. | 
+| `ship_to` | object | false | [ContactDetails](#contactdetails) Shipping details of the card holder making the payment. These details may be used for 3DS and for future referencing of the transaction. | 
+| `tag` | array | false | type: string | 
+| `trans_info` | string  | false | Further information that can be added to the transaction will display in reporting. Can be used for flexible values such as operator id.<br/><br/>maxLength: 50 | 
+| `trans_type` | string  | false | The type of transaction being submitted. Normally this value is not required and your account manager may request that you set this field.<br/><br/>maxLength: 1 | 
+
+
+
+
+
+## PaymentIntentResponseModel
+
+```json
+{
+   "adjustments": { ... },
+   "amount": 19995,
+   "created": "2024-11-01",
+   "currency": "GBP",
+   "due": "2024-11-01",
+   "expires": "2024-11-01",
+   "external-ref": "ABC123",
+   "external-ref-source": "xero",
+   "identifier": "95b857a1-5955-4b86-963c-5a6dbfc4fb95",
+   "intent_status": "open",
+   "merchantid": 11223344,
+   "payment-type": "",
+   "payment_intent_id": "p13t1111222233334444",
+   "transactions": { ... }
+}
+```
+
+```xml
+<PaymentIntentResponseModel>
+ <adjustments><>...</></adjustments> 
+ <amount>19995</amount> 
+ <created>2024-11-01</created> 
+ <currency>GBP</currency> 
+ <due>2024-11-01</due> 
+ <expires>2024-11-01</expires> 
+ <external-ref>ABC123</external-ref> 
+ <external-ref-source>xero</external-ref-source> 
+ <identifier>95b857a1-5955-4b86-963c-5a6dbfc4fb95</identifier> 
+ <intent_status>open</intent_status> 
+ <merchantid>11223344</merchantid> 
+ <payment-type></payment-type> 
+ <payment_intent_id>p13t1111222233334444</payment_intent_id> 
+ <transactions><>...</></transactions> 
+</PaymentIntentResponseModel>
+```
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `adjustments` | object | false | [Adjustments](#adjustments) Any adjustments applied to the intent. | 
+| `amount` | integer *int32* | false | An amount of the intent.<br/><br/>minLength: 1<br/>maxLength: 9 | 
+| `created` | string *date-time* | false | A date time of when the intent was created. | 
+| `currency` | string  | false | The currency of the intent.<br/><br/>minLength: 3<br/>maxLength: 3 | 
+| `due` | string *date* | false | A due date of the intent. | 
+| `expires` | string *date* | false | An expiration date of the intent. | 
+| `external-ref` | string  | false | An external reference of the intent.<br/><br/>maxLength: 256 | 
+| `external-ref-source` | string  | false | An external reference source of the intent. | 
+| `identifier` | string  | true | An identifier of the intent.<br/><br/>minLength: 4<br/>maxLength: 50 | 
+| `intent_status` | string  | false | A status of the intent such as Unknown, Open, RequiresPaymentMethod, RequiresCustomerConfirmation, RequiresMerchantConfirmation, RequiresCustomerAuthentication, Processing, Succeeded, Cancelled, RequiresCapture, Failed, Expired, RequiresRefund, Refunded. | 
+| `merchantid` | integer *int32* | true | The merchant id of the intent. | 
+| `payment-type` | string  | false | A type of the intent such as None, Single, Subscription. | 
+| `payment_intent_id` | string  | true | The id of the intent. | 
+| `transactions` | object | false | [AuthReference](#authreference) Any related transactions that are associated to the intent. Up to 12 transactions are shown for each intent, showing the latest first. | 
 
 
 
