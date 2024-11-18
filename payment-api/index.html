@@ -810,7 +810,7 @@
       </ul>
         <ul class="toc-footer">
             <li><a href='mailto:support@citypay.com'>Any Integration Questions?</a></li>
-            <li>V6.6.65 2024-11-01</li>
+            <li>V6.6.70 2024-11-18</li>
         </ul>
     </div>
     <div class="page-wrapper">
@@ -822,8 +822,8 @@
  Our latest documentation is available on <a href="https://docs.citypay.com">CityPay Docs</a>
 </aside>
 
-<p>Version: 6.6.65
-Last Updated: 2024-11-01</p>
+<p>Version: 6.6.70
+Last Updated: 2024-11-18</p>
 
 <p>Welcome to the CityPay API, a robust HTTP API payment solution designed for seamless server-to-server 
 transactional processing. Our API facilitates a wide array of payment operations, catering to diverse business needs. 
@@ -1203,6 +1203,12 @@ value will be validated for receipt of the CAVV and subsequently may return resp
 <td>Identifies the merchant account to perform processing for.</td>
 </tr>
 <tr>
+<td><code>uuid</code></td>
+<td>string <em>uuid</em></td>
+<td>Required</td>
+<td>A uuid for the session. The value tracks through 3ds session and therefore should be a valid v4 uuid.<br/><br/>minLength: 36<br/>maxLength: 36</td>
+</tr>
+<tr>
 <td><code>avs_postcode_policy</code></td>
 <td>string</td>
 <td>Optional</td>
@@ -1249,6 +1255,12 @@ value will be validated for receipt of the CAVV and subsequently may return resp
 <td>string</td>
 <td>Optional</td>
 <td>The card holder name as appears on the card such as MR N E BODY. Required for some acquirers.<br/><br/> minLength: 2<br/>maxLength: 45</td>
+</tr>
+<tr>
+<td><code>pre_auth</code></td>
+<td>string</td>
+<td>Optional</td>
+<td>A policy value which determines whether a pre auth policy is enforced or bypassed.<br/><br/>Values are:<br/><br/> <code>0</code> for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.<br/><br/> <code>1</code> for an enforced policy.  Enforces pre-authorisation when it does not pre-auth by default.<br/><br/> <code>2</code> to bypass. Bypasses pre-authorisation when it is enabled to pre auth by default.<br/><br/> <code>3</code> to ignore. The same as the default policy (0). Although it currently mirrors the default, this option is included for compatibility with other policies.</td>
 </tr>
 <tr>
 <td><code>ship_to</code></td>
@@ -1939,6 +1951,12 @@ billing and shipping information.</p>
 <td>The merchant id of the intent, required if using the API key or not required if using a domain key.</td>
 </tr>
 <tr>
+<td><code>pre_auth</code></td>
+<td>string</td>
+<td>Optional</td>
+<td>A policy value which determines whether a pre auth policy is enforced or bypassed.<br/><br/>Values are:<br/><br/> <code>0</code> for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.<br/><br/> <code>1</code> for an enforced policy.  Enforces pre-authorisation when it does not pre-auth by default.<br/><br/> <code>2</code> to bypass. Bypasses pre-authorisation when it is enabled to pre auth by default.<br/><br/> <code>3</code> to ignore. The same as the default policy (0). Although it currently mirrors the default, this option is included for compatibility with other policies.</td>
+</tr>
+<tr>
 <td><code>ship_to</code></td>
 <td>object</td>
 <td>Optional</td>
@@ -2485,7 +2503,7 @@ information to be returned.</p>
  <span class="path">/v6/tokenise</span>
 </div>
 
-<div class="security-methods"><span class="key sec-cp-api-key">cp-api-key</span> </div>
+<div class="security-methods"><span class="key sec-cp-api-key">cp-api-key</span> <span class="key sec-cp-domain-key">cp-domain-key</span> </div>
 
 <p></div></p>
 
@@ -2527,6 +2545,12 @@ information to be returned.</p>
 <td>integer <em>int32</em></td>
 <td>Required</td>
 <td>The year of expiry of the card.<br/><br/> minimum: 2000<br/>maximum: 2100</td>
+</tr>
+<tr>
+<td><code>uuid</code></td>
+<td>string <em>uuid</em></td>
+<td>Required</td>
+<td>A uuid for the session. The value tracks through 3ds session and therefore should be a valid v4 uuid.<br/><br/>minLength: 36<br/>maxLength: 36</td>
 </tr>
 <tr>
 <td><code>csc</code></td>
@@ -4191,6 +4215,12 @@ required field with both Visa and MasterCard for risk analysis.</em>.</p>
 <td>A policy value which determines whether an AVS address policy is enforced, bypassed or ignored.<br/><br/>Values are:<br/><br/> <code>0</code> for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.<br/><br/> <code>1</code> for an enforced policy. Transactions that are enforced will be rejected if the AVS address numeric value does not match.<br/><br/> <code>2</code> to bypass. Transactions that are bypassed will be allowed through even if the address did not match.<br/><br/> <code>3</code> to ignore. Transactions that are ignored will bypass the result and not send address numeric details for authorisation.</td>
 </tr>
 <tr>
+<td><code>pre_auth</code></td>
+<td>string</td>
+<td>Optional</td>
+<td>A policy value which determines whether a pre auth policy is enforced or bypassed.<br/><br/>Values are:<br/><br/> <code>0</code> for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.<br/><br/> <code>1</code> for an enforced policy.  Enforces pre-authorisation when it does not pre-auth by default.<br/><br/> <code>2</code> to bypass. Bypasses pre-authorisation when it is enabled to pre auth by default.<br/><br/> <code>3</code> to ignore. The same as the default policy (0). Although it currently mirrors the default, this option is included for compatibility with other policies.</td>
+</tr>
+<tr>
 <td><code>tag</code></td>
 <td>array</td>
 <td>Optional</td>
@@ -4385,6 +4415,12 @@ initial direct post call and must be run on a pre-registered host. Our validatio
 <td>A message authentication code ensures the data is authentic and that the intended amount has not been tampered with. The mac value is generated using a hash-based mac value. The following algorithm is used. - A key (k) is derived from your licence key - A value (v) is produced by concatenating the nonce, amount value and identifier, such as a purchase   with nonce <code>0123456789ABCDEF</code> an amount of £275.95 and an identifier of OD-12345678 would become   <code>0123456789ABCDEF27595OD-12345678</code> and extracting the UTF-8 byte values - The result from HMAC_SHA256(k, v) is hex-encoded (upper-case) - For instance, a licence key of <code>LK123456789</code>, a nonce of <code>0123456789ABCDEF</code>, an amount of <code>27595</code> and an identifier of <code>OD-12345678</code>  would generate a MAC of <code>163DBAB194D743866A9BCC7FC9C8A88FCD99C6BBBF08D619291212D1B91EE12E</code>.</td>
 </tr>
 <tr>
+<td><code>uuid</code></td>
+<td>string <em>uuid</em></td>
+<td>Required</td>
+<td>A uuid for the session. The value tracks through 3ds session and therefore should be a valid v4 uuid.<br/><br/>minLength: 36<br/>maxLength: 36</td>
+</tr>
+<tr>
 <td><code>avs_postcode_policy</code></td>
 <td>string</td>
 <td>Optional</td>
@@ -4437,6 +4473,12 @@ initial direct post call and must be run on a pre-registered host. Our validatio
 <td>string <em>hex</em></td>
 <td>Optional</td>
 <td>A random value Hex string (uppercase) which is provided to the API to perform a digest. The value will be used in any digest function.</td>
+</tr>
+<tr>
+<td><code>pre_auth</code></td>
+<td>string</td>
+<td>Optional</td>
+<td>A policy value which determines whether a pre auth policy is enforced or bypassed.<br/><br/>Values are:<br/><br/> <code>0</code> for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.<br/><br/> <code>1</code> for an enforced policy.  Enforces pre-authorisation when it does not pre-auth by default.<br/><br/> <code>2</code> to bypass. Bypasses pre-authorisation when it is enabled to pre auth by default.<br/><br/> <code>3</code> to ignore. The same as the default policy (0). Although it currently mirrors the default, this option is included for compatibility with other policies.</td>
 </tr>
 <tr>
 <td><code>redirect_failure</code></td>
@@ -4980,6 +5022,12 @@ response stating that the transaction was approved or declined.</p>
 <td>A message authentication code ensures the data is authentic and that the intended amount has not been tampered with. The mac value is generated using a hash-based mac value. The following algorithm is used. - A key (k) is derived from your licence key - A value (v) is produced by concatenating the nonce, amount value and identifier, such as a purchase   with nonce <code>0123456789ABCDEF</code> an amount of £275.95 and an identifier of OD-12345678 would become   <code>0123456789ABCDEF27595OD-12345678</code> and extracting the UTF-8 byte values - The result from HMAC_SHA256(k, v) is hex-encoded (upper-case) - For instance, a licence key of <code>LK123456789</code>, a nonce of <code>0123456789ABCDEF</code>, an amount of <code>27595</code> and an identifier of <code>OD-12345678</code>  would generate a MAC of <code>163DBAB194D743866A9BCC7FC9C8A88FCD99C6BBBF08D619291212D1B91EE12E</code>.</td>
 </tr>
 <tr>
+<td><code>uuid</code></td>
+<td>string <em>uuid</em></td>
+<td>Required</td>
+<td>A uuid for the session. The value tracks through 3ds session and therefore should be a valid v4 uuid.<br/><br/>minLength: 36<br/>maxLength: 36</td>
+</tr>
+<tr>
 <td><code>avs_postcode_policy</code></td>
 <td>string</td>
 <td>Optional</td>
@@ -5032,6 +5080,12 @@ response stating that the transaction was approved or declined.</p>
 <td>string <em>hex</em></td>
 <td>Optional</td>
 <td>A random value Hex string (uppercase) which is provided to the API to perform a digest. The value will be used in any digest function.</td>
+</tr>
+<tr>
+<td><code>pre_auth</code></td>
+<td>string</td>
+<td>Optional</td>
+<td>A policy value which determines whether a pre auth policy is enforced or bypassed.<br/><br/>Values are:<br/><br/> <code>0</code> for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.<br/><br/> <code>1</code> for an enforced policy.  Enforces pre-authorisation when it does not pre-auth by default.<br/><br/> <code>2</code> to bypass. Bypasses pre-authorisation when it is enabled to pre auth by default.<br/><br/> <code>3</code> to ignore. The same as the default policy (0). Although it currently mirrors the default, this option is included for compatibility with other policies.</td>
 </tr>
 <tr>
 <td><code>redirect_failure</code></td>
@@ -8717,11 +8771,13 @@ to stop receiving event notifications for specific webhook subscriptions that ar
    </span><span class="nl">"mcc6012"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="err">...</span><span class="w"> </span><span class="p">},</span><span class="w">
    </span><span class="nl">"merchantid"</span><span class="p">:</span><span class="w"> </span><span class="mi">11223344</span><span class="p">,</span><span class="w">
    </span><span class="nl">"name_on_card"</span><span class="p">:</span><span class="w"> </span><span class="s2">"MR NE BODY"</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"pre_auth"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
    </span><span class="nl">"ship_to"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="err">...</span><span class="w"> </span><span class="p">},</span><span class="w">
    </span><span class="nl">"tag"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
    </span><span class="nl">"threedsecure"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="err">...</span><span class="w"> </span><span class="p">},</span><span class="w">
    </span><span class="nl">"trans_info"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
-   </span><span class="nl">"trans_type"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="w">
+   </span><span class="nl">"trans_type"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"uuid"</span><span class="p">:</span><span class="w"> </span><span class="s2">"123e4567-e89b-12d3-a456-426614174000"</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre></div><div class="highlight"><pre class="highlight xml tab-xml"><code><span class="nt">&lt;AuthRequest&gt;</span>
  <span class="nt">&lt;airline_data&gt;</span><span class="err">&lt;</span>&gt;...<span class="err">&lt;</span>/&gt;<span class="nt">&lt;/airline_data&gt;</span> 
@@ -8742,11 +8798,13 @@ to stop receiving event notifications for specific webhook subscriptions that ar
  <span class="nt">&lt;mcc6012&gt;</span><span class="err">&lt;</span>&gt;...<span class="err">&lt;</span>/&gt;<span class="nt">&lt;/mcc6012&gt;</span> 
  <span class="nt">&lt;merchantid&gt;</span>11223344<span class="nt">&lt;/merchantid&gt;</span> 
  <span class="nt">&lt;name_on_card&gt;</span>MR NE BODY<span class="nt">&lt;/name_on_card&gt;</span> 
+ <span class="nt">&lt;pre_auth&gt;&lt;/pre_auth&gt;</span> 
  <span class="nt">&lt;ship_to&gt;</span><span class="err">&lt;</span>&gt;...<span class="err">&lt;</span>/&gt;<span class="nt">&lt;/ship_to&gt;</span> 
  <span class="nt">&lt;tag&gt;&lt;/tag&gt;</span> 
  <span class="nt">&lt;threedsecure&gt;</span><span class="err">&lt;</span>&gt;...<span class="err">&lt;</span>/&gt;<span class="nt">&lt;/threedsecure&gt;</span> 
  <span class="nt">&lt;trans_info&gt;&lt;/trans_info&gt;</span> 
  <span class="nt">&lt;trans_type&gt;&lt;/trans_type&gt;</span> 
+ <span class="nt">&lt;uuid&gt;</span>123e4567-e89b-12d3-a456-426614174000<span class="nt">&lt;/uuid&gt;</span> 
 <span class="nt">&lt;/AuthRequest&gt;</span>
 </code></pre></div>
 <table><thead>
@@ -8860,6 +8918,12 @@ to stop receiving event notifications for specific webhook subscriptions that ar
 <td>The card holder name as appears on the card such as MR N E BODY. Required for some acquirers.<br/><br/> minLength: 2<br/>maxLength: 45</td>
 </tr>
 <tr>
+<td><code>pre_auth</code></td>
+<td>string</td>
+<td>false</td>
+<td>A policy value which determines whether a pre auth policy is enforced or bypassed.<br/><br/>Values are:<br/><br/> <code>0</code> for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.<br/><br/> <code>1</code> for an enforced policy.  Enforces pre-authorisation when it does not pre-auth by default.<br/><br/> <code>2</code> to bypass. Bypasses pre-authorisation when it is enabled to pre auth by default.<br/><br/> <code>3</code> to ignore. The same as the default policy (0). Although it currently mirrors the default, this option is included for compatibility with other policies.</td>
+</tr>
+<tr>
 <td><code>ship_to</code></td>
 <td>object</td>
 <td>false</td>
@@ -8888,6 +8952,12 @@ to stop receiving event notifications for specific webhook subscriptions that ar
 <td>string</td>
 <td>false</td>
 <td>The type of transaction being submitted. Normally this value is not required and your account manager may request that you set this field.<br/><br/>maxLength: 1</td>
+</tr>
+<tr>
+<td><code>uuid</code></td>
+<td>string <em>uuid</em></td>
+<td>true</td>
+<td>A uuid for the session. The value tracks through 3ds session and therefore should be a valid v4 uuid.<br/><br/>minLength: 36<br/>maxLength: 36</td>
 </tr>
 </tbody></table>
 
@@ -10069,7 +10139,8 @@ to stop receiving event notifications for specific webhook subscriptions that ar
    </span><span class="nl">"csc"</span><span class="p">:</span><span class="w"> </span><span class="s2">"10"</span><span class="p">,</span><span class="w">
    </span><span class="nl">"expmonth"</span><span class="p">:</span><span class="w"> </span><span class="mi">9</span><span class="p">,</span><span class="w">
    </span><span class="nl">"expyear"</span><span class="p">:</span><span class="w"> </span><span class="mi">2027</span><span class="p">,</span><span class="w">
-   </span><span class="nl">"name_on_card"</span><span class="p">:</span><span class="w"> </span><span class="s2">"MR NE BODY"</span><span class="w">
+   </span><span class="nl">"name_on_card"</span><span class="p">:</span><span class="w"> </span><span class="s2">"MR NE BODY"</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"uuid"</span><span class="p">:</span><span class="w"> </span><span class="s2">"123e4567-e89b-12d3-a456-426614174000"</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre></div><div class="highlight"><pre class="highlight xml tab-xml"><code><span class="nt">&lt;CardTokenisationRequest&gt;</span>
  <span class="nt">&lt;cardnumber&gt;</span>4000 0000 0000 0002<span class="nt">&lt;/cardnumber&gt;</span> 
@@ -10077,6 +10148,7 @@ to stop receiving event notifications for specific webhook subscriptions that ar
  <span class="nt">&lt;expmonth&gt;</span>9<span class="nt">&lt;/expmonth&gt;</span> 
  <span class="nt">&lt;expyear&gt;</span>2027<span class="nt">&lt;/expyear&gt;</span> 
  <span class="nt">&lt;name_on_card&gt;</span>MR NE BODY<span class="nt">&lt;/name_on_card&gt;</span> 
+ <span class="nt">&lt;uuid&gt;</span>123e4567-e89b-12d3-a456-426614174000<span class="nt">&lt;/uuid&gt;</span> 
 <span class="nt">&lt;/CardTokenisationRequest&gt;</span>
 </code></pre></div>
 <table><thead>
@@ -10117,17 +10189,21 @@ to stop receiving event notifications for specific webhook subscriptions that ar
 <td>false</td>
 <td>The card holder name as appears on the card such as MR N E BODY. Required for some acquirers.<br/><br/> minLength: 2<br/>maxLength: 45</td>
 </tr>
+<tr>
+<td><code>uuid</code></td>
+<td>string <em>uuid</em></td>
+<td>true</td>
+<td>A uuid for the session. The value tracks through 3ds session and therefore should be a valid v4 uuid.<br/><br/>minLength: 36<br/>maxLength: 36</td>
+</tr>
 </tbody></table>
 <h2 id='cardtokenisationresponse'>CardTokenisationResponse</h2><div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-   </span><span class="nl">"cp-card-security-token"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
-   </span><span class="nl">"cp-card-token"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"cp_card_token"</span><span class="p">:</span><span class="w"> </span><span class="s2">"tVQZbn00000000B3qMJB"</span><span class="p">,</span><span class="w">
    </span><span class="nl">"last4digits"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2"</span><span class="p">,</span><span class="w">
    </span><span class="nl">"scheme"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Visa"</span><span class="p">,</span><span class="w">
    </span><span class="nl">"scheme_logo"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://cdn.citypay.com/img/cs/visa-logo.svg"</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre></div><div class="highlight"><pre class="highlight xml tab-xml"><code><span class="nt">&lt;CardTokenisationResponse&gt;</span>
- <span class="nt">&lt;cp-card-security-token&gt;&lt;/cp-card-security-token&gt;</span> 
- <span class="nt">&lt;cp-card-token&gt;&lt;/cp-card-token&gt;</span> 
+ <span class="nt">&lt;cp_card_token&gt;</span>tVQZbn00000000B3qMJB<span class="nt">&lt;/cp_card_token&gt;</span> 
  <span class="nt">&lt;last4digits&gt;</span>2<span class="nt">&lt;/last4digits&gt;</span> 
  <span class="nt">&lt;scheme&gt;</span>Visa<span class="nt">&lt;/scheme&gt;</span> 
  <span class="nt">&lt;scheme_logo&gt;</span>https://cdn.citypay.com/img/cs/visa-logo.svg<span class="nt">&lt;/scheme_logo&gt;</span> 
@@ -10142,13 +10218,7 @@ to stop receiving event notifications for specific webhook subscriptions that ar
 </tr>
 </thead><tbody>
 <tr>
-<td><code>cp-card-security-token</code></td>
-<td>string</td>
-<td>false</td>
-<td>The tokenised card security code value, the csc value is encrypted and can only be decrypted within the CityPay PCI data centre within 6 hours of generation. It is intended to pass the value through as a session value for the purpose of authorisation and then being dropped. It can only be decrypted with the presentation of a valid cp-card-token.</td>
-</tr>
-<tr>
-<td><code>cp-card-token</code></td>
+<td><code>cp_card_token</code></td>
 <td>string</td>
 <td>true</td>
 <td>The tokenised card value. The token is encrypted with integrity checks and scoped to a client id only allowing for the card value to be used.  The value may be used up and until the expiry date of the card.</td>
@@ -10184,6 +10254,7 @@ to stop receiving event notifications for specific webhook subscriptions that ar
    </span><span class="nl">"initiation"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
    </span><span class="nl">"match_avsa"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
    </span><span class="nl">"merchantid"</span><span class="p">:</span><span class="w"> </span><span class="mi">11223344</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"pre_auth"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
    </span><span class="nl">"tag"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
    </span><span class="nl">"threedsecure"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="err">...</span><span class="w"> </span><span class="p">},</span><span class="w">
    </span><span class="nl">"token"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ctPCAPyNyCkx3Ry8wGyv8khC3ch2hUSB3Db..Qzr"</span><span class="p">,</span><span class="w">
@@ -10202,6 +10273,7 @@ to stop receiving event notifications for specific webhook subscriptions that ar
  <span class="nt">&lt;initiation&gt;&lt;/initiation&gt;</span> 
  <span class="nt">&lt;match_avsa&gt;&lt;/match_avsa&gt;</span> 
  <span class="nt">&lt;merchantid&gt;</span>11223344<span class="nt">&lt;/merchantid&gt;</span> 
+ <span class="nt">&lt;pre_auth&gt;&lt;/pre_auth&gt;</span> 
  <span class="nt">&lt;tag&gt;&lt;/tag&gt;</span> 
  <span class="nt">&lt;threedsecure&gt;</span><span class="err">&lt;</span>&gt;...<span class="err">&lt;</span>/&gt;<span class="nt">&lt;/threedsecure&gt;</span> 
  <span class="nt">&lt;token&gt;</span>ctPCAPyNyCkx3Ry8wGyv8khC3ch2hUSB3Db..Qzr<span class="nt">&lt;/token&gt;</span> 
@@ -10282,6 +10354,12 @@ to stop receiving event notifications for specific webhook subscriptions that ar
 <td>integer <em>int32</em></td>
 <td>true</td>
 <td>Identifies the merchant account to perform processing for.</td>
+</tr>
+<tr>
+<td><code>pre_auth</code></td>
+<td>string</td>
+<td>false</td>
+<td>A policy value which determines whether a pre auth policy is enforced or bypassed.<br/><br/>Values are:<br/><br/> <code>0</code> for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.<br/><br/> <code>1</code> for an enforced policy.  Enforces pre-authorisation when it does not pre-auth by default.<br/><br/> <code>2</code> to bypass. Bypasses pre-authorisation when it is enabled to pre auth by default.<br/><br/> <code>3</code> to ignore. The same as the default policy (0). Although it currently mirrors the default, this option is included for compatibility with other policies.</td>
 </tr>
 <tr>
 <td><code>tag</code></td>
@@ -10546,13 +10624,15 @@ to stop receiving event notifications for specific webhook subscriptions that ar
    </span><span class="nl">"match_avsa"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
    </span><span class="nl">"name_on_card"</span><span class="p">:</span><span class="w"> </span><span class="s2">"MR NE BODY"</span><span class="p">,</span><span class="w">
    </span><span class="nl">"nonce"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0123456789ABCDEF"</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"pre_auth"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
    </span><span class="nl">"redirect_failure"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://pay.mystore.com/continue_failure"</span><span class="p">,</span><span class="w">
    </span><span class="nl">"redirect_success"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://pay.mystore.com/continue_success"</span><span class="p">,</span><span class="w">
    </span><span class="nl">"ship_to"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="err">...</span><span class="w"> </span><span class="p">},</span><span class="w">
    </span><span class="nl">"tag"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
    </span><span class="nl">"threedsecure"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="err">...</span><span class="w"> </span><span class="p">},</span><span class="w">
    </span><span class="nl">"trans_info"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
-   </span><span class="nl">"trans_type"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="w">
+   </span><span class="nl">"trans_type"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"uuid"</span><span class="p">:</span><span class="w"> </span><span class="s2">"123e4567-e89b-12d3-a456-426614174000"</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre></div><div class="highlight"><pre class="highlight xml tab-xml"><code><span class="nt">&lt;DirectPostRequest&gt;</span>
  <span class="nt">&lt;amount&gt;</span>19995<span class="nt">&lt;/amount&gt;</span> 
@@ -10570,6 +10650,7 @@ to stop receiving event notifications for specific webhook subscriptions that ar
  <span class="nt">&lt;match_avsa&gt;&lt;/match_avsa&gt;</span> 
  <span class="nt">&lt;name_on_card&gt;</span>MR NE BODY<span class="nt">&lt;/name_on_card&gt;</span> 
  <span class="nt">&lt;nonce&gt;</span>0123456789ABCDEF<span class="nt">&lt;/nonce&gt;</span> 
+ <span class="nt">&lt;pre_auth&gt;&lt;/pre_auth&gt;</span> 
  <span class="nt">&lt;redirect_failure&gt;</span>https://pay.mystore.com/continue_failure<span class="nt">&lt;/redirect_failure&gt;</span> 
  <span class="nt">&lt;redirect_success&gt;</span>https://pay.mystore.com/continue_success<span class="nt">&lt;/redirect_success&gt;</span> 
  <span class="nt">&lt;ship_to&gt;</span><span class="err">&lt;</span>&gt;...<span class="err">&lt;</span>/&gt;<span class="nt">&lt;/ship_to&gt;</span> 
@@ -10577,6 +10658,7 @@ to stop receiving event notifications for specific webhook subscriptions that ar
  <span class="nt">&lt;threedsecure&gt;</span><span class="err">&lt;</span>&gt;...<span class="err">&lt;</span>/&gt;<span class="nt">&lt;/threedsecure&gt;</span> 
  <span class="nt">&lt;trans_info&gt;&lt;/trans_info&gt;</span> 
  <span class="nt">&lt;trans_type&gt;&lt;/trans_type&gt;</span> 
+ <span class="nt">&lt;uuid&gt;</span>123e4567-e89b-12d3-a456-426614174000<span class="nt">&lt;/uuid&gt;</span> 
 <span class="nt">&lt;/DirectPostRequest&gt;</span>
 </code></pre></div>
 <table><thead>
@@ -10678,6 +10760,12 @@ to stop receiving event notifications for specific webhook subscriptions that ar
 <td>A random value Hex string (uppercase) which is provided to the API to perform a digest. The value will be used in any digest function.</td>
 </tr>
 <tr>
+<td><code>pre_auth</code></td>
+<td>string</td>
+<td>false</td>
+<td>A policy value which determines whether a pre auth policy is enforced or bypassed.<br/><br/>Values are:<br/><br/> <code>0</code> for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.<br/><br/> <code>1</code> for an enforced policy.  Enforces pre-authorisation when it does not pre-auth by default.<br/><br/> <code>2</code> to bypass. Bypasses pre-authorisation when it is enabled to pre auth by default.<br/><br/> <code>3</code> to ignore. The same as the default policy (0). Although it currently mirrors the default, this option is included for compatibility with other policies.</td>
+</tr>
+<tr>
 <td><code>redirect_failure</code></td>
 <td>string <em>url</em></td>
 <td>false</td>
@@ -10718,6 +10806,12 @@ to stop receiving event notifications for specific webhook subscriptions that ar
 <td>string</td>
 <td>false</td>
 <td>The type of transaction being submitted. Normally this value is not required and your account manager may request that you set this field.<br/><br/>maxLength: 1</td>
+</tr>
+<tr>
+<td><code>uuid</code></td>
+<td>string <em>uuid</em></td>
+<td>true</td>
+<td>A uuid for the session. The value tracks through 3ds session and therefore should be a valid v4 uuid.<br/><br/>minLength: 36<br/>maxLength: 36</td>
 </tr>
 </tbody></table>
 <h2 id='directtokenauthrequest'>DirectTokenAuthRequest</h2><div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
@@ -10943,17 +11037,17 @@ to stop receiving event notifications for specific webhook subscriptions that ar
 </tr>
 </tbody></table>
 <h2 id='eventdatamodel'>EventDataModel</h2><div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-   </span><span class="nl">"event_end_date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2024-11-01"</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"event_end_date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2024-11-18"</span><span class="p">,</span><span class="w">
    </span><span class="nl">"event_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
    </span><span class="nl">"event_organiser_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
-   </span><span class="nl">"event_start_date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2024-11-01"</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"event_start_date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2024-11-18"</span><span class="p">,</span><span class="w">
    </span><span class="nl">"payment_type"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre></div><div class="highlight"><pre class="highlight xml tab-xml"><code><span class="nt">&lt;EventDataModel&gt;</span>
- <span class="nt">&lt;event_end_date&gt;</span>2024-11-01<span class="nt">&lt;/event_end_date&gt;</span> 
+ <span class="nt">&lt;event_end_date&gt;</span>2024-11-18<span class="nt">&lt;/event_end_date&gt;</span> 
  <span class="nt">&lt;event_id&gt;&lt;/event_id&gt;</span> 
  <span class="nt">&lt;event_organiser_id&gt;&lt;/event_organiser_id&gt;</span> 
- <span class="nt">&lt;event_start_date&gt;</span>2024-11-01<span class="nt">&lt;/event_start_date&gt;</span> 
+ <span class="nt">&lt;event_start_date&gt;</span>2024-11-18<span class="nt">&lt;/event_start_date&gt;</span> 
  <span class="nt">&lt;payment_type&gt;&lt;/payment_type&gt;</span> 
 <span class="nt">&lt;/EventDataModel&gt;</span>
 </code></pre></div>
@@ -11373,7 +11467,7 @@ to stop receiving event notifications for specific webhook subscriptions that ar
 </tr>
 </tbody></table>
 <h2 id='merchantbatchresponse'>MerchantBatchResponse</h2><div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-   </span><span class="nl">"batch_closed"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2024-11-01"</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"batch_closed"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2024-11-18"</span><span class="p">,</span><span class="w">
    </span><span class="nl">"batch_no"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
    </span><span class="nl">"batch_status"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
    </span><span class="nl">"batch_status_code"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
@@ -11382,7 +11476,7 @@ to stop receiving event notifications for specific webhook subscriptions that ar
    </span><span class="nl">"net_summary"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="err">...</span><span class="w"> </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre></div><div class="highlight"><pre class="highlight xml tab-xml"><code><span class="nt">&lt;MerchantBatchResponse&gt;</span>
- <span class="nt">&lt;batch_closed&gt;</span>2024-11-01<span class="nt">&lt;/batch_closed&gt;</span> 
+ <span class="nt">&lt;batch_closed&gt;</span>2024-11-18<span class="nt">&lt;/batch_closed&gt;</span> 
  <span class="nt">&lt;batch_no&gt;&lt;/batch_no&gt;</span> 
  <span class="nt">&lt;batch_status&gt;&lt;/batch_status&gt;</span> 
  <span class="nt">&lt;batch_status_code&gt;&lt;/batch_status_code&gt;</span> 
@@ -11754,7 +11848,7 @@ to stop receiving event notifications for specific webhook subscriptions that ar
    </span><span class="nl">"addressee"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Jack Sparrow"</span><span class="p">,</span><span class="w">
    </span><span class="nl">"attachments"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
    </span><span class="nl">"descriptor"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
-   </span><span class="nl">"due"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2024-11-01"</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"due"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2024-11-18"</span><span class="p">,</span><span class="w">
    </span><span class="nl">"email_notification_path"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="err">...</span><span class="w"> </span><span class="p">},</span><span class="w">
    </span><span class="nl">"memo"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Invoice"</span><span class="p">,</span><span class="w">
    </span><span class="nl">"request"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="err">...</span><span class="w"> </span><span class="p">},</span><span class="w">
@@ -11764,7 +11858,7 @@ to stop receiving event notifications for specific webhook subscriptions that ar
  <span class="nt">&lt;addressee&gt;</span>Jack Sparrow<span class="nt">&lt;/addressee&gt;</span> 
  <span class="nt">&lt;attachments&gt;&lt;/attachments&gt;</span> 
  <span class="nt">&lt;descriptor&gt;&lt;/descriptor&gt;</span> 
- <span class="nt">&lt;due&gt;</span>2024-11-01<span class="nt">&lt;/due&gt;</span> 
+ <span class="nt">&lt;due&gt;</span>2024-11-18<span class="nt">&lt;/due&gt;</span> 
  <span class="nt">&lt;email_notification_path&gt;</span><span class="err">&lt;</span>&gt;...<span class="err">&lt;</span>/&gt;<span class="nt">&lt;/email_notification_path&gt;</span> 
  <span class="nt">&lt;memo&gt;</span>Invoice<span class="nt">&lt;/memo&gt;</span> 
  <span class="nt">&lt;request&gt;</span><span class="err">&lt;</span>&gt;...<span class="err">&lt;</span>/&gt;<span class="nt">&lt;/request&gt;</span> 
@@ -12639,12 +12733,12 @@ to stop receiving event notifications for specific webhook subscriptions that ar
 </tr>
 </tbody></table>
 <h2 id='paylinkstateevent'>PaylinkStateEvent</h2><div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-   </span><span class="nl">"datetime"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2024-11-01"</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"datetime"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2024-11-18"</span><span class="p">,</span><span class="w">
    </span><span class="nl">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"message on this state"</span><span class="p">,</span><span class="w">
    </span><span class="nl">"state"</span><span class="p">:</span><span class="w"> </span><span class="s2">"FormInput"</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre></div><div class="highlight"><pre class="highlight xml tab-xml"><code><span class="nt">&lt;PaylinkStateEvent&gt;</span>
- <span class="nt">&lt;datetime&gt;</span>2024-11-01<span class="nt">&lt;/datetime&gt;</span> 
+ <span class="nt">&lt;datetime&gt;</span>2024-11-18<span class="nt">&lt;/datetime&gt;</span> 
  <span class="nt">&lt;message&gt;</span>message on this state<span class="nt">&lt;/message&gt;</span> 
  <span class="nt">&lt;state&gt;</span>FormInput<span class="nt">&lt;/state&gt;</span> 
 <span class="nt">&lt;/PaylinkStateEvent&gt;</span>
@@ -12679,7 +12773,7 @@ to stop receiving event notifications for specific webhook subscriptions that ar
 <h2 id='paylinktokencreated'>PaylinkTokenCreated</h2><div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
    </span><span class="nl">"attachments"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="err">...</span><span class="w"> </span><span class="p">},</span><span class="w">
    </span><span class="nl">"bps"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
-   </span><span class="nl">"date_created"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2024-11-01"</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"date_created"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2024-11-18"</span><span class="p">,</span><span class="w">
    </span><span class="nl">"errors"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
    </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"00000000-0000-0000-0000-000000000000"</span><span class="p">,</span><span class="w">
    </span><span class="nl">"identifier"</span><span class="p">:</span><span class="w"> </span><span class="s2">"95b857a1-5955-4b86-963c-5a6dbfc4fb95"</span><span class="p">,</span><span class="w">
@@ -12695,7 +12789,7 @@ to stop receiving event notifications for specific webhook subscriptions that ar
 </span></code></pre></div><div class="highlight"><pre class="highlight xml tab-xml"><code><span class="nt">&lt;PaylinkTokenCreated&gt;</span>
  <span class="nt">&lt;attachments&gt;</span><span class="err">&lt;</span>&gt;...<span class="err">&lt;</span>/&gt;<span class="nt">&lt;/attachments&gt;</span> 
  <span class="nt">&lt;bps&gt;&lt;/bps&gt;</span> 
- <span class="nt">&lt;date_created&gt;</span>2024-11-01<span class="nt">&lt;/date_created&gt;</span> 
+ <span class="nt">&lt;date_created&gt;</span>2024-11-18<span class="nt">&lt;/date_created&gt;</span> 
  <span class="nt">&lt;errors&gt;&lt;/errors&gt;</span> 
  <span class="nt">&lt;id&gt;</span>00000000-0000-0000-0000-000000000000<span class="nt">&lt;/id&gt;</span> 
  <span class="nt">&lt;identifier&gt;</span>95b857a1-5955-4b86-963c-5a6dbfc4fb95<span class="nt">&lt;/identifier&gt;</span> 
@@ -12945,8 +13039,8 @@ to stop receiving event notifications for specific webhook subscriptions that ar
    </span><span class="nl">"amount_paid"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
    </span><span class="nl">"auth_code"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
    </span><span class="nl">"card"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Visa/0002"</span><span class="p">,</span><span class="w">
-   </span><span class="nl">"created"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2024-11-01"</span><span class="p">,</span><span class="w">
-   </span><span class="nl">"datetime"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2024-11-01"</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"created"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2024-11-18"</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"datetime"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2024-11-18"</span><span class="p">,</span><span class="w">
    </span><span class="nl">"identifier"</span><span class="p">:</span><span class="w"> </span><span class="s2">"95b857a1-5955-4b86-963c-5a6dbfc4fb95"</span><span class="p">,</span><span class="w">
    </span><span class="nl">"is_attachment"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
    </span><span class="nl">"is_cancelled"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
@@ -12963,7 +13057,7 @@ to stop receiving event notifications for specific webhook subscriptions that ar
    </span><span class="nl">"is_request_challenged"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
    </span><span class="nl">"is_sms_sent"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
    </span><span class="nl">"is_validated"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
-   </span><span class="nl">"last_event_date_time"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2024-11-01"</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"last_event_date_time"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2024-11-18"</span><span class="p">,</span><span class="w">
    </span><span class="nl">"last_payment_result"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
    </span><span class="nl">"mid"</span><span class="p">:</span><span class="w"> </span><span class="mi">11223344</span><span class="p">,</span><span class="w">
    </span><span class="nl">"payment_attempts_count"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
@@ -12975,8 +13069,8 @@ to stop receiving event notifications for specific webhook subscriptions that ar
  <span class="nt">&lt;amount_paid&gt;&lt;/amount_paid&gt;</span> 
  <span class="nt">&lt;auth_code&gt;&lt;/auth_code&gt;</span> 
  <span class="nt">&lt;card&gt;</span>Visa/0002<span class="nt">&lt;/card&gt;</span> 
- <span class="nt">&lt;created&gt;</span>2024-11-01<span class="nt">&lt;/created&gt;</span> 
- <span class="nt">&lt;datetime&gt;</span>2024-11-01<span class="nt">&lt;/datetime&gt;</span> 
+ <span class="nt">&lt;created&gt;</span>2024-11-18<span class="nt">&lt;/created&gt;</span> 
+ <span class="nt">&lt;datetime&gt;</span>2024-11-18<span class="nt">&lt;/datetime&gt;</span> 
  <span class="nt">&lt;identifier&gt;</span>95b857a1-5955-4b86-963c-5a6dbfc4fb95<span class="nt">&lt;/identifier&gt;</span> 
  <span class="nt">&lt;is_attachment&gt;&lt;/is_attachment&gt;</span> 
  <span class="nt">&lt;is_cancelled&gt;&lt;/is_cancelled&gt;</span> 
@@ -12993,7 +13087,7 @@ to stop receiving event notifications for specific webhook subscriptions that ar
  <span class="nt">&lt;is_request_challenged&gt;&lt;/is_request_challenged&gt;</span> 
  <span class="nt">&lt;is_sms_sent&gt;&lt;/is_sms_sent&gt;</span> 
  <span class="nt">&lt;is_validated&gt;&lt;/is_validated&gt;</span> 
- <span class="nt">&lt;last_event_date_time&gt;</span>2024-11-01<span class="nt">&lt;/last_event_date_time&gt;</span> 
+ <span class="nt">&lt;last_event_date_time&gt;</span>2024-11-18<span class="nt">&lt;/last_event_date_time&gt;</span> 
  <span class="nt">&lt;last_payment_result&gt;&lt;/last_payment_result&gt;</span> 
  <span class="nt">&lt;mid&gt;</span>11223344<span class="nt">&lt;/mid&gt;</span> 
  <span class="nt">&lt;payment_attempts_count&gt;&lt;/payment_attempts_count&gt;</span> 
@@ -13180,14 +13274,14 @@ to stop receiving event notifications for specific webhook subscriptions that ar
 </tr>
 </tbody></table>
 <h2 id='paylinktokenstatuschangerequest'>PaylinkTokenStatusChangeRequest</h2><div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-   </span><span class="nl">"after"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2024-11-01"</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"after"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2024-11-18"</span><span class="p">,</span><span class="w">
    </span><span class="nl">"maxResults"</span><span class="p">:</span><span class="w"> </span><span class="mi">50</span><span class="p">,</span><span class="w">
    </span><span class="nl">"merchantid"</span><span class="p">:</span><span class="w"> </span><span class="mi">11223344</span><span class="p">,</span><span class="w">
    </span><span class="nl">"nextToken"</span><span class="p">:</span><span class="w"> </span><span class="s2">"n34liuwn435tUAGFNg34yn..."</span><span class="p">,</span><span class="w">
    </span><span class="nl">"orderBy"</span><span class="p">:</span><span class="w"> </span><span class="s2">"date"</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre></div><div class="highlight"><pre class="highlight xml tab-xml"><code><span class="nt">&lt;PaylinkTokenStatusChangeRequest&gt;</span>
- <span class="nt">&lt;after&gt;</span>2024-11-01<span class="nt">&lt;/after&gt;</span> 
+ <span class="nt">&lt;after&gt;</span>2024-11-18<span class="nt">&lt;/after&gt;</span> 
  <span class="nt">&lt;maxResults&gt;</span>50<span class="nt">&lt;/maxResults&gt;</span> 
  <span class="nt">&lt;merchantid&gt;</span>11223344<span class="nt">&lt;/merchantid&gt;</span> 
  <span class="nt">&lt;nextToken&gt;</span>n34liuwn435tUAGFNg34yn...<span class="nt">&lt;/nextToken&gt;</span> 
@@ -13360,6 +13454,7 @@ to stop receiving event notifications for specific webhook subscriptions that ar
    </span><span class="nl">"identifier"</span><span class="p">:</span><span class="w"> </span><span class="s2">"95b857a1-5955-4b86-963c-5a6dbfc4fb95"</span><span class="p">,</span><span class="w">
    </span><span class="nl">"match_avsa"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
    </span><span class="nl">"merchantid"</span><span class="p">:</span><span class="w"> </span><span class="mi">11223344</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"pre_auth"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
    </span><span class="nl">"ship_to"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="err">...</span><span class="w"> </span><span class="p">},</span><span class="w">
    </span><span class="nl">"tag"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
    </span><span class="nl">"trans_info"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
@@ -13378,6 +13473,7 @@ to stop receiving event notifications for specific webhook subscriptions that ar
  <span class="nt">&lt;identifier&gt;</span>95b857a1-5955-4b86-963c-5a6dbfc4fb95<span class="nt">&lt;/identifier&gt;</span> 
  <span class="nt">&lt;match_avsa&gt;&lt;/match_avsa&gt;</span> 
  <span class="nt">&lt;merchantid&gt;</span>11223344<span class="nt">&lt;/merchantid&gt;</span> 
+ <span class="nt">&lt;pre_auth&gt;&lt;/pre_auth&gt;</span> 
  <span class="nt">&lt;ship_to&gt;</span><span class="err">&lt;</span>&gt;...<span class="err">&lt;</span>/&gt;<span class="nt">&lt;/ship_to&gt;</span> 
  <span class="nt">&lt;tag&gt;&lt;/tag&gt;</span> 
  <span class="nt">&lt;trans_info&gt;&lt;/trans_info&gt;</span> 
@@ -13465,6 +13561,12 @@ to stop receiving event notifications for specific webhook subscriptions that ar
 <td>The merchant id of the intent, required if using the API key or not required if using a domain key.</td>
 </tr>
 <tr>
+<td><code>pre_auth</code></td>
+<td>string</td>
+<td>false</td>
+<td>A policy value which determines whether a pre auth policy is enforced or bypassed.<br/><br/>Values are:<br/><br/> <code>0</code> for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.<br/><br/> <code>1</code> for an enforced policy.  Enforces pre-authorisation when it does not pre-auth by default.<br/><br/> <code>2</code> to bypass. Bypasses pre-authorisation when it is enabled to pre auth by default.<br/><br/> <code>3</code> to ignore. The same as the default policy (0). Although it currently mirrors the default, this option is included for compatibility with other policies.</td>
+</tr>
+<tr>
 <td><code>ship_to</code></td>
 <td>object</td>
 <td>false</td>
@@ -13492,10 +13594,10 @@ to stop receiving event notifications for specific webhook subscriptions that ar
 <h2 id='paymentintentresponsemodel'>PaymentIntentResponseModel</h2><div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
    </span><span class="nl">"adjustments"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="err">...</span><span class="w"> </span><span class="p">},</span><span class="w">
    </span><span class="nl">"amount"</span><span class="p">:</span><span class="w"> </span><span class="mi">19995</span><span class="p">,</span><span class="w">
-   </span><span class="nl">"created"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2024-11-01"</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"created"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2024-11-18"</span><span class="p">,</span><span class="w">
    </span><span class="nl">"currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"GBP"</span><span class="p">,</span><span class="w">
-   </span><span class="nl">"due"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2024-11-01"</span><span class="p">,</span><span class="w">
-   </span><span class="nl">"expires"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2024-11-01"</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"due"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2024-11-18"</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"expires"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2024-11-18"</span><span class="p">,</span><span class="w">
    </span><span class="nl">"external-ref"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ABC123"</span><span class="p">,</span><span class="w">
    </span><span class="nl">"external-ref-source"</span><span class="p">:</span><span class="w"> </span><span class="s2">"xero"</span><span class="p">,</span><span class="w">
    </span><span class="nl">"identifier"</span><span class="p">:</span><span class="w"> </span><span class="s2">"95b857a1-5955-4b86-963c-5a6dbfc4fb95"</span><span class="p">,</span><span class="w">
@@ -13508,10 +13610,10 @@ to stop receiving event notifications for specific webhook subscriptions that ar
 </span></code></pre></div><div class="highlight"><pre class="highlight xml tab-xml"><code><span class="nt">&lt;PaymentIntentResponseModel&gt;</span>
  <span class="nt">&lt;adjustments&gt;</span><span class="err">&lt;</span>&gt;...<span class="err">&lt;</span>/&gt;<span class="nt">&lt;/adjustments&gt;</span> 
  <span class="nt">&lt;amount&gt;</span>19995<span class="nt">&lt;/amount&gt;</span> 
- <span class="nt">&lt;created&gt;</span>2024-11-01<span class="nt">&lt;/created&gt;</span> 
+ <span class="nt">&lt;created&gt;</span>2024-11-18<span class="nt">&lt;/created&gt;</span> 
  <span class="nt">&lt;currency&gt;</span>GBP<span class="nt">&lt;/currency&gt;</span> 
- <span class="nt">&lt;due&gt;</span>2024-11-01<span class="nt">&lt;/due&gt;</span> 
- <span class="nt">&lt;expires&gt;</span>2024-11-01<span class="nt">&lt;/expires&gt;</span> 
+ <span class="nt">&lt;due&gt;</span>2024-11-18<span class="nt">&lt;/due&gt;</span> 
+ <span class="nt">&lt;expires&gt;</span>2024-11-18<span class="nt">&lt;/expires&gt;</span> 
  <span class="nt">&lt;external-ref&gt;</span>ABC123<span class="nt">&lt;/external-ref&gt;</span> 
  <span class="nt">&lt;external-ref-source&gt;</span>xero<span class="nt">&lt;/external-ref-source&gt;</span> 
  <span class="nt">&lt;identifier&gt;</span>95b857a1-5955-4b86-963c-5a6dbfc4fb95<span class="nt">&lt;/identifier&gt;</span> 
@@ -14118,14 +14220,14 @@ to stop receiving event notifications for specific webhook subscriptions that ar
 </tr>
 </tbody></table>
 <h2 id='requestchallenged'>RequestChallenged</h2><div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-   </span><span class="nl">"acs_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://acs.cardissuer.com/3dsv1"</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"acs_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://acs.cardissuer.com/3dsv2"</span><span class="p">,</span><span class="w">
    </span><span class="nl">"creq"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
    </span><span class="nl">"merchantid"</span><span class="p">:</span><span class="w"> </span><span class="mi">11223344</span><span class="p">,</span><span class="w">
    </span><span class="nl">"threedserver_trans_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
    </span><span class="nl">"transno"</span><span class="p">:</span><span class="w"> </span><span class="mi">78416</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre></div><div class="highlight"><pre class="highlight xml tab-xml"><code><span class="nt">&lt;RequestChallenged&gt;</span>
- <span class="nt">&lt;acs_url&gt;</span>https://acs.cardissuer.com/3dsv1<span class="nt">&lt;/acs_url&gt;</span> 
+ <span class="nt">&lt;acs_url&gt;</span>https://acs.cardissuer.com/3dsv2<span class="nt">&lt;/acs_url&gt;</span> 
  <span class="nt">&lt;creq&gt;&lt;/creq&gt;</span> 
  <span class="nt">&lt;merchantid&gt;</span>11223344<span class="nt">&lt;/merchantid&gt;</span> 
  <span class="nt">&lt;threedserver_trans_id&gt;&lt;/threedserver_trans_id&gt;</span> 

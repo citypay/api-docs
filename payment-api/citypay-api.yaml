@@ -4,7 +4,7 @@ openapi: 3.0.0
 #                              API Information                                 #
 ################################################################################
 info:
-  version: 6.6.65
+  version: 6.6.70
   title: CityPay Payment API
   description: |
 
@@ -3235,6 +3235,7 @@ paths:
       description: Performs a tokenisation request for card details.
       security: 
       - cp-api-key: []
+      - cp-domain-key: []
       requestBody: 
         required: true
         content: 
@@ -3796,6 +3797,7 @@ components:
         - expyear
         - identifier
         - merchantid
+        - uuid
       properties: 
         airline_data: 
           $ref: '#/components/schemas/AirlineAdvice'
@@ -3991,6 +3993,20 @@ components:
           example: MR NE BODY
           description: |
             The card holder name as appears on the card such as MR N E BODY. Required for some acquirers.
+        pre_auth: 
+          type: string
+          description: |
+            A policy value which determines whether a pre auth policy is enforced or bypassed.
+            
+            Values are:
+            
+             `0` for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.
+            
+             `1` for an enforced policy.  Enforces pre-authorisation when it does not pre-auth by default.
+            
+             `2` to bypass. Bypasses pre-authorisation when it is enabled to pre auth by default.
+            
+             `3` to ignore. The same as the default policy (0). Although it currently mirrors the default, this option is included for compatibility with other policies.
         ship_to: 
           $ref: '#/components/schemas/ContactDetails'
           x-description: Shipping details of the card holder making the payment. These details may be used for 3DS and for future referencing of the transaction.
@@ -4030,6 +4046,13 @@ components:
           type: string
           maxLength: 1
           description: The type of transaction being submitted. Normally this value is not required and your account manager may request that you set this field.
+        uuid: 
+          type: string
+          format: uuid
+          minLength: 36
+          maxLength: 36
+          example: 123e4567-e89b-12d3-a456-426614174000
+          description: A uuid for the session. The value tracks through 3ds session and therefore should be a valid v4 uuid.
     AuthResponse: 
       type: object
       required: 
@@ -4905,6 +4928,7 @@ components:
         - cardnumber
         - expmonth
         - expyear
+        - uuid
       properties: 
         cardnumber: 
           type: string
@@ -4970,17 +4994,21 @@ components:
           example: MR NE BODY
           description: |
             The card holder name as appears on the card such as MR N E BODY. Required for some acquirers.
+        uuid: 
+          type: string
+          format: uuid
+          minLength: 36
+          maxLength: 36
+          example: 123e4567-e89b-12d3-a456-426614174000
+          description: A uuid for the session. The value tracks through 3ds session and therefore should be a valid v4 uuid.
     CardTokenisationResponse: 
       type: object
       required: 
-        - cp-card-token
+        - cp_card_token
       properties: 
-        cp-card-security-token: 
+        cp_card_token: 
           type: string
-          description: |
-            The tokenised card security code value, the csc value is encrypted and can only be decrypted within the CityPay PCI data centre within 6 hours of generation. It is intended to pass the value through as a session value for the purpose of authorisation and then being dropped. It can only be decrypted with the presentation of a valid cp-card-token.
-        cp-card-token: 
-          type: string
+          example: tVQZbn00000000B3qMJB
           description: The tokenised card value. The token is encrypted with integrity checks and scoped to a client id only allowing for the card value to be used.  The value may be used up and until the expiry date of the card.
         last4digits: 
           type: string
@@ -5185,6 +5213,20 @@ components:
           format: int32
           example: 11223344
           description: Identifies the merchant account to perform processing for.
+        pre_auth: 
+          type: string
+          description: |
+            A policy value which determines whether a pre auth policy is enforced or bypassed.
+            
+            Values are:
+            
+             `0` for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.
+            
+             `1` for an enforced policy.  Enforces pre-authorisation when it does not pre-auth by default.
+            
+             `2` to bypass. Bypasses pre-authorisation when it is enabled to pre auth by default.
+            
+             `3` to ignore. The same as the default policy (0). Although it currently mirrors the default, this option is included for compatibility with other policies.
         tag: 
           type: array
           items:
@@ -5359,6 +5401,7 @@ components:
         - expyear
         - identifier
         - mac
+        - uuid
       properties: 
         amount: 
           type: integer
@@ -5551,6 +5594,20 @@ components:
           description: |
             A random value Hex string (uppercase) which is provided to the API to perform a digest.
             The value will be used in any digest function.
+        pre_auth: 
+          type: string
+          description: |
+            A policy value which determines whether a pre auth policy is enforced or bypassed.
+            
+            Values are:
+            
+             `0` for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.
+            
+             `1` for an enforced policy.  Enforces pre-authorisation when it does not pre-auth by default.
+            
+             `2` to bypass. Bypasses pre-authorisation when it is enabled to pre auth by default.
+            
+             `3` to ignore. The same as the default policy (0). Although it currently mirrors the default, this option is included for compatibility with other policies.
         redirect_failure: 
           type: string
           format: url
@@ -5602,6 +5659,13 @@ components:
           type: string
           maxLength: 1
           description: The type of transaction being submitted. Normally this value is not required and your account manager may request that you set this field.
+        uuid: 
+          type: string
+          format: uuid
+          minLength: 36
+          maxLength: 36
+          example: 123e4567-e89b-12d3-a456-426614174000
+          description: A uuid for the session. The value tracks through 3ds session and therefore should be a valid v4 uuid.
     DirectTokenAuthRequest: 
       type: object
       properties: 
@@ -5743,7 +5807,7 @@ components:
         event_end_date: 
           type: string
           format: date
-          example: 2024-11-01
+          example: 2024-11-18
           description: The date when the event ends in ISO format (yyyy-MM-dd).
         event_id: 
           type: string
@@ -5754,7 +5818,7 @@ components:
         event_start_date: 
           type: string
           format: date
-          example: 2024-11-01
+          example: 2024-11-18
           description: The date when the event starts in ISO format (yyyy-MM-dd).
         payment_type: 
           type: string
@@ -5937,7 +6001,7 @@ components:
         batch_closed: 
           type: string
           format: date-time
-          example: 2024-11-01T16:05:12Z
+          example: 2024-11-18T15:36:03Z
           description: The date and time when the batch was closed. This is represented in ISO 8601 format (e.g., YYYY-MM-DDTHH:MM:SSZ) and indicates when the batch processing was completed.
         batch_no: 
           type: string
@@ -6167,7 +6231,7 @@ components:
         due: 
           type: string
           format: date
-          example: 2024-11-01
+          example: 2024-11-18
           description: A date that the invoice is due. This can be displayed on the payment page.
         email_notification_path: 
           $ref: '#/components/schemas/PaylinkEmailNotificationPath'
@@ -6634,7 +6698,7 @@ components:
         datetime: 
           type: string
           format: date-time
-          example: 2024-11-01T16:05:12Z
+          example: 2024-11-18T15:36:03Z
           description: the date and time of the event.
         message: 
           type: string
@@ -6662,7 +6726,7 @@ components:
         date_created: 
           type: string
           format: date-time
-          example: 2024-11-01T16:05:12Z
+          example: 2024-11-18T15:36:03Z
           description: Date and time the token was generated.
         errors: 
           type: array
@@ -6801,12 +6865,12 @@ components:
         created: 
           type: string
           format: date-time
-          example: 2024-11-01T16:05:12Z
+          example: 2024-11-18T15:36:03Z
           description: the date and time that the session was created.
         datetime: 
           type: string
           format: date-time
-          example: 2024-11-01T16:05:12Z
+          example: 2024-11-18T15:36:03Z
           description: the date and time of the current status.
         identifier: 
           type: string
@@ -6862,7 +6926,7 @@ components:
         last_event_date_time: 
           type: string
           format: date-time
-          example: 2024-11-01T16:05:12Z
+          example: 2024-11-18T15:36:03Z
           description: the date and time that the session last had an event actioned against it.
         last_payment_result: 
           type: string
@@ -6897,7 +6961,7 @@ components:
         after: 
           type: string
           format: date-time
-          example: 2024-11-01T16:05:11Z
+          example: 2024-11-18T15:36:03Z
           description: identifies the date and time to lookup changes after.
         maxResults: 
           type: integer
@@ -7101,6 +7165,20 @@ components:
           format: int32
           example: 11223344
           description: The merchant id of the intent, required if using the API key or not required if using a domain key.
+        pre_auth: 
+          type: string
+          description: |
+            A policy value which determines whether a pre auth policy is enforced or bypassed.
+            
+            Values are:
+            
+             `0` for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.
+            
+             `1` for an enforced policy.  Enforces pre-authorisation when it does not pre-auth by default.
+            
+             `2` to bypass. Bypasses pre-authorisation when it is enabled to pre auth by default.
+            
+             `3` to ignore. The same as the default policy (0). Although it currently mirrors the default, this option is included for compatibility with other policies.
         ship_to: 
           $ref: '#/components/schemas/ContactDetails'
           x-description: Shipping details of the card holder making the payment. These details may be used for 3DS and for future referencing of the transaction.
@@ -7156,7 +7234,7 @@ components:
         created: 
           type: string
           format: date-time
-          example: 2024-11-01T16:05:12Z
+          example: 2024-11-18T15:36:03Z
           description: A date time of when the intent was created.
         currency: 
           type: string
@@ -7167,12 +7245,12 @@ components:
         due: 
           type: string
           format: date
-          example: 2024-11-01
+          example: 2024-11-18
           description: A due date of the intent.
         expires: 
           type: string
           format: date
-          example: 2024-11-01
+          example: 2024-11-18
           description: An expiration date of the intent.
         external-ref: 
           type: string
@@ -7554,7 +7632,7 @@ components:
         acs_url: 
           type: string
           format: url
-          example: https://acs.cardissuer.com/3dsv1
+          example: https://acs.cardissuer.com/3dsv2
           description: |
             The url of the Access Control Server (ACS) to forward the user to.
         creq: 
