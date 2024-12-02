@@ -1,12 +1,12 @@
 ---
 title: CityPay Payment API
-version: 6.x
+version: 6.6.78
 language_tabs:
   - json
   - xml
 toc_footers:
   - <a href='mailto:support@citypay.com'>Any Integration Questions?</a>
-  - V6.x 2024-11-12
+  - V6.6.78 2024-12-02
 includes:
   - errorcodes
   - authresultcodes
@@ -26,8 +26,8 @@ search: true
  Our latest documentation is available on <a href="https://docs.citypay.com">CityPay Docs</a>
 </aside>
 
-Version: 6.x
-Last Updated: 2024-11-12
+Version: 6.6.78
+Last Updated: 2024-12-02
 
 
 Welcome to the CityPay API, a robust HTTP API payment solution designed for seamless server-to-server 
@@ -175,68 +175,6 @@ To utilise the `cp-domain-key` authentication, you must have:
 By adhering to these guidelines and requirements, you can ensure secure and efficient host-based authentication for your HTTPS calls, leveraging the `cp-domain-key` to protect your data and transactions.
 
 
-# Account Mgm Api
-
-.
-
-
-## Connected Entity Lookup
-
-<div class="route-spec">
-<div class="route-path">
- <span class="http-method http-method-post">POST</span>
- <span class="path">/v6/connected-entity/lookup</span>
-</div>
-<div class="security-methods"><span class="key sec-cp-api-key">cp-api-key</span> </div>
-</div>
-
-Attempts to locate account data for a connected entity.
-
-<div class="model-links">
- <a href="#requestModel-ConnectedEntityLookupRequest">Request Model</a>
- <a href="#responseModel-ConnectedEntityLookupRequest">Response Model</a>
-</div>
-
-
-
-
-
-<a id="requestModel-ConnectedEntityLookupRequest"></a>
-### Model ConnectedEntityLookupRequestModel
-
-Request body for the ConnectedEntityLookupRequest operation contains the following properties
-
-<div class="requestModel"></div>
-
-Field  | Type | Usage | Description |
----------|------|------|-------------|
- `domain` | string *host* | Required | The domain to generate a domain key for. | 
- `entity-id` | string  | Required | The id of the entity.<br/><br/>minLength: 4<br/>maxLength: 64 | 
- `entity-type` | string  | Required | The entity type to lookup.<br/><br/>minLength: 4<br/>maxLength: 64 | 
-
-
-
-
-<a id="responseModel-ConnectedEntityLookupRequest"></a>
-### Response
-
-Responses for the ConnectedEntityLookupRequest operation are
-
-<div class="responseModel"></div>
-
- StatusCode | Description | Content-Type | Model |
-------------|-------------|--------------|-------|
- `200` | Created a new web hook channel. | `application/json` <br/>`text/xml` | [ConnectedEntityLookupResponseModel](#connectedentitylookupresponsemodel) |  
- `400` | Bad Request. Should the incoming data not be validly determined. |  |  
- `401` | Unauthorized. No api key has been provided and is required for this operation. |  |  
- `403` | Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request. |  |  
- `422` | Unprocessable Entity. Should a failure occur that prevents processing of the API call. | `application/json` <br/>`text/xml` | [Error](#error) |  
- `500` | Server Error. The server was unable to complete the request. |  |  
-
-
-
-
-
 # Authorisation and Payment Api
 
 The Payment Processing API is designed for MOTO (Mail Order/Telephone Order), e-commerce, and continuous authority 
@@ -352,334 +290,6 @@ The API includes a simulated 3DSv2 handler that executes various scenarios deter
 
 
 
-## 3DSv2 AReq Handler
-
-<div class="route-spec">
-<div class="route-path">
- <span class="http-method http-method-post">POST</span>
- <span class="path">/v6/3dsv2/areq</span>
-</div>
-<div class="security-methods"><span class="key sec-cp-api-key">cp-api-key</span> </div>
-</div>
-
-Authentication request for 3DS Flow from CityPay Elements.
-
-<div class="model-links">
- <a href="#requestModel-ThreeDSAuthenticationRequest">Request Model</a>
- <a href="#responseModel-ThreeDSAuthenticationRequest">Response Model</a>
-</div>
-
-
-
-
-
-<a id="requestModel-ThreeDSAuthenticationRequest"></a>
-### Model AReqModel
-
-Request body for the ThreeDSAuthenticationRequest operation contains the following properties
-
-<div class="requestModel"></div>
-
-Field  | Type | Usage | Description |
----------|------|------|-------------|
- `amount` | integer *int32* | Required | The amount to authorise.<br/><br/>minLength: 1<br/>maxLength: 9 | 
- `cp_bx` | string  | Required | The browser extensions data to inspect the browser. | 
- `merchantid` | integer *int32* | Required | The merchant id that the authentication request is for. | 
- `authenticationInd` | string  | Optional | Indicates the type of Authentication request. • 01 = Payment transaction • 02 = Recurring transaction • 03 = Instalment transaction • 04 = Add card • 05 = Maintain card • 06 = Cardholder verification as part of EMV token ID&V. | 
- `bill_to` | object | Optional | [ContactDetails](#contactdetails) Billing details of the card holder making the payment. | 
- `cp_card_token` | string  | Optional | The tokenised card value. | 
- `threedsecure` | object | Optional | [ThreeDSecure](#threedsecure) ThreeDSecure element, providing values to enable full 3DS processing flows. | 
- `uuid` | string *uuid* | Optional | A 3ds requestor uuid to be used for the threedsecure session.<br/><br/>minLength: 36<br/>maxLength: 36 | 
-
-
-
-
-<a id="responseModel-ThreeDSAuthenticationRequest"></a>
-### Response
-
-Responses for the ThreeDSAuthenticationRequest operation are
-
-<div class="responseModel"></div>
-
- StatusCode | Description | Content-Type | Model |
-------------|-------------|--------------|-------|
- `200` | A successful authentication result. | `application/json` <br/>`text/xml` | [AresModel](#aresmodel) |  
- `400` | Bad Request. Should the incoming data not be validly determined. |  |  
- `401` | Unauthorized. No api key has been provided and is required for this operation. |  |  
- `403` | Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request. |  |  
- `422` | Unprocessable Entity. Should a failure occur that prevents processing of the API call. | `application/json` <br/>`text/xml` | [Error](#error) |  
- `500` | Server Error. The server was unable to complete the request. |  |  
-
-
-
-
-
-## 3DSv2 CRes Handler
-
-<div class="route-spec">
-<div class="route-path">
- <span class="http-method http-method-post">POST</span>
- <span class="path">/v6/3dsv2/cres</span>
-</div>
-<div class="security-methods"><span class="key sec-cp-api-key">cp-api-key</span> <span class="key sec-cp-domain-key">cp-domain-key</span> </div>
-</div>
-
-Challenge response request for 3DS Flow from CityPay Elements.
-
-<div class="model-links">
- <a href="#requestModel-ThreeDSCResRequest">Request Model</a>
- <a href="#responseModel-ThreeDSCResRequest">Response Model</a>
-</div>
-
-
-
-
-
-<a id="requestModel-ThreeDSCResRequest"></a>
-### Model CResModel
-
-Request body for the ThreeDSCResRequest operation contains the following properties
-
-<div class="requestModel"></div>
-
-Field  | Type | Usage | Description |
----------|------|------|-------------|
- `cres` | string *base64* | Optional | The CRes data. | 
- `merchantid` | integer *int32* | Optional | A merchant id only required if not a domain key. | 
- `threeDSSessionData` | string  | Optional | Allows you to pass any session-specific information that your system requires, which the ACS will return unchanged in the CRes message to help continue or finalize the authentication session. | 
-
-
-
-
-<a id="responseModel-ThreeDSCResRequest"></a>
-### Response
-
-Responses for the ThreeDSCResRequest operation are
-
-<div class="responseModel"></div>
-
- StatusCode | Description | Content-Type | Model |
-------------|-------------|--------------|-------|
- `200` | A successful CRes result. |  |  
- `400` | Bad Request. Should the incoming data not be validly determined. |  |  
- `401` | Unauthorized. No api key has been provided and is required for this operation. |  |  
- `403` | Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request. |  |  
- `422` | Unprocessable Entity. Should a failure occur that prevents processing of the API call. | `application/json` <br/>`text/xml` | [Error](#error) |  
- `500` | Server Error. The server was unable to complete the request. |  |  
-
-
-
-
-
-## ApplePay Authorisation
-
-<div class="route-spec">
-<div class="route-path">
- <span class="http-method http-method-post">POST</span>
- <span class="path">/v6/apple-pay/authorise</span>
-</div>
-<div class="security-methods"><span class="key sec-cp-api-key">cp-api-key</span> </div>
-</div>
-
-Authorisation model for an ApplePay request.
-
-<div class="model-links">
- <a href="#requestModel-ApplePayAuthorisationRequest">Request Model</a>
- <a href="#responseModel-ApplePayAuthorisationRequest">Response Model</a>
-</div>
-
-
-
-
-
-<a id="requestModel-ApplePayAuthorisationRequest"></a>
-### Model AuthRequest
-
-Request body for the ApplePayAuthorisationRequest operation contains the following properties
-
-<div class="requestModel"></div>
-
-Field  | Type | Usage | Description |
----------|------|------|-------------|
- `amount` | integer *int32* | Required | The amount to authorise in the lowest unit of currency with a variable length to a maximum of 12 digits.<br/><br/>No decimal points are to be included and no divisional characters such as 1,024.<br/><br/>The amount should be the total amount required for the transaction.<br/><br/>For example with GBP £1,021.95 the amount value is 102195.<br/><br/> minLength: 1<br/>maxLength: 9 | 
- `cardnumber` | string  | Required | The card number (PAN) with a variable length to a maximum of 21 digits in numerical form. Any non numeric characters will be stripped out of the card number, this includes whitespace or separators internal of the provided value.<br/><br/>The card number must be treated as sensitive data. We only provide an obfuscated value in logging and reporting.  The plaintext value is encrypted in our database using AES 256 GMC bit encryption for settlement or refund purposes.<br/><br/>When providing the card number to our gateway through the authorisation API you will be handling the card data on your application. This will require further PCI controls to be in place and this value must never be stored.<br/><br/> minLength: 12<br/>maxLength: 22 | 
- `expmonth` | integer *int32* | Required | The month of expiry of the card. The month value should be a numerical value between 1 and 12.<br/><br/> minimum: 1<br/>maximum: 12 | 
- `expyear` | integer *int32* | Required | The year of expiry of the card.<br/><br/> minimum: 2000<br/>maximum: 2100 | 
- `identifier` | string  | Required | The identifier of the transaction to process. The value should be a valid reference and may be used to perform  post processing actions and to aid in reconciliation of transactions.<br/><br/>The value should be a valid printable string with ASCII character ranges from 0x32 to 0x127.<br/><br/>The identifier is recommended to be distinct for each transaction such as a [random unique identifier](https://en.wikipedia.org/wiki/Universally_unique_identifier) this will aid in ensuring each transaction is identifiable.<br/><br/>When transactions are processed they are also checked for duplicate requests. Changing the identifier on a subsequent request will ensure that a transaction is considered as different.<br/><br/> minLength: 4<br/>maxLength: 50 | 
- `merchantid` | integer *int32* | Required | Identifies the merchant account to perform processing for. | 
- `uuid` | string *uuid* | Required | A uuid for the session. The value tracks through 3ds session and therefore should be a valid v4 uuid.<br/><br/>minLength: 36<br/>maxLength: 36 | 
- `avs_postcode_policy` | string  | Optional | A policy value which determines whether an AVS postcode policy is enforced or bypassed.<br/><br/>Values are:<br/><br/> `0` for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.<br/><br/> `1` for an enforced policy. Transactions that are enforced will be rejected if the AVS postcode numeric value does not match.<br/><br/> `2` to bypass. Transactions that are bypassed will be allowed through even if the postcode did not match.<br/><br/> `3` to ignore. Transactions that are ignored will bypass the result and not send postcode details for authorisation. | 
- `bill_to` | object | Optional | [ContactDetails](#contactdetails) Billing details of the card holder making the payment. These details may be used for AVS fraud analysis, 3DS and for future referencing of the transaction.<br/><br/>For AVS to work correctly, the billing details should be the registered address of the card holder as it appears on the statement with their card issuer. The numeric details will be passed through for analysis and may result in a decline if incorrectly provided. | 
- `csc` | string  | Optional | The Card Security Code (CSC) (also known as CV2/CVV2) is normally found on the back of the card (American Express has it on the front). The value helps to identify possession of the card as it is not available within the chip or magnetic swipe.<br/><br/>When forwarding the CSC, please ensure the value is a string as some values start with 0 and this will be stripped out by any integer parsing.<br/><br/>The CSC number aids fraud prevention in Mail Order and Internet payments.<br/><br/>Business rules are available on your account to identify whether to accept or decline transactions based on mismatched results of the CSC.<br/><br/>The Payment Card Industry (PCI) requires that at no stage of a transaction should the CSC be stored.<br/><br/>This applies to all entities handling card data.<br/><br/>It should also not be used in any hashing process.<br/><br/>CityPay do not store the value and have no method of retrieving the value once the transaction has been processed. For this reason, duplicate checking is unable to determine the CSC in its duplication check algorithm.<br/><br/> minLength: 3<br/>maxLength: 4 | 
- `csc_policy` | string  | Optional | A policy value which determines whether a CSC policy is enforced or bypassed.<br/><br/>Values are:<br/><br/> `0` for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.<br/><br/> `1` for an enforced policy. Transactions that are enforced will be rejected if the CSC value does not match.<br/><br/> `2` to bypass. Transactions that are bypassed will be allowed through even if the CSC did not match.<br/><br/> `3` to ignore. Transactions that are ignored will bypass the result and not send the CSC details for authorisation. | 
- `currency` | string  | Optional | The processing currency for the transaction. Will default to the merchant account currency.<br/><br/>minLength: 3<br/>maxLength: 3 | 
- `duplicate_policy` | string  | Optional | A policy value which determines whether a duplication policy is enforced or bypassed. A duplication check has a window of time set against your account within which it can action. If a previous transaction with matching values occurred within the window, any subsequent transaction will result in a T001 result.<br/><br/>Values are<br/><br/> `0` for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.<br/><br/> `1` for an enforced policy. Transactions that are enforced will be checked for duplication within the duplication window.<br/><br/> `2` to bypass. Transactions that are bypassed will not be checked for duplication within the duplication window.<br/><br/> `3` to ignore. Transactions that are ignored will have the same affect as bypass. | 
- `match_avsa` | string  | Optional | A policy value which determines whether an AVS address policy is enforced, bypassed or ignored.<br/><br/>Values are:<br/><br/> `0` for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.<br/><br/> `1` for an enforced policy. Transactions that are enforced will be rejected if the AVS address numeric value does not match.<br/><br/> `2` to bypass. Transactions that are bypassed will be allowed through even if the address did not match.<br/><br/> `3` to ignore. Transactions that are ignored will bypass the result and not send address numeric details for authorisation. | 
- `name_on_card` | string  | Optional | The card holder name as appears on the card such as MR N E BODY. Required for some acquirers.<br/><br/> minLength: 2<br/>maxLength: 45 | 
- `ship_to` | object | Optional | [ContactDetails](#contactdetails) Shipping details of the card holder making the payment. These details may be used for 3DS and for future referencing of the transaction. | 
- `tag` | array | Optional | type: string | 
- `threedsecure` | object | Optional | [ThreeDSecure](#threedsecure) ThreeDSecure element, providing values to enable full 3DS processing flows. | 
- `trans_info` | string  | Optional | Further information that can be added to the transaction will display in reporting. Can be used for flexible values such as operator id.<br/><br/>maxLength: 50 | 
- `trans_type` | string  | Optional | The type of transaction being submitted. Normally this value is not required and your account manager may request that you set this field.<br/><br/>maxLength: 1 | 
-
-
-### Business Extension: Event Management
-
-Supports the event management business extension by adding the following parameters to the request.
-
-Field	| Type| Description |
------|------|-------------|
-`event_management` | object | [EventDataModel](#eventdatamodel) Additional advice data for event management integration that can be applied to an authorisation request. | 
-
-
-
-### Business Extension: Airline
-
-Supports the airline business extension by adding the following parameters to the request.
-
-Field	| Type| Description |
------|------|-------------|
-`airline_data` | object | [AirlineAdvice](#airlineadvice) Additional advice for airline integration that can be applied on an authorisation request.<br/><br/>As tickets are normally not allocated until successful payment it is normal for a transaction to be pre-authorised  and the airline advice supplied on a capture request instead. Should the data already exist and an auth and  capture is preferred. This data may be supplied. | 
-
-
-
-### Business Extension: MCC6012
-
-Supports the mcc6012 business extension by adding the following parameters to the request.
-
-Field	| Type| Description |
------|------|-------------|
-`mcc6012` | object | [MCC6012](#mcc6012) If the merchant is MCC coded as 6012, additional values are required for authorisation. | 
-
-
-
-### Business Extension: 3DSv1 MPI
-
-Supports the 3dsv1 mpi business extension by adding the following parameters to the request.
-
-Field	| Type| Description |
------|------|-------------|
-`external_mpi` | object | [ExternalMPI](#externalmpi) If an external 3DSv1 MPI is used for authentication, values provided can be supplied in this element. | 
-
-
-
-
-<a id="responseModel-ApplePayAuthorisationRequest"></a>
-### Response
-
-Responses for the ApplePayAuthorisationRequest operation are
-
-<div class="responseModel"></div>
-
- StatusCode | Description | Content-Type | Model |
-------------|-------------|--------------|-------|
- `200` | A decision made by the result of processing. | `application/json` <br/>`text/xml` | [Decision](#decision) |  
- `400` | Bad Request. Should the incoming data not be validly determined. |  |  
- `401` | Unauthorized. No api key has been provided and is required for this operation. |  |  
- `403` | Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request. |  |  
- `422` | Unprocessable Entity. Should a failure occur that prevents processing of the API call. | `application/json` <br/>`text/xml` | [Error](#error) |  
- `500` | Server Error. The server was unable to complete the request. |  |  
-
-
-
-
-
-## ApplePay Model Request
-
-<div class="route-spec">
-<div class="route-path">
- <span class="http-method http-method-get">GET</span>
- <span class="path">/v6/apple-pay/model</span>
-</div>
-<div class="security-methods"><span class="key sec-cp-domain-key">cp-domain-key</span> </div>
-</div>
-
-ApplePay model request used to setup the model for feeding the javascript config.
-
-<div class="model-links">
- <a href="#requestModel-ApplePayModelRequest">Request Model</a>
- <a href="#responseModel-ApplePayModelRequest">Response Model</a>
-</div>
-
-
-
-
-<a id="responseModel-ApplePayModelRequest"></a>
-### Response
-
-Responses for the ApplePayModelRequest operation are
-
-<div class="responseModel"></div>
-
- StatusCode | Description | Content-Type | Model |
-------------|-------------|--------------|-------|
- `200` | The apple pay model. |  |  
- `400` | Bad Request. Should the incoming data not be validly determined. |  |  
- `401` | Unauthorized. No api key has been provided and is required for this operation. |  |  
- `403` | Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request. |  |  
- `422` | Unprocessable Entity. Should a failure occur that prevents processing of the API call. | `application/json` <br/>`text/xml` | [Error](#error) |  
- `500` | Server Error. The server was unable to complete the request. |  |  
-
-
-
-
-
-## ApplePay Start Session Request
-
-<div class="route-spec">
-<div class="route-path">
- <span class="http-method http-method-post">POST</span>
- <span class="path">/v6/apple-pay/start-session</span>
-</div>
-<div class="security-methods"><span class="key sec-cp-domain-key">cp-domain-key</span> </div>
-</div>
-
-ApplePay start session request required by the javascript flow.
-
-<div class="model-links">
- <a href="#requestModel-ApplePayStartSessionRequest">Request Model</a>
- <a href="#responseModel-ApplePayStartSessionRequest">Response Model</a>
-</div>
-
-
-
-
-
-<a id="requestModel-ApplePayStartSessionRequest"></a>
-### Model ApplePaySessionStartRequestModel
-
-Request body for the ApplePayStartSessionRequest operation contains the following properties
-
-<div class="requestModel"></div>
-
-Field  | Type | Usage | Description |
----------|------|------|-------------|
- `domain` | string *host* | Required | The domain or host required to perform Apple Pay. | 
- `validation-url` | string *url* | Required | A validation url for apple pay. | 
-
-
-
-
-<a id="responseModel-ApplePayStartSessionRequest"></a>
-### Response
-
-Responses for the ApplePayStartSessionRequest operation are
-
-<div class="responseModel"></div>
-
- StatusCode | Description | Content-Type | Model |
-------------|-------------|--------------|-------|
- `200` | The apple pay model. |  |  
- `400` | Bad Request. Should the incoming data not be validly determined. |  |  
- `401` | Unauthorized. No api key has been provided and is required for this operation. |  |  
- `403` | Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request. |  |  
- `422` | Unprocessable Entity. Should a failure occur that prevents processing of the API call. | `application/json` <br/>`text/xml` | [Error](#error) |  
- `500` | Server Error. The server was unable to complete the request. |  |  
-
-
-
-
-
 ## Authorisation
 
 <div class="route-spec">
@@ -783,6 +393,7 @@ Field  | Type | Usage | Description |
  `duplicate_policy` | string  | Optional | A policy value which determines whether a duplication policy is enforced or bypassed. A duplication check has a window of time set against your account within which it can action. If a previous transaction with matching values occurred within the window, any subsequent transaction will result in a T001 result.<br/><br/>Values are<br/><br/> `0` for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.<br/><br/> `1` for an enforced policy. Transactions that are enforced will be checked for duplication within the duplication window.<br/><br/> `2` to bypass. Transactions that are bypassed will not be checked for duplication within the duplication window.<br/><br/> `3` to ignore. Transactions that are ignored will have the same affect as bypass. | 
  `match_avsa` | string  | Optional | A policy value which determines whether an AVS address policy is enforced, bypassed or ignored.<br/><br/>Values are:<br/><br/> `0` for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.<br/><br/> `1` for an enforced policy. Transactions that are enforced will be rejected if the AVS address numeric value does not match.<br/><br/> `2` to bypass. Transactions that are bypassed will be allowed through even if the address did not match.<br/><br/> `3` to ignore. Transactions that are ignored will bypass the result and not send address numeric details for authorisation. | 
  `name_on_card` | string  | Optional | The card holder name as appears on the card such as MR N E BODY. Required for some acquirers.<br/><br/> minLength: 2<br/>maxLength: 45 | 
+ `pre_auth` | string  | Optional | A policy value which determines whether a pre auth policy is enforced or bypassed.<br/><br/>Values are:<br/><br/> `0` for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.<br/><br/> `1` for an enforced policy.  Enforces pre-authorisation when it does not pre-auth by default.<br/><br/> `2` to bypass. Bypasses pre-authorisation when it is enabled to pre auth by default.<br/><br/> `3` to ignore. The same as the default policy (0). Although it currently mirrors the default, this option is included for compatibility with other policies. | 
  `ship_to` | object | Optional | [ContactDetails](#contactdetails) Shipping details of the card holder making the payment. These details may be used for 3DS and for future referencing of the transaction. | 
  `tag` | array | Optional | type: string | 
  `threedsecure` | object | Optional | [ThreeDSecure](#threedsecure) ThreeDSecure element, providing values to enable full 3DS processing flows. | 
@@ -1214,6 +825,7 @@ Field  | Type | Usage | Description |
  `external-ref-source` | string  | Optional | Specifies the originating source or system of the external reference, helping to categorise and trace the context of the external identifier, whether it comes from an internal system, third-party vendor, or external financial platform. | 
  `match_avsa` | string  | Optional | A policy value which determines whether an AVS address policy is enforced, bypassed or ignored.<br/><br/>Values are:<br/><br/> `0` for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.<br/><br/> `1` for an enforced policy. Transactions that are enforced will be rejected if the AVS address numeric value does not match.<br/><br/> `2` to bypass. Transactions that are bypassed will be allowed through even if the address did not match.<br/><br/> `3` to ignore. Transactions that are ignored will bypass the result and not send address numeric details for authorisation. | 
  `merchantid` | integer *int32* | Optional | The merchant id of the intent, required if using the API key or not required if using a domain key. | 
+ `pre_auth` | string  | Optional | A policy value which determines whether a pre auth policy is enforced or bypassed.<br/><br/>Values are:<br/><br/> `0` for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.<br/><br/> `1` for an enforced policy.  Enforces pre-authorisation when it does not pre-auth by default.<br/><br/> `2` to bypass. Bypasses pre-authorisation when it is enabled to pre auth by default.<br/><br/> `3` to ignore. The same as the default policy (0). Although it currently mirrors the default, this option is included for compatibility with other policies. | 
  `ship_to` | object | Optional | [ContactDetails](#contactdetails) Shipping details of the card holder making the payment. These details may be used for 3DS and for future referencing of the transaction. | 
  `tag` | array | Optional | type: string | 
  `trans_info` | string  | Optional | Further information that can be added to the transaction will display in reporting. Can be used for flexible values such as operator id.<br/><br/>maxLength: 50 | 
@@ -1370,120 +982,6 @@ Responses for the PaResRequest operation are
  StatusCode | Description | Content-Type | Model |
 ------------|-------------|--------------|-------|
  `200` | A result of processing the 3DSv1 authorisation data. | `application/json` <br/>`text/xml` | [AuthResponse](#authresponse) |  
- `400` | Bad Request. Should the incoming data not be validly determined. |  |  
- `401` | Unauthorized. No api key has been provided and is required for this operation. |  |  
- `403` | Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request. |  |  
- `422` | Unprocessable Entity. Should a failure occur that prevents processing of the API call. | `application/json` <br/>`text/xml` | [Error](#error) |  
- `500` | Server Error. The server was unable to complete the request. |  |  
-
-
-
-
-
-## Profile
-
-<div class="route-spec">
-<div class="route-path">
- <span class="http-method http-method-post">POST</span>
- <span class="path">/v6/profile</span>
-</div>
-<div class="security-methods"><span class="key sec-cp-api-key">cp-api-key</span> </div>
-</div>
-
-Retrieves a profile.
-
-<div class="model-links">
- <a href="#requestModel-ProfileRetrieveRequest">Request Model</a>
- <a href="#responseModel-ProfileRetrieveRequest">Response Model</a>
-</div>
-
-
-
-
-
-<a id="requestModel-ProfileRetrieveRequest"></a>
-### Model ProfileRequest
-
-Request body for the ProfileRetrieveRequest operation contains the following properties
-
-<div class="requestModel"></div>
-
-Field  | Type | Usage | Description |
----------|------|------|-------------|
- `clientid` | string  | Required | The client id of the profile to load.<br/><br/>minLength: 3<br/>maxLength: 10 | 
- `licencekey` | string  | Required | The licence key of the profile to load. | 
- `data` | string  | Optional | Data representing the profile. | 
-
-
-
-
-<a id="responseModel-ProfileRetrieveRequest"></a>
-### Response
-
-Responses for the ProfileRetrieveRequest operation are
-
-<div class="responseModel"></div>
-
- StatusCode | Description | Content-Type | Model |
-------------|-------------|--------------|-------|
- `200` | The profile configuration defined by the request. | `application/json` <br/>`text/xml` | [Profile](#profile) |  
- `400` | Bad Request. Should the incoming data not be validly determined. |  |  
- `401` | Unauthorized. No api key has been provided and is required for this operation. |  |  
- `403` | Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request. |  |  
- `422` | Unprocessable Entity. Should a failure occur that prevents processing of the API call. | `application/json` <br/>`text/xml` | [Error](#error) |  
- `500` | Server Error. The server was unable to complete the request. |  |  
-
-
-
-
-
-## Profile
-
-<div class="route-spec">
-<div class="route-path">
- <span class="http-method http-method-put">PUT</span>
- <span class="path">/v6/profile</span>
-</div>
-<div class="security-methods"><span class="key sec-cp-api-key">cp-api-key</span> </div>
-</div>
-
-Changes a profile.
-
-<div class="model-links">
- <a href="#requestModel-ProfileChangeRequest">Request Model</a>
- <a href="#responseModel-ProfileChangeRequest">Response Model</a>
-</div>
-
-
-
-
-
-<a id="requestModel-ProfileChangeRequest"></a>
-### Model ProfileRequest
-
-Request body for the ProfileChangeRequest operation contains the following properties
-
-<div class="requestModel"></div>
-
-Field  | Type | Usage | Description |
----------|------|------|-------------|
- `clientid` | string  | Required | The client id of the profile to load.<br/><br/>minLength: 3<br/>maxLength: 10 | 
- `licencekey` | string  | Required | The licence key of the profile to load. | 
- `data` | string  | Optional | Data representing the profile. | 
-
-
-
-
-<a id="responseModel-ProfileChangeRequest"></a>
-### Response
-
-Responses for the ProfileChangeRequest operation are
-
-<div class="responseModel"></div>
-
- StatusCode | Description | Content-Type | Model |
-------------|-------------|--------------|-------|
- `200` | The updated profile defined by the request. | `application/json` <br/>`text/xml` | [Profile](#profile) |  
  `400` | Bad Request. Should the incoming data not be validly determined. |  |  
  `401` | Unauthorized. No api key has been provided and is required for this operation. |  |  
  `403` | Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request. |  |  
@@ -2614,6 +2112,7 @@ Field  | Type | Usage | Description |
  `duplicate_policy` | string  | Optional | A policy value which determines whether a duplication policy is enforced or bypassed. A duplication check has a window of time set against your account within which it can action. If a previous transaction with matching values occurred within the window, any subsequent transaction will result in a T001 result.<br/><br/>Values are<br/><br/> `0` for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.<br/><br/> `1` for an enforced policy. Transactions that are enforced will be checked for duplication within the duplication window.<br/><br/> `2` to bypass. Transactions that are bypassed will not be checked for duplication within the duplication window.<br/><br/> `3` to ignore. Transactions that are ignored will have the same affect as bypass. | 
  `initiation` | string  | Optional | Transactions charged using the API are defined as:<br/><br/>**Cardholder Initiated**: A _cardholder initiated transaction_ (CIT) is where the cardholder selects the card for use for a purchase using previously stored details. An example would be a customer buying an item from your website after being present with their saved card details at checkout.<br/><br/>**Merchant Intiated**: A _merchant initiated transaction_ (MIT) is an authorisation initiated where you as the  merchant submit a cardholders previously stored details without the cardholder's participation. An example would  be a subscription to a membership scheme to debit their card monthly.<br/><br/>MITs have different reasons such as reauthorisation, delayed, unscheduled, incremental, recurring, instalment, no-show or resubmission.<br/><br/>The following values apply<br/><br/> - `M` - specifies that the transaction is initiated by the merchant<br/><br/> - `C` - specifies that the transaction is initiated by the cardholder<br/><br/>Where transactions are merchant initiated, a valid cardholder agreement must be defined.<br/><br/> maxLength: 1 | 
  `match_avsa` | string  | Optional | A policy value which determines whether an AVS address policy is enforced, bypassed or ignored.<br/><br/>Values are:<br/><br/> `0` for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.<br/><br/> `1` for an enforced policy. Transactions that are enforced will be rejected if the AVS address numeric value does not match.<br/><br/> `2` to bypass. Transactions that are bypassed will be allowed through even if the address did not match.<br/><br/> `3` to ignore. Transactions that are ignored will bypass the result and not send address numeric details for authorisation. | 
+ `pre_auth` | string  | Optional | A policy value which determines whether a pre auth policy is enforced or bypassed.<br/><br/>Values are:<br/><br/> `0` for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.<br/><br/> `1` for an enforced policy.  Enforces pre-authorisation when it does not pre-auth by default.<br/><br/> `2` to bypass. Bypasses pre-authorisation when it is enabled to pre auth by default.<br/><br/> `3` to ignore. The same as the default policy (0). Although it currently mirrors the default, this option is included for compatibility with other policies. | 
  `tag` | array | Optional | type: string | 
  `threedsecure` | object | Optional | [ThreeDSecure](#threedsecure) ThreeDSecure element, providing values to enable full 3DS processing flows. | 
  `trans_info` | string  | Optional | Further information that can be added to the transaction will display in reporting. Can be used for flexible values such as operator id.<br/><br/>maxLength: 50 | 
@@ -2746,6 +2245,7 @@ Field  | Type | Usage | Description |
  `match_avsa` | string  | Optional | A policy value which determines whether an AVS address policy is enforced, bypassed or ignored.<br/><br/>Values are:<br/><br/> `0` for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.<br/><br/> `1` for an enforced policy. Transactions that are enforced will be rejected if the AVS address numeric value does not match.<br/><br/> `2` to bypass. Transactions that are bypassed will be allowed through even if the address did not match.<br/><br/> `3` to ignore. Transactions that are ignored will bypass the result and not send address numeric details for authorisation. | 
  `name_on_card` | string  | Optional | The card holder name as appears on the card such as MR N E BODY. Required for some acquirers.<br/><br/> minLength: 2<br/>maxLength: 45 | 
  `nonce` | string *hex* | Optional | A random value Hex string (uppercase) which is provided to the API to perform a digest. The value will be used in any digest function. | 
+ `pre_auth` | string  | Optional | A policy value which determines whether a pre auth policy is enforced or bypassed.<br/><br/>Values are:<br/><br/> `0` for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.<br/><br/> `1` for an enforced policy.  Enforces pre-authorisation when it does not pre-auth by default.<br/><br/> `2` to bypass. Bypasses pre-authorisation when it is enabled to pre auth by default.<br/><br/> `3` to ignore. The same as the default policy (0). Although it currently mirrors the default, this option is included for compatibility with other policies. | 
  `redirect_failure` | string *url* | Optional | The URL used to redirect back to your site when a transaction has been rejected or declined. Required if a url-encoded request. | 
  `redirect_success` | string *url* | Optional | The URL used to redirect back to your site when a transaction has been tokenised or authorised. Required if a url-encoded request. | 
  `ship_to` | object | Optional | [ContactDetails](#contactdetails) Shipping details of the card holder making the payment. These details may be used for 3DS and for future referencing of the transaction. | 
@@ -3025,6 +2525,7 @@ Field  | Type | Usage | Description |
  `match_avsa` | string  | Optional | A policy value which determines whether an AVS address policy is enforced, bypassed or ignored.<br/><br/>Values are:<br/><br/> `0` for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.<br/><br/> `1` for an enforced policy. Transactions that are enforced will be rejected if the AVS address numeric value does not match.<br/><br/> `2` to bypass. Transactions that are bypassed will be allowed through even if the address did not match.<br/><br/> `3` to ignore. Transactions that are ignored will bypass the result and not send address numeric details for authorisation. | 
  `name_on_card` | string  | Optional | The card holder name as appears on the card such as MR N E BODY. Required for some acquirers.<br/><br/> minLength: 2<br/>maxLength: 45 | 
  `nonce` | string *hex* | Optional | A random value Hex string (uppercase) which is provided to the API to perform a digest. The value will be used in any digest function. | 
+ `pre_auth` | string  | Optional | A policy value which determines whether a pre auth policy is enforced or bypassed.<br/><br/>Values are:<br/><br/> `0` for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.<br/><br/> `1` for an enforced policy.  Enforces pre-authorisation when it does not pre-auth by default.<br/><br/> `2` to bypass. Bypasses pre-authorisation when it is enabled to pre auth by default.<br/><br/> `3` to ignore. The same as the default policy (0). Although it currently mirrors the default, this option is included for compatibility with other policies. | 
  `redirect_failure` | string *url* | Optional | The URL used to redirect back to your site when a transaction has been rejected or declined. Required if a url-encoded request. | 
  `redirect_success` | string *url* | Optional | The URL used to redirect back to your site when a transaction has been tokenised or authorised. Required if a url-encoded request. | 
  `ship_to` | object | Optional | [ContactDetails](#contactdetails) Shipping details of the card holder making the payment. These details may be used for 3DS and for future referencing of the transaction. | 
@@ -3237,248 +2738,6 @@ Responses for the AclCheckRequest operation are
 
 
 
-## Generate an Api Key
-
-<div class="route-spec">
-<div class="route-path">
- <span class="http-method http-method-post">POST</span>
- <span class="path">/v6/authenticate</span>
-</div>
-<div class="security-methods"></div>
-</div>
-
-ApiKeyGenRequest.
-
-<div class="model-links">
- <a href="#requestModel-ApiKeyGenRequest">Request Model</a>
- <a href="#responseModel-ApiKeyGenRequest">Response Model</a>
-</div>
-
-
-
-
-
-<a id="requestModel-ApiKeyGenRequest"></a>
-### Model ApiKeyGenRequest
-
-Request body for the ApiKeyGenRequest operation contains the following properties
-
-<div class="requestModel"></div>
-
-Field  | Type | Usage | Description |
----------|------|------|-------------|
- `clientid` | string  | Required | The client id to authenticate with.<br/><br/>minLength: 3<br/>maxLength: 10 | 
- `licencekey` | string  | Required | The licence key to authenticate with. | 
- `subject` | string  | Optional | For derived keys only. | 
-
-
-
-
-<a id="responseModel-ApiKeyGenRequest"></a>
-### Response
-
-Responses for the ApiKeyGenRequest operation are
-
-<div class="responseModel"></div>
-
- StatusCode | Description | Content-Type | Model |
-------------|-------------|--------------|-------|
- `200` | A generated Api Key if authenticated. | `application/json` <br/>`text/xml` | [ApiKeyGenResponse](#apikeygenresponse) |  
- `400` | Bad Request. Should the incoming data not be validly determined. |  |  
- `401` | Unauthorized. No api key has been provided and is required for this operation. |  |  
- `403` | Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request. |  |  
- `422` | Unprocessable Entity. Should a failure occur that prevents processing of the API call. | `application/json` <br/>`text/xml` | [Error](#error) |  
- `500` | Server Error. The server was unable to complete the request. |  |  
-
-
-
-
-
-## CacheInvalidateFor
-
-<div class="route-spec">
-<div class="route-path">
- <span class="http-method http-method-patch">PATCH</span>
- <span class="path">/v6/cache/invalidate-for/{pattern}</span>
-</div>
-<div class="security-methods"><span class="key sec-cp-api-key">cp-api-key</span> </div>
-</div>
-
-CacheInvalidateForRequest.
-
-<div class="model-links">
- <a href="#requestModel-CacheInvalidateForRequest">Request Model</a>
- <a href="#responseModel-CacheInvalidateForRequest">Response Model</a>
-</div>
-
-
-### Path Parameters
-
-Name | Required | Description |
------|----------|-------------|
- `pattern` | true | A pattern for invalidation. | 
-
-
-
-
-
-<a id="responseModel-CacheInvalidateForRequest"></a>
-### Response
-
-Responses for the CacheInvalidateForRequest operation are
-
-<div class="responseModel"></div>
-
- StatusCode | Description | Content-Type | Model |
-------------|-------------|--------------|-------|
- `200` | Invalidation of cache base on business logic values. | `application/json` <br/>`text/xml` | [Acknowledgement](#acknowledgement) |  
- `400` | Bad Request. Should the incoming data not be validly determined. |  |  
- `401` | Unauthorized. No api key has been provided and is required for this operation. |  |  
- `403` | Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request. |  |  
- `422` | Unprocessable Entity. Should a failure occur that prevents processing of the API call. | `application/json` <br/>`text/xml` | [Error](#error) |  
- `500` | Server Error. The server was unable to complete the request. |  |  
-
-
-
-
-
-## CacheInvalidate
-
-<div class="route-spec">
-<div class="route-path">
- <span class="http-method http-method-patch">PATCH</span>
- <span class="path">/v6/cache/invalidate/{cacheid}/{pattern}</span>
-</div>
-<div class="security-methods"><span class="key sec-cp-api-key">cp-api-key</span> </div>
-</div>
-
-Cache Invalidation Request.
-
-<div class="model-links">
- <a href="#requestModel-CacheInvalidationRequest">Request Model</a>
- <a href="#responseModel-CacheInvalidationRequest">Response Model</a>
-</div>
-
-
-### Path Parameters
-
-Name | Required | Description |
------|----------|-------------|
- `cacheid` | true | The cache to clear. | 
- `pattern` | true | A pattern for invalidation. | 
-
-
-
-
-
-<a id="responseModel-CacheInvalidationRequest"></a>
-### Response
-
-Responses for the CacheInvalidationRequest operation are
-
-<div class="responseModel"></div>
-
- StatusCode | Description | Content-Type | Model |
-------------|-------------|--------------|-------|
- `200` | Invalidation of cache values. | `application/json` <br/>`text/xml` | [Acknowledgement](#acknowledgement) |  
- `400` | Bad Request. Should the incoming data not be validly determined. |  |  
- `401` | Unauthorized. No api key has been provided and is required for this operation. |  |  
- `403` | Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request. |  |  
- `422` | Unprocessable Entity. Should a failure occur that prevents processing of the API call. | `application/json` <br/>`text/xml` | [Error](#error) |  
- `500` | Server Error. The server was unable to complete the request. |  |  
-
-
-
-
-
-## CacheList
-
-<div class="route-spec">
-<div class="route-path">
- <span class="http-method http-method-get">GET</span>
- <span class="path">/v6/cache/list</span>
-</div>
-<div class="security-methods"><span class="key sec-cp-api-key">cp-api-key</span> </div>
-</div>
-
-CacheListRequest.
-
-<div class="model-links">
- <a href="#requestModel-CacheListRequest">Request Model</a>
- <a href="#responseModel-CacheListRequest">Response Model</a>
-</div>
-
-
-
-
-<a id="responseModel-CacheListRequest"></a>
-### Response
-
-Responses for the CacheListRequest operation are
-
-<div class="responseModel"></div>
-
- StatusCode | Description | Content-Type | Model |
-------------|-------------|--------------|-------|
- `200` | A list of caches that are found. |  |  
- `400` | Bad Request. Should the incoming data not be validly determined. |  |  
- `401` | Unauthorized. No api key has been provided and is required for this operation. |  |  
- `403` | Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request. |  |  
- `422` | Unprocessable Entity. Should a failure occur that prevents processing of the API call. | `application/json` <br/>`text/xml` | [Error](#error) |  
- `500` | Server Error. The server was unable to complete the request. |  |  
-
-
-
-
-
-## CacheListDetails
-
-<div class="route-spec">
-<div class="route-path">
- <span class="http-method http-method-get">GET</span>
- <span class="path">/v6/cache/list/{cacheid}</span>
-</div>
-<div class="security-methods"><span class="key sec-cp-api-key">cp-api-key</span> </div>
-</div>
-
-CacheListDetailsRequest.
-
-<div class="model-links">
- <a href="#requestModel-CacheListDetailsRequest">Request Model</a>
- <a href="#responseModel-CacheListDetailsRequest">Response Model</a>
-</div>
-
-
-### Path Parameters
-
-Name | Required | Description |
------|----------|-------------|
- `cacheid` | true | The cache to list. | 
-
-
-
-
-
-<a id="responseModel-CacheListDetailsRequest"></a>
-### Response
-
-Responses for the CacheListDetailsRequest operation are
-
-<div class="responseModel"></div>
-
- StatusCode | Description | Content-Type | Model |
-------------|-------------|--------------|-------|
- `200` | A list of items in the cache based on the cacheid. |  |  
- `400` | Bad Request. Should the incoming data not be validly determined. |  |  
- `401` | Unauthorized. No api key has been provided and is required for this operation. |  |  
- `403` | Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request. |  |  
- `422` | Unprocessable Entity. Should a failure occur that prevents processing of the API call. | `application/json` <br/>`text/xml` | [Error](#error) |  
- `500` | Server Error. The server was unable to complete the request. |  |  
-
-
-
-
-
 ## List Merchants Request
 
 <div class="route-spec">
@@ -3524,6 +2783,62 @@ Responses for the ListMerchantsRequest operation are
  StatusCode | Description | Content-Type | Model |
 ------------|-------------|--------------|-------|
  `200` | A list of merchants that are configured against the client id. | `application/json` <br/>`text/xml` | [ListMerchantsResponse](#listmerchantsresponse) |  
+ `400` | Bad Request. Should the incoming data not be validly determined. |  |  
+ `401` | Unauthorized. No api key has been provided and is required for this operation. |  |  
+ `403` | Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request. |  |  
+ `422` | Unprocessable Entity. Should a failure occur that prevents processing of the API call. | `application/json` <br/>`text/xml` | [Error](#error) |  
+ `500` | Server Error. The server was unable to complete the request. |  |  
+
+
+
+
+
+## Register Temp Key
+
+<div class="route-spec">
+<div class="route-path">
+ <span class="http-method http-method-post">POST</span>
+ <span class="path">/v6/permissions/register-temp-ip</span>
+</div>
+<div class="security-methods"><span class="key sec-cp-api-key">cp-api-key</span> </div>
+</div>
+
+Registers a temporary licence key.
+
+<div class="model-links">
+ <a href="#requestModel-RegisterTempKey">Request Model</a>
+ <a href="#responseModel-RegisterTempKey">Response Model</a>
+</div>
+
+
+
+
+
+<a id="requestModel-RegisterTempKey"></a>
+### Model RegisterIpModel
+
+Request body for the RegisterTempKey operation contains the following properties
+
+<div class="requestModel"></div>
+
+Field  | Type | Usage | Description |
+---------|------|------|-------------|
+ `exp` | long  | Optional | When the ip address expires. At most an IP address can be registered for up to 720 hours. Will default to 12 hours if not supplied. | 
+ `ip` | string *ipv4* | Optional | The remote ip address to register. Will default to your current IP. | 
+
+
+
+
+<a id="responseModel-RegisterTempKey"></a>
+### Response
+
+Responses for the RegisterTempKey operation are
+
+<div class="responseModel"></div>
+
+ StatusCode | Description | Content-Type | Model |
+------------|-------------|--------------|-------|
+ `200` | Register IP. | `application/json` <br/>`text/xml` | [Acknowledgement](#acknowledgement) |  
  `400` | Bad Request. Should the incoming data not be validly determined. |  |  
  `401` | Unauthorized. No api key has been provided and is required for this operation. |  |  
  `403` | Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request. |  |  
@@ -4913,54 +4228,6 @@ Responses for the WebHookSubscriptionRequest operation are
 
 
 
-## Event Trigger example payloads
-
-<div class="route-spec">
-<div class="route-path">
- <span class="http-method http-method-get">GET</span>
- <span class="path">/hooks/trigger/{eventId}/example</span>
-</div>
-<div class="security-methods"><span class="key sec-cp-api-key">cp-api-key</span> </div>
-</div>
-
-EventTriggerExampleRequest.
-
-<div class="model-links">
- <a href="#requestModel-EventTriggerExampleRequest">Request Model</a>
- <a href="#responseModel-EventTriggerExampleRequest">Response Model</a>
-</div>
-
-
-### Path Parameters
-
-Name | Required | Description |
------|----------|-------------|
- `eventId` | true | The id of the event. | 
-
-
-
-
-
-<a id="responseModel-EventTriggerExampleRequest"></a>
-### Response
-
-Responses for the EventTriggerExampleRequest operation are
-
-<div class="responseModel"></div>
-
- StatusCode | Description | Content-Type | Model |
-------------|-------------|--------------|-------|
- `200` | Example Payload. |  |  
- `400` | Bad Request. Should the incoming data not be validly determined. |  |  
- `401` | Unauthorized. No api key has been provided and is required for this operation. |  |  
- `403` | Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request. |  |  
- `422` | Unprocessable Entity. Should a failure occur that prevents processing of the API call. | `application/json` <br/>`text/xml` | [Error](#error) |  
- `500` | Server Error. The server was unable to complete the request. |  |  
-
-
-
-
-
 ## Web Hook Unsubscribe Request
 
 <div class="route-spec">
@@ -5021,49 +4288,6 @@ Responses for the WebHookUnsubscribeRequest operation are
 
 
 # API Model
-
-
-
-## AReqModel
-
-```json
-{
-   "amount": 19995,
-   "authenticationInd": "",
-   "bill_to": { ... },
-   "cp_bx": "FjaW50b3NoOyBJbnRlbCBNYWMgT1MgWCAx...",
-   "cp_card_token": "tVQZbn00000000B3qMJB",
-   "merchantid": 11223344,
-   "threedsecure": { ... },
-   "uuid": "123e4567-e89b-12d3-a456-426614174000"
-}
-```
-
-```xml
-<AReqModel>
- <amount>19995</amount> 
- <authenticationInd></authenticationInd> 
- <bill_to><>...</></bill_to> 
- <cp_bx>FjaW50b3NoOyBJbnRlbCBNYWMgT1MgWCAx...</cp_bx> 
- <cp_card_token>tVQZbn00000000B3qMJB</cp_card_token> 
- <merchantid>11223344</merchantid> 
- <threedsecure><>...</></threedsecure> 
- <uuid>123e4567-e89b-12d3-a456-426614174000</uuid> 
-</AReqModel>
-```
-
-| Field | Type | Required | Description |
-|-------|------|----------|-------------|
-| `amount` | integer *int32* | true | The amount to authorise.<br/><br/>minLength: 1<br/>maxLength: 9 | 
-| `authenticationInd` | string  | false | Indicates the type of Authentication request. • 01 = Payment transaction • 02 = Recurring transaction • 03 = Instalment transaction • 04 = Add card • 05 = Maintain card • 06 = Cardholder verification as part of EMV token ID&V. | 
-| `bill_to` | object | false | [ContactDetails](#contactdetails) Billing details of the card holder making the payment. | 
-| `cp_bx` | string  | true | The browser extensions data to inspect the browser. | 
-| `cp_card_token` | string  | false | The tokenised card value. | 
-| `merchantid` | integer *int32* | true | The merchant id that the authentication request is for. | 
-| `threedsecure` | object | false | [ThreeDSecure](#threedsecure) ThreeDSecure element, providing values to enable full 3DS processing flows. | 
-| `uuid` | string *uuid* | false | A 3ds requestor uuid to be used for the threedsecure session.<br/><br/>minLength: 36<br/>maxLength: 36 | 
-
-
 
 
 
@@ -5379,133 +4603,6 @@ Responses for the WebHookUnsubscribeRequest operation are
 
 
 
-## ApiKeyGenRequest
-
-```json
-{
-   "clientid": "PC12345",
-   "licencekey": "",
-   "subject": ""
-}
-```
-
-```xml
-<ApiKeyGenRequest>
- <clientid>PC12345</clientid> 
- <licencekey></licencekey> 
- <subject></subject> 
-</ApiKeyGenRequest>
-```
-
-| Field | Type | Required | Description |
-|-------|------|----------|-------------|
-| `clientid` | string  | true | The client id to authenticate with.<br/><br/>minLength: 3<br/>maxLength: 10 | 
-| `licencekey` | string  | true | The licence key to authenticate with. | 
-| `subject` | string  | false | For derived keys only. | 
-
-
-
-
-
-## ApiKeyGenResponse
-
-```json
-{
-   "exp": "1732308930",
-   "expiry-date": "2020-01-15",
-   "key": ""
-}
-```
-
-```xml
-<ApiKeyGenResponse>
- <exp>1732308930</exp> 
- <expiry-date>2020-01-15</expiry-date> 
- <key></key> 
-</ApiKeyGenResponse>
-```
-
-| Field | Type | Required | Description |
-|-------|------|----------|-------------|
-| `exp` | long  | true | The UTC time in seconds where the key expires. | 
-| `expiry-date` | string *date-time* | true | The ISO datetime when the key expires. | 
-| `key` | string  | true | An api-key that can be used for authentication. | 
-
-
-
-
-
-## ApplePaySessionStartRequestModel
-
-```json
-{
-   "domain": "pay.mysite.com",
-   "validation-url": ""
-}
-```
-
-```xml
-<ApplePaySessionStartRequestModel>
- <domain>pay.mysite.com</domain> 
- <validation-url></validation-url> 
-</ApplePaySessionStartRequestModel>
-```
-
-| Field | Type | Required | Description |
-|-------|------|----------|-------------|
-| `domain` | string *host* | true | The domain or host required to perform Apple Pay. | 
-| `validation-url` | string *url* | true | A validation url for apple pay. | 
-
-
-
-
-
-## AresModel
-
-```json
-{
-   "acsURL": "https://acs.cardissuer.com/3dsv2",
-   "authentication_result": "",
-   "card_holder_info": "",
-   "creq": "",
-   "messageType": "",
-   "messageVersion": "",
-   "threeDSServerTransID": "5992b512-d8dd-48f9-b1d4-c65d06cc6e52",
-   "threeDSToken": "",
-   "transStatus": ""
-}
-```
-
-```xml
-<AresModel>
- <acsURL>https://acs.cardissuer.com/3dsv2</acsURL> 
- <authentication_result></authentication_result> 
- <card_holder_info></card_holder_info> 
- <creq></creq> 
- <messageType></messageType> 
- <messageVersion></messageVersion> 
- <threeDSServerTransID>5992b512-d8dd-48f9-b1d4-c65d06cc6e52</threeDSServerTransID> 
- <threeDSToken></threeDSToken> 
- <transStatus></transStatus> 
-</AresModel>
-```
-
-| Field | Type | Required | Description |
-|-------|------|----------|-------------|
-| `acsURL` | string *url* | false | A url to connect to for authentication. | 
-| `authentication_result` | string  | true | The result of authentication. | 
-| `card_holder_info` | string  | false | Text provided by the ACS/Issuer to Cardholder during a Frictionless or Decoupled transaction. The Issuer can provide information to Cardholder. For example, “Additional authentication is needed for this transaction, please contact (Issuer Name) at xxx-xxx-xxxx” with optionally the Issuer and Payment System images. | 
-| `creq` | string  | false | A challenge request packet to submit to the ACS URL. | 
-| `messageType` | string  | true | The message type being ARes. | 
-| `messageVersion` | string  | true | The message version of 3ds being used. | 
-| `threeDSServerTransID` | string *uuid* | true | The 3DSS transaction id. | 
-| `threeDSToken` | string  | false | A token to exchange with the server to provide authentication after a transStatus=Y or CRes. | 
-| `transStatus` | string  | true | The status of the Ares transaction as defined by the 3DSv2 specifications. | 
-
-
-
-
-
 ## AuthReference
 
 ```json
@@ -5521,6 +4618,7 @@ Responses for the WebHookUnsubscribeRequest operation are
    "identifier": "95b857a1-5955-4b86-963c-5a6dbfc4fb95",
    "maskedpan": "4***********0002",
    "merchantid": 11223344,
+   "meta": { ... },
    "result": "",
    "trans_status": "",
    "trans_type": "",
@@ -5541,6 +4639,7 @@ Responses for the WebHookUnsubscribeRequest operation are
  <identifier>95b857a1-5955-4b86-963c-5a6dbfc4fb95</identifier> 
  <maskedpan>4***********0002</maskedpan> 
  <merchantid>11223344</merchantid> 
+ <meta><>...</></meta> 
  <result></result> 
  <trans_status></trans_status> 
  <trans_type></trans_type> 
@@ -5561,6 +4660,7 @@ Responses for the WebHookUnsubscribeRequest operation are
 | `identifier` | string  | false | The identifier of the transaction used to process the transaction.<br/><br/>minLength: 4<br/>maxLength: 50 | 
 | `maskedpan` | string  | false | A masking of the card number which was used to process the tranasction. | 
 | `merchantid` | integer *int32* | false | The merchant id of the transaction result. | 
+| `meta` | object  | false |  | 
 | `result` | string  | false | The result of the transaction. | 
 | `trans_status` | string  | false | The current status of the transaction through it's lifecycle. | 
 | `trans_type` | string  | false | The type of transaction that was processed.<br/><br/>maxLength: 1 | 
@@ -5614,6 +4714,7 @@ Responses for the WebHookUnsubscribeRequest operation are
    "mcc6012": { ... },
    "merchantid": 11223344,
    "name_on_card": "MR NE BODY",
+   "pre_auth": "",
    "ship_to": { ... },
    "tag": "",
    "threedsecure": { ... },
@@ -5643,6 +4744,7 @@ Responses for the WebHookUnsubscribeRequest operation are
  <mcc6012><>...</></mcc6012> 
  <merchantid>11223344</merchantid> 
  <name_on_card>MR NE BODY</name_on_card> 
+ <pre_auth></pre_auth> 
  <ship_to><>...</></ship_to> 
  <tag></tag> 
  <threedsecure><>...</></threedsecure> 
@@ -5671,6 +4773,7 @@ Responses for the WebHookUnsubscribeRequest operation are
 | `mcc6012` | object | false | [MCC6012](#mcc6012) If the merchant is MCC coded as 6012, additional values are required for authorisation. | 
 | `merchantid` | integer *int32* | true | Identifies the merchant account to perform processing for. | 
 | `name_on_card` | string  | false | The card holder name as appears on the card such as MR N E BODY. Required for some acquirers.<br/><br/> minLength: 2<br/>maxLength: 45 | 
+| `pre_auth` | string  | false | A policy value which determines whether a pre auth policy is enforced or bypassed.<br/><br/>Values are:<br/><br/> `0` for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.<br/><br/> `1` for an enforced policy.  Enforces pre-authorisation when it does not pre-auth by default.<br/><br/> `2` to bypass. Bypasses pre-authorisation when it is enabled to pre auth by default.<br/><br/> `3` to ignore. The same as the default policy (0). Although it currently mirrors the default, this option is included for compatibility with other policies. | 
 | `ship_to` | object | false | [ContactDetails](#contactdetails) Shipping details of the card holder making the payment. These details may be used for 3DS and for future referencing of the transaction. | 
 | `tag` | array | false | type: string | 
 | `threedsecure` | object | false | [ThreeDSecure](#threedsecure) ThreeDSecure element, providing values to enable full 3DS processing flows. | 
@@ -6149,34 +5252,6 @@ Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Addi
 
 
 
-## CResModel
-
-```json
-{
-   "cres": "x90+vZ/7Ll05Vid/jPfQn8adw+4D/vRDUGT19kndW97Hfirbv66ycfSp8jNlvy7PkHbx44NEt3vo...",
-   "merchantid": 11223344,
-   "threeDSSessionData": ""
-}
-```
-
-```xml
-<CResModel>
- <cres>x90+vZ/7Ll05Vid/jPfQn8adw+4D/vRDUGT19kndW97Hfirbv66ycfSp8jNlvy7PkHbx44NEt3vo...</cres> 
- <merchantid>11223344</merchantid> 
- <threeDSSessionData></threeDSSessionData> 
-</CResModel>
-```
-
-| Field | Type | Required | Description |
-|-------|------|----------|-------------|
-| `cres` | string *base64* | false | The CRes data. | 
-| `merchantid` | integer *int32* | false | A merchant id only required if not a domain key. | 
-| `threeDSSessionData` | string  | false | Allows you to pass any session-specific information that your system requires, which the ACS will return unchanged in the CRes message to help continue or finalize the authentication session. | 
-
-
-
-
-
 ## CaptureRequest
 
 ```json
@@ -6451,6 +5526,7 @@ Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Addi
    "initiation": "",
    "match_avsa": "",
    "merchantid": 11223344,
+   "pre_auth": "",
    "tag": "",
    "threedsecure": { ... },
    "token": "ctPCAPyNyCkx3Ry8wGyv8khC3ch2hUSB3Db..Qzr",
@@ -6472,6 +5548,7 @@ Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Addi
  <initiation></initiation> 
  <match_avsa></match_avsa> 
  <merchantid>11223344</merchantid> 
+ <pre_auth></pre_auth> 
  <tag></tag> 
  <threedsecure><>...</></threedsecure> 
  <token>ctPCAPyNyCkx3Ry8wGyv8khC3ch2hUSB3Db..Qzr</token> 
@@ -6493,6 +5570,7 @@ Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Addi
 | `initiation` | string  | false | Transactions charged using the API are defined as:<br/><br/>**Cardholder Initiated**: A _cardholder initiated transaction_ (CIT) is where the cardholder selects the card for use for a purchase using previously stored details. An example would be a customer buying an item from your website after being present with their saved card details at checkout.<br/><br/>**Merchant Intiated**: A _merchant initiated transaction_ (MIT) is an authorisation initiated where you as the  merchant submit a cardholders previously stored details without the cardholder's participation. An example would  be a subscription to a membership scheme to debit their card monthly.<br/><br/>MITs have different reasons such as reauthorisation, delayed, unscheduled, incremental, recurring, instalment, no-show or resubmission.<br/><br/>The following values apply<br/><br/> - `M` - specifies that the transaction is initiated by the merchant<br/><br/> - `C` - specifies that the transaction is initiated by the cardholder<br/><br/>Where transactions are merchant initiated, a valid cardholder agreement must be defined.<br/><br/> maxLength: 1 | 
 | `match_avsa` | string  | false | A policy value which determines whether an AVS address policy is enforced, bypassed or ignored.<br/><br/>Values are:<br/><br/> `0` for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.<br/><br/> `1` for an enforced policy. Transactions that are enforced will be rejected if the AVS address numeric value does not match.<br/><br/> `2` to bypass. Transactions that are bypassed will be allowed through even if the address did not match.<br/><br/> `3` to ignore. Transactions that are ignored will bypass the result and not send address numeric details for authorisation. | 
 | `merchantid` | integer *int32* | true | Identifies the merchant account to perform processing for. | 
+| `pre_auth` | string  | false | A policy value which determines whether a pre auth policy is enforced or bypassed.<br/><br/>Values are:<br/><br/> `0` for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.<br/><br/> `1` for an enforced policy.  Enforces pre-authorisation when it does not pre-auth by default.<br/><br/> `2` to bypass. Bypasses pre-authorisation when it is enabled to pre auth by default.<br/><br/> `3` to ignore. The same as the default policy (0). Although it currently mirrors the default, this option is included for compatibility with other policies. | 
 | `tag` | array | false | type: string | 
 | `threedsecure` | object | false | [ThreeDSecure](#threedsecure) ThreeDSecure element, providing values to enable full 3DS processing flows. | 
 | `token` | string *base58* | true | A tokenised form of a card that belongs to a card holder's account and that has been previously registered. The token is time based and will only be active for a short duration. The value is therefore designed not to be stored remotely for future use.<br/><br/> Tokens will start with ct and are resiliently tamper proof using HMacSHA-256. No sensitive card data is stored internally within the token.<br/><br/> Each card will contain a different token and the value may be different on any retrieval call.<br/><br/> The value can be presented for payment as a selection value to an end user in a web application. | 
@@ -6567,99 +5645,6 @@ Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Addi
 | Field | Type | Required | Description |
 |-------|------|----------|-------------|
 
-
-
-
-
-
-## ConnectedEntityLookupRequestModel
-
-```json
-{
-   "domain": "pay.mysite.com",
-   "entity-id": "",
-   "entity-type": ""
-}
-```
-
-```xml
-<ConnectedEntityLookupRequestModel>
- <domain>pay.mysite.com</domain> 
- <entity-id></entity-id> 
- <entity-type></entity-type> 
-</ConnectedEntityLookupRequestModel>
-```
-
-| Field | Type | Required | Description |
-|-------|------|----------|-------------|
-| `domain` | string *host* | true | The domain to generate a domain key for. | 
-| `entity-id` | string  | true | The id of the entity.<br/><br/>minLength: 4<br/>maxLength: 64 | 
-| `entity-type` | string  | true | The entity type to lookup.<br/><br/>minLength: 4<br/>maxLength: 64 | 
-
-
-
-
-
-## ConnectedEntityLookupResponseModel
-
-```json
-{
-   "entities": ""
-}
-```
-
-```xml
-<ConnectedEntityLookupResponseModel>
- <entities></entities> 
-</ConnectedEntityLookupResponseModel>
-```
-
-| Field | Type | Required | Description |
-|-------|------|----------|-------------|
-| `entities` | array | false | Found entities. [ConnectedEntityModel](#connectedentitymodel) | 
-
-
-
-
-
-## ConnectedEntityModel
-
-```json
-{
-   "client_name": "",
-   "clientid": "PC12345",
-   "date_created": "2020-01-02",
-   "domain_key": "3MEcU8cEf...QMeebACxcQVejmT1Wi",
-   "licencekey": "",
-   "merchant_name": "",
-   "merchantid": 11223344,
-   "name": ""
-}
-```
-
-```xml
-<ConnectedEntityModel>
- <client_name></client_name> 
- <clientid>PC12345</clientid> 
- <date_created>2020-01-02</date_created> 
- <domain_key>3MEcU8cEf...QMeebACxcQVejmT1Wi</domain_key> 
- <licencekey></licencekey> 
- <merchant_name></merchant_name> 
- <merchantid>11223344</merchantid> 
- <name></name> 
-</ConnectedEntityModel>
-```
-
-| Field | Type | Required | Description |
-|-------|------|----------|-------------|
-| `client_name` | string  | false | The name of the client owning the entity. | 
-| `clientid` | string  | false | The client if owning the entity.<br/><br/>minLength: 3<br/>maxLength: 10 | 
-| `date_created` | string *date-time* | false | The date the entity mapping was created. | 
-| `domain_key` | string  | false | The domain key to return.<br/><br/>minLength: 64<br/>maxLength: 512 | 
-| `licencekey` | string  | false | Masked version of the licence key. | 
-| `merchant_name` | string  | false | The name of the merchant. | 
-| `merchantid` | integer *int32* | false | The processing mid for the entity. | 
-| `name` | string  | false | The name of the entity. | 
 
 
 
@@ -6767,6 +5752,7 @@ Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Addi
    "match_avsa": "",
    "name_on_card": "MR NE BODY",
    "nonce": "0123456789ABCDEF",
+   "pre_auth": "",
    "redirect_failure": "https://pay.mystore.com/continue_failure",
    "redirect_success": "https://pay.mystore.com/continue_success",
    "ship_to": { ... },
@@ -6795,6 +5781,7 @@ Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Addi
  <match_avsa></match_avsa> 
  <name_on_card>MR NE BODY</name_on_card> 
  <nonce>0123456789ABCDEF</nonce> 
+ <pre_auth></pre_auth> 
  <redirect_failure>https://pay.mystore.com/continue_failure</redirect_failure> 
  <redirect_success>https://pay.mystore.com/continue_success</redirect_success> 
  <ship_to><>...</></ship_to> 
@@ -6823,6 +5810,7 @@ Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Addi
 | `match_avsa` | string  | false | A policy value which determines whether an AVS address policy is enforced, bypassed or ignored.<br/><br/>Values are:<br/><br/> `0` for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.<br/><br/> `1` for an enforced policy. Transactions that are enforced will be rejected if the AVS address numeric value does not match.<br/><br/> `2` to bypass. Transactions that are bypassed will be allowed through even if the address did not match.<br/><br/> `3` to ignore. Transactions that are ignored will bypass the result and not send address numeric details for authorisation. | 
 | `name_on_card` | string  | false | The card holder name as appears on the card such as MR N E BODY. Required for some acquirers.<br/><br/> minLength: 2<br/>maxLength: 45 | 
 | `nonce` | string *hex* | false | A random value Hex string (uppercase) which is provided to the API to perform a digest. The value will be used in any digest function. | 
+| `pre_auth` | string  | false | A policy value which determines whether a pre auth policy is enforced or bypassed.<br/><br/>Values are:<br/><br/> `0` for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.<br/><br/> `1` for an enforced policy.  Enforces pre-authorisation when it does not pre-auth by default.<br/><br/> `2` to bypass. Bypasses pre-authorisation when it is enabled to pre auth by default.<br/><br/> `3` to ignore. The same as the default policy (0). Although it currently mirrors the default, this option is included for compatibility with other policies. | 
 | `redirect_failure` | string *url* | false | The URL used to redirect back to your site when a transaction has been rejected or declined. Required if a url-encoded request. | 
 | `redirect_success` | string *url* | false | The URL used to redirect back to your site when a transaction has been tokenised or authorised. Required if a url-encoded request. | 
 | `ship_to` | object | false | [ContactDetails](#contactdetails) Shipping details of the card holder making the payment. These details may be used for 3DS and for future referencing of the transaction. | 
@@ -6992,20 +5980,20 @@ Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Addi
 
 ```json
 {
-   "event_end_date": "2024-11-12",
+   "event_end_date": "2024-12-02",
    "event_id": "",
    "event_organiser_id": "",
-   "event_start_date": "2024-11-12",
+   "event_start_date": "2024-12-02",
    "payment_type": ""
 }
 ```
 
 ```xml
 <EventDataModel>
- <event_end_date>2024-11-12</event_end_date> 
+ <event_end_date>2024-12-02</event_end_date> 
  <event_id></event_id> 
  <event_organiser_id></event_organiser_id> 
- <event_start_date>2024-11-12</event_start_date> 
+ <event_start_date>2024-12-02</event_start_date> 
  <payment_type></payment_type> 
 </EventDataModel>
 ```
@@ -7277,7 +6265,7 @@ Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Addi
 
 ```json
 {
-   "batch_closed": "2024-11-12",
+   "batch_closed": "2024-12-02",
    "batch_no": "",
    "batch_status": "",
    "batch_status_code": "",
@@ -7289,7 +6277,7 @@ Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Addi
 
 ```xml
 <MerchantBatchResponse>
- <batch_closed>2024-11-12</batch_closed> 
+ <batch_closed>2024-12-02</batch_closed> 
  <batch_no></batch_no> 
  <batch_status></batch_status> 
  <batch_status_code></batch_status_code> 
@@ -7518,7 +6506,7 @@ Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Addi
    "addressee": "Jack Sparrow",
    "attachments": "",
    "descriptor": "",
-   "due": "2024-11-12",
+   "due": "2024-12-02",
    "email_notification_path": { ... },
    "memo": "Invoice",
    "request": { ... },
@@ -7531,7 +6519,7 @@ Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Addi
  <addressee>Jack Sparrow</addressee> 
  <attachments></attachments> 
  <descriptor></descriptor> 
- <due>2024-11-12</due> 
+ <due>2024-12-02</due> 
  <email_notification_path><>...</></email_notification_path> 
  <memo>Invoice</memo> 
  <request><>...</></request> 
@@ -7698,6 +6686,7 @@ Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Addi
    "lock_params": "",
    "merch_logo": "",
    "merch_terms": "",
+   "meta_data": { ... },
    "options": "",
    "part_payments": { ... },
    "pass_through_data": { ... },
@@ -7725,6 +6714,7 @@ Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Addi
  <lock_params></lock_params> 
  <merch_logo></merch_logo> 
  <merch_terms></merch_terms> 
+ <meta_data><>...</></meta_data> 
  <options></options> 
  <part_payments><>...</></part_payments> 
  <pass_through_data><>...</></pass_through_data> 
@@ -7752,6 +6742,7 @@ Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Addi
 | `lock_params` | array | false | string[]	Optional	May be used to lock fields which are displayed in the form. For example, if the cardholder.address.postcode field were to be specified this would will prevent the customer amending the postal code for the cardholder postcode field. type: string | 
 | `merch_logo` | string *url* | false | A URL of a logo to include in the form. The URL should be delivered using HTTPS. | 
 | `merch_terms` | string *url* | false | A URL of the merchant terms and conditions for payment. If a value is supplied, a checkbox will be required to be completed to confirm that the cardholder agrees to these conditions before payment. A modal dialogue is displayed with the content of the conditions displayed. | 
+| `meta_data` | object  | false |  | 
 | `options` | array | false | Specifies an array of configuration options to be applied to the transaction which complement or override default values. type: string | 
 | `part_payments` | object | false | [PaylinkPartPayments](#paylinkpartpayments) Configuration object for part payments. | 
 | `pass_through_data` | object  | false |  | 
@@ -7775,6 +6766,7 @@ Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Addi
 
 ```json
 {
+   "auth_meta_data": true,
    "entry_mode": "",
    "field_type": "text",
    "group": "Extra Information",
@@ -7791,6 +6783,7 @@ Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Addi
 
 ```xml
 <PaylinkCustomParam>
+ <auth_meta_data>true</auth_meta_data> 
  <entry_mode></entry_mode> 
  <field_type>text</field_type> 
  <group>Extra Information</group> 
@@ -7807,6 +6800,7 @@ Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Addi
 
 | Field | Type | Required | Description |
 |-------|------|----------|-------------|
+| `auth_meta_data` | boolean  | false | Determines if the custom parameter is stored as meta data against an authorisation allowing for that authorisation to be searched and queried by the result of this value. Defaults to false. | 
 | `entry_mode` | string  | false | The type of entry mode. A value of `pre` will pre-render the custom parameter before the payment screen. Any other value will result in the custom parameter being displayed on the payment screen. | 
 | `field_type` | string  | false | The type of html field, defaulting to `text`. Options are:<br/><br/> - `dob`      A date of birth field as a series of select list entries  - `text`     Allows the user to enter any text.  - `password` A field where the characters are masked to protect the input, typically used for passwords.  - `email`    Used for input fields that should contain an email address.  - `number`   For numeric input, can include controls for incrementing or decrementing the number.  - `tel`      For telephone numbers.  - `url`      A text field for entering a URL.  - `hidden`   Not visible to the user, but its value is sent when the form is submitted.  - `checkbox` A check box allowing single values to be selected/deselected.  - `radio`    Allows the user to select one of a limited number of choices.  - `select`   Renders as select items<br/><br/>Select Options:<br/><br/>Select options are constructed by providing a list of values in the value custom parameter field. Each value is delimited by a pipe character `|`. Value items can also be delimited with `:` as a value label pair.<br/><br/>For instance, a sports club requires identifying it's age group for membership entry:<br/><br/><CodeGroup title="Select Examples" label="ProcessBatchRequest">    ```json {{ title: 'Basic Values' }}      { "label" : "Age Group",        "fieldType": "select",        "value" : "Under 18|18-30|30-50|50+" }...<br/><br/>     <select>          <option value="Under 18">Under 18</option>          <option value="18-30">18-30</option>          <option value="30-50">30-50</option>          <option value="50+">50+</option>      </select>    ```    ```json {{ title: 'Label and Values' }}      { "label" : "Age Group",        "fieldType": "select",        "value" : "0:Under 18|1:18-30|2:30-50|3:50+" }...<br/><br/>     <select>          <option value="0">Under 18</option>          <option value="1">18-30</option>          <option value="2">30-50</option>          <option value="3">50+</option>      </select>    ``` </CodeGroup><br/><br/>Fields may be requested as optional. If a select is required to be optional, provide a value such as `:Select an Option|options...` at the front of the list. | 
 | `group` | string  | false | A value which groups items for layout. The value should be a string title for rendering such as "Your Account Info". If no value is provided, the parameter is added to a default parameter group. Group names are ordered alphabetically when rendered. | 
@@ -8013,7 +7007,7 @@ Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Addi
 
 ```json
 {
-   "datetime": "2024-11-12",
+   "datetime": "2024-12-02",
    "message": "message on this state",
    "state": "FormInput"
 }
@@ -8021,7 +7015,7 @@ Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Addi
 
 ```xml
 <PaylinkStateEvent>
- <datetime>2024-11-12</datetime> 
+ <datetime>2024-12-02</datetime> 
  <message>message on this state</message> 
  <state>FormInput</state> 
 </PaylinkStateEvent>
@@ -8043,7 +7037,7 @@ Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Addi
 {
    "attachments": { ... },
    "bps": "",
-   "date_created": "2024-11-12",
+   "date_created": "2024-12-02",
    "errors": "",
    "id": "00000000-0000-0000-0000-000000000000",
    "identifier": "95b857a1-5955-4b86-963c-5a6dbfc4fb95",
@@ -8062,7 +7056,7 @@ Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Addi
 <PaylinkTokenCreated>
  <attachments><>...</></attachments> 
  <bps></bps> 
- <date_created>2024-11-12</date_created> 
+ <date_created>2024-12-02</date_created> 
  <errors></errors> 
  <id>00000000-0000-0000-0000-000000000000</id> 
  <identifier>95b857a1-5955-4b86-963c-5a6dbfc4fb95</identifier> 
@@ -8170,8 +7164,8 @@ BPS | `bps` | string  | false | true if BPS has been enabled on this token. |
    "amount_paid": 0,
    "auth_code": "",
    "card": "Visa/0002",
-   "created": "2024-11-12",
-   "datetime": "2024-11-12",
+   "created": "2024-12-02",
+   "datetime": "2024-12-02",
    "identifier": "95b857a1-5955-4b86-963c-5a6dbfc4fb95",
    "is_attachment": false,
    "is_cancelled": false,
@@ -8188,7 +7182,7 @@ BPS | `bps` | string  | false | true if BPS has been enabled on this token. |
    "is_request_challenged": false,
    "is_sms_sent": false,
    "is_validated": false,
-   "last_event_date_time": "2024-11-12",
+   "last_event_date_time": "2024-12-02",
    "last_payment_result": "",
    "mid": 11223344,
    "payment_attempts_count": 0,
@@ -8203,8 +7197,8 @@ BPS | `bps` | string  | false | true if BPS has been enabled on this token. |
  <amount_paid></amount_paid> 
  <auth_code></auth_code> 
  <card>Visa/0002</card> 
- <created>2024-11-12</created> 
- <datetime>2024-11-12</datetime> 
+ <created>2024-12-02</created> 
+ <datetime>2024-12-02</datetime> 
  <identifier>95b857a1-5955-4b86-963c-5a6dbfc4fb95</identifier> 
  <is_attachment></is_attachment> 
  <is_cancelled></is_cancelled> 
@@ -8221,7 +7215,7 @@ BPS | `bps` | string  | false | true if BPS has been enabled on this token. |
  <is_request_challenged></is_request_challenged> 
  <is_sms_sent></is_sms_sent> 
  <is_validated></is_validated> 
- <last_event_date_time>2024-11-12</last_event_date_time> 
+ <last_event_date_time>2024-12-02</last_event_date_time> 
  <last_payment_result></last_payment_result> 
  <mid>11223344</mid> 
  <payment_attempts_count></payment_attempts_count> 
@@ -8270,7 +7264,7 @@ BPS | `bps` | string  | false | true if BPS has been enabled on this token. |
 
 ```json
 {
-   "after": "2024-11-12",
+   "after": "2024-12-02",
    "maxResults": 50,
    "merchantid": 11223344,
    "nextToken": "n34liuwn435tUAGFNg34yn...",
@@ -8280,7 +7274,7 @@ BPS | `bps` | string  | false | true if BPS has been enabled on this token. |
 
 ```xml
 <PaylinkTokenStatusChangeRequest>
- <after>2024-11-12</after> 
+ <after>2024-12-02</after> 
  <maxResults>50</maxResults> 
  <merchantid>11223344</merchantid> 
  <nextToken>n34liuwn435tUAGFNg34yn...</nextToken> 
@@ -8400,6 +7394,7 @@ BPS | `bps` | string  | false | true if BPS has been enabled on this token. |
    "identifier": "95b857a1-5955-4b86-963c-5a6dbfc4fb95",
    "match_avsa": "",
    "merchantid": 11223344,
+   "pre_auth": "",
    "ship_to": { ... },
    "tag": "",
    "trans_info": "",
@@ -8421,6 +7416,7 @@ BPS | `bps` | string  | false | true if BPS has been enabled on this token. |
  <identifier>95b857a1-5955-4b86-963c-5a6dbfc4fb95</identifier> 
  <match_avsa></match_avsa> 
  <merchantid>11223344</merchantid> 
+ <pre_auth></pre_auth> 
  <ship_to><>...</></ship_to> 
  <tag></tag> 
  <trans_info></trans_info> 
@@ -8442,6 +7438,7 @@ BPS | `bps` | string  | false | true if BPS has been enabled on this token. |
 | `identifier` | string  | true | The identifier of the transaction to process. The value should be a valid reference and may be used to perform  post processing actions and to aid in reconciliation of transactions.<br/><br/>The value should be a valid printable string with ASCII character ranges from 0x32 to 0x127.<br/><br/>The identifier is recommended to be distinct for each transaction such as a [random unique identifier](https://en.wikipedia.org/wiki/Universally_unique_identifier) this will aid in ensuring each transaction is identifiable.<br/><br/>When transactions are processed they are also checked for duplicate requests. Changing the identifier on a subsequent request will ensure that a transaction is considered as different.<br/><br/> minLength: 4<br/>maxLength: 50 | 
 | `match_avsa` | string  | false | A policy value which determines whether an AVS address policy is enforced, bypassed or ignored.<br/><br/>Values are:<br/><br/> `0` for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.<br/><br/> `1` for an enforced policy. Transactions that are enforced will be rejected if the AVS address numeric value does not match.<br/><br/> `2` to bypass. Transactions that are bypassed will be allowed through even if the address did not match.<br/><br/> `3` to ignore. Transactions that are ignored will bypass the result and not send address numeric details for authorisation. | 
 | `merchantid` | integer *int32* | false | The merchant id of the intent, required if using the API key or not required if using a domain key. | 
+| `pre_auth` | string  | false | A policy value which determines whether a pre auth policy is enforced or bypassed.<br/><br/>Values are:<br/><br/> `0` for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.<br/><br/> `1` for an enforced policy.  Enforces pre-authorisation when it does not pre-auth by default.<br/><br/> `2` to bypass. Bypasses pre-authorisation when it is enabled to pre auth by default.<br/><br/> `3` to ignore. The same as the default policy (0). Although it currently mirrors the default, this option is included for compatibility with other policies. | 
 | `ship_to` | object | false | [ContactDetails](#contactdetails) Shipping details of the card holder making the payment. These details may be used for 3DS and for future referencing of the transaction. | 
 | `tag` | array | false | type: string | 
 | `trans_info` | string  | false | Further information that can be added to the transaction will display in reporting. Can be used for flexible values such as operator id.<br/><br/>maxLength: 50 | 
@@ -8457,10 +7454,10 @@ BPS | `bps` | string  | false | true if BPS has been enabled on this token. |
 {
    "adjustments": { ... },
    "amount": 19995,
-   "created": "2024-11-12",
+   "created": "2024-12-02",
    "currency": "GBP",
-   "due": "2024-11-12",
-   "expires": "2024-11-12",
+   "due": "2024-12-02",
+   "expires": "2024-12-02",
    "external-ref": "ABC123",
    "external-ref-source": "xero",
    "identifier": "95b857a1-5955-4b86-963c-5a6dbfc4fb95",
@@ -8476,10 +7473,10 @@ BPS | `bps` | string  | false | true if BPS has been enabled on this token. |
 <PaymentIntentResponseModel>
  <adjustments><>...</></adjustments> 
  <amount>19995</amount> 
- <created>2024-11-12</created> 
+ <created>2024-12-02</created> 
  <currency>GBP</currency> 
- <due>2024-11-12</due> 
- <expires>2024-11-12</expires> 
+ <due>2024-12-02</due> 
+ <expires>2024-12-02</expires> 
  <external-ref>ABC123</external-ref> 
  <external-ref-source>xero</external-ref-source> 
  <identifier>95b857a1-5955-4b86-963c-5a6dbfc4fb95</identifier> 
@@ -8590,65 +7587,6 @@ BPS | `bps` | string  | false | true if BPS has been enabled on this token. |
 
 
 
-## Profile
-
-```json
-{
-   "last_modified": "2020-01-02",
-   "merchants": "",
-   "profile": "",
-   "rsp": ""
-}
-```
-
-```xml
-<Profile>
- <last_modified>2020-01-02</last_modified> 
- <merchants></merchants> 
- <profile></profile> 
- <rsp></rsp> 
-</Profile>
-```
-
-| Field | Type | Required | Description |
-|-------|------|----------|-------------|
-| `last_modified` | string *date-time* | false | Last modified time stamp of the profile. | 
-| `merchants` | string  | false | Merchant summary information. | 
-| `profile` | string  | true | Data related to the profile. | 
-| `rsp` | string  | false | Remote service permissions for the profile. | 
-
-
-
-
-
-## ProfileRequest
-
-```json
-{
-   "clientid": "PC12345",
-   "data": "",
-   "licencekey": ""
-}
-```
-
-```xml
-<ProfileRequest>
- <clientid>PC12345</clientid> 
- <data></data> 
- <licencekey></licencekey> 
-</ProfileRequest>
-```
-
-| Field | Type | Required | Description |
-|-------|------|----------|-------------|
-| `clientid` | string  | true | The client id of the profile to load.<br/><br/>minLength: 3<br/>maxLength: 10 | 
-| `data` | string  | false | Data representing the profile. | 
-| `licencekey` | string  | true | The licence key of the profile to load. | 
-
-
-
-
-
 ## RefundRequest
 
 ```json
@@ -8712,6 +7650,31 @@ BPS | `bps` | string  | false | true if BPS has been enabled on this token. |
 | `expmonth` | integer *int32* | true | The expiry month of the card.<br/><br/>minimum: 1<br/>maximum: 12 | 
 | `expyear` | integer *int32* | true | The expiry year of the card.<br/><br/>minimum: 2000<br/>maximum: 2100 | 
 | `name_on_card` | string  | false | The card holder name as it appears on the card. The value is required if the account is to be used for 3dsv2 processing, otherwise it is optional.<br/><br/>minLength: 2<br/>maxLength: 45 | 
+
+
+
+
+
+## RegisterIpModel
+
+```json
+{
+   "exp": "1734044989",
+   "ip": "8.8.8.8"
+}
+```
+
+```xml
+<RegisterIpModel>
+ <exp>1734044989</exp> 
+ <ip>8.8.8.8</ip> 
+</RegisterIpModel>
+```
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `exp` | long  | false | When the ip address expires. At most an IP address can be registered for up to 720 hours. Will default to 12 hours if not supplied. | 
+| `ip` | string *ipv4* | false | The remote ip address to register. Will default to your current IP. | 
 
 
 

@@ -1,7 +1,7 @@
 {
   "openapi" : "3.0.0",
   "info" : {
-    "version" : "6.x",
+    "version" : "6.6.78",
     "title" : "CityPay Payment API",
     "description" : "\nWelcome to the CityPay API, a robust HTTP API payment solution designed for seamless server-to-server \ntransactional processing. Our API facilitates a wide array of payment operations, catering to diverse business needs. \nWhether you're integrating Internet payments, handling Mail Order/Telephone Order (MOTO) transactions, managing \nSubscriptions with Recurring and Continuous Authority payments, or navigating the complexities of 3-D Secure \nauthentication, our API is equipped to support your requirements. Additionally, we offer functionalities for \nAuthorisation, Refunding, Pre-Authorisation, Cancellation/Voids, and Completion processing, alongside the capability \nfor tokenised payments.\n\n## Compliance and Security Overview\n<aside class=\"notice\">\n  Ensuring the security of payment transactions and compliance with industry standards is paramount. Our API is \n  designed with stringent security measures and compliance protocols to safeguard sensitive information and meet \n  the rigorous requirements of Visa, MasterCard, and the PCI Security Standards Council.\n</aside>\n\n### Key Compliance and Security Measures\n\n* **TLS Encryption**: All data transmissions must utilise TLS version 1.2 or higher, employing [strong cryptography](#enabled-tls-ciphers). Our infrastructure strictly enforces this requirement to maintain the integrity and confidentiality of data in transit. We conduct regular scans and assessments of our TLS endpoints to identify and mitigate vulnerabilities.\n* **Data Storage Prohibitions**: Storing sensitive cardholder data (CHD), such as the card security code (CSC) or primary account number (PAN), is strictly prohibited. Our API is designed to minimize your exposure to sensitive data, thereby reducing your compliance burden.\n* **Data Masking**: For consumer protection and compliance, full card numbers must not be displayed on receipts or any customer-facing materials. Our API automatically masks PANs, displaying only the last four digits to facilitate safe receipt generation.\n* **Network Scans**: If your application is web-based, regular scans of your hosting environment are mandatory to identify and rectify potential vulnerabilities. This proactive measure is crucial for maintaining a secure and compliant online presence.\n* **PCI Compliance**: Adherence to PCI DSS standards is not optional; it's a requirement for operating securely and legally in the payments ecosystem. For detailed information on compliance requirements and resources, please visit the PCI Security Standards Council website [https://www.pcisecuritystandards.org/](https://www.pcisecuritystandards.org/).\n* **Request Validation**: Our API includes mechanisms to verify the legitimacy of each request, ensuring it pertains to a valid account and originates from a trusted source. We leverage remote IP address verification alongside sophisticated application firewall technologies to thwart a wide array of common security threats.\n\n## Getting Started\nBefore integrating with the CityPay API, ensure your application and development practices align with the outlined compliance and security measures. This preparatory step is crucial for a smooth integration process and the long-term success of your payment processing operations.\n\nFor further details on API endpoints, request/response formats, and code examples, proceed to the subsequent sections of our documentation. Our aim is to provide you with all the necessary tools and information to integrate our payment processing capabilities seamlessly into your application.\n\nThank you for choosing CityPay API. We look forward to supporting your payment processing needs with our secure, compliant, and versatile API solution.\n",
     "contact" : {
@@ -3051,12 +3051,12 @@
           "content" : {
             "application/json" : {
               "schema" : {
-                "$ref" : "#/components/schemas/PaymentIntent"
+                "$ref" : "#/components/schemas/PaymentIntentRequestModel"
               }
             },
             "text/xml" : {
               "schema" : {
-                "$ref" : "#/components/schemas/PaymentIntent"
+                "$ref" : "#/components/schemas/PaymentIntentRequestModel"
               }
             }
           }
@@ -3138,12 +3138,12 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/PaymentIntent"
+                  "$ref" : "#/components/schemas/PaymentIntentResponseModel"
                 }
               },
               "text/xml" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/PaymentIntent"
+                  "$ref" : "#/components/schemas/PaymentIntentResponseModel"
                 }
               }
             }
@@ -3519,6 +3519,76 @@
               "text/xml" : {
                 "schema" : {
                   "$ref" : "#/components/schemas/AuthResponse"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Bad Request. Should the incoming data not be validly determined."
+          },
+          "401" : {
+            "description" : "Unauthorized. No api key has been provided and is required for this operation."
+          },
+          "403" : {
+            "description" : "Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request."
+          },
+          "422" : {
+            "description" : "Unprocessable Entity. Should a failure occur that prevents processing of the API call.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Error"
+                }
+              },
+              "text/xml" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Server Error. The server was unable to complete the request."
+          }
+        }
+      }
+    },
+    "/v6/permissions/register-temp-ip" : {
+      "post" : {
+        "summary" : "Register Temp Key",
+        "tags" : [ "Operational Functions Api" ],
+        "operationId" : "RegisterTempKey",
+        "description" : "Registers a temporary licence key.",
+        "security" : [ {
+          "cp-api-key" : [ ]
+        } ],
+        "requestBody" : {
+          "required" : true,
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/RegisterIpModel"
+              }
+            },
+            "text/xml" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/RegisterIpModel"
+              }
+            }
+          }
+        },
+        "responses" : {
+          "200" : {
+            "description" : "Register IP.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Acknowledgement"
+                }
+              },
+              "text/xml" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Acknowledgement"
                 }
               }
             }
@@ -3951,6 +4021,8 @@
         "description" : "Performs a tokenisation request for card details.",
         "security" : [ {
           "cp-api-key" : [ ]
+        }, {
+          "cp-domain-key" : [ ]
         } ],
         "requestBody" : {
           "required" : true,
@@ -4479,6 +4551,12 @@
             "example" : 11223344,
             "description" : "The merchant id of the transaction result."
           },
+          "meta" : {
+            "type" : "object",
+            "additionalProperties" : {
+              "type" : "string"
+            }
+          },
           "result" : {
             "type" : "string",
             "description" : "The result of the transaction."
@@ -4514,7 +4592,7 @@
       },
       "AuthRequest" : {
         "type" : "object",
-        "required" : [ "amount", "cardnumber", "expmonth", "expyear", "identifier", "merchantid" ],
+        "required" : [ "amount", "cardnumber", "expmonth", "expyear", "identifier", "merchantid", "uuid" ],
         "properties" : {
           "airline_data" : {
             "$ref" : "#/components/schemas/AirlineAdvice",
@@ -4621,6 +4699,10 @@
             "example" : "MR NE BODY",
             "description" : "The card holder name as appears on the card such as MR N E BODY. Required for some acquirers.\n"
           },
+          "pre_auth" : {
+            "type" : "string",
+            "description" : "A policy value which determines whether a pre auth policy is enforced or bypassed.\n\nValues are:\n\n `0` for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.\n\n `1` for an enforced policy.  Enforces pre-authorisation when it does not pre-auth by default.\n\n `2` to bypass. Bypasses pre-authorisation when it is enabled to pre auth by default.\n\n `3` to ignore. The same as the default policy (0). Although it currently mirrors the default, this option is included for compatibility with other policies.\n"
+          },
           "ship_to" : {
             "$ref" : "#/components/schemas/ContactDetails",
             "x-description" : "Shipping details of the card holder making the payment. These details may be used for 3DS and for future referencing of the transaction."
@@ -4645,6 +4727,14 @@
             "type" : "string",
             "maxLength" : 1,
             "description" : "The type of transaction being submitted. Normally this value is not required and your account manager may request that you set this field."
+          },
+          "uuid" : {
+            "type" : "string",
+            "format" : "uuid",
+            "minLength" : 36,
+            "maxLength" : 36,
+            "example" : "123e4567-e89b-12d3-a456-426614174000",
+            "description" : "A uuid for the session. The value tracks through 3ds session and therefore should be a valid v4 uuid."
           }
         }
       },
@@ -5366,7 +5456,7 @@
       },
       "CardTokenisationRequest" : {
         "type" : "object",
-        "required" : [ "cardnumber", "expmonth", "expyear" ],
+        "required" : [ "cardnumber", "expmonth", "expyear", "uuid" ],
         "properties" : {
           "cardnumber" : {
             "type" : "string",
@@ -5404,19 +5494,24 @@
             "maxLength" : 45,
             "example" : "MR NE BODY",
             "description" : "The card holder name as appears on the card such as MR N E BODY. Required for some acquirers.\n"
+          },
+          "uuid" : {
+            "type" : "string",
+            "format" : "uuid",
+            "minLength" : 36,
+            "maxLength" : 36,
+            "example" : "123e4567-e89b-12d3-a456-426614174000",
+            "description" : "A uuid for the session. The value tracks through 3ds session and therefore should be a valid v4 uuid."
           }
         }
       },
       "CardTokenisationResponse" : {
         "type" : "object",
-        "required" : [ "cp-card-token" ],
+        "required" : [ "cp_card_token" ],
         "properties" : {
-          "cp-card-security-token" : {
+          "cp_card_token" : {
             "type" : "string",
-            "description" : "The tokenised card security code value, the csc value is encrypted and can only be decrypted within the CityPay PCI data centre within 6 hours of generation. It is intended to pass the value through as a session value for the purpose of authorisation and then being dropped. It can only be decrypted with the presentation of a valid cp-card-token.\n"
-          },
-          "cp-card-token" : {
-            "type" : "string",
+            "example" : "tVQZbn00000000B3qMJB",
             "description" : "The tokenised card value. The token is encrypted with integrity checks and scoped to a client id only allowing for the card value to be used.  The value may be used up and until the expiry date of the card."
           },
           "last4digits" : {
@@ -5502,6 +5597,10 @@
             "example" : 11223344,
             "description" : "Identifies the merchant account to perform processing for."
           },
+          "pre_auth" : {
+            "type" : "string",
+            "description" : "A policy value which determines whether a pre auth policy is enforced or bypassed.\n\nValues are:\n\n `0` for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.\n\n `1` for an enforced policy.  Enforces pre-authorisation when it does not pre-auth by default.\n\n `2` to bypass. Bypasses pre-authorisation when it is enabled to pre auth by default.\n\n `3` to ignore. The same as the default policy (0). Although it currently mirrors the default, this option is included for compatibility with other policies.\n"
+          },
           "tag" : {
             "type" : "array",
             "items" : {
@@ -5566,6 +5665,10 @@
             }
           }
         }
+      },
+      "Choice" : {
+        "type" : "object",
+        "properties" : null
       },
       "ContactDetails" : {
         "type" : "object",
@@ -5663,7 +5766,7 @@
       },
       "DirectPostRequest" : {
         "type" : "object",
-        "required" : [ "amount", "cardnumber", "expmonth", "expyear", "identifier", "mac" ],
+        "required" : [ "amount", "cardnumber", "expmonth", "expyear", "identifier", "mac", "uuid" ],
         "properties" : {
           "amount" : {
             "type" : "integer",
@@ -5756,6 +5859,10 @@
             "example" : "0123456789ABCDEF",
             "description" : "A random value Hex string (uppercase) which is provided to the API to perform a digest.\nThe value will be used in any digest function.\n"
           },
+          "pre_auth" : {
+            "type" : "string",
+            "description" : "A policy value which determines whether a pre auth policy is enforced or bypassed.\n\nValues are:\n\n `0` for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.\n\n `1` for an enforced policy.  Enforces pre-authorisation when it does not pre-auth by default.\n\n `2` to bypass. Bypasses pre-authorisation when it is enabled to pre auth by default.\n\n `3` to ignore. The same as the default policy (0). Although it currently mirrors the default, this option is included for compatibility with other policies.\n"
+          },
           "redirect_failure" : {
             "type" : "string",
             "format" : "url",
@@ -5792,6 +5899,14 @@
             "type" : "string",
             "maxLength" : 1,
             "description" : "The type of transaction being submitted. Normally this value is not required and your account manager may request that you set this field."
+          },
+          "uuid" : {
+            "type" : "string",
+            "format" : "uuid",
+            "minLength" : 36,
+            "maxLength" : 36,
+            "example" : "123e4567-e89b-12d3-a456-426614174000",
+            "description" : "A uuid for the session. The value tracks through 3ds session and therefore should be a valid v4 uuid."
           }
         }
       },
@@ -5945,7 +6060,7 @@
           "event_end_date" : {
             "type" : "string",
             "format" : "date",
-            "example" : "2024-10-31",
+            "example" : "2024-12-02",
             "description" : "The date when the event ends in ISO format (yyyy-MM-dd)."
           },
           "event_id" : {
@@ -5959,7 +6074,7 @@
           "event_start_date" : {
             "type" : "string",
             "format" : "date",
-            "example" : "2024-10-31",
+            "example" : "2024-12-02",
             "description" : "The date when the event starts in ISO format (yyyy-MM-dd)."
           },
           "payment_type" : {
@@ -6039,22 +6154,6 @@
             "type" : "string",
             "example" : "p13t1111222233334444",
             "description" : "The payment intent id, if known."
-          }
-        }
-      },
-      "HttpConfig" : {
-        "type" : "object",
-        "required" : [ "url" ],
-        "properties" : {
-          "headers" : {
-            "type" : "object",
-            "description" : "Http headers to add to the configuration."
-          },
-          "url" : {
-            "type" : "string",
-            "format" : "url",
-            "example" : "https://yoursite.com/path",
-            "description" : "The url of the endpoint to contact. The value should be https."
           }
         }
       },
@@ -6212,7 +6311,7 @@
           "batch_closed" : {
             "type" : "string",
             "format" : "date-time",
-            "example" : "2024-10-31T15:49:07Z",
+            "example" : "2024-12-02T16:15:02Z",
             "description" : "The date and time when the batch was closed. This is represented in ISO 8601 format (e.g., YYYY-MM-DDTHH:MM:SSZ) and indicates when the batch processing was completed."
           },
           "batch_no" : {
@@ -6472,7 +6571,7 @@
           "due" : {
             "type" : "string",
             "format" : "date",
-            "example" : "2024-10-31",
+            "example" : "2024-12-02",
             "description" : "A date that the invoice is due. This can be displayed on the payment page."
           },
           "email_notification_path" : {
@@ -6685,6 +6784,12 @@
             "format" : "url",
             "description" : "A URL of the merchant terms and conditions for payment. If a value is supplied, a checkbox will be required to be completed to confirm that the cardholder agrees to these conditions before payment. A modal dialogue is displayed with the content of the conditions displayed."
           },
+          "meta_data" : {
+            "type" : "object",
+            "additionalProperties" : {
+              "type" : "string"
+            }
+          },
           "options" : {
             "type" : "array",
             "x-description" : "Specifies an array of configuration options to be applied to the transaction which complement or override default values.",
@@ -6758,6 +6863,11 @@
         "type" : "object",
         "required" : [ "name" ],
         "properties" : {
+          "auth_meta_data" : {
+            "type" : "boolean",
+            "example" : true,
+            "description" : "Determines if the custom parameter is stored as meta data against an authorisation allowing for that authorisation to be searched and queried by the result of this value. Defaults to false."
+          },
           "entry_mode" : {
             "type" : "string",
             "description" : "The type of entry mode. A value of `pre` will pre-render the custom parameter before the payment screen. Any other value will result in the custom parameter being displayed on the payment screen."
@@ -6972,7 +7082,7 @@
           "datetime" : {
             "type" : "string",
             "format" : "date-time",
-            "example" : "2024-10-31T15:49:07Z",
+            "example" : "2024-12-02T16:15:02Z",
             "description" : "the date and time of the event."
           },
           "message" : {
@@ -7004,7 +7114,7 @@
           "date_created" : {
             "type" : "string",
             "format" : "date-time",
-            "example" : "2024-10-31T15:49:07Z",
+            "example" : "2024-12-02T16:15:02Z",
             "description" : "Date and time the token was generated."
           },
           "errors" : {
@@ -7164,13 +7274,13 @@
           "created" : {
             "type" : "string",
             "format" : "date-time",
-            "example" : "2024-10-31T15:49:07Z",
+            "example" : "2024-12-02T16:15:02Z",
             "description" : "the date and time that the session was created."
           },
           "datetime" : {
             "type" : "string",
             "format" : "date-time",
-            "example" : "2024-10-31T15:49:07Z",
+            "example" : "2024-12-02T16:15:02Z",
             "description" : "the date and time of the current status."
           },
           "identifier" : {
@@ -7243,7 +7353,7 @@
           "last_event_date_time" : {
             "type" : "string",
             "format" : "date-time",
-            "example" : "2024-10-31T15:49:07Z",
+            "example" : "2024-12-02T16:15:02Z",
             "description" : "the date and time that the session last had an event actioned against it."
           },
           "last_payment_result" : {
@@ -7286,7 +7396,7 @@
           "after" : {
             "type" : "string",
             "format" : "date-time",
-            "example" : "2024-10-31T15:49:07Z",
+            "example" : "2024-12-02T16:15:01Z",
             "description" : "identifies the date and time to lookup changes after."
           },
           "maxResults" : {
@@ -7366,7 +7476,112 @@
           }
         }
       },
-      "PaymentIntent" : {
+      "PaymentIntentReference" : {
+        "type" : "object",
+        "required" : [ "payment_intent_id" ],
+        "properties" : {
+          "payment_intent_id" : {
+            "type" : "string",
+            "example" : "p13t1111222233334444",
+            "description" : "The intent id used for future referencing of the intent."
+          }
+        }
+      },
+      "PaymentIntentRequestModel" : {
+        "type" : "object",
+        "required" : [ "amount", "identifier" ],
+        "properties" : {
+          "adjustments" : {
+            "$ref" : "#/components/schemas/Adjustments",
+            "x-description" : "Adjustments refer to the modifications applied to the base amount of a transaction, including surcharges,\ndiscounts, or other financial alterations. These adjustments are critical in calculating the final amount due,\nbased on specific conditions such as payment timing, discount codes, or business rules.\n\nEach adjustment is processed according to predefined criteria, ensuring that the final transaction amount\naccurately reflects any applicable financial rules or incentives. It is important to configure adjustments\ncorrectly, as they directly influence the payment amount and may impact the acceptance or rejection of a\ntransaction.\n"
+          },
+          "amount" : {
+            "type" : "integer",
+            "format" : "int32",
+            "minLength" : 1,
+            "maxLength" : 9,
+            "example" : 19995,
+            "description" : "The amount to authorise in the lowest unit of currency with a variable length to a maximum of 12 digits.\n\nNo decimal points are to be included and no divisional characters such as 1,024.\n\nThe amount should be the total amount required for the transaction.\n\nFor example with GBP £1,021.95 the amount value is 102195.\n"
+          },
+          "avs_postcode_policy" : {
+            "type" : "string",
+            "description" : "A policy value which determines whether an AVS postcode policy is enforced or bypassed.\n\nValues are:\n\n `0` for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.\n\n `1` for an enforced policy. Transactions that are enforced will be rejected if the AVS postcode numeric value does not match.\n\n `2` to bypass. Transactions that are bypassed will be allowed through even if the postcode did not match.\n\n `3` to ignore. Transactions that are ignored will bypass the result and not send postcode details for authorisation.\n"
+          },
+          "bill_to" : {
+            "$ref" : "#/components/schemas/ContactDetails",
+            "x-description" : "Billing details of the card holder making the payment.\nThese details may be used for AVS fraud analysis, 3DS and for future referencing of the transaction.\n\nFor AVS to work correctly, the billing details should be the registered address of the card holder\nas it appears on the statement with their card issuer. The numeric details will be passed through\nfor analysis and may result in a decline if incorrectly provided.\n"
+          },
+          "csc_policy" : {
+            "type" : "string",
+            "description" : "A policy value which determines whether a CSC policy is enforced or bypassed.\n\nValues are:\n\n `0` for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.\n\n `1` for an enforced policy. Transactions that are enforced will be rejected if the CSC value does not match.\n\n `2` to bypass. Transactions that are bypassed will be allowed through even if the CSC did not match.\n\n `3` to ignore. Transactions that are ignored will bypass the result and not send the CSC details for authorisation.\n"
+          },
+          "currency" : {
+            "type" : "string",
+            "minLength" : 3,
+            "maxLength" : 3,
+            "example" : "GBP",
+            "description" : "The processing currency for the transaction. Will default to the merchant account currency."
+          },
+          "duplicate_policy" : {
+            "type" : "string",
+            "description" : "A policy value which determines whether a duplication policy is enforced or bypassed. A duplication check has a window\nof time set against your account within which it can action. If a previous transaction with matching values occurred within\nthe window, any subsequent transaction will result in a T001 result.\n\nValues are\n\n `0` for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.\n\n `1` for an enforced policy. Transactions that are enforced will be checked for duplication within the duplication window.\n\n `2` to bypass. Transactions that are bypassed will not be checked for duplication within the duplication window.\n\n `3` to ignore. Transactions that are ignored will have the same affect as bypass.\n"
+          },
+          "external-ref" : {
+            "type" : "string",
+            "maxLength" : 256,
+            "example" : "ABC123",
+            "description" : "A unique identifier, such as an order ID or invoice number, provided by your accounting or billing system to link the payment intent with an external system reference. This ensures traceability across systems for audits and transaction validation."
+          },
+          "external-ref-source" : {
+            "type" : "string",
+            "example" : "xero",
+            "description" : "Specifies the originating source or system of the external reference, helping to categorise and trace the context of the external identifier, whether it comes from an internal system, third-party vendor, or external financial platform."
+          },
+          "identifier" : {
+            "type" : "string",
+            "minLength" : 4,
+            "maxLength" : 50,
+            "example" : "95b857a1-5955-4b86-963c-5a6dbfc4fb95",
+            "description" : "The identifier of the transaction to process. The value should be a valid reference and may be used to perform\n post processing actions and to aid in reconciliation of transactions.\n\nThe value should be a valid printable string with ASCII character ranges from 0x32 to 0x127.\n\nThe identifier is recommended to be distinct for each transaction such as a [random unique identifier](https://en.wikipedia.org/wiki/Universally_unique_identifier)\nthis will aid in ensuring each transaction is identifiable.\n\nWhen transactions are processed they are also checked for duplicate requests. Changing the identifier on a subsequent\nrequest will ensure that a transaction is considered as different.\n"
+          },
+          "match_avsa" : {
+            "type" : "string",
+            "description" : "A policy value which determines whether an AVS address policy is enforced, bypassed or ignored.\n\nValues are:\n\n `0` for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.\n\n `1` for an enforced policy. Transactions that are enforced will be rejected if the AVS address numeric value does not match.\n\n `2` to bypass. Transactions that are bypassed will be allowed through even if the address did not match.\n\n `3` to ignore. Transactions that are ignored will bypass the result and not send address numeric details for authorisation.\n"
+          },
+          "merchantid" : {
+            "type" : "integer",
+            "format" : "int32",
+            "example" : 11223344,
+            "description" : "The merchant id of the intent, required if using the API key or not required if using a domain key."
+          },
+          "pre_auth" : {
+            "type" : "string",
+            "description" : "A policy value which determines whether a pre auth policy is enforced or bypassed.\n\nValues are:\n\n `0` for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.\n\n `1` for an enforced policy.  Enforces pre-authorisation when it does not pre-auth by default.\n\n `2` to bypass. Bypasses pre-authorisation when it is enabled to pre auth by default.\n\n `3` to ignore. The same as the default policy (0). Although it currently mirrors the default, this option is included for compatibility with other policies.\n"
+          },
+          "ship_to" : {
+            "$ref" : "#/components/schemas/ContactDetails",
+            "x-description" : "Shipping details of the card holder making the payment. These details may be used for 3DS and for future referencing of the transaction."
+          },
+          "tag" : {
+            "type" : "array",
+            "items" : {
+              "type" : "string",
+              "description" : "A tag is a label that you can attach to a payment authorisation.\nTags can help you group transactions together based on certain criteria, like a work job or a ticket number.\nThey can also assist in filtering transactions when you're generating reports.\n\nLimitations:\nThere is a maximum limit of 3 tags that can be added to a single transaction. Each tag can be no longer than 20\ncharacters and alphanumeric with no spaces.\n\nExample:\nLet's say you're a software company and you have different teams working on various projects. When a team makes\na purchase or incurs an expense, they can tag the transaction with the project name, the team name, and the\ntype of expense.\n\n- Project Name: Project_X\n- Team Name: Team_A\n- Type of Expense: Hardware\n\nThis way, when you're looking at your financial reports, you can easily filter transactions based on these\ntags to see how much each project or team is spending on different types of expenses.\n"
+            }
+          },
+          "trans_info" : {
+            "type" : "string",
+            "maxLength" : 50,
+            "description" : "Further information that can be added to the transaction will display in reporting. Can be used for flexible values such as operator id."
+          },
+          "trans_type" : {
+            "type" : "string",
+            "maxLength" : 1,
+            "description" : "The type of transaction being submitted. Normally this value is not required and your account manager may request that you set this field."
+          }
+        }
+      },
+      "PaymentIntentResponseModel" : {
         "type" : "object",
         "required" : [ "identifier", "merchantid", "payment_intent_id" ],
         "properties" : {
@@ -7385,7 +7600,7 @@
           "created" : {
             "type" : "string",
             "format" : "date-time",
-            "example" : "2024-10-31T15:49:07Z",
+            "example" : "2024-12-02T16:15:02Z",
             "description" : "A date time of when the intent was created."
           },
           "currency" : {
@@ -7398,13 +7613,13 @@
           "due" : {
             "type" : "string",
             "format" : "date",
-            "example" : "2024-10-31",
+            "example" : "2024-12-02",
             "description" : "A due date of the intent."
           },
           "expires" : {
             "type" : "string",
             "format" : "date",
-            "example" : "2024-10-31",
+            "example" : "2024-12-02",
             "description" : "An expiration date of the intent."
           },
           "external-ref" : {
@@ -7448,17 +7663,6 @@
           "transactions" : {
             "$ref" : "#/components/schemas/AuthReference",
             "x-description" : "Any related transactions that are associated to the intent. Up to 12 transactions are shown for each intent, showing the latest first."
-          }
-        }
-      },
-      "PaymentIntentReference" : {
-        "type" : "object",
-        "required" : [ "payment_intent_id" ],
-        "properties" : {
-          "payment_intent_id" : {
-            "type" : "string",
-            "example" : "p13t1111222233334444",
-            "description" : "The intent id used for future referencing of the intent."
           }
         }
       },
@@ -7599,6 +7803,22 @@
             "maxLength" : 45,
             "example" : "MR NE BODY",
             "description" : "The card holder name as it appears on the card. The value is required if the account is to be used for 3dsv2 processing, otherwise it is optional."
+          }
+        }
+      },
+      "RegisterIpModel" : {
+        "type" : "object",
+        "properties" : {
+          "exp" : {
+            "type" : "long",
+            "example" : 1734044989,
+            "description" : "When the ip address expires. At most an IP address can be registered for up to 720 hours. Will default to 12 hours if not supplied."
+          },
+          "ip" : {
+            "type" : "string",
+            "format" : "ipv4",
+            "example" : "8.8.8.8",
+            "description" : "The remote ip address to register. Will default to your current IP."
           }
         }
       },
@@ -7840,7 +8060,7 @@
           "acs_url" : {
             "type" : "string",
             "format" : "url",
-            "example" : "https://acs.cardissuer.com/3dsv1",
+            "example" : "https://acs.cardissuer.com/3dsv2",
             "description" : "The url of the Access Control Server (ACS) to forward the user to.\n"
           },
           "creq" : {
@@ -8047,13 +8267,8 @@
             "description" : "The client id that the hook is being registered for.\n"
           },
           "config" : {
-            "x-description" : "The configuration for the endpoint specified.",
-            "oneOf" : [ {
-              "$ref" : "#/components/schemas/HttpConfig"
-            } ],
-            "discriminator" : {
-              "propertyName" : "endpoint_id"
-            }
+            "$ref" : "#/components/schemas/Choice",
+            "x-description" : "The configuration for the endpoint specified."
           },
           "endpoint_id" : {
             "type" : "string",
