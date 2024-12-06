@@ -816,7 +816,7 @@
       </ul>
         <ul class="toc-footer">
             <li><a href='mailto:support@citypay.com'>Any Integration Questions?</a></li>
-            <li>V6.7.1 2024-12-06</li>
+            <li>V6.7.2 2024-12-06</li>
         </ul>
     </div>
     <div class="page-wrapper">
@@ -828,7 +828,7 @@
  Our latest documentation is available on <a href="https://docs.citypay.com">CityPay Docs</a>
 </aside>
 
-<p>Version: 6.7.1
+<p>Version: 6.7.2
 Last Updated: 2024-12-06</p>
 
 <p>Welcome to the CityPay API, a robust HTTP API payment solution designed for seamless server-to-server 
@@ -1179,24 +1179,6 @@ value will be validated for receipt of the CAVV and subsequently may return resp
 <td>The amount to authorise in the lowest unit of currency with a variable length to a maximum of 12 digits.<br/><br/>No decimal points are to be included and no divisional characters such as 1,024.<br/><br/>The amount should be the total amount required for the transaction.<br/><br/>For example with GBP £1,021.95 the amount value is 102195.<br/><br/> minLength: 1<br/>maxLength: 9</td>
 </tr>
 <tr>
-<td><code>cardnumber</code></td>
-<td>string</td>
-<td>Required</td>
-<td>The card number (PAN) with a variable length to a maximum of 21 digits in numerical form. Any non numeric characters will be stripped out of the card number, this includes whitespace or separators internal of the provided value.<br/><br/>The card number must be treated as sensitive data. We only provide an obfuscated value in logging and reporting.  The plaintext value is encrypted in our database using AES 256 GMC bit encryption for settlement or refund purposes.<br/><br/>When providing the card number to our gateway through the authorisation API you will be handling the card data on your application. This will require further PCI controls to be in place and this value must never be stored.<br/><br/> minLength: 12<br/>maxLength: 22</td>
-</tr>
-<tr>
-<td><code>expmonth</code></td>
-<td>integer <em>int32</em></td>
-<td>Required</td>
-<td>The month of expiry of the card. The month value should be a numerical value between 1 and 12.<br/><br/> minimum: 1<br/>maximum: 12</td>
-</tr>
-<tr>
-<td><code>expyear</code></td>
-<td>integer <em>int32</em></td>
-<td>Required</td>
-<td>The year of expiry of the card.<br/><br/> minimum: 2000<br/>maximum: 2100</td>
-</tr>
-<tr>
 <td><code>identifier</code></td>
 <td>string</td>
 <td>Required</td>
@@ -1209,12 +1191,6 @@ value will be validated for receipt of the CAVV and subsequently may return resp
 <td>Identifies the merchant account to perform processing for.</td>
 </tr>
 <tr>
-<td><code>uuid</code></td>
-<td>string <em>uuid</em></td>
-<td>Required</td>
-<td>A uuid for the session. The value tracks through 3ds session and therefore should be a valid v4 uuid.<br/><br/>minLength: 36<br/>maxLength: 36</td>
-</tr>
-<tr>
 <td><code>avs_postcode_policy</code></td>
 <td>string</td>
 <td>Optional</td>
@@ -1225,6 +1201,12 @@ value will be validated for receipt of the CAVV and subsequently may return resp
 <td>object</td>
 <td>Optional</td>
 <td><a href="#contactdetails">ContactDetails</a> Billing details of the card holder making the payment. These details may be used for AVS fraud analysis, 3DS and for future referencing of the transaction.<br/><br/>For AVS to work correctly, the billing details should be the registered address of the card holder as it appears on the statement with their card issuer. The numeric details will be passed through for analysis and may result in a decline if incorrectly provided.</td>
+</tr>
+<tr>
+<td><code>cardnumber</code></td>
+<td>string</td>
+<td>Optional</td>
+<td>The card number (PAN) with a variable length to a maximum of 21 digits in numerical form. Any non numeric characters will be stripped out of the card number, this includes whitespace or separators internal of the provided value.<br/><br/>The card number must be treated as sensitive data. We only provide an obfuscated value in logging and reporting.  The plaintext value is encrypted in our database using AES 256 GMC bit encryption for settlement or refund purposes.<br/><br/>When providing the card number to our gateway through the authorisation API you will be handling the card data on your application. This will require further PCI controls to be in place and this value must never be stored.<br/><br/> minLength: 12<br/>maxLength: 22</td>
 </tr>
 <tr>
 <td><code>cp_card_token</code></td>
@@ -1255,6 +1237,18 @@ value will be validated for receipt of the CAVV and subsequently may return resp
 <td>string</td>
 <td>Optional</td>
 <td>A policy value which determines whether a duplication policy is enforced or bypassed. A duplication check has a window of time set against your account within which it can action. If a previous transaction with matching values occurred within the window, any subsequent transaction will result in a T001 result.<br/><br/>Values are<br/><br/> <code>0</code> for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.<br/><br/> <code>1</code> for an enforced policy. Transactions that are enforced will be checked for duplication within the duplication window.<br/><br/> <code>2</code> to bypass. Transactions that are bypassed will not be checked for duplication within the duplication window.<br/><br/> <code>3</code> to ignore. Transactions that are ignored will have the same affect as bypass.</td>
+</tr>
+<tr>
+<td><code>expmonth</code></td>
+<td>integer <em>int32</em></td>
+<td>Optional</td>
+<td>The month of expiry of the card. The month value should be a numerical value between 1 and 12.<br/><br/> minimum: 1<br/>maximum: 12</td>
+</tr>
+<tr>
+<td><code>expyear</code></td>
+<td>integer <em>int32</em></td>
+<td>Optional</td>
+<td>The year of expiry of the card.<br/><br/> minimum: 2000<br/>maximum: 2100</td>
 </tr>
 <tr>
 <td><code>match_avsa</code></td>
@@ -1309,6 +1303,12 @@ value will be validated for receipt of the CAVV and subsequently may return resp
 <td>string</td>
 <td>Optional</td>
 <td>The type of transaction being submitted. Normally this value is not required and your account manager may request that you set this field.<br/><br/>maxLength: 1</td>
+</tr>
+<tr>
+<td><code>uuid</code></td>
+<td>string <em>uuid</em></td>
+<td>Optional</td>
+<td>A uuid for the session. The value tracks through 3ds session and therefore should be a valid v4 uuid.<br/><br/>minLength: 36<br/>maxLength: 36</td>
 </tr>
 </tbody></table>
 <h3 id='business-extension-event-management'>Business Extension: Event Management</h3>
@@ -2549,26 +2549,8 @@ information to be returned.</p>
 <tr>
 <td><code>cardnumber</code></td>
 <td>string</td>
-<td>Required</td>
+<td>Optional</td>
 <td>The card number (PAN) with a variable length to a maximum of 21 digits in numerical form. Any non numeric characters will be stripped out of the card number, this includes whitespace or separators internal of the provided value.<br/><br/>The card number must be treated as sensitive data. We only provide an obfuscated value in logging and reporting.  The plaintext value is encrypted in our database using AES 256 GMC bit encryption for settlement or refund purposes.<br/><br/>When providing the card number to our gateway through the authorisation API you will be handling the card data on your application. This will require further PCI controls to be in place and this value must never be stored.<br/><br/> minLength: 12<br/>maxLength: 22</td>
-</tr>
-<tr>
-<td><code>expmonth</code></td>
-<td>integer <em>int32</em></td>
-<td>Required</td>
-<td>The month of expiry of the card. The month value should be a numerical value between 1 and 12.<br/><br/> minimum: 1<br/>maximum: 12</td>
-</tr>
-<tr>
-<td><code>expyear</code></td>
-<td>integer <em>int32</em></td>
-<td>Required</td>
-<td>The year of expiry of the card.<br/><br/> minimum: 2000<br/>maximum: 2100</td>
-</tr>
-<tr>
-<td><code>uuid</code></td>
-<td>string <em>uuid</em></td>
-<td>Required</td>
-<td>A uuid for the session. The value tracks through 3ds session and therefore should be a valid v4 uuid.<br/><br/>minLength: 36<br/>maxLength: 36</td>
 </tr>
 <tr>
 <td><code>csc</code></td>
@@ -2577,10 +2559,28 @@ information to be returned.</p>
 <td>The Card Security Code (CSC) (also known as CV2/CVV2) is normally found on the back of the card (American Express has it on the front). The value helps to identify possession of the card as it is not available within the chip or magnetic swipe.<br/><br/>When forwarding the CSC, please ensure the value is a string as some values start with 0 and this will be stripped out by any integer parsing.<br/><br/>The CSC number aids fraud prevention in Mail Order and Internet payments.<br/><br/>Business rules are available on your account to identify whether to accept or decline transactions based on mismatched results of the CSC.<br/><br/>The Payment Card Industry (PCI) requires that at no stage of a transaction should the CSC be stored.<br/><br/>This applies to all entities handling card data.<br/><br/>It should also not be used in any hashing process.<br/><br/>CityPay do not store the value and have no method of retrieving the value once the transaction has been processed. For this reason, duplicate checking is unable to determine the CSC in its duplication check algorithm.<br/><br/> minLength: 3<br/>maxLength: 4</td>
 </tr>
 <tr>
+<td><code>expmonth</code></td>
+<td>integer <em>int32</em></td>
+<td>Optional</td>
+<td>The month of expiry of the card. The month value should be a numerical value between 1 and 12.<br/><br/> minimum: 1<br/>maximum: 12</td>
+</tr>
+<tr>
+<td><code>expyear</code></td>
+<td>integer <em>int32</em></td>
+<td>Optional</td>
+<td>The year of expiry of the card.<br/><br/> minimum: 2000<br/>maximum: 2100</td>
+</tr>
+<tr>
 <td><code>name_on_card</code></td>
 <td>string</td>
 <td>Optional</td>
 <td>The card holder name as appears on the card such as MR N E BODY. Required for some acquirers.<br/><br/> minLength: 2<br/>maxLength: 45</td>
+</tr>
+<tr>
+<td><code>uuid</code></td>
+<td>string <em>uuid</em></td>
+<td>Optional</td>
+<td>A uuid for the session. The value tracks through 3ds session and therefore should be a valid v4 uuid.<br/><br/>minLength: 36<br/>maxLength: 36</td>
 </tr>
 </tbody></table>
 
@@ -4403,24 +4403,6 @@ initial direct post call and must be run on a pre-registered host. Our validatio
 <td>The amount to authorise in the lowest unit of currency with a variable length to a maximum of 12 digits.<br/><br/>No decimal points are to be included and no divisional characters such as 1,024.<br/><br/>The amount should be the total amount required for the transaction.<br/><br/>For example with GBP £1,021.95 the amount value is 102195.<br/><br/> minLength: 1<br/>maxLength: 9</td>
 </tr>
 <tr>
-<td><code>cardnumber</code></td>
-<td>string</td>
-<td>Required</td>
-<td>The card number (PAN) with a variable length to a maximum of 21 digits in numerical form. Any non numeric characters will be stripped out of the card number, this includes whitespace or separators internal of the provided value.<br/><br/>The card number must be treated as sensitive data. We only provide an obfuscated value in logging and reporting.  The plaintext value is encrypted in our database using AES 256 GMC bit encryption for settlement or refund purposes.<br/><br/>When providing the card number to our gateway through the authorisation API you will be handling the card data on your application. This will require further PCI controls to be in place and this value must never be stored.<br/><br/> minLength: 12<br/>maxLength: 22</td>
-</tr>
-<tr>
-<td><code>expmonth</code></td>
-<td>integer <em>int32</em></td>
-<td>Required</td>
-<td>The month of expiry of the card. The month value should be a numerical value between 1 and 12.<br/><br/> minimum: 1<br/>maximum: 12</td>
-</tr>
-<tr>
-<td><code>expyear</code></td>
-<td>integer <em>int32</em></td>
-<td>Required</td>
-<td>The year of expiry of the card.<br/><br/> minimum: 2000<br/>maximum: 2100</td>
-</tr>
-<tr>
 <td><code>identifier</code></td>
 <td>string</td>
 <td>Required</td>
@@ -4433,12 +4415,6 @@ initial direct post call and must be run on a pre-registered host. Our validatio
 <td>A message authentication code ensures the data is authentic and that the intended amount has not been tampered with. The mac value is generated using a hash-based mac value. The following algorithm is used. - A key (k) is derived from your licence key - A value (v) is produced by concatenating the nonce, amount value and identifier, such as a purchase   with nonce <code>0123456789ABCDEF</code> an amount of £275.95 and an identifier of OD-12345678 would become   <code>0123456789ABCDEF27595OD-12345678</code> and extracting the UTF-8 byte values - The result from HMAC_SHA256(k, v) is hex-encoded (upper-case) - For instance, a licence key of <code>LK123456789</code>, a nonce of <code>0123456789ABCDEF</code>, an amount of <code>27595</code> and an identifier of <code>OD-12345678</code>  would generate a MAC of <code>163DBAB194D743866A9BCC7FC9C8A88FCD99C6BBBF08D619291212D1B91EE12E</code>.</td>
 </tr>
 <tr>
-<td><code>uuid</code></td>
-<td>string <em>uuid</em></td>
-<td>Required</td>
-<td>A uuid for the session. The value tracks through 3ds session and therefore should be a valid v4 uuid.<br/><br/>minLength: 36<br/>maxLength: 36</td>
-</tr>
-<tr>
 <td><code>avs_postcode_policy</code></td>
 <td>string</td>
 <td>Optional</td>
@@ -4449,6 +4425,12 @@ initial direct post call and must be run on a pre-registered host. Our validatio
 <td>object</td>
 <td>Optional</td>
 <td><a href="#contactdetails">ContactDetails</a> Billing details of the card holder making the payment. These details may be used for AVS fraud analysis, 3DS and for future referencing of the transaction.<br/><br/>For AVS to work correctly, the billing details should be the registered address of the card holder as it appears on the statement with their card issuer. The numeric details will be passed through for analysis and may result in a decline if incorrectly provided.<br/><br/>If using url-encoded format requests properties should be prefixed with <code>bill_to_</code> for example a postcode  value should be <code>bill_to_postcode</code>.</td>
+</tr>
+<tr>
+<td><code>cardnumber</code></td>
+<td>string</td>
+<td>Optional</td>
+<td>The card number (PAN) with a variable length to a maximum of 21 digits in numerical form. Any non numeric characters will be stripped out of the card number, this includes whitespace or separators internal of the provided value.<br/><br/>The card number must be treated as sensitive data. We only provide an obfuscated value in logging and reporting.  The plaintext value is encrypted in our database using AES 256 GMC bit encryption for settlement or refund purposes.<br/><br/>When providing the card number to our gateway through the authorisation API you will be handling the card data on your application. This will require further PCI controls to be in place and this value must never be stored.<br/><br/> minLength: 12<br/>maxLength: 22</td>
 </tr>
 <tr>
 <td><code>csc</code></td>
@@ -4473,6 +4455,18 @@ initial direct post call and must be run on a pre-registered host. Our validatio
 <td>string</td>
 <td>Optional</td>
 <td>A policy value which determines whether a duplication policy is enforced or bypassed. A duplication check has a window of time set against your account within which it can action. If a previous transaction with matching values occurred within the window, any subsequent transaction will result in a T001 result.<br/><br/>Values are<br/><br/> <code>0</code> for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.<br/><br/> <code>1</code> for an enforced policy. Transactions that are enforced will be checked for duplication within the duplication window.<br/><br/> <code>2</code> to bypass. Transactions that are bypassed will not be checked for duplication within the duplication window.<br/><br/> <code>3</code> to ignore. Transactions that are ignored will have the same affect as bypass.</td>
+</tr>
+<tr>
+<td><code>expmonth</code></td>
+<td>integer <em>int32</em></td>
+<td>Optional</td>
+<td>The month of expiry of the card. The month value should be a numerical value between 1 and 12.<br/><br/> minimum: 1<br/>maximum: 12</td>
+</tr>
+<tr>
+<td><code>expyear</code></td>
+<td>integer <em>int32</em></td>
+<td>Optional</td>
+<td>The year of expiry of the card.<br/><br/> minimum: 2000<br/>maximum: 2100</td>
 </tr>
 <tr>
 <td><code>match_avsa</code></td>
@@ -4539,6 +4533,12 @@ initial direct post call and must be run on a pre-registered host. Our validatio
 <td>string</td>
 <td>Optional</td>
 <td>The type of transaction being submitted. Normally this value is not required and your account manager may request that you set this field.<br/><br/>maxLength: 1</td>
+</tr>
+<tr>
+<td><code>uuid</code></td>
+<td>string <em>uuid</em></td>
+<td>Optional</td>
+<td>A uuid for the session. The value tracks through 3ds session and therefore should be a valid v4 uuid.<br/><br/>minLength: 36<br/>maxLength: 36</td>
 </tr>
 </tbody></table>
 
@@ -5010,24 +5010,6 @@ response stating that the transaction was approved or declined.</p>
 <td>The amount to authorise in the lowest unit of currency with a variable length to a maximum of 12 digits.<br/><br/>No decimal points are to be included and no divisional characters such as 1,024.<br/><br/>The amount should be the total amount required for the transaction.<br/><br/>For example with GBP £1,021.95 the amount value is 102195.<br/><br/> minLength: 1<br/>maxLength: 9</td>
 </tr>
 <tr>
-<td><code>cardnumber</code></td>
-<td>string</td>
-<td>Required</td>
-<td>The card number (PAN) with a variable length to a maximum of 21 digits in numerical form. Any non numeric characters will be stripped out of the card number, this includes whitespace or separators internal of the provided value.<br/><br/>The card number must be treated as sensitive data. We only provide an obfuscated value in logging and reporting.  The plaintext value is encrypted in our database using AES 256 GMC bit encryption for settlement or refund purposes.<br/><br/>When providing the card number to our gateway through the authorisation API you will be handling the card data on your application. This will require further PCI controls to be in place and this value must never be stored.<br/><br/> minLength: 12<br/>maxLength: 22</td>
-</tr>
-<tr>
-<td><code>expmonth</code></td>
-<td>integer <em>int32</em></td>
-<td>Required</td>
-<td>The month of expiry of the card. The month value should be a numerical value between 1 and 12.<br/><br/> minimum: 1<br/>maximum: 12</td>
-</tr>
-<tr>
-<td><code>expyear</code></td>
-<td>integer <em>int32</em></td>
-<td>Required</td>
-<td>The year of expiry of the card.<br/><br/> minimum: 2000<br/>maximum: 2100</td>
-</tr>
-<tr>
 <td><code>identifier</code></td>
 <td>string</td>
 <td>Required</td>
@@ -5040,12 +5022,6 @@ response stating that the transaction was approved or declined.</p>
 <td>A message authentication code ensures the data is authentic and that the intended amount has not been tampered with. The mac value is generated using a hash-based mac value. The following algorithm is used. - A key (k) is derived from your licence key - A value (v) is produced by concatenating the nonce, amount value and identifier, such as a purchase   with nonce <code>0123456789ABCDEF</code> an amount of £275.95 and an identifier of OD-12345678 would become   <code>0123456789ABCDEF27595OD-12345678</code> and extracting the UTF-8 byte values - The result from HMAC_SHA256(k, v) is hex-encoded (upper-case) - For instance, a licence key of <code>LK123456789</code>, a nonce of <code>0123456789ABCDEF</code>, an amount of <code>27595</code> and an identifier of <code>OD-12345678</code>  would generate a MAC of <code>163DBAB194D743866A9BCC7FC9C8A88FCD99C6BBBF08D619291212D1B91EE12E</code>.</td>
 </tr>
 <tr>
-<td><code>uuid</code></td>
-<td>string <em>uuid</em></td>
-<td>Required</td>
-<td>A uuid for the session. The value tracks through 3ds session and therefore should be a valid v4 uuid.<br/><br/>minLength: 36<br/>maxLength: 36</td>
-</tr>
-<tr>
 <td><code>avs_postcode_policy</code></td>
 <td>string</td>
 <td>Optional</td>
@@ -5056,6 +5032,12 @@ response stating that the transaction was approved or declined.</p>
 <td>object</td>
 <td>Optional</td>
 <td><a href="#contactdetails">ContactDetails</a> Billing details of the card holder making the payment. These details may be used for AVS fraud analysis, 3DS and for future referencing of the transaction.<br/><br/>For AVS to work correctly, the billing details should be the registered address of the card holder as it appears on the statement with their card issuer. The numeric details will be passed through for analysis and may result in a decline if incorrectly provided.<br/><br/>If using url-encoded format requests properties should be prefixed with <code>bill_to_</code> for example a postcode  value should be <code>bill_to_postcode</code>.</td>
+</tr>
+<tr>
+<td><code>cardnumber</code></td>
+<td>string</td>
+<td>Optional</td>
+<td>The card number (PAN) with a variable length to a maximum of 21 digits in numerical form. Any non numeric characters will be stripped out of the card number, this includes whitespace or separators internal of the provided value.<br/><br/>The card number must be treated as sensitive data. We only provide an obfuscated value in logging and reporting.  The plaintext value is encrypted in our database using AES 256 GMC bit encryption for settlement or refund purposes.<br/><br/>When providing the card number to our gateway through the authorisation API you will be handling the card data on your application. This will require further PCI controls to be in place and this value must never be stored.<br/><br/> minLength: 12<br/>maxLength: 22</td>
 </tr>
 <tr>
 <td><code>csc</code></td>
@@ -5080,6 +5062,18 @@ response stating that the transaction was approved or declined.</p>
 <td>string</td>
 <td>Optional</td>
 <td>A policy value which determines whether a duplication policy is enforced or bypassed. A duplication check has a window of time set against your account within which it can action. If a previous transaction with matching values occurred within the window, any subsequent transaction will result in a T001 result.<br/><br/>Values are<br/><br/> <code>0</code> for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.<br/><br/> <code>1</code> for an enforced policy. Transactions that are enforced will be checked for duplication within the duplication window.<br/><br/> <code>2</code> to bypass. Transactions that are bypassed will not be checked for duplication within the duplication window.<br/><br/> <code>3</code> to ignore. Transactions that are ignored will have the same affect as bypass.</td>
+</tr>
+<tr>
+<td><code>expmonth</code></td>
+<td>integer <em>int32</em></td>
+<td>Optional</td>
+<td>The month of expiry of the card. The month value should be a numerical value between 1 and 12.<br/><br/> minimum: 1<br/>maximum: 12</td>
+</tr>
+<tr>
+<td><code>expyear</code></td>
+<td>integer <em>int32</em></td>
+<td>Optional</td>
+<td>The year of expiry of the card.<br/><br/> minimum: 2000<br/>maximum: 2100</td>
 </tr>
 <tr>
 <td><code>match_avsa</code></td>
@@ -5146,6 +5140,12 @@ response stating that the transaction was approved or declined.</p>
 <td>string</td>
 <td>Optional</td>
 <td>The type of transaction being submitted. Normally this value is not required and your account manager may request that you set this field.<br/><br/>maxLength: 1</td>
+</tr>
+<tr>
+<td><code>uuid</code></td>
+<td>string <em>uuid</em></td>
+<td>Optional</td>
+<td>A uuid for the session. The value tracks through 3ds session and therefore should be a valid v4 uuid.<br/><br/>minLength: 36<br/>maxLength: 36</td>
 </tr>
 </tbody></table>
 
@@ -8963,7 +8963,7 @@ to stop receiving event notifications for specific webhook subscriptions that ar
 <tr>
 <td><code>cardnumber</code></td>
 <td>string</td>
-<td>true</td>
+<td>false</td>
 <td>The card number (PAN) with a variable length to a maximum of 21 digits in numerical form. Any non numeric characters will be stripped out of the card number, this includes whitespace or separators internal of the provided value.<br/><br/>The card number must be treated as sensitive data. We only provide an obfuscated value in logging and reporting.  The plaintext value is encrypted in our database using AES 256 GMC bit encryption for settlement or refund purposes.<br/><br/>When providing the card number to our gateway through the authorisation API you will be handling the card data on your application. This will require further PCI controls to be in place and this value must never be stored.<br/><br/> minLength: 12<br/>maxLength: 22</td>
 </tr>
 <tr>
@@ -9005,13 +9005,13 @@ to stop receiving event notifications for specific webhook subscriptions that ar
 <tr>
 <td><code>expmonth</code></td>
 <td>integer <em>int32</em></td>
-<td>true</td>
+<td>false</td>
 <td>The month of expiry of the card. The month value should be a numerical value between 1 and 12.<br/><br/> minimum: 1<br/>maximum: 12</td>
 </tr>
 <tr>
 <td><code>expyear</code></td>
 <td>integer <em>int32</em></td>
-<td>true</td>
+<td>false</td>
 <td>The year of expiry of the card.<br/><br/> minimum: 2000<br/>maximum: 2100</td>
 </tr>
 <tr>
@@ -9095,7 +9095,7 @@ to stop receiving event notifications for specific webhook subscriptions that ar
 <tr>
 <td><code>uuid</code></td>
 <td>string <em>uuid</em></td>
-<td>true</td>
+<td>false</td>
 <td>A uuid for the session. The value tracks through 3ds session and therefore should be a valid v4 uuid.<br/><br/>minLength: 36<br/>maxLength: 36</td>
 </tr>
 </tbody></table>
@@ -10301,7 +10301,7 @@ to stop receiving event notifications for specific webhook subscriptions that ar
 <tr>
 <td><code>cardnumber</code></td>
 <td>string</td>
-<td>true</td>
+<td>false</td>
 <td>The card number (PAN) with a variable length to a maximum of 21 digits in numerical form. Any non numeric characters will be stripped out of the card number, this includes whitespace or separators internal of the provided value.<br/><br/>The card number must be treated as sensitive data. We only provide an obfuscated value in logging and reporting.  The plaintext value is encrypted in our database using AES 256 GMC bit encryption for settlement or refund purposes.<br/><br/>When providing the card number to our gateway through the authorisation API you will be handling the card data on your application. This will require further PCI controls to be in place and this value must never be stored.<br/><br/> minLength: 12<br/>maxLength: 22</td>
 </tr>
 <tr>
@@ -10313,13 +10313,13 @@ to stop receiving event notifications for specific webhook subscriptions that ar
 <tr>
 <td><code>expmonth</code></td>
 <td>integer <em>int32</em></td>
-<td>true</td>
+<td>false</td>
 <td>The month of expiry of the card. The month value should be a numerical value between 1 and 12.<br/><br/> minimum: 1<br/>maximum: 12</td>
 </tr>
 <tr>
 <td><code>expyear</code></td>
 <td>integer <em>int32</em></td>
-<td>true</td>
+<td>false</td>
 <td>The year of expiry of the card.<br/><br/> minimum: 2000<br/>maximum: 2100</td>
 </tr>
 <tr>
@@ -10331,7 +10331,7 @@ to stop receiving event notifications for specific webhook subscriptions that ar
 <tr>
 <td><code>uuid</code></td>
 <td>string <em>uuid</em></td>
-<td>true</td>
+<td>false</td>
 <td>A uuid for the session. The value tracks through 3ds session and therefore should be a valid v4 uuid.<br/><br/>minLength: 36<br/>maxLength: 36</td>
 </tr>
 </tbody></table>
@@ -10829,7 +10829,7 @@ to stop receiving event notifications for specific webhook subscriptions that ar
 <tr>
 <td><code>cardnumber</code></td>
 <td>string</td>
-<td>true</td>
+<td>false</td>
 <td>The card number (PAN) with a variable length to a maximum of 21 digits in numerical form. Any non numeric characters will be stripped out of the card number, this includes whitespace or separators internal of the provided value.<br/><br/>The card number must be treated as sensitive data. We only provide an obfuscated value in logging and reporting.  The plaintext value is encrypted in our database using AES 256 GMC bit encryption for settlement or refund purposes.<br/><br/>When providing the card number to our gateway through the authorisation API you will be handling the card data on your application. This will require further PCI controls to be in place and this value must never be stored.<br/><br/> minLength: 12<br/>maxLength: 22</td>
 </tr>
 <tr>
@@ -10859,13 +10859,13 @@ to stop receiving event notifications for specific webhook subscriptions that ar
 <tr>
 <td><code>expmonth</code></td>
 <td>integer <em>int32</em></td>
-<td>true</td>
+<td>false</td>
 <td>The month of expiry of the card. The month value should be a numerical value between 1 and 12.<br/><br/> minimum: 1<br/>maximum: 12</td>
 </tr>
 <tr>
 <td><code>expyear</code></td>
 <td>integer <em>int32</em></td>
-<td>true</td>
+<td>false</td>
 <td>The year of expiry of the card.<br/><br/> minimum: 2000<br/>maximum: 2100</td>
 </tr>
 <tr>
@@ -10949,7 +10949,7 @@ to stop receiving event notifications for specific webhook subscriptions that ar
 <tr>
 <td><code>uuid</code></td>
 <td>string <em>uuid</em></td>
-<td>true</td>
+<td>false</td>
 <td>A uuid for the session. The value tracks through 3ds session and therefore should be a valid v4 uuid.<br/><br/>minLength: 36<br/>maxLength: 36</td>
 </tr>
 </tbody></table>
@@ -14079,11 +14079,11 @@ to stop receiving event notifications for specific webhook subscriptions that ar
 </tr>
 </tbody></table>
 <h2 id='registeripmodel'>RegisterIpModel</h2><div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-   </span><span class="nl">"exp"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1734378646"</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"exp"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1734391416"</span><span class="p">,</span><span class="w">
    </span><span class="nl">"ip"</span><span class="p">:</span><span class="w"> </span><span class="s2">"8.8.8.8"</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre></div><div class="highlight"><pre class="highlight xml tab-xml"><code><span class="nt">&lt;RegisterIpModel&gt;</span>
- <span class="nt">&lt;exp&gt;</span>1734378646<span class="nt">&lt;/exp&gt;</span> 
+ <span class="nt">&lt;exp&gt;</span>1734391416<span class="nt">&lt;/exp&gt;</span> 
  <span class="nt">&lt;ip&gt;</span>8.8.8.8<span class="nt">&lt;/ip&gt;</span> 
 <span class="nt">&lt;/RegisterIpModel&gt;</span>
 </code></pre></div>
