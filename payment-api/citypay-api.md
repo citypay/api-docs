@@ -1,12 +1,12 @@
 ---
 title: CityPay Payment API
-version: 6.6.80
+version: 6.7.1
 language_tabs:
   - json
   - xml
 toc_footers:
   - <a href='mailto:support@citypay.com'>Any Integration Questions?</a>
-  - V6.6.80 2024-12-04
+  - V6.7.1 2024-12-06
 includes:
   - errorcodes
   - authresultcodes
@@ -26,8 +26,8 @@ search: true
  Our latest documentation is available on <a href="https://docs.citypay.com">CityPay Docs</a>
 </aside>
 
-Version: 6.6.80
-Last Updated: 2024-12-04
+Version: 6.7.1
+Last Updated: 2024-12-06
 
 
 Welcome to the CityPay API, a robust HTTP API payment solution designed for seamless server-to-server 
@@ -387,6 +387,7 @@ Field  | Type | Usage | Description |
  `uuid` | string *uuid* | Required | A uuid for the session. The value tracks through 3ds session and therefore should be a valid v4 uuid.<br/><br/>minLength: 36<br/>maxLength: 36 | 
  `avs_postcode_policy` | string  | Optional | A policy value which determines whether an AVS postcode policy is enforced or bypassed.<br/><br/>Values are:<br/><br/> `0` for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.<br/><br/> `1` for an enforced policy. Transactions that are enforced will be rejected if the AVS postcode numeric value does not match.<br/><br/> `2` to bypass. Transactions that are bypassed will be allowed through even if the postcode did not match.<br/><br/> `3` to ignore. Transactions that are ignored will bypass the result and not send postcode details for authorisation. | 
  `bill_to` | object | Optional | [ContactDetails](#contactdetails) Billing details of the card holder making the payment. These details may be used for AVS fraud analysis, 3DS and for future referencing of the transaction.<br/><br/>For AVS to work correctly, the billing details should be the registered address of the card holder as it appears on the statement with their card issuer. The numeric details will be passed through for analysis and may result in a decline if incorrectly provided. | 
+ `cp_card_token` | string  | Optional | The card token previously stored and created by the /tokenise route. | 
  `csc` | string  | Optional | The Card Security Code (CSC) (also known as CV2/CVV2) is normally found on the back of the card (American Express has it on the front). The value helps to identify possession of the card as it is not available within the chip or magnetic swipe.<br/><br/>When forwarding the CSC, please ensure the value is a string as some values start with 0 and this will be stripped out by any integer parsing.<br/><br/>The CSC number aids fraud prevention in Mail Order and Internet payments.<br/><br/>Business rules are available on your account to identify whether to accept or decline transactions based on mismatched results of the CSC.<br/><br/>The Payment Card Industry (PCI) requires that at no stage of a transaction should the CSC be stored.<br/><br/>This applies to all entities handling card data.<br/><br/>It should also not be used in any hashing process.<br/><br/>CityPay do not store the value and have no method of retrieving the value once the transaction has been processed. For this reason, duplicate checking is unable to determine the CSC in its duplication check algorithm.<br/><br/> minLength: 3<br/>maxLength: 4 | 
  `csc_policy` | string  | Optional | A policy value which determines whether a CSC policy is enforced or bypassed.<br/><br/>Values are:<br/><br/> `0` for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.<br/><br/> `1` for an enforced policy. Transactions that are enforced will be rejected if the CSC value does not match.<br/><br/> `2` to bypass. Transactions that are bypassed will be allowed through even if the CSC did not match.<br/><br/> `3` to ignore. Transactions that are ignored will bypass the result and not send the CSC details for authorisation. | 
  `currency` | string  | Optional | The processing currency for the transaction. Will default to the merchant account currency.<br/><br/>minLength: 3<br/>maxLength: 3 | 
@@ -396,6 +397,7 @@ Field  | Type | Usage | Description |
  `pre_auth` | string  | Optional | A policy value which determines whether a pre auth policy is enforced or bypassed.<br/><br/>Values are:<br/><br/> `0` for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.<br/><br/> `1` for an enforced policy.  Enforces pre-authorisation when it does not pre-auth by default.<br/><br/> `2` to bypass. Bypasses pre-authorisation when it is enabled to pre auth by default.<br/><br/> `3` to ignore. The same as the default policy (0). Although it currently mirrors the default, this option is included for compatibility with other policies. | 
  `ship_to` | object | Optional | [ContactDetails](#contactdetails) Shipping details of the card holder making the payment. These details may be used for 3DS and for future referencing of the transaction. | 
  `tag` | array | Optional | type: string | 
+ `threeds_token` | string  | Optional | The threedsecure token generated by a call to /areq which may or may not be challenged. | 
  `threedsecure` | object | Optional | [ThreeDSecure](#threedsecure) ThreeDSecure element, providing values to enable full 3DS processing flows. | 
  `trans_info` | string  | Optional | Further information that can be added to the transaction will display in reporting. Can be used for flexible values such as operator id.<br/><br/>maxLength: 50 | 
  `trans_type` | string  | Optional | The type of transaction being submitted. Normally this value is not required and your account manager may request that you set this field.<br/><br/>maxLength: 1 | 
@@ -4701,6 +4703,7 @@ Responses for the WebHookUnsubscribeRequest operation are
    "avs_postcode_policy": "",
    "bill_to": { ... },
    "cardnumber": "4000 0000 0000 0002",
+   "cp_card_token": "tVQZbn00000000B3qMJB...o8by328",
    "csc": "10",
    "csc_policy": "",
    "currency": "GBP",
@@ -4717,6 +4720,7 @@ Responses for the WebHookUnsubscribeRequest operation are
    "pre_auth": "",
    "ship_to": { ... },
    "tag": "",
+   "threeds_token": "tdsp8q9n84yqn34rynq38yn...8u3n4",
    "threedsecure": { ... },
    "trans_info": "",
    "trans_type": "",
@@ -4731,6 +4735,7 @@ Responses for the WebHookUnsubscribeRequest operation are
  <avs_postcode_policy></avs_postcode_policy> 
  <bill_to><>...</></bill_to> 
  <cardnumber>4000 0000 0000 0002</cardnumber> 
+ <cp_card_token>tVQZbn00000000B3qMJB...o8by328</cp_card_token> 
  <csc>10</csc> 
  <csc_policy></csc_policy> 
  <currency>GBP</currency> 
@@ -4747,6 +4752,7 @@ Responses for the WebHookUnsubscribeRequest operation are
  <pre_auth></pre_auth> 
  <ship_to><>...</></ship_to> 
  <tag></tag> 
+ <threeds_token>tdsp8q9n84yqn34rynq38yn...8u3n4</threeds_token> 
  <threedsecure><>...</></threedsecure> 
  <trans_info></trans_info> 
  <trans_type></trans_type> 
@@ -4760,6 +4766,7 @@ Responses for the WebHookUnsubscribeRequest operation are
 | `avs_postcode_policy` | string  | false | A policy value which determines whether an AVS postcode policy is enforced or bypassed.<br/><br/>Values are:<br/><br/> `0` for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.<br/><br/> `1` for an enforced policy. Transactions that are enforced will be rejected if the AVS postcode numeric value does not match.<br/><br/> `2` to bypass. Transactions that are bypassed will be allowed through even if the postcode did not match.<br/><br/> `3` to ignore. Transactions that are ignored will bypass the result and not send postcode details for authorisation. | 
 | `bill_to` | object | false | [ContactDetails](#contactdetails) Billing details of the card holder making the payment. These details may be used for AVS fraud analysis, 3DS and for future referencing of the transaction.<br/><br/>For AVS to work correctly, the billing details should be the registered address of the card holder as it appears on the statement with their card issuer. The numeric details will be passed through for analysis and may result in a decline if incorrectly provided. | 
 | `cardnumber` | string  | true | The card number (PAN) with a variable length to a maximum of 21 digits in numerical form. Any non numeric characters will be stripped out of the card number, this includes whitespace or separators internal of the provided value.<br/><br/>The card number must be treated as sensitive data. We only provide an obfuscated value in logging and reporting.  The plaintext value is encrypted in our database using AES 256 GMC bit encryption for settlement or refund purposes.<br/><br/>When providing the card number to our gateway through the authorisation API you will be handling the card data on your application. This will require further PCI controls to be in place and this value must never be stored.<br/><br/> minLength: 12<br/>maxLength: 22 | 
+| `cp_card_token` | string  | false | The card token previously stored and created by the /tokenise route. | 
 | `csc` | string  | false | The Card Security Code (CSC) (also known as CV2/CVV2) is normally found on the back of the card (American Express has it on the front). The value helps to identify possession of the card as it is not available within the chip or magnetic swipe.<br/><br/>When forwarding the CSC, please ensure the value is a string as some values start with 0 and this will be stripped out by any integer parsing.<br/><br/>The CSC number aids fraud prevention in Mail Order and Internet payments.<br/><br/>Business rules are available on your account to identify whether to accept or decline transactions based on mismatched results of the CSC.<br/><br/>The Payment Card Industry (PCI) requires that at no stage of a transaction should the CSC be stored.<br/><br/>This applies to all entities handling card data.<br/><br/>It should also not be used in any hashing process.<br/><br/>CityPay do not store the value and have no method of retrieving the value once the transaction has been processed. For this reason, duplicate checking is unable to determine the CSC in its duplication check algorithm.<br/><br/> minLength: 3<br/>maxLength: 4 | 
 | `csc_policy` | string  | false | A policy value which determines whether a CSC policy is enforced or bypassed.<br/><br/>Values are:<br/><br/> `0` for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.<br/><br/> `1` for an enforced policy. Transactions that are enforced will be rejected if the CSC value does not match.<br/><br/> `2` to bypass. Transactions that are bypassed will be allowed through even if the CSC did not match.<br/><br/> `3` to ignore. Transactions that are ignored will bypass the result and not send the CSC details for authorisation. | 
 | `currency` | string  | false | The processing currency for the transaction. Will default to the merchant account currency.<br/><br/>minLength: 3<br/>maxLength: 3 | 
@@ -4776,6 +4783,7 @@ Responses for the WebHookUnsubscribeRequest operation are
 | `pre_auth` | string  | false | A policy value which determines whether a pre auth policy is enforced or bypassed.<br/><br/>Values are:<br/><br/> `0` for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.<br/><br/> `1` for an enforced policy.  Enforces pre-authorisation when it does not pre-auth by default.<br/><br/> `2` to bypass. Bypasses pre-authorisation when it is enabled to pre auth by default.<br/><br/> `3` to ignore. The same as the default policy (0). Although it currently mirrors the default, this option is included for compatibility with other policies. | 
 | `ship_to` | object | false | [ContactDetails](#contactdetails) Shipping details of the card holder making the payment. These details may be used for 3DS and for future referencing of the transaction. | 
 | `tag` | array | false | type: string | 
+| `threeds_token` | string  | false | The threedsecure token generated by a call to /areq which may or may not be challenged. | 
 | `threedsecure` | object | false | [ThreeDSecure](#threedsecure) ThreeDSecure element, providing values to enable full 3DS processing flows. | 
 | `trans_info` | string  | false | Further information that can be added to the transaction will display in reporting. Can be used for flexible values such as operator id.<br/><br/>maxLength: 50 | 
 | `trans_type` | string  | false | The type of transaction being submitted. Normally this value is not required and your account manager may request that you set this field.<br/><br/>maxLength: 1 | 
@@ -5484,7 +5492,7 @@ Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Addi
 
 ```json
 {
-   "cp_card_token": "tVQZbn00000000B3qMJB",
+   "cp_card_token": "tVQZbn00000000B3qMJB...o8by328",
    "last4digits": "2",
    "scheme": "Visa",
    "scheme_logo": "https://cdn.citypay.com/img/cs/visa-logo.svg"
@@ -5493,7 +5501,7 @@ Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Addi
 
 ```xml
 <CardTokenisationResponse>
- <cp_card_token>tVQZbn00000000B3qMJB</cp_card_token> 
+ <cp_card_token>tVQZbn00000000B3qMJB...o8by328</cp_card_token> 
  <last4digits>2</last4digits> 
  <scheme>Visa</scheme> 
  <scheme_logo>https://cdn.citypay.com/img/cs/visa-logo.svg</scheme_logo> 
@@ -5980,20 +5988,20 @@ Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Addi
 
 ```json
 {
-   "event_end_date": "2024-12-04",
+   "event_end_date": "2024-12-06",
    "event_id": "",
    "event_organiser_id": "",
-   "event_start_date": "2024-12-04",
+   "event_start_date": "2024-12-06",
    "payment_type": ""
 }
 ```
 
 ```xml
 <EventDataModel>
- <event_end_date>2024-12-04</event_end_date> 
+ <event_end_date>2024-12-06</event_end_date> 
  <event_id></event_id> 
  <event_organiser_id></event_organiser_id> 
- <event_start_date>2024-12-04</event_start_date> 
+ <event_start_date>2024-12-06</event_start_date> 
  <payment_type></payment_type> 
 </EventDataModel>
 ```
@@ -6265,7 +6273,7 @@ Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Addi
 
 ```json
 {
-   "batch_closed": "2024-12-04",
+   "batch_closed": "2024-12-06",
    "batch_no": "",
    "batch_status": "",
    "batch_status_code": "",
@@ -6277,7 +6285,7 @@ Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Addi
 
 ```xml
 <MerchantBatchResponse>
- <batch_closed>2024-12-04</batch_closed> 
+ <batch_closed>2024-12-06</batch_closed> 
  <batch_no></batch_no> 
  <batch_status></batch_status> 
  <batch_status_code></batch_status_code> 
@@ -6506,7 +6514,7 @@ Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Addi
    "addressee": "Jack Sparrow",
    "attachments": "",
    "descriptor": "",
-   "due": "2024-12-04",
+   "due": "2024-12-06",
    "email_notification_path": { ... },
    "memo": "Invoice",
    "request": { ... },
@@ -6519,7 +6527,7 @@ Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Addi
  <addressee>Jack Sparrow</addressee> 
  <attachments></attachments> 
  <descriptor></descriptor> 
- <due>2024-12-04</due> 
+ <due>2024-12-06</due> 
  <email_notification_path><>...</></email_notification_path> 
  <memo>Invoice</memo> 
  <request><>...</></request> 
@@ -7007,7 +7015,7 @@ Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Addi
 
 ```json
 {
-   "datetime": "2024-12-04",
+   "datetime": "2024-12-06",
    "message": "message on this state",
    "state": "FormInput"
 }
@@ -7015,7 +7023,7 @@ Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Addi
 
 ```xml
 <PaylinkStateEvent>
- <datetime>2024-12-04</datetime> 
+ <datetime>2024-12-06</datetime> 
  <message>message on this state</message> 
  <state>FormInput</state> 
 </PaylinkStateEvent>
@@ -7037,7 +7045,7 @@ Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Addi
 {
    "attachments": { ... },
    "bps": "",
-   "date_created": "2024-12-04",
+   "date_created": "2024-12-06",
    "errors": "",
    "id": "00000000-0000-0000-0000-000000000000",
    "identifier": "95b857a1-5955-4b86-963c-5a6dbfc4fb95",
@@ -7056,7 +7064,7 @@ Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Addi
 <PaylinkTokenCreated>
  <attachments><>...</></attachments> 
  <bps></bps> 
- <date_created>2024-12-04</date_created> 
+ <date_created>2024-12-06</date_created> 
  <errors></errors> 
  <id>00000000-0000-0000-0000-000000000000</id> 
  <identifier>95b857a1-5955-4b86-963c-5a6dbfc4fb95</identifier> 
@@ -7164,8 +7172,8 @@ BPS | `bps` | string  | false | true if BPS has been enabled on this token. |
    "amount_paid": 0,
    "auth_code": "",
    "card": "Visa/0002",
-   "created": "2024-12-04",
-   "datetime": "2024-12-04",
+   "created": "2024-12-06",
+   "datetime": "2024-12-06",
    "identifier": "95b857a1-5955-4b86-963c-5a6dbfc4fb95",
    "is_attachment": false,
    "is_cancelled": false,
@@ -7182,7 +7190,7 @@ BPS | `bps` | string  | false | true if BPS has been enabled on this token. |
    "is_request_challenged": false,
    "is_sms_sent": false,
    "is_validated": false,
-   "last_event_date_time": "2024-12-04",
+   "last_event_date_time": "2024-12-06",
    "last_payment_result": "",
    "mid": 11223344,
    "payment_attempts_count": 0,
@@ -7197,8 +7205,8 @@ BPS | `bps` | string  | false | true if BPS has been enabled on this token. |
  <amount_paid></amount_paid> 
  <auth_code></auth_code> 
  <card>Visa/0002</card> 
- <created>2024-12-04</created> 
- <datetime>2024-12-04</datetime> 
+ <created>2024-12-06</created> 
+ <datetime>2024-12-06</datetime> 
  <identifier>95b857a1-5955-4b86-963c-5a6dbfc4fb95</identifier> 
  <is_attachment></is_attachment> 
  <is_cancelled></is_cancelled> 
@@ -7215,7 +7223,7 @@ BPS | `bps` | string  | false | true if BPS has been enabled on this token. |
  <is_request_challenged></is_request_challenged> 
  <is_sms_sent></is_sms_sent> 
  <is_validated></is_validated> 
- <last_event_date_time>2024-12-04</last_event_date_time> 
+ <last_event_date_time>2024-12-06</last_event_date_time> 
  <last_payment_result></last_payment_result> 
  <mid>11223344</mid> 
  <payment_attempts_count></payment_attempts_count> 
@@ -7264,7 +7272,7 @@ BPS | `bps` | string  | false | true if BPS has been enabled on this token. |
 
 ```json
 {
-   "after": "2024-12-04",
+   "after": "2024-12-06",
    "maxResults": 50,
    "merchantid": 11223344,
    "nextToken": "n34liuwn435tUAGFNg34yn...",
@@ -7274,7 +7282,7 @@ BPS | `bps` | string  | false | true if BPS has been enabled on this token. |
 
 ```xml
 <PaylinkTokenStatusChangeRequest>
- <after>2024-12-04</after> 
+ <after>2024-12-06</after> 
  <maxResults>50</maxResults> 
  <merchantid>11223344</merchantid> 
  <nextToken>n34liuwn435tUAGFNg34yn...</nextToken> 
@@ -7454,10 +7462,10 @@ BPS | `bps` | string  | false | true if BPS has been enabled on this token. |
 {
    "adjustments": { ... },
    "amount": 19995,
-   "created": "2024-12-04",
+   "created": "2024-12-06",
    "currency": "GBP",
-   "due": "2024-12-04",
-   "expires": "2024-12-04",
+   "due": "2024-12-06",
+   "expires": "2024-12-06",
    "external-ref": "ABC123",
    "external-ref-source": "xero",
    "identifier": "95b857a1-5955-4b86-963c-5a6dbfc4fb95",
@@ -7473,10 +7481,10 @@ BPS | `bps` | string  | false | true if BPS has been enabled on this token. |
 <PaymentIntentResponseModel>
  <adjustments><>...</></adjustments> 
  <amount>19995</amount> 
- <created>2024-12-04</created> 
+ <created>2024-12-06</created> 
  <currency>GBP</currency> 
- <due>2024-12-04</due> 
- <expires>2024-12-04</expires> 
+ <due>2024-12-06</due> 
+ <expires>2024-12-06</expires> 
  <external-ref>ABC123</external-ref> 
  <external-ref-source>xero</external-ref-source> 
  <identifier>95b857a1-5955-4b86-963c-5a6dbfc4fb95</identifier> 
@@ -7659,14 +7667,14 @@ BPS | `bps` | string  | false | true if BPS has been enabled on this token. |
 
 ```json
 {
-   "exp": "1734218135",
+   "exp": "1734378646",
    "ip": "8.8.8.8"
 }
 ```
 
 ```xml
 <RegisterIpModel>
- <exp>1734218135</exp> 
+ <exp>1734378646</exp> 
  <ip>8.8.8.8</ip> 
 </RegisterIpModel>
 ```

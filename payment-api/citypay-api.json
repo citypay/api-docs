@@ -1,7 +1,7 @@
 {
   "openapi" : "3.0.0",
   "info" : {
-    "version" : "6.6.80",
+    "version" : "6.7.1",
     "title" : "CityPay Payment API",
     "description" : "\nWelcome to the CityPay API, a robust HTTP API payment solution designed for seamless server-to-server \ntransactional processing. Our API facilitates a wide array of payment operations, catering to diverse business needs. \nWhether you're integrating Internet payments, handling Mail Order/Telephone Order (MOTO) transactions, managing \nSubscriptions with Recurring and Continuous Authority payments, or navigating the complexities of 3-D Secure \nauthentication, our API is equipped to support your requirements. Additionally, we offer functionalities for \nAuthorisation, Refunding, Pre-Authorisation, Cancellation/Voids, and Completion processing, alongside the capability \nfor tokenised payments.\n\n## Compliance and Security Overview\n<aside class=\"notice\">\n  Ensuring the security of payment transactions and compliance with industry standards is paramount. Our API is \n  designed with stringent security measures and compliance protocols to safeguard sensitive information and meet \n  the rigorous requirements of Visa, MasterCard, and the PCI Security Standards Council.\n</aside>\n\n### Key Compliance and Security Measures\n\n* **TLS Encryption**: All data transmissions must utilise TLS version 1.2 or higher, employing [strong cryptography](#enabled-tls-ciphers). Our infrastructure strictly enforces this requirement to maintain the integrity and confidentiality of data in transit. We conduct regular scans and assessments of our TLS endpoints to identify and mitigate vulnerabilities.\n* **Data Storage Prohibitions**: Storing sensitive cardholder data (CHD), such as the card security code (CSC) or primary account number (PAN), is strictly prohibited. Our API is designed to minimize your exposure to sensitive data, thereby reducing your compliance burden.\n* **Data Masking**: For consumer protection and compliance, full card numbers must not be displayed on receipts or any customer-facing materials. Our API automatically masks PANs, displaying only the last four digits to facilitate safe receipt generation.\n* **Network Scans**: If your application is web-based, regular scans of your hosting environment are mandatory to identify and rectify potential vulnerabilities. This proactive measure is crucial for maintaining a secure and compliant online presence.\n* **PCI Compliance**: Adherence to PCI DSS standards is not optional; it's a requirement for operating securely and legally in the payments ecosystem. For detailed information on compliance requirements and resources, please visit the PCI Security Standards Council website [https://www.pcisecuritystandards.org/](https://www.pcisecuritystandards.org/).\n* **Request Validation**: Our API includes mechanisms to verify the legitimacy of each request, ensuring it pertains to a valid account and originates from a trusted source. We leverage remote IP address verification alongside sophisticated application firewall technologies to thwart a wide array of common security threats.\n\n## Getting Started\nBefore integrating with the CityPay API, ensure your application and development practices align with the outlined compliance and security measures. This preparatory step is crucial for a smooth integration process and the long-term success of your payment processing operations.\n\nFor further details on API endpoints, request/response formats, and code examples, proceed to the subsequent sections of our documentation. Our aim is to provide you with all the necessary tools and information to integrate our payment processing capabilities seamlessly into your application.\n\nThank you for choosing CityPay API. We look forward to supporting your payment processing needs with our secure, compliant, and versatile API solution.\n",
     "contact" : {
@@ -2803,10 +2803,6 @@
                 "$ref" : "#/components/schemas/CaptureRequest"
               },
               "examples" : {
-                "example2" : {
-                  "summary" : "Basic capture call for a merchant with a transno and final amount",
-                  "externalValue" : "CaptureRequest-example2.json"
-                },
                 "example1" : {
                   "summary" : "Basic capture call for a merchant with a given identifier",
                   "externalValue" : "CaptureRequest-example1.json"
@@ -2814,6 +2810,10 @@
                 "example3" : {
                   "summary" : "Capture call for a merchant with identifier and airline data once a ticket has been issued",
                   "externalValue" : "CaptureRequest-example3.json"
+                },
+                "example2" : {
+                  "summary" : "Basic capture call for a merchant with a transno and final amount",
+                  "externalValue" : "CaptureRequest-example2.json"
                 }
               }
             },
@@ -2822,10 +2822,6 @@
                 "$ref" : "#/components/schemas/CaptureRequest"
               },
               "examples" : {
-                "example2" : {
-                  "summary" : "Basic capture call for a merchant with a transno and final amount",
-                  "externalValue" : "CaptureRequest-example2.xml"
-                },
                 "example1" : {
                   "summary" : "Basic capture call for a merchant with a given identifier",
                   "externalValue" : "CaptureRequest-example1.xml"
@@ -2833,6 +2829,10 @@
                 "example3" : {
                   "summary" : "Capture call for a merchant with identifier and airline data once a ticket has been issued",
                   "externalValue" : "CaptureRequest-example3.xml"
+                },
+                "example2" : {
+                  "summary" : "Basic capture call for a merchant with a transno and final amount",
+                  "externalValue" : "CaptureRequest-example2.xml"
                 }
               }
             }
@@ -4102,13 +4102,13 @@
                 "$ref" : "#/components/schemas/VoidRequest"
               },
               "examples" : {
-                "example2" : {
-                  "summary" : "Basic capture call for a merchant with a transno and final amount",
-                  "externalValue" : "VoidRequest-example2.json"
-                },
                 "example1" : {
                   "summary" : "Basic capture call for a merchant with a given identifier",
                   "externalValue" : "VoidRequest-example1.json"
+                },
+                "example2" : {
+                  "summary" : "Basic capture call for a merchant with a transno and final amount",
+                  "externalValue" : "VoidRequest-example2.json"
                 }
               }
             },
@@ -4117,13 +4117,13 @@
                 "$ref" : "#/components/schemas/VoidRequest"
               },
               "examples" : {
-                "example2" : {
-                  "summary" : "Basic capture call for a merchant with a transno and final amount",
-                  "externalValue" : "VoidRequest-example2.xml"
-                },
                 "example1" : {
                   "summary" : "Basic capture call for a merchant with a given identifier",
                   "externalValue" : "VoidRequest-example1.xml"
+                },
+                "example2" : {
+                  "summary" : "Basic capture call for a merchant with a transno and final amount",
+                  "externalValue" : "VoidRequest-example2.xml"
                 }
               }
             }
@@ -4622,6 +4622,11 @@
             "example" : "4000 0000 0000 0002",
             "description" : "The card number (PAN) with a variable length to a maximum of 21 digits in numerical form.\nAny non numeric characters will be stripped out of the card number, this includes whitespace or separators internal of the\nprovided value.\n\nThe card number must be treated as sensitive data. We only provide an obfuscated value in logging and reporting.\n The plaintext value is encrypted in our database using AES 256 GMC bit encryption for settlement or refund purposes.\n\nWhen providing the card number to our gateway through the authorisation API you will be handling the card data on\nyour application. This will require further PCI controls to be in place and this value must never be stored.\n"
           },
+          "cp_card_token" : {
+            "type" : "string",
+            "example" : "tVQZbn00000000B3qMJB...o8by328",
+            "description" : "The card token previously stored and created by the /tokenise route."
+          },
           "csc" : {
             "type" : "string",
             "minLength" : 3,
@@ -4713,6 +4718,11 @@
               "type" : "string",
               "description" : "A tag is a label that you can attach to a payment authorisation.\nTags can help you group transactions together based on certain criteria, like a work job or a ticket number.\nThey can also assist in filtering transactions when you're generating reports.\n\nLimitations:\nThere is a maximum limit of 3 tags that can be added to a single transaction. Each tag can be no longer than 20\ncharacters and alphanumeric with no spaces.\n\nExample:\nLet's say you're a software company and you have different teams working on various projects. When a team makes\na purchase or incurs an expense, they can tag the transaction with the project name, the team name, and the\ntype of expense.\n\n- Project Name: Project_X\n- Team Name: Team_A\n- Type of Expense: Hardware\n\nThis way, when you're looking at your financial reports, you can easily filter transactions based on these\ntags to see how much each project or team is spending on different types of expenses.\n"
             }
+          },
+          "threeds_token" : {
+            "type" : "string",
+            "example" : "tdsp8q9n84yqn34rynq38yn...8u3n4",
+            "description" : "The threedsecure token generated by a call to /areq which may or may not be challenged."
           },
           "threedsecure" : {
             "$ref" : "#/components/schemas/ThreeDSecure",
@@ -5511,7 +5521,7 @@
         "properties" : {
           "cp_card_token" : {
             "type" : "string",
-            "example" : "tVQZbn00000000B3qMJB",
+            "example" : "tVQZbn00000000B3qMJB...o8by328",
             "description" : "The tokenised card value. The token is encrypted with integrity checks and scoped to a client id only allowing for the card value to be used.  The value may be used up and until the expiry date of the card."
           },
           "last4digits" : {
@@ -6060,7 +6070,7 @@
           "event_end_date" : {
             "type" : "string",
             "format" : "date",
-            "example" : "2024-12-04",
+            "example" : "2024-12-06",
             "description" : "The date when the event ends in ISO format (yyyy-MM-dd)."
           },
           "event_id" : {
@@ -6074,7 +6084,7 @@
           "event_start_date" : {
             "type" : "string",
             "format" : "date",
-            "example" : "2024-12-04",
+            "example" : "2024-12-06",
             "description" : "The date when the event starts in ISO format (yyyy-MM-dd)."
           },
           "payment_type" : {
@@ -6311,7 +6321,7 @@
           "batch_closed" : {
             "type" : "string",
             "format" : "date-time",
-            "example" : "2024-12-04T16:20:48Z",
+            "example" : "2024-12-06T12:55:59Z",
             "description" : "The date and time when the batch was closed. This is represented in ISO 8601 format (e.g., YYYY-MM-DDTHH:MM:SSZ) and indicates when the batch processing was completed."
           },
           "batch_no" : {
@@ -6571,7 +6581,7 @@
           "due" : {
             "type" : "string",
             "format" : "date",
-            "example" : "2024-12-04",
+            "example" : "2024-12-06",
             "description" : "A date that the invoice is due. This can be displayed on the payment page."
           },
           "email_notification_path" : {
@@ -7082,7 +7092,7 @@
           "datetime" : {
             "type" : "string",
             "format" : "date-time",
-            "example" : "2024-12-04T16:20:48Z",
+            "example" : "2024-12-06T12:55:59Z",
             "description" : "the date and time of the event."
           },
           "message" : {
@@ -7114,7 +7124,7 @@
           "date_created" : {
             "type" : "string",
             "format" : "date-time",
-            "example" : "2024-12-04T16:20:48Z",
+            "example" : "2024-12-06T12:55:59Z",
             "description" : "Date and time the token was generated."
           },
           "errors" : {
@@ -7274,13 +7284,13 @@
           "created" : {
             "type" : "string",
             "format" : "date-time",
-            "example" : "2024-12-04T16:20:48Z",
+            "example" : "2024-12-06T12:55:59Z",
             "description" : "the date and time that the session was created."
           },
           "datetime" : {
             "type" : "string",
             "format" : "date-time",
-            "example" : "2024-12-04T16:20:48Z",
+            "example" : "2024-12-06T12:55:59Z",
             "description" : "the date and time of the current status."
           },
           "identifier" : {
@@ -7353,7 +7363,7 @@
           "last_event_date_time" : {
             "type" : "string",
             "format" : "date-time",
-            "example" : "2024-12-04T16:20:48Z",
+            "example" : "2024-12-06T12:55:59Z",
             "description" : "the date and time that the session last had an event actioned against it."
           },
           "last_payment_result" : {
@@ -7396,7 +7406,7 @@
           "after" : {
             "type" : "string",
             "format" : "date-time",
-            "example" : "2024-12-04T16:20:47Z",
+            "example" : "2024-12-06T12:55:59Z",
             "description" : "identifies the date and time to lookup changes after."
           },
           "maxResults" : {
@@ -7600,7 +7610,7 @@
           "created" : {
             "type" : "string",
             "format" : "date-time",
-            "example" : "2024-12-04T16:20:48Z",
+            "example" : "2024-12-06T12:55:59Z",
             "description" : "A date time of when the intent was created."
           },
           "currency" : {
@@ -7613,13 +7623,13 @@
           "due" : {
             "type" : "string",
             "format" : "date",
-            "example" : "2024-12-04",
+            "example" : "2024-12-06",
             "description" : "A due date of the intent."
           },
           "expires" : {
             "type" : "string",
             "format" : "date",
-            "example" : "2024-12-04",
+            "example" : "2024-12-06",
             "description" : "An expiration date of the intent."
           },
           "external-ref" : {
@@ -7811,7 +7821,7 @@
         "properties" : {
           "exp" : {
             "type" : "long",
-            "example" : 1734218135,
+            "example" : 1734378646,
             "description" : "When the ip address expires. At most an IP address can be registered for up to 720 hours. Will default to 12 hours if not supplied."
           },
           "ip" : {
