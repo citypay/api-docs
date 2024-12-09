@@ -284,22 +284,19 @@
                     <a href="#cres" class="toc-h2 toc-link" data-title="CRes">CRes</a>
                   </li>
                   <li>
-                    <a href="#create-a-payment-intent" class="toc-h2 toc-link" data-title="Create a Payment Intent">Create a Payment Intent</a>
-                  </li>
-                  <li>
-                    <a href="#retrieves-a-payment-intent" class="toc-h2 toc-link" data-title="Retrieves a Payment Intent">Retrieves a Payment Intent</a>
-                  </li>
-                  <li>
                     <a href="#pares" class="toc-h2 toc-link" data-title="PaRes">PaRes</a>
                   </li>
                   <li>
                     <a href="#refund" class="toc-h2 toc-link" data-title="Refund">Refund</a>
                   </li>
                   <li>
-                    <a href="#retrieval" class="toc-h2 toc-link" data-title="Retrieval">Retrieval</a>
+                    <a href="#transaction-retrieval" class="toc-h2 toc-link" data-title="Transaction Retrieval">Transaction Retrieval</a>
                   </li>
                   <li>
                     <a href="#card-tokenisation-request" class="toc-h2 toc-link" data-title="Card Tokenisation Request">Card Tokenisation Request</a>
+                  </li>
+                  <li>
+                    <a href="#verification" class="toc-h2 toc-link" data-title="Verification">Verification</a>
                   </li>
                   <li>
                     <a href="#void" class="toc-h2 toc-link" data-title="Void">Void</a>
@@ -436,6 +433,17 @@
                   </li>
                   <li>
                     <a href="#paylink-token-status" class="toc-h2 toc-link" data-title="Paylink Token Status">Paylink Token Status</a>
+                  </li>
+              </ul>
+          </li>
+          <li>
+            <a href="#payment-intent-api" class="toc-h1 toc-link" data-title="Payment Intent Api">Payment Intent Api</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#create-a-payment-intent" class="toc-h2 toc-link" data-title="Create a Payment Intent">Create a Payment Intent</a>
+                  </li>
+                  <li>
+                    <a href="#retrieves-a-payment-intent" class="toc-h2 toc-link" data-title="Retrieves a Payment Intent">Retrieves a Payment Intent</a>
                   </li>
               </ul>
           </li>
@@ -762,6 +770,9 @@
                     <a href="#tokenisationresponsemodel" class="toc-h2 toc-link" data-title="TokenisationResponseModel">TokenisationResponseModel</a>
                   </li>
                   <li>
+                    <a href="#verificationrequest" class="toc-h2 toc-link" data-title="VerificationRequest">VerificationRequest</a>
+                  </li>
+                  <li>
                     <a href="#voidrequest" class="toc-h2 toc-link" data-title="VoidRequest">VoidRequest</a>
                   </li>
                   <li>
@@ -816,7 +827,7 @@
       </ul>
         <ul class="toc-footer">
             <li><a href='mailto:support@citypay.com'>Any Integration Questions?</a></li>
-            <li>V6.7.2 2024-12-06</li>
+            <li>V6.7.3 2024-12-09</li>
         </ul>
     </div>
     <div class="page-wrapper">
@@ -828,8 +839,8 @@
  Our latest documentation is available on <a href="https://docs.citypay.com">CityPay Docs</a>
 </aside>
 
-<p>Version: 6.7.2
-Last Updated: 2024-12-06</p>
+<p>Version: 6.7.3
+Last Updated: 2024-12-09</p>
 
 <p>Welcome to the CityPay API, a robust HTTP API payment solution designed for seamless server-to-server 
 transactional processing. Our API facilitates a wide array of payment operations, catering to diverse business needs. 
@@ -1862,298 +1873,6 @@ on its own without a previous <a href="#requestchallenged">request challenge</a>
 <td></td>
 </tr>
 </tbody></table>
-<h2 id='create-a-payment-intent'>Create a Payment Intent</h2>
-<div class="route-spec">
-<div class="route-path">
- <span class="http-method http-method-post">POST</span>
- <span class="path">/v6/intent/create</span>
-</div>
-
-<div class="security-methods"><span class="key sec-cp-api-key">cp-api-key</span> </div>
-
-<p></div></p>
-
-<p>This endpoint initiates the creation of a payment intent, which is a precursor to processing a payment. A payment intent
-captures the details of a prospective payment transaction, including the payment amount, currency, and associated
-billing and shipping information.</p>
-
-<div class="model-links">
- <a href="#requestModel-CreatePaymentIntent">Request Model</a>
- <a href="#responseModel-CreatePaymentIntent">Response Model</a>
-</div>
-
-<p><a id="requestModel-CreatePaymentIntent"></a></p>
-<h3 id='model-paymentintentrequestmodel'>Model PaymentIntentRequestModel</h3>
-<p>Request body for the CreatePaymentIntent operation contains the following properties</p>
-
-<div class="requestModel"></div>
-
-<table><thead>
-<tr>
-<th>Field</th>
-<th>Type</th>
-<th>Usage</th>
-<th>Description</th>
-</tr>
-</thead><tbody>
-<tr>
-<td><code>amount</code></td>
-<td>integer <em>int32</em></td>
-<td>Required</td>
-<td>The amount to authorise in the lowest unit of currency with a variable length to a maximum of 12 digits.<br/><br/>No decimal points are to be included and no divisional characters such as 1,024.<br/><br/>The amount should be the total amount required for the transaction.<br/><br/>For example with GBP £1,021.95 the amount value is 102195.<br/><br/> minLength: 1<br/>maxLength: 9</td>
-</tr>
-<tr>
-<td><code>identifier</code></td>
-<td>string</td>
-<td>Required</td>
-<td>The identifier of the transaction to process. The value should be a valid reference and may be used to perform  post processing actions and to aid in reconciliation of transactions.<br/><br/>The value should be a valid printable string with ASCII character ranges from 0x32 to 0x127.<br/><br/>The identifier is recommended to be distinct for each transaction such as a <a href="https://en.wikipedia.org/wiki/Universally_unique_identifier">random unique identifier</a> this will aid in ensuring each transaction is identifiable.<br/><br/>When transactions are processed they are also checked for duplicate requests. Changing the identifier on a subsequent request will ensure that a transaction is considered as different.<br/><br/> minLength: 4<br/>maxLength: 50</td>
-</tr>
-<tr>
-<td><code>adjustments</code></td>
-<td>object</td>
-<td>Optional</td>
-<td><a href="#adjustments">Adjustments</a> Adjustments refer to the modifications applied to the base amount of a transaction, including surcharges, discounts, or other financial alterations. These adjustments are critical in calculating the final amount due, based on specific conditions such as payment timing, discount codes, or business rules.<br/><br/>Each adjustment is processed according to predefined criteria, ensuring that the final transaction amount accurately reflects any applicable financial rules or incentives. It is important to configure adjustments correctly, as they directly influence the payment amount and may impact the acceptance or rejection of a transaction.</td>
-</tr>
-<tr>
-<td><code>avs_postcode_policy</code></td>
-<td>string</td>
-<td>Optional</td>
-<td>A policy value which determines whether an AVS postcode policy is enforced or bypassed.<br/><br/>Values are:<br/><br/> <code>0</code> for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.<br/><br/> <code>1</code> for an enforced policy. Transactions that are enforced will be rejected if the AVS postcode numeric value does not match.<br/><br/> <code>2</code> to bypass. Transactions that are bypassed will be allowed through even if the postcode did not match.<br/><br/> <code>3</code> to ignore. Transactions that are ignored will bypass the result and not send postcode details for authorisation.</td>
-</tr>
-<tr>
-<td><code>bill_to</code></td>
-<td>object</td>
-<td>Optional</td>
-<td><a href="#contactdetails">ContactDetails</a> Billing details of the card holder making the payment. These details may be used for AVS fraud analysis, 3DS and for future referencing of the transaction.<br/><br/>For AVS to work correctly, the billing details should be the registered address of the card holder as it appears on the statement with their card issuer. The numeric details will be passed through for analysis and may result in a decline if incorrectly provided.</td>
-</tr>
-<tr>
-<td><code>csc_policy</code></td>
-<td>string</td>
-<td>Optional</td>
-<td>A policy value which determines whether a CSC policy is enforced or bypassed.<br/><br/>Values are:<br/><br/> <code>0</code> for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.<br/><br/> <code>1</code> for an enforced policy. Transactions that are enforced will be rejected if the CSC value does not match.<br/><br/> <code>2</code> to bypass. Transactions that are bypassed will be allowed through even if the CSC did not match.<br/><br/> <code>3</code> to ignore. Transactions that are ignored will bypass the result and not send the CSC details for authorisation.</td>
-</tr>
-<tr>
-<td><code>currency</code></td>
-<td>string</td>
-<td>Optional</td>
-<td>The processing currency for the transaction. Will default to the merchant account currency.<br/><br/>minLength: 3<br/>maxLength: 3</td>
-</tr>
-<tr>
-<td><code>duplicate_policy</code></td>
-<td>string</td>
-<td>Optional</td>
-<td>A policy value which determines whether a duplication policy is enforced or bypassed. A duplication check has a window of time set against your account within which it can action. If a previous transaction with matching values occurred within the window, any subsequent transaction will result in a T001 result.<br/><br/>Values are<br/><br/> <code>0</code> for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.<br/><br/> <code>1</code> for an enforced policy. Transactions that are enforced will be checked for duplication within the duplication window.<br/><br/> <code>2</code> to bypass. Transactions that are bypassed will not be checked for duplication within the duplication window.<br/><br/> <code>3</code> to ignore. Transactions that are ignored will have the same affect as bypass.</td>
-</tr>
-<tr>
-<td><code>external-ref</code></td>
-<td>string</td>
-<td>Optional</td>
-<td>A unique identifier, such as an order ID or invoice number, provided by your accounting or billing system to link the payment intent with an external system reference. This ensures traceability across systems for audits and transaction validation.<br/><br/>maxLength: 256</td>
-</tr>
-<tr>
-<td><code>external-ref-source</code></td>
-<td>string</td>
-<td>Optional</td>
-<td>Specifies the originating source or system of the external reference, helping to categorise and trace the context of the external identifier, whether it comes from an internal system, third-party vendor, or external financial platform.</td>
-</tr>
-<tr>
-<td><code>match_avsa</code></td>
-<td>string</td>
-<td>Optional</td>
-<td>A policy value which determines whether an AVS address policy is enforced, bypassed or ignored.<br/><br/>Values are:<br/><br/> <code>0</code> for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.<br/><br/> <code>1</code> for an enforced policy. Transactions that are enforced will be rejected if the AVS address numeric value does not match.<br/><br/> <code>2</code> to bypass. Transactions that are bypassed will be allowed through even if the address did not match.<br/><br/> <code>3</code> to ignore. Transactions that are ignored will bypass the result and not send address numeric details for authorisation.</td>
-</tr>
-<tr>
-<td><code>merchantid</code></td>
-<td>integer <em>int32</em></td>
-<td>Optional</td>
-<td>The merchant id of the intent, required if using the API key or not required if using a domain key.</td>
-</tr>
-<tr>
-<td><code>pre_auth</code></td>
-<td>string</td>
-<td>Optional</td>
-<td>A policy value which determines whether a pre auth policy is enforced or bypassed.<br/><br/>Values are:<br/><br/> <code>0</code> for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.<br/><br/> <code>1</code> for an enforced policy.  Enforces pre-authorisation when it does not pre-auth by default.<br/><br/> <code>2</code> to bypass. Bypasses pre-authorisation when it is enabled to pre auth by default.<br/><br/> <code>3</code> to ignore. The same as the default policy (0). Although it currently mirrors the default, this option is included for compatibility with other policies.</td>
-</tr>
-<tr>
-<td><code>ship_to</code></td>
-<td>object</td>
-<td>Optional</td>
-<td><a href="#contactdetails">ContactDetails</a> Shipping details of the card holder making the payment. These details may be used for 3DS and for future referencing of the transaction.</td>
-</tr>
-<tr>
-<td><code>tag</code></td>
-<td>array</td>
-<td>Optional</td>
-<td>type: string</td>
-</tr>
-<tr>
-<td><code>trans_info</code></td>
-<td>string</td>
-<td>Optional</td>
-<td>Further information that can be added to the transaction will display in reporting. Can be used for flexible values such as operator id.<br/><br/>maxLength: 50</td>
-</tr>
-<tr>
-<td><code>trans_type</code></td>
-<td>string</td>
-<td>Optional</td>
-<td>The type of transaction being submitted. Normally this value is not required and your account manager may request that you set this field.<br/><br/>maxLength: 1</td>
-</tr>
-</tbody></table>
-
-<p><a id="responseModel-CreatePaymentIntent"></a></p>
-<h3 id='response-5'>Response</h3>
-<p>Responses for the CreatePaymentIntent operation are</p>
-
-<div class="responseModel"></div>
-
-<table><thead>
-<tr>
-<th>StatusCode</th>
-<th>Description</th>
-<th>Content-Type</th>
-<th>Model</th>
-</tr>
-</thead><tbody>
-<tr>
-<td><code>200</code></td>
-<td>Returns the id of the payment intent.</td>
-<td><code>application/json</code> <br/><code>text/xml</code></td>
-<td><a href="#paymentintentreference">PaymentIntentReference</a></td>
-</tr>
-<tr>
-<td><code>400</code></td>
-<td>Bad Request. Should the incoming data not be validly determined.</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td><code>401</code></td>
-<td>Unauthorized. No api key has been provided and is required for this operation.</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td><code>403</code></td>
-<td>Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request.</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td><code>422</code></td>
-<td>Unprocessable Entity. Should a failure occur that prevents processing of the API call.</td>
-<td><code>application/json</code> <br/><code>text/xml</code></td>
-<td><a href="#error">Error</a></td>
-</tr>
-<tr>
-<td><code>500</code></td>
-<td>Server Error. The server was unable to complete the request.</td>
-<td></td>
-<td></td>
-</tr>
-</tbody></table>
-<h2 id='retrieves-a-payment-intent'>Retrieves a Payment Intent</h2>
-<div class="route-spec">
-<div class="route-path">
- <span class="http-method http-method-post">POST</span>
- <span class="path">/v6/intent/retrieve</span>
-</div>
-
-<div class="security-methods"><span class="key sec-cp-api-key">cp-api-key</span> </div>
-
-<p></div></p>
-
-<p>Obtains a payment intent.</p>
-
-<div class="model-links">
- <a href="#requestModel-GetPaymentIntent">Request Model</a>
- <a href="#responseModel-GetPaymentIntent">Response Model</a>
-</div>
-
-<p><a id="requestModel-GetPaymentIntent"></a></p>
-<h3 id='model-findpaymentintentrequest'>Model FindPaymentIntentRequest</h3>
-<p>Request body for the GetPaymentIntent operation contains the following properties</p>
-
-<div class="requestModel"></div>
-
-<table><thead>
-<tr>
-<th>Field</th>
-<th>Type</th>
-<th>Usage</th>
-<th>Description</th>
-</tr>
-</thead><tbody>
-<tr>
-<td><code>external-ref</code></td>
-<td>string</td>
-<td>Optional</td>
-<td>An external reference to lookup.<br/><br/>maxLength: 256</td>
-</tr>
-<tr>
-<td><code>external-ref-source</code></td>
-<td>string</td>
-<td>Optional</td>
-<td>An external reference source to lookup.</td>
-</tr>
-<tr>
-<td><code>payment_intent_id</code></td>
-<td>string</td>
-<td>Optional</td>
-<td>The payment intent id, if known.</td>
-</tr>
-</tbody></table>
-
-<p><a id="responseModel-GetPaymentIntent"></a></p>
-<h3 id='response-6'>Response</h3>
-<p>Responses for the GetPaymentIntent operation are</p>
-
-<div class="responseModel"></div>
-
-<table><thead>
-<tr>
-<th>StatusCode</th>
-<th>Description</th>
-<th>Content-Type</th>
-<th>Model</th>
-</tr>
-</thead><tbody>
-<tr>
-<td><code>200</code></td>
-<td>Returns a payment intent and optionally any transactions associated to the intent.</td>
-<td><code>application/json</code> <br/><code>text/xml</code></td>
-<td><a href="#paymentintentresponsemodel">PaymentIntentResponseModel</a></td>
-</tr>
-<tr>
-<td><code>400</code></td>
-<td>Bad Request. Should the incoming data not be validly determined.</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td><code>401</code></td>
-<td>Unauthorized. No api key has been provided and is required for this operation.</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td><code>403</code></td>
-<td>Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request.</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td><code>422</code></td>
-<td>Unprocessable Entity. Should a failure occur that prevents processing of the API call.</td>
-<td><code>application/json</code> <br/><code>text/xml</code></td>
-<td><a href="#error">Error</a></td>
-</tr>
-<tr>
-<td><code>500</code></td>
-<td>Server Error. The server was unable to complete the request.</td>
-<td></td>
-<td></td>
-</tr>
-</tbody></table>
 <h2 id='pares'>PaRes</h2>
 <div class="route-spec">
 <div class="route-path">
@@ -2221,7 +1940,7 @@ on its own without a previous <a href="#authenticationrequired">authentication r
 </tbody></table>
 
 <p><a id="responseModel-PaResRequest"></a></p>
-<h3 id='response-7'>Response</h3>
+<h3 id='response-5'>Response</h3>
 <p>Responses for the PaResRequest operation are</p>
 
 <div class="responseModel"></div>
@@ -2338,7 +2057,7 @@ original card used to process the transaction.</p>
 </tbody></table>
 
 <p><a id="responseModel-RefundRequest"></a></p>
-<h3 id='response-8'>Response</h3>
+<h3 id='response-6'>Response</h3>
 <p>Responses for the RefundRequest operation are</p>
 
 <div class="responseModel"></div>
@@ -2388,7 +2107,7 @@ original card used to process the transaction.</p>
 <td></td>
 </tr>
 </tbody></table>
-<h2 id='retrieval'>Retrieval</h2>
+<h2 id='transaction-retrieval'>Transaction Retrieval</h2>
 <div class="route-spec">
 <div class="route-path">
  <span class="http-method http-method-post">POST</span>
@@ -2464,7 +2183,7 @@ information to be returned.</p>
 </tbody></table>
 
 <p><a id="responseModel-RetrievalRequest"></a></p>
-<h3 id='response-9'>Response</h3>
+<h3 id='response-7'>Response</h3>
 <p>Responses for the RetrievalRequest operation are</p>
 
 <div class="responseModel"></div>
@@ -2585,7 +2304,7 @@ information to be returned.</p>
 </tbody></table>
 
 <p><a id="responseModel-CardTokenisationRequest"></a></p>
-<h3 id='response-10'>Response</h3>
+<h3 id='response-8'>Response</h3>
 <p>Responses for the CardTokenisationRequest operation are</p>
 
 <div class="responseModel"></div>
@@ -2603,6 +2322,293 @@ information to be returned.</p>
 <td>A result of the tokenisation request.</td>
 <td><code>application/json</code> <br/><code>text/xml</code></td>
 <td><a href="#cardtokenisationresponse">CardTokenisationResponse</a></td>
+</tr>
+<tr>
+<td><code>400</code></td>
+<td>Bad Request. Should the incoming data not be validly determined.</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>401</code></td>
+<td>Unauthorized. No api key has been provided and is required for this operation.</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>403</code></td>
+<td>Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request.</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>422</code></td>
+<td>Unprocessable Entity. Should a failure occur that prevents processing of the API call.</td>
+<td><code>application/json</code> <br/><code>text/xml</code></td>
+<td><a href="#error">Error</a></td>
+</tr>
+<tr>
+<td><code>500</code></td>
+<td>Server Error. The server was unable to complete the request.</td>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<h2 id='verification'>Verification</h2>
+<div class="route-spec">
+<div class="route-path">
+ <span class="http-method http-method-post">POST</span>
+ <span class="path">/v6/verify</span>
+</div>
+
+<div class="security-methods"><span class="key sec-cp-api-key">cp-api-key</span> </div>
+
+<p></div></p>
+
+<p>Performs a request for verification for a card payment request.</p>
+
+<div class="model-links">
+ <a href="#requestModel-VerificationRequest">Request Model</a>
+ <a href="#responseModel-VerificationRequest">Response Model</a>
+</div>
+
+<p><a id="requestModel-VerificationRequest"></a></p>
+<h3 id='model-verificationrequest'>Model VerificationRequest</h3>
+<p>Request body for the VerificationRequest operation contains the following properties</p>
+
+<div class="requestModel"></div>
+
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Usage</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>amount</code></td>
+<td>integer <em>int32</em></td>
+<td>Required</td>
+<td>The amount to authorise in the lowest unit of currency with a variable length to a maximum of 12 digits.<br/><br/>No decimal points are to be included and no divisional characters such as 1,024.<br/><br/>The amount should be the total amount required for the transaction.<br/><br/>For example with GBP £1,021.95 the amount value is 102195.<br/><br/> minLength: 1<br/>maxLength: 9</td>
+</tr>
+<tr>
+<td><code>identifier</code></td>
+<td>string</td>
+<td>Required</td>
+<td>The identifier of the transaction to process. The value should be a valid reference and may be used to perform  post processing actions and to aid in reconciliation of transactions.<br/><br/>The value should be a valid printable string with ASCII character ranges from 0x32 to 0x127.<br/><br/>The identifier is recommended to be distinct for each transaction such as a <a href="https://en.wikipedia.org/wiki/Universally_unique_identifier">random unique identifier</a> this will aid in ensuring each transaction is identifiable.<br/><br/>When transactions are processed they are also checked for duplicate requests. Changing the identifier on a subsequent request will ensure that a transaction is considered as different.<br/><br/> minLength: 4<br/>maxLength: 50</td>
+</tr>
+<tr>
+<td><code>merchantid</code></td>
+<td>integer <em>int32</em></td>
+<td>Required</td>
+<td>Identifies the merchant account to perform processing for.</td>
+</tr>
+<tr>
+<td><code>avs_postcode_policy</code></td>
+<td>string</td>
+<td>Optional</td>
+<td>A policy value which determines whether an AVS postcode policy is enforced or bypassed.<br/><br/>Values are:<br/><br/> <code>0</code> for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.<br/><br/> <code>1</code> for an enforced policy. Transactions that are enforced will be rejected if the AVS postcode numeric value does not match.<br/><br/> <code>2</code> to bypass. Transactions that are bypassed will be allowed through even if the postcode did not match.<br/><br/> <code>3</code> to ignore. Transactions that are ignored will bypass the result and not send postcode details for authorisation.</td>
+</tr>
+<tr>
+<td><code>bill_to</code></td>
+<td>object</td>
+<td>Optional</td>
+<td><a href="#contactdetails">ContactDetails</a> Billing details of the card holder making the payment. These details may be used for AVS fraud analysis, 3DS and for future referencing of the transaction.<br/><br/>For AVS to work correctly, the billing details should be the registered address of the card holder as it appears on the statement with their card issuer. The numeric details will be passed through for analysis and may result in a decline if incorrectly provided.</td>
+</tr>
+<tr>
+<td><code>cardnumber</code></td>
+<td>string</td>
+<td>Optional</td>
+<td>The card number (PAN) with a variable length to a maximum of 21 digits in numerical form. Any non numeric characters will be stripped out of the card number, this includes whitespace or separators internal of the provided value.<br/><br/>The card number must be treated as sensitive data. We only provide an obfuscated value in logging and reporting.  The plaintext value is encrypted in our database using AES 256 GMC bit encryption for settlement or refund purposes.<br/><br/>When providing the card number to our gateway through the authorisation API you will be handling the card data on your application. This will require further PCI controls to be in place and this value must never be stored.<br/><br/> minLength: 12<br/>maxLength: 22</td>
+</tr>
+<tr>
+<td><code>cp_card_token</code></td>
+<td>string</td>
+<td>Optional</td>
+<td>The card token previously stored and created by the /tokenise route.</td>
+</tr>
+<tr>
+<td><code>csc</code></td>
+<td>string</td>
+<td>Optional</td>
+<td>The Card Security Code (CSC) (also known as CV2/CVV2) is normally found on the back of the card (American Express has it on the front). The value helps to identify possession of the card as it is not available within the chip or magnetic swipe.<br/><br/>When forwarding the CSC, please ensure the value is a string as some values start with 0 and this will be stripped out by any integer parsing.<br/><br/>The CSC number aids fraud prevention in Mail Order and Internet payments.<br/><br/>Business rules are available on your account to identify whether to accept or decline transactions based on mismatched results of the CSC.<br/><br/>The Payment Card Industry (PCI) requires that at no stage of a transaction should the CSC be stored.<br/><br/>This applies to all entities handling card data.<br/><br/>It should also not be used in any hashing process.<br/><br/>CityPay do not store the value and have no method of retrieving the value once the transaction has been processed. For this reason, duplicate checking is unable to determine the CSC in its duplication check algorithm.<br/><br/> minLength: 3<br/>maxLength: 4</td>
+</tr>
+<tr>
+<td><code>csc_policy</code></td>
+<td>string</td>
+<td>Optional</td>
+<td>A policy value which determines whether a CSC policy is enforced or bypassed.<br/><br/>Values are:<br/><br/> <code>0</code> for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.<br/><br/> <code>1</code> for an enforced policy. Transactions that are enforced will be rejected if the CSC value does not match.<br/><br/> <code>2</code> to bypass. Transactions that are bypassed will be allowed through even if the CSC did not match.<br/><br/> <code>3</code> to ignore. Transactions that are ignored will bypass the result and not send the CSC details for authorisation.</td>
+</tr>
+<tr>
+<td><code>currency</code></td>
+<td>string</td>
+<td>Optional</td>
+<td>The processing currency for the transaction. Will default to the merchant account currency.<br/><br/>minLength: 3<br/>maxLength: 3</td>
+</tr>
+<tr>
+<td><code>duplicate_policy</code></td>
+<td>string</td>
+<td>Optional</td>
+<td>A policy value which determines whether a duplication policy is enforced or bypassed. A duplication check has a window of time set against your account within which it can action. If a previous transaction with matching values occurred within the window, any subsequent transaction will result in a T001 result.<br/><br/>Values are<br/><br/> <code>0</code> for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.<br/><br/> <code>1</code> for an enforced policy. Transactions that are enforced will be checked for duplication within the duplication window.<br/><br/> <code>2</code> to bypass. Transactions that are bypassed will not be checked for duplication within the duplication window.<br/><br/> <code>3</code> to ignore. Transactions that are ignored will have the same affect as bypass.</td>
+</tr>
+<tr>
+<td><code>expmonth</code></td>
+<td>integer <em>int32</em></td>
+<td>Optional</td>
+<td>The month of expiry of the card. The month value should be a numerical value between 1 and 12.<br/><br/> minimum: 1<br/>maximum: 12</td>
+</tr>
+<tr>
+<td><code>expyear</code></td>
+<td>integer <em>int32</em></td>
+<td>Optional</td>
+<td>The year of expiry of the card.<br/><br/> minimum: 2000<br/>maximum: 2100</td>
+</tr>
+<tr>
+<td><code>match_avsa</code></td>
+<td>string</td>
+<td>Optional</td>
+<td>A policy value which determines whether an AVS address policy is enforced, bypassed or ignored.<br/><br/>Values are:<br/><br/> <code>0</code> for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.<br/><br/> <code>1</code> for an enforced policy. Transactions that are enforced will be rejected if the AVS address numeric value does not match.<br/><br/> <code>2</code> to bypass. Transactions that are bypassed will be allowed through even if the address did not match.<br/><br/> <code>3</code> to ignore. Transactions that are ignored will bypass the result and not send address numeric details for authorisation.</td>
+</tr>
+<tr>
+<td><code>name_on_card</code></td>
+<td>string</td>
+<td>Optional</td>
+<td>The card holder name as appears on the card such as MR N E BODY. Required for some acquirers.<br/><br/> minLength: 2<br/>maxLength: 45</td>
+</tr>
+<tr>
+<td><code>pre_auth</code></td>
+<td>string</td>
+<td>Optional</td>
+<td>A policy value which determines whether a pre auth policy is enforced or bypassed.<br/><br/>Values are:<br/><br/> <code>0</code> for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.<br/><br/> <code>1</code> for an enforced policy.  Enforces pre-authorisation when it does not pre-auth by default.<br/><br/> <code>2</code> to bypass. Bypasses pre-authorisation when it is enabled to pre auth by default.<br/><br/> <code>3</code> to ignore. The same as the default policy (0). Although it currently mirrors the default, this option is included for compatibility with other policies.</td>
+</tr>
+<tr>
+<td><code>ship_to</code></td>
+<td>object</td>
+<td>Optional</td>
+<td><a href="#contactdetails">ContactDetails</a> Shipping details of the card holder making the payment. These details may be used for 3DS and for future referencing of the transaction.</td>
+</tr>
+<tr>
+<td><code>tag</code></td>
+<td>array</td>
+<td>Optional</td>
+<td>type: string</td>
+</tr>
+<tr>
+<td><code>threeds_token</code></td>
+<td>string</td>
+<td>Optional</td>
+<td>The threedsecure token generated by a call to /areq which may or may not be challenged.</td>
+</tr>
+<tr>
+<td><code>threedsecure</code></td>
+<td>object</td>
+<td>Optional</td>
+<td><a href="#threedsecure">ThreeDSecure</a> ThreeDSecure element, providing values to enable full 3DS processing flows.</td>
+</tr>
+<tr>
+<td><code>trans_info</code></td>
+<td>string</td>
+<td>Optional</td>
+<td>Further information that can be added to the transaction will display in reporting. Can be used for flexible values such as operator id.<br/><br/>maxLength: 50</td>
+</tr>
+<tr>
+<td><code>trans_type</code></td>
+<td>string</td>
+<td>Optional</td>
+<td>The type of transaction being submitted. Normally this value is not required and your account manager may request that you set this field.<br/><br/>maxLength: 1</td>
+</tr>
+<tr>
+<td><code>uuid</code></td>
+<td>string <em>uuid</em></td>
+<td>Optional</td>
+<td>A uuid for the session. The value tracks through 3ds session and therefore should be a valid v4 uuid.<br/><br/>minLength: 36<br/>maxLength: 36</td>
+</tr>
+</tbody></table>
+<h3 id='business-extension-event-management-3'>Business Extension: Event Management</h3>
+<p>Supports the event management business extension by adding the following parameters to the request.</p>
+
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>event_management</code></td>
+<td>object</td>
+<td><a href="#eventdatamodel">EventDataModel</a> Additional advice data for event management integration that can be applied to an authorisation request.</td>
+</tr>
+</tbody></table>
+<h3 id='business-extension-airline-3'>Business Extension: Airline</h3>
+<p>Supports the airline business extension by adding the following parameters to the request.</p>
+
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>airline_data</code></td>
+<td>object</td>
+<td><a href="#airlineadvice">AirlineAdvice</a> Additional advice for airline integration that can be applied on an authorisation request.<br/><br/>As tickets are normally not allocated until successful payment it is normal for a transaction to be pre-authorised  and the airline advice supplied on a capture request instead. Should the data already exist and an auth and  capture is preferred. This data may be supplied.</td>
+</tr>
+</tbody></table>
+<h3 id='business-extension-mcc6012-2'>Business Extension: MCC6012</h3>
+<p>Supports the mcc6012 business extension by adding the following parameters to the request.</p>
+
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>mcc6012</code></td>
+<td>object</td>
+<td><a href="#mcc6012">MCC6012</a> If the merchant is MCC coded as 6012, additional values are required for authorisation.</td>
+</tr>
+</tbody></table>
+<h3 id='business-extension-3dsv1-mpi-2'>Business Extension: 3DSv1 MPI</h3>
+<p>Supports the 3dsv1 mpi business extension by adding the following parameters to the request.</p>
+
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>external_mpi</code></td>
+<td>object</td>
+<td><a href="#externalmpi">ExternalMPI</a> If an external 3DSv1 MPI is used for authentication, values provided can be supplied in this element.</td>
+</tr>
+</tbody></table>
+
+<p><a id="responseModel-VerificationRequest"></a></p>
+<h3 id='response-9'>Response</h3>
+<p>Responses for the VerificationRequest operation are</p>
+
+<div class="responseModel"></div>
+
+<table><thead>
+<tr>
+<th>StatusCode</th>
+<th>Description</th>
+<th>Content-Type</th>
+<th>Model</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>200</code></td>
+<td>A decision made by the result of verification.</td>
+<td><code>application/json</code> <br/><code>text/xml</code></td>
+<td><a href="#decision">Decision</a></td>
 </tr>
 <tr>
 <td><code>400</code></td>
@@ -2723,7 +2729,7 @@ outlining the result of the transaction.</p>
 </tbody></table>
 
 <p><a id="responseModel-VoidRequest"></a></p>
-<h3 id='response-11'>Response</h3>
+<h3 id='response-10'>Response</h3>
 <p>Responses for the VoidRequest operation are</p>
 
 <div class="responseModel"></div>
@@ -2840,7 +2846,7 @@ status.</p>
 </tbody></table>
 
 <p><a id="responseModel-BatchProcessRequest"></a></p>
-<h3 id='response-12'>Response</h3>
+<h3 id='response-11'>Response</h3>
 <p>Responses for the BatchProcessRequest operation are</p>
 
 <div class="responseModel"></div>
@@ -2937,7 +2943,7 @@ status.</p>
 </tbody></table>
 
 <p><a id="responseModel-BatchRetrieveRequest"></a></p>
-<h3 id='response-13'>Response</h3>
+<h3 id='response-12'>Response</h3>
 <p>Responses for the BatchRetrieveRequest operation are</p>
 
 <div class="responseModel"></div>
@@ -3034,7 +3040,7 @@ status.</p>
 </tbody></table>
 
 <p><a id="responseModel-CheckBatchStatusRequest"></a></p>
-<h3 id='response-14'>Response</h3>
+<h3 id='response-13'>Response</h3>
 <p>Responses for the CheckBatchStatusRequest operation are</p>
 
 <div class="responseModel"></div>
@@ -3125,7 +3131,7 @@ processing options.</p>
 </tbody></table>
 
 <p><a id="responseModel-AccountExistsRequest"></a></p>
-<h3 id='response-15'>Response</h3>
+<h3 id='response-14'>Response</h3>
 <p>Responses for the AccountExistsRequest operation are</p>
 
 <div class="responseModel"></div>
@@ -3222,7 +3228,7 @@ processing options.</p>
 </tbody></table>
 
 <p><a id="responseModel-AccountCreate"></a></p>
-<h3 id='response-16'>Response</h3>
+<h3 id='response-15'>Response</h3>
 <p>Responses for the AccountCreate operation are</p>
 
 <div class="responseModel"></div>
@@ -3310,7 +3316,7 @@ enable a card holder to view their wallet and make constructive choices on which
 </tbody></table>
 
 <p><a id="responseModel-AccountRetrieveRequest"></a></p>
-<h3 id='response-17'>Response</h3>
+<h3 id='response-16'>Response</h3>
 <p>Responses for the AccountRetrieveRequest operation are</p>
 
 <div class="responseModel"></div>
@@ -3394,7 +3400,7 @@ transactions will be alowed to be processed or actioned against this account.</p
 </tbody></table>
 
 <p><a id="responseModel-AccountDeleteRequest"></a></p>
-<h3 id='response-18'>Response</h3>
+<h3 id='response-17'>Response</h3>
 <p>Responses for the AccountDeleteRequest operation are</p>
 
 <div class="responseModel"></div>
@@ -3483,7 +3489,7 @@ purge will clear the card permanently.</p>
 </tbody></table>
 
 <p><a id="responseModel-AccountCardDeleteRequest"></a></p>
-<h3 id='response-19'>Response</h3>
+<h3 id='response-18'>Response</h3>
 <p>Responses for the AccountCardDeleteRequest operation are</p>
 
 <div class="responseModel"></div>
@@ -3619,7 +3625,7 @@ purge will clear the card permanently.</p>
 </tbody></table>
 
 <p><a id="responseModel-AccountCardStatusRequest"></a></p>
-<h3 id='response-20'>Response</h3>
+<h3 id='response-19'>Response</h3>
 <p>Responses for the AccountCardStatusRequest operation are</p>
 
 <div class="responseModel"></div>
@@ -3796,7 +3802,7 @@ purge will clear the card permanently.</p>
 </tbody></table>
 
 <p><a id="responseModel-AccountChangeContactRequest"></a></p>
-<h3 id='response-21'>Response</h3>
+<h3 id='response-20'>Response</h3>
 <p>Responses for the AccountChangeContactRequest operation are</p>
 
 <div class="responseModel"></div>
@@ -3934,7 +3940,7 @@ processing and will be available as a tokenised value for future processing.</p>
 </tbody></table>
 
 <p><a id="responseModel-AccountCardRegisterRequest"></a></p>
-<h3 id='response-22'>Response</h3>
+<h3 id='response-21'>Response</h3>
 <p>Responses for the AccountCardRegisterRequest operation are</p>
 
 <div class="responseModel"></div>
@@ -4055,7 +4061,7 @@ processing and will be available as a tokenised value for future processing.</p>
 </tbody></table>
 
 <p><a id="responseModel-AccountStatusRequest"></a></p>
-<h3 id='response-23'>Response</h3>
+<h3 id='response-22'>Response</h3>
 <p>Responses for the AccountStatusRequest operation are</p>
 
 <div class="responseModel"></div>
@@ -4265,7 +4271,7 @@ required field with both Visa and MasterCard for risk analysis.</em>.</p>
 </tbody></table>
 
 <p><a id="responseModel-ChargeRequest"></a></p>
-<h3 id='response-24'>Response</h3>
+<h3 id='response-23'>Response</h3>
 <p>Responses for the ChargeRequest operation are</p>
 
 <div class="responseModel"></div>
@@ -4543,7 +4549,7 @@ initial direct post call and must be run on a pre-registered host. Our validatio
 </tbody></table>
 
 <p><a id="responseModel-DirectPostAuthRequest"></a></p>
-<h3 id='response-25'>Response</h3>
+<h3 id='response-24'>Response</h3>
 <p>Responses for the DirectPostAuthRequest operation are</p>
 
 <div class="responseModel"></div>
@@ -4668,7 +4674,7 @@ perform a <code>Direct Post</code> integration who wish to handle the challenge 
 </tbody></table>
 
 <p><a id="responseModel-DirectCResAuthRequest"></a></p>
-<h3 id='response-26'>Response</h3>
+<h3 id='response-25'>Response</h3>
 <p>Responses for the DirectCResAuthRequest operation are</p>
 
 <div class="responseModel"></div>
@@ -4793,7 +4799,7 @@ perform a <code>Direct Post</code> integration who wish to handle the challenge 
 </tbody></table>
 
 <p><a id="responseModel-DirectCResTokeniseRequest"></a></p>
-<h3 id='response-27'>Response</h3>
+<h3 id='response-26'>Response</h3>
 <p>Responses for the DirectCResTokeniseRequest operation are</p>
 
 <div class="responseModel"></div>
@@ -4915,7 +4921,7 @@ response stating that the transaction was approved or declined.</p>
 </tbody></table>
 
 <p><a id="responseModel-TokenRequest"></a></p>
-<h3 id='response-28'>Response</h3>
+<h3 id='response-27'>Response</h3>
 <p>Responses for the TokenRequest operation are</p>
 
 <div class="responseModel"></div>
@@ -5150,7 +5156,7 @@ response stating that the transaction was approved or declined.</p>
 </tbody></table>
 
 <p><a id="responseModel-DirectPostTokeniseRequest"></a></p>
-<h3 id='response-29'>Response</h3>
+<h3 id='response-28'>Response</h3>
 <p>Responses for the DirectPostTokeniseRequest operation are</p>
 
 <div class="responseModel"></div>
@@ -5256,7 +5262,7 @@ domain key meet their expectations.</p>
 </tbody></table>
 
 <p><a id="responseModel-DomainKeyCheckRequest"></a></p>
-<h3 id='response-30'>Response</h3>
+<h3 id='response-29'>Response</h3>
 <p>Responses for the DomainKeyCheckRequest operation are</p>
 
 <div class="responseModel"></div>
@@ -5366,7 +5372,7 @@ domain key meet their expectations.</p>
 </tbody></table>
 
 <p><a id="responseModel-DomainKeyGenRequest"></a></p>
-<h3 id='response-31'>Response</h3>
+<h3 id='response-30'>Response</h3>
 <p>Responses for the DomainKeyGenRequest operation are</p>
 
 <div class="responseModel"></div>
@@ -5458,7 +5464,7 @@ services such as AWS or Azure to check that those addresses are listed in the AC
 </tbody></table>
 
 <p><a id="responseModel-AclCheckRequest"></a></p>
-<h3 id='response-32'>Response</h3>
+<h3 id='response-31'>Response</h3>
 <p>Responses for the AclCheckRequest operation are</p>
 
 <div class="responseModel"></div>
@@ -5545,7 +5551,7 @@ services such as AWS or Azure to check that those addresses are listed in the AC
 </tbody></table>
 
 <p><a id="responseModel-ListMerchantsRequest"></a></p>
-<h3 id='response-33'>Response</h3>
+<h3 id='response-32'>Response</h3>
 <p>Responses for the ListMerchantsRequest operation are</p>
 
 <div class="responseModel"></div>
@@ -5642,7 +5648,7 @@ services such as AWS or Azure to check that those addresses are listed in the AC
 </tbody></table>
 
 <p><a id="responseModel-RegisterTempKey"></a></p>
-<h3 id='response-34'>Response</h3>
+<h3 id='response-33'>Response</h3>
 <p>Responses for the RegisterTempKey operation are</p>
 
 <div class="responseModel"></div>
@@ -5739,7 +5745,7 @@ model is granting access from your source.</p>
 </tbody></table>
 
 <p><a id="responseModel-PingRequest"></a></p>
-<h3 id='response-35'>Response</h3>
+<h3 id='response-34'>Response</h3>
 <p>Responses for the PingRequest operation are</p>
 
 <div class="responseModel"></div>
@@ -6131,7 +6137,7 @@ firewall from blocking your request and to also ensure efficiency of larger file
 </tbody></table>
 
 <p><a id="responseModel-TokenCreateBillPaymentRequest"></a></p>
-<h3 id='response-36'>Response</h3>
+<h3 id='response-35'>Response</h3>
 <p>Responses for the TokenCreateBillPaymentRequest operation are</p>
 
 <div class="responseModel"></div>
@@ -6300,7 +6306,7 @@ firewall from blocking your request and to also ensure efficiency of larger file
 </tbody></table>
 
 <p><a id="responseModel-TokenCreateRequest"></a></p>
-<h3 id='response-37'>Response</h3>
+<h3 id='response-36'>Response</h3>
 <p>Responses for the TokenCreateRequest operation are</p>
 
 <div class="responseModel"></div>
@@ -6415,7 +6421,7 @@ firewall from blocking your request and to also ensure efficiency of larger file
 </tbody></table>
 
 <p><a id="responseModel-TokenChangesRequest"></a></p>
-<h3 id='response-38'>Response</h3>
+<h3 id='response-37'>Response</h3>
 <p>Responses for the TokenChangesRequest operation are</p>
 
 <div class="responseModel"></div>
@@ -6537,7 +6543,7 @@ firewall from blocking your request and to also ensure efficiency of larger file
 </tbody></table>
 
 <p><a id="responseModel-TokenAdjustmentRequest"></a></p>
-<h3 id='response-39'>Response</h3>
+<h3 id='response-38'>Response</h3>
 <p>Responses for the TokenAdjustmentRequest operation are</p>
 
 <div class="responseModel"></div>
@@ -6620,7 +6626,7 @@ firewall from blocking your request and to also ensure efficiency of larger file
 </tbody></table>
 
 <p><a id="responseModel-TokenCancelRequest"></a></p>
-<h3 id='response-40'>Response</h3>
+<h3 id='response-39'>Response</h3>
 <p>Responses for the TokenCancelRequest operation are</p>
 
 <div class="responseModel"></div>
@@ -6704,7 +6710,7 @@ request calls.</p>
 </tbody></table>
 
 <p><a id="responseModel-TokenCloseRequest"></a></p>
-<h3 id='response-41'>Response</h3>
+<h3 id='response-40'>Response</h3>
 <p>Responses for the TokenCloseRequest operation are</p>
 
 <div class="responseModel"></div>
@@ -6787,7 +6793,7 @@ request calls.</p>
 </tbody></table>
 
 <p><a id="responseModel-TokenPurgeAttachmentsRequest"></a></p>
-<h3 id='response-42'>Response</h3>
+<h3 id='response-41'>Response</h3>
 <p>Responses for the TokenPurgeAttachmentsRequest operation are</p>
 
 <div class="responseModel"></div>
@@ -6870,7 +6876,7 @@ request calls.</p>
 </tbody></table>
 
 <p><a id="responseModel-TokenReconciledRequest"></a></p>
-<h3 id='response-43'>Response</h3>
+<h3 id='response-42'>Response</h3>
 <p>Responses for the TokenReconciledRequest operation are</p>
 
 <div class="responseModel"></div>
@@ -6953,7 +6959,7 @@ request calls.</p>
 </tbody></table>
 
 <p><a id="responseModel-TokenReopenRequest"></a></p>
-<h3 id='response-44'>Response</h3>
+<h3 id='response-43'>Response</h3>
 <p>Responses for the TokenReopenRequest operation are</p>
 
 <div class="responseModel"></div>
@@ -7064,7 +7070,7 @@ request calls.</p>
 </tbody></table>
 
 <p><a id="responseModel-TokenResendNotificationRequest"></a></p>
-<h3 id='response-45'>Response</h3>
+<h3 id='response-44'>Response</h3>
 <p>Responses for the TokenResendNotificationRequest operation are</p>
 
 <div class="responseModel"></div>
@@ -7147,7 +7153,7 @@ request calls.</p>
 </tbody></table>
 
 <p><a id="responseModel-TokenStatusRequest"></a></p>
-<h3 id='response-46'>Response</h3>
+<h3 id='response-45'>Response</h3>
 <p>Responses for the TokenStatusRequest operation are</p>
 
 <div class="responseModel"></div>
@@ -7165,6 +7171,300 @@ request calls.</p>
 <td>The current status of the token.</td>
 <td><code>application/json</code> <br/><code>text/xml</code></td>
 <td><a href="#paylinktokenstatus">PaylinkTokenStatus</a></td>
+</tr>
+<tr>
+<td><code>400</code></td>
+<td>Bad Request. Should the incoming data not be validly determined.</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>401</code></td>
+<td>Unauthorized. No api key has been provided and is required for this operation.</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>403</code></td>
+<td>Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request.</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>422</code></td>
+<td>Unprocessable Entity. Should a failure occur that prevents processing of the API call.</td>
+<td><code>application/json</code> <br/><code>text/xml</code></td>
+<td><a href="#error">Error</a></td>
+</tr>
+<tr>
+<td><code>500</code></td>
+<td>Server Error. The server was unable to complete the request.</td>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<h1 id='payment-intent-api'>Payment Intent Api</h1>
+<p>.</p>
+<h2 id='create-a-payment-intent'>Create a Payment Intent</h2>
+<div class="route-spec">
+<div class="route-path">
+ <span class="http-method http-method-post">POST</span>
+ <span class="path">/v6/intent/create</span>
+</div>
+
+<div class="security-methods"><span class="key sec-cp-api-key">cp-api-key</span> </div>
+
+<p></div></p>
+
+<p>This endpoint initiates the creation of a payment intent, which is a precursor to processing a payment. A payment intent
+captures the details of a prospective payment transaction, including the payment amount, currency, and associated
+billing and shipping information.</p>
+
+<div class="model-links">
+ <a href="#requestModel-CreatePaymentIntent">Request Model</a>
+ <a href="#responseModel-CreatePaymentIntent">Response Model</a>
+</div>
+
+<p><a id="requestModel-CreatePaymentIntent"></a></p>
+<h3 id='model-paymentintentrequestmodel'>Model PaymentIntentRequestModel</h3>
+<p>Request body for the CreatePaymentIntent operation contains the following properties</p>
+
+<div class="requestModel"></div>
+
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Usage</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>amount</code></td>
+<td>integer <em>int32</em></td>
+<td>Required</td>
+<td>The amount to authorise in the lowest unit of currency with a variable length to a maximum of 12 digits.<br/><br/>No decimal points are to be included and no divisional characters such as 1,024.<br/><br/>The amount should be the total amount required for the transaction.<br/><br/>For example with GBP £1,021.95 the amount value is 102195.<br/><br/> minLength: 1<br/>maxLength: 9</td>
+</tr>
+<tr>
+<td><code>identifier</code></td>
+<td>string</td>
+<td>Required</td>
+<td>The identifier of the transaction to process. The value should be a valid reference and may be used to perform  post processing actions and to aid in reconciliation of transactions.<br/><br/>The value should be a valid printable string with ASCII character ranges from 0x32 to 0x127.<br/><br/>The identifier is recommended to be distinct for each transaction such as a <a href="https://en.wikipedia.org/wiki/Universally_unique_identifier">random unique identifier</a> this will aid in ensuring each transaction is identifiable.<br/><br/>When transactions are processed they are also checked for duplicate requests. Changing the identifier on a subsequent request will ensure that a transaction is considered as different.<br/><br/> minLength: 4<br/>maxLength: 50</td>
+</tr>
+<tr>
+<td><code>adjustments</code></td>
+<td>object</td>
+<td>Optional</td>
+<td><a href="#adjustments">Adjustments</a> Adjustments refer to the modifications applied to the base amount of a transaction, including surcharges, discounts, or other financial alterations. These adjustments are critical in calculating the final amount due, based on specific conditions such as payment timing, discount codes, or business rules.<br/><br/>Each adjustment is processed according to predefined criteria, ensuring that the final transaction amount accurately reflects any applicable financial rules or incentives. It is important to configure adjustments correctly, as they directly influence the payment amount and may impact the acceptance or rejection of a transaction.</td>
+</tr>
+<tr>
+<td><code>avs_postcode_policy</code></td>
+<td>string</td>
+<td>Optional</td>
+<td>A policy value which determines whether an AVS postcode policy is enforced or bypassed.<br/><br/>Values are:<br/><br/> <code>0</code> for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.<br/><br/> <code>1</code> for an enforced policy. Transactions that are enforced will be rejected if the AVS postcode numeric value does not match.<br/><br/> <code>2</code> to bypass. Transactions that are bypassed will be allowed through even if the postcode did not match.<br/><br/> <code>3</code> to ignore. Transactions that are ignored will bypass the result and not send postcode details for authorisation.</td>
+</tr>
+<tr>
+<td><code>bill_to</code></td>
+<td>object</td>
+<td>Optional</td>
+<td><a href="#contactdetails">ContactDetails</a> Billing details of the card holder making the payment. These details may be used for AVS fraud analysis, 3DS and for future referencing of the transaction.<br/><br/>For AVS to work correctly, the billing details should be the registered address of the card holder as it appears on the statement with their card issuer. The numeric details will be passed through for analysis and may result in a decline if incorrectly provided.</td>
+</tr>
+<tr>
+<td><code>csc_policy</code></td>
+<td>string</td>
+<td>Optional</td>
+<td>A policy value which determines whether a CSC policy is enforced or bypassed.<br/><br/>Values are:<br/><br/> <code>0</code> for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.<br/><br/> <code>1</code> for an enforced policy. Transactions that are enforced will be rejected if the CSC value does not match.<br/><br/> <code>2</code> to bypass. Transactions that are bypassed will be allowed through even if the CSC did not match.<br/><br/> <code>3</code> to ignore. Transactions that are ignored will bypass the result and not send the CSC details for authorisation.</td>
+</tr>
+<tr>
+<td><code>currency</code></td>
+<td>string</td>
+<td>Optional</td>
+<td>The processing currency for the transaction. Will default to the merchant account currency.<br/><br/>minLength: 3<br/>maxLength: 3</td>
+</tr>
+<tr>
+<td><code>duplicate_policy</code></td>
+<td>string</td>
+<td>Optional</td>
+<td>A policy value which determines whether a duplication policy is enforced or bypassed. A duplication check has a window of time set against your account within which it can action. If a previous transaction with matching values occurred within the window, any subsequent transaction will result in a T001 result.<br/><br/>Values are<br/><br/> <code>0</code> for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.<br/><br/> <code>1</code> for an enforced policy. Transactions that are enforced will be checked for duplication within the duplication window.<br/><br/> <code>2</code> to bypass. Transactions that are bypassed will not be checked for duplication within the duplication window.<br/><br/> <code>3</code> to ignore. Transactions that are ignored will have the same affect as bypass.</td>
+</tr>
+<tr>
+<td><code>external-ref</code></td>
+<td>string</td>
+<td>Optional</td>
+<td>A unique identifier, such as an order ID or invoice number, provided by your accounting or billing system to link the payment intent with an external system reference. This ensures traceability across systems for audits and transaction validation.<br/><br/>maxLength: 256</td>
+</tr>
+<tr>
+<td><code>external-ref-source</code></td>
+<td>string</td>
+<td>Optional</td>
+<td>Specifies the originating source or system of the external reference, helping to categorise and trace the context of the external identifier, whether it comes from an internal system, third-party vendor, or external financial platform.</td>
+</tr>
+<tr>
+<td><code>match_avsa</code></td>
+<td>string</td>
+<td>Optional</td>
+<td>A policy value which determines whether an AVS address policy is enforced, bypassed or ignored.<br/><br/>Values are:<br/><br/> <code>0</code> for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.<br/><br/> <code>1</code> for an enforced policy. Transactions that are enforced will be rejected if the AVS address numeric value does not match.<br/><br/> <code>2</code> to bypass. Transactions that are bypassed will be allowed through even if the address did not match.<br/><br/> <code>3</code> to ignore. Transactions that are ignored will bypass the result and not send address numeric details for authorisation.</td>
+</tr>
+<tr>
+<td><code>merchantid</code></td>
+<td>integer <em>int32</em></td>
+<td>Optional</td>
+<td>The merchant id of the intent, required if using the API key or not required if using a domain key.</td>
+</tr>
+<tr>
+<td><code>pre_auth</code></td>
+<td>string</td>
+<td>Optional</td>
+<td>A policy value which determines whether a pre auth policy is enforced or bypassed.<br/><br/>Values are:<br/><br/> <code>0</code> for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.<br/><br/> <code>1</code> for an enforced policy.  Enforces pre-authorisation when it does not pre-auth by default.<br/><br/> <code>2</code> to bypass. Bypasses pre-authorisation when it is enabled to pre auth by default.<br/><br/> <code>3</code> to ignore. The same as the default policy (0). Although it currently mirrors the default, this option is included for compatibility with other policies.</td>
+</tr>
+<tr>
+<td><code>ship_to</code></td>
+<td>object</td>
+<td>Optional</td>
+<td><a href="#contactdetails">ContactDetails</a> Shipping details of the card holder making the payment. These details may be used for 3DS and for future referencing of the transaction.</td>
+</tr>
+<tr>
+<td><code>tag</code></td>
+<td>array</td>
+<td>Optional</td>
+<td>type: string</td>
+</tr>
+<tr>
+<td><code>trans_info</code></td>
+<td>string</td>
+<td>Optional</td>
+<td>Further information that can be added to the transaction will display in reporting. Can be used for flexible values such as operator id.<br/><br/>maxLength: 50</td>
+</tr>
+<tr>
+<td><code>trans_type</code></td>
+<td>string</td>
+<td>Optional</td>
+<td>The type of transaction being submitted. Normally this value is not required and your account manager may request that you set this field.<br/><br/>maxLength: 1</td>
+</tr>
+</tbody></table>
+
+<p><a id="responseModel-CreatePaymentIntent"></a></p>
+<h3 id='response-46'>Response</h3>
+<p>Responses for the CreatePaymentIntent operation are</p>
+
+<div class="responseModel"></div>
+
+<table><thead>
+<tr>
+<th>StatusCode</th>
+<th>Description</th>
+<th>Content-Type</th>
+<th>Model</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>200</code></td>
+<td>Returns the id of the payment intent.</td>
+<td><code>application/json</code> <br/><code>text/xml</code></td>
+<td><a href="#paymentintentreference">PaymentIntentReference</a></td>
+</tr>
+<tr>
+<td><code>400</code></td>
+<td>Bad Request. Should the incoming data not be validly determined.</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>401</code></td>
+<td>Unauthorized. No api key has been provided and is required for this operation.</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>403</code></td>
+<td>Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request.</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>422</code></td>
+<td>Unprocessable Entity. Should a failure occur that prevents processing of the API call.</td>
+<td><code>application/json</code> <br/><code>text/xml</code></td>
+<td><a href="#error">Error</a></td>
+</tr>
+<tr>
+<td><code>500</code></td>
+<td>Server Error. The server was unable to complete the request.</td>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<h2 id='retrieves-a-payment-intent'>Retrieves a Payment Intent</h2>
+<div class="route-spec">
+<div class="route-path">
+ <span class="http-method http-method-post">POST</span>
+ <span class="path">/v6/intent/retrieve</span>
+</div>
+
+<div class="security-methods"><span class="key sec-cp-api-key">cp-api-key</span> </div>
+
+<p></div></p>
+
+<p>Obtains a payment intent.</p>
+
+<div class="model-links">
+ <a href="#requestModel-GetPaymentIntent">Request Model</a>
+ <a href="#responseModel-GetPaymentIntent">Response Model</a>
+</div>
+
+<p><a id="requestModel-GetPaymentIntent"></a></p>
+<h3 id='model-findpaymentintentrequest'>Model FindPaymentIntentRequest</h3>
+<p>Request body for the GetPaymentIntent operation contains the following properties</p>
+
+<div class="requestModel"></div>
+
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Usage</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>external-ref</code></td>
+<td>string</td>
+<td>Optional</td>
+<td>An external reference to lookup.<br/><br/>maxLength: 256</td>
+</tr>
+<tr>
+<td><code>external-ref-source</code></td>
+<td>string</td>
+<td>Optional</td>
+<td>An external reference source to lookup.</td>
+</tr>
+<tr>
+<td><code>payment_intent_id</code></td>
+<td>string</td>
+<td>Optional</td>
+<td>The payment intent id, if known.</td>
+</tr>
+</tbody></table>
+
+<p><a id="responseModel-GetPaymentIntent"></a></p>
+<h3 id='response-47'>Response</h3>
+<p>Responses for the GetPaymentIntent operation are</p>
+
+<div class="responseModel"></div>
+
+<table><thead>
+<tr>
+<th>StatusCode</th>
+<th>Description</th>
+<th>Content-Type</th>
+<th>Model</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>200</code></td>
+<td>Returns a payment intent and optionally any transactions associated to the intent.</td>
+<td><code>application/json</code> <br/><code>text/xml</code></td>
+<td><a href="#paymentintentresponsemodel">PaymentIntentResponseModel</a></td>
 </tr>
 <tr>
 <td><code>400</code></td>
@@ -7272,7 +7572,7 @@ These batches play a crucial role in the settlement of funds by summarising dail
 </tbody></table>
 
 <p><a id="responseModel-MerchantBatchReportRequest"></a></p>
-<h3 id='response-47'>Response</h3>
+<h3 id='response-48'>Response</h3>
 <p>Responses for the MerchantBatchReportRequest operation are</p>
 
 <div class="responseModel"></div>
@@ -7360,7 +7660,7 @@ These batches play a crucial role in the settlement of funds by summarising dail
 </tbody></table>
 
 <p><a id="responseModel-MerchantBatchRequest"></a></p>
-<h3 id='response-48'>Response</h3>
+<h3 id='response-49'>Response</h3>
 <p>Responses for the MerchantBatchRequest operation are</p>
 
 <div class="responseModel"></div>
@@ -7482,7 +7782,7 @@ These batches play a crucial role in the settlement of funds by summarising dail
 </tbody></table>
 
 <p><a id="responseModel-BatchedTransactionReportRequest"></a></p>
-<h3 id='response-49'>Response</h3>
+<h3 id='response-50'>Response</h3>
 <p>Responses for the BatchedTransactionReportRequest operation are</p>
 
 <div class="responseModel"></div>
@@ -7621,7 +7921,7 @@ deductions made by the acquirer.</p>
 </tbody></table>
 
 <p><a id="responseModel-RemittanceRangeReport"></a></p>
-<h3 id='response-50'>Response</h3>
+<h3 id='response-51'>Response</h3>
 <p>Responses for the RemittanceRangeReport operation are</p>
 
 <div class="responseModel"></div>
@@ -7716,7 +8016,7 @@ latest remittance date available.</p>
 </tbody></table>
 
 <p><a id="responseModel-RemittanceReportRequest"></a></p>
-<h3 id='response-51'>Response</h3>
+<h3 id='response-52'>Response</h3>
 <p>Responses for the RemittanceReportRequest operation are</p>
 
 <div class="responseModel"></div>
@@ -7850,7 +8150,7 @@ should flow through this channel.</p>
 </tbody></table>
 
 <p><a id="responseModel-WebHookChannelCreateRequest"></a></p>
-<h3 id='response-52'>Response</h3>
+<h3 id='response-53'>Response</h3>
 <p>Responses for the WebHookChannelCreateRequest operation are</p>
 
 <div class="responseModel"></div>
@@ -7944,7 +8244,7 @@ endpoint, ensuring that no additional events are processed through that channel.
 </tbody></table>
 
 <p><a id="responseModel-WebHookChannelDeleteRequest"></a></p>
-<h3 id='response-53'>Response</h3>
+<h3 id='response-54'>Response</h3>
 <p>Responses for the WebHookChannelDeleteRequest operation are</p>
 
 <div class="responseModel"></div>
@@ -8061,7 +8361,7 @@ relevant event data flows through the channel.</p>
 </tbody></table>
 
 <p><a id="responseModel-WebHookSubscriptionRequest"></a></p>
-<h3 id='response-54'>Response</h3>
+<h3 id='response-55'>Response</h3>
 <p>Responses for the WebHookSubscriptionRequest operation are</p>
 
 <div class="responseModel"></div>
@@ -8159,7 +8459,7 @@ to stop receiving event notifications for specific webhook subscriptions that ar
 </tbody></table>
 
 <p><a id="responseModel-WebHookUnsubscribeRequest"></a></p>
-<h3 id='response-55'>Response</h3>
+<h3 id='response-56'>Response</h3>
 <p>Responses for the WebHookUnsubscribeRequest operation are</p>
 
 <div class="responseModel"></div>
@@ -11176,17 +11476,17 @@ to stop receiving event notifications for specific webhook subscriptions that ar
 </tr>
 </tbody></table>
 <h2 id='eventdatamodel'>EventDataModel</h2><div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-   </span><span class="nl">"event_end_date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2024-12-06"</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"event_end_date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2024-12-09"</span><span class="p">,</span><span class="w">
    </span><span class="nl">"event_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
    </span><span class="nl">"event_organiser_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
-   </span><span class="nl">"event_start_date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2024-12-06"</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"event_start_date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2024-12-09"</span><span class="p">,</span><span class="w">
    </span><span class="nl">"payment_type"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre></div><div class="highlight"><pre class="highlight xml tab-xml"><code><span class="nt">&lt;EventDataModel&gt;</span>
- <span class="nt">&lt;event_end_date&gt;</span>2024-12-06<span class="nt">&lt;/event_end_date&gt;</span> 
+ <span class="nt">&lt;event_end_date&gt;</span>2024-12-09<span class="nt">&lt;/event_end_date&gt;</span> 
  <span class="nt">&lt;event_id&gt;&lt;/event_id&gt;</span> 
  <span class="nt">&lt;event_organiser_id&gt;&lt;/event_organiser_id&gt;</span> 
- <span class="nt">&lt;event_start_date&gt;</span>2024-12-06<span class="nt">&lt;/event_start_date&gt;</span> 
+ <span class="nt">&lt;event_start_date&gt;</span>2024-12-09<span class="nt">&lt;/event_start_date&gt;</span> 
  <span class="nt">&lt;payment_type&gt;&lt;/payment_type&gt;</span> 
 <span class="nt">&lt;/EventDataModel&gt;</span>
 </code></pre></div>
@@ -11606,7 +11906,7 @@ to stop receiving event notifications for specific webhook subscriptions that ar
 </tr>
 </tbody></table>
 <h2 id='merchantbatchresponse'>MerchantBatchResponse</h2><div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-   </span><span class="nl">"batch_closed"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2024-12-06"</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"batch_closed"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2024-12-09"</span><span class="p">,</span><span class="w">
    </span><span class="nl">"batch_no"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
    </span><span class="nl">"batch_status"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
    </span><span class="nl">"batch_status_code"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
@@ -11615,7 +11915,7 @@ to stop receiving event notifications for specific webhook subscriptions that ar
    </span><span class="nl">"net_summary"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="err">...</span><span class="w"> </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre></div><div class="highlight"><pre class="highlight xml tab-xml"><code><span class="nt">&lt;MerchantBatchResponse&gt;</span>
- <span class="nt">&lt;batch_closed&gt;</span>2024-12-06<span class="nt">&lt;/batch_closed&gt;</span> 
+ <span class="nt">&lt;batch_closed&gt;</span>2024-12-09<span class="nt">&lt;/batch_closed&gt;</span> 
  <span class="nt">&lt;batch_no&gt;&lt;/batch_no&gt;</span> 
  <span class="nt">&lt;batch_status&gt;&lt;/batch_status&gt;</span> 
  <span class="nt">&lt;batch_status_code&gt;&lt;/batch_status_code&gt;</span> 
@@ -11987,7 +12287,7 @@ to stop receiving event notifications for specific webhook subscriptions that ar
    </span><span class="nl">"addressee"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Jack Sparrow"</span><span class="p">,</span><span class="w">
    </span><span class="nl">"attachments"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
    </span><span class="nl">"descriptor"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
-   </span><span class="nl">"due"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2024-12-06"</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"due"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2024-12-09"</span><span class="p">,</span><span class="w">
    </span><span class="nl">"email_notification_path"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="err">...</span><span class="w"> </span><span class="p">},</span><span class="w">
    </span><span class="nl">"memo"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Invoice"</span><span class="p">,</span><span class="w">
    </span><span class="nl">"request"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="err">...</span><span class="w"> </span><span class="p">},</span><span class="w">
@@ -11997,7 +12297,7 @@ to stop receiving event notifications for specific webhook subscriptions that ar
  <span class="nt">&lt;addressee&gt;</span>Jack Sparrow<span class="nt">&lt;/addressee&gt;</span> 
  <span class="nt">&lt;attachments&gt;&lt;/attachments&gt;</span> 
  <span class="nt">&lt;descriptor&gt;&lt;/descriptor&gt;</span> 
- <span class="nt">&lt;due&gt;</span>2024-12-06<span class="nt">&lt;/due&gt;</span> 
+ <span class="nt">&lt;due&gt;</span>2024-12-09<span class="nt">&lt;/due&gt;</span> 
  <span class="nt">&lt;email_notification_path&gt;</span><span class="err">&lt;</span>&gt;...<span class="err">&lt;</span>/&gt;<span class="nt">&lt;/email_notification_path&gt;</span> 
  <span class="nt">&lt;memo&gt;</span>Invoice<span class="nt">&lt;/memo&gt;</span> 
  <span class="nt">&lt;request&gt;</span><span class="err">&lt;</span>&gt;...<span class="err">&lt;</span>/&gt;<span class="nt">&lt;/request&gt;</span> 
@@ -12888,12 +13188,12 @@ to stop receiving event notifications for specific webhook subscriptions that ar
 </tr>
 </tbody></table>
 <h2 id='paylinkstateevent'>PaylinkStateEvent</h2><div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-   </span><span class="nl">"datetime"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2024-12-06"</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"datetime"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2024-12-09"</span><span class="p">,</span><span class="w">
    </span><span class="nl">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"message on this state"</span><span class="p">,</span><span class="w">
    </span><span class="nl">"state"</span><span class="p">:</span><span class="w"> </span><span class="s2">"FormInput"</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre></div><div class="highlight"><pre class="highlight xml tab-xml"><code><span class="nt">&lt;PaylinkStateEvent&gt;</span>
- <span class="nt">&lt;datetime&gt;</span>2024-12-06<span class="nt">&lt;/datetime&gt;</span> 
+ <span class="nt">&lt;datetime&gt;</span>2024-12-09<span class="nt">&lt;/datetime&gt;</span> 
  <span class="nt">&lt;message&gt;</span>message on this state<span class="nt">&lt;/message&gt;</span> 
  <span class="nt">&lt;state&gt;</span>FormInput<span class="nt">&lt;/state&gt;</span> 
 <span class="nt">&lt;/PaylinkStateEvent&gt;</span>
@@ -12928,7 +13228,7 @@ to stop receiving event notifications for specific webhook subscriptions that ar
 <h2 id='paylinktokencreated'>PaylinkTokenCreated</h2><div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
    </span><span class="nl">"attachments"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="err">...</span><span class="w"> </span><span class="p">},</span><span class="w">
    </span><span class="nl">"bps"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
-   </span><span class="nl">"date_created"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2024-12-06"</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"date_created"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2024-12-09"</span><span class="p">,</span><span class="w">
    </span><span class="nl">"errors"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
    </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"00000000-0000-0000-0000-000000000000"</span><span class="p">,</span><span class="w">
    </span><span class="nl">"identifier"</span><span class="p">:</span><span class="w"> </span><span class="s2">"95b857a1-5955-4b86-963c-5a6dbfc4fb95"</span><span class="p">,</span><span class="w">
@@ -12944,7 +13244,7 @@ to stop receiving event notifications for specific webhook subscriptions that ar
 </span></code></pre></div><div class="highlight"><pre class="highlight xml tab-xml"><code><span class="nt">&lt;PaylinkTokenCreated&gt;</span>
  <span class="nt">&lt;attachments&gt;</span><span class="err">&lt;</span>&gt;...<span class="err">&lt;</span>/&gt;<span class="nt">&lt;/attachments&gt;</span> 
  <span class="nt">&lt;bps&gt;&lt;/bps&gt;</span> 
- <span class="nt">&lt;date_created&gt;</span>2024-12-06<span class="nt">&lt;/date_created&gt;</span> 
+ <span class="nt">&lt;date_created&gt;</span>2024-12-09<span class="nt">&lt;/date_created&gt;</span> 
  <span class="nt">&lt;errors&gt;&lt;/errors&gt;</span> 
  <span class="nt">&lt;id&gt;</span>00000000-0000-0000-0000-000000000000<span class="nt">&lt;/id&gt;</span> 
  <span class="nt">&lt;identifier&gt;</span>95b857a1-5955-4b86-963c-5a6dbfc4fb95<span class="nt">&lt;/identifier&gt;</span> 
@@ -13194,8 +13494,8 @@ to stop receiving event notifications for specific webhook subscriptions that ar
    </span><span class="nl">"amount_paid"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
    </span><span class="nl">"auth_code"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
    </span><span class="nl">"card"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Visa/0002"</span><span class="p">,</span><span class="w">
-   </span><span class="nl">"created"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2024-12-06"</span><span class="p">,</span><span class="w">
-   </span><span class="nl">"datetime"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2024-12-06"</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"created"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2024-12-09"</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"datetime"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2024-12-09"</span><span class="p">,</span><span class="w">
    </span><span class="nl">"identifier"</span><span class="p">:</span><span class="w"> </span><span class="s2">"95b857a1-5955-4b86-963c-5a6dbfc4fb95"</span><span class="p">,</span><span class="w">
    </span><span class="nl">"is_attachment"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
    </span><span class="nl">"is_cancelled"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
@@ -13212,7 +13512,7 @@ to stop receiving event notifications for specific webhook subscriptions that ar
    </span><span class="nl">"is_request_challenged"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
    </span><span class="nl">"is_sms_sent"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
    </span><span class="nl">"is_validated"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
-   </span><span class="nl">"last_event_date_time"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2024-12-06"</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"last_event_date_time"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2024-12-09"</span><span class="p">,</span><span class="w">
    </span><span class="nl">"last_payment_result"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
    </span><span class="nl">"mid"</span><span class="p">:</span><span class="w"> </span><span class="mi">11223344</span><span class="p">,</span><span class="w">
    </span><span class="nl">"payment_attempts_count"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
@@ -13224,8 +13524,8 @@ to stop receiving event notifications for specific webhook subscriptions that ar
  <span class="nt">&lt;amount_paid&gt;&lt;/amount_paid&gt;</span> 
  <span class="nt">&lt;auth_code&gt;&lt;/auth_code&gt;</span> 
  <span class="nt">&lt;card&gt;</span>Visa/0002<span class="nt">&lt;/card&gt;</span> 
- <span class="nt">&lt;created&gt;</span>2024-12-06<span class="nt">&lt;/created&gt;</span> 
- <span class="nt">&lt;datetime&gt;</span>2024-12-06<span class="nt">&lt;/datetime&gt;</span> 
+ <span class="nt">&lt;created&gt;</span>2024-12-09<span class="nt">&lt;/created&gt;</span> 
+ <span class="nt">&lt;datetime&gt;</span>2024-12-09<span class="nt">&lt;/datetime&gt;</span> 
  <span class="nt">&lt;identifier&gt;</span>95b857a1-5955-4b86-963c-5a6dbfc4fb95<span class="nt">&lt;/identifier&gt;</span> 
  <span class="nt">&lt;is_attachment&gt;&lt;/is_attachment&gt;</span> 
  <span class="nt">&lt;is_cancelled&gt;&lt;/is_cancelled&gt;</span> 
@@ -13242,7 +13542,7 @@ to stop receiving event notifications for specific webhook subscriptions that ar
  <span class="nt">&lt;is_request_challenged&gt;&lt;/is_request_challenged&gt;</span> 
  <span class="nt">&lt;is_sms_sent&gt;&lt;/is_sms_sent&gt;</span> 
  <span class="nt">&lt;is_validated&gt;&lt;/is_validated&gt;</span> 
- <span class="nt">&lt;last_event_date_time&gt;</span>2024-12-06<span class="nt">&lt;/last_event_date_time&gt;</span> 
+ <span class="nt">&lt;last_event_date_time&gt;</span>2024-12-09<span class="nt">&lt;/last_event_date_time&gt;</span> 
  <span class="nt">&lt;last_payment_result&gt;&lt;/last_payment_result&gt;</span> 
  <span class="nt">&lt;mid&gt;</span>11223344<span class="nt">&lt;/mid&gt;</span> 
  <span class="nt">&lt;payment_attempts_count&gt;&lt;/payment_attempts_count&gt;</span> 
@@ -13429,14 +13729,14 @@ to stop receiving event notifications for specific webhook subscriptions that ar
 </tr>
 </tbody></table>
 <h2 id='paylinktokenstatuschangerequest'>PaylinkTokenStatusChangeRequest</h2><div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-   </span><span class="nl">"after"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2024-12-06"</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"after"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2024-12-09"</span><span class="p">,</span><span class="w">
    </span><span class="nl">"maxResults"</span><span class="p">:</span><span class="w"> </span><span class="mi">50</span><span class="p">,</span><span class="w">
    </span><span class="nl">"merchantid"</span><span class="p">:</span><span class="w"> </span><span class="mi">11223344</span><span class="p">,</span><span class="w">
    </span><span class="nl">"nextToken"</span><span class="p">:</span><span class="w"> </span><span class="s2">"n34liuwn435tUAGFNg34yn..."</span><span class="p">,</span><span class="w">
    </span><span class="nl">"orderBy"</span><span class="p">:</span><span class="w"> </span><span class="s2">"date"</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre></div><div class="highlight"><pre class="highlight xml tab-xml"><code><span class="nt">&lt;PaylinkTokenStatusChangeRequest&gt;</span>
- <span class="nt">&lt;after&gt;</span>2024-12-06<span class="nt">&lt;/after&gt;</span> 
+ <span class="nt">&lt;after&gt;</span>2024-12-09<span class="nt">&lt;/after&gt;</span> 
  <span class="nt">&lt;maxResults&gt;</span>50<span class="nt">&lt;/maxResults&gt;</span> 
  <span class="nt">&lt;merchantid&gt;</span>11223344<span class="nt">&lt;/merchantid&gt;</span> 
  <span class="nt">&lt;nextToken&gt;</span>n34liuwn435tUAGFNg34yn...<span class="nt">&lt;/nextToken&gt;</span> 
@@ -13749,10 +14049,10 @@ to stop receiving event notifications for specific webhook subscriptions that ar
 <h2 id='paymentintentresponsemodel'>PaymentIntentResponseModel</h2><div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
    </span><span class="nl">"adjustments"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="err">...</span><span class="w"> </span><span class="p">},</span><span class="w">
    </span><span class="nl">"amount"</span><span class="p">:</span><span class="w"> </span><span class="mi">19995</span><span class="p">,</span><span class="w">
-   </span><span class="nl">"created"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2024-12-06"</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"created"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2024-12-09"</span><span class="p">,</span><span class="w">
    </span><span class="nl">"currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"GBP"</span><span class="p">,</span><span class="w">
-   </span><span class="nl">"due"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2024-12-06"</span><span class="p">,</span><span class="w">
-   </span><span class="nl">"expires"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2024-12-06"</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"due"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2024-12-09"</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"expires"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2024-12-09"</span><span class="p">,</span><span class="w">
    </span><span class="nl">"external-ref"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ABC123"</span><span class="p">,</span><span class="w">
    </span><span class="nl">"external-ref-source"</span><span class="p">:</span><span class="w"> </span><span class="s2">"xero"</span><span class="p">,</span><span class="w">
    </span><span class="nl">"identifier"</span><span class="p">:</span><span class="w"> </span><span class="s2">"95b857a1-5955-4b86-963c-5a6dbfc4fb95"</span><span class="p">,</span><span class="w">
@@ -13765,10 +14065,10 @@ to stop receiving event notifications for specific webhook subscriptions that ar
 </span></code></pre></div><div class="highlight"><pre class="highlight xml tab-xml"><code><span class="nt">&lt;PaymentIntentResponseModel&gt;</span>
  <span class="nt">&lt;adjustments&gt;</span><span class="err">&lt;</span>&gt;...<span class="err">&lt;</span>/&gt;<span class="nt">&lt;/adjustments&gt;</span> 
  <span class="nt">&lt;amount&gt;</span>19995<span class="nt">&lt;/amount&gt;</span> 
- <span class="nt">&lt;created&gt;</span>2024-12-06<span class="nt">&lt;/created&gt;</span> 
+ <span class="nt">&lt;created&gt;</span>2024-12-09<span class="nt">&lt;/created&gt;</span> 
  <span class="nt">&lt;currency&gt;</span>GBP<span class="nt">&lt;/currency&gt;</span> 
- <span class="nt">&lt;due&gt;</span>2024-12-06<span class="nt">&lt;/due&gt;</span> 
- <span class="nt">&lt;expires&gt;</span>2024-12-06<span class="nt">&lt;/expires&gt;</span> 
+ <span class="nt">&lt;due&gt;</span>2024-12-09<span class="nt">&lt;/due&gt;</span> 
+ <span class="nt">&lt;expires&gt;</span>2024-12-09<span class="nt">&lt;/expires&gt;</span> 
  <span class="nt">&lt;external-ref&gt;</span>ABC123<span class="nt">&lt;/external-ref&gt;</span> 
  <span class="nt">&lt;external-ref-source&gt;</span>xero<span class="nt">&lt;/external-ref-source&gt;</span> 
  <span class="nt">&lt;identifier&gt;</span>95b857a1-5955-4b86-963c-5a6dbfc4fb95<span class="nt">&lt;/identifier&gt;</span> 
@@ -14079,11 +14379,11 @@ to stop receiving event notifications for specific webhook subscriptions that ar
 </tr>
 </tbody></table>
 <h2 id='registeripmodel'>RegisterIpModel</h2><div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-   </span><span class="nl">"exp"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1734391416"</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"exp"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1734634605"</span><span class="p">,</span><span class="w">
    </span><span class="nl">"ip"</span><span class="p">:</span><span class="w"> </span><span class="s2">"8.8.8.8"</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre></div><div class="highlight"><pre class="highlight xml tab-xml"><code><span class="nt">&lt;RegisterIpModel&gt;</span>
- <span class="nt">&lt;exp&gt;</span>1734391416<span class="nt">&lt;/exp&gt;</span> 
+ <span class="nt">&lt;exp&gt;</span>1734634605<span class="nt">&lt;/exp&gt;</span> 
  <span class="nt">&lt;ip&gt;</span>8.8.8.8<span class="nt">&lt;/ip&gt;</span> 
 <span class="nt">&lt;/RegisterIpModel&gt;</span>
 </code></pre></div>
@@ -14706,6 +15006,248 @@ to stop receiving event notifications for specific webhook subscriptions that ar
 <td>string <em>base58</em></td>
 <td>false</td>
 <td>The token used for presentment to authorisation later in the processing flow.</td>
+</tr>
+</tbody></table>
+<h2 id='verificationrequest'>VerificationRequest</h2><div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+   </span><span class="nl">"airline_data"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="err">...</span><span class="w"> </span><span class="p">},</span><span class="w">
+   </span><span class="nl">"amount"</span><span class="p">:</span><span class="w"> </span><span class="mi">19995</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"avs_postcode_policy"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"bill_to"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="err">...</span><span class="w"> </span><span class="p">},</span><span class="w">
+   </span><span class="nl">"cardnumber"</span><span class="p">:</span><span class="w"> </span><span class="s2">"4000 0000 0000 0002"</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"cp_card_token"</span><span class="p">:</span><span class="w"> </span><span class="s2">"tVQZbn00000000B3qMJB...o8by328"</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"csc"</span><span class="p">:</span><span class="w"> </span><span class="s2">"10"</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"csc_policy"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"GBP"</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"duplicate_policy"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"event_management"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="err">...</span><span class="w"> </span><span class="p">},</span><span class="w">
+   </span><span class="nl">"expmonth"</span><span class="p">:</span><span class="w"> </span><span class="mi">9</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"expyear"</span><span class="p">:</span><span class="w"> </span><span class="mi">2027</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"external_mpi"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="err">...</span><span class="w"> </span><span class="p">},</span><span class="w">
+   </span><span class="nl">"identifier"</span><span class="p">:</span><span class="w"> </span><span class="s2">"95b857a1-5955-4b86-963c-5a6dbfc4fb95"</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"match_avsa"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"mcc6012"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="err">...</span><span class="w"> </span><span class="p">},</span><span class="w">
+   </span><span class="nl">"merchantid"</span><span class="p">:</span><span class="w"> </span><span class="mi">11223344</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"name_on_card"</span><span class="p">:</span><span class="w"> </span><span class="s2">"MR NE BODY"</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"pre_auth"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"ship_to"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="err">...</span><span class="w"> </span><span class="p">},</span><span class="w">
+   </span><span class="nl">"tag"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"threeds_token"</span><span class="p">:</span><span class="w"> </span><span class="s2">"tdsp8q9n84yqn34rynq38yn...8u3n4"</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"threedsecure"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="err">...</span><span class="w"> </span><span class="p">},</span><span class="w">
+   </span><span class="nl">"trans_info"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"trans_type"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"uuid"</span><span class="p">:</span><span class="w"> </span><span class="s2">"123e4567-e89b-12d3-a456-426614174000"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div><div class="highlight"><pre class="highlight xml tab-xml"><code><span class="nt">&lt;VerificationRequest&gt;</span>
+ <span class="nt">&lt;airline_data&gt;</span><span class="err">&lt;</span>&gt;...<span class="err">&lt;</span>/&gt;<span class="nt">&lt;/airline_data&gt;</span> 
+ <span class="nt">&lt;amount&gt;</span>19995<span class="nt">&lt;/amount&gt;</span> 
+ <span class="nt">&lt;avs_postcode_policy&gt;&lt;/avs_postcode_policy&gt;</span> 
+ <span class="nt">&lt;bill_to&gt;</span><span class="err">&lt;</span>&gt;...<span class="err">&lt;</span>/&gt;<span class="nt">&lt;/bill_to&gt;</span> 
+ <span class="nt">&lt;cardnumber&gt;</span>4000 0000 0000 0002<span class="nt">&lt;/cardnumber&gt;</span> 
+ <span class="nt">&lt;cp_card_token&gt;</span>tVQZbn00000000B3qMJB...o8by328<span class="nt">&lt;/cp_card_token&gt;</span> 
+ <span class="nt">&lt;csc&gt;</span>10<span class="nt">&lt;/csc&gt;</span> 
+ <span class="nt">&lt;csc_policy&gt;&lt;/csc_policy&gt;</span> 
+ <span class="nt">&lt;currency&gt;</span>GBP<span class="nt">&lt;/currency&gt;</span> 
+ <span class="nt">&lt;duplicate_policy&gt;&lt;/duplicate_policy&gt;</span> 
+ <span class="nt">&lt;event_management&gt;</span><span class="err">&lt;</span>&gt;...<span class="err">&lt;</span>/&gt;<span class="nt">&lt;/event_management&gt;</span> 
+ <span class="nt">&lt;expmonth&gt;</span>9<span class="nt">&lt;/expmonth&gt;</span> 
+ <span class="nt">&lt;expyear&gt;</span>2027<span class="nt">&lt;/expyear&gt;</span> 
+ <span class="nt">&lt;external_mpi&gt;</span><span class="err">&lt;</span>&gt;...<span class="err">&lt;</span>/&gt;<span class="nt">&lt;/external_mpi&gt;</span> 
+ <span class="nt">&lt;identifier&gt;</span>95b857a1-5955-4b86-963c-5a6dbfc4fb95<span class="nt">&lt;/identifier&gt;</span> 
+ <span class="nt">&lt;match_avsa&gt;&lt;/match_avsa&gt;</span> 
+ <span class="nt">&lt;mcc6012&gt;</span><span class="err">&lt;</span>&gt;...<span class="err">&lt;</span>/&gt;<span class="nt">&lt;/mcc6012&gt;</span> 
+ <span class="nt">&lt;merchantid&gt;</span>11223344<span class="nt">&lt;/merchantid&gt;</span> 
+ <span class="nt">&lt;name_on_card&gt;</span>MR NE BODY<span class="nt">&lt;/name_on_card&gt;</span> 
+ <span class="nt">&lt;pre_auth&gt;&lt;/pre_auth&gt;</span> 
+ <span class="nt">&lt;ship_to&gt;</span><span class="err">&lt;</span>&gt;...<span class="err">&lt;</span>/&gt;<span class="nt">&lt;/ship_to&gt;</span> 
+ <span class="nt">&lt;tag&gt;&lt;/tag&gt;</span> 
+ <span class="nt">&lt;threeds_token&gt;</span>tdsp8q9n84yqn34rynq38yn...8u3n4<span class="nt">&lt;/threeds_token&gt;</span> 
+ <span class="nt">&lt;threedsecure&gt;</span><span class="err">&lt;</span>&gt;...<span class="err">&lt;</span>/&gt;<span class="nt">&lt;/threedsecure&gt;</span> 
+ <span class="nt">&lt;trans_info&gt;&lt;/trans_info&gt;</span> 
+ <span class="nt">&lt;trans_type&gt;&lt;/trans_type&gt;</span> 
+ <span class="nt">&lt;uuid&gt;</span>123e4567-e89b-12d3-a456-426614174000<span class="nt">&lt;/uuid&gt;</span> 
+<span class="nt">&lt;/VerificationRequest&gt;</span>
+</code></pre></div>
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>amount</code></td>
+<td>integer <em>int32</em></td>
+<td>true</td>
+<td>The amount to authorise in the lowest unit of currency with a variable length to a maximum of 12 digits.<br/><br/>No decimal points are to be included and no divisional characters such as 1,024.<br/><br/>The amount should be the total amount required for the transaction.<br/><br/>For example with GBP £1,021.95 the amount value is 102195.<br/><br/> minLength: 1<br/>maxLength: 9</td>
+</tr>
+<tr>
+<td><code>avs_postcode_policy</code></td>
+<td>string</td>
+<td>false</td>
+<td>A policy value which determines whether an AVS postcode policy is enforced or bypassed.<br/><br/>Values are:<br/><br/> <code>0</code> for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.<br/><br/> <code>1</code> for an enforced policy. Transactions that are enforced will be rejected if the AVS postcode numeric value does not match.<br/><br/> <code>2</code> to bypass. Transactions that are bypassed will be allowed through even if the postcode did not match.<br/><br/> <code>3</code> to ignore. Transactions that are ignored will bypass the result and not send postcode details for authorisation.</td>
+</tr>
+<tr>
+<td><code>bill_to</code></td>
+<td>object</td>
+<td>false</td>
+<td><a href="#contactdetails">ContactDetails</a> Billing details of the card holder making the payment. These details may be used for AVS fraud analysis, 3DS and for future referencing of the transaction.<br/><br/>For AVS to work correctly, the billing details should be the registered address of the card holder as it appears on the statement with their card issuer. The numeric details will be passed through for analysis and may result in a decline if incorrectly provided.</td>
+</tr>
+<tr>
+<td><code>cardnumber</code></td>
+<td>string</td>
+<td>false</td>
+<td>The card number (PAN) with a variable length to a maximum of 21 digits in numerical form. Any non numeric characters will be stripped out of the card number, this includes whitespace or separators internal of the provided value.<br/><br/>The card number must be treated as sensitive data. We only provide an obfuscated value in logging and reporting.  The plaintext value is encrypted in our database using AES 256 GMC bit encryption for settlement or refund purposes.<br/><br/>When providing the card number to our gateway through the authorisation API you will be handling the card data on your application. This will require further PCI controls to be in place and this value must never be stored.<br/><br/> minLength: 12<br/>maxLength: 22</td>
+</tr>
+<tr>
+<td><code>cp_card_token</code></td>
+<td>string</td>
+<td>false</td>
+<td>The card token previously stored and created by the /tokenise route.</td>
+</tr>
+<tr>
+<td><code>csc</code></td>
+<td>string</td>
+<td>false</td>
+<td>The Card Security Code (CSC) (also known as CV2/CVV2) is normally found on the back of the card (American Express has it on the front). The value helps to identify possession of the card as it is not available within the chip or magnetic swipe.<br/><br/>When forwarding the CSC, please ensure the value is a string as some values start with 0 and this will be stripped out by any integer parsing.<br/><br/>The CSC number aids fraud prevention in Mail Order and Internet payments.<br/><br/>Business rules are available on your account to identify whether to accept or decline transactions based on mismatched results of the CSC.<br/><br/>The Payment Card Industry (PCI) requires that at no stage of a transaction should the CSC be stored.<br/><br/>This applies to all entities handling card data.<br/><br/>It should also not be used in any hashing process.<br/><br/>CityPay do not store the value and have no method of retrieving the value once the transaction has been processed. For this reason, duplicate checking is unable to determine the CSC in its duplication check algorithm.<br/><br/> minLength: 3<br/>maxLength: 4</td>
+</tr>
+<tr>
+<td><code>csc_policy</code></td>
+<td>string</td>
+<td>false</td>
+<td>A policy value which determines whether a CSC policy is enforced or bypassed.<br/><br/>Values are:<br/><br/> <code>0</code> for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.<br/><br/> <code>1</code> for an enforced policy. Transactions that are enforced will be rejected if the CSC value does not match.<br/><br/> <code>2</code> to bypass. Transactions that are bypassed will be allowed through even if the CSC did not match.<br/><br/> <code>3</code> to ignore. Transactions that are ignored will bypass the result and not send the CSC details for authorisation.</td>
+</tr>
+<tr>
+<td><code>currency</code></td>
+<td>string</td>
+<td>false</td>
+<td>The processing currency for the transaction. Will default to the merchant account currency.<br/><br/>minLength: 3<br/>maxLength: 3</td>
+</tr>
+<tr>
+<td><code>duplicate_policy</code></td>
+<td>string</td>
+<td>false</td>
+<td>A policy value which determines whether a duplication policy is enforced or bypassed. A duplication check has a window of time set against your account within which it can action. If a previous transaction with matching values occurred within the window, any subsequent transaction will result in a T001 result.<br/><br/>Values are<br/><br/> <code>0</code> for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.<br/><br/> <code>1</code> for an enforced policy. Transactions that are enforced will be checked for duplication within the duplication window.<br/><br/> <code>2</code> to bypass. Transactions that are bypassed will not be checked for duplication within the duplication window.<br/><br/> <code>3</code> to ignore. Transactions that are ignored will have the same affect as bypass.</td>
+</tr>
+<tr>
+<td><code>event_management</code></td>
+<td>object</td>
+<td>false</td>
+<td><a href="#eventdatamodel">EventDataModel</a> Additional advice data for event management integration that can be applied to an authorisation request.</td>
+</tr>
+<tr>
+<td><code>expmonth</code></td>
+<td>integer <em>int32</em></td>
+<td>false</td>
+<td>The month of expiry of the card. The month value should be a numerical value between 1 and 12.<br/><br/> minimum: 1<br/>maximum: 12</td>
+</tr>
+<tr>
+<td><code>expyear</code></td>
+<td>integer <em>int32</em></td>
+<td>false</td>
+<td>The year of expiry of the card.<br/><br/> minimum: 2000<br/>maximum: 2100</td>
+</tr>
+<tr>
+<td><code>external_mpi</code></td>
+<td>object</td>
+<td>false</td>
+<td><a href="#externalmpi">ExternalMPI</a> If an external 3DSv1 MPI is used for authentication, values provided can be supplied in this element.</td>
+</tr>
+<tr>
+<td><code>identifier</code></td>
+<td>string</td>
+<td>true</td>
+<td>The identifier of the transaction to process. The value should be a valid reference and may be used to perform  post processing actions and to aid in reconciliation of transactions.<br/><br/>The value should be a valid printable string with ASCII character ranges from 0x32 to 0x127.<br/><br/>The identifier is recommended to be distinct for each transaction such as a <a href="https://en.wikipedia.org/wiki/Universally_unique_identifier">random unique identifier</a> this will aid in ensuring each transaction is identifiable.<br/><br/>When transactions are processed they are also checked for duplicate requests. Changing the identifier on a subsequent request will ensure that a transaction is considered as different.<br/><br/> minLength: 4<br/>maxLength: 50</td>
+</tr>
+<tr>
+<td><code>match_avsa</code></td>
+<td>string</td>
+<td>false</td>
+<td>A policy value which determines whether an AVS address policy is enforced, bypassed or ignored.<br/><br/>Values are:<br/><br/> <code>0</code> for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.<br/><br/> <code>1</code> for an enforced policy. Transactions that are enforced will be rejected if the AVS address numeric value does not match.<br/><br/> <code>2</code> to bypass. Transactions that are bypassed will be allowed through even if the address did not match.<br/><br/> <code>3</code> to ignore. Transactions that are ignored will bypass the result and not send address numeric details for authorisation.</td>
+</tr>
+<tr>
+<td><code>mcc6012</code></td>
+<td>object</td>
+<td>false</td>
+<td><a href="#mcc6012">MCC6012</a> If the merchant is MCC coded as 6012, additional values are required for authorisation.</td>
+</tr>
+<tr>
+<td><code>merchantid</code></td>
+<td>integer <em>int32</em></td>
+<td>true</td>
+<td>Identifies the merchant account to perform processing for.</td>
+</tr>
+<tr>
+<td><code>name_on_card</code></td>
+<td>string</td>
+<td>false</td>
+<td>The card holder name as appears on the card such as MR N E BODY. Required for some acquirers.<br/><br/> minLength: 2<br/>maxLength: 45</td>
+</tr>
+<tr>
+<td><code>pre_auth</code></td>
+<td>string</td>
+<td>false</td>
+<td>A policy value which determines whether a pre auth policy is enforced or bypassed.<br/><br/>Values are:<br/><br/> <code>0</code> for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.<br/><br/> <code>1</code> for an enforced policy.  Enforces pre-authorisation when it does not pre-auth by default.<br/><br/> <code>2</code> to bypass. Bypasses pre-authorisation when it is enabled to pre auth by default.<br/><br/> <code>3</code> to ignore. The same as the default policy (0). Although it currently mirrors the default, this option is included for compatibility with other policies.</td>
+</tr>
+<tr>
+<td><code>ship_to</code></td>
+<td>object</td>
+<td>false</td>
+<td><a href="#contactdetails">ContactDetails</a> Shipping details of the card holder making the payment. These details may be used for 3DS and for future referencing of the transaction.</td>
+</tr>
+<tr>
+<td><code>tag</code></td>
+<td>array</td>
+<td>false</td>
+<td>type: string</td>
+</tr>
+<tr>
+<td><code>threeds_token</code></td>
+<td>string</td>
+<td>false</td>
+<td>The threedsecure token generated by a call to /areq which may or may not be challenged.</td>
+</tr>
+<tr>
+<td><code>threedsecure</code></td>
+<td>object</td>
+<td>false</td>
+<td><a href="#threedsecure">ThreeDSecure</a> ThreeDSecure element, providing values to enable full 3DS processing flows.</td>
+</tr>
+<tr>
+<td><code>trans_info</code></td>
+<td>string</td>
+<td>false</td>
+<td>Further information that can be added to the transaction will display in reporting. Can be used for flexible values such as operator id.<br/><br/>maxLength: 50</td>
+</tr>
+<tr>
+<td><code>trans_type</code></td>
+<td>string</td>
+<td>false</td>
+<td>The type of transaction being submitted. Normally this value is not required and your account manager may request that you set this field.<br/><br/>maxLength: 1</td>
+</tr>
+<tr>
+<td><code>uuid</code></td>
+<td>string <em>uuid</em></td>
+<td>false</td>
+<td>A uuid for the session. The value tracks through 3ds session and therefore should be a valid v4 uuid.<br/><br/>minLength: 36<br/>maxLength: 36</td>
+</tr>
+</tbody></table>
+
+<table><thead>
+<tr>
+<th>Extension</th>
+<th>Field</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>Airline</td>
+<td><code>airline_data</code></td>
+<td>object</td>
+<td>false</td>
+<td><a href="#airlineadvice">AirlineAdvice</a> Additional advice for airline integration that can be applied on an authorisation request.<br/><br/>As tickets are normally not allocated until successful payment it is normal for a transaction to be pre-authorised  and the airline advice supplied on a capture request instead. Should the data already exist and an auth and  capture is preferred. This data may be supplied.</td>
 </tr>
 </tbody></table>
 <h2 id='voidrequest'>VoidRequest</h2><div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
