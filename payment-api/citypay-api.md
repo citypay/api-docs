@@ -1,12 +1,12 @@
 ---
 title: CityPay Payment API
-version: 6.7.6
+version: 6.7.7
 language_tabs:
   - json
   - xml
 toc_footers:
   - <a href='mailto:support@citypay.com'>Any Integration Questions?</a>
-  - V6.7.6 2024-12-09
+  - V6.7.7 2024-12-10
 includes:
   - errorcodes
   - authresultcodes
@@ -26,8 +26,8 @@ search: true
  Our latest documentation is available on <a href="https://docs.citypay.com">CityPay Docs</a>
 </aside>
 
-Version: 6.7.6
-Last Updated: 2024-12-09
+Version: 6.7.7
+Last Updated: 2024-12-10
 
 
 Welcome to the CityPay API, a robust HTTP API payment solution designed for seamless server-to-server 
@@ -393,6 +393,7 @@ Field  | Type | Usage | Description |
  `expyear` | integer *int32* | Optional | The year of expiry of the card.<br/><br/> minimum: 2000<br/>maximum: 2100 | 
  `match_avsa` | string  | Optional | A policy value which determines whether an AVS address policy is enforced, bypassed or ignored.<br/><br/>Values are:<br/><br/> `0` for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.<br/><br/> `1` for an enforced policy. Transactions that are enforced will be rejected if the AVS address numeric value does not match.<br/><br/> `2` to bypass. Transactions that are bypassed will be allowed through even if the address did not match.<br/><br/> `3` to ignore. Transactions that are ignored will bypass the result and not send address numeric details for authorisation. | 
  `name_on_card` | string  | Optional | The card holder name as appears on the card such as MR N E BODY. Required for some acquirers.<br/><br/> minLength: 2<br/>maxLength: 45 | 
+ `payment_intent_id` | string  | Optional | A payment intent id previously registered that this transaction is linked to. | 
  `pre_auth` | string  | Optional | A policy value which determines whether a pre auth policy is enforced or bypassed.<br/><br/>Values are:<br/><br/> `0` for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.<br/><br/> `1` for an enforced policy.  Enforces pre-authorisation when it does not pre-auth by default.<br/><br/> `2` to bypass. Bypasses pre-authorisation when it is enabled to pre auth by default.<br/><br/> `3` to ignore. The same as the default policy (0). Although it currently mirrors the default, this option is included for compatibility with other policies. | 
  `ship_to` | object | Optional | [ContactDetails](#contactdetails) Shipping details of the card holder making the payment. These details may be used for 3DS and for future referencing of the transaction. | 
  `tag` | array | Optional | type: string | 
@@ -1115,6 +1116,7 @@ Field  | Type | Usage | Description |
  `expyear` | integer *int32* | Optional | The year of expiry of the card.<br/><br/> minimum: 2000<br/>maximum: 2100 | 
  `match_avsa` | string  | Optional | A policy value which determines whether an AVS address policy is enforced, bypassed or ignored.<br/><br/>Values are:<br/><br/> `0` for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.<br/><br/> `1` for an enforced policy. Transactions that are enforced will be rejected if the AVS address numeric value does not match.<br/><br/> `2` to bypass. Transactions that are bypassed will be allowed through even if the address did not match.<br/><br/> `3` to ignore. Transactions that are ignored will bypass the result and not send address numeric details for authorisation. | 
  `name_on_card` | string  | Optional | The card holder name as appears on the card such as MR N E BODY. Required for some acquirers.<br/><br/> minLength: 2<br/>maxLength: 45 | 
+ `payment_intent_id` | string  | Optional | A payment intent id previously registered that this transaction is linked to. | 
  `pre_auth` | string  | Optional | A policy value which determines whether a pre auth policy is enforced or bypassed.<br/><br/>Values are:<br/><br/> `0` for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.<br/><br/> `1` for an enforced policy.  Enforces pre-authorisation when it does not pre-auth by default.<br/><br/> `2` to bypass. Bypasses pre-authorisation when it is enabled to pre auth by default.<br/><br/> `3` to ignore. The same as the default policy (0). Although it currently mirrors the default, this option is included for compatibility with other policies. | 
  `ship_to` | object | Optional | [ContactDetails](#contactdetails) Shipping details of the card holder making the payment. These details may be used for 3DS and for future referencing of the transaction. | 
  `tag` | array | Optional | type: string | 
@@ -3185,7 +3187,7 @@ Field  | Type | Usage | Description |
  `config` | object | Optional | [PaylinkConfig](#paylinkconfig) The config element, allowing for tailoring the Paylink user experience and for providing integration parameters to enhance with your integration. | 
  `currency` | string  | Optional | A currency for the token. This value should be only used on multi-currency accounts and be an appropriate currency which the account is configured for.<br/><br/>minLength: 3<br/>maxLength: 3 | 
  `email` | string  | Optional | The email field is used for the Merchant to be notified on completion of the transaction . The value may be supplied to override the default stored value. Emails sent to this address by the Paylink service should not be forwarded on to the cardholder as it may contain certain information that is used by the Paylink service to validate and authenticate Paylink Token Requests: for example, the Merchant ID and the licence key.<br/><br/> maxLength: 254 | 
- `payment_intent_id` | string  | Optional | A payment intent id already previoulsy registered for this token. | 
+ `payment_intent_id` | string  | Optional | A payment intent id already previously registered for this token. | 
  `recurring` | boolean  | Optional | True if the intent of this cardholder initiated transaction is to establish a recurring payment model, processable as merchant initiated transactions. | 
  `subscription_id` | string  | Optional | an id associated with a subscription to link the token request against. | 
  `tx_type` | string  | Optional | A value to override the transaction type if requested by your account manager. | 
@@ -4838,6 +4840,7 @@ Responses for the WebHookUnsubscribeRequest operation are
    "mcc6012": { ... },
    "merchantid": 11223344,
    "name_on_card": "MR NE BODY",
+   "payment_intent_id": "p13t1111222233334444",
    "pre_auth": "",
    "ship_to": { ... },
    "tag": "",
@@ -4870,6 +4873,7 @@ Responses for the WebHookUnsubscribeRequest operation are
  <mcc6012><>...</></mcc6012> 
  <merchantid>11223344</merchantid> 
  <name_on_card>MR NE BODY</name_on_card> 
+ <payment_intent_id>p13t1111222233334444</payment_intent_id> 
  <pre_auth></pre_auth> 
  <ship_to><>...</></ship_to> 
  <tag></tag> 
@@ -4901,6 +4905,7 @@ Responses for the WebHookUnsubscribeRequest operation are
 | `mcc6012` | object | false | [MCC6012](#mcc6012) If the merchant is MCC coded as 6012, additional values are required for authorisation. | 
 | `merchantid` | integer *int32* | true | Identifies the merchant account to perform processing for. | 
 | `name_on_card` | string  | false | The card holder name as appears on the card such as MR N E BODY. Required for some acquirers.<br/><br/> minLength: 2<br/>maxLength: 45 | 
+| `payment_intent_id` | string  | false | A payment intent id previously registered that this transaction is linked to. | 
 | `pre_auth` | string  | false | A policy value which determines whether a pre auth policy is enforced or bypassed.<br/><br/>Values are:<br/><br/> `0` for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.<br/><br/> `1` for an enforced policy.  Enforces pre-authorisation when it does not pre-auth by default.<br/><br/> `2` to bypass. Bypasses pre-authorisation when it is enabled to pre auth by default.<br/><br/> `3` to ignore. The same as the default policy (0). Although it currently mirrors the default, this option is included for compatibility with other policies. | 
 | `ship_to` | object | false | [ContactDetails](#contactdetails) Shipping details of the card holder making the payment. These details may be used for 3DS and for future referencing of the transaction. | 
 | `tag` | array | false | type: string | 
@@ -5001,7 +5006,7 @@ Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Addi
 | `bin_commercial` | boolean  | false | Determines whether the bin range was found to be a commercial or business card. | 
 | `bin_debit` | boolean  | false | Determines whether the bin range was found to be a debit card. If false the card was considered as a credit card. | 
 | `bin_description` | string  | false | A description of the bin range found for the card. | 
-| `cavv` | string  | false | The cardholder authentication verification value which can be returned for verification purposes of the authenticated  transaction for dispute realisation. | 
+| `cavv` | string  | false | The cardholder authentication verification value which can be returned for verification purposes of the authenticated  transaction for dispute realisation. The value is considered sensitive in the realm of PCI-3DS and is masked. | 
 | `context` | string  | false | The context which processed the transaction, can be used for support purposes to trace transactions. | 
 | `csc_result` | string  | false | The CSC result codes determine the result of checking the provided CSC value within the Card Security Code fraud system. If a transaction is declined due to the CSC code not matching, this value can help determine the reason for the decline.<br/><br/><table> <tr> <th>Code</th> <th>Description</th> </tr> <tr><td> </td><td>No information</td></tr> <tr><td>M</td><td>Card verification data matches</td></tr> <tr><td>N</td><td>Card verification data was checked but did not match</td></tr> <tr><td>P</td><td>Card verification was not processed</td></tr> <tr><td>S</td><td>The card verification data should be on the card but the merchant indicates that it is not</td></tr> <tr><td>U</td><td>The card issuer is not certified</td></tr> </table> | 
 | `currency` | string  | false | The currency the transaction was processed in. This is an `ISO4217` alpha currency value. | 
@@ -6109,20 +6114,20 @@ Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Addi
 
 ```json
 {
-   "event_end_date": "2024-12-09",
+   "event_end_date": "2024-12-10",
    "event_id": "",
    "event_organiser_id": "",
-   "event_start_date": "2024-12-09",
+   "event_start_date": "2024-12-10",
    "payment_type": ""
 }
 ```
 
 ```xml
 <EventDataModel>
- <event_end_date>2024-12-09</event_end_date> 
+ <event_end_date>2024-12-10</event_end_date> 
  <event_id></event_id> 
  <event_organiser_id></event_organiser_id> 
- <event_start_date>2024-12-09</event_start_date> 
+ <event_start_date>2024-12-10</event_start_date> 
  <payment_type></payment_type> 
 </EventDataModel>
 ```
@@ -6394,7 +6399,7 @@ Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Addi
 
 ```json
 {
-   "batch_closed": "2024-12-09",
+   "batch_closed": "2024-12-10",
    "batch_no": "",
    "batch_status": "",
    "batch_status_code": "",
@@ -6406,7 +6411,7 @@ Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Addi
 
 ```xml
 <MerchantBatchResponse>
- <batch_closed>2024-12-09</batch_closed> 
+ <batch_closed>2024-12-10</batch_closed> 
  <batch_no></batch_no> 
  <batch_status></batch_status> 
  <batch_status_code></batch_status_code> 
@@ -6635,7 +6640,7 @@ Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Addi
    "addressee": "Jack Sparrow",
    "attachments": "",
    "descriptor": "",
-   "due": "2024-12-09",
+   "due": "2024-12-10",
    "email_notification_path": { ... },
    "memo": "Invoice",
    "request": { ... },
@@ -6648,7 +6653,7 @@ Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Addi
  <addressee>Jack Sparrow</addressee> 
  <attachments></attachments> 
  <descriptor></descriptor> 
- <due>2024-12-09</due> 
+ <due>2024-12-10</due> 
  <email_notification_path><>...</></email_notification_path> 
  <memo>Invoice</memo> 
  <request><>...</></request> 
@@ -7136,7 +7141,7 @@ Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Addi
 
 ```json
 {
-   "datetime": "2024-12-09",
+   "datetime": "2024-12-10",
    "message": "message on this state",
    "state": "FormInput"
 }
@@ -7144,7 +7149,7 @@ Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Addi
 
 ```xml
 <PaylinkStateEvent>
- <datetime>2024-12-09</datetime> 
+ <datetime>2024-12-10</datetime> 
  <message>message on this state</message> 
  <state>FormInput</state> 
 </PaylinkStateEvent>
@@ -7166,7 +7171,7 @@ Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Addi
 {
    "attachments": { ... },
    "bps": "",
-   "date_created": "2024-12-09",
+   "date_created": "2024-12-10",
    "errors": "",
    "id": "00000000-0000-0000-0000-000000000000",
    "identifier": "95b857a1-5955-4b86-963c-5a6dbfc4fb95",
@@ -7185,7 +7190,7 @@ Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Addi
 <PaylinkTokenCreated>
  <attachments><>...</></attachments> 
  <bps></bps> 
- <date_created>2024-12-09</date_created> 
+ <date_created>2024-12-10</date_created> 
  <errors></errors> 
  <id>00000000-0000-0000-0000-000000000000</id> 
  <identifier>95b857a1-5955-4b86-963c-5a6dbfc4fb95</identifier> 
@@ -7277,7 +7282,7 @@ BPS | `bps` | string  | false | true if BPS has been enabled on this token. |
 | `email` | string  | false | The email field is used for the Merchant to be notified on completion of the transaction . The value may be supplied to override the default stored value. Emails sent to this address by the Paylink service should not be forwarded on to the cardholder as it may contain certain information that is used by the Paylink service to validate and authenticate Paylink Token Requests: for example, the Merchant ID and the licence key.<br/><br/> maxLength: 254 | 
 | `identifier` | string  | true | Identifies a particular transaction linked to a Merchant account. It enables accurate duplicate checking within a pre-configured time period, as well as transaction reporting and tracing. The identifier should be unique to prevent payment card processing attempts from being rejected due to duplication.<br/><br/> minLength: 4<br/>maxLength: 50 | 
 | `merchantid` | integer *int32* | true | The merchant id you wish to process this transaction with. | 
-| `payment_intent_id` | string  | false | A payment intent id already previoulsy registered for this token. | 
+| `payment_intent_id` | string  | false | A payment intent id already previously registered for this token. | 
 | `recurring` | boolean  | false | True if the intent of this cardholder initiated transaction is to establish a recurring payment model, processable as merchant initiated transactions. | 
 | `subscription_id` | string  | false | an id associated with a subscription to link the token request against. | 
 | `tx_type` | string  | false | A value to override the transaction type if requested by your account manager. | 
@@ -7293,8 +7298,8 @@ BPS | `bps` | string  | false | true if BPS has been enabled on this token. |
    "amount_paid": 0,
    "auth_code": "",
    "card": "Visa/0002",
-   "created": "2024-12-09",
-   "datetime": "2024-12-09",
+   "created": "2024-12-10",
+   "datetime": "2024-12-10",
    "identifier": "95b857a1-5955-4b86-963c-5a6dbfc4fb95",
    "is_attachment": false,
    "is_cancelled": false,
@@ -7311,7 +7316,7 @@ BPS | `bps` | string  | false | true if BPS has been enabled on this token. |
    "is_request_challenged": false,
    "is_sms_sent": false,
    "is_validated": false,
-   "last_event_date_time": "2024-12-09",
+   "last_event_date_time": "2024-12-10",
    "last_payment_result": "",
    "mid": 11223344,
    "payment_attempts_count": 0,
@@ -7326,8 +7331,8 @@ BPS | `bps` | string  | false | true if BPS has been enabled on this token. |
  <amount_paid></amount_paid> 
  <auth_code></auth_code> 
  <card>Visa/0002</card> 
- <created>2024-12-09</created> 
- <datetime>2024-12-09</datetime> 
+ <created>2024-12-10</created> 
+ <datetime>2024-12-10</datetime> 
  <identifier>95b857a1-5955-4b86-963c-5a6dbfc4fb95</identifier> 
  <is_attachment></is_attachment> 
  <is_cancelled></is_cancelled> 
@@ -7344,7 +7349,7 @@ BPS | `bps` | string  | false | true if BPS has been enabled on this token. |
  <is_request_challenged></is_request_challenged> 
  <is_sms_sent></is_sms_sent> 
  <is_validated></is_validated> 
- <last_event_date_time>2024-12-09</last_event_date_time> 
+ <last_event_date_time>2024-12-10</last_event_date_time> 
  <last_payment_result></last_payment_result> 
  <mid>11223344</mid> 
  <payment_attempts_count></payment_attempts_count> 
@@ -7393,7 +7398,7 @@ BPS | `bps` | string  | false | true if BPS has been enabled on this token. |
 
 ```json
 {
-   "after": "2024-12-09",
+   "after": "2024-12-10",
    "maxResults": 50,
    "merchantid": 11223344,
    "nextToken": "n34liuwn435tUAGFNg34yn...",
@@ -7403,7 +7408,7 @@ BPS | `bps` | string  | false | true if BPS has been enabled on this token. |
 
 ```xml
 <PaylinkTokenStatusChangeRequest>
- <after>2024-12-09</after> 
+ <after>2024-12-10</after> 
  <maxResults>50</maxResults> 
  <merchantid>11223344</merchantid> 
  <nextToken>n34liuwn435tUAGFNg34yn...</nextToken> 
@@ -7583,10 +7588,10 @@ BPS | `bps` | string  | false | true if BPS has been enabled on this token. |
 {
    "adjustments": { ... },
    "amount": 19995,
-   "created": "2024-12-09",
+   "created": "2024-12-10",
    "currency": "GBP",
-   "due": "2024-12-09",
-   "expires": "2024-12-09",
+   "due": "2024-12-10",
+   "expires": "2024-12-10",
    "external-ref": "ABC123",
    "external-ref-source": "xero",
    "identifier": "95b857a1-5955-4b86-963c-5a6dbfc4fb95",
@@ -7602,10 +7607,10 @@ BPS | `bps` | string  | false | true if BPS has been enabled on this token. |
 <PaymentIntentResponseModel>
  <adjustments><>...</></adjustments> 
  <amount>19995</amount> 
- <created>2024-12-09</created> 
+ <created>2024-12-10</created> 
  <currency>GBP</currency> 
- <due>2024-12-09</due> 
- <expires>2024-12-09</expires> 
+ <due>2024-12-10</due> 
+ <expires>2024-12-10</expires> 
  <external-ref>ABC123</external-ref> 
  <external-ref-source>xero</external-ref-source> 
  <identifier>95b857a1-5955-4b86-963c-5a6dbfc4fb95</identifier> 
@@ -7788,14 +7793,14 @@ BPS | `bps` | string  | false | true if BPS has been enabled on this token. |
 
 ```json
 {
-   "exp": "1734653568",
+   "exp": "1734712992",
    "ip": "8.8.8.8"
 }
 ```
 
 ```xml
 <RegisterIpModel>
- <exp>1734653568</exp> 
+ <exp>1734712992</exp> 
  <ip>8.8.8.8</ip> 
 </RegisterIpModel>
 ```
@@ -8167,6 +8172,7 @@ BPS | `bps` | string  | false | true if BPS has been enabled on this token. |
    "mcc6012": { ... },
    "merchantid": 11223344,
    "name_on_card": "MR NE BODY",
+   "payment_intent_id": "p13t1111222233334444",
    "pre_auth": "",
    "ship_to": { ... },
    "tag": "",
@@ -8199,6 +8205,7 @@ BPS | `bps` | string  | false | true if BPS has been enabled on this token. |
  <mcc6012><>...</></mcc6012> 
  <merchantid>11223344</merchantid> 
  <name_on_card>MR NE BODY</name_on_card> 
+ <payment_intent_id>p13t1111222233334444</payment_intent_id> 
  <pre_auth></pre_auth> 
  <ship_to><>...</></ship_to> 
  <tag></tag> 
@@ -8230,6 +8237,7 @@ BPS | `bps` | string  | false | true if BPS has been enabled on this token. |
 | `mcc6012` | object | false | [MCC6012](#mcc6012) If the merchant is MCC coded as 6012, additional values are required for authorisation. | 
 | `merchantid` | integer *int32* | true | Identifies the merchant account to perform processing for. | 
 | `name_on_card` | string  | false | The card holder name as appears on the card such as MR N E BODY. Required for some acquirers.<br/><br/> minLength: 2<br/>maxLength: 45 | 
+| `payment_intent_id` | string  | false | A payment intent id previously registered that this transaction is linked to. | 
 | `pre_auth` | string  | false | A policy value which determines whether a pre auth policy is enforced or bypassed.<br/><br/>Values are:<br/><br/> `0` for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.<br/><br/> `1` for an enforced policy.  Enforces pre-authorisation when it does not pre-auth by default.<br/><br/> `2` to bypass. Bypasses pre-authorisation when it is enabled to pre auth by default.<br/><br/> `3` to ignore. The same as the default policy (0). Although it currently mirrors the default, this option is included for compatibility with other policies. | 
 | `ship_to` | object | false | [ContactDetails](#contactdetails) Shipping details of the card holder making the payment. These details may be used for 3DS and for future referencing of the transaction. | 
 | `tag` | array | false | type: string | 

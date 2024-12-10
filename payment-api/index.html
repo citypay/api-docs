@@ -827,7 +827,7 @@
       </ul>
         <ul class="toc-footer">
             <li><a href='mailto:support@citypay.com'>Any Integration Questions?</a></li>
-            <li>V6.7.6 2024-12-09</li>
+            <li>V6.7.7 2024-12-10</li>
         </ul>
     </div>
     <div class="page-wrapper">
@@ -839,8 +839,8 @@
  Our latest documentation is available on <a href="https://docs.citypay.com">CityPay Docs</a>
 </aside>
 
-<p>Version: 6.7.6
-Last Updated: 2024-12-09</p>
+<p>Version: 6.7.7
+Last Updated: 2024-12-10</p>
 
 <p>Welcome to the CityPay API, a robust HTTP API payment solution designed for seamless server-to-server 
 transactional processing. Our API facilitates a wide array of payment operations, catering to diverse business needs. 
@@ -1272,6 +1272,12 @@ value will be validated for receipt of the CAVV and subsequently may return resp
 <td>string</td>
 <td>Optional</td>
 <td>The card holder name as appears on the card such as MR N E BODY. Required for some acquirers.<br/><br/> minLength: 2<br/>maxLength: 45</td>
+</tr>
+<tr>
+<td><code>payment_intent_id</code></td>
+<td>string</td>
+<td>Optional</td>
+<td>A payment intent id previously registered that this transaction is linked to.</td>
 </tr>
 <tr>
 <td><code>pre_auth</code></td>
@@ -2475,6 +2481,12 @@ information to be returned.</p>
 <td>string</td>
 <td>Optional</td>
 <td>The card holder name as appears on the card such as MR N E BODY. Required for some acquirers.<br/><br/> minLength: 2<br/>maxLength: 45</td>
+</tr>
+<tr>
+<td><code>payment_intent_id</code></td>
+<td>string</td>
+<td>Optional</td>
+<td>A payment intent id previously registered that this transaction is linked to.</td>
 </tr>
 <tr>
 <td><code>pre_auth</code></td>
@@ -6283,7 +6295,7 @@ firewall from blocking your request and to also ensure efficiency of larger file
 <td><code>payment_intent_id</code></td>
 <td>string</td>
 <td>Optional</td>
-<td>A payment intent id already previoulsy registered for this token.</td>
+<td>A payment intent id already previously registered for this token.</td>
 </tr>
 <tr>
 <td><code>recurring</code></td>
@@ -9195,6 +9207,7 @@ to stop receiving event notifications for specific webhook subscriptions that ar
    </span><span class="nl">"mcc6012"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="err">...</span><span class="w"> </span><span class="p">},</span><span class="w">
    </span><span class="nl">"merchantid"</span><span class="p">:</span><span class="w"> </span><span class="mi">11223344</span><span class="p">,</span><span class="w">
    </span><span class="nl">"name_on_card"</span><span class="p">:</span><span class="w"> </span><span class="s2">"MR NE BODY"</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"payment_intent_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"p13t1111222233334444"</span><span class="p">,</span><span class="w">
    </span><span class="nl">"pre_auth"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
    </span><span class="nl">"ship_to"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="err">...</span><span class="w"> </span><span class="p">},</span><span class="w">
    </span><span class="nl">"tag"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
@@ -9224,6 +9237,7 @@ to stop receiving event notifications for specific webhook subscriptions that ar
  <span class="nt">&lt;mcc6012&gt;</span><span class="err">&lt;</span>&gt;...<span class="err">&lt;</span>/&gt;<span class="nt">&lt;/mcc6012&gt;</span> 
  <span class="nt">&lt;merchantid&gt;</span>11223344<span class="nt">&lt;/merchantid&gt;</span> 
  <span class="nt">&lt;name_on_card&gt;</span>MR NE BODY<span class="nt">&lt;/name_on_card&gt;</span> 
+ <span class="nt">&lt;payment_intent_id&gt;</span>p13t1111222233334444<span class="nt">&lt;/payment_intent_id&gt;</span> 
  <span class="nt">&lt;pre_auth&gt;&lt;/pre_auth&gt;</span> 
  <span class="nt">&lt;ship_to&gt;</span><span class="err">&lt;</span>&gt;...<span class="err">&lt;</span>/&gt;<span class="nt">&lt;/ship_to&gt;</span> 
  <span class="nt">&lt;tag&gt;&lt;/tag&gt;</span> 
@@ -9349,6 +9363,12 @@ to stop receiving event notifications for specific webhook subscriptions that ar
 <td>string</td>
 <td>false</td>
 <td>The card holder name as appears on the card such as MR N E BODY. Required for some acquirers.<br/><br/> minLength: 2<br/>maxLength: 45</td>
+</tr>
+<tr>
+<td><code>payment_intent_id</code></td>
+<td>string</td>
+<td>false</td>
+<td>A payment intent id previously registered that this transaction is linked to.</td>
 </tr>
 <tr>
 <td><code>pre_auth</code></td>
@@ -9552,7 +9572,7 @@ to stop receiving event notifications for specific webhook subscriptions that ar
 <td><code>cavv</code></td>
 <td>string</td>
 <td>false</td>
-<td>The cardholder authentication verification value which can be returned for verification purposes of the authenticated  transaction for dispute realisation.</td>
+<td>The cardholder authentication verification value which can be returned for verification purposes of the authenticated  transaction for dispute realisation. The value is considered sensitive in the realm of PCI-3DS and is masked.</td>
 </tr>
 <tr>
 <td><code>context</code></td>
@@ -11476,17 +11496,17 @@ to stop receiving event notifications for specific webhook subscriptions that ar
 </tr>
 </tbody></table>
 <h2 id='eventdatamodel'>EventDataModel</h2><div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-   </span><span class="nl">"event_end_date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2024-12-09"</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"event_end_date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2024-12-10"</span><span class="p">,</span><span class="w">
    </span><span class="nl">"event_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
    </span><span class="nl">"event_organiser_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
-   </span><span class="nl">"event_start_date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2024-12-09"</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"event_start_date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2024-12-10"</span><span class="p">,</span><span class="w">
    </span><span class="nl">"payment_type"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre></div><div class="highlight"><pre class="highlight xml tab-xml"><code><span class="nt">&lt;EventDataModel&gt;</span>
- <span class="nt">&lt;event_end_date&gt;</span>2024-12-09<span class="nt">&lt;/event_end_date&gt;</span> 
+ <span class="nt">&lt;event_end_date&gt;</span>2024-12-10<span class="nt">&lt;/event_end_date&gt;</span> 
  <span class="nt">&lt;event_id&gt;&lt;/event_id&gt;</span> 
  <span class="nt">&lt;event_organiser_id&gt;&lt;/event_organiser_id&gt;</span> 
- <span class="nt">&lt;event_start_date&gt;</span>2024-12-09<span class="nt">&lt;/event_start_date&gt;</span> 
+ <span class="nt">&lt;event_start_date&gt;</span>2024-12-10<span class="nt">&lt;/event_start_date&gt;</span> 
  <span class="nt">&lt;payment_type&gt;&lt;/payment_type&gt;</span> 
 <span class="nt">&lt;/EventDataModel&gt;</span>
 </code></pre></div>
@@ -11906,7 +11926,7 @@ to stop receiving event notifications for specific webhook subscriptions that ar
 </tr>
 </tbody></table>
 <h2 id='merchantbatchresponse'>MerchantBatchResponse</h2><div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-   </span><span class="nl">"batch_closed"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2024-12-09"</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"batch_closed"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2024-12-10"</span><span class="p">,</span><span class="w">
    </span><span class="nl">"batch_no"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
    </span><span class="nl">"batch_status"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
    </span><span class="nl">"batch_status_code"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
@@ -11915,7 +11935,7 @@ to stop receiving event notifications for specific webhook subscriptions that ar
    </span><span class="nl">"net_summary"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="err">...</span><span class="w"> </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre></div><div class="highlight"><pre class="highlight xml tab-xml"><code><span class="nt">&lt;MerchantBatchResponse&gt;</span>
- <span class="nt">&lt;batch_closed&gt;</span>2024-12-09<span class="nt">&lt;/batch_closed&gt;</span> 
+ <span class="nt">&lt;batch_closed&gt;</span>2024-12-10<span class="nt">&lt;/batch_closed&gt;</span> 
  <span class="nt">&lt;batch_no&gt;&lt;/batch_no&gt;</span> 
  <span class="nt">&lt;batch_status&gt;&lt;/batch_status&gt;</span> 
  <span class="nt">&lt;batch_status_code&gt;&lt;/batch_status_code&gt;</span> 
@@ -12287,7 +12307,7 @@ to stop receiving event notifications for specific webhook subscriptions that ar
    </span><span class="nl">"addressee"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Jack Sparrow"</span><span class="p">,</span><span class="w">
    </span><span class="nl">"attachments"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
    </span><span class="nl">"descriptor"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
-   </span><span class="nl">"due"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2024-12-09"</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"due"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2024-12-10"</span><span class="p">,</span><span class="w">
    </span><span class="nl">"email_notification_path"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="err">...</span><span class="w"> </span><span class="p">},</span><span class="w">
    </span><span class="nl">"memo"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Invoice"</span><span class="p">,</span><span class="w">
    </span><span class="nl">"request"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="err">...</span><span class="w"> </span><span class="p">},</span><span class="w">
@@ -12297,7 +12317,7 @@ to stop receiving event notifications for specific webhook subscriptions that ar
  <span class="nt">&lt;addressee&gt;</span>Jack Sparrow<span class="nt">&lt;/addressee&gt;</span> 
  <span class="nt">&lt;attachments&gt;&lt;/attachments&gt;</span> 
  <span class="nt">&lt;descriptor&gt;&lt;/descriptor&gt;</span> 
- <span class="nt">&lt;due&gt;</span>2024-12-09<span class="nt">&lt;/due&gt;</span> 
+ <span class="nt">&lt;due&gt;</span>2024-12-10<span class="nt">&lt;/due&gt;</span> 
  <span class="nt">&lt;email_notification_path&gt;</span><span class="err">&lt;</span>&gt;...<span class="err">&lt;</span>/&gt;<span class="nt">&lt;/email_notification_path&gt;</span> 
  <span class="nt">&lt;memo&gt;</span>Invoice<span class="nt">&lt;/memo&gt;</span> 
  <span class="nt">&lt;request&gt;</span><span class="err">&lt;</span>&gt;...<span class="err">&lt;</span>/&gt;<span class="nt">&lt;/request&gt;</span> 
@@ -13188,12 +13208,12 @@ to stop receiving event notifications for specific webhook subscriptions that ar
 </tr>
 </tbody></table>
 <h2 id='paylinkstateevent'>PaylinkStateEvent</h2><div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-   </span><span class="nl">"datetime"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2024-12-09"</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"datetime"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2024-12-10"</span><span class="p">,</span><span class="w">
    </span><span class="nl">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"message on this state"</span><span class="p">,</span><span class="w">
    </span><span class="nl">"state"</span><span class="p">:</span><span class="w"> </span><span class="s2">"FormInput"</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre></div><div class="highlight"><pre class="highlight xml tab-xml"><code><span class="nt">&lt;PaylinkStateEvent&gt;</span>
- <span class="nt">&lt;datetime&gt;</span>2024-12-09<span class="nt">&lt;/datetime&gt;</span> 
+ <span class="nt">&lt;datetime&gt;</span>2024-12-10<span class="nt">&lt;/datetime&gt;</span> 
  <span class="nt">&lt;message&gt;</span>message on this state<span class="nt">&lt;/message&gt;</span> 
  <span class="nt">&lt;state&gt;</span>FormInput<span class="nt">&lt;/state&gt;</span> 
 <span class="nt">&lt;/PaylinkStateEvent&gt;</span>
@@ -13228,7 +13248,7 @@ to stop receiving event notifications for specific webhook subscriptions that ar
 <h2 id='paylinktokencreated'>PaylinkTokenCreated</h2><div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
    </span><span class="nl">"attachments"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="err">...</span><span class="w"> </span><span class="p">},</span><span class="w">
    </span><span class="nl">"bps"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
-   </span><span class="nl">"date_created"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2024-12-09"</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"date_created"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2024-12-10"</span><span class="p">,</span><span class="w">
    </span><span class="nl">"errors"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
    </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"00000000-0000-0000-0000-000000000000"</span><span class="p">,</span><span class="w">
    </span><span class="nl">"identifier"</span><span class="p">:</span><span class="w"> </span><span class="s2">"95b857a1-5955-4b86-963c-5a6dbfc4fb95"</span><span class="p">,</span><span class="w">
@@ -13244,7 +13264,7 @@ to stop receiving event notifications for specific webhook subscriptions that ar
 </span></code></pre></div><div class="highlight"><pre class="highlight xml tab-xml"><code><span class="nt">&lt;PaylinkTokenCreated&gt;</span>
  <span class="nt">&lt;attachments&gt;</span><span class="err">&lt;</span>&gt;...<span class="err">&lt;</span>/&gt;<span class="nt">&lt;/attachments&gt;</span> 
  <span class="nt">&lt;bps&gt;&lt;/bps&gt;</span> 
- <span class="nt">&lt;date_created&gt;</span>2024-12-09<span class="nt">&lt;/date_created&gt;</span> 
+ <span class="nt">&lt;date_created&gt;</span>2024-12-10<span class="nt">&lt;/date_created&gt;</span> 
  <span class="nt">&lt;errors&gt;&lt;/errors&gt;</span> 
  <span class="nt">&lt;id&gt;</span>00000000-0000-0000-0000-000000000000<span class="nt">&lt;/id&gt;</span> 
  <span class="nt">&lt;identifier&gt;</span>95b857a1-5955-4b86-963c-5a6dbfc4fb95<span class="nt">&lt;/identifier&gt;</span> 
@@ -13469,7 +13489,7 @@ to stop receiving event notifications for specific webhook subscriptions that ar
 <td><code>payment_intent_id</code></td>
 <td>string</td>
 <td>false</td>
-<td>A payment intent id already previoulsy registered for this token.</td>
+<td>A payment intent id already previously registered for this token.</td>
 </tr>
 <tr>
 <td><code>recurring</code></td>
@@ -13494,8 +13514,8 @@ to stop receiving event notifications for specific webhook subscriptions that ar
    </span><span class="nl">"amount_paid"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
    </span><span class="nl">"auth_code"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
    </span><span class="nl">"card"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Visa/0002"</span><span class="p">,</span><span class="w">
-   </span><span class="nl">"created"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2024-12-09"</span><span class="p">,</span><span class="w">
-   </span><span class="nl">"datetime"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2024-12-09"</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"created"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2024-12-10"</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"datetime"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2024-12-10"</span><span class="p">,</span><span class="w">
    </span><span class="nl">"identifier"</span><span class="p">:</span><span class="w"> </span><span class="s2">"95b857a1-5955-4b86-963c-5a6dbfc4fb95"</span><span class="p">,</span><span class="w">
    </span><span class="nl">"is_attachment"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
    </span><span class="nl">"is_cancelled"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
@@ -13512,7 +13532,7 @@ to stop receiving event notifications for specific webhook subscriptions that ar
    </span><span class="nl">"is_request_challenged"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
    </span><span class="nl">"is_sms_sent"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
    </span><span class="nl">"is_validated"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
-   </span><span class="nl">"last_event_date_time"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2024-12-09"</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"last_event_date_time"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2024-12-10"</span><span class="p">,</span><span class="w">
    </span><span class="nl">"last_payment_result"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
    </span><span class="nl">"mid"</span><span class="p">:</span><span class="w"> </span><span class="mi">11223344</span><span class="p">,</span><span class="w">
    </span><span class="nl">"payment_attempts_count"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
@@ -13524,8 +13544,8 @@ to stop receiving event notifications for specific webhook subscriptions that ar
  <span class="nt">&lt;amount_paid&gt;&lt;/amount_paid&gt;</span> 
  <span class="nt">&lt;auth_code&gt;&lt;/auth_code&gt;</span> 
  <span class="nt">&lt;card&gt;</span>Visa/0002<span class="nt">&lt;/card&gt;</span> 
- <span class="nt">&lt;created&gt;</span>2024-12-09<span class="nt">&lt;/created&gt;</span> 
- <span class="nt">&lt;datetime&gt;</span>2024-12-09<span class="nt">&lt;/datetime&gt;</span> 
+ <span class="nt">&lt;created&gt;</span>2024-12-10<span class="nt">&lt;/created&gt;</span> 
+ <span class="nt">&lt;datetime&gt;</span>2024-12-10<span class="nt">&lt;/datetime&gt;</span> 
  <span class="nt">&lt;identifier&gt;</span>95b857a1-5955-4b86-963c-5a6dbfc4fb95<span class="nt">&lt;/identifier&gt;</span> 
  <span class="nt">&lt;is_attachment&gt;&lt;/is_attachment&gt;</span> 
  <span class="nt">&lt;is_cancelled&gt;&lt;/is_cancelled&gt;</span> 
@@ -13542,7 +13562,7 @@ to stop receiving event notifications for specific webhook subscriptions that ar
  <span class="nt">&lt;is_request_challenged&gt;&lt;/is_request_challenged&gt;</span> 
  <span class="nt">&lt;is_sms_sent&gt;&lt;/is_sms_sent&gt;</span> 
  <span class="nt">&lt;is_validated&gt;&lt;/is_validated&gt;</span> 
- <span class="nt">&lt;last_event_date_time&gt;</span>2024-12-09<span class="nt">&lt;/last_event_date_time&gt;</span> 
+ <span class="nt">&lt;last_event_date_time&gt;</span>2024-12-10<span class="nt">&lt;/last_event_date_time&gt;</span> 
  <span class="nt">&lt;last_payment_result&gt;&lt;/last_payment_result&gt;</span> 
  <span class="nt">&lt;mid&gt;</span>11223344<span class="nt">&lt;/mid&gt;</span> 
  <span class="nt">&lt;payment_attempts_count&gt;&lt;/payment_attempts_count&gt;</span> 
@@ -13729,14 +13749,14 @@ to stop receiving event notifications for specific webhook subscriptions that ar
 </tr>
 </tbody></table>
 <h2 id='paylinktokenstatuschangerequest'>PaylinkTokenStatusChangeRequest</h2><div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-   </span><span class="nl">"after"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2024-12-09"</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"after"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2024-12-10"</span><span class="p">,</span><span class="w">
    </span><span class="nl">"maxResults"</span><span class="p">:</span><span class="w"> </span><span class="mi">50</span><span class="p">,</span><span class="w">
    </span><span class="nl">"merchantid"</span><span class="p">:</span><span class="w"> </span><span class="mi">11223344</span><span class="p">,</span><span class="w">
    </span><span class="nl">"nextToken"</span><span class="p">:</span><span class="w"> </span><span class="s2">"n34liuwn435tUAGFNg34yn..."</span><span class="p">,</span><span class="w">
    </span><span class="nl">"orderBy"</span><span class="p">:</span><span class="w"> </span><span class="s2">"date"</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre></div><div class="highlight"><pre class="highlight xml tab-xml"><code><span class="nt">&lt;PaylinkTokenStatusChangeRequest&gt;</span>
- <span class="nt">&lt;after&gt;</span>2024-12-09<span class="nt">&lt;/after&gt;</span> 
+ <span class="nt">&lt;after&gt;</span>2024-12-10<span class="nt">&lt;/after&gt;</span> 
  <span class="nt">&lt;maxResults&gt;</span>50<span class="nt">&lt;/maxResults&gt;</span> 
  <span class="nt">&lt;merchantid&gt;</span>11223344<span class="nt">&lt;/merchantid&gt;</span> 
  <span class="nt">&lt;nextToken&gt;</span>n34liuwn435tUAGFNg34yn...<span class="nt">&lt;/nextToken&gt;</span> 
@@ -14049,10 +14069,10 @@ to stop receiving event notifications for specific webhook subscriptions that ar
 <h2 id='paymentintentresponsemodel'>PaymentIntentResponseModel</h2><div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
    </span><span class="nl">"adjustments"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="err">...</span><span class="w"> </span><span class="p">},</span><span class="w">
    </span><span class="nl">"amount"</span><span class="p">:</span><span class="w"> </span><span class="mi">19995</span><span class="p">,</span><span class="w">
-   </span><span class="nl">"created"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2024-12-09"</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"created"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2024-12-10"</span><span class="p">,</span><span class="w">
    </span><span class="nl">"currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"GBP"</span><span class="p">,</span><span class="w">
-   </span><span class="nl">"due"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2024-12-09"</span><span class="p">,</span><span class="w">
-   </span><span class="nl">"expires"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2024-12-09"</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"due"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2024-12-10"</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"expires"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2024-12-10"</span><span class="p">,</span><span class="w">
    </span><span class="nl">"external-ref"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ABC123"</span><span class="p">,</span><span class="w">
    </span><span class="nl">"external-ref-source"</span><span class="p">:</span><span class="w"> </span><span class="s2">"xero"</span><span class="p">,</span><span class="w">
    </span><span class="nl">"identifier"</span><span class="p">:</span><span class="w"> </span><span class="s2">"95b857a1-5955-4b86-963c-5a6dbfc4fb95"</span><span class="p">,</span><span class="w">
@@ -14065,10 +14085,10 @@ to stop receiving event notifications for specific webhook subscriptions that ar
 </span></code></pre></div><div class="highlight"><pre class="highlight xml tab-xml"><code><span class="nt">&lt;PaymentIntentResponseModel&gt;</span>
  <span class="nt">&lt;adjustments&gt;</span><span class="err">&lt;</span>&gt;...<span class="err">&lt;</span>/&gt;<span class="nt">&lt;/adjustments&gt;</span> 
  <span class="nt">&lt;amount&gt;</span>19995<span class="nt">&lt;/amount&gt;</span> 
- <span class="nt">&lt;created&gt;</span>2024-12-09<span class="nt">&lt;/created&gt;</span> 
+ <span class="nt">&lt;created&gt;</span>2024-12-10<span class="nt">&lt;/created&gt;</span> 
  <span class="nt">&lt;currency&gt;</span>GBP<span class="nt">&lt;/currency&gt;</span> 
- <span class="nt">&lt;due&gt;</span>2024-12-09<span class="nt">&lt;/due&gt;</span> 
- <span class="nt">&lt;expires&gt;</span>2024-12-09<span class="nt">&lt;/expires&gt;</span> 
+ <span class="nt">&lt;due&gt;</span>2024-12-10<span class="nt">&lt;/due&gt;</span> 
+ <span class="nt">&lt;expires&gt;</span>2024-12-10<span class="nt">&lt;/expires&gt;</span> 
  <span class="nt">&lt;external-ref&gt;</span>ABC123<span class="nt">&lt;/external-ref&gt;</span> 
  <span class="nt">&lt;external-ref-source&gt;</span>xero<span class="nt">&lt;/external-ref-source&gt;</span> 
  <span class="nt">&lt;identifier&gt;</span>95b857a1-5955-4b86-963c-5a6dbfc4fb95<span class="nt">&lt;/identifier&gt;</span> 
@@ -14379,11 +14399,11 @@ to stop receiving event notifications for specific webhook subscriptions that ar
 </tr>
 </tbody></table>
 <h2 id='registeripmodel'>RegisterIpModel</h2><div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-   </span><span class="nl">"exp"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1734653568"</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"exp"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1734712992"</span><span class="p">,</span><span class="w">
    </span><span class="nl">"ip"</span><span class="p">:</span><span class="w"> </span><span class="s2">"8.8.8.8"</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre></div><div class="highlight"><pre class="highlight xml tab-xml"><code><span class="nt">&lt;RegisterIpModel&gt;</span>
- <span class="nt">&lt;exp&gt;</span>1734653568<span class="nt">&lt;/exp&gt;</span> 
+ <span class="nt">&lt;exp&gt;</span>1734712992<span class="nt">&lt;/exp&gt;</span> 
  <span class="nt">&lt;ip&gt;</span>8.8.8.8<span class="nt">&lt;/ip&gt;</span> 
 <span class="nt">&lt;/RegisterIpModel&gt;</span>
 </code></pre></div>
@@ -15028,6 +15048,7 @@ to stop receiving event notifications for specific webhook subscriptions that ar
    </span><span class="nl">"mcc6012"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="err">...</span><span class="w"> </span><span class="p">},</span><span class="w">
    </span><span class="nl">"merchantid"</span><span class="p">:</span><span class="w"> </span><span class="mi">11223344</span><span class="p">,</span><span class="w">
    </span><span class="nl">"name_on_card"</span><span class="p">:</span><span class="w"> </span><span class="s2">"MR NE BODY"</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"payment_intent_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"p13t1111222233334444"</span><span class="p">,</span><span class="w">
    </span><span class="nl">"pre_auth"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
    </span><span class="nl">"ship_to"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="err">...</span><span class="w"> </span><span class="p">},</span><span class="w">
    </span><span class="nl">"tag"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
@@ -15057,6 +15078,7 @@ to stop receiving event notifications for specific webhook subscriptions that ar
  <span class="nt">&lt;mcc6012&gt;</span><span class="err">&lt;</span>&gt;...<span class="err">&lt;</span>/&gt;<span class="nt">&lt;/mcc6012&gt;</span> 
  <span class="nt">&lt;merchantid&gt;</span>11223344<span class="nt">&lt;/merchantid&gt;</span> 
  <span class="nt">&lt;name_on_card&gt;</span>MR NE BODY<span class="nt">&lt;/name_on_card&gt;</span> 
+ <span class="nt">&lt;payment_intent_id&gt;</span>p13t1111222233334444<span class="nt">&lt;/payment_intent_id&gt;</span> 
  <span class="nt">&lt;pre_auth&gt;&lt;/pre_auth&gt;</span> 
  <span class="nt">&lt;ship_to&gt;</span><span class="err">&lt;</span>&gt;...<span class="err">&lt;</span>/&gt;<span class="nt">&lt;/ship_to&gt;</span> 
  <span class="nt">&lt;tag&gt;&lt;/tag&gt;</span> 
@@ -15182,6 +15204,12 @@ to stop receiving event notifications for specific webhook subscriptions that ar
 <td>string</td>
 <td>false</td>
 <td>The card holder name as appears on the card such as MR N E BODY. Required for some acquirers.<br/><br/> minLength: 2<br/>maxLength: 45</td>
+</tr>
+<tr>
+<td><code>payment_intent_id</code></td>
+<td>string</td>
+<td>false</td>
+<td>A payment intent id previously registered that this transaction is linked to.</td>
 </tr>
 <tr>
 <td><code>pre_auth</code></td>
