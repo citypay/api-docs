@@ -1,12 +1,12 @@
 ---
 title: CityPay Payment API
-version: 6.7.7
+version: 6.7.8
 language_tabs:
   - json
   - xml
 toc_footers:
   - <a href='mailto:support@citypay.com'>Any Integration Questions?</a>
-  - V6.7.7 2024-12-10
+  - V6.7.8 2024-12-10
 includes:
   - errorcodes
   - authresultcodes
@@ -26,7 +26,7 @@ search: true
  Our latest documentation is available on <a href="https://docs.citypay.com">CityPay Docs</a>
 </aside>
 
-Version: 6.7.7
+Version: 6.7.8
 Last Updated: 2024-12-10
 
 
@@ -7793,14 +7793,14 @@ BPS | `bps` | string  | false | true if BPS has been enabled on this token. |
 
 ```json
 {
-   "exp": "1734712992",
+   "exp": "1734715640",
    "ip": "8.8.8.8"
 }
 ```
 
 ```xml
 <RegisterIpModel>
- <exp>1734712992</exp> 
+ <exp>1734715640</exp> 
  <ip>8.8.8.8</ip> 
 </RegisterIpModel>
 ```
