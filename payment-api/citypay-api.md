@@ -1,12 +1,12 @@
 ---
 title: CityPay Payment API
-version: 6.7.8
+version: 6.7.9
 language_tabs:
   - json
   - xml
 toc_footers:
   - <a href='mailto:support@citypay.com'>Any Integration Questions?</a>
-  - V6.7.8 2024-12-10
+  - V6.7.9 2024-12-18
 includes:
   - errorcodes
   - authresultcodes
@@ -26,8 +26,8 @@ search: true
  Our latest documentation is available on <a href="https://docs.citypay.com">CityPay Docs</a>
 </aside>
 
-Version: 6.7.8
-Last Updated: 2024-12-10
+Version: 6.7.9
+Last Updated: 2024-12-18
 
 
 Welcome to the CityPay API, a robust HTTP API payment solution designed for seamless server-to-server 
@@ -4948,6 +4948,7 @@ Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Addi
    "live": true,
    "maskedpan": "4***********0002",
    "merchantid": 11223344,
+   "payment_intent_id": "p13t1111222233334444",
    "result": 1,
    "result_code": "0",
    "result_message": "Accepted Transaction",
@@ -4982,6 +4983,7 @@ Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Addi
  <live>true</live> 
  <maskedpan>4***********0002</maskedpan> 
  <merchantid>11223344</merchantid> 
+ <payment_intent_id>p13t1111222233334444</payment_intent_id> 
  <result>1</result> 
  <result_code>0</result_code> 
  <result_message>Accepted Transaction</result_message> 
@@ -5016,6 +5018,7 @@ Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Addi
 | `live` | boolean  | false | Used to identify that a transaction was processed on a live authorisation platform. | 
 | `maskedpan` | string  | false | A masked value of the card number used for processing displaying limited values that can be used on a receipt. | 
 | `merchantid` | integer *int32* | true | The merchant id that processed this transaction. | 
+| `payment_intent_id` | string  | false | A payment intent id for the authorisation if it exists. | 
 | `result` | integer *int32* | true | An integer result that indicates the outcome of the transaction. The Code value below maps to the result value<br/><br/><table> <tr> <th>Code</th> <th>Abbrev</th> <th>Description</th> </tr> <tr><td>0</td><td>Declined</td><td>Declined</td></tr> <tr><td>1</td><td>Accepted</td><td>Accepted</td></tr> <tr><td>2</td><td>Rejected</td><td>Rejected</td></tr> <tr><td>3</td><td>Not Attempted</td><td>Not Attempted</td></tr> <tr><td>4</td><td>Referred</td><td>Referred</td></tr> <tr><td>5</td><td>PinRetry</td><td>Perform PIN Retry</td></tr> <tr><td>6</td><td>ForSigVer</td><td>Force Signature Verification</td></tr> <tr><td>7</td><td>Hold</td><td>Hold</td></tr> <tr><td>8</td><td>SecErr</td><td>Security Error</td></tr> <tr><td>9</td><td>CallAcq</td><td>Call Acquirer</td></tr> <tr><td>10</td><td>DNH</td><td>Do Not Honour</td></tr> <tr><td>11</td><td>RtnCrd</td><td>Retain Card</td></tr> <tr><td>12</td><td>ExprdCrd</td><td>Expired Card</td></tr> <tr><td>13</td><td>InvldCrd</td><td>Invalid Card No</td></tr> <tr><td>14</td><td>PinExcd</td><td>Pin Tries Exceeded</td></tr> <tr><td>15</td><td>PinInvld</td><td>Pin Invalid</td></tr> <tr><td>16</td><td>AuthReq</td><td>Authentication Required</td></tr> <tr><td>17</td><td>AuthenFail</td><td>Authentication Failed</td></tr> <tr><td>18</td><td>Verified</td><td>Card Verified</td></tr> <tr><td>19</td><td>Cancelled</td><td>Cancelled</td></tr> <tr><td>20</td><td>Un</td><td>Unknown</td></tr> <tr><td>21</td><td>Challenged</td><td>Challenged</td></tr> <tr><td>22</td><td>Decoupled</td><td>Decoupled</td></tr> <tr><td>23</td><td>Denied</td><td>Permission Denied</td></tr> </table> | 
 | `result_code` | string  | true | The result code as defined in the Response Codes Reference for example 000 is an accepted live transaction whilst 001 is an accepted test transaction. Result codes identify the source of success and failure.<br/><br/>Codes may start with an alpha character i.e. C001 indicating a type of error such as a card validation error. | 
 | `result_message` | string  | true | The message regarding the result which provides further narrative to the result code. | 
@@ -6114,20 +6117,20 @@ Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Addi
 
 ```json
 {
-   "event_end_date": "2024-12-10",
+   "event_end_date": "2024-12-18",
    "event_id": "",
    "event_organiser_id": "",
-   "event_start_date": "2024-12-10",
+   "event_start_date": "2024-12-18",
    "payment_type": ""
 }
 ```
 
 ```xml
 <EventDataModel>
- <event_end_date>2024-12-10</event_end_date> 
+ <event_end_date>2024-12-18</event_end_date> 
  <event_id></event_id> 
  <event_organiser_id></event_organiser_id> 
- <event_start_date>2024-12-10</event_start_date> 
+ <event_start_date>2024-12-18</event_start_date> 
  <payment_type></payment_type> 
 </EventDataModel>
 ```
@@ -6399,7 +6402,7 @@ Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Addi
 
 ```json
 {
-   "batch_closed": "2024-12-10",
+   "batch_closed": "2024-12-18",
    "batch_no": "",
    "batch_status": "",
    "batch_status_code": "",
@@ -6411,7 +6414,7 @@ Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Addi
 
 ```xml
 <MerchantBatchResponse>
- <batch_closed>2024-12-10</batch_closed> 
+ <batch_closed>2024-12-18</batch_closed> 
  <batch_no></batch_no> 
  <batch_status></batch_status> 
  <batch_status_code></batch_status_code> 
@@ -6640,7 +6643,7 @@ Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Addi
    "addressee": "Jack Sparrow",
    "attachments": "",
    "descriptor": "",
-   "due": "2024-12-10",
+   "due": "2024-12-18",
    "email_notification_path": { ... },
    "memo": "Invoice",
    "request": { ... },
@@ -6653,7 +6656,7 @@ Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Addi
  <addressee>Jack Sparrow</addressee> 
  <attachments></attachments> 
  <descriptor></descriptor> 
- <due>2024-12-10</due> 
+ <due>2024-12-18</due> 
  <email_notification_path><>...</></email_notification_path> 
  <memo>Invoice</memo> 
  <request><>...</></request> 
@@ -7141,7 +7144,7 @@ Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Addi
 
 ```json
 {
-   "datetime": "2024-12-10",
+   "datetime": "2024-12-18",
    "message": "message on this state",
    "state": "FormInput"
 }
@@ -7149,7 +7152,7 @@ Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Addi
 
 ```xml
 <PaylinkStateEvent>
- <datetime>2024-12-10</datetime> 
+ <datetime>2024-12-18</datetime> 
  <message>message on this state</message> 
  <state>FormInput</state> 
 </PaylinkStateEvent>
@@ -7171,7 +7174,7 @@ Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Addi
 {
    "attachments": { ... },
    "bps": "",
-   "date_created": "2024-12-10",
+   "date_created": "2024-12-18",
    "errors": "",
    "id": "00000000-0000-0000-0000-000000000000",
    "identifier": "95b857a1-5955-4b86-963c-5a6dbfc4fb95",
@@ -7190,7 +7193,7 @@ Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Addi
 <PaylinkTokenCreated>
  <attachments><>...</></attachments> 
  <bps></bps> 
- <date_created>2024-12-10</date_created> 
+ <date_created>2024-12-18</date_created> 
  <errors></errors> 
  <id>00000000-0000-0000-0000-000000000000</id> 
  <identifier>95b857a1-5955-4b86-963c-5a6dbfc4fb95</identifier> 
@@ -7298,8 +7301,8 @@ BPS | `bps` | string  | false | true if BPS has been enabled on this token. |
    "amount_paid": 0,
    "auth_code": "",
    "card": "Visa/0002",
-   "created": "2024-12-10",
-   "datetime": "2024-12-10",
+   "created": "2024-12-18",
+   "datetime": "2024-12-18",
    "identifier": "95b857a1-5955-4b86-963c-5a6dbfc4fb95",
    "is_attachment": false,
    "is_cancelled": false,
@@ -7316,7 +7319,7 @@ BPS | `bps` | string  | false | true if BPS has been enabled on this token. |
    "is_request_challenged": false,
    "is_sms_sent": false,
    "is_validated": false,
-   "last_event_date_time": "2024-12-10",
+   "last_event_date_time": "2024-12-18",
    "last_payment_result": "",
    "mid": 11223344,
    "payment_attempts_count": 0,
@@ -7331,8 +7334,8 @@ BPS | `bps` | string  | false | true if BPS has been enabled on this token. |
  <amount_paid></amount_paid> 
  <auth_code></auth_code> 
  <card>Visa/0002</card> 
- <created>2024-12-10</created> 
- <datetime>2024-12-10</datetime> 
+ <created>2024-12-18</created> 
+ <datetime>2024-12-18</datetime> 
  <identifier>95b857a1-5955-4b86-963c-5a6dbfc4fb95</identifier> 
  <is_attachment></is_attachment> 
  <is_cancelled></is_cancelled> 
@@ -7349,7 +7352,7 @@ BPS | `bps` | string  | false | true if BPS has been enabled on this token. |
  <is_request_challenged></is_request_challenged> 
  <is_sms_sent></is_sms_sent> 
  <is_validated></is_validated> 
- <last_event_date_time>2024-12-10</last_event_date_time> 
+ <last_event_date_time>2024-12-18</last_event_date_time> 
  <last_payment_result></last_payment_result> 
  <mid>11223344</mid> 
  <payment_attempts_count></payment_attempts_count> 
@@ -7398,7 +7401,7 @@ BPS | `bps` | string  | false | true if BPS has been enabled on this token. |
 
 ```json
 {
-   "after": "2024-12-10",
+   "after": "2024-12-18",
    "maxResults": 50,
    "merchantid": 11223344,
    "nextToken": "n34liuwn435tUAGFNg34yn...",
@@ -7408,7 +7411,7 @@ BPS | `bps` | string  | false | true if BPS has been enabled on this token. |
 
 ```xml
 <PaylinkTokenStatusChangeRequest>
- <after>2024-12-10</after> 
+ <after>2024-12-18</after> 
  <maxResults>50</maxResults> 
  <merchantid>11223344</merchantid> 
  <nextToken>n34liuwn435tUAGFNg34yn...</nextToken> 
@@ -7588,10 +7591,10 @@ BPS | `bps` | string  | false | true if BPS has been enabled on this token. |
 {
    "adjustments": { ... },
    "amount": 19995,
-   "created": "2024-12-10",
+   "created": "2024-12-18",
    "currency": "GBP",
-   "due": "2024-12-10",
-   "expires": "2024-12-10",
+   "due": "2024-12-18",
+   "expires": "2024-12-18",
    "external-ref": "ABC123",
    "external-ref-source": "xero",
    "identifier": "95b857a1-5955-4b86-963c-5a6dbfc4fb95",
@@ -7607,10 +7610,10 @@ BPS | `bps` | string  | false | true if BPS has been enabled on this token. |
 <PaymentIntentResponseModel>
  <adjustments><>...</></adjustments> 
  <amount>19995</amount> 
- <created>2024-12-10</created> 
+ <created>2024-12-18</created> 
  <currency>GBP</currency> 
- <due>2024-12-10</due> 
- <expires>2024-12-10</expires> 
+ <due>2024-12-18</due> 
+ <expires>2024-12-18</expires> 
  <external-ref>ABC123</external-ref> 
  <external-ref-source>xero</external-ref-source> 
  <identifier>95b857a1-5955-4b86-963c-5a6dbfc4fb95</identifier> 
@@ -7793,14 +7796,14 @@ BPS | `bps` | string  | false | true if BPS has been enabled on this token. |
 
 ```json
 {
-   "exp": "1734715640",
+   "exp": "1735426248",
    "ip": "8.8.8.8"
 }
 ```
 
 ```xml
 <RegisterIpModel>
- <exp>1734715640</exp> 
+ <exp>1735426248</exp> 
  <ip>8.8.8.8</ip> 
 </RegisterIpModel>
 ```
