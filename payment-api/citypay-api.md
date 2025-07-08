@@ -1,12 +1,12 @@
 ---
 title: CityPay Payment API
-version: 6.6.40
+version: 6.6.57
 language_tabs:
   - json
   - xml
 toc_footers:
   - <a href='mailto:support@citypay.com'>Any Integration Questions?</a>
-  - V6.6.40 2024-04-22
+  - V6.6.57 2025-07-08
 includes:
   - errorcodes
   - authresultcodes
@@ -22,8 +22,12 @@ search: true
 
 # CityPay Payment API
 
-Version: 6.6.40
-Last Updated: 2024-04-22
+<aside class="notice">
+ Our latest documentation is available on <a href="https://docs.citypay.com">CityPay Docs</a>
+</aside>
+
+Version: 6.6.57
+Last Updated: 2025-07-08
 
 
 Welcome to the CityPay API, a robust HTTP API payment solution designed for seamless server-to-server 
@@ -809,9 +813,9 @@ Field  | Type | Usage | Description |
 ---------|------|------|-------------|
  `amount` | integer *int32* | Required | The amount to authorise in the lowest unit of currency with a variable length to a maximum of 12 digits.<br/><br/>No decimal points are to be included and no divisional characters such as 1,024.<br/><br/>The amount should be the total amount required for the transaction.<br/><br/>For example with GBP £1,021.95 the amount value is 102195.<br/><br/> minLength: 1<br/>maxLength: 9 | 
  `identifier` | string  | Required | The identifier of the transaction to process. The value should be a valid reference and may be used to perform  post processing actions and to aid in reconciliation of transactions.<br/><br/>The value should be a valid printable string with ASCII character ranges from 0x32 to 0x127.<br/><br/>The identifier is recommended to be distinct for each transaction such as a [random unique identifier](https://en.wikipedia.org/wiki/Universally_unique_identifier) this will aid in ensuring each transaction is identifiable.<br/><br/>When transactions are processed they are also checked for duplicate requests. Changing the identifier on a subsequent request will ensure that a transaction is considered as different.<br/><br/> minLength: 4<br/>maxLength: 50 | 
+ `adjustments` | object | Optional | [Adjustments](#adjustments) Adjustments refer to the modifications applied to the base amount of a transaction, including surcharges, discounts, or other financial alterations. These adjustments are critical in calculating the final amount due, based on specific conditions such as payment timing, discount codes, or business rules.<br/><br/>Each adjustment is processed according to predefined criteria, ensuring that the final transaction amount accurately reflects any applicable financial rules or incentives. It is important to configure adjustments correctly, as they directly influence the payment amount and may impact the acceptance or rejection of a transaction. | 
  `avs_postcode_policy` | string  | Optional | A policy value which determines whether an AVS postcode policy is enforced or bypassed.<br/><br/>Values are:<br/><br/> `0` for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.<br/><br/> `1` for an enforced policy. Transactions that are enforced will be rejected if the AVS postcode numeric value does not match.<br/><br/> `2` to bypass. Transactions that are bypassed will be allowed through even if the postcode did not match.<br/><br/> `3` to ignore. Transactions that are ignored will bypass the result and not send postcode details for authorisation. | 
  `bill_to` | object | Optional | [ContactDetails](#contactdetails) Billing details of the card holder making the payment. These details may be used for AVS fraud analysis, 3DS and for future referencing of the transaction.<br/><br/>For AVS to work correctly, the billing details should be the registered address of the card holder as it appears on the statement with their card issuer. The numeric details will be passed through for analysis and may result in a decline if incorrectly provided. | 
- `csc` | string  | Optional | The Card Security Code (CSC) (also known as CV2/CVV2) is normally found on the back of the card (American Express has it on the front). The value helps to identify possession of the card as it is not available within the chip or magnetic swipe.<br/><br/>When forwarding the CSC, please ensure the value is a string as some values start with 0 and this will be stripped out by any integer parsing.<br/><br/>The CSC number aids fraud prevention in Mail Order and Internet payments.<br/><br/>Business rules are available on your account to identify whether to accept or decline transactions based on mismatched results of the CSC.<br/><br/>The Payment Card Industry (PCI) requires that at no stage of a transaction should the CSC be stored.<br/><br/>This applies to all entities handling card data.<br/><br/>It should also not be used in any hashing process.<br/><br/>CityPay do not store the value and have no method of retrieving the value once the transaction has been processed. For this reason, duplicate checking is unable to determine the CSC in its duplication check algorithm.<br/><br/> minLength: 3<br/>maxLength: 4 | 
  `csc_policy` | string  | Optional | A policy value which determines whether a CSC policy is enforced or bypassed.<br/><br/>Values are:<br/><br/> `0` for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.<br/><br/> `1` for an enforced policy. Transactions that are enforced will be rejected if the CSC value does not match.<br/><br/> `2` to bypass. Transactions that are bypassed will be allowed through even if the CSC did not match.<br/><br/> `3` to ignore. Transactions that are ignored will bypass the result and not send the CSC details for authorisation. | 
  `currency` | string  | Optional | The processing currency for the transaction. Will default to the merchant account currency.<br/><br/>minLength: 3<br/>maxLength: 3 | 
  `duplicate_policy` | string  | Optional | A policy value which determines whether a duplication policy is enforced or bypassed. A duplication check has a window of time set against your account within which it can action. If a previous transaction with matching values occurred within the window, any subsequent transaction will result in a T001 result.<br/><br/>Values are<br/><br/> `0` for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.<br/><br/> `1` for an enforced policy. Transactions that are enforced will be checked for duplication within the duplication window.<br/><br/> `2` to bypass. Transactions that are bypassed will not be checked for duplication within the duplication window.<br/><br/> `3` to ignore. Transactions that are ignored will have the same affect as bypass. | 
@@ -2939,6 +2943,7 @@ Field  | Type | Usage | Description |
 ---------|------|------|-------------|
  `request` | object | Required | [PaylinkTokenRequestModel](#paylinktokenrequestmodel) The token request to generate for the bill payment. | 
  `addressee` | string  | Optional | Who the bill payment request intended for. This should be a readable name such as a person or company. | 
+ `adjustments` | object | Optional | [Adjustments](#adjustments) Adjustments refer to the modifications applied to the base amount of a transaction, including surcharges, discounts, or other financial alterations. These adjustments are critical in calculating the final amount due, based on specific conditions such as payment timing, discount codes, or business rules.<br/><br/>Each adjustment is processed according to predefined criteria, ensuring that the final transaction amount accurately reflects any applicable financial rules or incentives. It is important to configure adjustments correctly, as they directly influence the payment amount and may impact the acceptance or rejection of a transaction. | 
  `attachments` | array | Optional | An array of attachments for the request such as invoices or statements. [PaylinkAttachmentRequest](#paylinkattachmentrequest) | 
  `descriptor` | string  | Optional | A descriptor for the bill payment used to describe what the payment request is for for instance "Invoice".<br/><br/>The descriptor can be used as descriptive text on emails or the payment page. For instance an invoice may have a button saying "View Invoice" or an email may say "to pay your Invoice online". | 
  `due` | string *date* | Optional | A date that the invoice is due. This can be displayed on the payment page. | 
@@ -3002,7 +3007,7 @@ Field  | Type | Usage | Description |
  `amount` | integer *int32* | Required | Specifies the intended value of the transaction in the lowest denomination with no spacing characters or decimal point. This is the net total to be processed. An example of £74.95 would be presented as 7495. | 
  `identifier` | string  | Required | Identifies a particular transaction linked to a Merchant account. It enables accurate duplicate checking within a pre-configured time period, as well as transaction reporting and tracing. The identifier should be unique to prevent payment card processing attempts from being rejected due to duplication.<br/><br/> minLength: 4<br/>maxLength: 50 | 
  `merchantid` | integer *int32* | Required | The merchant id you wish to process this transaction with. | 
- `accountno` | string  | Optional | Specifies an alpha-numeric account number that the Paylink service uses when creating a Cardholder Account. The value should be no longer than 20 characters in length. | 
+ `accountno` | string  | Optional | To be able to use credential on file (COF) services. A cardholder account may be created once the payment has been authorised, this is then stored "on file" for subsequent charging for example re-authorisation, unscheduled payment, delayed charges, incremental authorisation, recurring payments, resubmission or no-show style agreements.<br/><br/>Specifies an alpha-numeric account number that the Paylink service uses when creating a Cardholder Account. The value should be no longer than 20 characters in length. | 
  `cardholder` | object | Optional | [PaylinkCardHolder](#paylinkcardholder) Cardholder fields are used to identify the underlying cardholder processing the transaction. These values are optional and the user can complete these values on the online form or may be pre-populated in the initial create request. | 
  `cart` | object | Optional | [PaylinkCart](#paylinkcart) The cart element. | 
  `client_version` | string  | Optional | The clientVersion field is used to specify the version of your application that has invoked the Paylink payment process. This feature is typically used for tracing issues relating to application deployments, or any Paylink integration module or plugin. | 
@@ -3831,6 +3836,271 @@ Responses for the RemittanceReportRequest operation are
 
 
 
+# Web Hooks
+
+A webhook is a mechanism that allows applications to send real-time data or notifications to other systems or services 
+whenever specific events occur. Instead of polling or manually requesting updates, webhooks push data to a designated 
+URL (endpoint) as soon as an event is triggered.
+
+By registering a webhook, you can configure your system to listen for events and automatically process the notifications, 
+such as updating your database, triggering workflows, or sending alerts.
+
+Webhooks consist of the following key components:
+
+- Event Trigger: A specific event (e.g., payment success, refund issued) that initiates the webhook call.
+- Endpoint URL: The destination where the webhook payload (event data) is sent.
+- Payload: The data related to the event, which is delivered in the webhook call.
+
+Webhooks are a powerful tool for integrating our services with your own applications, enabling automation, real-time synchronization, and streamlined communication between systems.
+
+
+
+## Web Hook Channel Create Request
+
+<div class="route-spec">
+<div class="route-path">
+ <span class="http-method http-method-post">POST</span>
+ <span class="path">/hooks/channel/create</span>
+</div>
+<div class="security-methods"><span class="key sec-cp-api-key">cp-api-key</span> </div>
+</div>
+
+A WebHookChannel is required to establish a connection with our event notification system. The channel serves as the 
+communication link between your application and the events generated by the payment gateway. When you register a 
+WebHookChannel, you're defining the endpoint where we will deliver notifications, such as payment events.
+
+The WebHookChannel encapsulates important configuration details like the endpoint type (e.g., HTTP), the client ID, 
+and security parameters. However, the channel itself does not specify which events will 
+be sent but should be considered as the pipeline for receiving those events. After registering a channel, you can then 
+configure triggers separately using a subscription request to define which specific payment events 
+should flow through this channel.
+
+
+<div class="model-links">
+ <a href="#requestModel-WebHookChannelCreateRequest$">Request Model</a>
+ <a href="#responseModel-WebHookChannelCreateRequest$">Response Model</a>
+</div>
+
+
+
+
+
+<a id="requestModel-WebHookChannelCreateRequest$"></a>
+### Model WebHookChannelCreateRequest
+
+Request body for the WebHookChannelCreateRequest$ operation contains the following properties
+
+<div class="requestModel"></div>
+
+Field  | Type | Usage | Description |
+---------|------|------|-------------|
+ `channel_name` | string  | Required | The name of the channel we are creating. | 
+ `clientid` | string  | Required | The client id that the hook is being registered for.<br/><br/> minLength: 3<br/>maxLength: 10 | 
+ `config` | object | Required | [Choice](#choice) The configuration for the endpoint specified. | 
+ `endpoint_id` | string  | Required | The id of the endpoint being used. The channel configuration is dependant upon the endpoint type. | 
+
+
+
+
+<a id="responseModel-WebHookChannelCreateRequest$"></a>
+### Response
+
+Responses for the WebHookChannelCreateRequest$ operation are
+
+<div class="responseModel"></div>
+
+ StatusCode | Description | Content-Type | Model |
+------------|-------------|--------------|-------|
+ `200` | Created a new web hook channel. | `application/json` <br/>`text/xml` | [WebHookChannelCreateResponse](#webhookchannelcreateresponse) |  
+ `400` | Bad Request. Should the incoming data not be validly determined. |  |  
+ `401` | Unauthorized. No api key has been provided and is required for this operation. |  |  
+ `403` | Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request. |  |  
+ `422` | Unprocessable Entity. Should a failure occur that prevents processing of the API call. | `application/json` <br/>`text/xml` | [Error](#error) |  
+ `500` | Server Error. The server was unable to complete the request. |  |  
+
+
+
+
+
+## Web Hook Channel Delete Request
+
+<div class="route-spec">
+<div class="route-path">
+ <span class="http-method http-method-post">POST</span>
+ <span class="path">/hooks/channel/delete</span>
+</div>
+<div class="security-methods"><span class="key sec-cp-api-key">cp-api-key</span> </div>
+</div>
+
+The WebHookChannelDeleteRequest allows you to remove an existing WebHookChannel from the event notification system. 
+By specifying the channel ID, you can deactivate the communication link between your application and the payment 
+gateway’s event system. Deleting a channel effectively halts any further notifications being sent to the associated 
+endpoint, ensuring that no additional events are processed through that channel.
+
+
+<div class="model-links">
+ <a href="#requestModel-WebHookChannelDeleteRequest$">Request Model</a>
+ <a href="#responseModel-WebHookChannelDeleteRequest$">Response Model</a>
+</div>
+
+
+
+
+
+<a id="requestModel-WebHookChannelDeleteRequest$"></a>
+### Model WebHookChannelDeleteRequest
+
+Request body for the WebHookChannelDeleteRequest$ operation contains the following properties
+
+<div class="requestModel"></div>
+
+Field  | Type | Usage | Description |
+---------|------|------|-------------|
+ `channel_id` | string  | Required | The id of the channel to be deleted. | 
+
+
+
+
+<a id="responseModel-WebHookChannelDeleteRequest$"></a>
+### Response
+
+Responses for the WebHookChannelDeleteRequest$ operation are
+
+<div class="responseModel"></div>
+
+ StatusCode | Description | Content-Type | Model |
+------------|-------------|--------------|-------|
+ `200` | Result of deleting the web hook channel. | `application/json` <br/>`text/xml` | [Acknowledgement](#acknowledgement) |  
+ `400` | Bad Request. Should the incoming data not be validly determined. |  |  
+ `401` | Unauthorized. No api key has been provided and is required for this operation. |  |  
+ `403` | Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request. |  |  
+ `422` | Unprocessable Entity. Should a failure occur that prevents processing of the API call. | `application/json` <br/>`text/xml` | [Error](#error) |  
+ `500` | Server Error. The server was unable to complete the request. |  |  
+
+
+
+
+
+## Web Hook Subscription Request
+
+<div class="route-spec">
+<div class="route-path">
+ <span class="http-method http-method-post">POST</span>
+ <span class="path">/hooks/subscribe</span>
+</div>
+<div class="security-methods"><span class="key sec-cp-api-key">cp-api-key</span> </div>
+</div>
+
+The WebHookSubscriptionRequest is used to define and activate event triggers for an existing WebHookChannel. This 
+request specifies the events or conditions that your application wants to be notified about, ensuring that only 
+relevant event data flows through the channel.
+
+
+<div class="model-links">
+ <a href="#requestModel-WebHookSubscriptionRequest$">Request Model</a>
+ <a href="#responseModel-WebHookSubscriptionRequest$">Response Model</a>
+</div>
+
+
+
+
+
+<a id="requestModel-WebHookSubscriptionRequest$"></a>
+### Model WebHookSubscriptionRequest
+
+Request body for the WebHookSubscriptionRequest$ operation contains the following properties
+
+<div class="requestModel"></div>
+
+Field  | Type | Usage | Description |
+---------|------|------|-------------|
+ `clientid` | string  | Required | The client id that the hook is being registered for.<br/><br/> minLength: 3<br/>maxLength: 10 | 
+ `channels` | array | Optional | type: string | 
+ `live` | boolean  | Optional | Specifies if the key is to be used for production. Defaults to false. | 
+ `merchant_id` | array | Optional | type: integer | 
+ `triggers` | array | Optional | type: string | 
+
+
+
+
+<a id="responseModel-WebHookSubscriptionRequest$"></a>
+### Response
+
+Responses for the WebHookSubscriptionRequest$ operation are
+
+<div class="responseModel"></div>
+
+ StatusCode | Description | Content-Type | Model |
+------------|-------------|--------------|-------|
+ `200` | Subscribe a new web hook. | `application/json` <br/>`text/xml` | [WebHookSubscriptionResponse](#webhooksubscriptionresponse) |  
+ `400` | Bad Request. Should the incoming data not be validly determined. |  |  
+ `401` | Unauthorized. No api key has been provided and is required for this operation. |  |  
+ `403` | Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request. |  |  
+ `422` | Unprocessable Entity. Should a failure occur that prevents processing of the API call. | `application/json` <br/>`text/xml` | [Error](#error) |  
+ `500` | Server Error. The server was unable to complete the request. |  |  
+
+
+
+
+
+## Web Hook Unsubscribe Request
+
+<div class="route-spec">
+<div class="route-path">
+ <span class="http-method http-method-post">POST</span>
+ <span class="path">/hooks/unsubscribe</span>
+</div>
+<div class="security-methods"><span class="key sec-cp-api-key">cp-api-key</span> </div>
+</div>
+
+The WebHookUnsubscribeRequest is used to remove an existing webhook subscription from the system. This allows clients 
+to stop receiving event notifications for specific webhook subscriptions that are no longer needed.
+
+
+<div class="model-links">
+ <a href="#requestModel-WebHookUnsubscribeRequest$">Request Model</a>
+ <a href="#responseModel-WebHookUnsubscribeRequest$">Response Model</a>
+</div>
+
+
+
+
+
+<a id="requestModel-WebHookUnsubscribeRequest$"></a>
+### Model WebHookUnsubscribeRequest
+
+Request body for the WebHookUnsubscribeRequest$ operation contains the following properties
+
+<div class="requestModel"></div>
+
+Field  | Type | Usage | Description |
+---------|------|------|-------------|
+ `clientid` | string  | Required | The client id that the hook is registered for.<br/><br/> minLength: 3<br/>maxLength: 10 | 
+ `web_hook_id` | string  | Required | The webhook id that is to be removed. | 
+
+
+
+
+<a id="responseModel-WebHookUnsubscribeRequest$"></a>
+### Response
+
+Responses for the WebHookUnsubscribeRequest$ operation are
+
+<div class="responseModel"></div>
+
+ StatusCode | Description | Content-Type | Model |
+------------|-------------|--------------|-------|
+ `200` | Unsubscribes a web hook. | `application/json` <br/>`text/xml` | [Acknowledgement](#acknowledgement) |  
+ `400` | Bad Request. Should the incoming data not be validly determined. |  |  
+ `401` | Unauthorized. No api key has been provided and is required for this operation. |  |  
+ `403` | Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request. |  |  
+ `422` | Unprocessable Entity. Should a failure occur that prevents processing of the API call. | `application/json` <br/>`text/xml` | [Error](#error) |  
+ `500` | Server Error. The server was unable to complete the request. |  |  
+
+
+
+
+
 
 # API Model
 
@@ -3865,13 +4135,13 @@ Responses for the RemittanceReportRequest operation are
 
 ```json
 {
-   "status": ""
+   "status": "ACTIVE"
 }
 ```
 
 ```xml
 <AccountStatus>
- <status></status> 
+ <status>ACTIVE</status> 
 </AccountStatus>
 ```
 
@@ -3962,6 +4232,77 @@ Responses for the RemittanceReportRequest operation are
 | `cache` | boolean  | false | Whether the ACL was returned via a cached instance. | 
 | `ip` | string *ipv4* | false | The IP address used in the lookup. | 
 | `provider` | string  | false | The source provider of the ACL such as cloud, subnet, country or IP based. | 
+
+
+
+
+
+## AdjustmentCondition
+
+```json
+{
+   "anchor": "",
+   "discount_code": "",
+   "duration": 7,
+   "end_date": "2024-08-31",
+   "start_date": "2024-08-01"
+}
+```
+
+```xml
+<AdjustmentCondition>
+ <anchor></anchor> 
+ <discount_code></discount_code> 
+ <duration>7</duration> 
+ <end_date>2024-08-31</end_date> 
+ <start_date>2024-08-01</start_date> 
+</AdjustmentCondition>
+```
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `anchor` | string  | false | The anchor is the reference point from which the condition is evaluated. It determines when the adjustment should be considered based on a specific event or timeline related to the intent.<br/><br/>For example:<br/><br/>after_creation: The adjustment is applied after a specified number of days following the date of the creation of the payment intent. after_due_date: The adjustment is applied after a specified number of days following the due date. before_due_date: The adjustment is applied within a specified number of days before the due date. before_expiry: The adjustment is applied within a specified number of days before the date the payment intent expires. on_due_date: The adjustment is applied on the due date<br/><br/>yyyy-MM-dd: A specific ISO date value can be supplied to apply the adjustment on a given date. | 
+| `discount_code` | string  | false | The discount code condition ensures that an adjustment is only applied if the correct promotional code is provided during the transaction.<br/><br/>Example: A 10% discount might only apply if the customer enters the discount code SEP24. | 
+| `duration` | integer *int32* | false | The duration specifies the time frame in days relative to the anchor point when the adjustment should be applied. | 
+| `end_date` | string *date* | false | Define the exact date range within which an adjustment is valid, useful for promotional periods or specific events. | 
+| `start_date` | string *date* | false | Define the exact date range within which an adjustment is valid, useful for promotional periods or specific events. | 
+
+
+
+
+
+## Adjustments
+
+```json
+{
+   "accumulate": "",
+   "adjustment": "",
+   "amount": 19995,
+   "conditions": { ... },
+   "description": "10% discount for loyalty program members",
+   "percentage": "17.5"
+}
+```
+
+```xml
+<Adjustments>
+ <accumulate></accumulate> 
+ <adjustment></adjustment> 
+ <amount>19995</amount> 
+ <conditions><>...</></conditions> 
+ <description>10% discount for loyalty program members</description> 
+ <percentage>17.5</percentage> 
+</Adjustments>
+```
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `accumulate` | string  | false | How adjustments are accumulated and therefore applied.<br/><br/>**None (Default)**: Only the last applicable adjustment is applied. The system ignores previous adjustments, and only the effect of the final adjustment is considered. Use Case: Use this mode when you want the final transaction amount to reflect only the last adjustment in the sequence, without any cumulative effect from prior adjustments.<br/><br/>**AccumulateBase**: Applies each adjustment independently to the original base amount of the transaction, regardless of any previous adjustments. The effects of all adjustments are then combined to produce the final amount. Use Case: This mode is useful when each adjustment should be applied as if it were the only adjustment, but their effects are accumulated together.<br/><br/>**AccumulatePrevious**: Applies each adjustment sequentially based on the amount resulting from the previous adjustment. This creates a cumulative effect where each adjustment builds upon the last one. Use Case: This mode is ideal when you need the final amount to reflect the cumulative effect of all adjustments in the order they are applied.<br/><br/>**AccumulateBaseOver**: The AccumulateBaseOver mode compares the effect of applying an adjustment to the original base amount with the result of the previously accumulated adjustments. The system then applies whichever adjustment produces a greater final amount. Use Case: This mode is useful when you want to ensure that the most impactful adjustment is applied, whether it comes from the base or the accumulated amount. | 
+| `adjustment` | string  | true | The type of adjustment, valid values are `surcharge` or `discount`. | 
+| `amount` | integer *int32* | false | For fixed-amount adjustments, an amount to be discounted or surcharged.<br/><br/>minLength: 1<br/>maxLength: 9 | 
+| `conditions` | object | false | [AdjustmentCondition](#adjustmentcondition) Defines specific conditions under which a surcharge or discount is applied. The conditions are crucial for ensuring that adjustments are only triggered when the relevant criteria are met, allowing for dynamic modifications to the transaction amount. | 
+| `description` | string  | false | A brief description of the adjustment, explaining its purpose or the conditions under which it is applied. For example. - Late Payment Fee - £15 fee for expedited processing on the same day - 5% discount for payments made within 5 days - 15% discount for first-time customers - 10% discount for loyalty program members. | 
+| `percentage` | number *double* | false | For percentage-based adjustments, the percentage amount to be discounted or surcharged. | 
 
 
 
@@ -4175,7 +4516,7 @@ Responses for the RemittanceReportRequest operation are
    "duplicate_policy": "",
    "event_management": { ... },
    "expmonth": 9,
-   "expyear": 2027,
+   "expyear": 2028,
    "external_mpi": { ... },
    "identifier": "95b857a1-5955-4b86-963c-5a6dbfc4fb95",
    "match_avsa": "",
@@ -4203,7 +4544,7 @@ Responses for the RemittanceReportRequest operation are
  <duplicate_policy></duplicate_policy> 
  <event_management><>...</></event_management> 
  <expmonth>9</expmonth> 
- <expyear>2027</expyear> 
+ <expyear>2028</expyear> 
  <external_mpi><>...</></external_mpi> 
  <identifier>95b857a1-5955-4b86-963c-5a6dbfc4fb95</identifier> 
  <match_avsa></match_avsa> 
@@ -4772,7 +5113,7 @@ Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Addi
    "date_created": "2020-01-02",
    "default": false,
    "expmonth": 9,
-   "expyear": 2027,
+   "expyear": 2028,
    "label": "Visa/0002",
    "label2": "Visa/0002,Exp:2304",
    "last4digits": "2",
@@ -4797,7 +5138,7 @@ Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Addi
  <date_created>2020-01-02</date_created> 
  <default></default> 
  <expmonth>9</expmonth> 
- <expyear>2027</expyear> 
+ <expyear>2028</expyear> 
  <label>Visa/0002</label> 
  <label2>Visa/0002,Exp:2304</label2> 
  <last4digits>2</last4digits> 
@@ -4845,7 +5186,7 @@ Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Addi
    "default_card_id": "",
    "default_card_index": 0,
    "last_modified": "2020-01-02",
-   "status": "",
+   "status": "ACTIVE",
    "unique_id": ""
 }
 ```
@@ -4859,7 +5200,7 @@ Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Addi
  <default_card_id></default_card_id> 
  <default_card_index></default_card_index> 
  <last_modified>2020-01-02</last_modified> 
- <status></status> 
+ <status>ACTIVE</status> 
  <unique_id></unique_id> 
 </CardHolderAccount>
 ```
@@ -5115,7 +5456,7 @@ Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Addi
    "currency": "GBP",
    "duplicate_policy": "",
    "expmonth": 9,
-   "expyear": 2027,
+   "expyear": 2028,
    "identifier": "95b857a1-5955-4b86-963c-5a6dbfc4fb95",
    "mac": "3896FBC43674AF59478DAF7F546FA4D4CB89981A936E6AAE997E43B55DF6C39D",
    "match_avsa": "",
@@ -5142,7 +5483,7 @@ Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Addi
  <currency>GBP</currency> 
  <duplicate_policy></duplicate_policy> 
  <expmonth>9</expmonth> 
- <expyear>2027</expyear> 
+ <expyear>2028</expyear> 
  <identifier>95b857a1-5955-4b86-963c-5a6dbfc4fb95</identifier> 
  <mac>3896FBC43674AF59478DAF7F546FA4D4CB89981A936E6AAE997E43B55DF6C39D</mac> 
  <match_avsa></match_avsa> 
@@ -5340,20 +5681,20 @@ Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Addi
 
 ```json
 {
-   "event_end_date": "2024-04-22",
+   "event_end_date": "2025-07-08",
    "event_id": "",
    "event_organiser_id": "",
-   "event_start_date": "2024-04-22",
+   "event_start_date": "2025-07-08",
    "payment_type": ""
 }
 ```
 
 ```xml
 <EventDataModel>
- <event_end_date>2024-04-22</event_end_date> 
+ <event_end_date>2025-07-08</event_end_date> 
  <event_id></event_id> 
  <event_organiser_id></event_organiser_id> 
- <event_start_date>2024-04-22</event_start_date> 
+ <event_start_date>2025-07-08</event_start_date> 
  <payment_type></payment_type> 
 </EventDataModel>
 ```
@@ -5427,6 +5768,31 @@ Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Addi
 | `eci` | integer *int32* | false | The obtained e-commerce indicator from the MPI.<br/><br/>maxLength: 1 | 
 | `enrolled` | string  | false | A value determining whether the card holder was enrolled.<br/><br/>maxLength: 1 | 
 | `xid` | string  | false | The XID used for processing with the MPI.<br/><br/>maxLength: 20 | 
+
+
+
+
+
+## HttpConfig
+
+```json
+{
+   "headers": { ... },
+   "url": "https://yoursite.com/path"
+}
+```
+
+```xml
+<HttpConfig>
+ <headers><>...</></headers> 
+ <url>https://yoursite.com/path</url> 
+</HttpConfig>
+```
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `headers` | object  | false | Http headers to add to the configuration. | 
+| `url` | string *url* | true | The url of the endpoint to contact. The value should be https. | 
 
 
 
@@ -5597,7 +5963,7 @@ Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Addi
 
 ```json
 {
-   "batch_closed": "2024-04-22",
+   "batch_closed": "2025-07-08",
    "batch_no": "",
    "batch_status": "",
    "batch_status_code": "",
@@ -5609,7 +5975,7 @@ Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Addi
 
 ```xml
 <MerchantBatchResponse>
- <batch_closed>2024-04-22</batch_closed> 
+ <batch_closed>2025-07-08</batch_closed> 
  <batch_no></batch_no> 
  <batch_status></batch_status> 
  <batch_status_code></batch_status_code> 
@@ -5835,12 +6201,13 @@ Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Addi
 
 ```json
 {
-   "addressee": "",
+   "addressee": "Jack Sparrow",
+   "adjustments": { ... },
    "attachments": "",
    "descriptor": "",
-   "due": "2024-04-22",
+   "due": "2025-07-08",
    "email_notification_path": { ... },
-   "memo": "",
+   "memo": "Invoice",
    "request": { ... },
    "sms_notification_path": { ... }
 }
@@ -5848,12 +6215,13 @@ Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Addi
 
 ```xml
 <PaylinkBillPaymentTokenRequest>
- <addressee></addressee> 
+ <addressee>Jack Sparrow</addressee> 
+ <adjustments><>...</></adjustments> 
  <attachments></attachments> 
  <descriptor></descriptor> 
- <due>2024-04-22</due> 
+ <due>2025-07-08</due> 
  <email_notification_path><>...</></email_notification_path> 
- <memo></memo> 
+ <memo>Invoice</memo> 
  <request><>...</></request> 
  <sms_notification_path><>...</></sms_notification_path> 
 </PaylinkBillPaymentTokenRequest>
@@ -5862,6 +6230,7 @@ Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Addi
 | Field | Type | Required | Description |
 |-------|------|----------|-------------|
 | `addressee` | string  | false | Who the bill payment request intended for. This should be a readable name such as a person or company. | 
+| `adjustments` | object | false | [Adjustments](#adjustments) Adjustments refer to the modifications applied to the base amount of a transaction, including surcharges, discounts, or other financial alterations. These adjustments are critical in calculating the final amount due, based on specific conditions such as payment timing, discount codes, or business rules.<br/><br/>Each adjustment is processed according to predefined criteria, ensuring that the final transaction amount accurately reflects any applicable financial rules or incentives. It is important to configure adjustments correctly, as they directly influence the payment amount and may impact the acceptance or rejection of a transaction. | 
 | `attachments` | array | false | An array of attachments for the request such as invoices or statements. [PaylinkAttachmentRequest](#paylinkattachmentrequest) | 
 | `descriptor` | string  | false | A descriptor for the bill payment used to describe what the payment request is for for instance "Invoice".<br/><br/>The descriptor can be used as descriptive text on emails or the payment page. For instance an invoice may have a button saying "View Invoice" or an email may say "to pay your Invoice online". | 
 | `due` | string *date* | false | A date that the invoice is due. This can be displayed on the payment page. | 
@@ -5929,11 +6298,11 @@ Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Addi
 {
    "contents": "",
    "coupon": "",
-   "mode": 0,
-   "product_description": "",
-   "product_information": "",
-   "shipping": 0,
-   "tax": 0
+   "mode": 2,
+   "product_description": "Book Order",
+   "product_information": "Book Order",
+   "shipping": 1500,
+   "tax": 1200
 }
 ```
 
@@ -5941,11 +6310,11 @@ Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Addi
 <PaylinkCart>
  <contents></contents> 
  <coupon></coupon> 
- <mode></mode> 
- <product_description></product_description> 
- <product_information></product_information> 
- <shipping></shipping> 
- <tax></tax> 
+ <mode>2</mode> 
+ <product_description>Book Order</product_description> 
+ <product_information>Book Order</product_information> 
+ <shipping>1500</shipping> 
+ <tax>1200</tax> 
 </PaylinkCart>
 ```
 
@@ -5953,7 +6322,7 @@ Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Addi
 |-------|------|----------|-------------|
 | `contents` | array | false | Any cart items to list against the cart. [PaylinkCartItemModel](#paylinkcartitemmodel) | 
 | `coupon` | string  | false | A coupon redeemed with the transaction. | 
-| `mode` | integer *int32* | false | The mode field specifies the behaviour or functionality of the cart.<br/><br/>Valid values are:<br/><br/> 0 - No cart - No cart is shown  1 - Read-only - The cart is shown with a breakdown of the item details provided by objects in the contents array.  2 - Selection cart - The cart is shown as a drop-down box of available cart items that the customer can a single item select from.  3 - Dynamic cart - a text box is rendered to enable the operator to input an amount.  4 - Multi cart - The cart is displayed with items rendered with selectable quantities. | 
+| `mode` | integer *int32* | false | The mode field specifies the behaviour or functionality of the cart.<br/><br/>Valid values are:<br/><br/>- `0` No cart - No cart is shown - `1` Read-only - The cart is shown with a breakdown of the item details provided by objects in the contents array. - `2` Selection cart - The cart is shown as a drop-down box of available cart items that the customer can a single item select from. - `3` Dynamic cart - a text box is rendered to enable the operator to input an amount. - `4` Multi cart - The cart is displayed with items rendered with selectable quantities. | 
 | `product_description` | string  | false | Specifies a description about the product or service that is the subject of the transaction. It will be rendered in the header of the page with no labels. | 
 | `product_information` | string  | false | Specifies information about the product or service that is the subject of the transaction. It will be rendered in the header of the page. | 
 | `shipping` | integer *int32* | false | The shipping amount of the transaction in the lowest denomination of currency. | 
@@ -5967,26 +6336,26 @@ Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Addi
 
 ```json
 {
-   "amount": 0,
+   "amount": 1200,
    "brand": "",
-   "category": "",
-   "count": 0,
-   "label": "",
+   "category": "Fiction",
+   "count": 1,
+   "label": "Percy Hotter",
    "max": 0,
-   "sku": "",
+   "sku": "AO12345678",
    "variant": ""
 }
 ```
 
 ```xml
 <PaylinkCartItemModel>
- <amount></amount> 
+ <amount>1200</amount> 
  <brand></brand> 
- <category></category> 
- <count></count> 
- <label></label> 
+ <category>Fiction</category> 
+ <count>1</count> 
+ <label>Percy Hotter</label> 
  <max></max> 
- <sku></sku> 
+ <sku>AO12345678</sku> 
  <variant></variant> 
 </PaylinkCartItemModel>
 ```
@@ -6010,10 +6379,10 @@ Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Addi
 
 ```json
 {
-   "acs_mode": "",
+   "acs_mode": "iframe",
    "custom_params": "",
    "descriptor": "",
-   "expire_in": "",
+   "expire_in": "1d",
    "field_guard": "",
    "lock_params": "",
    "merch_logo": "",
@@ -6037,10 +6406,10 @@ Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Addi
 
 ```xml
 <PaylinkConfig>
- <acs_mode></acs_mode> 
+ <acs_mode>iframe</acs_mode> 
  <custom_params></custom_params> 
  <descriptor></descriptor> 
- <expire_in></expire_in> 
+ <expire_in>1d</expire_in> 
  <field_guard></field_guard> 
  <lock_params></lock_params> 
  <merch_logo></merch_logo> 
@@ -6064,10 +6433,10 @@ Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Addi
 
 | Field | Type | Required | Description |
 |-------|------|----------|-------------|
-| `acs_mode` | string  | false | Specifies the approach to be adopted by the Paylink form when displaying a 3-D Secure challenge window. The values may be  iframe: shows the 3-D Secure ACS in an iframe dialog, neatly embedding it in Paylink. This provides a more seamless flow for the cardholder who is able to validate and authenticate their card using a dialog provided by their card issuer.  inline: an inline mode transfers the full browser window to the authentication server, allowing the payment cardholder to see their payment card issuer's URL and the certificate status in the browser. If you request an iframe mode and the browser width is deemed as being small (< 768px) then an inline mode will be enforced. This is to ensure that mobile users have an improved user experience. | 
-| `custom_params` | array | false | Defines custom parameters to add to the request. [PaylinkCustomParam](#paylinkcustomparam) | 
+| `acs_mode` | string  | false | Specifies the approach to be adopted by the Paylink form when displaying a 3-D Secure challenge window. The values may be<br/><br/> - `iframe` shows the 3-D Secure ACS in an iframe dialog, neatly embedding it in Paylink. This provides a more seamless flow for the cardholder who is able to validate and authenticate their card using a dialog provided by their card issuer.  - `inline` an inline mode transfers the full browser window to the authentication server, allowing the payment cardholder to see their payment card issuer's URL and the certificate status in the browser.<br/><br/>If you request an iframe mode and the browser width is deemed as being small (< 768px) then an inline mode will be enforced. This is to ensure that mobile users have an appropriate user experience.<br/><br/>The default type if not supplied is **iframe**. | 
+| `custom_params` | array | false | Any custom parameters that are included in the request. [PaylinkCustomParam](#paylinkcustomparam) | 
 | `descriptor` | string  | false | Directly specify the merchant descriptor used for the transaction to be displayed on the payment page. | 
-| `expire_in` | string  | false | Specifies a period of time in seconds after which the token cannot be used. A value of 0 defines that the token will never expire. The API will convert an expiry time based on a string value. For instance:   s - Time in seconds, for example 90s.   m - Time in minutes, for example 20m.   h - Time in hours, for example 4h.   w - Time in weeks, for example 4w.   M - Time in months, for example 6M.   y - Time in years, for example 1y.   Defaults to 30 minutes. | 
+| `expire_in` | string  | false | Specifies a period of time in seconds after which the token cannot be used. A value of 0 defines that the token will never expire. The API will convert an expiry time based on a string value.<br/><br/>For instance: -  s - Time in seconds, for example 90s. -  m - Time in minutes, for example 20m. -  h - Time in hours, for example 4h. -  w - Time in weeks, for example 4w. -  M - Time in months, for example 6M. -  y - Time in years, for example 1y. -  Defaults to 30 minutes. | 
 | `field_guard` | array | false | Configuration object for field guards. [PaylinkFieldGuardModel](#paylinkfieldguardmodel) | 
 | `lock_params` | array | false | string[]	Optional	May be used to lock fields which are displayed in the form. For example, if the cardholder.address.postcode field were to be specified this would will prevent the customer amending the postal code for the cardholder postcode field. type: string | 
 | `merch_logo` | string *url* | false | A URL of a logo to include in the form. The URL should be delivered using HTTPS. | 
@@ -6096,48 +6465,48 @@ Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Addi
 ```json
 {
    "entry_mode": "",
-   "field_type": "",
-   "group": "",
-   "label": "",
+   "field_type": "text",
+   "group": "Extra Information",
+   "label": "Custom Field 1",
    "locked": false,
-   "name": "",
-   "order": 0,
+   "name": "custom_field_1",
+   "order": 1,
    "pattern": "",
-   "placeholder": "",
-   "required": false,
-   "value": ""
+   "placeholder": "Enter a Custom Value",
+   "required": true,
+   "value": "initial-value"
 }
 ```
 
 ```xml
 <PaylinkCustomParam>
  <entry_mode></entry_mode> 
- <field_type></field_type> 
- <group></group> 
- <label></label> 
+ <field_type>text</field_type> 
+ <group>Extra Information</group> 
+ <label>Custom Field 1</label> 
  <locked></locked> 
- <name></name> 
- <order></order> 
+ <name>custom_field_1</name> 
+ <order>1</order> 
  <pattern></pattern> 
- <placeholder></placeholder> 
- <required></required> 
- <value></value> 
+ <placeholder>Enter a Custom Value</placeholder> 
+ <required>true</required> 
+ <value>initial-value</value> 
 </PaylinkCustomParam>
 ```
 
 | Field | Type | Required | Description |
 |-------|------|----------|-------------|
-| `entry_mode` | string  | false | The type of entry mode. A value of 'pre' will pre-render the custom parameter before the payment screen. Any other value will result in the custom parameter being displayed on the payment screen. | 
-| `field_type` | string  | false | the type of html5 field, defaults to 'text'. Other options are 'dob' for a date of birth series of select list entry. | 
-| `group` | string  | false | a group the parameter is linked with, allows for grouping with a title. | 
-| `label` | string  | false | a label to show alongside the input. | 
-| `locked` | boolean  | false | whether the parameter is locked from entry. | 
-| `name` | string  | true | the name of the custom parameter used to converse with the submitter. | 
-| `order` | integer *int32* | false | an index order for the parameter. | 
-| `pattern` | string  | false | a regex pattern to validate the custom parameter with. | 
-| `placeholder` | string  | false | a placehold value to display in the input. | 
-| `required` | boolean  | false | whether the field is required. | 
-| `value` | string  | false | a default value for the field. | 
+| `entry_mode` | string  | false | The type of entry mode. A value of `pre` will pre-render the custom parameter before the payment screen. Any other value will result in the custom parameter being displayed on the payment screen. | 
+| `field_type` | string  | false | The type of html field, defaulting to `text`. Options are:<br/><br/> - `dob`      A date of birth field as a series of select list entries  - `text`     Allows the user to enter any text.  - `password` A field where the characters are masked to protect the input, typically used for passwords.  - `email`    Used for input fields that should contain an email address.  - `number`   For numeric input, can include controls for incrementing or decrementing the number.  - `tel`      For telephone numbers.  - `url`      A text field for entering a URL.  - `hidden`   Not visible to the user, but its value is sent when the form is submitted.  - `checkbox` A check box allowing single values to be selected/deselected.  - `radio`    Allows the user to select one of a limited number of choices.  - `select`   Renders as select items<br/><br/>Select Options:<br/><br/>Select options are constructed by providing a list of values in the value custom parameter field. Each value is delimited by a pipe character `|`. Value items can also be delimited with `:` as a value label pair.<br/><br/>For instance, a sports club requires identifying it's age group for membership entry:<br/><br/><CodeGroup title="Select Examples" label="ProcessBatchRequest">    ```json {{ title: 'Basic Values' }}      { "label" : "Age Group",        "fieldType": "select",        "value" : "Under 18|18-30|30-50|50+" }...<br/><br/>     <select>          <option value="Under 18">Under 18</option>          <option value="18-30">18-30</option>          <option value="30-50">30-50</option>          <option value="50+">50+</option>      </select>    ```    ```json {{ title: 'Label and Values' }}      { "label" : "Age Group",        "fieldType": "select",        "value" : "0:Under 18|1:18-30|2:30-50|3:50+" }...<br/><br/>     <select>          <option value="0">Under 18</option>          <option value="1">18-30</option>          <option value="2">30-50</option>          <option value="3">50+</option>      </select>    ``` </CodeGroup><br/><br/>Fields may be requested as optional. If a select is required to be optional, provide a value such as `:Select an Option|options...` at the front of the list. | 
+| `group` | string  | false | A value which groups items for layout. The value should be a string title for rendering such as "Your Account Info". If no value is provided, the parameter is added to a default parameter group. Group names are ordered alphabetically when rendered. | 
+| `label` | string  | false | A label to show alongside the input. If this value is not supplied, the name value will be used. | 
+| `locked` | boolean  | false | States whether the field is locked, preventing entry or amendment by the person completing the form. | 
+| `name` | string  | true | Refers to the rendered HTML form element name. The value of this field is used in the postback and redirect dataset. | 
+| `order` | integer *int32* | false | A value which allows you to order the position of elements in a grouping. Values will order in ascending order. Negative values are possible. | 
+| `pattern` | string  | false | A string value which specifies the validation logic of the form element, for example a value of QA[0-9]{3,4} will require a value such as QA221 or QA4433. | 
+| `placeholder` | string  | false | A value to set as the placeholder attribute which will render in the browser. | 
+| `required` | boolean  | false | A boolean value that states whether the field is required or optional. When an element is required, validation will be performed on the end user's input form. | 
+| `value` | string  | false | An initial value for the parameter as it appears on the Form. If your parameter is hidden, the value will be required. | 
 
 
 
@@ -6230,7 +6599,7 @@ Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Addi
 
 | Field | Type | Required | Description |
 |-------|------|----------|-------------|
-| `field_type` | string  | false | A type of HTML element that should be displayed such as text, password, url. Any HTML5 input type value may be supplied.<br/><br/>If a value of `date` is supplied the value format should be an ISO format YYYY-MM-DD format date i.e. 2024-03-01 If a value of `datetime-local` is supplied, the value format should be an ISO format YYYY-MM-DDTHH:mm i.e. 2024-06-01T19:30. | 
+| `field_type` | string  | false | A type of HTML element that should be displayed such as text, password, url. Any HTML5 input type value may be supplied.<br/><br/>- If a value of `date` is supplied the value format should be an ISO format YYYY-MM-DD format date i.e. 2024-03-01 - If a value of `datetime-local` is supplied, the value format should be an ISO format YYYY-MM-DDTHH:mm i.e. 2024-06-01T19:30. | 
 | `label` | string  | false | A label for the field guard to display on the authentication page. | 
 | `maxlen` | integer *int32* | false | A maximum length of any value supplied in the field guard form. Used for validating entry. | 
 | `minlen` | integer *int32* | false | A minimum length of any value supplied in the field guard form. Used for validating entry. | 
@@ -6333,7 +6702,7 @@ Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Addi
 
 ```json
 {
-   "datetime": "2024-04-22",
+   "datetime": "2025-07-08",
    "message": "message on this state",
    "state": "FormInput"
 }
@@ -6341,7 +6710,7 @@ Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Addi
 
 ```xml
 <PaylinkStateEvent>
- <datetime>2024-04-22</datetime> 
+ <datetime>2025-07-08</datetime> 
  <message>message on this state</message> 
  <state>FormInput</state> 
 </PaylinkStateEvent>
@@ -6363,7 +6732,7 @@ Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Addi
 {
    "attachments": { ... },
    "bps": "",
-   "date_created": "2024-04-22",
+   "date_created": "2025-07-08",
    "errors": "",
    "id": "00000000-0000-0000-0000-000000000000",
    "identifier": "95b857a1-5955-4b86-963c-5a6dbfc4fb95",
@@ -6382,7 +6751,7 @@ Airline | `airline_data` | object | false | [AirlineAdvice](#airlineadvice) Addi
 <PaylinkTokenCreated>
  <attachments><>...</></attachments> 
  <bps></bps> 
- <date_created>2024-04-22</date_created> 
+ <date_created>2025-07-08</date_created> 
  <errors></errors> 
  <id>00000000-0000-0000-0000-000000000000</id> 
  <identifier>95b857a1-5955-4b86-963c-5a6dbfc4fb95</identifier> 
@@ -6462,7 +6831,7 @@ BPS | `bps` | string  | false | true if BPS has been enabled on this token. |
 
 | Field | Type | Required | Description |
 |-------|------|----------|-------------|
-| `accountno` | string  | false | Specifies an alpha-numeric account number that the Paylink service uses when creating a Cardholder Account. The value should be no longer than 20 characters in length. | 
+| `accountno` | string  | false | To be able to use credential on file (COF) services. A cardholder account may be created once the payment has been authorised, this is then stored "on file" for subsequent charging for example re-authorisation, unscheduled payment, delayed charges, incremental authorisation, recurring payments, resubmission or no-show style agreements.<br/><br/>Specifies an alpha-numeric account number that the Paylink service uses when creating a Cardholder Account. The value should be no longer than 20 characters in length. | 
 | `amount` | integer *int32* | true | Specifies the intended value of the transaction in the lowest denomination with no spacing characters or decimal point. This is the net total to be processed. An example of £74.95 would be presented as 7495. | 
 | `cardholder` | object | false | [PaylinkCardHolder](#paylinkcardholder) Cardholder fields are used to identify the underlying cardholder processing the transaction. These values are optional and the user can complete these values on the online form or may be pre-populated in the initial create request. | 
 | `cart` | object | false | [PaylinkCart](#paylinkcart) The cart element. | 
@@ -6487,8 +6856,8 @@ BPS | `bps` | string  | false | true if BPS has been enabled on this token. |
    "amount_paid": 0,
    "auth_code": "",
    "card": "Visa/0002",
-   "created": "2024-04-22",
-   "datetime": "2024-04-22",
+   "created": "2025-07-08",
+   "datetime": "2025-07-08",
    "identifier": "95b857a1-5955-4b86-963c-5a6dbfc4fb95",
    "is_attachment": false,
    "is_cancelled": false,
@@ -6505,7 +6874,7 @@ BPS | `bps` | string  | false | true if BPS has been enabled on this token. |
    "is_request_challenged": false,
    "is_sms_sent": false,
    "is_validated": false,
-   "last_event_date_time": "2024-04-22",
+   "last_event_date_time": "2025-07-08",
    "last_payment_result": "",
    "mid": 11223344,
    "payment_attempts_count": 0,
@@ -6520,8 +6889,8 @@ BPS | `bps` | string  | false | true if BPS has been enabled on this token. |
  <amount_paid></amount_paid> 
  <auth_code></auth_code> 
  <card>Visa/0002</card> 
- <created>2024-04-22</created> 
- <datetime>2024-04-22</datetime> 
+ <created>2025-07-08</created> 
+ <datetime>2025-07-08</datetime> 
  <identifier>95b857a1-5955-4b86-963c-5a6dbfc4fb95</identifier> 
  <is_attachment></is_attachment> 
  <is_cancelled></is_cancelled> 
@@ -6538,7 +6907,7 @@ BPS | `bps` | string  | false | true if BPS has been enabled on this token. |
  <is_request_challenged></is_request_challenged> 
  <is_sms_sent></is_sms_sent> 
  <is_validated></is_validated> 
- <last_event_date_time>2024-04-22</last_event_date_time> 
+ <last_event_date_time>2025-07-08</last_event_date_time> 
  <last_payment_result></last_payment_result> 
  <mid>11223344</mid> 
  <payment_attempts_count></payment_attempts_count> 
@@ -6587,7 +6956,7 @@ BPS | `bps` | string  | false | true if BPS has been enabled on this token. |
 
 ```json
 {
-   "after": "2024-04-22",
+   "after": "2025-07-08",
    "maxResults": 50,
    "merchantid": 11223344,
    "nextToken": "n34liuwn435tUAGFNg34yn...",
@@ -6597,7 +6966,7 @@ BPS | `bps` | string  | false | true if BPS has been enabled on this token. |
 
 ```xml
 <PaylinkTokenStatusChangeRequest>
- <after>2024-04-22</after> 
+ <after>2025-07-08</after> 
  <maxResults>50</maxResults> 
  <merchantid>11223344</merchantid> 
  <nextToken>n34liuwn435tUAGFNg34yn...</nextToken> 
@@ -6683,10 +7052,10 @@ BPS | `bps` | string  | false | true if BPS has been enabled on this token. |
 
 ```json
 {
+   "adjustments": { ... },
    "amount": 19995,
    "avs_postcode_policy": "",
    "bill_to": { ... },
-   "csc": "10",
    "csc_policy": "",
    "currency": "GBP",
    "duplicate_policy": "",
@@ -6701,10 +7070,10 @@ BPS | `bps` | string  | false | true if BPS has been enabled on this token. |
 
 ```xml
 <PaymentIntent>
+ <adjustments><>...</></adjustments> 
  <amount>19995</amount> 
  <avs_postcode_policy></avs_postcode_policy> 
  <bill_to><>...</></bill_to> 
- <csc>10</csc> 
  <csc_policy></csc_policy> 
  <currency>GBP</currency> 
  <duplicate_policy></duplicate_policy> 
@@ -6719,10 +7088,10 @@ BPS | `bps` | string  | false | true if BPS has been enabled on this token. |
 
 | Field | Type | Required | Description |
 |-------|------|----------|-------------|
+| `adjustments` | object | false | [Adjustments](#adjustments) Adjustments refer to the modifications applied to the base amount of a transaction, including surcharges, discounts, or other financial alterations. These adjustments are critical in calculating the final amount due, based on specific conditions such as payment timing, discount codes, or business rules.<br/><br/>Each adjustment is processed according to predefined criteria, ensuring that the final transaction amount accurately reflects any applicable financial rules or incentives. It is important to configure adjustments correctly, as they directly influence the payment amount and may impact the acceptance or rejection of a transaction. | 
 | `amount` | integer *int32* | true | The amount to authorise in the lowest unit of currency with a variable length to a maximum of 12 digits.<br/><br/>No decimal points are to be included and no divisional characters such as 1,024.<br/><br/>The amount should be the total amount required for the transaction.<br/><br/>For example with GBP £1,021.95 the amount value is 102195.<br/><br/> minLength: 1<br/>maxLength: 9 | 
 | `avs_postcode_policy` | string  | false | A policy value which determines whether an AVS postcode policy is enforced or bypassed.<br/><br/>Values are:<br/><br/> `0` for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.<br/><br/> `1` for an enforced policy. Transactions that are enforced will be rejected if the AVS postcode numeric value does not match.<br/><br/> `2` to bypass. Transactions that are bypassed will be allowed through even if the postcode did not match.<br/><br/> `3` to ignore. Transactions that are ignored will bypass the result and not send postcode details for authorisation. | 
 | `bill_to` | object | false | [ContactDetails](#contactdetails) Billing details of the card holder making the payment. These details may be used for AVS fraud analysis, 3DS and for future referencing of the transaction.<br/><br/>For AVS to work correctly, the billing details should be the registered address of the card holder as it appears on the statement with their card issuer. The numeric details will be passed through for analysis and may result in a decline if incorrectly provided. | 
-| `csc` | string  | false | The Card Security Code (CSC) (also known as CV2/CVV2) is normally found on the back of the card (American Express has it on the front). The value helps to identify possession of the card as it is not available within the chip or magnetic swipe.<br/><br/>When forwarding the CSC, please ensure the value is a string as some values start with 0 and this will be stripped out by any integer parsing.<br/><br/>The CSC number aids fraud prevention in Mail Order and Internet payments.<br/><br/>Business rules are available on your account to identify whether to accept or decline transactions based on mismatched results of the CSC.<br/><br/>The Payment Card Industry (PCI) requires that at no stage of a transaction should the CSC be stored.<br/><br/>This applies to all entities handling card data.<br/><br/>It should also not be used in any hashing process.<br/><br/>CityPay do not store the value and have no method of retrieving the value once the transaction has been processed. For this reason, duplicate checking is unable to determine the CSC in its duplication check algorithm.<br/><br/> minLength: 3<br/>maxLength: 4 | 
 | `csc_policy` | string  | false | A policy value which determines whether a CSC policy is enforced or bypassed.<br/><br/>Values are:<br/><br/> `0` for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.<br/><br/> `1` for an enforced policy. Transactions that are enforced will be rejected if the CSC value does not match.<br/><br/> `2` to bypass. Transactions that are bypassed will be allowed through even if the CSC did not match.<br/><br/> `3` to ignore. Transactions that are ignored will bypass the result and not send the CSC details for authorisation. | 
 | `currency` | string  | false | The processing currency for the transaction. Will default to the merchant account currency.<br/><br/>minLength: 3<br/>maxLength: 3 | 
 | `duplicate_policy` | string  | false | A policy value which determines whether a duplication policy is enforced or bypassed. A duplication check has a window of time set against your account within which it can action. If a previous transaction with matching values occurred within the window, any subsequent transaction will result in a T001 result.<br/><br/>Values are<br/><br/> `0` for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.<br/><br/> `1` for an enforced policy. Transactions that are enforced will be checked for duplication within the duplication window.<br/><br/> `2` to bypass. Transactions that are bypassed will not be checked for duplication within the duplication window.<br/><br/> `3` to ignore. Transactions that are ignored will have the same affect as bypass. | 
@@ -6878,7 +7247,7 @@ BPS | `bps` | string  | false | true if BPS has been enabled on this token. |
    "cardnumber": "4000 0000 0000 0002",
    "default": false,
    "expmonth": 9,
-   "expyear": 2027,
+   "expyear": 2028,
    "name_on_card": "MR NE BODY"
 }
 ```
@@ -6888,7 +7257,7 @@ BPS | `bps` | string  | false | true if BPS has been enabled on this token. |
  <cardnumber>4000 0000 0000 0002</cardnumber> 
  <default></default> 
  <expmonth>9</expmonth> 
- <expyear>2027</expyear> 
+ <expyear>2028</expyear> 
  <name_on_card>MR NE BODY</name_on_card> 
 </RegisterCard>
 ```
@@ -7263,6 +7632,168 @@ BPS | `bps` | string  | false | true if BPS has been enabled on this token. |
 | `identifier` | string  | false | The identifier of the transaction to void. If an empty value is supplied then a `trans_no` value must be supplied.<br/><br/>minLength: 4<br/>maxLength: 50 | 
 | `merchantid` | integer *int32* | true | Identifies the merchant account to perform the void for. | 
 | `transno` | integer *int32* | false | The transaction number of the transaction to look up and void. If an empty value is supplied then an identifier value must be supplied. | 
+
+
+
+
+
+## WebHookChannelCreateRequest
+
+```json
+{
+   "channel_name": "",
+   "clientid": "PC12345",
+   "config": { ... },
+   "endpoint_id": ""
+}
+```
+
+```xml
+<WebHookChannelCreateRequest>
+ <channel_name></channel_name> 
+ <clientid>PC12345</clientid> 
+ <config><>...</></config> 
+ <endpoint_id></endpoint_id> 
+</WebHookChannelCreateRequest>
+```
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `channel_name` | string  | true | The name of the channel we are creating. | 
+| `clientid` | string  | true | The client id that the hook is being registered for.<br/><br/> minLength: 3<br/>maxLength: 10 | 
+| `config` | object | true | [Choice](#choice) The configuration for the endpoint specified. | 
+| `endpoint_id` | string  | true | The id of the endpoint being used. The channel configuration is dependant upon the endpoint type. | 
+
+
+
+
+
+## WebHookChannelCreateResponse
+
+```json
+{
+   "config": "",
+   "endpoint_id": "",
+   "web_channel_id": ""
+}
+```
+
+```xml
+<WebHookChannelCreateResponse>
+ <config></config> 
+ <endpoint_id></endpoint_id> 
+ <web_channel_id></web_channel_id> 
+</WebHookChannelCreateResponse>
+```
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `config` | string  | false | The resultant config object. | 
+| `endpoint_id` | string  | false | The id of the endpoint being used. | 
+| `web_channel_id` | string  | false | The id returned for the generated channel. | 
+
+
+
+
+
+## WebHookChannelDeleteRequest
+
+```json
+{
+   "channel_id": ""
+}
+```
+
+```xml
+<WebHookChannelDeleteRequest>
+ <channel_id></channel_id> 
+</WebHookChannelDeleteRequest>
+```
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `channel_id` | string  | true | The id of the channel to be deleted. | 
+
+
+
+
+
+## WebHookSubscriptionRequest
+
+```json
+{
+   "channels": "",
+   "clientid": "PC12345",
+   "live": true,
+   "merchant_id": "",
+   "triggers": ""
+}
+```
+
+```xml
+<WebHookSubscriptionRequest>
+ <channels></channels> 
+ <clientid>PC12345</clientid> 
+ <live>true</live> 
+ <merchant_id></merchant_id> 
+ <triggers></triggers> 
+</WebHookSubscriptionRequest>
+```
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `channels` | array | false | type: string | 
+| `clientid` | string  | true | The client id that the hook is being registered for.<br/><br/> minLength: 3<br/>maxLength: 10 | 
+| `live` | boolean  | false | Specifies if the key is to be used for production. Defaults to false. | 
+| `merchant_id` | array | false | type: integer | 
+| `triggers` | array | false | type: string | 
+
+
+
+
+
+## WebHookSubscriptionResponse
+
+```json
+{
+   "web_hook_id": ""
+}
+```
+
+```xml
+<WebHookSubscriptionResponse>
+ <web_hook_id></web_hook_id> 
+</WebHookSubscriptionResponse>
+```
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `web_hook_id` | string  | false | The id returned for the generated web hook subscription. | 
+
+
+
+
+
+## WebHookUnsubscribeRequest
+
+```json
+{
+   "clientid": "PC12345",
+   "web_hook_id": ""
+}
+```
+
+```xml
+<WebHookUnsubscribeRequest>
+ <clientid>PC12345</clientid> 
+ <web_hook_id></web_hook_id> 
+</WebHookUnsubscribeRequest>
+```
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `clientid` | string  | true | The client id that the hook is registered for.<br/><br/> minLength: 3<br/>maxLength: 10 | 
+| `web_hook_id` | string  | true | The webhook id that is to be removed. | 
 
 
 

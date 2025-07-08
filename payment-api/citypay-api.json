@@ -1,7 +1,7 @@
 {
   "openapi" : "3.0.0",
   "info" : {
-    "version" : "6.6.40",
+    "version" : "6.6.57",
     "title" : "CityPay Payment API",
     "description" : "\nWelcome to the CityPay API, a robust HTTP API payment solution designed for seamless server-to-server \ntransactional processing. Our API facilitates a wide array of payment operations, catering to diverse business needs. \nWhether you're integrating Internet payments, handling Mail Order/Telephone Order (MOTO) transactions, managing \nSubscriptions with Recurring and Continuous Authority payments, or navigating the complexities of 3-D Secure \nauthentication, our API is equipped to support your requirements. Additionally, we offer functionalities for \nAuthorisation, Refunding, Pre-Authorisation, Cancellation/Voids, and Completion processing, alongside the capability \nfor tokenised payments.\n\n## Compliance and Security Overview\n<aside class=\"notice\">\n  Ensuring the security of payment transactions and compliance with industry standards is paramount. Our API is \n  designed with stringent security measures and compliance protocols to safeguard sensitive information and meet \n  the rigorous requirements of Visa, MasterCard, and the PCI Security Standards Council.\n</aside>\n\n### Key Compliance and Security Measures\n\n* **TLS Encryption**: All data transmissions must utilise TLS version 1.2 or higher, employing [strong cryptography](#enabled-tls-ciphers). Our infrastructure strictly enforces this requirement to maintain the integrity and confidentiality of data in transit. We conduct regular scans and assessments of our TLS endpoints to identify and mitigate vulnerabilities.\n* **Data Storage Prohibitions**: Storing sensitive cardholder data (CHD), such as the card security code (CSC) or primary account number (PAN), is strictly prohibited. Our API is designed to minimize your exposure to sensitive data, thereby reducing your compliance burden.\n* **Data Masking**: For consumer protection and compliance, full card numbers must not be displayed on receipts or any customer-facing materials. Our API automatically masks PANs, displaying only the last four digits to facilitate safe receipt generation.\n* **Network Scans**: If your application is web-based, regular scans of your hosting environment are mandatory to identify and rectify potential vulnerabilities. This proactive measure is crucial for maintaining a secure and compliant online presence.\n* **PCI Compliance**: Adherence to PCI DSS standards is not optional; it's a requirement for operating securely and legally in the payments ecosystem. For detailed information on compliance requirements and resources, please visit the PCI Security Standards Council website [https://www.pcisecuritystandards.org/](https://www.pcisecuritystandards.org/).\n* **Request Validation**: Our API includes mechanisms to verify the legitimacy of each request, ensuring it pertains to a valid account and originates from a trusted source. We leverage remote IP address verification alongside sophisticated application firewall technologies to thwart a wide array of common security threats.\n\n## Getting Started\nBefore integrating with the CityPay API, ensure your application and development practices align with the outlined compliance and security measures. This preparatory step is crucial for a smooth integration process and the long-term success of your payment processing operations.\n\nFor further details on API endpoints, request/response formats, and code examples, proceed to the subsequent sections of our documentation. Our aim is to provide you with all the necessary tools and information to integrate our payment processing capabilities seamlessly into your application.\n\nThank you for choosing CityPay API. We look forward to supporting your payment processing needs with our secure, compliant, and versatile API solution.\n",
     "contact" : {
@@ -38,6 +38,9 @@
   }, {
     "name" : "Reporting Api",
     "description" : "Reporting functions that return data based on payment processing services."
+  }, {
+    "name" : "Web Hooks",
+    "description" : "A webhook is a mechanism that allows applications to send real-time data or notifications to other systems or services \nwhenever specific events occur. Instead of polling or manually requesting updates, webhooks push data to a designated \nURL (endpoint) as soon as an event is triggered.\n\nBy registering a webhook, you can configure your system to listen for events and automatically process the notifications, \nsuch as updating your database, triggering workflows, or sending alerts.\n\nWebhooks consist of the following key components:\n\n- Event Trigger: A specific event (e.g., payment success, refund issued) that initiates the webhook call.\n- Endpoint URL: The destination where the webhook payload (event data) is sent.\n- Payload: The data related to the event, which is delivered in the webhook call.\n\nWebhooks are a powerful tool for integrating our services with your own applications, enabling automation, real-time synchronization, and streamlined communication between systems.\n"
   } ],
   "paths" : {
     "/direct/auth" : {
@@ -621,6 +624,286 @@
               "text/xml" : {
                 "schema" : {
                   "$ref" : "#/components/schemas/DomainKeyResponse"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Bad Request. Should the incoming data not be validly determined."
+          },
+          "401" : {
+            "description" : "Unauthorized. No api key has been provided and is required for this operation."
+          },
+          "403" : {
+            "description" : "Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request."
+          },
+          "422" : {
+            "description" : "Unprocessable Entity. Should a failure occur that prevents processing of the API call.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Error"
+                }
+              },
+              "text/xml" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Server Error. The server was unable to complete the request."
+          }
+        }
+      }
+    },
+    "/hooks/channel/create" : {
+      "post" : {
+        "summary" : "Web Hook Channel Create Request",
+        "tags" : [ "Web Hooks" ],
+        "operationId" : "WebHookChannelCreateRequest$",
+        "description" : "A WebHookChannel is required to establish a connection with our event notification system. The channel serves as the \ncommunication link between your application and the events generated by the payment gateway. When you register a \nWebHookChannel, you're defining the endpoint where we will deliver notifications, such as payment events.\n\nThe WebHookChannel encapsulates important configuration details like the endpoint type (e.g., HTTP), the client ID, \nand security parameters. However, the channel itself does not specify which events will \nbe sent but should be considered as the pipeline for receiving those events. After registering a channel, you can then \nconfigure triggers separately using a subscription request to define which specific payment events \nshould flow through this channel.\n",
+        "security" : [ {
+          "cp-api-key" : [ ]
+        } ],
+        "requestBody" : {
+          "required" : true,
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/WebHookChannelCreateRequest"
+              }
+            },
+            "text/xml" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/WebHookChannelCreateRequest"
+              }
+            }
+          }
+        },
+        "responses" : {
+          "200" : {
+            "description" : "Created a new web hook channel.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/WebHookChannelCreateResponse"
+                }
+              },
+              "text/xml" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/WebHookChannelCreateResponse"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Bad Request. Should the incoming data not be validly determined."
+          },
+          "401" : {
+            "description" : "Unauthorized. No api key has been provided and is required for this operation."
+          },
+          "403" : {
+            "description" : "Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request."
+          },
+          "422" : {
+            "description" : "Unprocessable Entity. Should a failure occur that prevents processing of the API call.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Error"
+                }
+              },
+              "text/xml" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Server Error. The server was unable to complete the request."
+          }
+        }
+      }
+    },
+    "/hooks/channel/delete" : {
+      "post" : {
+        "summary" : "Web Hook Channel Delete Request",
+        "tags" : [ "Web Hooks" ],
+        "operationId" : "WebHookChannelDeleteRequest$",
+        "description" : "The WebHookChannelDeleteRequest allows you to remove an existing WebHookChannel from the event notification system. \nBy specifying the channel ID, you can deactivate the communication link between your application and the payment \ngateway’s event system. Deleting a channel effectively halts any further notifications being sent to the associated \nendpoint, ensuring that no additional events are processed through that channel.\n",
+        "security" : [ {
+          "cp-api-key" : [ ]
+        } ],
+        "requestBody" : {
+          "required" : true,
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/WebHookChannelDeleteRequest"
+              }
+            },
+            "text/xml" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/WebHookChannelDeleteRequest"
+              }
+            }
+          }
+        },
+        "responses" : {
+          "200" : {
+            "description" : "Result of deleting the web hook channel.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Acknowledgement"
+                }
+              },
+              "text/xml" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Acknowledgement"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Bad Request. Should the incoming data not be validly determined."
+          },
+          "401" : {
+            "description" : "Unauthorized. No api key has been provided and is required for this operation."
+          },
+          "403" : {
+            "description" : "Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request."
+          },
+          "422" : {
+            "description" : "Unprocessable Entity. Should a failure occur that prevents processing of the API call.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Error"
+                }
+              },
+              "text/xml" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Server Error. The server was unable to complete the request."
+          }
+        }
+      }
+    },
+    "/hooks/subscribe" : {
+      "post" : {
+        "summary" : "Web Hook Subscription Request",
+        "tags" : [ "Web Hooks" ],
+        "operationId" : "WebHookSubscriptionRequest$",
+        "description" : "The WebHookSubscriptionRequest is used to define and activate event triggers for an existing WebHookChannel. This \nrequest specifies the events or conditions that your application wants to be notified about, ensuring that only \nrelevant event data flows through the channel.\n",
+        "security" : [ {
+          "cp-api-key" : [ ]
+        } ],
+        "requestBody" : {
+          "required" : true,
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/WebHookSubscriptionRequest"
+              }
+            },
+            "text/xml" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/WebHookSubscriptionRequest"
+              }
+            }
+          }
+        },
+        "responses" : {
+          "200" : {
+            "description" : "Subscribe a new web hook.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/WebHookSubscriptionResponse"
+                }
+              },
+              "text/xml" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/WebHookSubscriptionResponse"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Bad Request. Should the incoming data not be validly determined."
+          },
+          "401" : {
+            "description" : "Unauthorized. No api key has been provided and is required for this operation."
+          },
+          "403" : {
+            "description" : "Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request."
+          },
+          "422" : {
+            "description" : "Unprocessable Entity. Should a failure occur that prevents processing of the API call.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Error"
+                }
+              },
+              "text/xml" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Server Error. The server was unable to complete the request."
+          }
+        }
+      }
+    },
+    "/hooks/unsubscribe" : {
+      "post" : {
+        "summary" : "Web Hook Unsubscribe Request",
+        "tags" : [ "Web Hooks" ],
+        "operationId" : "WebHookUnsubscribeRequest$",
+        "description" : "The WebHookUnsubscribeRequest is used to remove an existing webhook subscription from the system. This allows clients \nto stop receiving event notifications for specific webhook subscriptions that are no longer needed.\n",
+        "security" : [ {
+          "cp-api-key" : [ ]
+        } ],
+        "requestBody" : {
+          "required" : true,
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/WebHookUnsubscribeRequest"
+              }
+            },
+            "text/xml" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/WebHookUnsubscribeRequest"
+              }
+            }
+          }
+        },
+        "responses" : {
+          "200" : {
+            "description" : "Unsubscribes a web hook.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Acknowledgement"
+                }
+              },
+              "text/xml" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Acknowledgement"
                 }
               }
             }
@@ -3704,6 +3987,7 @@
         "properties" : {
           "status" : {
             "type" : "string",
+            "example" : "ACTIVE",
             "description" : "The status of the account to set, valid values are ACTIVE or DISABLED."
           }
         }
@@ -3769,6 +4053,74 @@
             "type" : "string",
             "example" : "AWS",
             "description" : "The source provider of the ACL such as cloud, subnet, country or IP based."
+          }
+        }
+      },
+      "AdjustmentCondition" : {
+        "type" : "object",
+        "properties" : {
+          "anchor" : {
+            "type" : "string",
+            "description" : "The anchor is the reference point from which the condition is evaluated. It determines\nwhen the adjustment should be considered based on a specific event or timeline related\nto the intent.\n\nFor example:\n\nafter_creation: The adjustment is applied after a specified number of days following the date of the creation of the payment intent.\nafter_due_date: The adjustment is applied after a specified number of days following the due date.\nbefore_due_date: The adjustment is applied within a specified number of days before the due date.\nbefore_expiry: The adjustment is applied within a specified number of days before the date the payment intent expires.\non_due_date: The adjustment is applied on the due date\n\nyyyy-MM-dd: A specific ISO date value can be supplied to apply the adjustment on a given date.\n"
+          },
+          "discount_code" : {
+            "type" : "string",
+            "description" : "The discount code condition ensures that an adjustment is only applied if the correct promotional code is provided during the transaction.\n\nExample:\nA 10% discount might only apply if the customer enters the discount code SEP24.\n"
+          },
+          "duration" : {
+            "type" : "integer",
+            "format" : "int32",
+            "example" : 7,
+            "description" : "The duration specifies the time frame in days relative to the anchor point when the adjustment should be applied."
+          },
+          "end_date" : {
+            "type" : "string",
+            "format" : "date",
+            "example" : "2024-08-31",
+            "description" : "Define the exact date range within which an adjustment is valid, useful for promotional periods or specific events."
+          },
+          "start_date" : {
+            "type" : "string",
+            "format" : "date",
+            "example" : "2024-08-01",
+            "description" : "Define the exact date range within which an adjustment is valid, useful for promotional periods or specific events."
+          }
+        }
+      },
+      "Adjustments" : {
+        "type" : "object",
+        "required" : [ "adjustment" ],
+        "properties" : {
+          "accumulate" : {
+            "type" : "string",
+            "description" : "How adjustments are accumulated and therefore applied.\n\n**None (Default)**:\nOnly the last applicable adjustment is applied. The system ignores previous adjustments, and only the effect of the final adjustment is considered.\nUse Case: Use this mode when you want the final transaction amount to reflect only the last adjustment in the sequence, without any cumulative effect from prior adjustments.\n\n**AccumulateBase**:\nApplies each adjustment independently to the original base amount of the transaction, regardless of any previous adjustments. The effects of all adjustments are then combined to produce the final amount.\nUse Case: This mode is useful when each adjustment should be applied as if it were the only adjustment, but their effects are accumulated together.\n\n**AccumulatePrevious**:\nApplies each adjustment sequentially based on the amount resulting from the previous adjustment. This creates a cumulative effect where each adjustment builds upon the last one.\nUse Case: This mode is ideal when you need the final amount to reflect the cumulative effect of all adjustments in the order they are applied.\n\n**AccumulateBaseOver**:\nThe AccumulateBaseOver mode compares the effect of applying an adjustment to the original base amount with the result of the previously accumulated adjustments. The system then applies whichever adjustment produces a greater final amount.\nUse Case: This mode is useful when you want to ensure that the most impactful adjustment is applied, whether it comes from the base or the accumulated amount.\n"
+          },
+          "adjustment" : {
+            "type" : "string",
+            "description" : "The type of adjustment, valid values are `surcharge` or `discount`."
+          },
+          "amount" : {
+            "type" : "integer",
+            "format" : "int32",
+            "minLength" : 1,
+            "maxLength" : 9,
+            "example" : 19995,
+            "description" : "For fixed-amount adjustments, an amount to be discounted or surcharged."
+          },
+          "conditions" : {
+            "$ref" : "#/components/schemas/AdjustmentCondition",
+            "x-description" : "Defines specific conditions under which a surcharge or discount is applied.\nThe conditions are crucial for ensuring that adjustments are only triggered when\nthe relevant criteria are met, allowing for dynamic modifications to the transaction amount.\n"
+          },
+          "description" : {
+            "type" : "string",
+            "example" : "10% discount for loyalty program members",
+            "description" : "A brief description of the adjustment, explaining its purpose or the conditions under which it is applied.\nFor example.\n- Late Payment Fee\n- £15 fee for expedited processing on the same day\n- 5% discount for payments made within 5 days\n- 15% discount for first-time customers\n- 10% discount for loyalty program members.\n"
+          },
+          "percentage" : {
+            "type" : "number",
+            "format" : "double",
+            "example" : 17.5,
+            "description" : "For percentage-based adjustments, the percentage amount to be discounted or surcharged."
           }
         }
       },
@@ -4086,7 +4438,7 @@
             "format" : "int32",
             "minimum" : 2000,
             "maximum" : 2100,
-            "example" : 2027,
+            "example" : 2028,
             "description" : "The year of expiry of the card.\n"
           },
           "external_mpi" : {
@@ -4762,7 +5114,7 @@
             "format" : "int32",
             "minimum" : 2000,
             "maximum" : 2100,
-            "example" : 2027,
+            "example" : 2028,
             "description" : "The expiry year of the card."
           },
           "label" : {
@@ -4844,6 +5196,7 @@
           },
           "status" : {
             "type" : "string",
+            "example" : "ACTIVE",
             "description" : "Defines the status of the account for processing valid values are\n\n - ACTIVE for active accounts that are able to process\n\n - DISABLED for accounts that are currently disabled for processing.\n"
           },
           "unique_id" : {
@@ -5151,7 +5504,7 @@
             "format" : "int32",
             "minimum" : 2000,
             "maximum" : 2100,
-            "example" : 2027,
+            "example" : 2028,
             "description" : "The year of expiry of the card.\n"
           },
           "identifier" : {
@@ -5367,7 +5720,7 @@
           "event_end_date" : {
             "type" : "string",
             "format" : "date",
-            "example" : "2024-04-22",
+            "example" : "2025-07-08",
             "description" : "The date when the event ends in ISO format (yyyy-MM-dd)."
           },
           "event_id" : {
@@ -5381,7 +5734,7 @@
           "event_start_date" : {
             "type" : "string",
             "format" : "date",
-            "example" : "2024-04-22",
+            "example" : "2025-07-08",
             "description" : "The date when the event starts in ISO format (yyyy-MM-dd)."
           },
           "payment_type" : {
@@ -5440,6 +5793,22 @@
             "type" : "string",
             "maxLength" : 20,
             "description" : "The XID used for processing with the MPI."
+          }
+        }
+      },
+      "HttpConfig" : {
+        "type" : "object",
+        "required" : [ "url" ],
+        "properties" : {
+          "headers" : {
+            "type" : "object",
+            "description" : "Http headers to add to the configuration."
+          },
+          "url" : {
+            "type" : "string",
+            "format" : "url",
+            "example" : "https://yoursite.com/path",
+            "description" : "The url of the endpoint to contact. The value should be https."
           }
         }
       },
@@ -5597,7 +5966,7 @@
           "batch_closed" : {
             "type" : "string",
             "format" : "date-time",
-            "example" : "2024-04-22T13:29:14Z",
+            "example" : "2025-07-08T10:25:08Z",
             "description" : "The date and time when the batch was closed. This is represented in ISO 8601 format (e.g., YYYY-MM-DDTHH:MM:SSZ) and indicates when the batch processing was completed."
           },
           "batch_no" : {
@@ -5840,7 +6209,12 @@
         "properties" : {
           "addressee" : {
             "type" : "string",
+            "example" : "Jack Sparrow",
             "description" : "Who the bill payment request intended for. This should be a readable name such as a person or company."
+          },
+          "adjustments" : {
+            "$ref" : "#/components/schemas/Adjustments",
+            "x-description" : "Adjustments refer to the modifications applied to the base amount of a transaction, including surcharges,\ndiscounts, or other financial alterations. These adjustments are critical in calculating the final amount due,\nbased on specific conditions such as payment timing, discount codes, or business rules.\n\nEach adjustment is processed according to predefined criteria, ensuring that the final transaction amount\naccurately reflects any applicable financial rules or incentives. It is important to configure adjustments\ncorrectly, as they directly influence the payment amount and may impact the acceptance or rejection of a\ntransaction.\n"
           },
           "attachments" : {
             "type" : "array",
@@ -5856,7 +6230,7 @@
           "due" : {
             "type" : "string",
             "format" : "date",
-            "example" : "2024-04-22",
+            "example" : "2025-07-08",
             "description" : "A date that the invoice is due. This can be displayed on the payment page."
           },
           "email_notification_path" : {
@@ -5865,6 +6239,7 @@
           },
           "memo" : {
             "type" : "string",
+            "example" : "Invoice",
             "description" : "A memo that can be added to the payment page and email to provide to the customer."
           },
           "request" : {
@@ -5948,24 +6323,29 @@
           "mode" : {
             "type" : "integer",
             "format" : "int32",
-            "description" : "The mode field specifies the behaviour or functionality of the cart.\n\nValid values are:\n\n 0 - No cart - No cart is shown\n 1 - Read-only - The cart is shown with a breakdown of the item details provided by objects in the contents array.\n 2 - Selection cart - The cart is shown as a drop-down box of available cart items that the customer can a single item select from.\n 3 - Dynamic cart - a text box is rendered to enable the operator to input an amount.\n 4 - Multi cart - The cart is displayed with items rendered with selectable quantities.\n"
+            "example" : 2,
+            "description" : "The mode field specifies the behaviour or functionality of the cart.\n\nValid values are:\n\n- `0` No cart - No cart is shown\n- `1` Read-only - The cart is shown with a breakdown of the item details provided by objects in the contents array.\n- `2` Selection cart - The cart is shown as a drop-down box of available cart items that the customer can a single item select from.\n- `3` Dynamic cart - a text box is rendered to enable the operator to input an amount.\n- `4` Multi cart - The cart is displayed with items rendered with selectable quantities.\n"
           },
           "product_description" : {
             "type" : "string",
+            "example" : "Book Order",
             "description" : "Specifies a description about the product or service that is the subject of the transaction. It will be rendered in the header of the page with no labels."
           },
           "product_information" : {
             "type" : "string",
+            "example" : "Book Order",
             "description" : "Specifies information about the product or service that is the subject of the transaction. It will be rendered in the header of the page."
           },
           "shipping" : {
             "type" : "integer",
             "format" : "int32",
+            "example" : 1500,
             "description" : "The shipping amount of the transaction in the lowest denomination of currency."
           },
           "tax" : {
             "type" : "integer",
             "format" : "int32",
+            "example" : 1200,
             "description" : "The tax amount of the transaction in the lowest denomination of currency."
           }
         }
@@ -5976,6 +6356,7 @@
           "amount" : {
             "type" : "integer",
             "format" : "int32",
+            "example" : 1200,
             "description" : "The net amount of the item. The Paylink Payment Form does not multiply this figure by the value provided by the count value for the cart item, this is principally to avoid rounding errors to introduce discrepancies between the value of the goods charged for and the total amount represented by the collection of cart items."
           },
           "brand" : {
@@ -5984,15 +6365,18 @@
           },
           "category" : {
             "type" : "string",
+            "example" : "Fiction",
             "description" : "The category of the item such as shoes."
           },
           "count" : {
             "type" : "integer",
             "format" : "int32",
+            "example" : 1,
             "description" : "The count of how many of this item is being purchased, should the cart be editable, this value should be the default count required. The Paylink Payment Form assumes a count of 1 in the event that no value for the count field is provided for a cart item."
           },
           "label" : {
             "type" : "string",
+            "example" : "Percy Hotter",
             "description" : "The label which describes the item."
           },
           "max" : {
@@ -6002,6 +6386,7 @@
           },
           "sku" : {
             "type" : "string",
+            "example" : "AO12345678",
             "description" : "The stock control unit value."
           },
           "variant" : {
@@ -6015,11 +6400,12 @@
         "properties" : {
           "acs_mode" : {
             "type" : "string",
-            "description" : "Specifies the approach to be adopted by the Paylink form when displaying a 3-D Secure challenge window. The values may be\n iframe: shows the 3-D Secure ACS in an iframe dialog, neatly embedding it in Paylink. This provides a more seamless flow for the cardholder who is able to validate and authenticate their card using a dialog provided by their card issuer.\n inline: an inline mode transfers the full browser window to the authentication server, allowing the payment cardholder to see their payment card issuer's URL and the certificate status in the browser.\nIf you request an iframe mode and the browser width is deemed as being small (< 768px) then an inline mode will be enforced. This is to ensure that mobile users have an improved user experience.\n"
+            "example" : "iframe",
+            "description" : "Specifies the approach to be adopted by the Paylink form when displaying a 3-D Secure challenge window. The values may be\n\n - `iframe` shows the 3-D Secure ACS in an iframe dialog, neatly embedding it in Paylink. This provides a more seamless flow for the cardholder who is able to validate and authenticate their card using a dialog provided by their card issuer.\n - `inline` an inline mode transfers the full browser window to the authentication server, allowing the payment cardholder to see their payment card issuer's URL and the certificate status in the browser.\n\nIf you request an iframe mode and the browser width is deemed as being small (< 768px) then an inline mode will be enforced. This is to ensure that mobile users have an appropriate user experience.\n\nThe default type if not supplied is **iframe**.\n"
           },
           "custom_params" : {
             "type" : "array",
-            "x-description" : "Defines custom parameters to add to the request.",
+            "x-description" : "Any custom parameters that are included in the request.",
             "items" : {
               "$ref" : "#/components/schemas/PaylinkCustomParam"
             }
@@ -6030,7 +6416,8 @@
           },
           "expire_in" : {
             "type" : "string",
-            "description" : "Specifies a period of time in seconds after which the token cannot be used. A value of 0 defines that the token will never expire. The API will convert an expiry time based on a string value. For instance:\n  s - Time in seconds, for example 90s.\n  m - Time in minutes, for example 20m.\n  h - Time in hours, for example 4h.\n  w - Time in weeks, for example 4w.\n  M - Time in months, for example 6M.\n  y - Time in years, for example 1y.\n  Defaults to 30 minutes.\n"
+            "example" : "1d",
+            "description" : "Specifies a period of time in seconds after which the token cannot be used. A value of 0 defines that the token will never expire. The API will convert an expiry time based on a string value.\n\nFor instance:\n-  s - Time in seconds, for example 90s.\n-  m - Time in minutes, for example 20m.\n-  h - Time in hours, for example 4h.\n-  w - Time in weeks, for example 4w.\n-  M - Time in months, for example 6M.\n-  y - Time in years, for example 1y.\n-  Defaults to 30 minutes.\n"
           },
           "field_guard" : {
             "type" : "array",
@@ -6131,48 +6518,56 @@
         "properties" : {
           "entry_mode" : {
             "type" : "string",
-            "description" : "The type of entry mode. A value of 'pre' will pre-render the custom parameter before the payment screen. Any other value will result in the custom parameter being displayed on the payment screen."
+            "description" : "The type of entry mode. A value of `pre` will pre-render the custom parameter before the payment screen. Any other value will result in the custom parameter being displayed on the payment screen."
           },
           "field_type" : {
             "type" : "string",
-            "description" : "the type of html5 field, defaults to 'text'. Other options are 'dob' for a date of birth series of select list entry."
+            "example" : "text",
+            "description" : "The type of html field, defaulting to `text`. Options are:\n\n - `dob`      A date of birth field as a series of select list entries\n - `text`     Allows the user to enter any text.\n - `password` A field where the characters are masked to protect the input, typically used for passwords.\n - `email`    Used for input fields that should contain an email address.\n - `number`   For numeric input, can include controls for incrementing or decrementing the number.\n - `tel`      For telephone numbers.\n - `url`      A text field for entering a URL.\n - `hidden`   Not visible to the user, but its value is sent when the form is submitted.\n - `checkbox` A check box allowing single values to be selected/deselected.\n - `radio`    Allows the user to select one of a limited number of choices.\n - `select`   Renders as select items\n\nSelect Options:\n\nSelect options are constructed by providing a list of values in the value custom parameter field.\nEach value is delimited by a pipe character `|`.\nValue items can also be delimited with `:` as a value label pair.\n\nFor instance, a sports club requires identifying it's age group for membership entry:\n\n<CodeGroup title=\"Select Examples\" label=\"ProcessBatchRequest\">\n   ```json {{ title: 'Basic Values' }}\n     { \"label\" : \"Age Group\",\n       \"fieldType\": \"select\",\n       \"value\" : \"Under 18|18-30|30-50|50+\" }...\n\n     <select>\n         <option value=\"Under 18\">Under 18</option>\n         <option value=\"18-30\">18-30</option>\n         <option value=\"30-50\">30-50</option>\n         <option value=\"50+\">50+</option>\n     </select>\n   ```\n   ```json {{ title: 'Label and Values' }}\n     { \"label\" : \"Age Group\",\n       \"fieldType\": \"select\",\n       \"value\" : \"0:Under 18|1:18-30|2:30-50|3:50+\" }...\n\n     <select>\n         <option value=\"0\">Under 18</option>\n         <option value=\"1\">18-30</option>\n         <option value=\"2\">30-50</option>\n         <option value=\"3\">50+</option>\n     </select>\n   ```\n</CodeGroup>\n\nFields may be requested as optional. If a select is required to be optional, provide a value such as\n`:Select an Option|options...` at the front of the list.\n"
           },
           "group" : {
             "type" : "string",
-            "description" : "a group the parameter is linked with, allows for grouping with a title."
+            "example" : "Extra Information",
+            "description" : "A value which groups items for layout. The value should be a string title for rendering such as \"Your Account Info\". If no value is provided, the parameter is added to a default parameter group. Group names are ordered alphabetically when rendered."
           },
           "label" : {
             "type" : "string",
-            "description" : "a label to show alongside the input."
+            "example" : "Custom Field 1",
+            "description" : "A label to show alongside the input. If this value is not supplied, the name value will be used."
           },
           "locked" : {
             "type" : "boolean",
-            "description" : "whether the parameter is locked from entry."
+            "description" : "States whether the field is locked, preventing entry or amendment by the person completing the form."
           },
           "name" : {
             "type" : "string",
-            "description" : "the name of the custom parameter used to converse with the submitter."
+            "example" : "custom_field_1",
+            "description" : "Refers to the rendered HTML form element name. The value of this field is used in the postback and redirect dataset."
           },
           "order" : {
             "type" : "integer",
             "format" : "int32",
-            "description" : "an index order for the parameter."
+            "example" : 1,
+            "description" : "A value which allows you to order the position of elements in a grouping. Values will order in ascending order. Negative values are possible."
           },
           "pattern" : {
             "type" : "string",
-            "description" : "a regex pattern to validate the custom parameter with."
+            "description" : "A string value which specifies the validation logic of the form element, for example a value of QA[0-9]{3,4} will require a value such as QA221 or QA4433."
           },
           "placeholder" : {
             "type" : "string",
-            "description" : "a placehold value to display in the input."
+            "example" : "Enter a Custom Value",
+            "description" : "A value to set as the placeholder attribute which will render in the browser."
           },
           "required" : {
             "type" : "boolean",
-            "description" : "whether the field is required."
+            "example" : true,
+            "description" : "A boolean value that states whether the field is required or optional. When an element is required, validation will be performed on the end user's input form."
           },
           "value" : {
             "type" : "string",
-            "description" : "a default value for the field."
+            "example" : "initial-value",
+            "description" : "An initial value for the parameter as it appears on the Form. If your parameter is hidden, the value will be required."
           }
         }
       },
@@ -6243,7 +6638,7 @@
         "properties" : {
           "field_type" : {
             "type" : "string",
-            "description" : "A type of HTML element that should be displayed such as text, password, url. Any HTML5 input type value may be supplied.\n\nIf a value of `date` is supplied the value format should be an ISO format YYYY-MM-DD format date i.e. 2024-03-01\nIf a value of `datetime-local` is supplied, the value format should be an ISO format YYYY-MM-DDTHH:mm i.e. 2024-06-01T19:30.\n"
+            "description" : "A type of HTML element that should be displayed such as text, password, url. Any HTML5 input type value may be supplied.\n\n- If a value of `date` is supplied the value format should be an ISO format YYYY-MM-DD format date i.e. 2024-03-01\n- If a value of `datetime-local` is supplied, the value format should be an ISO format YYYY-MM-DDTHH:mm i.e. 2024-06-01T19:30.\n"
           },
           "label" : {
             "type" : "string",
@@ -6335,7 +6730,7 @@
           "datetime" : {
             "type" : "string",
             "format" : "date-time",
-            "example" : "2024-04-22T13:29:14Z",
+            "example" : "2025-07-08T10:25:08Z",
             "description" : "the date and time of the event."
           },
           "message" : {
@@ -6367,7 +6762,7 @@
           "date_created" : {
             "type" : "string",
             "format" : "date-time",
-            "example" : "2024-04-22T13:29:14Z",
+            "example" : "2025-07-08T10:25:08Z",
             "description" : "Date and time the token was generated."
           },
           "errors" : {
@@ -6439,7 +6834,7 @@
         "properties" : {
           "accountno" : {
             "type" : "string",
-            "description" : "Specifies an alpha-numeric account number that the Paylink service uses when creating a Cardholder Account. The value should be no longer than 20 characters in length."
+            "description" : "To be able to use credential on file (COF) services. A cardholder account may be created once the payment has\nbeen authorised, this is then stored \"on file\" for subsequent charging for example re-authorisation,\nunscheduled payment, delayed charges, incremental authorisation, recurring payments,\nresubmission or no-show style agreements.\n\nSpecifies an alpha-numeric account number that the Paylink service uses when creating a Cardholder Account.\nThe value should be no longer than 20 characters in length.\n"
           },
           "amount" : {
             "type" : "integer",
@@ -6522,13 +6917,13 @@
           "created" : {
             "type" : "string",
             "format" : "date-time",
-            "example" : "2024-04-22T13:29:14Z",
+            "example" : "2025-07-08T10:25:08Z",
             "description" : "the date and time that the session was created."
           },
           "datetime" : {
             "type" : "string",
             "format" : "date-time",
-            "example" : "2024-04-22T13:29:14Z",
+            "example" : "2025-07-08T10:25:08Z",
             "description" : "the date and time of the current status."
           },
           "identifier" : {
@@ -6601,7 +6996,7 @@
           "last_event_date_time" : {
             "type" : "string",
             "format" : "date-time",
-            "example" : "2024-04-22T13:29:14Z",
+            "example" : "2025-07-08T10:25:08Z",
             "description" : "the date and time that the session last had an event actioned against it."
           },
           "last_payment_result" : {
@@ -6644,7 +7039,7 @@
           "after" : {
             "type" : "string",
             "format" : "date-time",
-            "example" : "2024-04-22T13:29:14Z",
+            "example" : "2025-07-08T10:25:08Z",
             "description" : "identifies the date and time to lookup changes after."
           },
           "maxResults" : {
@@ -6728,6 +7123,10 @@
         "type" : "object",
         "required" : [ "amount", "identifier" ],
         "properties" : {
+          "adjustments" : {
+            "$ref" : "#/components/schemas/Adjustments",
+            "x-description" : "Adjustments refer to the modifications applied to the base amount of a transaction, including surcharges,\ndiscounts, or other financial alterations. These adjustments are critical in calculating the final amount due,\nbased on specific conditions such as payment timing, discount codes, or business rules.\n\nEach adjustment is processed according to predefined criteria, ensuring that the final transaction amount\naccurately reflects any applicable financial rules or incentives. It is important to configure adjustments\ncorrectly, as they directly influence the payment amount and may impact the acceptance or rejection of a\ntransaction.\n"
+          },
           "amount" : {
             "type" : "integer",
             "format" : "int32",
@@ -6743,13 +7142,6 @@
           "bill_to" : {
             "$ref" : "#/components/schemas/ContactDetails",
             "x-description" : "Billing details of the card holder making the payment.\nThese details may be used for AVS fraud analysis, 3DS and for future referencing of the transaction.\n\nFor AVS to work correctly, the billing details should be the registered address of the card holder\nas it appears on the statement with their card issuer. The numeric details will be passed through\nfor analysis and may result in a decline if incorrectly provided.\n"
-          },
-          "csc" : {
-            "type" : "string",
-            "minLength" : 3,
-            "maxLength" : 4,
-            "example" : 10,
-            "description" : "The Card Security Code (CSC) (also known as CV2/CVV2) is normally found on the back of the card\n(American Express has it on the front). The value helps to identify possession of the card as it is not\navailable within the chip or magnetic swipe.\n\nWhen forwarding the CSC, please ensure the value is a string as some values start with 0 and this will be stripped\nout by any integer parsing.\n\nThe CSC number aids fraud prevention in Mail Order and Internet payments.\n\nBusiness rules are available on your account to identify whether to accept\nor decline transactions based on mismatched results of the CSC.\n\nThe Payment Card Industry (PCI) requires that at no stage of a transaction should the CSC be stored.\n\nThis applies to all entities handling card data.\n\nIt should also not be used in any hashing process.\n\nCityPay do not store the value and have no method of retrieving the value once the transaction has been processed.\nFor this reason, duplicate checking is unable to determine the CSC in its duplication check algorithm.\n"
           },
           "csc_policy" : {
             "type" : "string",
@@ -6939,7 +7331,7 @@
             "format" : "int32",
             "minimum" : 2000,
             "maximum" : 2100,
-            "example" : 2027,
+            "example" : 2028,
             "description" : "The expiry year of the card."
           },
           "name_on_card" : {
@@ -7377,6 +7769,127 @@
             "format" : "int32",
             "example" : 78416,
             "description" : "The transaction number of the transaction to look up and void. If an empty value is supplied then an identifier value must be supplied."
+          }
+        }
+      },
+      "WebHookChannelCreateRequest" : {
+        "type" : "object",
+        "required" : [ "channel_name", "clientid", "config", "endpoint_id" ],
+        "properties" : {
+          "channel_name" : {
+            "type" : "string",
+            "description" : "The name of the channel we are creating.\n"
+          },
+          "clientid" : {
+            "type" : "string",
+            "minLength" : 3,
+            "maxLength" : 10,
+            "example" : "PC12345",
+            "description" : "The client id that the hook is being registered for.\n"
+          },
+          "config" : {
+            "$ref" : "#/components/schemas/Choice",
+            "x-description" : "The configuration for the endpoint specified."
+          },
+          "endpoint_id" : {
+            "type" : "string",
+            "description" : "The id of the endpoint being used. The channel configuration is dependant upon the endpoint type.\n"
+          }
+        }
+      },
+      "WebHookChannelCreateResponse" : {
+        "type" : "object",
+        "properties" : {
+          "config" : {
+            "type" : "string",
+            "description" : "The resultant config object."
+          },
+          "endpoint_id" : {
+            "type" : "string",
+            "description" : "The id of the endpoint being used."
+          },
+          "web_channel_id" : {
+            "type" : "string",
+            "description" : "The id returned for the generated channel."
+          }
+        }
+      },
+      "WebHookChannelDeleteRequest" : {
+        "type" : "object",
+        "required" : [ "channel_id" ],
+        "properties" : {
+          "channel_id" : {
+            "type" : "string",
+            "description" : "The id of the channel to be deleted.\n"
+          }
+        }
+      },
+      "WebHookSubscriptionRequest" : {
+        "type" : "object",
+        "required" : [ "clientid" ],
+        "properties" : {
+          "channels" : {
+            "type" : "array",
+            "items" : {
+              "type" : "string",
+              "description" : "The channels to register the subscription request to. The channel must be pre-registered."
+            }
+          },
+          "clientid" : {
+            "type" : "string",
+            "minLength" : 3,
+            "maxLength" : 10,
+            "example" : "PC12345",
+            "description" : "The client id that the hook is being registered for.\n"
+          },
+          "live" : {
+            "type" : "boolean",
+            "example" : true,
+            "description" : "Specifies if the key is to be used for production. Defaults to false.\n"
+          },
+          "merchant_id" : {
+            "type" : "array",
+            "items" : {
+              "type" : "integer",
+              "format" : "int32",
+              "maxLength" : 8,
+              "minimum" : 1,
+              "example" : [ 11223344, 5667788 ],
+              "description" : "Merchant ids used to filter the hook result by."
+            }
+          },
+          "triggers" : {
+            "type" : "array",
+            "items" : {
+              "type" : "string",
+              "description" : "The hook triggers to register the subscription request to."
+            }
+          }
+        }
+      },
+      "WebHookSubscriptionResponse" : {
+        "type" : "object",
+        "properties" : {
+          "web_hook_id" : {
+            "type" : "string",
+            "description" : "The id returned for the generated web hook subscription."
+          }
+        }
+      },
+      "WebHookUnsubscribeRequest" : {
+        "type" : "object",
+        "required" : [ "clientid", "web_hook_id" ],
+        "properties" : {
+          "clientid" : {
+            "type" : "string",
+            "minLength" : 3,
+            "maxLength" : 10,
+            "example" : "PC12345",
+            "description" : "The client id that the hook is registered for.\n"
+          },
+          "web_hook_id" : {
+            "type" : "string",
+            "description" : "The webhook id that is to be removed.\n"
           }
         }
       }
